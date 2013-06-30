@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<mappers>
+		<mapper resource="com/bruce/designer/bean/mapper/TbUserMapper.xml" />
+		<mapper resource="com/bruce/designer/bean/mapper/TbDesignerMapper.xml" /> 
+		<mapper resource="com/bruce/designer/bean/mapper/TbAlbumMapper.xml" />
+		<mapper resource="com/bruce/designer/bean/mapper/TbAlbumContentMapper.xml" />
+		<mapper resource="com/bruce/designer/bean/mapper/TbMessageMapper.xml" />
+		
+	</mappers>
+
+</configuration>

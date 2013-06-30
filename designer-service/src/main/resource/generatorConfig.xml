@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+	<classPathEntry
+		location="/Users/liqian/.m2/repository_lican/mysql/mysql-connector-java/5.1.23/mysql-connector-java-5.1.23.jar" />
+
+	<context id="context1">
+		<plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+			<property name="searchString" value="Example$" />
+			<property name="replaceString" value="Criteria" />
+		</plugin>
+
+		<!-- <plugin type="tools.PaginationPlugin"></plugin> -->
+
+
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/designer" userId="liqian"
+			password="liqian" />
+		<javaModelGenerator targetPackage="com.bruce.designer.bean"
+			targetProject="designer-service" />
+		<sqlMapGenerator targetPackage="com.bruce.designer.bean.mapper"
+			targetProject="designer-service" />
+		<javaClientGenerator targetPackage="com.bruce.designer.dao"
+			targetProject="designer-service" type="XMLMAPPER">
+			<property name="enableSubPackages" value="false" />
+		</javaClientGenerator>
+		<table schema="designer" tableName="tb_user" />
+		<table schema="designer" tableName="tb_designer" />
+		<table schema="designer" tableName="tb_album" />
+		<table schema="designer" tableName="tb_album_content" />
+		<table schema="designer" tableName="tb_message" />
+
+
+	</context>
+</generatorConfiguration>
