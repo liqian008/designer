@@ -39,7 +39,11 @@ public class CommentServiceImpl implements CommentService {
 
 	public List<TbComment> queryCommentsByAlbumId(int albumId) {
 		TbCommentCriteria criteria = new TbCommentCriteria();
+<<<<<<< HEAD
 		criteria.setOrderByClause("id desc");
+=======
+		criteria.setOrderByClause("create_time desc");
+>>>>>>> branch 'master' of https://github.com/liqian008/designer.git
 		criteria.createCriteria().andAlbumIdEqualTo(albumId);
 		return commentMapper.selectByExample(criteria);
 	}

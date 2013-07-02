@@ -46,6 +46,5 @@
 		<property name="mapperInterface" value="com.bruce.designer.dao.TbAlbumSlideMapper" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
-	
 
 </beans>

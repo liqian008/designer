@@ -42,8 +42,8 @@ public class FrontController {
 	@Autowired
 	private AlbumSlideService albumSlideService;
 	
-	private static final Logger logger = LoggerFactory
-			.getLogger(FrontController.class);
+
+	private static final Logger logger = LoggerFactory.getLogger(FrontController.class);
 
 	
 	/**
@@ -92,7 +92,7 @@ public class FrontController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/albumInfo", method = RequestMethod.GET)
-	public String albumInfo(Model model, int albumId) {
+	public String albumInfo(Model model, int albumId) { 
 		TbAlbum albumInfo = albumService.loadById(albumId);
 		if(albumInfo!=null){
 			//读取评论
@@ -205,4 +205,8 @@ public class FrontController {
 		request.getSession().removeAttribute(ConstFront.CURRENT_USER);
 		return "forward:/";
 	}
+	
+	
+	
+	
 }
