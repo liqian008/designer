@@ -35,6 +35,16 @@ public class UserServiceImpl implements UserService {
 	public TbUser loadById(Integer id) {
 		return userMapper.selectByPrimaryKey(id);
 	}
+	
+	public TbUser authUser(String username, String password) {
+		TbUserCriteria criteria = new TbUserCriteria();
+		criteria.createCriteria().andUsernameEqualTo(username).andPasswordEqualTo(password);
+		List<TbUser> userList = userMapper.selectByExample(criteria);
+		if(userList!=null&&userList.size()==1){
+			return userList.get(0);
+		}
+		return null;
+	}
 
 	public List<TbUser> queryUsersByStatus(short status) {
 		TbUserCriteria criteria = new TbUserCriteria();

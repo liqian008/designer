@@ -10,7 +10,7 @@
 			<property name="searchString" value="Example$" />
 			<property name="replaceString" value="Criteria" />
 		</plugin>
-
+		
 		<!-- <plugin type="tools.PaginationPlugin"></plugin> -->
 
 
@@ -28,9 +28,10 @@
 		<table schema="designer" tableName="tb_user" />
 		<table schema="designer" tableName="tb_designer" />
 		<table schema="designer" tableName="tb_album" />
-		<table schema="designer" tableName="tb_album_content" />
+		<table schema="designer" tableName="tb_album_slide" />
 		<table schema="designer" tableName="tb_message" />
-
+		<table schema="designer" tableName="tb_comment" />
+		
 
 	</context>
 </generatorConfiguration>

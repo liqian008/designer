@@ -7,8 +7,9 @@
 		<mapper resource="com/bruce/designer/bean/mapper/TbUserMapper.xml" />
 		<mapper resource="com/bruce/designer/bean/mapper/TbDesignerMapper.xml" /> 
 		<mapper resource="com/bruce/designer/bean/mapper/TbAlbumMapper.xml" />
-		<mapper resource="com/bruce/designer/bean/mapper/TbAlbumContentMapper.xml" />
+		<mapper resource="com/bruce/designer/bean/mapper/TbAlbumSlideMapper.xml" /> 
 		<mapper resource="com/bruce/designer/bean/mapper/TbMessageMapper.xml" />
+		<mapper resource="com/bruce/designer/bean/mapper/TbCommentMapper.xml" />
 		
 	</mappers>
 
