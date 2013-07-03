@@ -8,6 +8,7 @@
 		<artifactId>designer-root</artifactId>
 		<version>1.0.0-BUILD-SNAPSHOT</version>
 	</parent>
+	
 	<artifactId>designer-service</artifactId>
 	<name>designer-service</name>
 	<url>http://maven.apache.org</url>

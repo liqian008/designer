@@ -10,9 +10,7 @@
 		<version>1.0.0-BUILD-SNAPSHOT</version>
 	</parent>
 	
-	<groupId>com.bruce</groupId>
 	<artifactId>designer-front</artifactId>
-	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>designer-front Maven Webapp</name>
 	<url>http://maven.apache.org</url>
