@@ -91,16 +91,16 @@ public class FrontController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/albumInfo", method = RequestMethod.GET)
-	public String albumInfo(Model model, int albumId) { 
-		TbAlbum albumInfo = albumService.loadById(albumId);
+	@RequestMapping(value = "/album", method = RequestMethod.GET)
+	public String albumInfo(Model model, int id) { 
+		TbAlbum albumInfo = albumService.loadById(id);
 		if(albumInfo!=null){
 			//读取评论
-			List<TbComment> commentList = commentService.queryCommentsByAlbumId(albumId);
+			List<TbComment> commentList = commentService.queryCommentsByAlbumId(id);
 			albumInfo.setCommentList(commentList);
 			
 			//读取幻灯片列表
-			List<TbAlbumSlide> slideList = albumSlideService.querySlidesByAlbumId(albumId);
+			List<TbAlbumSlide> slideList = albumSlideService.querySlidesByAlbumId(id);
 			albumInfo.setSlideList(slideList);
 			
 			model.addAttribute("albumInfo", albumInfo);
