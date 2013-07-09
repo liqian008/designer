@@ -5,26 +5,26 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bruce.designer.bean.TbAlbumSlide;
-import com.bruce.designer.bean.TbAlbumSlideCriteria;
-import com.bruce.designer.dao.TbAlbumSlideMapper;
+import com.bruce.designer.bean.AlbumSlide;
+import com.bruce.designer.bean.AlbumSlideCriteria;
+import com.bruce.designer.dao.AlbumSlideMapper;
 import com.bruce.designer.service.AlbumSlideService;
 
 @Service
 public class AlbumSlideServiceImpl implements AlbumSlideService {
 
 	@Autowired
-	private TbAlbumSlideMapper albumSlideMapper;
+	private AlbumSlideMapper albumSlideMapper;
 
-	public int save(TbAlbumSlide t) {
+	public int save(AlbumSlide t) {
 		return albumSlideMapper.insert(t);
 	}
 
-	public List<TbAlbumSlide> queryAll() {
+	public List<AlbumSlide> queryAll() {
 		return albumSlideMapper.selectByExample(null);
 	}
 
-	public int updateById(TbAlbumSlide t) {
+	public int updateById(AlbumSlide t) {
 		return albumSlideMapper.updateByPrimaryKeySelective(t);
 	}
 
@@ -32,13 +32,13 @@ public class AlbumSlideServiceImpl implements AlbumSlideService {
 		return albumSlideMapper.deleteByPrimaryKey(id);
 	}
 
-	public TbAlbumSlide loadById(Integer id) {
+	public AlbumSlide loadById(Integer id) {
 		return albumSlideMapper.selectByPrimaryKey(id);
 	}
 
 
-	public List<TbAlbumSlide> querySlidesByAlbumId(int albumId) {
-		TbAlbumSlideCriteria criteria = new TbAlbumSlideCriteria();
+	public List<AlbumSlide> querySlidesByAlbumId(int albumId) {
+		AlbumSlideCriteria criteria = new AlbumSlideCriteria();
 		criteria.setOrderByClause("id desc");
 		criteria.createCriteria().andAlbumIdEqualTo(albumId);
 		return albumSlideMapper.selectByExample(criteria);

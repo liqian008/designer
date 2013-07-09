@@ -2,10 +2,10 @@ package com.bruce.designer.service;
 
 import java.util.List;
 
-import com.bruce.designer.bean.TbAlbumSlide;
+import com.bruce.designer.bean.AlbumSlide;
 
-public interface AlbumSlideService extends BaseService<TbAlbumSlide, Integer> {
+public interface AlbumSlideService extends BaseService<AlbumSlide, Integer> {
 
-	public List<TbAlbumSlide> querySlidesByAlbumId(int albumId);
+	public List<AlbumSlide> querySlidesByAlbumId(int albumId);
 
 }

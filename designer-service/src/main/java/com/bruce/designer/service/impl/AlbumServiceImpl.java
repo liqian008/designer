@@ -5,27 +5,27 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bruce.designer.bean.TbAlbum;
-import com.bruce.designer.bean.TbAlbumCriteria;
+import com.bruce.designer.bean.Album;
+import com.bruce.designer.bean.AlbumCriteria;
 import com.bruce.designer.constant.ConstService;
-import com.bruce.designer.dao.TbAlbumMapper;
+import com.bruce.designer.dao.AlbumMapper;
 import com.bruce.designer.service.AlbumService;
 
 @Service
 public class AlbumServiceImpl implements AlbumService {
 
 	@Autowired
-	private TbAlbumMapper albumMapper;
+	private AlbumMapper albumMapper;
 
-	public int save(TbAlbum t) {
+	public int save(Album t) {
 		return albumMapper.insert(t);
 	}
 
-	public List<TbAlbum> queryAll() {
+	public List<Album> queryAll() {
 		return albumMapper.selectByExample(null);
 	}
 
-	public int updateById(TbAlbum t) {
+	public int updateById(Album t) {
 		return albumMapper.updateByPrimaryKeySelective(t);
 	}
 
@@ -33,19 +33,19 @@ public class AlbumServiceImpl implements AlbumService {
 		return albumMapper.deleteByPrimaryKey(id);
 	}
 
-	public TbAlbum loadById(Integer id) {
+	public Album loadById(Integer id) {
 		return albumMapper.selectByPrimaryKey(id);
 	}
 
-	public List<TbAlbum> queryAlbumByStatus(short status) {
-		TbAlbumCriteria criteria = new TbAlbumCriteria();
+	public List<Album> queryAlbumByStatus(short status) {
+		AlbumCriteria criteria = new AlbumCriteria();
 		criteria.createCriteria().andStatusEqualTo(status);
 		criteria.setOrderByClause("id desc");
 		return albumMapper.selectByExample(criteria);
 	}
 
-	public List<TbAlbum> queryAlbumByUserId(int userId) {
-		TbAlbumCriteria criteria = new TbAlbumCriteria();
+	public List<Album> queryAlbumByUserId(int userId) {
+		AlbumCriteria criteria = new AlbumCriteria();
 		criteria.createCriteria().andUserIdEqualTo(userId).andStatusEqualTo(ConstService.ALBUM_OPEN_STATUS);
 		criteria.setOrderByClause("id desc");
 		return albumMapper.selectByExample(criteria);
