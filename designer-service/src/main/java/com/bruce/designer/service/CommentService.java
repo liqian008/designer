@@ -2,10 +2,10 @@ package com.bruce.designer.service;
 
 import java.util.List;
 
-import com.bruce.designer.bean.TbComment;
+import com.bruce.designer.bean.Comment;
 
-public interface CommentService extends BaseService<TbComment, Long> {
+public interface CommentService extends BaseService<Comment, Long> {
 
-	public List<TbComment> queryCommentsByAlbumId(int albumId);
+	public List<Comment> queryCommentsByAlbumId(int albumId);
 
 }

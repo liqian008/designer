@@ -121,7 +121,6 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 										<%
 										boolean isFirst = true;
 										for(TbAlbumSlide slide: slideList){
-											
 										%>
 										<li data-target="#myCarousel" data-slide-to="<%=slide.getId()%>" <%=isFirst?"class='active'":""%>></li>
 										<%

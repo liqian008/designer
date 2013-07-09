@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.bruce.designer.bean.TbAlbum;
-import com.bruce.designer.bean.TbAlbumSlide;
-import com.bruce.designer.bean.TbComment;
-import com.bruce.designer.bean.TbUser;
+import com.bruce.designer.bean.Album;
+import com.bruce.designer.bean.AlbumSlide;
+import com.bruce.designer.bean.Comment;
+import com.bruce.designer.bean.User;
 import com.bruce.designer.constant.ConstService;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.service.AlbumService;
@@ -64,11 +64,11 @@ public class FrontController {
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index( Model model) {
-		List<TbAlbum> albumList = albumService.queryAlbumByStatus(ConstService.ALBUM_OPEN_STATUS);
+		List<Album> albumList = albumService.queryAlbumByStatus(ConstService.ALBUM_OPEN_STATUS);
 		if(albumList!=null&&albumList.size()>0){
-			for(TbAlbum loopAlbum: albumList){
+			for(Album loopAlbum: albumList){
 				int albumId = loopAlbum.getId(); 
-				List<TbComment> commentList = commentService.queryCommentsByAlbumId(albumId);
+				List<Comment> commentList = commentService.queryCommentsByAlbumId(albumId);
 				loopAlbum.setCommentList(commentList);
 			}
 			model.addAttribute("albumList", albumList);
@@ -81,7 +81,7 @@ public class FrontController {
 	 */
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main( Model model) {
-		List<TbAlbum> albumList = albumService.queryAlbumByStatus(ConstService.ALBUM_OPEN_STATUS);
+		List<Album> albumList = albumService.queryAlbumByStatus(ConstService.ALBUM_OPEN_STATUS);
 		if(albumList!=null&&albumList.size()>0){
 			model.addAttribute("albumList", albumList);
 		} 
@@ -93,14 +93,14 @@ public class FrontController {
 	 */
 	@RequestMapping(value = "/album", method = RequestMethod.GET)
 	public String albumInfo(Model model, int id) { 
-		TbAlbum albumInfo = albumService.loadById(id);
+		Album albumInfo = albumService.loadById(id);
 		if(albumInfo!=null){
 			//读取评论
-			List<TbComment> commentList = commentService.queryCommentsByAlbumId(id);
+			List<Comment> commentList = commentService.queryCommentsByAlbumId(id);
 			albumInfo.setCommentList(commentList);
 			
 			//读取幻灯片列表
-			List<TbAlbumSlide> slideList = albumSlideService.querySlidesByAlbumId(id);
+			List<AlbumSlide> slideList = albumSlideService.querySlidesByAlbumId(id);
 			albumInfo.setSlideList(slideList);
 			
 			model.addAttribute("albumInfo", albumInfo);
@@ -108,26 +108,62 @@ public class FrontController {
 		return "albumInfo";
 	}
 	
+	@RequestMapping(value = "/editAlbum")
+	public String saveAlbum(Model model, Integer albumId) { 
+		if(albumId!=null&&albumId>0){
+//			AlbumSlide slide = new AlbumSlide();
+			Album album = albumService.loadById(albumId);
+			model.addAttribute("album", album);
+		}
+		return "albumEdit";
+	}
+	
+	/**
+	 * Simply selects the home view to render by returning its name.
+	 */
+	@RequestMapping(value = "/saveAlbum", method = RequestMethod.POST)
+	public String saveAlbum(Model model, Album album) { 
+		if(album!=null&&album.getSlideList()!=null&&album.getSlideList().size()>0){
+			List<AlbumSlide> slideList = album.getSlideList();
+			int userId = 3;
+			album.setUserId(userId);
+			album.setCoverImg(slideList.get(0).getSlideImg());
+			
+			int result = albumService.save(album);
+			if(result==1){
+				
+				for(AlbumSlide slide: slideList){
+					slide.setAlbumId(album.getId());
+					slide.setUserId(userId);
+					albumSlideService.save(slide);
+					
+				}
+			}
+			//System.out.println(result);
+		}
+		return "redirect:index.art";
+	}
+	
 	@RequestMapping(value = "/settings", method = RequestMethod.GET)
-	public String userHome(Model model) {
+	public String settings(Model model) {
 		return "settings";
 	}
 	
-	@RequestMapping(value = "/xxx", method = RequestMethod.GET)
-	public String xxx(Model model) {
-		return "xxx";
-	}
+//	@RequestMapping(value = "/xxx", method = RequestMethod.GET)
+//	public String xxx(Model model) {
+//		return "xxx";
+//	}
 	
 	@RequestMapping(value = "/{userId}/profile")
 	public String userProfile(Model model, @PathVariable("userId") int userId) {
-		TbUser tbUser = userService.loadById(userId);
+		User tbUser = userService.loadById(userId);
 		if(tbUser!=null){
 			model.addAttribute("tbUser", tbUser);
-			List<TbAlbum> albumList = albumService.queryAlbumByUserId(userId);
+			List<Album> albumList = albumService.queryAlbumByUserId(userId);
 			if(albumList!=null&&albumList.size()>0){
-				for(TbAlbum loopAlbum: albumList){
+				for(Album loopAlbum: albumList){
 					int albumId = loopAlbum.getId(); 
-					List<TbComment> commentList = commentService.queryCommentsByAlbumId(albumId);
+					List<Comment> commentList = commentService.queryCommentsByAlbumId(albumId);
 					loopAlbum.setCommentList(commentList);
 				}
 				model.addAttribute("albumList", albumList);
@@ -149,7 +185,7 @@ public class FrontController {
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String doLogin(Model model, HttpServletRequest request, String username, String password) {
-		TbUser user = userService.authUser(username, password);
+		User user = userService.authUser(username, password);
 		if(user!=null){
 			request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
 		}
@@ -164,7 +200,7 @@ public class FrontController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String doRegister(Model model, HttpServletRequest request, String username, String nickname, String password, String repassword) {
 		
-		TbUser user = new TbUser();
+		User user = new User();
 		user.setUsername(username);
 		user.setNickname(nickname);
 		user.setPassword(password);
@@ -181,9 +217,9 @@ public class FrontController {
 	
 	@RequestMapping(value = "/postComment", method = RequestMethod.POST)
 	public String postComment(Model model, HttpServletRequest request, int albumId, int albumPostId, String comment) {
-		TbUser user = (TbUser) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		if(user!=null){
-			TbComment commentBean = new TbComment();
+			Comment commentBean = new Comment();
 			commentBean.setComment(comment);
 			commentBean.setAlbumId(albumId);
 			commentBean.setAlbumContentId(albumPostId);

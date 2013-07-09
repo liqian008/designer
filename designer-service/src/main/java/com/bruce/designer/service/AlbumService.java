@@ -2,12 +2,12 @@ package com.bruce.designer.service;
 
 import java.util.List;
 
-import com.bruce.designer.bean.TbAlbum;
+import com.bruce.designer.bean.Album;
 
-public interface AlbumService extends BaseService<TbAlbum, Integer> {
+public interface AlbumService extends BaseService<Album, Integer> {
 
-	public List<TbAlbum> queryAlbumByStatus(short status);
+	public List<Album> queryAlbumByStatus(short status);
 	
-	public List<TbAlbum> queryAlbumByUserId(int userId);
+	public List<Album> queryAlbumByUserId(int userId);
 
 }
