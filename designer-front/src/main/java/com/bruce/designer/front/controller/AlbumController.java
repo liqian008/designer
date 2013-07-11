@@ -30,20 +30,20 @@ import com.bruce.designer.service.UserService;
 /**
  * Handles requests for the application home page.
  */
-//@Controller
-public class FrontController {
+@Controller
+public class AlbumController {
 
-	//@Autowired
+	@Autowired
 	private UserService userService;
-	//@Autowired
+	@Autowired
 	private AlbumService albumService;
-	//@Autowired
+	@Autowired
 	private CommentService commentService;
-	//@Autowired
+	@Autowired
 	private AlbumSlideService albumSlideService;
 	
 
-	private static final Logger logger = LoggerFactory.getLogger(FrontController.class);
+	private static final Logger logger = LoggerFactory.getLogger(AlbumController.class);
 
 	
 	/**
@@ -52,11 +52,6 @@ public class FrontController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String start( Model model) {
 		return index(model);
-	}
-	
-	@RequestMapping(value = "/carousel", method = RequestMethod.GET)
-	public String carousel( Model model) {
-		return "carousel";
 	}
 	
 	/**
@@ -84,7 +79,7 @@ public class FrontController {
 		List<Album> albumList = albumService.queryAlbumByStatus(ConstService.ALBUM_OPEN_STATUS);
 		if(albumList!=null&&albumList.size()>0){
 			model.addAttribute("albumList", albumList);
-		} 
+		}
 		return "main";
 	}
 	
@@ -109,7 +104,7 @@ public class FrontController {
 	}
 	
 	@RequestMapping(value = "/editAlbum")
-	public String saveAlbum(Model model, Integer albumId) { 
+	public String editAlbum(Model model, Integer albumId) { 
 		if(albumId!=null&&albumId>0){
 //			AlbumSlide slide = new AlbumSlide();
 			Album album = albumService.loadById(albumId);
@@ -144,16 +139,6 @@ public class FrontController {
 		return "redirect:index.art";
 	}
 	
-	@RequestMapping(value = "/settings", method = RequestMethod.GET)
-	public String settings(Model model) {
-		return "settings";
-	}
-	
-//	@RequestMapping(value = "/xxx", method = RequestMethod.GET)
-//	public String xxx(Model model) {
-//		return "xxx";
-//	}
-	
 	@RequestMapping(value = "/{userId}/profile")
 	public String userProfile(Model model, @PathVariable("userId") int userId) {
 		User tbUser = userService.loadById(userId);
@@ -171,78 +156,4 @@ public class FrontController {
 		}
 		return "userProfile";
 	}
-	
-	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Model model) {
-		return "login";
-	}
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String doLogin(Model model, HttpServletRequest request, String username, String password) {
-		User user = userService.authUser(username, password);
-		if(user!=null){
-			request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
-		}
-		return "redirect:/";
-	}
-	
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String register(Model model) {
-		return "register";
-	}
-	
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String doRegister(Model model, HttpServletRequest request, String username, String nickname, String password, String repassword) {
-		
-		User user = new User();
-		user.setUsername(username);
-		user.setNickname(nickname);
-		user.setPassword(password);
-		Date currentTime = new Date();
-		user.setCreateTime(currentTime);
-		user.setUpdateTime(currentTime);
-		int result = userService.save(user);
-		if(result==1){
-			user = userService.authUser(username, password);
-			request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
-		}
-		return "redirect:/";
-	}
-	
-	@RequestMapping(value = "/postComment", method = RequestMethod.POST)
-	public String postComment(Model model, HttpServletRequest request, int albumId, int albumPostId, String comment) {
-		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
-		if(user!=null){
-			Comment commentBean = new Comment();
-			commentBean.setComment(comment);
-			commentBean.setAlbumId(albumId);
-			commentBean.setAlbumContentId(albumPostId);
-			commentBean.setUserId(user.getId());
-			commentBean.setNickname(user.getNickname());
-			Date currentTime = new Date();
-			commentBean.setCreateTime(currentTime);
-			commentBean.setUpdateTime(currentTime);
-			int result = commentService.save(commentBean);
-		}
-		return "redirect:/";
-	}
-	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-	@RequestMapping(value = "/logout", method=RequestMethod.GET)
-	public String logout(HttpServletRequest request) {
-		request.getSession().removeAttribute(ConstFront.CURRENT_USER);
-		return "forward:/";
-	}
-	
-	
-	
-	
 }
