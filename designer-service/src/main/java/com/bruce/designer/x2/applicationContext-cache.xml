@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<bean id="feedWriterCache" class="com.renren.x2.feed.cache.impl.FeedWriterCacheImpl"
+		parent="abstractFeedHelper">
+		<property name="feedReaderStorage" ref="feedReaderDao"></property>
+		<property name="client" ref="client"></property>
+	</bean>
+
+	<bean id="rebuildableFeedWriterCache"
+		class="com.renren.x2.feed.cache.impl.RebuildableFeedWriterCacheImpl"
+		parent="feedWriterCache">
+	</bean>
+
+	<bean id="feedReaderCache" class="com.renren.x2.feed.cache.impl.FeedReaderCacheImpl">
+		<property name="feedReaderStorage" ref="feedReaderDao"></property>
+		<property name="client" ref="client"></property>
+		<property name="feedRebuildableCache" ref="rebuildableFeedWriterCache"></property>
+	</bean>
+
+	<bean id="client" class="com.renren.x2.cache.client.redis.RedisClusterPoolClient">
+		<constructor-arg index="0" value="x2"></constructor-arg>
+		<constructor-arg index="1"
+			value="${redis.cluster}"></constructor-arg>
+	</bean>
+</beans>
