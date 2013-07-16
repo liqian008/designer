@@ -98,15 +98,8 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
         <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
 
         <div class="page"> <!-- Page -->
-            <div class="breadscrumbs">
-                <div class="container">
-                    <ul class="clearfix">
-                        <li><a href="post-gallery.html#">Home</a>/</li>
-                        <li><a href="post-gallery.html#">Blog</a>/</li>
-                        <li><a href="post-gallery.html#">Gallery Post Format</a></li>
-                    </ul>
-                </div>
-            </div>
+            <jsp:include page="./inc/breadcrumb.jsp"></jsp:include>
+            
             <div class="main fullwidth">            
                 <div class="container">
                     <div class="row-fluid">
@@ -118,10 +111,32 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 		                        for(Album album: albumList){
 		                    %>
                             <article class="post format-blogpost clearfix">
-	                            <div class="span2 clearfix">
-	                                <div class="page-title-avatar">
-	                                    <img src="./img/demo/portraits/portrait-21.png" alt="Page Title" width="80" height="80"/>
-	                                </div>
+	                            <div class="span2 clearfix content-side">
+	                            	 <div class="content-side">
+		                                <div class="content-side-avatar">
+		                                    <img src="./img/demo/portraits/1_avatar_middle.jpg" alt="Page Title" width="100" height="100"/>
+		                                </div>
+		                                
+		                                <div>
+	                                        <table>
+	                                            <tbody>
+	                                                <tr>
+	                                                    <th>
+	                                                        <a href="" class="xi2">31</a><br/>主题
+	                                                    </th>
+	                                                    <th>
+	                                                        <a href="" class="xi2">31</a><br/>粉丝
+	                                                    </th>
+	                                                </tr>
+	                                                <!-- <tr>
+	                                                    <th colspan="2">
+	                                                        Tag: AAA, BBB
+	                                                    </th>
+	                                                </tr> -->
+	                                            </tbody>
+	                                        </table>
+	                                    </div>
+		                             </div>
 	                            </div> 
                             	
                                 <div class="span10 post-thumb">
@@ -141,21 +156,73 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                                 
 	                                <div class="row-fluid clearfix">
 	                                    <div class="meta-container-single clearfix">
-	                                        <div class="meta-categories">
-	                                            <ul>
-	                                                <li><a href="single.html#">Photoshop</a>,</li>
-	                                                <li><a href="single.html#">Web-Development,</a></li>
-	                                                <li><a href="single.html#">Social Media</a></li>
-	                                            </ul>
-	                                        </div>
+                                        
 	                                        <div class="meta-tags">
 	                                            <ul>
-	                                                <li><a href="single.html#">Photoshop</a>,</li>
-	                                                <li><a href="single.html#">Webdesign</a>,</li>
-	                                                <li><a href="single.html#">Verendus</a></li>
+	                                                <li><a href="single.html#">翡翠</a>,</li>
+	                                                <li><a href="single.html#">玉石</a></li>
+	                                            </ul>
+	                                        </div>
+	                                        
+	                                        <div class="meta-categories">
+	                                        	<ul>
+	                                                <li><a href="single.html#">举报</a> </li>
+	                                            </ul>
+	                                            <ul>
+	                                                <li><a href="single.html#">喜欢(1220)</a> </li>
+	                                            </ul>
+	                                             <ul>
+	                                                <li><a href="single.html#">收藏(120)</a> </li>
+	                                            </ul>
+	                                            
+	                                            <ul>
+	                                                <li><a href="single.html#">评论(10)</a> </li>
 	                                            </ul>
 	                                        </div>
 	                                    </div>
+	                                    
+	                                    <div id="comments">
+                                        <ol class="commentlist">
+                                            <li class="comment depth-1" id="li-comment-1">
+                                                <div class="comment-container" id="comment-1">
+                                                    <div class="comment-avatar">
+                                                        <div class="comment-author vcard">
+                                                            <img src="./img/demo/portraits/avatar_middle.jpg" alt="Blogpost Comment" />                 
+                                                        </div>
+                                                    </div>                          
+                                                    <div class="comment-body">
+                                                        <div class="comment-meta commentmetadata">
+                                                            <h5 class="comment-author">
+                                                                <a href='http://www.somnia-themes.com' rel='external nofollow' class='url'>猫王</a> 发表于 2013-01-01 23:23
+                                                            </h5>                                   
+                                                        </div>                              
+                                                        <div class="comment-content">
+                                                                很带感啊！
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="comment depth-1" id="li-comment-1">
+                                                <div class="comment-container" id="comment-1">
+                                                    <div class="comment-avatar">
+                                                        <div class="comment-author vcard">
+                                                            <img src="./img/demo/portraits/avatar_middle.jpg" alt="Blogpost Comment" />                 
+                                                        </div>
+                                                    </div>                          
+                                                    <div class="comment-body">
+                                                        <div class="comment-meta commentmetadata">
+                                                            <h5 class="comment-author">
+                                                                <a href='http://www.somnia-themes.com' rel='external nofollow' class='url'>猫王</a> 发表于 2013-01-01 23:23
+                                                            </h5>                                   
+                                                        </div>                              
+                                                        <div class="comment-content">
+                                                                很带感啊！
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ol>
+                                    </div><!-- Close Comments -->
 	                                 </div>
                                  </div>
                             </article>
@@ -163,101 +230,9 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 		                    }%>
                           
                         </section>
-                        <aside class="sidebar widgets-light span3">
-							
-							<!-- Contactform Widget -->
-                            <!-- <div class="widget-box widget-contact-form">
-                                <div class="content-title">
-                                    <h4 class="widget-title">用户中心</h4>
-                                </div>
-                                <form id="contact-form-widget" method="post" class="clearfix">
-                                    <div class="input-container" >
-                                        <input type="text" class="contact-form-name" name="name" 
-                                            value="Your Name" onfocus="if(this.value=='Your Name')this.value='';" 
-                                            onblur="if(this.value=='')this.value='Your Name';"/>
-                                            <i class="icon-user"></i>
-                                    </div>
-                                    <div class="input-container">
-                                        <input type="text" class="contact-form-email" name="email" 
-                                            value="Your Email" onfocus="if(this.value=='Your Email')this.value='';" 
-                                            onblur="if(this.value=='')this.value='Your Email';" />
-                                            <i class="icon-envelope-alt"></i>
-                                    </div>
-                                    <input class="contact-submit button" type="submit" value="登 录">
-                                </form>
-
-                                <div class="contact-form-widget-respons">
-                                    <p>Your message was succesfully send.</p>
-                                </div> 
-                            </div> -->
-                            
-							<!-- Blogpost Widget -->
-                            <div class="widget-box widget-blogposts">
-                                <div class="content-title">
-                                    <h4 class="widget-title">Latest Blogposts / Portfolio</h4>
-                                </div>
-                                <ul>
-                                    <li class="clearfix">
-                                        <div class="widget-blogpost-avatar">
-                                            <a href="post-gallery.html#">
-                                                <img src="./img/demo/ecopower-70x70.jpg" alt="Blogpost-1">
-                                                <span class="widget-blogpost-overlay"></span>
-                                            </a>
-                                        </div>
-                                        <div class="widget-blogpost-content">
-                                            <div class="widget-blogpost-title ">
-                                                <h5>Just a simple blogtitle with two lines of text.</h5>
-                                            </div>
-                                            <div class="widget-blogpost-date">
-                                                <p><a href="post-gallery.html#">December 8, 2012</a></p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <div class="widget-blogpost-avatar">
-                                            <a href="post-gallery.html#">
-                                                <img src="./img/demo/architecture-70x70.jpg" alt="Blogpost-1">
-                                                <span class="widget-blogpost-overlay"></span>
-                                            </a>
-                                        </div>
-                                        <div class="widget-blogpost-content">
-                                            <div class="widget-blogpost-title ">
-                                                <h5>Just a simple blogtitle with two lines of text.</h5>
-                                            </div>
-                                            <div class="widget-blogpost-date">
-                                                <p><a href="post-gallery.html#">December 8, 2012</a></p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <div class="widget-blogpost-avatar">
-                                            <a href="post-gallery.html#">
-                                                <img src="./img/demo/ecohands-70x70.jpg" alt="Blogpost-1">
-                                                <span class="widget-blogpost-overlay"></span>
-                                            </a>
-                                        </div>
-                                        <div class="widget-blogpost-content">
-                                            <div class="widget-blogpost-title ">
-                                                <h5>Just a simple blogtitle with two lines of text.</h5>
-                                            </div>
-                                            <div class="widget-blogpost-date">
-                                                <p><a href="post-gallery.html#">December 8, 2012</a></p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-							<!-- Flickr Widget -->
-                            <div class="widget-box widget-flickr">
-                                <div class="content-title">
-                                    <h4 class="widget-title">My Flickr Stream</h4>
-                                </div>
-                                <div class="flickr-wrap clearfix">
-                                    <script type="text/javascript" src="http://www.flickr.com/badge_code_v2.gne?count=9&amp;display=random&amp;size=s&amp;layout=x&amp;source=user&amp;user=52617155@N08">
-                                    </script>
-                                </div>
-                            </div>
-                        </aside>
+                        
+                        <jsp:include page="./inc/rightSidebar.jsp"></jsp:include>
+                    	
                     </div>                        
                 </div> <!-- Close Main -->
             </div> 

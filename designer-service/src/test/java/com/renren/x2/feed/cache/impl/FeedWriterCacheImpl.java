@@ -59,6 +59,7 @@ public class FeedWriterCacheImpl extends AbstractFeedHelper implements IFeedWrit
         feedMap.put(_FIELD_FEED_NATIVEUGC, String.valueOf(feed.getNativeUgc().getUgcId()));
         feedMap.put(_FIELD_FEED_UGCSTATUS, feed.getNativeUgc().getStatus().name());
         String key = FeedCacheUtils.getFeedEntryKey(feed.getFeedId());
+        //feed_$feedId
         client.hmset(key, feedMap);
         addFeedCommentIndex(feed.getFeedId(), MARK);
         addFeedFLikeIndex(feed.getFeedId(), MARK);
@@ -75,24 +76,28 @@ public class FeedWriterCacheImpl extends AbstractFeedHelper implements IFeedWrit
     @Override
     public void addSchoolFeedIndex(int schoolId, long feedId) {
         String key = FeedCacheUtils.getSchoolFeedIndexKey(schoolId);
+        //"feed_$schoolId_feed_index";
         client.zadd(key, feedId, String.valueOf(feedId));
     }
 
     @Override
     public void addUserFeedIndex(int userId, long feedId) {
         String key = FeedCacheUtils.getUserFeedIndexKey(userId);
+        //user_$userId_feed_index";
         client.zadd(key, feedId, String.valueOf(feedId));
     }
 
     @Override
     public void addUserAlbumFeedIndex(int userId, long feedId) {
         String key = FeedCacheUtils.getUserAlbumFeedIndexKey(userId);
+        //feed_album_$userId_feed_index";
         client.zadd(key, feedId, String.valueOf(feedId));
     }
 
     @Override
     public void addUserFollowerFeedIndex(int userId, long feedId) {
         String key = FeedCacheUtils.getUserFollowerIndexKey(userId);
+        //user_follow_$userId_feed_index";
         client.zadd(key, feedId, String.valueOf(feedId));
     }
 
@@ -106,18 +111,21 @@ public class FeedWriterCacheImpl extends AbstractFeedHelper implements IFeedWrit
     @Override
     public void addUserLikeFeedIndex(int userId, long feedId, long ugcId) {
         String key = FeedCacheUtils.getUserLikeFeedIndexKey(userId);
+        //user_$userId_like_index";
         client.zadd(key, ugcId, String.valueOf(feedId));
     }
 
     @Override
     public void addFeedCommentIndex(long feedId, long ugcId) {
         String key = FeedCacheUtils.getFeedCommentIndexKey(feedId);
+        //feed_$feedId_comment_index"
         client.zadd(key, ugcId, String.valueOf(ugcId));
     }
 
     @Override
     public void addFeedFLikeIndex(long feedId, long ugcId) {
         String key = FeedCacheUtils.getFeedFLikeIndexKey(feedId);
+        
         client.zadd(key, ugcId, String.valueOf(ugcId));
     }
 
@@ -130,6 +138,7 @@ public class FeedWriterCacheImpl extends AbstractFeedHelper implements IFeedWrit
     @Override
     public void removeUserLikeFeedIndex(int userId, long feedId) {
         String key = FeedCacheUtils.getUserLikeFeedIndexKey(userId);
+        //user_$userId_like_index";
         client.zrem(key, String.valueOf(feedId));
     }
 
