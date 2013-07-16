@@ -2,7 +2,7 @@
  * $Id$
  * Copyright 2009-2010 Oak Pacific Interactive. All rights reserved.
  */
-package com.renren.x2.feed.cache;
+package com.renren.x2.feed.cache; 
 
 import java.util.List;
 import java.util.Map;

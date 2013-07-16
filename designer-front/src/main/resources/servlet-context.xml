@@ -19,8 +19,8 @@
 	<resources mapping="/img/**" location="/img/" />
 	<resources mapping="/styleswitch/**" location="/styleswitch/" />
 	<resources mapping="/fonts/**" location="/fonts/" />
-	
-	<resources mapping="/upload/**" location="/upload/" />
+	<resources mapping="/upload/**" location="/upload/"/>
+	<resources mapping="/headupload/**" location="/headupload/" />
 	
 	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->

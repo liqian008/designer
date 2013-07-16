@@ -26,7 +26,7 @@ public class FeedReaderStorageFactoryBean extends FeedReaderStorageInterceptor i
     private Object proxy;
 
     @Override
-    public Object getObject() throws Exception {
+    public Object getObject() throws Exception { 
         return this.proxy;
     }
 

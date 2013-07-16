@@ -170,75 +170,9 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                             <%}
                             }%>
                         </section>
-                        <aside class="sidebar widgets-light span3">
-
-							<!-- Blogpost Widget -->
-                            <div class="widget-box widget-blogposts">
-                                <div class="content-title">
-                                    <h4 class="widget-title">Latest Blogposts / Portfolio</h4>
-                                </div>
-                                <ul>
-                                    <li class="clearfix">
-                                        <div class="widget-blogpost-avatar">
-                                            <a href="post-gallery.html#">
-                                                <img src="../img/demo/ecopower-70x70.jpg" alt="Blogpost-1">
-                                                <span class="widget-blogpost-overlay"></span>
-                                            </a>
-                                        </div>
-                                        <div class="widget-blogpost-content">
-                                            <div class="widget-blogpost-title ">
-                                                <h5>Just a simple blogtitle with two lines of text.</h5>
-                                            </div>
-                                            <div class="widget-blogpost-date">
-                                                <p><a href="post-gallery.html#">December 8, 2012</a></p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <div class="widget-blogpost-avatar">
-                                            <a href="post-gallery.html#">
-                                                <img src="../img/demo/architecture-70x70.jpg" alt="Blogpost-1">
-                                                <span class="widget-blogpost-overlay"></span>
-                                            </a>
-                                        </div>
-                                        <div class="widget-blogpost-content">
-                                            <div class="widget-blogpost-title ">
-                                                <h5>Just a simple blogtitle with two lines of text.</h5>
-                                            </div>
-                                            <div class="widget-blogpost-date">
-                                                <p><a href="post-gallery.html#">December 8, 2012</a></p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <div class="widget-blogpost-avatar">
-                                            <a href="post-gallery.html#">
-                                                <img src="../img/demo/ecohands-70x70.jpg" alt="Blogpost-1">
-                                                <span class="widget-blogpost-overlay"></span>
-                                            </a>
-                                        </div>
-                                        <div class="widget-blogpost-content">
-                                            <div class="widget-blogpost-title ">
-                                                <h5>Just a simple blogtitle with two lines of text.</h5>
-                                            </div>
-                                            <div class="widget-blogpost-date">
-                                                <p><a href="post-gallery.html#">December 8, 2012</a></p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-							<!-- Flickr Widget -->
-                            <div class="widget-box widget-flickr">
-                                <div class="content-title">
-                                    <h4 class="widget-title">My Flickr Stream</h4>
-                                </div>
-                                <div class="flickr-wrap clearfix">
-                                    <script type="text/javascript" src="http://www.flickr.com/badge_code_v2.gne?count=9&amp;display=random&amp;size=s&amp;layout=x&amp;source=user&amp;user=52617155@N08">
-                                    </script>
-                                </div>
-                            </div>
-                        </aside>
+                       	
+                       	<jsp:include page="./inc/rightSidebar.jsp"></jsp:include>
+                    	
                     </div>                        
                 </div> <!-- Close Main -->
             </div> 

@@ -19,13 +19,22 @@
 					<li><a href="./index.art">热门排行</a>
 						<ul class="sub-menu">
 							<li><a
-								href="./index.art">本周热门 - Top10</a></li>
+								href="./index.art">本周热门</a></li>
 							<li><a
-								href="./index.art">本周热门 - Top10</a></li>
+								href="./index.art">本周热门</a></li>
 							<li><a
-								href="./index.art">本月热门 - Top10</a></li>
-						</ul></li>
-					
+								href="./index.art">本月热门</a></li>
+						</ul>
+					</li>
+					<li><a href="./index.art">个人主页</a></li>
+					<li><a href="./index.art">新晋推荐</a>
+						<ul class="sub-menu">
+							<li><a
+								href="./index.art">新作推荐</a></li>
+							<li><a
+								href="./index.art">新人推荐</a></li>
+						</ul>
+					</li>
 					<li class="active current-menu-item"><a
 						href="http://somnia-themes.com/templates/verendus/blog.html">Blog</a>
 						<ul class="sub-menu">
