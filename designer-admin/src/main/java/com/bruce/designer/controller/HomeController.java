@@ -1,6 +1,5 @@
 package com.bruce.designer.controller;
 
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -22,7 +21,7 @@ import com.bruce.designer.service.UserService;
 public class HomeController {
 
 	@Autowired
-	UserService userService;
+	private UserService userService;
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(HomeController.class);
