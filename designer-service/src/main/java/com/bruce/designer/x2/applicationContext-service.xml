@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<bean id="feedWriterStorage" class="com.renren.x2.feed.factory.FeedWriterStorageFactoryBean">
+		<property name="feedWriterDao" ref="feedWriterDao"></property>
+		<property name="feedWriterCache" ref="feedWriterCache"></property>
+		<!-- <property name="writePolicy" value="db"></property> -->
+	</bean>
+
+	<bean id="feedReaderStorage" class="com.renren.x2.feed.factory.FeedReaderStorageFactoryBean">
+		<property name="feedReaderDao" ref="feedReaderDao"></property>
+		<property name="feedReaderCache" ref="feedReaderCache"></property>
+		<!-- <property name="readPolicy" value="db"></property> -->
+	</bean>
+
+	<bean id="abstractFeedHelper" class="com.renren.x2.feed.service.impl.AbstractFeedHelper"
+		abstract="true">
+		<property name="userInfoAdapter" ref="userInfoAdapter"></property>
+		<property name="relationAdapter" ref="relationAdapter"></property>
+	</bean>
+
+	<bean id="asyncFeedWriterService"
+		class="com.renren.x2.feed.service.impl.FeedWriterServiceAsyncImpl">
+		<property name="mqService" ref="mqService"></property>
+	</bean>
+
+	<bean id="syncFeedWriterService"
+		class="com.renren.x2.feed.service.impl.FeedWriterServiceSyncImpl" parent="abstractFeedHelper" >
+		<property name="mqService" ref="mqService"></property>
+		<property name="sequenceDao" ref="sequenceDao"></property>
+		<property name="feedWriterStorage" ref="feedWriterStorage"></property>
+		<property name="feedReaderStorage" ref="feedReaderStorage"></property>
+	</bean>
+
+	<bean id="feedReaderService" class="com.renren.x2.feed.service.impl.FeedReaderServiceImpl" parent="abstractFeedHelper" >
+		<property name="feedReaderStorage" ref="feedReaderStorage"></property>
+		<property name="feedWriterStorage" ref="feedWriterStorage"></property>
+	</bean>
+
+
+	<bean id="mqService" class="com.renren.x2.feed.service.impl.MqServiceImpl">
+		<property name="mqAdapter" ref="mqAdapter"></property>
+	</bean>
+
+	<bean id="feedIceService" class="com.renren.x2.feed.service.impl.FeedIceServiceImpl">
+		<property name="feedWriterService" ref="asyncFeedWriterService"></property>
+		<property name="feedReaderService" ref="feedReaderService"></property>
+	</bean>
+
+	<bean id="feedMqIceService" class="com.renren.x2.feed.service.impl.MqIceServiceImpl">
+		<property name="feedWriterService" ref="syncFeedWriterService"></property>
+	</bean>
+</beans>

@@ -32,7 +32,7 @@ import com.bruce.designer.service.UserService;
  */
 //@Controller
 public class FrontController {
-
+    
 	//@Autowired
 	private UserService userService;
 	//@Autowired
