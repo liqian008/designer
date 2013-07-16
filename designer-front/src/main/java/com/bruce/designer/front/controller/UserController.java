@@ -19,38 +19,55 @@ import com.bruce.designer.service.UserService;
 @Controller
 public class UserController {
 
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private AlbumService albumService;
-	@Autowired
-	private CommentService commentService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private AlbumService albumService;
+    @Autowired
+    private CommentService commentService;
 
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-	@RequestMapping(value = "/settings", method = RequestMethod.GET)
-	public String settings(Model model) {
-		return "settings";
-	}
-	
-	@RequestMapping(value = "/settingsGo", method = RequestMethod.POST)
+    @RequestMapping(value = "/settings", method = RequestMethod.GET)
+    public String settings(Model model) {
+        int userId = 0;
+        User user = userService.loadById(userId);
+        if (user != null) {
+            model.addAttribute("", user);
+        } else {
+
+        }
+        return "settings";
+    }
+
+    @RequestMapping(value = "/settingsGo", method = RequestMethod.POST)
     public String settingsGo(Model model, User user) {
-	    
-	    return "";
+        userService.updateById(user);
+        return "";
     }
-	
-	@RequestMapping(value = "/headPhotoGo", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/headPhotoGo", method = RequestMethod.POST)
     public String headPhotoGo(Model model) {
-        return "headPhotoGo";
+        User user = new User();
+        userService.updateById(user);
+        return "";
     }
-	
-	@RequestMapping(value = "/applyDesigner", method = RequestMethod.GET)
-    public String applyDesigner(Model model, User user) {
+
+    @RequestMapping(value = "/applyDesigner", method = RequestMethod.GET)
+    public String applyDesigner(Model model) {
+        int userId = 0;
+        User user = userService.loadById(userId);
+        if (user != null) {
+            model.addAttribute("", user);
+        } else {
+
+        }
         return "applyDesigner";
     }
-    
-	@RequestMapping(value = "/applyDesignerGo", method = RequestMethod.POST)
-    public String applyDesignerG(Model model, User user) {
+
+    @RequestMapping(value = "/applyDesignerGo", method = RequestMethod.POST)
+    public String applyDesignerGo(Model model, User user) {
+        userService.updateById(user);
         return "";
     }
 }
