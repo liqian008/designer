@@ -1,4 +1,4 @@
-package com.bruce.designer.controller;
+package com.bruce.designer.admin.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
