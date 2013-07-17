@@ -13,7 +13,7 @@ import com.bruce.designer.admin.bean.security.AdminUserRole;
 import com.bruce.designer.admin.bean.security.AdminUserRoleCriteria;
 import com.bruce.designer.admin.dao.security.AdminUserMapper;
 import com.bruce.designer.admin.dao.security.AdminUserRoleMapper;
-import com.bruce.designer.admin.services.AdminUserService;
+import com.bruce.designer.admin.service.AdminUserService;
 
 @Service
 public class AdminUserServiceImpl implements AdminUserService{ 

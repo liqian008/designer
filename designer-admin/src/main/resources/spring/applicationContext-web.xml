@@ -10,15 +10,14 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 	http://www.springframework.org/schema/task  http://www.springframework.org/schema/task/spring-task-3.0.xsd"
 	default-lazy-init="false">
-
+	
 	<context:annotation-config />
 
 	<context:component-scan base-package="com.bruce.designer.admin"></context:component-scan>
-	
 
 	<!-- 使用国际化消息 -->  
    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">   
-     <property name="basename" value="messages"/>  
+     <property name="basename" value="conf/messages"/>  
    </bean>   
 	<!-- 获取本地区的语言消息 -->  
    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/> 

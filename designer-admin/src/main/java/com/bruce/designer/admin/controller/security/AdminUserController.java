@@ -17,8 +17,8 @@ import com.bruce.designer.admin.bean.security.AdminRole;
 import com.bruce.designer.admin.bean.security.AdminUser;
 import com.bruce.designer.admin.controller.BaseController;
 import com.bruce.designer.admin.security.WebUserDetails;
-import com.bruce.designer.admin.services.AdminRoleService;
-import com.bruce.designer.admin.services.AdminUserService;
+import com.bruce.designer.admin.service.AdminRoleService;
+import com.bruce.designer.admin.service.AdminUserService;
 import com.bruce.designer.admin.utils.ValidatorUtil;
 
 

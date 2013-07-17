@@ -19,7 +19,7 @@ import com.bruce.designer.admin.bean.security.AdminRoleMenuCriteria;
 import com.bruce.designer.admin.dao.security.AdminMenuMapper;
 import com.bruce.designer.admin.dao.security.AdminRoleMenuMapper;
 import com.bruce.designer.admin.security.WebSecurityMetadataSource;
-import com.bruce.designer.admin.services.AdminMenuService;
+import com.bruce.designer.admin.service.AdminMenuService;
 import com.bruce.designer.admin.utils.ConstantsUtil;
 
 @Service

@@ -26,8 +26,8 @@ import org.springframework.stereotype.Service;
 
 import com.bruce.designer.admin.bean.security.AdminMenu;
 import com.bruce.designer.admin.bean.security.AdminRole;
-import com.bruce.designer.admin.services.AdminMenuService;
-import com.bruce.designer.admin.services.AdminRoleService;
+import com.bruce.designer.admin.service.AdminMenuService;
+import com.bruce.designer.admin.service.AdminRoleService;
 import com.bruce.designer.admin.utils.ConstantsUtil;
 
 /**

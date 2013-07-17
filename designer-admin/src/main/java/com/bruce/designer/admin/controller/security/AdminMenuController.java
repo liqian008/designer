@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bruce.designer.admin.bean.security.AdminMenu;
 import com.bruce.designer.admin.controller.BaseController;
-import com.bruce.designer.admin.services.AdminMenuService;
+import com.bruce.designer.admin.service.AdminMenuService;
 import com.bruce.designer.admin.utils.ValidatorUtil;
 
 

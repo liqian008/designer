@@ -1,4 +1,4 @@
-package com.bruce.designer.admin.services;
+package com.bruce.designer.admin.service;
 
 import java.util.List;
 
