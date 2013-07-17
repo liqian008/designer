@@ -21,9 +21,9 @@
 	<!-- 不用权限管理的资源路径 -->
     <http pattern="/css/**" security="none"/>
     <http pattern="/icon/**" security="none"/>
-    <http pattern="/images/**" security="none"/>
+    <http pattern="/img/**" security="none"/>
     <http pattern="/js/**" security="none"/>
-    <http pattern="/index.jsp" security="none"/>
+    <http pattern="/index.*" security="none"/>
     <http pattern="/login**/**" security="none"/>
     <http pattern="/getVerifyCode" security="none"/>
     <http pattern="/help" security="none"/>
