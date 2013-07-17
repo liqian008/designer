@@ -13,7 +13,6 @@ import com.bruce.designer.service.CommentService;
 @Service
 public class CommentServiceImpl implements CommentService {
 
-	@Autowired
 	private CommentMapper commentMapper;
 
 	public int save(Comment t) {

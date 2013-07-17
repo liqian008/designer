@@ -9,10 +9,7 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd 
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
-	default-lazy-init="false">
-
-	<!-- <bean id="userService" class="com.bruce.designer.service.impl.UserServiceImpl"> 
-		<property name="userMapper" ref="userMapper"/> </bean> -->
+	default-lazy-init="false" default-autowire="byType">
 
 	<context:property-placeholder location="classpath:conf/jdbc.properties"
 		ignore-unresolvable="true" />
@@ -24,30 +21,35 @@
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 	</bean>
-
+	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="configLocation" value="classpath:mybatis-conf.xml" />
+		<property name="configLocation" value="classpath:mybatis-conf-admin.xml"/>
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface" value="com.bruce.designer.dao.UserMapper" />
+	<bean id="adminUserMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.bruce.designer.admin.dao.security.AdminUserMapper" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
-
-	<bean id="albumMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface" value="com.bruce.designer.dao.AlbumMapper" />
+	
+	<bean id="adminRoleMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.bruce.designer.admin.dao.security.AdminRoleMapper" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
-
-	<bean id="commentMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface" value="com.bruce.designer.dao.CommentMapper" />
+	
+	<bean id="adminMenuMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.bruce.designer.admin.dao.security.AdminMenuMapper" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
-
-	<bean id="slideMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface" value="com.bruce.designer.dao.AlbumSlideMapper" />
+	
+	<bean id="adminUserRoleMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.bruce.designer.admin.dao.security.AdminUserRoleMapper" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
-
+	
+	<bean id="adminRoleMenuMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.bruce.designer.admin.dao.security.AdminRoleMenuMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
 </beans>

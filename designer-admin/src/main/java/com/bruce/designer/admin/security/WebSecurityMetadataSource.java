@@ -24,9 +24,11 @@ import org.springframework.security.web.util.AntPathRequestMatcher;
 import org.springframework.security.web.util.RequestMatcher;
 import org.springframework.stereotype.Service;
 
-import com.bruce.designer.admin.service.SecurityService;
-import com.bruce.designer.admin.util.ConstantsUtil;
-
+import com.bruce.designer.admin.bean.security.AdminMenu;
+import com.bruce.designer.admin.bean.security.AdminRole;
+import com.bruce.designer.admin.service.AdminMenuService;
+import com.bruce.designer.admin.service.AdminRoleService;
+import com.bruce.designer.admin.utils.ConstantsUtil;
 
 /**
  * [核心处理逻辑]
@@ -47,7 +49,10 @@ public class WebSecurityMetadataSource implements FilterInvocationSecurityMetada
 	private static Map<String, Collection<ConfigAttribute>> resourceMap = new HashMap<String, Collection<ConfigAttribute>>();
 	
 	@Autowired
-	private SecurityService securityService;
+	private AdminMenuService adminMenuService;
+	@Autowired
+	private AdminRoleService adminRoleService;
+	
 	
 	/**
 	 * 初始化资源配置
@@ -64,16 +69,16 @@ public class WebSecurityMetadataSource implements FilterInvocationSecurityMetada
 		resourceMap.clear();
 		
 		//取得当前系统所有可用角色
-		List<RoleEntity> roles = this.securityService.getAvailableRoles();
-		for (RoleEntity role : roles) {
-			//这里的 role 参数为自己定义的，要和 UserDetailsService 中的 SimpleGrantedAuthority 参数对应
-			//role 参数也可以直接使用角色名
-			ConfigAttribute ca = new SecurityConfig(ConstantsUtil.SECURITY_AUTHORITY_PREFIX + role.getId());
+		List<AdminRole> adminRoles = this.adminRoleService.getAvailableRoles();
+		for (AdminRole adminRole : adminRoles) {
+			//这里的 adminRole 参数为自己定义的，要和 UserDetailsService 中的 SimpleGrantedAuthority 参数对应
+			//adminRole 参数也可以直接使用角色名
+			ConfigAttribute ca = new SecurityConfig(ConstantsUtil.SECURITY_AUTHORITY_PREFIX + adminRole.getId());
 			//取角色有哪些资源的权限
-//			Set<MenuEntity> menus = role.getMenus();
-			List<MenuEntity> menus = securityService.getMenusByRoleId(role.getId());
+//			Set<AdminMenu> menus = adminRole.getMenus();
+			List<AdminMenu> menus = adminMenuService.getMenusByRoleId(adminRole.getId());
 			if(menus!=null&&menus.size()>0){
-				for (MenuEntity menu : menus) {
+				for (AdminMenu menu : menus) {
 					String menuUrl = menu.getMenuUrl();
 					if(StringUtils.isBlank(menuUrl)){
 						//不是菜单地址，跳过
@@ -99,9 +104,9 @@ public class WebSecurityMetadataSource implements FilterInvocationSecurityMetada
 		//ROLE_SUPER 这个权限名字也是自己定义的
 		ConfigAttribute superCA = new SecurityConfig(ConstantsUtil.SECURITY_AUTHORITY_PREFIX + "SUPER");
 		// 超级管理员有所有菜单权限
-		List<MenuEntity> menus = this.securityService.getAllMenus();
-		for (MenuEntity menu : menus) {
-			String menuUrl = menu.getMenuUrl();
+		List<AdminMenu> menus = adminMenuService.queryAll();
+		for (AdminMenu adminMenu : menus) {
+			String menuUrl = adminMenu.getMenuUrl();
 			if (StringUtils.isBlank(menuUrl)) {
 				// 不是菜单地址，跳过
 				continue;

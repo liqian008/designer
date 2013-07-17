@@ -18,7 +18,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bruce.designer.admin.service.SecurityService;
+import com.bruce.designer.admin.bean.security.AdminRole;
+import com.bruce.designer.admin.bean.security.AdminUser;
+import com.bruce.designer.admin.service.AdminRoleService;
+import com.bruce.designer.admin.service.AdminUserService;
+import com.bruce.designer.admin.utils.ConstantsUtil;
 
 /**
  * 实现 UserDetailsService 接口，主要是在 loadUserByUsername 方法中验证一个用户
@@ -28,7 +32,7 @@ import com.bruce.designer.admin.service.SecurityService;
  * @author Taven.Li
  *
  */
-@Service
+@Service 
 public class WebUserDetailsService implements UserDetailsService {
 	
 	private static Logger logger = LoggerFactory.getLogger(WebUserDetailsService.class);
@@ -36,31 +40,33 @@ public class WebUserDetailsService implements UserDetailsService {
 	protected MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
 	
 	@Autowired
-	private SecurityService securityService;
+	private AdminUserService adminUserService;
+	@Autowired
+	private AdminRoleService adminRoleService;
 	
 	@Transactional
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		//该方法负责实现验证并授权
 		
-		UserEntity userEntity = securityService.getUserByUserName(username);
+		AdminUser adminUser = adminUserService.loadUserByUsername(username);
 		
-		if (null == userEntity) {
+		if (null == adminUser) {
 			throw new UsernameNotFoundException(
 							messages.getMessage("User.notFound", new Object[] { username }, "Username {0} not found"));
 		}
 		
-		int userId = userEntity.getId();
-		String password = userEntity.getPassWord();
-		boolean userEnabled = userEntity.getStatus() == 1;
+		int userId = adminUser.getId();
+		String password = adminUser.getPassword();
+		boolean userEnabled = adminUser.getStatus() == 1;
 		
 		
 		//读取当前用户有哪些角色权限
 		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-//		Set<RoleEntity> userRoles = userEntity.getRoles();
-		List<RoleEntity> userRoles = securityService.getRolesByUserId(userId);
+//		Set<AdminRole> userRoles = userEntity.getRoles();
+		List<AdminRole> userRoles = adminRoleService.getRolesByUserId(userId);
 		
-		for (RoleEntity userRole : userRoles) {
+		for (AdminRole userRole : userRoles) {
 			//这里的 role 参数为自己定义的，要和 SecurityMetadataSource 中的 SecurityConfig 参数对应
 			SimpleGrantedAuthority authority = new SimpleGrantedAuthority(ConstantsUtil.SECURITY_AUTHORITY_PREFIX + userRole.getId());
 			authorities.add(authority);
@@ -69,7 +75,7 @@ public class WebUserDetailsService implements UserDetailsService {
 		//我这里是把超级用户名写死的，您也可以把它实现可配置化
 		//如果是超级用户，则添加超级用户的授权
 		if(username.equals("admin")){
-			//ROLE_SUPER 这个权限名字也是自己定义的
+			//ROLE_SUPER 这个权限名字也是自己定义的 
 			authorities.add(new SimpleGrantedAuthority("ROLE_SUPER"));
 		}
 		
