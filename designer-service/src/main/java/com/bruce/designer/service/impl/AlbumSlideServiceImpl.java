@@ -13,7 +13,6 @@ import com.bruce.designer.service.AlbumSlideService;
 @Service
 public class AlbumSlideServiceImpl implements AlbumSlideService {
 
-	@Autowired
 	private AlbumSlideMapper albumSlideMapper;
 
 	public int save(AlbumSlide t) {

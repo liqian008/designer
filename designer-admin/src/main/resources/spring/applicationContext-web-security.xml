@@ -91,9 +91,6 @@
         <authentication-provider user-service-ref="webUserDetailsService">
 	        <!-- 密码的加密解密类 -->
 			<password-encoder ref="pwEncoder"/>
-			<!-- 或 -->
-			<!-- <password-encoder hash="md5"/> -->
-						
 		</authentication-provider>
 		
     </authentication-manager>
