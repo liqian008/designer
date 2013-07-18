@@ -66,13 +66,15 @@ public class WebUserDetailsService implements UserDetailsService {
 //		Set<AdminRole> userRoles = userEntity.getRoles();
 		List<AdminRole> userRoles = adminRoleService.getRolesByUserId(userId);
 		
-		for (AdminRole userRole : userRoles) {
-			//这里的 role 参数为自己定义的，要和 SecurityMetadataSource 中的 SecurityConfig 参数对应
-			SimpleGrantedAuthority authority = new SimpleGrantedAuthority(ConstantsUtil.SECURITY_AUTHORITY_PREFIX + userRole.getId());
-			authorities.add(authority);
+		if(userRoles!=null&&userRoles.size()>0){
+			for (AdminRole userRole : userRoles) {
+				//这里的 role 参数为自己定义的，要和 SecurityMetadataSource 中的 SecurityConfig 参数对应
+				SimpleGrantedAuthority authority = new SimpleGrantedAuthority(ConstantsUtil.SECURITY_AUTHORITY_PREFIX + userRole.getId());
+				authorities.add(authority);
+			} 
 		}
 		
-		//我这里是把超级用户名写死的，您也可以把它实现可配置化
+		//这里是把超级用户名写死的，也可以把它实现可配置化
 		//如果是超级用户，则添加超级用户的授权
 		if(username.equals("admin")){
 			//ROLE_SUPER 这个权限名字也是自己定义的 

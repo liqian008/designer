@@ -1,5 +1,6 @@
 package com.bruce.designer.admin.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -69,7 +70,17 @@ public class AdminRoleServiceImpl implements AdminRoleService{
 	public List<AdminRole> getRolesByUserId(Integer userId) {
 		AdminUserRoleCriteria criteria = new AdminUserRoleCriteria();
 		criteria.createCriteria().andUserIdEqualTo(userId);
-		adminUserRoleMapper.selectByExample(criteria);
+		List<AdminUserRole> userRolesList =  adminUserRoleMapper.selectByExample(criteria);
+		if(userRolesList!=null&&userRolesList.size()>0){
+			//此处未使用联合查询，而是使用了两次查询（考虑是后台系统，所以忽视效率问题）
+			List<Integer> roleIdList = new ArrayList<Integer>();
+			for(AdminUserRole userRole: userRolesList){
+				roleIdList.add(userRole.getRoleId());
+			}
+			AdminRoleCriteria roleCriteria = new AdminRoleCriteria();
+			roleCriteria.createCriteria().andIdIn(roleIdList);
+			return adminRoleMapper.selectByExample(roleCriteria);
+		}
 		return null;
 	}
 

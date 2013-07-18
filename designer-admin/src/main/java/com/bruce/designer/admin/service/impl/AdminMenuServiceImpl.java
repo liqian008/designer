@@ -15,7 +15,11 @@ import org.springframework.stereotype.Service;
 
 import com.bruce.designer.admin.bean.security.AdminMenu;
 import com.bruce.designer.admin.bean.security.AdminMenuCriteria;
+import com.bruce.designer.admin.bean.security.AdminRoleCriteria;
+import com.bruce.designer.admin.bean.security.AdminRoleMenu;
 import com.bruce.designer.admin.bean.security.AdminRoleMenuCriteria;
+import com.bruce.designer.admin.bean.security.AdminUserRole;
+import com.bruce.designer.admin.bean.security.AdminUserRoleCriteria;
 import com.bruce.designer.admin.dao.security.AdminMenuMapper;
 import com.bruce.designer.admin.dao.security.AdminRoleMenuMapper;
 import com.bruce.designer.admin.security.WebSecurityMetadataSource;
@@ -70,8 +74,6 @@ public class AdminMenuServiceImpl implements AdminMenuService{
 
 	@Override
 	public List<AdminMenu> getAllNavMenus() {
-//		AdminMenuCriteria criteria = new AdminMenuCriteria();
-//		criteria.createCriteria();
 		return adminMenuMapper.selectByExample(null);
 	}
 	
@@ -167,8 +169,17 @@ public class AdminMenuServiceImpl implements AdminMenuService{
 	public List<AdminMenu> getMenusByRoleId(Integer roleId) {
 		AdminRoleMenuCriteria criteria = new AdminRoleMenuCriteria();
 		criteria.createCriteria().andRoleIdEqualTo(roleId);
-		adminRoleMenuMapper.selectByExample(criteria);
+		List<AdminRoleMenu> roleMenusList =  adminRoleMenuMapper.selectByExample(criteria);
+		if(roleMenusList!=null&&roleMenusList.size()>0){
+			//此处未使用联合查询，而是使用了两次查询（考虑是后台系统，所以忽视效率问题）
+			List<Integer> menuIdList = new ArrayList<Integer>();
+			for(AdminRoleMenu roleMenu: roleMenusList){
+				menuIdList.add(roleMenu.getMenuId());
+			}
+			AdminMenuCriteria menuCriteria = new AdminMenuCriteria();
+			menuCriteria.createCriteria().andIdIn(menuIdList);
+			return adminMenuMapper.selectByExample(menuCriteria);
+		}
 		return null;
 	}
-	
 }
