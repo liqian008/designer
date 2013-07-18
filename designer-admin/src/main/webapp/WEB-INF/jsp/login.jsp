@@ -42,15 +42,15 @@
             </div>
         </div>
         <div class="well">
-            <form action="http://demo.kopyov.com/pannonia/index.html" class="row-fluid">
+            <form action="./doLogin" class="row-fluid" method="post">
                 <div class="control-group">
                     <label class="control-label">Username</label>
-                    <div class="controls"><input class="span12" type="text" name="regular" placeholder="username" /></div>
+                    <div class="controls"><input class="span12" type="text" name="userName" placeholder="username" /></div>
                 </div>
                 
                 <div class="control-group">
                     <label class="control-label">Password:</label>
-                    <div class="controls"><input class="span12" type="password" name="pass" placeholder="password" /></div>
+                    <div class="controls"><input class="span12" type="password" name="passWord" placeholder="password" /></div>
                 </div>
 
                 <div class="control-group">
