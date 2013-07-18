@@ -25,7 +25,7 @@ public class UAuthorizeInterceptor implements HandlerInterceptor {
 		
 		//String path = request.getContextPath();
 		//response.sendRedirect(path + "/index");
-				
+	    System.out.println("=====UAuthorizeInterceptor preHandle=========");		
 		return true;
 		
 	}
@@ -33,13 +33,15 @@ public class UAuthorizeInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request,HttpServletResponse response, Object handler,ModelAndView modelAndView) throws Exception {
 		
-		
+	    System.out.println("=====UAuthorizeInterceptor postHandle=========");        
+        
 	}
 
 	@Override
 	public void afterCompletion(HttpServletRequest request,	HttpServletResponse response, Object handler, Exception ex) throws Exception {
 		
-		
+	    System.out.println("=====UAuthorizeInterceptor afterCompletion=========");        
+        
 	}
 
 
