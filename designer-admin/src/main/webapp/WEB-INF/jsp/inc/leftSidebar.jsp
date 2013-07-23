@@ -1,7 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.bruce.designer.admin.bean.security.AdminMenu"%>
+<%@page import="com.bruce.designer.admin.bean.security.AdminMenu"%> 
+
+
+<%!
+public String isCurrent(String servletPath, String menuUrl){
+	System.err.println("======================"+servletPath);
+	System.err.println("============111=========="+menuUrl);  
+    if(servletPath!=null&&servletPath.contains("/designer-admin"+menuUrl)){
+         return " class='current'";
+     }
+    return "";
+}
+%>
 
 
 <%
@@ -55,7 +67,7 @@ if(menus==null){
 			                	<%
 					             for(AdminMenu childMenu : menu.getChildMenus()){
 					            %>
-			                    <li><a href="<%=childMenu.getMenuUrl()%>" title="<%=childMenu.getMenuName()%>"><%=childMenu.getMenuName()%></a></li>
+			                    <li><a href="<%=childMenu.getMenuUrl()%>" <%=isCurrent(servletPath, childMenu.getMenuUrl())%> title="<%=childMenu.getMenuName()%>"><%=childMenu.getMenuName()%></a></li>
 			                    <%}%>
 			                </ul>
 			            </li>
