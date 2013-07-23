@@ -1,7 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.bruce.designer.admin.bean.security.AdminMenu"%>
+<%@page import="com.bruce.designer.admin.bean.security.AdminMenu"%> 
+
+
+<%!
+public String isCurrent(String servletPath, String menuUrl){
+	//System.err.println("======================"+servletPath);
+	//System.err.println("============111=========="+menuUrl);  
+    if(servletPath!=null&&servletPath.contains("/designer-admin"+menuUrl)){
+         return " class='current'";
+     }
+    return "";
+}
+%>
 
 
 <%
@@ -28,7 +40,8 @@ if(menus==null){
 			            <a href="index.html#" title="" class="user"><img src="/designer-admin/img/demo/sidebar_user_big.png" alt="" /></a>
 			        </div>
 			        <!-- /sidebar user -->
-
+					
+					<!-- 
 			        <div class="general-stats widget">
 				        <ul class="head">
 				        	<li><span>Users</span></li>
@@ -41,6 +54,7 @@ if(menus==null){
 				        	<li><strong>554</strong></li>
 				        </ul>
 				    </div>
+				    -->
 
 				    <!-- Main navigation -->
 			        <ul class="navigation widget">
@@ -48,14 +62,14 @@ if(menus==null){
 			        	<%
 				        	String servletPath = (String)request.getAttribute("servletPath");
 			            	for(AdminMenu menu : menus){
-				        %> 
+				        %>  
 			        
-			            <li class="active"><a href="<%=menu.getMenuUrl()%>" class="active" title="" class="expand"><i class="icon-reorder"></i><%=menu.getMenuName()%><strong>3</strong></a>
+			            <li class="active"><a href="#" class="active" title="" class="expand"><i class="icon-reorder"></i><%=menu.getMenuName()%><strong>3</strong></a>
 			                <ul>
 			                	<%
 					             for(AdminMenu childMenu : menu.getChildMenus()){
 					            %>
-			                    <li><a href="<%=childMenu.getMenuUrl()%>" title="<%=childMenu.getMenuName()%>"><%=childMenu.getMenuName()%></a></li>
+			                    <li><a href="/designer-admin/<%=childMenu.getMenuUrl()%>" <%=isCurrent(servletPath, childMenu.getMenuUrl())%> title="<%=childMenu.getMenuName()%>"><%=childMenu.getMenuName()%></a></li>
 			                    <%}%>
 			                </ul>
 			            </li>

@@ -3,15 +3,14 @@
 <!-- Fixed top -->
 <div id="top">
 	<div class="fixed">
-		<a href="http://demo.kopyov.com/pannonia/index.html" title="" class="logo"><img src="/designer-admin/img/logo.png" alt="" /></a>
+		<a href="#" title="" class="logo"><img src="/designer-admin/img/logo.png" alt="" /></a>
 		<ul class="top-menu">
 			<li class="dropdown">
 				<a class="login-top" data-toggle="dropdown"></a>
 				<ul class="dropdown-menu pull-right">
-					<li><a href="login.html#" title=""><i class="icon-group"></i>Change user</a></li>
-					<li><a href="login.html#" title=""><i class="icon-plus"></i>New user</a></li>
-					<li><a href="login.html#" title=""><i class="icon-cog"></i>Settings</a></li>
-					<li><a href="login.html#" title=""><i class="icon-remove"></i>Go to the website</a></li>
+					<li><a href="login.html#" title=""><i class="icon-remove"></i>返回前台网站</a></li>
+					<li><a href="login.html#" title=""><i class="icon-cog"></i>个人设置</a></li>
+					<li><a href="/designer-admin/logout" title=""><i class="icon-remove"></i>注销</a></li>
 				</ul>
 			</li>
 		</ul>

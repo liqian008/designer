@@ -74,7 +74,9 @@ public class AdminMenuServiceImpl implements AdminMenuService{
 
 	@Override
 	public List<AdminMenu> getAllNavMenus() {
-		return adminMenuMapper.selectByExample(null);
+	    AdminMenuCriteria criteria = new AdminMenuCriteria();
+        criteria.createCriteria().andNavMenuEqualTo((short) 1);
+		return adminMenuMapper.selectByExample(criteria);
 	}
 	
 	
@@ -88,10 +90,10 @@ public class AdminMenuServiceImpl implements AdminMenuService{
 			SimpleGrantedAuthority superAuthority = new SimpleGrantedAuthority(
 					ConstantsUtil.SECURITY_AUTHORITY_PREFIX + "SUPER");
 			if (authList.contains(superAuthority)) {
-				// 超级用户取得所有菜单
+				// 超级用户取得所有资源菜单
 				allMenus = getAllNavMenus();
 			} else {
-				for (GrantedAuthority authority : authList) {
+				for (GrantedAuthority authority : authList) { 
 					String authorityName = authority.toString();
 					if (!(ConstantsUtil.SECURITY_AUTHORITY_PREFIX + "SUPER").equals(authorityName)) {
 						String roleIdStr = authorityName.substring(
@@ -101,7 +103,7 @@ public class AdminMenuServiceImpl implements AdminMenuService{
 						roleIdList.add(roleId);
 					}
 				}
-				// 一般用户取得有显示权的菜单
+				// 一般用户取得有显示权的资源菜单
 				allMenus = getAllNavMenusByRoleIds(roleIdList);
 			}
 		}

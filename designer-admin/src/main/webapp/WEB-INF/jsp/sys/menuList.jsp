@@ -118,19 +118,17 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 			    
 
-		    	<h5 class="widget-name"><i class="icon-th"></i>UserList</h5>
+		    	<h5 class="widget-name"><i class="icon-th"></i>资源管理</h5>
 
                 <!-- Media datatable -->
                 <div class="widget">
                 	<div class="navbar">
                     	<div class="navbar-inner">
-                        	<h6>Media table</h6>
+                        	<h6>资源列表</h6>
                             <div class="nav pull-right">
                                 <a href="index.html#" class="dropdown-toggle navbar-icon" data-toggle="dropdown"><i class="icon-cog"></i></a>
                                 <ul class="dropdown-menu pull-right">
-                                    <li><a href="index.html#"><i class="icon-plus"></i>Add new option</a></li>
-                                    <li><a href="index.html#"><i class="icon-reorder"></i>View statement</a></li>
-                                    <li><a href="index.html#"><i class="icon-cogs"></i>Parameters</a></li>
+                                    <li><a href="./menuAdd"><i class="icon-plus"></i>新增资源</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -159,9 +157,8 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			                        <td><%=sdf.format(adminMenu.getUpdateTime())%></td>
 			                        <td>
 		                                <ul class="navbar-icons">
-		                                    <li><a href="index.html#" class="tip" title="Add new option"><i class="icon-plus"></i></a></li>
-		                                    <li><a href="./userEdit?id=<%=adminMenu.getId()%>" class="tip" title="View statistics"><i class="icon-reorder"></i></a></li>
-		                                    <li><a href="index.html#" class="tip" title="Parameters"><i class="icon-cogs"></i></a></li>
+		                                    <li><a href="./menuEdit?id=<%=adminMenu.getId()%>" class="tip" title="修改"><i class="ico-edit"></i></a></li>
+		                                    <li><a href="./delMenu?id=<%=adminMenu.getId()%>" class="tip" title="删除"><i class="ico-remove"></i></a></li>
 		                                </ul>
 			                        </td>
                                 </tr>
