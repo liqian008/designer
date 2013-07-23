@@ -126,7 +126,7 @@
 	                            <div class="control-group">
 	                                <label class="control-label">角色名: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="rolename" id="rolename" value="<%=adminRole.getRolename()%>"/>
+	                                    <input type="text" class="validate[required] span4" name="rolename" id="rolename" value="<%=adminRole.getRoleName()%>"/>
 	                                    <input type="hidden"name="id" id="id" value="<%=adminRole.getId()%>"/>
 	                                </div>
 	                            </div>

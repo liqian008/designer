@@ -69,7 +69,7 @@ public class AdminRoleController extends BaseController {
 		int result = 0;
 //		Map<String, Object> resMap = new HashMap<String, Object>();
 		
-		String roleName = adminRole.getRolename();
+		String roleName = adminRole.getRoleName();
 		if(adminRole==null || StringUtils.isBlank(roleName)){
 			model.addAttribute("message", "角色信息输入有误，请检查！");
 			return "forward:/u/operationResult";
@@ -77,7 +77,7 @@ public class AdminRoleController extends BaseController {
 		
 		//过滤非法字符
 		roleName = ValidatorUtil.filterUnSafeChar(roleName).trim();
-		adminRole.setRolename(roleName);
+		adminRole.setRoleName(roleName);
 		
 		result = adminRoleService.save(adminRole);
 		

@@ -152,7 +152,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                             	%>
                             	<tr>
 			                        <td><%=adminRole.getId()%></td>
-			                        <td><%=adminRole.getRolename()%></td>
+			                        <td><%=adminRole.getRoleName()%></td>
 			                        <td>正常</td>
 			                        <td><%=sdf.format(adminRole.getUpdateTime())%></td>
 			                        <td>
