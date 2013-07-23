@@ -36,13 +36,7 @@ if(menus==null){
 
 <!-- Sidebar -->
 		<div id="sidebar">
-		
 			<div class="sidebar-tabs">
-				<ul class="tabs-nav two-items">
-		            <li><a href="forms.html#general" title=""><i class="icon-reorder"></i></a></li>
-		            <li><a href="forms.html#stuff" title=""><i class="icon-cogs"></i></a></li>
-		        </ul>
-		        
 		        <div id="general">
 			        <!-- Sidebar user -->
 			        <div class="sidebar-user widget">

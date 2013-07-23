@@ -4,7 +4,6 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.bruce.designer.admin.bean.security.AdminUser"%>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +32,7 @@
 <script type="text/javascript"src="../js/plugins/forms/jquery.select2.min.js"></script>
 <script type="text/javascript"src="../js/plugins/forms/jquery.listbox.js"></script>
 <script type="text/javascript"src="../js/plugins/forms/jquery.validation.js"></script>
-<script type="text/javascript"src="../js/plugins/forms/jquery.validationEngine-en.js"></script>
+<script type="text/javascript"src="../js/plugins/forms/jquery.validationEngine.zh-CN.js"></script>
 
 <script type="text/javascript"src="../js/globalize/globalize.js"></script>
 <script type="text/javascript"src="../js/globalize/globalize.culture.de-DE.js"></script>
