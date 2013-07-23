@@ -69,11 +69,7 @@ if(menus==null){
 			                	<%
 					             for(AdminMenu childMenu : menu.getChildMenus()){
 					            %>
-<<<<<<< HEAD
 			                    <li><a href="/designer-admin/<%=childMenu.getMenuUrl()%>" <%=isCurrent(servletPath, childMenu.getMenuUrl())%> title="<%=childMenu.getMenuName()%>"><%=childMenu.getMenuName()%></a></li>
-=======
-			                    <li><a href="<%=childMenu.getMenuUrl()%>" <%=isCurrent(servletPath, childMenu.getMenuUrl())%> title="<%=childMenu.getMenuName()%>"><%=childMenu.getMenuName()%></a></li>
->>>>>>> branch 'master' of https://github.com/liqian008/designer.git
 			                    <%}%>
 			                </ul>
 			            </li>
