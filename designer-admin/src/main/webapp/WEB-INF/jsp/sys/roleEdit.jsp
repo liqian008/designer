@@ -2,7 +2,7 @@
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="com.bruce.designer.admin.bean.security.AdminUser"%>
+<%@page import="com.bruce.designer.admin.bean.security.AdminRole"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -110,38 +110,31 @@
 			    <!-- /page header -->
 
 	            <!-- Form validation -->
-	            <h5 class="widget-name"><i class="icon-th-list"></i>用户管理</h5>
+	            <h5 class="widget-name"><i class="icon-th-list"></i>角色管理</h5>
 				
 				<%
-				AdminUser adminUser = (AdminUser)request.getAttribute("adminUser");
+				AdminRole adminRole = (AdminRole)request.getAttribute("adminRole");
 				%>
 				
-				<form id="validate" action="./saveUser" method="post"  class="form-horizontal">
+				<form id="validate" action="<s:url value='./saveUser'/>" method="post"  class="form-horizontal">
 	                <fieldset>
 	                    <!-- Form validation -->
 	                    <div class="widget">
-	                        <div class="navbar"><div class="navbar-inner"><h6>编辑管理员信息</h6></div></div>
+	                        <div class="navbar"><div class="navbar-inner"><h6>编辑角色信息</h6></div></div>
 	                    	<div class="well row-fluid">
 
 	                            <div class="control-group">
-	                                <label class="control-label">用户名: <span class="text-error">*</span></label>
+	                                <label class="control-label">角色名: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="username" id="username" value="<%=adminUser.getUsername()%>"/>
-	                                    <input type="hidden"name="id" id="id" value="<%=adminUser.getId()%>"/>
-	                                </div>
-	                            </div>
-	                            
-	                            <div class="control-group">
-	                                <label class="control-label">昵称: <span class="text-error">*</span></label>
-	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="nickname" id="nickname" value="<%=adminUser.getUsername()%>"/>
+	                                    <input type="text" class="validate[required] span4" name="rolename" id="rolename" value="<%=adminRole.getRolename()%>"/>
+	                                    <input type="hidden"name="id" id="id" value="<%=adminRole.getId()%>"/>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="control-group">
 	                                <label class="control-label">状态: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span3" name="status" id="status" value="<%=adminUser.getStatus()%>"/>
+	                                    <input type="text" class="validate[required] span3" name="status" id="status" value="<%=adminRole.getStatus()%>"/>
 	                                </div>
 	                            </div>
  

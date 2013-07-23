@@ -37,6 +37,7 @@ if(menus==null){
 <!-- Sidebar -->
 		<div id="sidebar">
 			<div class="sidebar-tabs">
+			
 		        <div id="general">
 			        <!-- Sidebar user -->
 			        <div class="sidebar-user widget">

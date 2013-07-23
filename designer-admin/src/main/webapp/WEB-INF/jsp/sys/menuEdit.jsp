@@ -2,7 +2,7 @@
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="com.bruce.designer.admin.bean.security.AdminUser"%>
+<%@page import="com.bruce.designer.admin.bean.security.AdminMenu"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -48,13 +48,11 @@
 
 	<jsp:include page="../inc/header.jsp"></jsp:include>
 
-
 	<!-- Content container -->
 	<div id="container">
 
 		<jsp:include page="../inc/leftSidebar.jsp"></jsp:include>
 		
-
 		<!-- Content -->
 		<div id="content">
 
@@ -110,38 +108,55 @@
 			    <!-- /page header -->
 
 	            <!-- Form validation -->
-	            <h5 class="widget-name"><i class="icon-th-list"></i>用户管理</h5>
+	            <h5 class="widget-name"><i class="icon-th-list"></i>资源管理</h5>
 				
 				<%
-				AdminUser adminUser = (AdminUser)request.getAttribute("adminUser");
+				AdminMenu adminMenu = (AdminMenu)request.getAttribute("adminMenu");
 				%>
 				
-				<form id="validate" action="./saveUser" method="post"  class="form-horizontal">
+				<form id="validate" action="<s:url value='./saveUser'/>" method="post"  class="form-horizontal">
 	                <fieldset>
 	                    <!-- Form validation -->
 	                    <div class="widget">
-	                        <div class="navbar"><div class="navbar-inner"><h6>编辑管理员信息</h6></div></div>
+	                        <div class="navbar"><div class="navbar-inner"><h6>编辑资源信息</h6></div></div>
 	                    	<div class="well row-fluid">
 
 	                            <div class="control-group">
-	                                <label class="control-label">用户名: <span class="text-error">*</span></label>
+	                                <label class="control-label">资源名称: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="username" id="username" value="<%=adminUser.getUsername()%>"/>
-	                                    <input type="hidden"name="id" id="id" value="<%=adminUser.getId()%>"/>
+	                                    <input type="text" class="validate[required] span4" name="menuname" id="menuname" value="<%=adminMenu.getMenuName()%>"/>
+	                                    <input type="hidden"name="id" id="id" value="<%=adminMenu.getId()%>"/>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="control-group">
-	                                <label class="control-label">昵称: <span class="text-error">*</span></label>
+	                                <label class="control-label">资源链接: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="nickname" id="nickname" value="<%=adminUser.getUsername()%>"/>
+	                                    <input type="text" class="validate[required] span4" name=menuUrl id="menuUrl" value="<%=adminMenu.getMenuUrl()%>"/>
+	                                    <input type="hidden"name="id" id="id" value="<%=adminMenu.getId()%>"/>
 	                                </div>
 	                            </div>
+	                            
+	                            <div class="control-group">
+	                                <label class="control-label">链接属性: <span class="text-error">*</span></label>
+	                                <div class="controls">
+	                                    <input type="text" class="validate[required] span3" name="urlTarget" id="urlTarget" value="<%=adminMenu.getUrlTarget()%>"/>
+	                                </div>
+	                            </div>
+	                            
+	                            <div class="control-group">
+	                                <label class="control-label">是否在导航栏中显示: <span class="text-error">*</span></label>
+	                                <div class="controls">
+	                                    <input type="text" class="validate[required] span3" name="navMenu" id="navMenu" value="<%=adminMenu.getNavMenu()%>"/>
+	                                </div>
+	                            </div>
+	                            
+	                            
 	                            
 	                            <div class="control-group">
 	                                <label class="control-label">状态: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span3" name="status" id="status" value="<%=adminUser.getStatus()%>"/>
+	                                    <input type="text" class="validate[required] span3" name="status" id="status" value="<%=adminMenu.getStatus()%>"/>
 	                                </div>
 	                            </div>
  
@@ -169,9 +184,7 @@
 	</div>
 	<!-- /content container -->
 
-
 	<jsp:include page="../inc/footer.jsp"></jsp:include>
-
 
 </body>
 </html>
