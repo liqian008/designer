@@ -106,8 +106,6 @@
 			    </div>
 			    <!-- /page header -->
 
-			    
-
 		    	<!-- Form validation -->
 	            <h5 class="widget-name"><i class="icon-ok"></i>编辑用户</h5>
 

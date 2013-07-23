@@ -6,8 +6,8 @@
 
 <%!
 public String isCurrent(String servletPath, String menuUrl){
-	//System.err.println("======================"+servletPath);
-	//System.err.println("============111=========="+menuUrl);  
+	System.err.println("======================"+servletPath);
+	System.err.println("============111=========="+menuUrl);  
     if(servletPath!=null&&servletPath.contains("/designer-admin"+menuUrl)){
          return " class='current'";
      }
@@ -69,7 +69,11 @@ if(menus==null){
 			                	<%
 					             for(AdminMenu childMenu : menu.getChildMenus()){
 					            %>
+<<<<<<< HEAD
 			                    <li><a href="/designer-admin/<%=childMenu.getMenuUrl()%>" <%=isCurrent(servletPath, childMenu.getMenuUrl())%> title="<%=childMenu.getMenuName()%>"><%=childMenu.getMenuName()%></a></li>
+=======
+			                    <li><a href="<%=childMenu.getMenuUrl()%>" <%=isCurrent(servletPath, childMenu.getMenuUrl())%> title="<%=childMenu.getMenuName()%>"><%=childMenu.getMenuName()%></a></li>
+>>>>>>> branch 'master' of https://github.com/liqian008/designer.git
 			                    <%}%>
 			                </ul>
 			            </li>
