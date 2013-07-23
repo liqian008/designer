@@ -14,6 +14,7 @@ import com.bruce.designer.service.AlbumService;
 @Service
 public class AlbumServiceImpl implements AlbumService {
 
+	@Autowired
 	private AlbumMapper albumMapper;
 
 	public int save(Album t) {

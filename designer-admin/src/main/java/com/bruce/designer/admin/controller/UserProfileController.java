@@ -32,7 +32,8 @@ public class UserProfileController extends BaseController{
 	
 	@RequestMapping(value = { "/", "/index", "/main" })	
 	public String index(Model model,HttpServletRequest request,HttpServletResponse response){
-//		adminMenuService.reloadMenusForUser(request);
+		
+		adminMenuService.reloadMenusForUser(request);
 		
 		String userIp = ValidatorUtil.getIpAddr(request);
 		model.addAttribute("userIp", userIp);

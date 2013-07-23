@@ -21,156 +21,9 @@ $(function() {
 
 
 
-	//===== Calendar =====//
-	
-	var date = new Date();
-	var d = date.getDate();
-	var m = date.getMonth();
-	var y = date.getFullYear();
-	
-	$('#calendar').fullCalendar({
-		header: {
-			left: 'prev,next',
-			center: 'title',
-			right: 'month,agendaWeek,agendaDay'
-		},
-		editable: true,
-		events: [
-			{
-				title: 'All Day Event',
-				start: new Date(y, m, 1)
-			},
-			{
-				title: 'Long Event',
-				start: new Date(y, m, d-5),
-				end: new Date(y, m, d-2)
-			},
-			{
-				id: 999,
-				title: 'Repeating Event',
-				start: new Date(y, m, d-3, 16, 0),
-				allDay: false
-			},
-			{
-				id: 999,
-				title: 'Repeating Event',
-				start: new Date(y, m, d+4, 16, 0),
-				allDay: false
-			},
-			{
-				title: 'Meeting',
-				start: new Date(y, m, d, 10, 30),
-				allDay: false
-			},
-			{
-				title: 'Lunch',
-				start: new Date(y, m, d, 12, 0),
-				end: new Date(y, m, d, 14, 0),
-				allDay: false
-			},
-			{
-				title: 'Birthday Party',
-				start: new Date(y, m, d+1, 19, 0),
-				end: new Date(y, m, d+1, 22, 30),
-				allDay: false
-			},
-			{
-				title: 'Click for Google',
-				start: new Date(y, m, 28),
-				end: new Date(y, m, 29),
-				url: 'http://google.com/'
-			}
-		]
-	});
-
-
-
 	//===== Make code pretty =====//
 
     window.prettyPrint && prettyPrint();
-
-
-
-    //===== Media item hover overlay =====//
-
-	$('.view').hover(function(){
-	    $(this).children(".view-back").fadeIn(200);
-	},function(){
-	    $(this).children(".view-back").fadeOut(200);
-	});
-
-
-
-	//===== Time pickers =====//
-
-	$('#defaultValueExample, #time').timepicker({ 'scrollDefaultNow': true });
-	
-	$('#durationExample').timepicker({
-		'minTime': '2:00pm',
-		'maxTime': '11:30pm',
-		'showDuration': true
-	});
-	
-	$('#onselectExample').timepicker();
-	$('#onselectExample').on('changeTime', function() {
-		$('#onselectTarget').text($(this).val());
-	});
-	
-	$('#timeformatExample1, #timeformatExample3').timepicker({ 'timeFormat': 'H:i:s' });
-	$('#timeformatExample2, #timeformatExample4').timepicker({ 'timeFormat': 'h:i A' });
-
-
-
-	//===== Color picker =====//
-
-	$('#cp1').colorpicker({
-		format: 'hex'
-	});
-	$('#cp2').colorpicker();
-	$('#cp3').colorpicker();
-		var bodyStyle = $('html')[0].style;
-	$('#cp4').colorpicker().on('changeColor', function(ev){
-		bodyStyle.background = ev.color.toHex();
-	});
-
-
-
-	//===== Date pickers =====//
-
-	$( ".datepicker" ).datepicker({
-				defaultDate: +7,
-		showOtherMonths:true,
-		autoSize: true,
-		appendText: '(dd-mm-yyyy)',
-		dateFormat: 'dd-mm-yy'
-		});
-		
-	$('.inlinepicker').datepicker({
-        inline: true,
-		showOtherMonths:true
-    });
-
-	var dates = $( "#fromDate, #toDate" ).datepicker({
-		defaultDate: "+1w",
-		changeMonth: false,
-		showOtherMonths:true,
-		numberOfMonths: 3,
-		onSelect: function( selectedDate ) {
-			var option = this.id == "fromDate" ? "minDate" : "maxDate",
-				instance = $( this ).data( "datepicker" ),
-				date = $.datepicker.parseDate(
-					instance.settings.dateFormat ||
-					$.datepicker._defaults.dateFormat,
-					selectedDate, instance.settings );
-			dates.not( this ).datepicker( "option", option, date );
-		}
-	});
-	
-	$( "#datepicker-icon, .navbar-datepicker" ).datepicker({
-		showOn: "button",
-		buttonImage: "img/icons/date_picker.png",
-		buttonImageOnly: true
-	});
 
 
 
@@ -276,12 +129,6 @@ $(function() {
 	
 	//===== Easy tabs =====//
 	
-	$('.sidebar-tabs').easytabs({
-		animationSpeed: 150,
-		collapsible: false,
-		tabActiveClass: "active"
-	});
-
 	$('.actions').easytabs({
 		animationSpeed: 300,
 		collapsible: false,

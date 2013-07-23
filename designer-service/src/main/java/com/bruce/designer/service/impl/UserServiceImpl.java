@@ -13,6 +13,7 @@ import com.bruce.designer.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
 
+	@Autowired
 	private UserMapper userMapper;
 
 	public int save(User t) {

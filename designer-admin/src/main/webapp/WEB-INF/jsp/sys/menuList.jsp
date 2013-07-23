@@ -1,4 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="com.bruce.designer.admin.bean.security.AdminMenu"%>
+
+<%
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+%>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -109,7 +118,7 @@
 
 			    
 
-		    	<h5 class="widget-name"><i class="icon-th"></i>Media table</h5>
+		    	<h5 class="widget-name"><i class="icon-th"></i>UserList</h5>
 
                 <!-- Media datatable -->
                 <div class="widget">
@@ -130,65 +139,34 @@
                         <table class="table table-striped table-bordered table-checks media-table">
                             <thead>
                                 <tr>
-                                    <th>Image</th>
-                                    <th>Description</th>
-                                    <th>Date</th>
-                                    <th>File info</th>
-                                    <th class="actions-column">Actions</th>
+                                    <th>ID</th>
+                                    <th>资源名</th>
+                                    <th>状态</th>
+                                    <th>最后登录</th>
+                                    <th class="actions-column">操作</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-			                        <td><a href="../img/demo/big.jpg" title="" class="lightbox"><img src="../img/demo/users/face1.png" alt="" /></a></td>
-			                        <td><a href="index.html#" title="">Image2 description</a></td>
-			                        <td>Feb 12, 2012. 12:28</td>
-			                        <td class="file-info">
-			                        	<span><strong>Size:</strong> 215 Kb</span>
-			                        	<span><strong>Format:</strong> .jpg</span>
-			                        	<span><strong>Dimensions:</strong> 120 x 120</span>
-			                        </td>
+                            	<%
+                            	List<AdminMenu> adminMenuList = (List<AdminMenu>)request.getAttribute("adminMenuList");
+                            	if(adminMenuList!=null&&adminMenuList.size()>0){
+                            		for(AdminMenu adminMenu: adminMenuList){
+                            	%>
+                            	<tr>
+			                        <td><%=adminMenu.getId()%></td>
+			                        <td><%=adminMenu.getMenuName()%></td>
+			                        <td>正常</td>
+			                        <td><%=sdf.format(adminMenu.getUpdateTime())%></td>
 			                        <td>
 		                                <ul class="navbar-icons">
 		                                    <li><a href="index.html#" class="tip" title="Add new option"><i class="icon-plus"></i></a></li>
-		                                    <li><a href="index.html#" class="tip" title="View statistics"><i class="icon-reorder"></i></a></li>
+		                                    <li><a href="./userEdit?id=<%=adminMenu.getId()%>" class="tip" title="View statistics"><i class="icon-reorder"></i></a></li>
 		                                    <li><a href="index.html#" class="tip" title="Parameters"><i class="icon-cogs"></i></a></li>
 		                                </ul>
 			                        </td>
                                 </tr>
-                                <tr>
-			                        <td><a href="../img/demo/big.jpg" title="" class="lightbox"><img src="../img/demo/users/face2.png" alt="" /></a></td>
-			                        <td><a href="index.html#" title="">Image1 description</a></td>
-			                        <td>Feb 12, 2012. 12:28</td>
-			                        <td class="file-info">
-			                        	<span><strong>Size:</strong> 215 Kb</span>
-			                        	<span><strong>Format:</strong> .jpg</span>
-			                        	<span><strong>Dimensions:</strong> 120 x 120</span>
-			                        </td>
-			                        <td>
-		                                <ul class="navbar-icons">
-		                                    <li><a href="index.html#" class="tip" title="Add new option"><i class="icon-plus"></i></a></li>
-		                                    <li><a href="index.html#" class="tip" title="View statistics"><i class="icon-reorder"></i></a></li>
-		                                    <li><a href="index.html#" class="tip" title="Parameters"><i class="icon-cogs"></i></a></li>
-		                                </ul>
-			                        </td>
-                                </tr>
-                                <tr>
-			                        <td><a href="../img/demo/big.jpg" title="" class="lightbox"><img src="../img/demo/users/face3.png" alt="" /></a></td>
-			                        <td><a href="index.html#" title="">Image1 description</a></td>
-			                        <td>Feb 12, 2012. 12:28</td>
-			                        <td class="file-info">
-			                        	<span><strong>Size:</strong> 215 Kb</span>
-			                        	<span><strong>Format:</strong> .jpg</span>
-			                        	<span><strong>Dimensions:</strong> 120 x 120</span>
-			                        </td>
-			                        <td>
-		                                <ul class="navbar-icons">
-		                                    <li><a href="index.html#" class="tip" title="Add new option"><i class="icon-plus"></i></a></li>
-		                                    <li><a href="index.html#" class="tip" title="View statistics"><i class="icon-reorder"></i></a></li>
-		                                    <li><a href="index.html#" class="tip" title="Parameters"><i class="icon-cogs"></i></a></li>
-		                                </ul>
-			                        </td>
-                                </tr>
+                            	<%}
+                            	}%>
                             </tbody>
                         </table>
                     </div>
