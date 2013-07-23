@@ -78,7 +78,7 @@ public class AdminMenuServiceImpl implements AdminMenuService{
 	}
 	
 	
-	
+	@Override
 	public void reloadMenusForUser(HttpServletRequest request) {
 		// 用户有权限的展示菜单
 		List<AdminMenu> allMenus = null;
@@ -102,11 +102,11 @@ public class AdminMenuServiceImpl implements AdminMenuService{
 					}
 				}
 				// 一般用户取得有显示权的菜单
-				//allMenus = getAllNavMenusByRoleIds(roleIdList);
+				allMenus = getAllNavMenusByRoleIds(roleIdList);
 			}
 		}
 
-		List<AdminMenu> menus = this.loadAdminMenus(allMenus);
+		List<AdminMenu> menus = loadAdminMenus(allMenus);
 		request.getSession().setAttribute("menus", menus);
 		reloadCachedAuthories();
 	}
@@ -182,4 +182,23 @@ public class AdminMenuServiceImpl implements AdminMenuService{
 		}
 		return null;
 	}
+	
+	
+	public List<AdminMenu> getAllNavMenusByRoleIds(List<Integer> roleIdList) {
+		AdminRoleMenuCriteria criteria = new AdminRoleMenuCriteria();
+		criteria.createCriteria().andRoleIdIn(roleIdList);
+		List<AdminRoleMenu> roleMenusList =  adminRoleMenuMapper.selectByExample(criteria);
+		if(roleMenusList!=null&&roleMenusList.size()>0){
+			//此处未使用联合查询，而是使用了两次查询（考虑是后台系统，所以忽视效率问题）
+			List<Integer> menuIdList = new ArrayList<Integer>();
+			for(AdminRoleMenu roleMenu: roleMenusList){
+				menuIdList.add(roleMenu.getMenuId());
+			}
+			AdminMenuCriteria menuCriteria = new AdminMenuCriteria();
+			menuCriteria.createCriteria().andIdIn(menuIdList);
+			return adminMenuMapper.selectByExample(menuCriteria);
+		}
+		return null;
+	}
+	
 }

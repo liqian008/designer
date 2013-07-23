@@ -3,7 +3,7 @@
 <!-- Fixed top -->
 <div id="top">
 	<div class="fixed">
-		<a href="http://demo.kopyov.com/pannonia/index.html" title="" class="logo"><img src="img/logo.png" alt="" /></a>
+		<a href="http://demo.kopyov.com/pannonia/index.html" title="" class="logo"><img src="/designer-admin/img/logo.png" alt="" /></a>
 		<ul class="top-menu">
 			<li class="dropdown">
 				<a class="login-top" data-toggle="dropdown"></a>
