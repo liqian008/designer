@@ -5,8 +5,10 @@
 	<div class="fixed">
 		<a href="#" title="" class="logo"><img src="/designer-admin/img/logo.png" alt="" /></a>
 		<ul class="top-menu">
+			<li><a class="fullview"></a></li>
+			<li><a href="forms.html#" title="" class="messages"><i class="new-message"></i></a></li>
 			<li class="dropdown">
-				<a class="login-top" data-toggle="dropdown"></a>
+				<a class="user-menu" data-toggle="dropdown"><img src="/designer-admin/img/userpic.png" alt="" /><span>Howdy, Eugene! <b class="caret"></b></span></a>
 				<ul class="dropdown-menu pull-right">
 					<li><a href="login.html#" title=""><i class="icon-remove"></i>返回前台网站</a></li>
 					<li><a href="login.html#" title=""><i class="icon-cog"></i>个人设置</a></li>
@@ -15,5 +17,5 @@
 			</li>
 		</ul>
 	</div>
-</div>
+</div> 
 <!-- /fixed top -->

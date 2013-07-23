@@ -5,9 +5,16 @@
 
 
 <%!
-public String isCurrent(String servletPath, String menuUrl){
-	System.err.println("======================"+servletPath);
-	System.err.println("============111=========="+menuUrl);  
+public String isCurrentMenu(String servletPath, String menuUrl){
+    if(servletPath!=null&&servletPath.contains("/designer-admin"+menuUrl)){
+         return " id='current'";
+     }
+    return "";
+}
+
+public String isCurrentSubmenu(String servletPath, String menuUrl){
+	//System.err.println("======================"+servletPath);
+	//System.err.println("============111=========="+menuUrl);  
     if(servletPath!=null&&servletPath.contains("/designer-admin"+menuUrl)){
          return " class='current'";
      }
@@ -29,11 +36,14 @@ if(menus==null){
 
 <!-- Sidebar -->
 		<div id="sidebar">
-
+		
 			<div class="sidebar-tabs">
-
+				<ul class="tabs-nav two-items">
+		            <li><a href="forms.html#general" title=""><i class="icon-reorder"></i></a></li>
+		            <li><a href="forms.html#stuff" title=""><i class="icon-cogs"></i></a></li>
+		        </ul>
+		        
 		        <div id="general">
-
 			        <!-- Sidebar user -->
 			        <div class="sidebar-user widget">
 						<div class="navbar"><div class="navbar-inner"><h6>Wazzup, Eugene!</h6></div></div>
@@ -64,14 +74,14 @@ if(menus==null){
 			            	for(AdminMenu menu : menus){
 				        %>  
 			        
-			            <li class="active"><a href="#" class="active" title="" class="expand"><i class="icon-reorder"></i><%=menu.getMenuName()%><strong>3</strong></a>
+			            <li class="active"><a href="#" title="" class="expand" id="current"><i class="icon-reorder"></i><%=menu.getMenuName()%><strong>3</strong></a>
 			                <ul>
 			                	<%
 					             for(AdminMenu childMenu : menu.getChildMenus()){
 					            %>
-			                    <li><a href="/designer-admin/<%=childMenu.getMenuUrl()%>" <%=isCurrent(servletPath, childMenu.getMenuUrl())%> title="<%=childMenu.getMenuName()%>"><%=childMenu.getMenuName()%></a></li>
+			                    <li><a href="/designer-admin/<%=childMenu.getMenuUrl()%>" <%=isCurrentSubmenu(servletPath, childMenu.getMenuUrl())%> title="<%=childMenu.getMenuName()%>"><%=childMenu.getMenuName()%></a></li>
 			                    <%}%>
-			                </ul>
+			                </ul> 
 			            </li>
 			            <%}%>
 			        </ul>

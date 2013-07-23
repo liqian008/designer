@@ -4,6 +4,7 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.bruce.designer.admin.bean.security.AdminUser"%>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,29 +17,31 @@
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&amp;sensor=false"></script>
 
-<script type="text/javascript" src="../js/plugins/charts/jquery.sparkline.min.js"></script>
+<script type="text/javascript"src="../js/plugins/charts/jquery.sparkline.min.js"></script> 
 
-<script type="text/javascript" src="../js/plugins/ui/jquery.easytabs.min.js"></script>
-<script type="text/javascript" src="../js/plugins/ui/jquery.collapsible.min.js"></script>
-<script type="text/javascript" src="../js/plugins/ui/jquery.mousewheel.js"></script>
+<script type="text/javascript"src="../js/plugins/ui/jquery.easytabs.min.js"></script>
+<script type="text/javascript"src="../js/plugins/ui/jquery.collapsible.min.js"></script>
+<script type="text/javascript"src="../js/plugins/ui/jquery.mousewheel.js"></script>
 
-<script type="text/javascript" src="../js/plugins/forms/jquery.uniform.min.js"></script>
-<script type="text/javascript" src="../js/plugins/forms/jquery.autosize.js"></script>
-<script type="text/javascript" src="../js/plugins/forms/jquery.inputlimiter.min.js"></script>
-<script type="text/javascript" src="../js/plugins/forms/jquery.tagsinput.min.js"></script>
-<script type="text/javascript" src="../js/plugins/forms/jquery.inputmask.js"></script>
-<script type="text/javascript" src="../js/plugins/forms/jquery.select2.min.js"></script>
-<script type="text/javascript" src="../js/plugins/forms/jquery.listbox.js"></script>
-<script type="text/javascript" src="../js/plugins/forms/jquery.validation.js"></script>
-<script type="text/javascript" src="../js/plugins/forms/jquery.validationEngine-en.js"></script>
+<script type="text/javascript"src="../js/plugins/forms/jquery.uniform.min.js"></script>
+<script type="text/javascript"src="../js/plugins/forms/jquery.autosize.js"></script>
+<script type="text/javascript"src="../js/plugins/forms/jquery.inputlimiter.min.js"></script>
+<script type="text/javascript"src="../js/plugins/forms/jquery.tagsinput.min.js"></script>
+<script type="text/javascript"src="../js/plugins/forms/jquery.inputmask.js"></script>
+<script type="text/javascript"src="../js/plugins/forms/jquery.select2.min.js"></script>
+<script type="text/javascript"src="../js/plugins/forms/jquery.listbox.js"></script>
+<script type="text/javascript"src="../js/plugins/forms/jquery.validation.js"></script>
+<script type="text/javascript"src="../js/plugins/forms/jquery.validationEngine-en.js"></script>
 
-<script type="text/javascript" src="../js/globalize/globalize.js"></script>
-<script type="text/javascript" src="../js/globalize/globalize.culture.de-DE.js"></script>
-<script type="text/javascript" src="../js/globalize/globalize.culture.ja-JP.js"></script>
+<script type="text/javascript"src="../js/globalize/globalize.js"></script>
+<script type="text/javascript"src="../js/globalize/globalize.culture.de-DE.js"></script>
+<script type="text/javascript"src="../js/globalize/globalize.culture.ja-JP.js"></script>
 
-<script type="text/javascript" src="../js/functions/forms.js"></script>
-<script type="text/javascript" src="../js/files/bootstrap.min.js"></script>
+<script type="text/javascript"src="../js/files/bootstrap.min.js"></script>
+
+<script type="text/javascript"src="../js/functions/forms.js"></script>
 
 </head>
 
@@ -51,29 +54,30 @@
 	<div id="container">
 
 		<jsp:include page="../inc/leftSidebar.jsp"></jsp:include>
-
+		
 
 		<!-- Content -->
 		<div id="content">
 
-		    <!-- Content wrapper -->
+			<!-- Content wrapper -->
 		    <div class="wrapper">
 
 			    <!-- Breadcrumbs line -->
 			    <div class="crumbs">
 		            <ul id="breadcrumbs" class="breadcrumb"> 
-		                <li><a href="http://demo.kopyov.com/pannonia/index.html">Dashboard</a></li>
-		                <li class="active"><a href="calendar.html" title="">Calendar</a></li>
+		                <li><a href="index.html">Dashboard</a></li>
+		                <li><a href="forms.html">Form elements</a></li>
+		                <li class="active"><a href="forms.html" title="">Form components</a></li>
 		            </ul>
 			        
 		            <ul class="alt-buttons">
-		                <li><a href="index.html#" title=""><i class="icon-signal"></i><span>Stats</span></a></li>
-		                <li><a href="index.html#" title=""><i class="icon-comments"></i><span>Messages</span></a></li>
-		                <li class="dropdown"><a href="index.html#" title="" data-toggle="dropdown"><i class="icon-tasks"></i><span>Tasks</span> <strong>(+16)</strong></a>
+		                <li><a href="forms.html#" title=""><i class="icon-signal"></i><span>Stats</span></a></li>
+		                <li><a href="forms.html#" title=""><i class="icon-comments"></i><span>Messages</span></a></li>
+		                <li class="dropdown"><a href="forms.html#" title="" data-toggle="dropdown"><i class="icon-tasks"></i><span>Tasks</span> <strong>(+16)</strong></a>
 		                	<ul class="dropdown-menu pull-right">
-		                        <li><a href="index.html#" title=""><i class="icon-plus"></i>Add new task</a></li>
-		                        <li><a href="index.html#" title=""><i class="icon-reorder"></i>Statement</a></li>
-		                        <li><a href="index.html#" title=""><i class="icon-cog"></i>Settings</a></li>
+		                        <li><a href="forms.html#" title=""><i class="icon-plus"></i>Add new task</a></li>
+		                        <li><a href="forms.html#" title=""><i class="icon-reorder"></i>Statement</a></li>
+		                        <li><a href="forms.html#" title=""><i class="icon-cog"></i>Settings</a></li>
 		                	</ul>
 		                </li>
 		            </ul>
@@ -83,8 +87,8 @@
 			    <!-- Page header -->
 			    <div class="page-header">
 			    	<div class="page-title">
-				    	<h5>Dashboard</h5>
-				    	<span>Good morning, Eugene!</span>
+				    	<h5>Form components</h5>
+				    	<span>Basic and advanced elements</span>
 			    	</div>
 
 			    	<ul class="page-stats">
@@ -106,24 +110,36 @@
 			    </div>
 			    <!-- /page header -->
 
-		    	<!-- Form validation -->
-	            <h5 class="widget-name"><i class="icon-ok"></i>编辑用户</h5>
+			    <!-- Search widget -->
+		    	<form class="search widget" action="forms.html#">
+		    		<div class="autocomplete-append">
+			    		<ul class="search-options">
+			    			<li><a href="forms.html#" title="Go to search page" class="go-option tip"></a></li>
+			    			<li><a href="forms.html#" title="Advanced search" class="advanced-option tip"></a></li>
+			    			<li><a href="forms.html#" title="Settings" class="settings-option tip"></a></li>
+			    		</ul>
+			    		<input type="text" placeholder="search website..." id="autocomplete" />
+			    		<input type="submit" class="btn btn-info" value="Search" />
+			    	</div>
+		    	</form>
+		    	<!-- /search widget -->
 
-				<form id="form1" class="form-horizontal" action="./saveUser" method="post" >
+
+	            <!-- Form validation -->
+	            <h5 class="widget-name"><i class="icon-ok"></i>Form validation</h5>
+
+				<form id="validate" class="form-horizontal" action="forms.html#">
 	                <fieldset>
+
 	                    <!-- Form validation -->
 	                    <div class="widget">
-	                        <div class="navbar">
-	                        	<div class="navbar-inner">
-	                        		<h6>用户信息</h6>
-	                        	</div>
-	                        </div>
+	                        <div class="navbar"><div class="navbar-inner"><h6>Form validation</h6></div></div>
 	                    	<div class="well row-fluid">
 
 	                            <div class="control-group">
 	                                <label class="control-label">Input field validation: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" name="userName" value="admin" maxlength="11" class="validate[required,minSize[6]] span2"/>
+	                                    <input type="text" class="validate[required] span12" name="req" id="req"/>
 	                                </div>
 	                            </div>
 	                        
@@ -293,12 +309,8 @@
 	                </fieldset>
 				</form>
 				<!-- /form validation -->
-		    	
-		    	
 
-
-
-
+	           
 		    </div>
 		    <!-- /content wrapper -->
 
@@ -309,7 +321,15 @@
 	<!-- /content container -->
 
 
-	<jsp:include page="../inc/footer.jsp"></jsp:include>
+	<!-- Footer -->
+	<div id="footer">
+		<div class="copyrights">&copy;  Brought to you by Eugene Kopyov.</div>
+		<ul class="footer-links">
+			<li><a href="forms.html" title=""><i class="icon-cogs"></i>Contact admin</a></li>
+			<li><a href="forms.html" title=""><i class="icon-screenshot"></i>Report bug</a></li>
+		</ul>
+	</div>
+	<!-- /footer -->
 
 
 </body>
