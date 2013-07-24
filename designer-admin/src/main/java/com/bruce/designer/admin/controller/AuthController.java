@@ -17,15 +17,20 @@ import nl.captcha.text.renderer.WordRenderer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller
-public class LoginController{
+import com.bruce.designer.admin.service.AdminMenuService;
+import com.bruce.designer.admin.utils.ValidatorUtil;
 
-	private static Logger logger = LoggerFactory.getLogger(LoginController.class);
-	
+@Controller
+public class AuthController{
+
+	private static Logger logger = LoggerFactory.getLogger(AuthController.class);
+	@Autowired
+    private AdminMenuService adminMenuService;
 	
 	@RequestMapping(value = { "/login", "/ulogin" })
 	public String login() {
@@ -71,14 +76,27 @@ public class LoginController{
 		return "common/not_permission";
 	}
 	
+	@RequestMapping(value = { "/", "index", "/welcome"})    
+    public String index(Model model,HttpServletRequest request,HttpServletResponse response){
+        
+	    adminMenuService.reloadMenusForUser(request);
+        
+        String userIp = ValidatorUtil.getIpAddr(request);
+        model.addAttribute("userIp", userIp);
+        
+        String servletPath = request.getRequestURI();
+        model.addAttribute("servletPath", servletPath);
+        return "index";
+    }
+	
 	@RequestMapping("/operationRedirect")
     protected String operationRedirect() {
-        return "common/operationRedirect";
+        return "operationRedirect";
     }
 
 	@RequestMapping("/operationResult")
     protected String operationResult() {
-        return "common/operationResult";
+        return "operationResult";
     }
 	
 }

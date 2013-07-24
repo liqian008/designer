@@ -20,7 +20,7 @@ import com.bruce.designer.admin.utils.ValidatorUtil;
 
 
 @Controller
-@RequestMapping("/u")
+@RequestMapping("/profile")
 public class UserProfileController extends BaseController{
 
 	private static Logger logger = LoggerFactory.getLogger(UserProfileController.class);
@@ -30,21 +30,8 @@ public class UserProfileController extends BaseController{
 	@Autowired
 	private AdminMenuService adminMenuService;
 	
-	@RequestMapping(value = { "/", "/index", "/main" })	
-	public String index(Model model,HttpServletRequest request,HttpServletResponse response){
-		
-		adminMenuService.reloadMenusForUser(request);
-		
-		String userIp = ValidatorUtil.getIpAddr(request);
-		model.addAttribute("userIp", userIp);
-		
-		String servletPath = request.getRequestURI();
-		model.addAttribute("servletPath", servletPath);
-		return "ucenter/index";
-	}
-	
-	@RequestMapping("/myProfile")
-	public String userEdit(Model model, HttpServletRequest request) {
+	@RequestMapping("/my")
+	public String profileEdit(Model model, HttpServletRequest request) {
 		String servletPath = request.getRequestURI();
 		model.addAttribute("servletPath", servletPath);
 		
@@ -53,11 +40,11 @@ public class UserProfileController extends BaseController{
 		
 		AdminUser adminUser = adminUserService.loadById(userId);
 		model.addAttribute("adminUser", adminUser);
-		return "ucenter/userProfile";
+		return "profile/userProfile";
 	}
 	
-	@RequestMapping(value = "/saveProfile", method = RequestMethod.POST)
-	public String saveUser(Model model, AdminUser adminUser, HttpServletRequest request) {
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String updateProfile(Model model, AdminUser adminUser, HttpServletRequest request) {
 		String servletPath = request.getRequestURI();
 		model.addAttribute("servletPath", servletPath);
 		
@@ -67,7 +54,7 @@ public class UserProfileController extends BaseController{
 		String userName = adminUser.getUsername();
 		if(adminUser==null || StringUtils.isBlank(userName)){
 			model.addAttribute("message", "用户信息输入有误，请检查！");
-			return "forward:/u/operationResult";
+			return "forward:/operationResult";
 		}
 		
 		//过滤非法字符
@@ -81,11 +68,7 @@ public class UserProfileController extends BaseController{
 		result = adminUserService.save(adminUser);
 		
 		model.addAttribute("redirectUrl", "./myProfile");
-		return "forward:/u/operationRedirect";
+		return "forward:/operationRedirect";
 	}
 	
-	
-	
-	
-
 }

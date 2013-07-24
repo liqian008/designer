@@ -16,7 +16,6 @@
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&amp;sensor=false"></script>
 
 <script type="text/javascript"src="../js/plugins/charts/jquery.sparkline.min.js"></script> 
 
@@ -80,7 +79,7 @@
 	                            <div class="control-group">
 	                                <label class="control-label">用户名: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="username" id="username" value="<%=adminUser.getUsername()%>"/>
+	                                    <input type="text" class="validate[required] span4" name="username" id="username" value="<%=adminUser.getUsername()%>" readonly="readonly"/>
 	                                    <input type="hidden"name="id" id="id" value="<%=adminUser.getId()%>"/>
 	                                </div>
 	                            </div>
@@ -88,7 +87,7 @@
 	                            <div class="control-group">
 	                                <label class="control-label">昵称: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="nickname" id="nickname" value="<%=adminUser.getUsername()%>"/>
+	                                    <input type="text" class="validate[required] span4" name="nickname" id="nickname" value="<%=adminUser.getUsername()%>" readonly="readonly"/>
 	                                </div>
 	                            </div>
 	                            
