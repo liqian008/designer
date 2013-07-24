@@ -67,16 +67,22 @@ public class AdminUserController extends BaseController {
 		
 		int result = 0;
 		
-		String userName = adminUser.getUsername();
-		if(adminUser==null || StringUtils.isBlank(userName)){
+		String username = adminUser.getUsername();
+		if(adminUser==null || StringUtils.isBlank(username)){
 			model.addAttribute("message", "用户信息输入有误，请检查！");
 			return "forward:/u/operationResult";
 		}
 		
 		//过滤非法字符
-		userName = ValidatorUtil.filterUnSafeChar(userName).trim();
-		adminUser.setUsername(userName);
-		result = adminUserService.save(adminUser);
+		username = ValidatorUtil.filterUnSafeChar(username).trim();
+		adminUser.setUsername(username);
+		
+		if(adminUser.getId()>0){
+			result = adminUserService.updateById(adminUser);
+		}else{
+			result = adminUserService.save(adminUser);
+		}
+		
 		
 		model.addAttribute("redirectUrl", "./users");
 		return "forward:/u/operationRedirect";

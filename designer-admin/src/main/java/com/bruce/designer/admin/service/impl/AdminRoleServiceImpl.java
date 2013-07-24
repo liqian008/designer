@@ -38,7 +38,7 @@ public class AdminRoleServiceImpl implements AdminRoleService{
 
 	@Override
 	public int updateById(AdminRole adminRole) {
-		return adminRoleMapper.updateByPrimaryKey(adminRole);
+		return adminRoleMapper.updateByPrimaryKeySelective(adminRole);
 	}
 
 	@Override

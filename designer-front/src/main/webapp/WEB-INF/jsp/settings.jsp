@@ -1,3 +1,4 @@
+<%@page import="com.bruce.designer.front.controller.FrontController"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.bean.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
@@ -6,6 +7,7 @@
 
 <%
 SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
+User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 %>
 
 <!DOCTYPE html>
@@ -112,45 +114,23 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                     <div class="row-fluid">
                         <section class="content span9">
                             <div class="shortcode-contact-form row-fluid">
-                                <div class="span2 clearfix">
-	                                <div class="page-title-avatar">
-	                                    <img src="./img/demo/portraits/portrait-21.png" alt="Page Title" width="80" height="80"/>
-	                                </div>
-	                            </div> 
-                                
-                                <div class="span10">
-                                <div class="contact-form-respons" style="display:block">
-                                    <div class="infobox info-succes info-succes-alt clearfix">
-                                        <span></span>
-                                        <div class="infobox-wrap">
-                                            <h4>Your message was succesfully send!</h4>
-                                            <p>We will contact you as soon as possible. Please reload the page if you want to send a message again.</p>                                            
-                                        </div>
-                                        <a href="contact.html#" class="info-hide"></a>
-                                    </div>
-                                </div>
+                                <div class="span12">
                                 
                                 <div class="span5 offset2">
                                 <form action="contact.html#" method="post" id="contactform" class="form">
-                                        <h2>修改资料</h2>
+                                        <h2>修改个人资料</h2>
                                         <p class="input-wrap">
-                                            <input class="comment_input comment_name" type="text" name="author" id="author" value="Your Name" size="22" tabindex="1" 
+                                            <input class="comment_input comment_name" type="text" name="author" id="author" value="<%=user.getUsername()%>" size="22" tabindex="1" 
                                             onfocus="if(this.value=='Your Name')this.value='';" onblur="if(this.value=='')this.value='Your Name';" />
                                             <i class="icon-user"></i>
                                         </p>
                                         <p class="input-wrap">
-                                            <input class="comment_input comment_email" type="text" name="email" id="email" value="Your Mail" size="22" tabindex="2" 
+                                            <input class="comment_input comment_email" type="text" name="email" id="email" value="<%=user.getNickname()%>" size="22" tabindex="2" 
                                             onfocus="if(this.value=='Your Mail')this.value='';" onblur="if(this.value=='')this.value='Your Mail';"  />
                                             <i class="icon-envelope-alt"></i>
                                         </p>
-                                        <p class="input-wrap">
-                                            <input class="comment_input comment_website" type="text" name="url" id="url" value="Your Website" size="22" tabindex="3" 
-                                            onfocus="if(this.value=='Your Website')this.value='';" onblur="if(this.value=='')this.value='Your Website';"  />
-                                            <i class="icon-external-link"></i>
-                                        </p>
                                         <p>
                                         	<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="修 改" />       
-                                    		<input class="button" name="submit" type="reset" id="submit" tabindex="5" value="重 置" />       
                                     	</p>
                                 </form>
                                     </div>
@@ -159,7 +139,6 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                         </section>
                         
                         <jsp:include page="./inc/rightSidebar.jsp"></jsp:include>
-                    	
                     	
                     </div>                        
                 </div> <!-- Close Main -->

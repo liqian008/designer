@@ -104,8 +104,11 @@ public class AdminMenuController extends BaseController {
 		//过滤非法字符
 		menuName = ValidatorUtil.filterUnSafeChar(menuName).trim();
 		adminMenu.setMenuName(menuName);
-		
-		result = adminMenuService.save(adminMenu);
+		if(adminMenu.getId()>0){
+			result = adminMenuService.updateById(adminMenu);
+		}else{
+			result = adminMenuService.save(adminMenu);
+		}
 		model.addAttribute("redirectUrl", "./menus");
 		
 		//刷新菜单资源

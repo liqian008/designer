@@ -59,53 +59,7 @@
 			<!-- Content wrapper -->
 		    <div class="wrapper">
 
-			    <!-- Breadcrumbs line -->
-			    <div class="crumbs">
-		            <ul id="breadcrumbs" class="breadcrumb"> 
-		                <li><a href="index.html">Dashboard</a></li>
-		                <li><a href="forms.html">Form elements</a></li>
-		                <li class="active"><a href="forms.html" title="">Form components</a></li>
-		            </ul>
-			        
-		            <ul class="alt-buttons">
-		                <li><a href="forms.html#" title=""><i class="icon-signal"></i><span>Stats</span></a></li>
-		                <li><a href="forms.html#" title=""><i class="icon-comments"></i><span>Messages</span></a></li>
-		                <li class="dropdown"><a href="forms.html#" title="" data-toggle="dropdown"><i class="icon-tasks"></i><span>Tasks</span> <strong>(+16)</strong></a>
-		                	<ul class="dropdown-menu pull-right">
-		                        <li><a href="forms.html#" title=""><i class="icon-plus"></i>Add new task</a></li>
-		                        <li><a href="forms.html#" title=""><i class="icon-reorder"></i>Statement</a></li>
-		                        <li><a href="forms.html#" title=""><i class="icon-cog"></i>Settings</a></li>
-		                	</ul>
-		                </li>
-		            </ul>
-			    </div>
-			    <!-- /breadcrumbs line -->
-
-			    <!-- Page header -->
-			    <div class="page-header">
-			    	<div class="page-title">
-				    	<h5>Form components</h5>
-				    	<span>Basic and advanced elements</span>
-			    	</div>
-
-			    	<ul class="page-stats">
-			    		<li>
-			    			<div class="showcase">
-			    				<span>New visits</span>
-			    				<h2>22.504</h2>
-			    			</div>
-			    			<div id="total-visits" class="chart">10,14,8,45,23,41,22,31,19,12, 28, 21, 24, 20</div>
-			    		</li>
-			    		<li>
-			    			<div class="showcase">
-			    				<span>My balance</span>
-			    				<h2>$16.290</h2>
-			    			</div>
-			    			<div id="balance" class="chart">10,14,8,45,23,41,22,31,19,12, 28, 21, 24, 20</div>
-			    		</li>
-			    	</ul>
-			    </div>
-			    <!-- /page header -->
+			    <jsp:include page="../inc/mainHeader.jsp"></jsp:include>
 
 	            <!-- Form validation -->
 	            <h5 class="widget-name"><i class="icon-th-list"></i>资源管理</h5>
@@ -114,18 +68,25 @@
 				AdminMenu adminMenu = (AdminMenu)request.getAttribute("adminMenu");
 				%>
 				
-				<form id="validate" action="<s:url value='./saveUser'/>" method="post"  class="form-horizontal">
+				<form id="validate" action="./saveMenu" method="post"  class="form-horizontal">
 	                <fieldset>
 	                    <!-- Form validation -->
 	                    <div class="widget">
 	                        <div class="navbar"><div class="navbar-inner"><h6>编辑资源信息</h6></div></div>
 	                    	<div class="well row-fluid">
-
+	                            <div class="control-group">
+	                                <label class="control-label">父菜单: <span class="text-error">*</span></label>
+	                                <div class="controls">
+	                                    <input type="text" class="validate[required] span4" name="parentId" id="parentId" value="<%=adminMenu.getParentId()%>"/>
+	                                </div>
+	                            </div>
+	                            
 	                            <div class="control-group">
 	                                <label class="control-label">资源名称: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="menuname" id="menuname" value="<%=adminMenu.getMenuName()%>"/>
-	                                    <input type="hidden"name="id" id="id" value="<%=adminMenu.getId()%>"/>
+	                                    <input type="text" class="validate[required] span4" name="menuName" id="menuname" value="<%=adminMenu.getMenuName()%>"/>
+	                                    <input type="hidden"name="id" id="id" value="<%=adminMenu.getId()==null?0:adminMenu.getId()%>"/>
+	                                    <input type="hidden"name="menuCode" id="menuCode" value=""/>
 	                                </div>
 	                            </div>
 	                            
@@ -133,16 +94,16 @@
 	                                <label class="control-label">资源链接: <span class="text-error">*</span></label>
 	                                <div class="controls">
 	                                    <input type="text" class="validate[required] span4" name=menuUrl id="menuUrl" value="<%=adminMenu.getMenuUrl()%>"/>
-	                                    <input type="hidden"name="id" id="id" value="<%=adminMenu.getId()%>"/>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="control-group">
 	                                <label class="control-label">链接属性: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span3" name="urlTarget" id="urlTarget" value="<%=adminMenu.getUrlTarget()%>"/>
+	                                    <input type="text" class="span4" name="urlTarget" id="urlTarget" value="<%=adminMenu.getUrlTarget()%>"/>
 	                                </div>
 	                            </div>
+	                            
 	                            
 	                            <div class="control-group">
 	                                <label class="control-label">是否在导航栏中显示: <span class="text-error">*</span></label>
@@ -150,7 +111,6 @@
 	                                    <input type="text" class="validate[required] span3" name="navMenu" id="navMenu" value="<%=adminMenu.getNavMenu()%>"/>
 	                                </div>
 	                            </div>
-	                            
 	                            
 	                            
 	                            <div class="control-group">

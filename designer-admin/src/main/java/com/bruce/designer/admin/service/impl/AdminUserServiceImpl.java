@@ -32,7 +32,7 @@ public class AdminUserServiceImpl implements AdminUserService{
 
 	@Override
 	public int updateById(AdminUser adminUser) {
-		return adminUserMapper.updateByPrimaryKey(adminUser);
+		return adminUserMapper.updateByPrimaryKeySelective(adminUser);
 	}
 
 	@Override

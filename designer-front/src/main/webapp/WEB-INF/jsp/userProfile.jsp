@@ -82,11 +82,11 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 
                     <div class="page-title">
                         <div class="container">
-                            <!-- <div class="page-title-avatar">
-                                <img src="../img/demo/portraits/portrait-21.png" alt="Page Title" width="80" height="80"/>
-                            </div> -->
+                            <div class="page-title-avatar">
+                                <img src="../img/demo/portraits/avatar_middle.jpg" alt="Page Title" width="80" height="80"/>
+                            </div>
                             <div class="page-title-content">
-                                <h1>Gallery Post Format</h1>
+                                <h2>大树珠宝</h2>
                                 <p class="page-description">
                                     With this gallery you can create a blogpost with multiple images. With the FlexSlider or Twitter Bootstrap Carousel you can rotate between these images.
                                 </p>
@@ -124,7 +124,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                                         <div class="post-thumb-overlay" style="left: 0px; top: 100%; display: block; -webkit-transition: all 300ms ease; ">
                                             <section class="post-thumb-overlay-inner">
                                             <hgroup>
-                                                <h2>Full Size Picture Blog Post</h2>
+                                                <h2><%=album.getTitle()%></h2>
                                             </hgroup>
                                             <span class="overlay-meta-container">
                                                 <span class="meta-comments"><a href="#">10</a></span>
@@ -142,27 +142,20 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                                     </p>
                                     <div class="meta-container clearfix">
                                         <ul class="span6">
-                                            <li class="meta-date">October 19, 2012</li>
-                                            <li class="meta-author">Written by <a href="post-left.html#">John Doe</a></li>
-                                            
-                                            <li class="meta-categories">
+                                            <li class="meta-comments"><a href="post-left.html#">浏览数: 100次 </a></li>
+                                            <li class="meta-comments"><a href="post-left.html#">评论数: 10次 </a></li>
+                                            <li class="meta-tags">
                                                 <ul>
-                                                    <li><a href="post-left.html#">Category</a>,</li>
-                                                    <li><a href="post-left.html#">Web-development</a></li>
+                                                    <li><a href="post-left.html#">翡翠</a>,</li>
+                                                    <li><a href="post-left.html#">玉石</a>,</li>
                                                 </ul>
                                             </li>
                                         </ul>
                                         <ul class="span6">
-                                            <li class="meta-comments"><a href="post-left.html#">10 Comments</a></li>
-                                            <li class="read-more">
-                                                <a href="post-left.html#">Read this post</a>
-                                            </li>
-                                            <li class="meta-tags">
-                                                <ul>
-                                                    <li><a href="post-left.html#">Photoshop</a>,</li>
-                                                    <li><a href="post-left.html#">Webdesign</a>,</li>
-                                                </ul>
-                                            </li>
+                                            <li class="meta-comments"><a href="post-left.html#">喜欢数: 10次 </a></li>
+                                            <li class="meta-comments"><a href="post-left.html#">收藏数: 8次 </a></li>
+											<li class="meta-date"><%=album.getCreateTime()%></li>
+                                        
                                         </ul>
                                     </div>
                                 </div>

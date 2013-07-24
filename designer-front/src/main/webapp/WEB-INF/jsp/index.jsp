@@ -8,7 +8,7 @@
 SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 %>
 
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
@@ -27,7 +27,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
         <link rel="stylesheet" href="./css/animate.css">
         <link rel="stylesheet" href="./css/flexslider.css">
         <link rel="stylesheet" href="./css/style.css">
-                                <!--[if IE 8]>
+        <!--[if IE 8]>
         <link rel="stylesheet" type="text/css" media="all" href="./css/ie8.css" />    
         <![endif]-->
                 
@@ -82,11 +82,11 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 
                     <div class="page-title">
                         <div class="container">
-                            <!-- <div class="page-title-avatar">
-                                <img src="./img/demo/portraits/portrait-21.png" alt="Page Title" width="80" height="80"/>
-                            </div> -->
+                            <div class="page-title-avatar">
+                                <img src="./img/demo/portraits/avatar_middle.jpg" alt="Page Title" width="80" height="80"/>
+                            </div>
                             <div class="page-title-content">
-                                <h1>Gallery Post Format</h1>
+                                <h3>大树珠宝</h3>
                                 <p class="page-description">
                                     With this gallery you can create a blogpost with multiple images. With the FlexSlider or Twitter Bootstrap Carousel you can rotate between these images.
                                 </p>
@@ -120,6 +120,11 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 		                                <div>
 	                                        <table>
 	                                            <tbody>
+	                                            	<tr>
+	                                                	<th colspan="2">
+	                                                        大树珠宝
+	                                                    </th>
+	                                                </tr>
 	                                                <tr>
 	                                                    <th>
 	                                                        <a href="" class="xi2">31</a><br/>主题
@@ -128,11 +133,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 	                                                        <a href="" class="xi2">31</a><br/>粉丝
 	                                                    </th>
 	                                                </tr>
-	                                                <!-- <tr>
-	                                                    <th colspan="2">
-	                                                        Tag: AAA, BBB
-	                                                    </th>
-	                                                </tr> -->
+	                                                
 	                                            </tbody>
 	                                        </table>
 	                                    </div>
@@ -143,7 +144,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                                     <div class="flexslider">
                                         <ul class="slides">
                                         	<li>
-                                                <img src="<%=album.getCoverImg()%>" alt="Carousel Item 3" />
+                                                <a href="./album.art?id=<%=album.getId()%>"><img src="<%=album.getCoverImg()%>" alt="Carousel Item 3" /></a>
                                                     <div class="flex-caption">
                                                     <h3><%=album.getTitle()%></h3>
                                                     <p>
@@ -192,9 +193,9 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                                                     </div>                          
                                                     <div class="comment-body">
                                                         <div class="comment-meta commentmetadata">
-                                                            <h5 class="comment-author">
+                                                            <h6 class="comment-author">
                                                                 <a href='http://www.somnia-themes.com' rel='external nofollow' class='url'>猫王</a> 发表于 2013-01-01 23:23
-                                                            </h5>                                   
+                                                            </h6>                                   
                                                         </div>                              
                                                         <div class="comment-content">
                                                                 很带感啊！
@@ -211,9 +212,9 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                                                     </div>                          
                                                     <div class="comment-body">
                                                         <div class="comment-meta commentmetadata">
-                                                            <h5 class="comment-author">
+                                                            <h6 class="comment-author">
                                                                 <a href='http://www.somnia-themes.com' rel='external nofollow' class='url'>猫王</a> 发表于 2013-01-01 23:23
-                                                            </h5>                                   
+                                                            </h6>                                   
                                                         </div>                              
                                                         <div class="comment-content">
                                                                 很带感啊！
@@ -223,6 +224,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                                             </li>
                                         </ol>
                                     </div><!-- Close Comments -->
+                                    
 	                                 </div>
                                  </div>
                             </article>

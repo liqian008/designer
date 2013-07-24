@@ -79,7 +79,12 @@ public class AdminRoleController extends BaseController {
 		roleName = ValidatorUtil.filterUnSafeChar(roleName).trim();
 		adminRole.setRoleName(roleName);
 		
-		result = adminRoleService.save(adminRole);
+		if(adminRole.getId()>0){
+			result = adminRoleService.updateById(adminRole);
+		}else{
+			result = adminRoleService.save(adminRole);
+		}
+		
 		
 		model.addAttribute("redirectUrl", "./roles");
 		return "forward:/u/operationRedirect";

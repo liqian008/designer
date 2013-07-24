@@ -15,24 +15,24 @@
 				<span class="menu-slider hidden-phone"></span>
 				<!-- Menu Slider -->
 				<ul id="header-menu" class="menu">
-					<li><a href="./index.art">首页</a></li>
-					<li><a href="./index.art">热门排行</a>
+					<li><a href="/designer-front/index.art">首页</a></li>
+					<li><a href="/designer-front/index.art">热门排行</a>
 						<ul class="sub-menu">
 							<li><a
-								href="./index.art">本周热门</a></li>
+								href="/designer-front/index.art">本周热门</a></li>
 							<li><a
-								href="./index.art">本周热门</a></li>
+								href="/designer-front/index.art">本周热门</a></li>
 							<li><a
-								href="./index.art">本月热门</a></li>
+								href="/designer-front/index.art">本月热门</a></li>
 						</ul>
 					</li>
-					<li><a href="./index.art">个人主页</a></li>
-					<li><a href="./index.art">新晋推荐</a>
+					<li><a href="/designer-front/3/profile.art">个人主页</a></li>
+					<li><a href="/designer-front/index.art">新晋推荐</a>
 						<ul class="sub-menu">
 							<li><a
-								href="./index.art">新作推荐</a></li>
+								href="/designer-front/index.art">新作推荐</a></li>
 							<li><a
-								href="./index.art">新人推荐</a></li>
+								href="/designer-front/index.art">新人推荐</a></li>
 						</ul>
 					</li>
 					<li class="active current-menu-item"><a

@@ -203,9 +203,9 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                                                     </div>                          
                                                     <div class="comment-body">
                                                         <div class="comment-meta commentmetadata">
-                                                            <h5 class="comment-author">
+                                                            <h6 class="comment-author">
                                                                 <a href='http://www.somnia-themes.com' rel='external nofollow' class='url'>猫王</a> 发表于 2013-01-01 23:23
-                                                            </h5>                                   
+                                                            </h6>                                   
                                                         </div>                              
                                                         <div class="comment-content">
                                                                 很带感啊！
@@ -222,9 +222,9 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                                                     </div>                          
                                                     <div class="comment-body">
                                                         <div class="comment-meta commentmetadata">
-                                                            <h5 class="comment-author">
+                                                            <h6 class="comment-author">
                                                                 <a href='http://www.somnia-themes.com' rel='external nofollow' class='url'>猫王</a> 发表于 2013-01-01 23:23
-                                                            </h5>                                   
+                                                            </h6>                                   
                                                         </div>                              
                                                         <div class="comment-content">
                                                                 很带感啊！
@@ -239,13 +239,15 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                                                 <h4>发表评论</h4>
                                             </div>
                                             <form action="single.html#" method="post" id="commentform" class="form">
-                                                <div class="span12">
+                                                <div class="span9">
                                                     <p>
                                                         <textarea class="comment_textarea" name="comment" id="comment" cols="50" rows="2" tabindex="4" 
                                                         onfocus="if(this.value=='Message')this.value='';" onblur="if(this.value=='')this.value='Message';" >Message</textarea>
                                                     </p>
                                                 </div>
-                                                <input class="button button-small button-orange" name="submit" type="submit" id="submit" tabindex="5" value="Submit" />                                        
+                                                <div class="span3">
+                                                <input class="button button-small button-orange" name="submit" type="submit" id="submit" tabindex="5" value="发表" />                                        
+                                            	</div>	
                                             </form>
                                         </div>
                                     </div><!-- Close Comments -->

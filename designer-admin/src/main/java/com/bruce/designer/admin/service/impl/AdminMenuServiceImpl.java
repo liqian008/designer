@@ -46,7 +46,7 @@ public class AdminMenuServiceImpl implements AdminMenuService{
 
 	@Override
 	public int updateById(AdminMenu adminMenu) {
-		return adminMenuMapper.updateByPrimaryKey(adminMenu);
+		return adminMenuMapper.updateByPrimaryKeySelective(adminMenu);
 	}
 
 	@Override
