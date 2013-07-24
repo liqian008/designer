@@ -38,7 +38,7 @@ public class AdminMenuController extends BaseController {
 		model.addAttribute("redirectUrl", "./menus");
 		//刷新菜单资源
 		//adminMenuService.reloadMenusForUser(request);
-		return "forward:/u/operationRedirect";
+		return "forward:/main/operationRedirect";
 	}
 	
 	@RequestMapping("/menus")
@@ -98,7 +98,7 @@ public class AdminMenuController extends BaseController {
 		String menuName = adminMenu.getMenuName();
 		if(adminMenu==null || StringUtils.isBlank(menuName)){
 			model.addAttribute("message", "角色信息输入有误，请检查！");
-			return "forward:/u/operationResult";
+			return "forward:/main/operationResult";
 		}
 		
 		//过滤非法字符
@@ -113,7 +113,7 @@ public class AdminMenuController extends BaseController {
 		
 		//刷新菜单资源
 		//adminMenuService.reloadMenusForUser(request);
-		return "forward:/u/operationRedirect"; 
+		return "forward:/main/operationRedirect"; 
 	}
 	
 	

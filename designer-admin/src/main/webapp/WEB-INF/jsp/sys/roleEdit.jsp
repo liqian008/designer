@@ -16,7 +16,6 @@
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&amp;sensor=false"></script>
 
 <script type="text/javascript"src="../js/plugins/charts/jquery.sparkline.min.js"></script> 
 
@@ -67,7 +66,7 @@
 				AdminRole adminRole = (AdminRole)request.getAttribute("adminRole");
 				%>
 				
-				<form id="validate" action="<s:url value='./saveUser'/>" method="post"  class="form-horizontal">
+				<form id="validate" action="./saveRole" method="post"  class="form-horizontal">
 	                <fieldset>
 	                    <!-- Form validation -->
 	                    <div class="widget">
@@ -77,7 +76,7 @@
 	                            <div class="control-group">
 	                                <label class="control-label">角色名: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="rolename" id="rolename" value="<%=adminRole.getRoleName()%>"/>
+	                                    <input type="text" class="validate[required] span4" name="roleName" id="roleName" value="<%=adminRole.getRoleName()%>"/>
 	                                    <input type="hidden"name="id" id="id" value="<%=adminRole.getId()%>"/>
 	                                </div>
 	                            </div>

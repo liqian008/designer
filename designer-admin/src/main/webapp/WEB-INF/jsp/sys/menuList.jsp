@@ -21,20 +21,14 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&amp;sensor=false"></script>
 
 <script type="text/javascript" src="../js/plugins/charts/excanvas.min.js"></script>
-<script type="text/javascript" src="../js/plugins/charts/jquery.flot.js"></script>
-<script type="text/javascript" src="../js/plugins/charts/jquery.flot.resize.js"></script>
 <script type="text/javascript" src="../js/plugins/charts/jquery.sparkline.min.js"></script>
 
 <script type="text/javascript" src="../js/plugins/ui/jquery.easytabs.min.js"></script>
 <script type="text/javascript" src="../js/plugins/ui/jquery.collapsible.min.js"></script>
 <script type="text/javascript" src="../js/plugins/ui/prettify.js"></script>
-<script type="text/javascript" src="../js/plugins/ui/jquery.colorpicker.js"></script>
-<script type="text/javascript" src="../js/plugins/ui/jquery.timepicker.min.js"></script>
 <script type="text/javascript" src="../js/plugins/ui/jquery.fancybox.js"></script>
-<script type="text/javascript" src="../js/plugins/ui/jquery.fullcalendar.min.js"></script>
 
 <script type="text/javascript" src="../js/plugins/forms/jquery.uniform.min.js"></script>
 <script type="text/javascript" src="../js/plugins/forms/jquery.tagsinput.min.js"></script>
@@ -44,11 +38,6 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 <script type="text/javascript" src="../js/files/bootstrap.min.js"></script>
 
 <script type="text/javascript" src="../js/functions/index.js"></script>
-
-<script type="text/javascript" src="../js/charts/graph.js"></script>
-<script type="text/javascript" src="../js/charts/chart1.js"></script>
-<script type="text/javascript" src="../js/charts/chart2.js"></script>
-<script type="text/javascript" src="../js/charts/chart3.js"></script>
 
 </head>
 
@@ -92,8 +81,9 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                                 <tr>
                                     <th>ID</th>
                                     <th>资源名</th>
-                                    <th>资源Code</th>
+                                    <th>父ID</th>
                                     <th>资源链接</th>
+                                    <th>排序</th>
                                     <th>状态</th>
                                     <th>最后登录</th>
                                     <th class="actions-column">操作</th>
@@ -106,10 +96,11 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                             		for(AdminMenu adminMenu: adminMenuList){
                             	%>
                             	<tr>
-			                        <td>&nbsp;<%=adminMenu.getId()%>&nbsp;</td>
+			                        <td><%=adminMenu.getId()%></td>
 			                        <td><%=adminMenu.getMenuName()%></td>
-			                        <td><%=adminMenu.getMenuCode()%></td>
+			                        <td><%=adminMenu.getParentId()%></td>
 			                        <td><%=adminMenu.getMenuUrl()%></td>
+			                        <td><%=adminMenu.getSort()%></td>
 			                        <td>正常</td>
 			                        <td><%=sdf.format(adminMenu.getUpdateTime())%></td>
 			                        <td>
