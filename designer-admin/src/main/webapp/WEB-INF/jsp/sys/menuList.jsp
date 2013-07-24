@@ -92,8 +92,9 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                                 <tr>
                                     <th>ID</th>
                                     <th>资源名</th>
-                                    <th>资源Code</th>
+                                    <th>父ID</th>
                                     <th>资源链接</th>
+                                    <th>排序</th>
                                     <th>状态</th>
                                     <th>最后登录</th>
                                     <th class="actions-column">操作</th>
@@ -106,10 +107,11 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                             		for(AdminMenu adminMenu: adminMenuList){
                             	%>
                             	<tr>
-			                        <td>&nbsp;<%=adminMenu.getId()%>&nbsp;</td>
+			                        <td><%=adminMenu.getId()%></td>
 			                        <td><%=adminMenu.getMenuName()%></td>
-			                        <td><%=adminMenu.getMenuCode()%></td>
+			                        <td><%=adminMenu.getParentId()%></td>
 			                        <td><%=adminMenu.getMenuUrl()%></td>
+			                        <td><%=adminMenu.getSort()%></td>
 			                        <td>正常</td>
 			                        <td><%=sdf.format(adminMenu.getUpdateTime())%></td>
 			                        <td>
