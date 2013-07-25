@@ -118,13 +118,13 @@ public class AdminUserController extends BaseController {
 		String servletPath = request.getRequestURI();
 		model.addAttribute("servletPath", servletPath);
 		//取用户
-//		AdminUser adminUser = adminUserService.loadById(userId);
+		AdminUser adminUser = adminUserService.loadById(userId);
 		//取所有正常的角色(status=1)
 		List<AdminRole> allRoles = adminRoleService.getAvailableRoles();
 		//取用户拥有的角色
 		List<AdminRole> userRoles = adminRoleService.getRolesByUserId(userId);
 		
-//		model.addAttribute("userInfo", userInfo);
+		model.addAttribute("adminUser", adminUser);
 		model.addAttribute("allRoles", allRoles);
 		model.addAttribute("userRoles", userRoles);
 		
@@ -132,11 +132,12 @@ public class AdminUserController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/saveUserRole", method = RequestMethod.POST)
-	public String saveUserRole(Model model, Integer userId, List<Integer> roleIdList, HttpServletRequest request) {
+	public String saveUserRole(Model model, Integer userId, List<Integer> roleIds, HttpServletRequest request) {
 		String servletPath = request.getRequestURI();
 		model.addAttribute("servletPath", servletPath);
 		
-		int result = adminUserService.saveUserRoles(userId, roleIdList);
+		adminUserService.deleteRolesByUserId(userId);
+		int result = adminUserService.saveUserRoles(userId, roleIds);
 		
 		model.addAttribute("redirectUrl", "./users");
 		return "forward:/main/operationRedirect";

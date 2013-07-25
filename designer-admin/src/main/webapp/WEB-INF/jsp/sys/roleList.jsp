@@ -97,7 +97,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			                        <td>
 		                                <ul class="navbar-icons">
 		                                    <li><a href="./roleEdit?id=<%=adminRole.getId()%>" class="tip" title="修改"><i class="ico-edit"></i></a></li>
-		                                    <li><a href="./roleRoleSet?userId=<%=adminRole.getId()%>" class="tip" title="关联资源"><i class="ico-list"></i></a></li>
+		                                    <li><a href="./roleResourceSet?roleId=<%=adminRole.getId()%>" class="tip" title="关联资源"><i class="ico-list"></i></a></li>
 		                                    <li><a href="./delrole?id=<%=adminRole.getId()%>" class="tip" title="删除"><i class="ico-remove"></i></a></li>
 		                                </ul>
 			                        </td>

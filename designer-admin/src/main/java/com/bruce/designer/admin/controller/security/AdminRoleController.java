@@ -107,14 +107,14 @@ public class AdminRoleController extends BaseController {
 		String servletPath = request.getRequestURI();
 		model.addAttribute("servletPath", servletPath);
 		
-//		AdminRole adminRole = adminRoleService.loadById(roleId);
+		AdminRole adminRole = adminRoleService.loadById(roleId);
 		
 		//取所有资源
 		List<AdminMenu> allMenus = adminMenuService.queryAll();
 		//取角色拥有的资源
 		List<AdminMenu> roleMenus = adminMenuService.getMenusByRoleId(roleId);
 		
-//		model.addAttribute("roleInfo", roleInfo);
+		model.addAttribute("adminRole", adminRole);
 		model.addAttribute("allMenus", allMenus);
 		model.addAttribute("roleMenus", roleMenus);
 		
@@ -123,11 +123,12 @@ public class AdminRoleController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/saveRoleResource", method = RequestMethod.POST)
-	public String saveRoleResource(Model model,  Integer roleId, List<Integer> menuIdList, HttpServletRequest request) {
+	public String saveRoleResource(Model model,  Integer roleId, List<Integer> menuIds, HttpServletRequest request) {
 		String servletPath = request.getRequestURI();
 		model.addAttribute("servletPath", servletPath);
 		
-		int result = adminRoleService.saveRoleMenus(roleId, menuIdList);
+		adminRoleService.deleteMenusByRoleId(roleId);
+		int result = adminRoleService.saveRoleMenus(roleId, menuIds);
 		
 		model.addAttribute("redirectUrl", "./roles");
 		return "forward:/main/operationRedirect";

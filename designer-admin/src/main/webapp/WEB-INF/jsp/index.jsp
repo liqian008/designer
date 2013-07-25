@@ -7,15 +7,6 @@
 
 <%
 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
-String message = (String) request.getAttribute("");
-String redirectUrl = (String) request.getAttribute("");
-if(message==null||"".equals(message.trim())){
-	message = "操作成功，现在将转入后续页面！";
-}
-if(redirectUrl==null||"".equals(redirectUrl.trim())){
-    redirectUrl = "#";
-}
 %>
 
 <!DOCTYPE html>

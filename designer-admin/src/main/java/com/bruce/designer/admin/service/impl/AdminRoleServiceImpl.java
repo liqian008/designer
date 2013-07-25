@@ -97,6 +97,12 @@ public class AdminRoleServiceImpl implements AdminRoleService{
 		}
 		return 0;
 	}
-
 	
+	@Override
+	public int deleteMenusByRoleId(Integer roleId) {
+		AdminRoleMenuCriteria criteria = new AdminRoleMenuCriteria();
+		criteria.createCriteria().andRoleIdEqualTo(roleId);
+		return adminRoleMenuMapper.deleteByExample(criteria);
+	}
+
 }

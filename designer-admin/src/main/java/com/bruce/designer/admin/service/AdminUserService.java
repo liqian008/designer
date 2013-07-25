@@ -10,5 +10,7 @@ public interface AdminUserService extends BaseService<AdminUser, Integer> {
 	public AdminUser loadUserByUsername(String username);
 
 	public int saveUserRoles(Integer userId, List<Integer> roleIdList);
+	
+	public int deleteRolesByUserId(Integer userId);
 
 }

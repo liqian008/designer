@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bruce.designer.admin.bean.security.AdminRoleMenuCriteria;
 import com.bruce.designer.admin.bean.security.AdminUser;
 import com.bruce.designer.admin.bean.security.AdminUserCriteria;
 import com.bruce.designer.admin.bean.security.AdminUserRole;
@@ -71,6 +72,13 @@ public class AdminUserServiceImpl implements AdminUserService{
 			return roleIdList.size();
 		}
 		return 0;
+	}
+	
+	@Override
+	public int deleteRolesByUserId(Integer userId) {
+		AdminUserRoleCriteria criteria = new AdminUserRoleCriteria();
+		criteria.createCriteria().andUserIdEqualTo(userId);
+		return adminUserRoleMapper.deleteByExample(criteria);
 	}
 	
 }

@@ -7,11 +7,12 @@ import com.bruce.designer.service.BaseService;
 
 public interface AdminRoleService extends BaseService<AdminRole, Integer>{
 
-	
-	public int saveRoleMenus(Integer roleId, List<Integer> menuIdList);
-
 	public List<AdminRole> getRolesByUserId(Integer userId);
 
 	public List<AdminRole> getAvailableRoles();
+
+	public int saveRoleMenus(Integer roleId, List<Integer> menuIdList);
+	
+	public int deleteMenusByRoleId(Integer roleId);
 		
 }

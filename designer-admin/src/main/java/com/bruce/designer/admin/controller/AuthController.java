@@ -76,7 +76,7 @@ public class AuthController{
 		return "common/not_permission";
 	}
 	
-	@RequestMapping(value = { "/", "index", "/welcome"})    
+	@RequestMapping(value = {"/index", "/welcome"})
     public String index(Model model,HttpServletRequest request,HttpServletResponse response){
         
 	    adminMenuService.reloadMenusForUser(request);
