@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50169
 File Encoding         : 65001
 
-Date: 2013-07-26 12:19:50
+Date: 2013-07-26 20:38:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -32,18 +32,19 @@ CREATE TABLE `admin_resource` (
   `status` smallint(6) DEFAULT '1',
   `create_time` datetime NOT NULL,
   `update_time` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of admin_resource
 -- ----------------------------
-INSERT INTO `admin_resource` VALUES ('1', '1', '0', '权限管理', '#', null, '1', '0', null, '1', '2013-07-23 11:10:45', '2013-07-23 11:10:48');
-INSERT INTO `admin_resource` VALUES ('2', '2', '1', 'userEdit1', '/sys/userEdit', '123', '0', '0', null, '2', '2013-07-23 11:14:35', '2013-07-23 11:11:35');
-INSERT INTO `admin_resource` VALUES ('3', '3', '1', '用户列表 ', '/sys/users', '', '1', '0', '', '1', '2013-07-23 11:14:32', '2013-07-23 11:11:35');
-INSERT INTO `admin_resource` VALUES ('4', '4', '1', '角色列表 ', '/sys/roles', '', '1', '0', '', '1', '2013-07-23 11:14:32', '2013-07-23 11:11:35');
-INSERT INTO `admin_resource` VALUES ('5', '5', '1', '资源列表 ', '/sys/resources', '', '1', '0', '', '1', '2013-07-23 11:14:32', '2013-07-23 11:11:35');
+INSERT INTO `admin_resource` VALUES ('1', '', '0', '主页', '#', null, '1', '0', null, '1', '2013-07-26 20:09:47', '2013-07-26 20:09:49');
+INSERT INTO `admin_resource` VALUES ('2', '', '1', '个人中心', '/home', null, '1', '0', null, '1', '2013-07-26 20:10:30', '2013-07-26 20:10:33');
+INSERT INTO `admin_resource` VALUES ('3', '', '0', '权限管理', '#', null, '1', '0', null, '1', '2013-07-23 11:10:45', '2013-07-23 11:10:48');
+INSERT INTO `admin_resource` VALUES ('4', '', '3', 'userEdit1', '/sys/userEdit', '123', '0', '0', null, '2', '2013-07-23 11:14:35', '2013-07-23 11:11:35');
+INSERT INTO `admin_resource` VALUES ('5', '', '3', '用户列表 ', '/sys/users', '', '1', '0', '', '1', '2013-07-23 11:14:32', '2013-07-23 11:11:35');
+INSERT INTO `admin_resource` VALUES ('6', '', '3', '角色列表 ', '/sys/roles', '', '1', '0', '', '1', '2013-07-23 11:14:32', '2013-07-23 11:11:35');
+INSERT INTO `admin_resource` VALUES ('7', '', '3', '资源列表 ', '/sys/resources', '', '1', '0', '', '1', '2013-07-23 11:14:32', '2013-07-23 11:11:35');
 
 -- ----------------------------
 -- Table structure for admin_role
