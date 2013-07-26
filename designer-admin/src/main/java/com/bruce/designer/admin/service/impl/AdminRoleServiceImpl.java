@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 
 import com.bruce.designer.admin.bean.security.AdminRole;
 import com.bruce.designer.admin.bean.security.AdminRoleCriteria;
-import com.bruce.designer.admin.bean.security.AdminRoleMenu;
-import com.bruce.designer.admin.bean.security.AdminRoleMenuCriteria;
+import com.bruce.designer.admin.bean.security.AdminRoleResource;
+import com.bruce.designer.admin.bean.security.AdminRoleResourceCriteria;
 import com.bruce.designer.admin.bean.security.AdminUserRole;
 import com.bruce.designer.admin.bean.security.AdminUserRoleCriteria;
 import com.bruce.designer.admin.dao.security.AdminRoleMapper;
-import com.bruce.designer.admin.dao.security.AdminRoleMenuMapper;
+import com.bruce.designer.admin.dao.security.AdminRoleResourceMapper;
 import com.bruce.designer.admin.dao.security.AdminUserRoleMapper;
 import com.bruce.designer.admin.service.AdminRoleService;
 
@@ -29,7 +29,7 @@ public class AdminRoleServiceImpl implements AdminRoleService{
 	@Autowired
 	private AdminUserRoleMapper adminUserRoleMapper;
 	@Autowired
-	private AdminRoleMenuMapper adminRoleMenuMapper;
+	private AdminRoleResourceMapper adminRoleResourceMapper;
 
 	@Override
 	public int save(AdminRole adminRole) {
@@ -85,13 +85,13 @@ public class AdminRoleServiceImpl implements AdminRoleService{
 	}
 
 	@Override
-	public int saveRoleMenus(Integer roleId, List<Integer> menuIdList) {
+	public int saveRoleResources(Integer roleId, List<Integer> menuIdList) {
 		if(menuIdList!=null&&menuIdList.size()>0){
 			for(int menuId: menuIdList){
-				AdminRoleMenu adminRoleMenu = new AdminRoleMenu();
-				adminRoleMenu.setRoleId(roleId);
-				adminRoleMenu.setMenuId(menuId);
-				adminRoleMenuMapper.insert(adminRoleMenu);
+				AdminRoleResource adminRoleResource = new AdminRoleResource();
+				adminRoleResource.setRoleId(roleId);
+				adminRoleResource.setResourceId(menuId);
+				adminRoleResourceMapper.insert(adminRoleResource);
 			}
 			return menuIdList.size();
 		}
@@ -99,10 +99,10 @@ public class AdminRoleServiceImpl implements AdminRoleService{
 	}
 	
 	@Override
-	public int deleteMenusByRoleId(Integer roleId) {
-		AdminRoleMenuCriteria criteria = new AdminRoleMenuCriteria();
+	public int deleteResourcesByRoleId(Integer roleId) {
+		AdminRoleResourceCriteria criteria = new AdminRoleResourceCriteria();
 		criteria.createCriteria().andRoleIdEqualTo(roleId);
-		return adminRoleMenuMapper.deleteByExample(criteria);
+		return adminRoleResourceMapper.deleteByExample(criteria);
 	}
 
 }

@@ -1,21 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.bruce.designer.admin.bean.security.AdminMenu"%> 
+<%@page import="com.bruce.designer.admin.bean.security.AdminResource"%> 
 
 
 <%!
-public String isCurrentMenu(String servletPath, String menuUrl){
-    if(servletPath!=null&&servletPath.contains("/designer-admin"+menuUrl)){
+public String isCurrentMenu(String servletPath, String resourceUrl){
+    if(servletPath!=null&&servletPath.contains("/designer-admin"+resourceUrl)){
          return " id='current'";
      }
     return "";
 }
 
-public String isCurrentSubmenu(String servletPath, String menuUrl){
+public String isCurrentSubmenu(String servletPath, String resourceUrl){
 	//System.err.println("======================"+servletPath);
-	//System.err.println("============111=========="+menuUrl);  
-    if(servletPath!=null&&servletPath.contains("/designer-admin"+menuUrl)){
+	//System.err.println("============111=========="+resourceUrl);  
+    if(servletPath!=null&&servletPath.contains("/designer-admin"+resourceUrl)){
          return " class='current'";
      }
     return "";
@@ -28,9 +28,9 @@ String current = request.getParameter("current");
 
 //菜单加载，我放在session中，如果你需要考虑session过期的问题，也可以放在一个缓存或静态对象中
 //或者每次都去数据库读取也行，但是不推荐每次去读取
-List<AdminMenu> menus = (List<AdminMenu>)request.getSession().getAttribute("menus");
-if(menus==null){
-	menus = new ArrayList<AdminMenu>();
+List<AdminResource> resources = (List<AdminResource>)request.getSession().getAttribute("resources");
+if(resources==null){
+	resources = new ArrayList<AdminResource>();
 }
 %>
 
@@ -66,15 +66,15 @@ if(menus==null){
 			        
 			        	<%
 				        	String servletPath = (String)request.getAttribute("servletPath");
-			            	for(AdminMenu menu : menus){
+			            	for(AdminResource resource : resources){
 				        %>  
 			        
-			            <li class="active"><a href="#" title="" class="expand" id="current"><i class="icon-reorder"></i><%=menu.getMenuName()%><strong>3</strong></a>
+			            <li class="active"><a href="#" title="" class="expand" id="current"><i class="icon-reorder"></i><%=resource.getResourceName()%><strong>3</strong></a>
 			                <ul>
 			                	<%
-					             for(AdminMenu childMenu : menu.getChildMenus()){
+					             for(AdminResource childResource : resource.getChildResources()){
 					            %>
-			                    <li><a href="/designer-admin/<%=childMenu.getMenuUrl()%>" <%=isCurrentSubmenu(servletPath, childMenu.getMenuUrl())%> title="<%=childMenu.getMenuName()%>"><%=childMenu.getMenuName()%></a></li>
+			                    <li><a href="/designer-admin/<%=childResource.getUrl()%>" <%=isCurrentSubmenu(servletPath, childResource.getUrl())%> title="<%=childResource.getResourceName()%>"><%=childResource.getResourceName()%></a></li>
 			                    <%}%>
 			                </ul> 
 			            </li>

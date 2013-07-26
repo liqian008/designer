@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bruce.designer.admin.bean.security.AdminRoleMenuCriteria;
+import com.bruce.designer.admin.bean.security.AdminRoleResourceCriteria;
 import com.bruce.designer.admin.bean.security.AdminUser;
 import com.bruce.designer.admin.bean.security.AdminUserCriteria;
 import com.bruce.designer.admin.bean.security.AdminUserRole;

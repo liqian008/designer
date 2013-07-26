@@ -5,10 +5,10 @@
 
 	<mappers>
 		<mapper resource="com/bruce/designer/admin/bean/mapper/security/AdminUserMapper.xml" />
-		<mapper resource="com/bruce/designer/admin/bean/mapper/security/AdminUserRoleMapper.xml" />
 		<mapper resource="com/bruce/designer/admin/bean/mapper/security/AdminRoleMapper.xml" />
-		<mapper resource="com/bruce/designer/admin/bean/mapper/security/AdminRoleMenuMapper.xml" />
-		<mapper resource="com/bruce/designer/admin/bean/mapper/security/AdminMenuMapper.xml" />
+		<mapper resource="com/bruce/designer/admin/bean/mapper/security/AdminUserRoleMapper.xml" />
+		<mapper resource="com/bruce/designer/admin/bean/mapper/security/AdminResourceMapper.xml" />
+		<mapper resource="com/bruce/designer/admin/bean/mapper/security/AdminRoleResourceMapper.xml" />
 	</mappers>
 
 </configuration>

@@ -22,7 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.bruce.designer.admin.service.AdminMenuService;
+import com.bruce.designer.admin.service.AdminResourceService;
 import com.bruce.designer.admin.utils.ValidatorUtil;
 
 @Controller
@@ -30,7 +30,7 @@ public class AuthController{
 
 	private static Logger logger = LoggerFactory.getLogger(AuthController.class);
 	@Autowired
-    private AdminMenuService adminMenuService;
+    private AdminResourceService adminResourceService;
 	
 	@RequestMapping(value = { "/login", "/ulogin" })
 	public String login() {
@@ -79,7 +79,7 @@ public class AuthController{
 	@RequestMapping(value = {"/index", "/welcome"})
     public String index(Model model,HttpServletRequest request,HttpServletResponse response){
         
-	    adminMenuService.reloadMenusForUser(request);
+	    adminResourceService.reloadResourcesForUser(request);
         
         String userIp = ValidatorUtil.getIpAddr(request);
         model.addAttribute("userIp", userIp);

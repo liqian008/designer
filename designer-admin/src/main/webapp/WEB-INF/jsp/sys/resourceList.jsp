@@ -2,7 +2,7 @@
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="com.bruce.designer.admin.bean.security.AdminMenu"%>
+<%@page import="com.bruce.designer.admin.bean.security.AdminResource"%>
 
 <%
 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -91,22 +91,22 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                             </thead>
                             <tbody>
                             	<%
-                            	List<AdminMenu> adminMenuList = (List<AdminMenu>)request.getAttribute("adminMenuList");
-                            	if(adminMenuList!=null&&adminMenuList.size()>0){
-                            		for(AdminMenu adminMenu: adminMenuList){
+                            	List<AdminResource> adminResourceList = (List<AdminResource>)request.getAttribute("adminResourceList");
+                            	if(adminResourceList!=null&&adminResourceList.size()>0){
+                            		for(AdminResource adminResource: adminResourceList){
                             	%>
                             	<tr>
-			                        <td><%=adminMenu.getId()%></td>
-			                        <td><%=adminMenu.getMenuName()%></td>
-			                        <td><%=adminMenu.getParentId()%></td>
-			                        <td><%=adminMenu.getMenuUrl()%></td>
-			                        <td><%=adminMenu.getSort()%></td>
+			                        <td><%=adminResource.getId()%></td>
+			                        <td><%=adminResource.getResourceName()%></td>
+			                        <td><%=adminResource.getParentId()%></td>
+			                        <td><%=adminResource.getUrl()%></td>
+			                        <td><%=adminResource.getSort()%></td>
 			                        <td>正常</td>
-			                        <td><%=sdf.format(adminMenu.getUpdateTime())%></td>
+			                        <td><%=sdf.format(adminResource.getUpdateTime())%></td>
 			                        <td>
 		                                <ul class="navbar-icons">
-		                                    <li><a href="./menuEdit?id=<%=adminMenu.getId()%>" class="tip" title="修改"><i class="ico-edit"></i></a></li>
-		                                    <li><a href="./delMenu?id=<%=adminMenu.getId()%>" class="tip" title="删除"><i class="ico-remove"></i></a></li>
+		                                    <li><a href="./resourceEdit?id=<%=adminResource.getId()%>" class="tip" title="修改"><i class="ico-edit"></i></a></li>
+		                                    <li><a href="./delResource?id=<%=adminResource.getId()%>" class="tip" title="删除"><i class="ico-remove"></i></a></li>
 		                                </ul>
 			                        </td>
                                 </tr>

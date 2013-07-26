@@ -88,13 +88,13 @@
 	                                <label class="control-label">关联资源: <span class="text-error">*</span></label>
 	                                <div class="controls">
 	                                	<%
-	                                	List<AdminMenu> allMenus = (List<AdminMenu>)request.getAttribute("allMenus");
-	                                	if(allMenus!=null&&allMenus.size()>0){
-	                                		for(AdminMenu loopMenu: allMenus){
+	                                	List<AdminResource> allResources = (List<AdminResource>)request.getAttribute("allResources");
+	                                	if(allResources!=null&&allResources.size()>0){
+	                                		for(AdminResource loopResource: allResources){
 	                                	%>
 	                                	<label class="checkbox inline">
-	                                		<input class="styled" type="checkbox" name="menuIds" id="menuId_<%=loopMenu.getId()%>" value="<%=loopMenu.getId()%>" data-prompt-position="topLeft:-1,-5"/>
-											<%=loopMenu.getMenuName()%>
+	                                		<input class="styled" type="checkbox" name="resourceIds" id="resourceId_<%=loopResource.getId()%>" value="<%=loopResource.getId()%>" data-prompt-position="topLeft:-1,-5"/>
+											<%=loopResource.getResourceName()%>
 										</label>
 										<%}
 	                                	}%>

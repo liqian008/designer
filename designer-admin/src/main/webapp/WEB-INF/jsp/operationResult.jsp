@@ -2,7 +2,6 @@
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="com.bruce.designer.admin.bean.security.AdminMenu"%>
 
 <%
 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");

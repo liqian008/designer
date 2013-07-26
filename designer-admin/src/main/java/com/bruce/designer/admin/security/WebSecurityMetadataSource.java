@@ -24,9 +24,9 @@ import org.springframework.security.web.util.AntPathRequestMatcher;
 import org.springframework.security.web.util.RequestMatcher;
 import org.springframework.stereotype.Service;
 
-import com.bruce.designer.admin.bean.security.AdminMenu;
+import com.bruce.designer.admin.bean.security.AdminResource;
 import com.bruce.designer.admin.bean.security.AdminRole;
-import com.bruce.designer.admin.service.AdminMenuService;
+import com.bruce.designer.admin.service.AdminResourceService;
 import com.bruce.designer.admin.service.AdminRoleService;
 import com.bruce.designer.admin.utils.ConstantsUtil;
 
@@ -49,7 +49,7 @@ public class WebSecurityMetadataSource implements FilterInvocationSecurityMetada
 	private static Map<String, Collection<ConfigAttribute>> resourceMap = new HashMap<String, Collection<ConfigAttribute>>();
 	
 	@Autowired
-	private AdminMenuService adminMenuService;
+	private AdminResourceService adminResourceService;
 	@Autowired
 	private AdminRoleService adminRoleService;
 	
@@ -75,22 +75,22 @@ public class WebSecurityMetadataSource implements FilterInvocationSecurityMetada
 			//adminRole 参数也可以直接使用角色名
 			ConfigAttribute ca = new SecurityConfig(ConstantsUtil.SECURITY_AUTHORITY_PREFIX + adminRole.getId());
 			//取角色有哪些资源的权限
-//			Set<AdminMenu> menus = adminRole.getMenus();
-			List<AdminMenu> menus = adminMenuService.getMenusByRoleId(adminRole.getId());
-			if(menus!=null&&menus.size()>0){
-				for (AdminMenu menu : menus) {
-					String menuUrl = menu.getMenuUrl();
-					if(StringUtils.isBlank(menuUrl)){
+//			Set<AdminResource> resources = adminRole.getResources();
+			List<AdminResource> resources = adminResourceService.getResourcesByRoleId(adminRole.getId());
+			if(resources!=null&&resources.size()>0){
+				for (AdminResource resource : resources) {
+					String resourceUrl = resource.getUrl();
+					if(StringUtils.isBlank(resourceUrl)){
 						//不是菜单地址，跳过
 						continue;
 					}
 					//如果是URL资源，则建立角色与资源关系
-					if(resourceMap.containsKey(menuUrl)) {
-	    				resourceMap.get(menuUrl).add(ca);
+					if(resourceMap.containsKey(resourceUrl)) {
+	    				resourceMap.get(resourceUrl).add(ca);
 	    			} else {
 	    	        	Collection<ConfigAttribute> atts = new ArrayList<ConfigAttribute>();
 	    	        	atts.add(ca);
-	    				resourceMap.put(menuUrl, atts);
+	    				resourceMap.put(resourceUrl, atts);
 	    			}
 				}
 			}
@@ -104,20 +104,20 @@ public class WebSecurityMetadataSource implements FilterInvocationSecurityMetada
 		//ROLE_SUPER 这个权限名字也是自己定义的
 		ConfigAttribute superCA = new SecurityConfig(ConstantsUtil.SECURITY_AUTHORITY_PREFIX + "SUPER");
 		// 超级管理员有所有菜单权限
-		List<AdminMenu> menus = adminMenuService.queryAll();
-		for (AdminMenu adminMenu : menus) {
-			String menuUrl = adminMenu.getMenuUrl();
-			if (StringUtils.isBlank(menuUrl)) {
+		List<AdminResource> resources = adminResourceService.queryAll();
+		for (AdminResource adminResource : resources) {
+			String resourceUrl = adminResource.getUrl();
+			if (StringUtils.isBlank(resourceUrl)) {
 				// 不是菜单地址，跳过
 				continue;
 			}
 
-			if (resourceMap.containsKey(menuUrl)) {
-				resourceMap.get(menuUrl).add(superCA);
+			if (resourceMap.containsKey(resourceUrl)) {
+				resourceMap.get(resourceUrl).add(superCA);
 			} else {
 				Collection<ConfigAttribute> atts = new ArrayList<ConfigAttribute>();
 				atts.add(superCA);
-				resourceMap.put(menuUrl, atts);
+				resourceMap.put(resourceUrl, atts);
 			}
 		}
 	}

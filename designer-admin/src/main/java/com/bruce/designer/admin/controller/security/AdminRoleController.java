@@ -14,11 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.bruce.designer.admin.bean.security.AdminMenu;
+import com.bruce.designer.admin.bean.security.AdminResource;
 import com.bruce.designer.admin.bean.security.AdminRole;
 import com.bruce.designer.admin.controller.BaseController;
 import com.bruce.designer.admin.security.WebUserDetails;
-import com.bruce.designer.admin.service.AdminMenuService;
+import com.bruce.designer.admin.service.AdminResourceService;
 import com.bruce.designer.admin.service.AdminRoleService;
 import com.bruce.designer.admin.utils.ValidatorUtil;
 
@@ -32,7 +32,7 @@ public class AdminRoleController extends BaseController {
 	@Autowired
 	private AdminRoleService adminRoleService;
 	@Autowired
-	private AdminMenuService adminMenuService;
+	private AdminResourceService adminResourceService;
 	
 	@RequestMapping("/roles")
 	public String roleList(Model model, String roleName, HttpServletRequest request) {
@@ -111,13 +111,13 @@ public class AdminRoleController extends BaseController {
 		AdminRole adminRole = adminRoleService.loadById(roleId);
 		
 		//取所有资源
-		List<AdminMenu> allMenus = adminMenuService.queryAll();
+		List<AdminResource> allResources = adminResourceService.queryAll();
 		//取角色拥有的资源
-		List<AdminMenu> roleMenus = adminMenuService.getMenusByRoleId(roleId);
+		List<AdminResource> roleResources = adminResourceService.getResourcesByRoleId(roleId);
 		
 		model.addAttribute("adminRole", adminRole);
-		model.addAttribute("allMenus", allMenus);
-		model.addAttribute("roleMenus", roleMenus);
+		model.addAttribute("allResources", allResources);
+		model.addAttribute("roleResources", roleResources);
 		
 		
 		return "sys/roleResourceSet";
@@ -130,10 +130,10 @@ public class AdminRoleController extends BaseController {
 		
 		int result = 0;
 		if(roleId!=null && roleId>0 && menuIds!=null && menuIds.length>0){
-		    adminRoleService.deleteMenusByRoleId(roleId);
+		    adminRoleService.deleteResourcesByRoleId(roleId);
 		    
 		    List<Integer> menuIdList = Arrays.asList(menuIds);
-		    result = adminRoleService.saveRoleMenus(roleId, menuIdList);
+		    result = adminRoleService.saveRoleResources(roleId, menuIdList);
 		}
 		model.addAttribute("redirectUrl", "./roles");
 		return "forward:/main/operationRedirect";

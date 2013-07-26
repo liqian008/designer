@@ -11,8 +11,8 @@ public interface AdminRoleService extends BaseService<AdminRole, Integer>{
 
 	public List<AdminRole> getAvailableRoles();
 
-	public int saveRoleMenus(Integer roleId, List<Integer> menuIdList);
+	public int saveRoleResources(Integer roleId, List<Integer> menuIdList);
 	
-	public int deleteMenusByRoleId(Integer roleId);
+	public int deleteResourcesByRoleId(Integer roleId);
 		
 }

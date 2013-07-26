@@ -2,7 +2,7 @@
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="com.bruce.designer.admin.bean.security.AdminMenu"%>
+<%@page import="com.bruce.designer.admin.bean.security.AdminResource"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -64,10 +64,10 @@
 	            <h5 class="widget-name"><i class="icon-th-list"></i>资源管理</h5>
 				
 				<%
-				AdminMenu adminMenu = (AdminMenu)request.getAttribute("adminMenu");
+				AdminResource adminResource = (AdminResource)request.getAttribute("adminResource");
 				%>
 				
-				<form id="validate" action="./saveMenu" method="post"  class="form-horizontal">
+				<form id="validate" action="./saveResource" method="post"  class="form-horizontal">
 	                <fieldset>
 	                    <!-- Form validation -->
 	                    <div class="widget">
@@ -76,44 +76,44 @@
 	                            <div class="control-group">
 	                                <label class="control-label">父菜单: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="parentId" id="parentId" value="<%=adminMenu.getParentId()%>"/>
+	                                    <input type="text" class="validate[required] span4" name="parentId" id="parentId" value="<%=adminResource.getParentId()%>"/>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="control-group">
 	                                <label class="control-label">资源名称: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="menuName" id="menuName" value="<%=adminMenu.getMenuName()%>"/>
-	                                    <input type="hidden"name="id" id="id" value="<%=adminMenu.getId()==null?0:adminMenu.getId()%>"/>
-	                                    <input type="hidden"name="menuCode" id="menuCode" value=""/>
+	                                    <input type="text" class="validate[required] span4" name="resourceName" id="resourceName" value="<%=adminResource.getResourceName()%>"/>
+	                                    <input type="hidden"name="id" id="id" value="<%=adminResource.getId()==null?0:adminResource.getId()%>"/>
+	                                    <input type="hidden"name="code" id="code" value=""/>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="control-group">
 	                                <label class="control-label">资源链接: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name=menuUrl id="menuUrl" value="<%=adminMenu.getMenuUrl()%>"/>
+	                                    <input type="text" class="validate[required] span4" name="url" id="url" value="<%=adminResource.getUrl()%>"/>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="control-group">
 	                                <label class="control-label">链接属性: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="span4" name="urlTarget" id="urlTarget" value="<%=adminMenu.getUrlTarget()%>"/>
+	                                    <input type="text" class="span4" name="urlTarget" id="urlTarget" value="<%=adminResource.getUrlTarget()%>"/>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="control-group">
 	                                <label class="control-label">是否在导航栏中显示: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span3" name="navMenu" id="navMenu" value="<%=adminMenu.getNavMenu()%>"/>
+	                                    <input type="text" class="validate[required] span3" name="getNavMenu" id="getNavMenu" value="<%=adminResource.getNavMenu()%>"/>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="control-group">
 	                                <label class="control-label">状态: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span3" name="status" id="status" value="<%=adminMenu.getStatus()%>"/>
+	                                    <input type="text" class="validate[required] span3" name="status" id="status" value="<%=adminResource.getStatus()%>"/>
 	                                </div>
 	                            </div>
  
@@ -121,9 +121,7 @@
 	                                <button type="submit" class="btn btn-info">提 交</button>
 	                                <button type="reset" class="btn">重 置</button>
 	                            </div>
-
 	                        </div>
-
 	                    </div>
 	                    <!-- /form validation -->
 

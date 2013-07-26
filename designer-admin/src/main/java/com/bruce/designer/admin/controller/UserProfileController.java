@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bruce.designer.admin.bean.security.AdminUser;
 import com.bruce.designer.admin.security.WebUserDetails;
-import com.bruce.designer.admin.service.AdminMenuService;
+import com.bruce.designer.admin.service.AdminResourceService;
 import com.bruce.designer.admin.service.AdminUserService;
 import com.bruce.designer.admin.utils.ValidatorUtil;
 
@@ -28,7 +28,7 @@ public class UserProfileController extends BaseController{
 	@Autowired
 	private AdminUserService adminUserService;
 	@Autowired
-	private AdminMenuService adminMenuService;
+	private AdminResourceService adminResourceService;
 	
 	@RequestMapping("/my")
 	public String profileEdit(Model model, HttpServletRequest request) {
