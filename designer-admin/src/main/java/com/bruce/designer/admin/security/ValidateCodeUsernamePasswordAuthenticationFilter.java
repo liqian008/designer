@@ -23,8 +23,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * <logout logout-url="/u/logout" logout-success-url="/logout.jsp" invalidate-session="true"/>
  * 
  * invalidate-session 如果为true，在注销的时候会销毁会话
- * 
- * @author Taven.Li
  *
  */
 public class ValidateCodeUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {

@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.bruce.designer.admin.bean.security.AdminResource;
 import com.bruce.designer.admin.service.AdminResourceService;
 import com.bruce.designer.admin.utils.ValidatorUtil;
 
@@ -79,7 +80,11 @@ public class AuthController{
 	@RequestMapping(value = {"/index", "/welcome"})
     public String index(Model model,HttpServletRequest request,HttpServletResponse response){
         
-	    adminResourceService.reloadResourcesForUser(request);
+//	    adminResourceService.reloadResourcesForUser(request);
+	    
+	    List<AdminResource> navResourceList = adminResourceService.getNavResources();
+	    request.getSession().setAttribute("navResourceList", navResourceList);
+	    
         
         String userIp = ValidatorUtil.getIpAddr(request);
         model.addAttribute("userIp", userIp);

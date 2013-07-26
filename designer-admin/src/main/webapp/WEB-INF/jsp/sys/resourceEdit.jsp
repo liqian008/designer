@@ -106,7 +106,7 @@
 	                            <div class="control-group">
 	                                <label class="control-label">是否在导航栏中显示: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span3" name="getNavMenu" id="getNavMenu" value="<%=adminResource.getNavMenu()%>"/>
+	                                    <input type="text" class="validate[required] span3" name="navMenu" id="navMenu" value="<%=adminResource.getNavMenu()%>"/>
 	                                </div>
 	                            </div>
 	                            

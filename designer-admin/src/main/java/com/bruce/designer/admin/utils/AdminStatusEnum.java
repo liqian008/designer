@@ -2,7 +2,7 @@ package com.bruce.designer.admin.utils;
 
 public enum AdminStatusEnum {
     
-    OPEN("正常", (short)1),
+    OPEN("开启", (short)1),
     CLOSED("关闭", (short)0);
     
     private String name;  

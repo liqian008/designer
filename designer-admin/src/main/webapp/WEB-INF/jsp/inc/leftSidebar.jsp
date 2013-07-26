@@ -28,9 +28,9 @@ String current = request.getParameter("current");
 
 //菜单加载，我放在session中，如果你需要考虑session过期的问题，也可以放在一个缓存或静态对象中
 //或者每次都去数据库读取也行，但是不推荐每次去读取
-List<AdminResource> resources = (List<AdminResource>)request.getSession().getAttribute("resources");
-if(resources==null){
-	resources = new ArrayList<AdminResource>();
+List<AdminResource> navResourceList = (List<AdminResource>)request.getSession().getAttribute("navResourceList");
+if(navResourceList==null){
+	navResourceList = new ArrayList<AdminResource>();
 }
 %>
 
@@ -66,7 +66,7 @@ if(resources==null){
 			        
 			        	<%
 				        	String servletPath = (String)request.getAttribute("servletPath");
-			            	for(AdminResource resource : resources){
+			            	for(AdminResource resource : navResourceList){
 				        %>  
 			        
 			            <li class="active"><a href="#" title="" class="expand" id="current"><i class="icon-reorder"></i><%=resource.getResourceName()%><strong>3</strong></a>
