@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
-<%@ include file="./inc/include_tag.jsp"%>
+<%@ include file="../inc/include_tag.jsp"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -41,12 +41,12 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 </head>
 
 <body>
-	<jsp:include page="./inc/header.jsp"></jsp:include>
+	<jsp:include page="../inc/header.jsp"></jsp:include>
 
 	<!-- Content container -->
 	<div id="container">
 
-		<jsp:include page="./inc/leftSidebar.jsp"></jsp:include>
+		<jsp:include page="../inc/leftSidebar.jsp"></jsp:include>
 
 		<!-- Content -->
 		<div id="content">
@@ -54,7 +54,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		    <!-- Content wrapper -->
 		    <div class="wrapper">
 
-			    <jsp:include page="./inc/mainHeader.jsp"></jsp:include>
+			    <jsp:include page="../inc/mainHeader.jsp"></jsp:include>
 
 		    	<!-- Basic inputs -->
 	            <h5 class="widget-name"><i class="icon-align-justify"></i>欢迎页</h5>
@@ -89,7 +89,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	<!-- /content container -->
 
 
-	<jsp:include page="./inc/footer.jsp"></jsp:include>
+	<jsp:include page="../inc/footer.jsp"></jsp:include>
 
 
 </body>

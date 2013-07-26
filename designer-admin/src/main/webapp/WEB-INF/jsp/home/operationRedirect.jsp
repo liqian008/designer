@@ -27,17 +27,12 @@ if(message==null||message.equals("")){
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 
 <script type="text/javascript" src="../js/plugins/charts/excanvas.min.js"></script>
-<script type="text/javascript" src="../js/plugins/charts/jquery.flot.js"></script>
-<script type="text/javascript" src="../js/plugins/charts/jquery.flot.resize.js"></script>
 <script type="text/javascript" src="../js/plugins/charts/jquery.sparkline.min.js"></script>
 
 <script type="text/javascript" src="../js/plugins/ui/jquery.easytabs.min.js"></script>
 <script type="text/javascript" src="../js/plugins/ui/jquery.collapsible.min.js"></script>
 <script type="text/javascript" src="../js/plugins/ui/prettify.js"></script>
-<script type="text/javascript" src="../js/plugins/ui/jquery.colorpicker.js"></script>
-<script type="text/javascript" src="../js/plugins/ui/jquery.timepicker.min.js"></script>
 <script type="text/javascript" src="../js/plugins/ui/jquery.fancybox.js"></script>
-<script type="text/javascript" src="../js/plugins/ui/jquery.fullcalendar.min.js"></script>
 
 <script type="text/javascript" src="../js/plugins/forms/jquery.uniform.min.js"></script>
 <script type="text/javascript" src="../js/plugins/forms/jquery.tagsinput.min.js"></script>
@@ -48,22 +43,17 @@ if(message==null||message.equals("")){
 
 <script type="text/javascript" src="../js/functions/index.js"></script>
 
-<script type="text/javascript" src="../js/charts/graph.js"></script>
-<script type="text/javascript" src="../js/charts/chart1.js"></script>
-<script type="text/javascript" src="../js/charts/chart2.js"></script>
-<script type="text/javascript" src="../js/charts/chart3.js"></script>
-
 </head>
 
 <body>
 
-	<jsp:include page="./inc/header.jsp"></jsp:include>
+	<jsp:include page="../inc/header.jsp"></jsp:include>
 
 
 	<!-- Content container -->
 	<div id="container">
 
-		<jsp:include page="./inc/leftSidebar.jsp"></jsp:include>
+		<jsp:include page="../inc/leftSidebar.jsp"></jsp:include>
 
 
 		<!-- Content -->
@@ -72,7 +62,7 @@ if(message==null||message.equals("")){
 		    <!-- Content wrapper -->
 		    <div class="wrapper">
 
-			    <jsp:include page="./inc/mainHeader.jsp"></jsp:include>
+			    <jsp:include page="../inc/mainHeader.jsp"></jsp:include>
 
 		    	<!-- Basic inputs -->
 	            <h5 class="widget-name"><i class="icon-align-justify"></i>Basic inputs</h5>
@@ -85,6 +75,7 @@ if(message==null||message.equals("")){
 						    <div class="well">
 						    	<div class="alert margin">
 						    		<button type="button" class="close" data-dismiss="alert">×</button>
+						    		<p/>
 						    		<p><strong><%=message%></strong></p>
                 					<p>如果您的浏览器没有自动跳转，请点击 <a href='<%=redirectUrl%>'>这里</a></p>
 						    	</div>
@@ -106,8 +97,10 @@ if(message==null||message.equals("")){
 	<!-- /content container -->
 
 
-	<jsp:include page="./inc/footer.jsp"></jsp:include>
+	<jsp:include page="../inc/footer.jsp"></jsp:include>
 
-
+	<script language='Javascript'>
+	    setTimeout("location.href='<%=redirectUrl%>'", 3000);
+	</script>
 </body>
 </html>

@@ -77,31 +77,4 @@ public class AuthController{
 		return "common/not_permission";
 	}
 	
-	@RequestMapping(value = {"/index", "/welcome"})
-    public String index(Model model,HttpServletRequest request,HttpServletResponse response){
-        
-//	    adminResourceService.reloadResourcesForUser(request);
-	    
-	    List<AdminResource> navResourceList = adminResourceService.getNavResources();
-	    request.getSession().setAttribute("navResourceList", navResourceList);
-	    
-        
-        String userIp = ValidatorUtil.getIpAddr(request);
-        model.addAttribute("userIp", userIp);
-        
-        String servletPath = request.getRequestURI();
-        model.addAttribute("servletPath", servletPath);
-        return "index";
-    }
-	
-	@RequestMapping("/operationRedirect")
-    protected String operationRedirect() {
-        return "operationRedirect";
-    }
-
-	@RequestMapping("/operationResult")
-    protected String operationResult() {
-        return "operationResult";
-    }
-	
 }
