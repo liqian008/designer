@@ -71,7 +71,7 @@ public class AdminUserController extends BaseController {
 		String username = adminUser.getUsername();
 		if(adminUser==null || StringUtils.isBlank(username)){
 			model.addAttribute("message", "用户信息输入有误，请检查！");
-			return "forward:/main/operationResult";
+			return "forward:/operationResult";
 		}
 		
 		//过滤非法字符
@@ -86,7 +86,7 @@ public class AdminUserController extends BaseController {
 		
 		
 		model.addAttribute("redirectUrl", "./users");
-		return "forward:/main/operationRedirect";
+		return "forward:/operationRedirect";
 	}
 	
 	@RequestMapping(value = "/delUser")
@@ -97,7 +97,7 @@ public class AdminUserController extends BaseController {
 		//删除单个
 		adminUserService.deleteById(id);
 		model.addAttribute("redirectUrl", "./users");
-		return "forward:/main/operationRedirect";
+		return "forward:/operationRedirect";
 	}
 	
 	
@@ -145,7 +145,7 @@ public class AdminUserController extends BaseController {
         }
         
         model.addAttribute("redirectUrl", "./users");
-        return "forward:/main/operationRedirect";
+        return "forward:/operationRedirect";
     }
 	
 //	@RequestMapping(value = "/saveUserRole", method = RequestMethod.POST)
@@ -157,7 +157,7 @@ public class AdminUserController extends BaseController {
 //		int result = adminUserService.saveUserRoles(userId, roleIds);
 //		
 //		model.addAttribute("redirectUrl", "./users");
-//		return "forward:/main/operationRedirect";
+//		return "forward:/operationRedirect";
 //	}
 	
 //	@RequestMapping(value = "/saveUserRole", method = RequestMethod.POST)
@@ -170,13 +170,13 @@ public class AdminUserController extends BaseController {
 //		if(userId<=0){
 //			resultStatus = false;
 //			model.addAttribute("message", "没有指定用户");
-//			return "forward:/main/operationResult";
+//			return "forward:/operationResult";
 //		}
 //		
 //		resultStatus = adminUserService.saveUserRole(userInfo);
 //		
 //		model.addAttribute("redirectUrl", "./users");
-//		return "forward:/main/operationRedirect";
+//		return "forward:/operationRedirect";
 //	}
 	
 }

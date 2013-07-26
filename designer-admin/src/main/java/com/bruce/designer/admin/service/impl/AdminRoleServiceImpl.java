@@ -18,6 +18,7 @@ import com.bruce.designer.admin.dao.security.AdminRoleMapper;
 import com.bruce.designer.admin.dao.security.AdminRoleResourceMapper;
 import com.bruce.designer.admin.dao.security.AdminUserRoleMapper;
 import com.bruce.designer.admin.service.AdminRoleService;
+import com.bruce.designer.admin.utils.AdminStatusEnum;
 
 @Service
 public class AdminRoleServiceImpl implements AdminRoleService{ 
@@ -60,7 +61,7 @@ public class AdminRoleServiceImpl implements AdminRoleService{
 	@Override
 	public List<AdminRole> getAvailableRoles() {
 		AdminRoleCriteria criteria = new AdminRoleCriteria();
-		criteria.createCriteria().andStatusEqualTo((short) 1);
+		criteria.createCriteria().andStatusEqualTo(AdminStatusEnum.OPEN.getStatus());
 		return adminRoleMapper.selectByExample(criteria);
 	}
 	

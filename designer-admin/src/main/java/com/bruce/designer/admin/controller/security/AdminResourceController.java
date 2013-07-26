@@ -29,17 +29,7 @@ public class AdminResourceController extends BaseController {
 	private AdminResourceService adminResourceService;
 	
 	
-	@RequestMapping(value = "/delResource")
-	public String delResource(Model model, int id, HttpServletRequest request) {
-		String servletPath = request.getRequestURI();
-		model.addAttribute("servletPath", servletPath);
-		//删除单个
-		int result = adminResourceService.deleteById(id);
-		model.addAttribute("redirectUrl", "./resources");
-		//刷新菜单资源
-		//adminResourceService.reloadResourcesForUser(request);
-		return "forward:/main/operationRedirect";
-	}
+	
 	
 	@RequestMapping("/resources")
 	public String resourceList(Model model, String resourceName, HttpServletRequest request) {
@@ -98,7 +88,7 @@ public class AdminResourceController extends BaseController {
 		String resourceName = adminResource.getResourceName();
 		if(adminResource==null || StringUtils.isBlank(resourceName)){
 			model.addAttribute("message", "角色信息输入有误，请检查！");
-			return "forward:/main/operationResult";
+			return "forward:/operationResult";
 		}
 		
 		//过滤非法字符
@@ -113,9 +103,19 @@ public class AdminResourceController extends BaseController {
 		
 		//刷新菜单资源
 		//adminResourceService.reloadResourcesForUser(request);
-		return "forward:/main/operationRedirect"; 
+		return "forward:/operationRedirect";
 	}
 	
-	
+	@RequestMapping(value = "/delResource")
+    public String delResource(Model model, int id, HttpServletRequest request) {
+        String servletPath = request.getRequestURI();
+        model.addAttribute("servletPath", servletPath);
+        //删除单个
+        int result = adminResourceService.deleteById(id);
+        model.addAttribute("redirectUrl", "./resources");
+        //刷新菜单资源
+        //adminResourceService.reloadResourcesForUser(request);
+        return "forward:/operationRedirect";
+    }
 	
 }

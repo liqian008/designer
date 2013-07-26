@@ -73,7 +73,7 @@ public class AdminRoleController extends BaseController {
 		String roleName = adminRole.getRoleName();
 		if(adminRole==null || StringUtils.isBlank(roleName)){
 			model.addAttribute("message", "角色信息输入有误，请检查！");
-			return "forward:/main/operationResult";
+			return "forward:/operationResult";
 		}
 		
 		//过滤非法字符
@@ -88,7 +88,7 @@ public class AdminRoleController extends BaseController {
 		
 		
 		model.addAttribute("redirectUrl", "./roles");
-		return "forward:/main/operationRedirect";
+		return "forward:/operationRedirect";
 	}
 	
 	
@@ -99,7 +99,7 @@ public class AdminRoleController extends BaseController {
 		//删除单个
 		adminRoleService.deleteById(id);
 		model.addAttribute("redirectUrl", "./roles");
-		return "forward:/main/operationRedirect";
+		return "forward:/operationRedirect";
 	}
 	
 	
@@ -136,7 +136,7 @@ public class AdminRoleController extends BaseController {
 		    result = adminRoleService.saveRoleResources(roleId, menuIdList);
 		}
 		model.addAttribute("redirectUrl", "./roles");
-		return "forward:/main/operationRedirect";
+		return "forward:/operationRedirect";
 	}
 	
 }

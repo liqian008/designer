@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.bruce.designer.admin.bean.security.AdminResource;
 import com.bruce.designer.admin.bean.security.AdminResourceCriteria;
+import com.bruce.designer.admin.bean.security.AdminRole;
 import com.bruce.designer.admin.bean.security.AdminRoleCriteria;
 import com.bruce.designer.admin.bean.security.AdminRoleResource;
 import com.bruce.designer.admin.bean.security.AdminRoleResourceCriteria;
@@ -24,6 +25,7 @@ import com.bruce.designer.admin.dao.security.AdminResourceMapper;
 import com.bruce.designer.admin.dao.security.AdminRoleResourceMapper;
 import com.bruce.designer.admin.security.WebSecurityMetadataSource;
 import com.bruce.designer.admin.service.AdminResourceService;
+import com.bruce.designer.admin.utils.AdminStatusEnum;
 import com.bruce.designer.admin.utils.ConstantsUtil;
 
 @Service
@@ -71,14 +73,21 @@ public class AdminResourceServiceImpl implements AdminResourceService{
 		return adminResourceMapper.selectByExample(criteria);
 	}
 	
-
+	
 	@Override
 	public List<AdminResource> getAllNavResources() {
 	    AdminResourceCriteria criteria = new AdminResourceCriteria();
-        criteria.createCriteria().andNavMenuEqualTo((short) 1);
+        criteria.createCriteria().andNavMenuEqualTo(AdminStatusEnum.OPEN.getStatus())
+        .andStatusEqualTo(AdminStatusEnum.OPEN.getStatus());
 		return adminResourceMapper.selectByExample(criteria);
 	}
 	
+	@Override
+    public List<AdminResource> getAvailableResources() {
+	    AdminResourceCriteria criteria = new AdminResourceCriteria();
+        criteria.createCriteria().andStatusEqualTo(AdminStatusEnum.OPEN.getStatus());
+        return adminResourceMapper.selectByExample(criteria);
+    }
 	
 	@Override
 	public void reloadResourcesForUser(HttpServletRequest request) {
