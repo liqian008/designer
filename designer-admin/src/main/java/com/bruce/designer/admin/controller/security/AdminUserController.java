@@ -20,6 +20,7 @@ import com.bruce.designer.admin.controller.BaseController;
 import com.bruce.designer.admin.security.WebUserDetails;
 import com.bruce.designer.admin.service.AdminRoleService;
 import com.bruce.designer.admin.service.AdminUserService;
+import com.bruce.designer.admin.utils.AdminStatusEnum;
 import com.bruce.designer.admin.utils.ValidatorUtil;
 
 
@@ -45,9 +46,12 @@ public class AdminUserController extends BaseController {
 	}
 	
 	@RequestMapping("/userAdd")
-	public String userAdd(Model model, HttpServletRequest request) {
+	public String userAdd(Model model, AdminUser adminUser, HttpServletRequest request) {
 		String servletPath = request.getRequestURI();
 		model.addAttribute("servletPath", servletPath);
+		
+		adminUser.setStatus(AdminStatusEnum.OPEN.getStatus());
+		model.addAttribute("adminUser", adminUser);
 		return "sys/userEdit";
 	}
 	

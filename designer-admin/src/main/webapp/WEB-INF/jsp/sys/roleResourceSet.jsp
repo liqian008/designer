@@ -4,6 +4,8 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.bruce.designer.admin.bean.security.*"%>
 
+<%@ include file="../inc/include_tag.jsp" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -79,8 +81,8 @@
 	                            <div class="control-group">
 	                                <label class="control-label">角色名: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="span4" name="roleName" id="roleName" value="<%=adminRole.getRoleName()%>" readonly="readonly"/>
-	                                    <input type="hidden"name="roleId" id="roleId" value="<%=adminRole.getId()%>"/>
+	                                    <input type="text" class="span4" name="roleName" id="roleName" value="${adminRole.roleName}" readonly="readonly"/>
+	                                    <input type="hidden" name="roleId" id="roleId" value="${adminRole.id}"/>
 	                                </div>
 	                            </div>
 	                            

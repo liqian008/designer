@@ -4,6 +4,8 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.bruce.designer.admin.bean.security.AdminUser"%>
 
+<%@ include file="../inc/include_tag.jsp" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -66,10 +68,10 @@
 	            <h5 class="widget-name"><i class="icon-th-list"></i>用户管理</h5>
 				
 				<%
-				AdminUser adminUser = (AdminUser)request.getAttribute("adminUser");
+				//AdminUser adminUser = (AdminUser)request.getAttribute("adminUser");
 				%>
 				
-				<form id="validate" action="./saveUser" method="post"  class="form-horizontal">
+				<form id="validate" action="<s:url value='./saveUser'/>" method="post"  class="form-horizontal">
 	                <fieldset>
 	                    <!-- Form validation -->
 	                    <div class="widget">
@@ -79,22 +81,25 @@
 	                            <div class="control-group">
 	                                <label class="control-label">用户名: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="username" id="username" value="<%=adminUser.getUsername()%>" readonly="readonly"/>
-	                                    <input type="hidden"name="id" id="id" value="<%=adminUser.getId()%>"/>
+	                                    <input type="text" class="validate[required] span4" name="username" id="username" value="${adminUser.username}" readonly="readonly"/>
+	                                    <form:hidden path="adminUser.id"/>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="control-group">
 	                                <label class="control-label">昵称: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="nickname" id="nickname" value="<%=adminUser.getUsername()%>" readonly="readonly"/>
+	                                    <input type="text" class="validate[required] span4" name="nickname" id="nickname" value="${adminUser.nickname}" readonly="readonly"/>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="control-group">
 	                                <label class="control-label">状态: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span3" name="status" id="status" value="<%=adminUser.getStatus()%>"/>
+	                                    <form:select path="adminUser.status" cssClass="styled">
+											<form:option value="1"  label="启用"/>
+											<form:option value="0"  label="禁用"/>
+										</form:select>
 	                                </div>
 	                            </div>
  

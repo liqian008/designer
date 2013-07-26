@@ -67,12 +67,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 	<div class="navbar">
                     	<div class="navbar-inner">
                         	<h6>管理员列表</h6>
-                            <div class="nav pull-right">
-                                <a href="index.html#" class="dropdown-toggle navbar-icon" data-toggle="dropdown"><i class="icon-cog"></i></a>
-                                <ul class="dropdown-menu pull-right">
-                                    <li><a href="./userAdd"><i class="icon-plus"></i>新增管理员</a></li>
-                                </ul>
-                            </div>
+                        	<a href="./userAdd" class="btn btn-primary pull-right">新增管理员</a>
                         </div>
                     </div>
                     <div class="table-overflow">

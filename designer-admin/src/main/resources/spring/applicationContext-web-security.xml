@@ -81,7 +81,7 @@
 		<beans:property name="filterProcessesUrl" value="/doLogin"></beans:property>
 		<beans:property name="userNameParameter" value="userName"></beans:property>
 		<beans:property name="passWordParameter" value="passWord"></beans:property>
-		<beans:property name="successUrl" value="/index"></beans:property>
+		<beans:property name="successUrl" value="/home/index"></beans:property>
 		<beans:property name="failureUrl"	value="/login"></beans:property>
 		<beans:property name="authenticationManager" ref="webAuthenticationManager"></beans:property>
 	</beans:bean>

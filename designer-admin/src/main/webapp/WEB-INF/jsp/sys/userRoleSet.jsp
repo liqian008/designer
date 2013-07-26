@@ -4,6 +4,8 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.bruce.designer.admin.bean.security.*"%>
 
+<%@ include file="../inc/include_tag.jsp" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -79,21 +81,22 @@
 	                            <div class="control-group">
 	                                <label class="control-label">用户名: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="span4" name="username" id="username" value="<%=adminUser.getUsername()%>" readonly="readonly"/>
-	                                    <input type="hidden"name="userId" id="userId" value="<%=adminUser.getId()%>"/>
+	                                    <input type="text" class="span4" name="username" id="username" value="${adminUser.username}" readonly="readonly"/>
+	                                    <input type="hidden"name="userId" id="userId" value="${adminUser.id}"/>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="control-group">
 	                                <label class="control-label">昵称: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="nickname" id="nickname" value="<%=adminUser.getUsername()%>" readonly="readonly"/>
+	                                    <input type="text" class="validate[required] span4" name="nickname" id="nickname" value="${adminUser.nickname}" readonly="readonly"/>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="control-group">
 	                                <label class="control-label">关联角色: <span class="text-error">*</span></label>
 	                                <div class="controls">
+	                                	
 	                                	<%
 	                                	List<AdminRole> allRoles = (List<AdminRole>)request.getAttribute("allRoles");
 	                                	if(allRoles!=null&&allRoles.size()>0){

@@ -91,7 +91,7 @@
 							<label>用户名称:</label>
 							<div class="formRight">
 								<form:hidden path="userEntity.id" />
-								<input name="userName" type="text" value="${userEntity.userName }" maxlength="11"/>
+								<input name="userName" type="text" value="${userEntity.userName}" maxlength="11"/>
 							</div>
 						</div>
 						<div class="rowElem">

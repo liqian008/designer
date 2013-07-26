@@ -4,6 +4,8 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.bruce.designer.admin.bean.security.AdminRole"%>
 
+<%@ include file="../inc/include_tag.jsp" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,7 +65,7 @@
 	            <h5 class="widget-name"><i class="icon-th-list"></i>角色管理</h5>
 				
 				<%
-				AdminRole adminRole = (AdminRole)request.getAttribute("adminRole");
+				//AdminRole adminRole = (AdminRole)request.getAttribute("adminRole");
 				%>
 				
 				<form id="validate" action="./saveRole" method="post"  class="form-horizontal">
@@ -76,15 +78,18 @@
 	                            <div class="control-group">
 	                                <label class="control-label">角色名: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="roleName" id="roleName" value="<%=adminRole.getRoleName()%>"/>
-	                                    <input type="hidden"name="id" id="id" value="<%=adminRole.getId()%>"/>
+	                                    <input type="text" class="validate[required] span4" name="roleName" id="roleName" value="${adminRole.roleName}"/>
+	                                    <form:hidden path="adminRole.id"/>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="control-group">
 	                                <label class="control-label">状态: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span3" name="status" id="status" value="<%=adminRole.getStatus()%>"/>
+	                                	<form:select path="adminRole.status" cssClass="styled">
+											<form:option value="1"  label="启用"/>
+											<form:option value="0"  label="禁用"/>
+										</form:select>
 	                                </div>
 	                            </div>
  

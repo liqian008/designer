@@ -4,6 +4,8 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.bruce.designer.admin.bean.security.AdminResource"%>
 
+<%@ include file="../inc/include_tag.jsp" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,7 +66,7 @@
 	            <h5 class="widget-name"><i class="icon-th-list"></i>资源管理</h5>
 				
 				<%
-				AdminResource adminResource = (AdminResource)request.getAttribute("adminResource");
+				//AdminResource adminResource = (AdminResource)request.getAttribute("adminResource");
 				%>
 				
 				<form id="validate" action="./saveResource" method="post"  class="form-horizontal">
@@ -76,45 +78,51 @@
 	                            <div class="control-group">
 	                                <label class="control-label">父菜单: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="parentId" id="parentId" value="<%=adminResource.getParentId()%>"/>
+	                                    <form:select path="adminResource.parentId"  items="${parentResources}"  itemValue="id"  itemLabel="resourceName" class="styled"></form:select>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="control-group">
 	                                <label class="control-label">资源名称: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="resourceName" id="resourceName" value="<%=adminResource.getResourceName()%>"/>
-	                                    <input type="hidden"name="id" id="id" value="<%=adminResource.getId()==null?0:adminResource.getId()%>"/>
-	                                    <input type="hidden"name="code" id="code" value=""/>
+	                                    <input type="text" class="validate[required] span4" name="resourceName" id="resourceName" value="${adminResource.resourceName}"/>
+	                                    <input type="hidden"name="id" id="id" value="${adminResource.id}"/>
+	                                    <input type="hidden"name="code" id="code" value="${adminResource.code}"/>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="control-group">
 	                                <label class="control-label">资源链接: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="url" id="url" value="<%=adminResource.getUrl()%>"/>
+	                                    <input type="text" class="validate[required] span4" name="url" id="url" value="${adminResource.url}"/>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="control-group">
 	                                <label class="control-label">链接属性: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="span4" name="urlTarget" id="urlTarget" value="<%=adminResource.getUrlTarget()%>"/>
+	                                    <input type="text" class="span4" name="urlTarget" id="urlTarget" value="${adminResource.urlTarget}"/>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="control-group">
-	                                <label class="control-label">是否在导航栏中显示: <span class="text-error">*</span></label>
+	                                <label class="control-label">在导航栏中显示: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span3" name="navMenu" id="navMenu" value="<%=adminResource.getNavMenu()%>"/>
+	                                	<form:select path="adminResource.navMenu" cssClass="styled">
+											<form:option value="1"  label="是"/>
+											<form:option value="0"  label="否"/>
+										</form:select>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="control-group">
 	                                <label class="control-label">状态: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span3" name="status" id="status" value="<%=adminResource.getStatus()%>"/>
-	                                </div>
+	                                	<form:select path="adminResource.status" cssClass="styled">
+											<form:option value="1"  label="启用"/>
+											<form:option value="0"  label="禁用"/>
+										</form:select>
+									</div>
 	                            </div>
  
 	                            <div class="form-actions align-left">

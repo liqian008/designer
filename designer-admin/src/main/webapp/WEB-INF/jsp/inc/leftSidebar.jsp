@@ -5,16 +5,16 @@
 
 
 <%!
-public String isCurrentMenu(String servletPath, String resourceUrl){
-    if(servletPath!=null&&servletPath.contains("/designer-admin"+resourceUrl)){
-         return " id='current'";
+public String liActive(String servletPath, String resourceUrl){
+	System.err.println("====="+servletPath+"===="+resourceUrl);
+	System.err.println(servletPath.contains(resourceUrl));
+    if(servletPath!=null&&servletPath.contains(resourceUrl)){
+         return " class='active'";
      }
-    return "";
+    return ""; 
 }
 
 public String isCurrentSubmenu(String servletPath, String resourceUrl){
-	//System.err.println("======================"+servletPath);
-	//System.err.println("============111=========="+resourceUrl);  
     if(servletPath!=null&&servletPath.contains("/designer-admin"+resourceUrl)){
          return " class='current'";
      }
@@ -35,54 +35,38 @@ if(navResourceList==null){
 %>
 
 <!-- Sidebar -->
-		<div id="sidebar">
-			<div class="sidebar-tabs">
+<div id="sidebar">
+	<div class="sidebar-tabs">
+	
+        <div id="general">
+	        <!-- Sidebar user -->
+	        <div class="sidebar-user widget">
+				<div class="navbar"><div class="navbar-inner"><h6>Wazzup, Eugene!</h6></div></div>
+	            <a href="index.html#" title="" class="user"><img src="/designer-admin/img/demo/sidebar_user_big.png" alt="" /></a>
+	        </div>
+	        <!-- /sidebar user -->
 			
-		        <div id="general">
-			        <!-- Sidebar user -->
-			        <div class="sidebar-user widget">
-						<div class="navbar"><div class="navbar-inner"><h6>Wazzup, Eugene!</h6></div></div>
-			            <a href="index.html#" title="" class="user"><img src="/designer-admin/img/demo/sidebar_user_big.png" alt="" /></a>
-			        </div>
-			        <!-- /sidebar user -->
-					
-					<!-- 
-			        <div class="general-stats widget">
-				        <ul class="head">
-				        	<li><span>Users</span></li>
-				        	<li><span>Orders</span></li>
-				        	<li><span>Visits</span></li>
-				        </ul>
-				        <ul class="body">
-				        	<li><strong>116k+</strong></li>
-				        	<li><strong>1290</strong></li>
-				        	<li><strong>554</strong></li>
-				        </ul>
-				    </div>
-				    -->
+		    <!-- Main navigation -->
+	        <ul class="navigation widget">
+	        	<%
+		        	String servletPath = (String)request.getAttribute("servletPath");
+	            	for(AdminResource resource : navResourceList){
+		        %>  
+	            <li <%=liActive(servletPath, resource.getUrl())%>>
+	            	<a href="#" title="" class="expand" id="current"><i class="icon-reorder"></i><%=resource.getResourceName()%></a>
+	                <ul>
+	                	<%
+			             for(AdminResource childResource : resource.getChildResources()){
+			            %>
+	                    <li><a href="/designer-admin/<%=childResource.getUrl()%>" <%=isCurrentSubmenu(servletPath, childResource.getUrl())%> title="<%=childResource.getResourceName()%>"><%=childResource.getResourceName()%></a></li>
+	                    <%}%>
+	                </ul> 
+	            </li>
+	            <%}%>
+	        </ul>
+	        <!-- /main navigation -->
 
-				    <!-- Main navigation -->
-			        <ul class="navigation widget">
-			        
-			        	<%
-				        	String servletPath = (String)request.getAttribute("servletPath");
-			            	for(AdminResource resource : navResourceList){
-				        %>  
-			        
-			            <li class="active"><a href="#" title="" class="expand" id="current"><i class="icon-reorder"></i><%=resource.getResourceName()%><strong>3</strong></a>
-			                <ul>
-			                	<%
-					             for(AdminResource childResource : resource.getChildResources()){
-					            %>
-			                    <li><a href="/designer-admin/<%=childResource.getUrl()%>" <%=isCurrentSubmenu(servletPath, childResource.getUrl())%> title="<%=childResource.getResourceName()%>"><%=childResource.getResourceName()%></a></li>
-			                    <%}%>
-			                </ul> 
-			            </li>
-			            <%}%>
-			        </ul>
-			        <!-- /main navigation -->
-
-		        </div>
-		    </div>
-		</div>
-		<!-- /sidebar -->
+        </div>
+    </div>
+</div>
+<!-- /sidebar -->

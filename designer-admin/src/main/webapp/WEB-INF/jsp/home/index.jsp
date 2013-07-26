@@ -61,7 +61,6 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 	            <form class="form-horizontal" action="forms.html#">
 					<fieldset>
-
 						<!-- General form elements -->
 						<div class="widget row-fluid">
 						    <div class="well">
@@ -74,21 +73,16 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 						    </div>
 						</div>
 						<!-- /general form elements -->
-
 					</fieldset> 
 				</form>
 				<!-- /basic inputs -->
-
 		    </div>
 		    <!-- /content wrapper -->
-
 		</div>
 		<!-- /content -->
-
 	</div>
 	<!-- /content container -->
-
-
+	
 	<jsp:include page="../inc/footer.jsp"></jsp:include>
 
 
