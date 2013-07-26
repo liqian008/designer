@@ -14,29 +14,29 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 <title>Pannonia - premium responsive admin template by Eugene Kopyov</title>
-<link href="./css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="../css/bootstrap.css" rel="stylesheet" type="text/css" />
 <!--[if IE 8]><link href="css/ie8.css" rel="stylesheet" type="text/css" /><![endif]-->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 
-<script type="text/javascript" src="./js/plugins/charts/excanvas.min.js"></script>
-<script type="text/javascript" src="./js/plugins/charts/jquery.sparkline.min.js"></script>
+<script type="text/javascript" src="../js/plugins/charts/excanvas.min.js"></script>
+<script type="text/javascript" src="../js/plugins/charts/jquery.sparkline.min.js"></script>
 
-<script type="text/javascript" src="./js/plugins/ui/jquery.easytabs.min.js"></script>
-<script type="text/javascript" src="./js/plugins/ui/jquery.collapsible.min.js"></script>
-<script type="text/javascript" src="./js/plugins/ui/prettify.js"></script>
-<script type="text/javascript" src="./js/plugins/ui/jquery.fancybox.js"></script>
+<script type="text/javascript" src="../js/plugins/ui/jquery.easytabs.min.js"></script>
+<script type="text/javascript" src="../js/plugins/ui/jquery.collapsible.min.js"></script>
+<script type="text/javascript" src="../js/plugins/ui/prettify.js"></script>
+<script type="text/javascript" src="../js/plugins/ui/jquery.fancybox.js"></script>
 
-<script type="text/javascript" src="./js/plugins/forms/jquery.uniform.min.js"></script>
-<script type="text/javascript" src="./js/plugins/forms/jquery.tagsinput.min.js"></script>
+<script type="text/javascript" src="../js/plugins/forms/jquery.uniform.min.js"></script>
+<script type="text/javascript" src="../js/plugins/forms/jquery.tagsinput.min.js"></script>
 
-<script type="text/javascript" src="./js/plugins/tables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../js/plugins/tables/jquery.dataTables.min.js"></script>
 
-<script type="text/javascript" src="./js/files/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js/files/bootstrap.min.js"></script>
 
-<script type="text/javascript" src="./js/functions/index.js"></script>
+<script type="text/javascript" src="../js/functions/index.js"></script>
 
 </head>
 
