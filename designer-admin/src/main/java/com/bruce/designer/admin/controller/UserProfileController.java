@@ -20,7 +20,6 @@ import com.bruce.designer.admin.utils.ValidatorUtil;
 
 
 @Controller
-@RequestMapping("/profile")
 public class UserProfileController extends BaseController{
 
 	private static Logger logger = LoggerFactory.getLogger(UserProfileController.class);
@@ -30,7 +29,7 @@ public class UserProfileController extends BaseController{
 	@Autowired
 	private AdminResourceService adminResourceService;
 	
-	@RequestMapping("/my")
+	@RequestMapping("/myProfile")
 	public String profileEdit(Model model, HttpServletRequest request) {
 		String servletPath = request.getRequestURI();
 		model.addAttribute("servletPath", servletPath);
@@ -40,10 +39,10 @@ public class UserProfileController extends BaseController{
 		
 		AdminUser adminUser = adminUserService.loadById(userId);
 		model.addAttribute("adminUser", adminUser);
-		return "profile/userProfile";
+		return "profile/myProfile";
 	}
 	
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
 	public String updateProfile(Model model, AdminUser adminUser, HttpServletRequest request) {
 		String servletPath = request.getRequestURI();
 		model.addAttribute("servletPath", servletPath);

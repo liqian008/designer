@@ -37,9 +37,6 @@ import com.bruce.designer.admin.utils.ConstantsUtil;
  * 建立资源与权限的对应关系
  * 
  * 也可以直接使用Spring提供的类 DefaultFilterInvocationSecurityMetadataSource
- * 
- * @author Taven.Li
- *
  */
 @Service
 public class WebSecurityMetadataSource implements FilterInvocationSecurityMetadataSource{
@@ -52,7 +49,6 @@ public class WebSecurityMetadataSource implements FilterInvocationSecurityMetada
 	private AdminResourceService adminResourceService;
 	@Autowired
 	private AdminRoleService adminRoleService;
-	
 	
 	/**
 	 * 初始化资源配置
@@ -81,11 +77,13 @@ public class WebSecurityMetadataSource implements FilterInvocationSecurityMetada
 				for (AdminResource resource : resources) {
 					String resourceUrl = resource.getUrl();
 					if(StringUtils.isBlank(resourceUrl)){
-						//不是菜单地址，跳过
+						//不是url资源地址，跳过
 						continue;
 					}
 					//如果是URL资源，则建立角色与资源关系
-					if(resourceMap.containsKey(resourceUrl)) {
+					
+					//创建一个resourceMap。通过匹配要访问的url，获取到其所需的role，从而与用户的role比较进行鉴权
+		            if(resourceMap.containsKey(resourceUrl)) {
 	    				resourceMap.get(resourceUrl).add(ca);
 	    			} else {
 	    	        	Collection<ConfigAttribute> atts = new ArrayList<ConfigAttribute>();
@@ -111,7 +109,8 @@ public class WebSecurityMetadataSource implements FilterInvocationSecurityMetada
 				// 不是菜单地址，跳过
 				continue;
 			}
-
+			
+			//创建一个resourceMap。通过匹配要访问的url，获取到其所需的role，从而与用户的role比较进行鉴权
 			if (resourceMap.containsKey(resourceUrl)) {
 				resourceMap.get(resourceUrl).add(superCA);
 			} else {
@@ -122,6 +121,9 @@ public class WebSecurityMetadataSource implements FilterInvocationSecurityMetada
 		}
 	}
 	
+	/**
+	 * 通过访问链接，匹配访问该资源链接所需要的角色
+	 */
 	@Override
 	public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
 		
@@ -144,7 +146,6 @@ public class WebSecurityMetadataSource implements FilterInvocationSecurityMetada
 	@Override
 	public Collection<ConfigAttribute> getAllConfigAttributes() {
 		Set<ConfigAttribute> allAttributes = new HashSet<ConfigAttribute>();
-		
 		for (Map.Entry<String, Collection<ConfigAttribute>> entry : resourceMap.entrySet()) {
             allAttributes.addAll(entry.getValue());
         }

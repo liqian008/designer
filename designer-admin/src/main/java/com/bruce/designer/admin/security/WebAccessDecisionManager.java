@@ -19,8 +19,6 @@ import org.springframework.stereotype.Service;
  * 
  * 另外还可以参考一下 AbstractAccessDecisionManager
  * 
- * @author Taven.Li
- *
  */
 @Service
 public class WebAccessDecisionManager implements AccessDecisionManager {

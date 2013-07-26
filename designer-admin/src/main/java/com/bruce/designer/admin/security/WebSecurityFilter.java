@@ -33,8 +33,6 @@ import org.springframework.stereotype.Service;
  * 
  * @PreAuthorize("hasRole('ROLE_SUPER')")
  * 
- * @author Taven.Li
- * 
  */
 @Service
 public class WebSecurityFilter extends AbstractSecurityInterceptor implements

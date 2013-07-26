@@ -9,13 +9,15 @@ import com.bruce.designer.service.BaseService;
 
 public interface AdminResourceService extends BaseService<AdminResource, Integer>{
 
-	public List<AdminResource> getAllNavResources();
-	
 	public List<AdminResource> getAvailableResources();
 	
 	public List<AdminResource> getChildResources(Integer parentId);
 	
 	public List<AdminResource> getResourcesByRoleId(Integer roleId);
+	
+	//public List<AdminResource> getAllNavResources();
+	
+	public List<AdminResource> getNavResources();
 
 	public void reloadResourcesForUser(HttpServletRequest request);
 	

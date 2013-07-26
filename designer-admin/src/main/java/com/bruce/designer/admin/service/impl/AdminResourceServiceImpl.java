@@ -15,12 +15,8 @@ import org.springframework.stereotype.Service;
 
 import com.bruce.designer.admin.bean.security.AdminResource;
 import com.bruce.designer.admin.bean.security.AdminResourceCriteria;
-import com.bruce.designer.admin.bean.security.AdminRole;
-import com.bruce.designer.admin.bean.security.AdminRoleCriteria;
 import com.bruce.designer.admin.bean.security.AdminRoleResource;
 import com.bruce.designer.admin.bean.security.AdminRoleResourceCriteria;
-import com.bruce.designer.admin.bean.security.AdminUserRole;
-import com.bruce.designer.admin.bean.security.AdminUserRoleCriteria;
 import com.bruce.designer.admin.dao.security.AdminResourceMapper;
 import com.bruce.designer.admin.dao.security.AdminRoleResourceMapper;
 import com.bruce.designer.admin.security.WebSecurityMetadataSource;
@@ -32,7 +28,6 @@ import com.bruce.designer.admin.utils.ConstantsUtil;
 public class AdminResourceServiceImpl implements AdminResourceService{ 
 
 	private static Logger logger = LoggerFactory.getLogger(AdminResourceServiceImpl.class);
-	
 	
 	@Autowired
 	private WebSecurityMetadataSource securityMetadataSource;
@@ -69,16 +64,8 @@ public class AdminResourceServiceImpl implements AdminResourceService{
 	@Override
 	public List<AdminResource> getChildResources(Integer parentResourceId) {
 		AdminResourceCriteria criteria = new AdminResourceCriteria();
-		criteria.createCriteria().andParentIdEqualTo(parentResourceId);
-		return adminResourceMapper.selectByExample(criteria);
-	}
-	
-	
-	@Override
-	public List<AdminResource> getAllNavResources() {
-	    AdminResourceCriteria criteria = new AdminResourceCriteria();
-        criteria.createCriteria().andNavMenuEqualTo(AdminStatusEnum.OPEN.getStatus())
-        .andStatusEqualTo(AdminStatusEnum.OPEN.getStatus());
+		criteria.createCriteria().andParentIdEqualTo(parentResourceId)
+		.andNavMenuEqualTo(AdminStatusEnum.OPEN.getStatus());
 		return adminResourceMapper.selectByExample(criteria);
 	}
 	
@@ -89,81 +76,76 @@ public class AdminResourceServiceImpl implements AdminResourceService{
         return adminResourceMapper.selectByExample(criteria);
     }
 	
-	@Override
-	public void reloadResourcesForUser(HttpServletRequest request) {
-		// 用户有权限的展示菜单
-		List<AdminResource> allResources = null;
-		List<GrantedAuthority> authList = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-		List<Integer> roleIdList = new ArrayList<Integer>();
-		if (authList != null) {
-			SimpleGrantedAuthority superAuthority = new SimpleGrantedAuthority(
-					ConstantsUtil.SECURITY_AUTHORITY_PREFIX + "SUPER");
-			if (authList.contains(superAuthority)) {
-				// 超级用户取得所有资源菜单
-				allResources = getAllNavResources();
-			} else {
-				for (GrantedAuthority authority : authList) { 
-					String authorityName = authority.toString();
-					if (!(ConstantsUtil.SECURITY_AUTHORITY_PREFIX + "SUPER").equals(authorityName)) {
-						String roleIdStr = authorityName.substring(
-								ConstantsUtil.SECURITY_AUTHORITY_PREFIX
-										.length(), authorityName.length());
-						Integer roleId = new Integer(roleIdStr);
-						roleIdList.add(roleId);
-					}
-				}
-				// 一般用户取得有显示权的资源菜单
-				allResources = getAllNavResourcesByRoleIds(roleIdList);
-			}
-		}
-
-		List<AdminResource> resources = loadAdminResources(allResources);
-		request.getSession().setAttribute("resources", resources);
-		reloadCachedAuthories();
-	}
-
-	/**
-	 * 权限变更后，需要即时刷新以生效
-	 */
-	private void reloadCachedAuthories() {
-		if (true) {
-			securityMetadataSource.initResource();
-		}
-	}
+	@SuppressWarnings("unchecked")
+    @Override
+    public List<AdminResource> getNavResources() {
+	 // 用户有权限的展示菜单
+        List<AdminResource> allResources = null;
+        
+        List<GrantedAuthority> authList = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        List<Integer> roleIdList = new ArrayList<Integer>();
+        if (authList != null) {
+            SimpleGrantedAuthority superAuthority = new SimpleGrantedAuthority(
+                    ConstantsUtil.SECURITY_AUTHORITY_PREFIX + "SUPER");
+            if (authList.contains(superAuthority)) {
+                // 超级用户取得所有资源菜单
+                allResources = getAllNavResources();
+            } else {
+                for (GrantedAuthority authority : authList) {
+                    String authorityName = authority.toString();
+                    if (!(ConstantsUtil.SECURITY_AUTHORITY_PREFIX + "SUPER").equals(authorityName)) {
+                        String roleIdStr = authorityName.substring(
+                                ConstantsUtil.SECURITY_AUTHORITY_PREFIX
+                                        .length(), authorityName.length());
+                        Integer roleId = new Integer(roleIdStr);
+                        roleIdList.add(roleId);
+                    }
+                }
+                // 普通用户取得有显示权的资源菜单
+                allResources = getNavResourcesByRoleIds(roleIdList);
+            }
+        }
+        if (true) {
+            securityMetadataSource.initResource();
+        }
+        return treeAdminResources(allResources);
+    }
+	
 	
 	/**
 	 * 按层级整理菜单
 	 * @param allResources
 	 * @return
 	 */
-	public List<AdminResource> loadAdminResources(List<AdminResource> allResources) {
+	private List<AdminResource> treeAdminResources(List<AdminResource> allResources) {
 		List<AdminResource> resources = new ArrayList<AdminResource>();
-		for (AdminResource resource : allResources) {
-			// 先遍历出第1级菜单
-			if (resource.getParentId() == 0) {
-//				AdminResource currentResource = new AdminResource(resource.getId(),
-//						resource.getResourceName(), resource.getResourceCode(),
-//						resource.getResourceUrl());
-				AdminResource currentResource = new AdminResource();
-				currentResource.setId(resource.getId());
-				currentResource.setResourceName(resource.getResourceName());
-				currentResource.setCode(resource.getCode());
-				currentResource.setUrl(resource.getUrl());
-				
-				resources.add(currentResource);
-				this.loadChildResources(currentResource, allResources);
-			}
+		if(allResources!=null){
+		    for (AdminResource resource : allResources) {
+	            // 先遍历出第1级菜单
+	            if (resource.getParentId() == 0) {
+	                AdminResource currentResource = new AdminResource();
+	                currentResource.setId(resource.getId());
+	                currentResource.setResourceName(resource.getResourceName());
+	                currentResource.setCode(resource.getCode());
+	                currentResource.setUrl(resource.getUrl());
+	                
+	                resources.add(currentResource);
+	                this.loadChildResources(currentResource, allResources);
+	            }
+	        }
 		}
 		return resources;
 	}
-
+	
+	/**
+	 * 加载子菜单
+	 * @param currentResource
+	 * @param allResources
+	 */
 	private void loadChildResources(AdminResource currentResource, List<AdminResource> allResources) {
 		for (AdminResource resource : allResources) {
 			// 如果是当前菜单的子菜单
 			if (resource.getParentId() == currentResource.getId()){
-//				AdminResource childResource = new AdminResource(resource.getId(),
-//						resource.getResourceName(), resource.getResourceCode(),
-//						resource.getResourceUrl());
 				AdminResource childResource = new AdminResource();
 				childResource.setId(resource.getId());
 				childResource.setResourceName(resource.getResourceName());
@@ -175,7 +157,7 @@ public class AdminResourceServiceImpl implements AdminResourceService{
 			}
 		}
 	}
-
+	
 	@Override
 	public List<AdminResource> getResourcesByRoleId(Integer roleId) {
 		AdminRoleResourceCriteria criteria = new AdminRoleResourceCriteria();
@@ -194,8 +176,22 @@ public class AdminResourceServiceImpl implements AdminResourceService{
 		return null;
 	}
 	
+	/**
+	 * 获取所有的导航资源
+	 * @return
+	 */
+	private List<AdminResource> getAllNavResources() {
+        AdminResourceCriteria criteria = new AdminResourceCriteria();
+        criteria.createCriteria().andNavMenuEqualTo(AdminStatusEnum.OPEN.getStatus());
+        return adminResourceMapper.selectByExample(criteria);
+    }
 	
-	public List<AdminResource> getAllNavResourcesByRoleIds(List<Integer> roleIdList) {
+	/**
+	 * 根据给定的roleIdList合集获取所关联的导航资源
+	 * @param roleIdList
+	 * @return
+	 */
+	private List<AdminResource> getNavResourcesByRoleIds(List<Integer> roleIdList) {
 		AdminRoleResourceCriteria criteria = new AdminRoleResourceCriteria();
 		criteria.createCriteria().andRoleIdIn(roleIdList);
 		List<AdminRoleResource> roleResourcesList =  adminRoleResourceMapper.selectByExample(criteria);
@@ -206,10 +202,61 @@ public class AdminResourceServiceImpl implements AdminResourceService{
 				resourceIdList.add(roleResource.getResourceId());
 			}
 			AdminResourceCriteria resourceCriteria = new AdminResourceCriteria();
-			resourceCriteria.createCriteria().andIdIn(resourceIdList);
+			//状态为开启状态 && 导航为显示状态
+			resourceCriteria.createCriteria().andIdIn(resourceIdList)
+			.andNavMenuEqualTo(AdminStatusEnum.OPEN.getStatus())
+			.andStatusEqualTo(AdminStatusEnum.OPEN.getStatus());
 			return adminResourceMapper.selectByExample(resourceCriteria);
 		}
 		return null;
 	}
+	
+	
+	@Deprecated
+    @Override
+    @SuppressWarnings("unchecked")
+    public void reloadResourcesForUser(HttpServletRequest request) {
+        // 用户有权限的展示菜单
+        List<AdminResource> allResources = null;
+        
+        List<GrantedAuthority> authList = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        List<Integer> roleIdList = new ArrayList<Integer>();
+        if (authList != null) {
+            SimpleGrantedAuthority superAuthority = new SimpleGrantedAuthority(
+                    ConstantsUtil.SECURITY_AUTHORITY_PREFIX + "SUPER");
+            if (authList.contains(superAuthority)) {
+                // 超级用户取得所有资源菜单
+                allResources = getAllNavResources();
+            } else {
+                for (GrantedAuthority authority : authList) {
+                    String authorityName = authority.toString();
+                    if (!(ConstantsUtil.SECURITY_AUTHORITY_PREFIX + "SUPER").equals(authorityName)) {
+                        String roleIdStr = authorityName.substring(
+                                ConstantsUtil.SECURITY_AUTHORITY_PREFIX
+                                        .length(), authorityName.length());
+                        Integer roleId = new Integer(roleIdStr);
+                        roleIdList.add(roleId);
+                    }
+                }
+                // 普通用户取得有显示权的资源菜单
+                allResources = getNavResourcesByRoleIds(roleIdList);
+            }
+        }
+
+        List<AdminResource> resources = treeAdminResources(allResources);
+        request.getSession().setAttribute("resources", resources);
+        reloadCachedAuthories();
+    }
+    
+    /**
+     * 权限变更后，需要即时刷新以生效
+     */
+    
+    @Deprecated
+    private void reloadCachedAuthories() {
+        if (true) {
+            securityMetadataSource.initResource();
+        }
+    }
 	
 }

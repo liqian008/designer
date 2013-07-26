@@ -2,7 +2,7 @@
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="com.bruce.designer.admin.bean.security.AdminResource"%>
+<%@page import="com.bruce.designer.admin.bean.security.AdminUser"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,6 +47,7 @@
 
 	<jsp:include page="../inc/header.jsp"></jsp:include>
 
+
 	<!-- Content container -->
 	<div id="container">
 
@@ -58,88 +59,49 @@
 			<!-- Content wrapper -->
 		    <div class="wrapper">
 
-			    <jsp:include page="../inc/mainHeader.jsp"></jsp:include>
-
+				<jsp:include page="../inc/mainHeader.jsp"></jsp:include>
+	
 	            <!-- Form validation -->
-	            <h5 class="widget-name"><i class="icon-th-list"></i>资源管理</h5>
+	            <h5 class="widget-name"><i class="icon-th-list"></i>个人资料</h5>
 				
 				<%
-				AdminResource adminResource = (AdminResource)request.getAttribute("adminResource");
+				AdminUser adminUser = (AdminUser)request.getAttribute("adminUser");
 				%>
 				
-				<form id="validate" action="./saveResource" method="post"  class="form-horizontal">
+				<form id="validate" action="./saveUser" method="post"  class="form-horizontal">
 	                <fieldset>
 	                    <!-- Form validation -->
 	                    <div class="widget">
-	                        <div class="navbar"><div class="navbar-inner"><h6>编辑资源信息</h6></div></div>
+	                        <div class="navbar"><div class="navbar-inner"><h6>查看个人信息</h6></div></div>
 	                    	<div class="well row-fluid">
+
 	                            <div class="control-group">
-	                                <label class="control-label">父菜单: <span class="text-error">*</span></label>
+	                                <label class="control-label">用户名: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="parentId" id="parentId" value="<%=adminResource.getParentId()%>"/>
+	                                    <input type="text" class="span4" name="username" id="username" value="<%=adminUser.getUsername()%>" readonly="readonly"/>
+	                                    <input type="hidden"name="id" id="id" value="<%=adminUser.getId()%>"/>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="control-group">
-	                                <label class="control-label">资源名称: <span class="text-error">*</span></label>
+	                                <label class="control-label">昵称: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="resourceName" id="resourceName" value="<%=adminResource.getResourceName()%>"/>
-	                                    <input type="hidden"name="id" id="id" value="<%=adminResource.getId()==null?0:adminResource.getId()%>"/>
-	                                    <input type="hidden"name="code" id="code" value=""/>
+	                                    <input type="text" class="span4" name="nickname" id="nickname" value="<%=adminUser.getUsername()%>" readonly="readonly"/>
 	                                </div>
 	                            </div>
-	                            
-	                            <div class="control-group">
-	                                <label class="control-label">资源链接: <span class="text-error">*</span></label>
-	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="url" id="url" value="<%=adminResource.getUrl()%>"/>
-	                                </div>
-	                            </div>
-	                            
-	                            <div class="control-group">
-	                                <label class="control-label">链接属性: <span class="text-error">*</span></label>
-	                                <div class="controls">
-	                                    <input type="text" class="span4" name="urlTarget" id="urlTarget" value="<%=adminResource.getUrlTarget()%>"/>
-	                                </div>
-	                            </div>
-	                            
-	                            <div class="control-group">
-	                                <label class="control-label">是否在导航栏中显示: <span class="text-error">*</span></label>
-	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span3" name="navMenu" id="navMenu" value="<%=adminResource.getNavMenu()%>"/>
-	                                </div>
-	                            </div>
-	                            
-	                            <div class="control-group">
-	                                <label class="control-label">状态: <span class="text-error">*</span></label>
-	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span3" name="status" id="status" value="<%=adminResource.getStatus()%>"/>
-	                                </div>
-	                            </div>
- 
-	                            <div class="form-actions align-left">
-	                                <button type="submit" class="btn btn-info">提 交</button>
-	                                <button type="reset" class="btn">重 置</button>
-	                            </div>
+								
 	                        </div>
 	                    </div>
 	                    <!-- /form validation -->
-
 	                </fieldset>
 				</form>
 				<!-- /form validation -->
-
-	           
 		    </div>
 		    <!-- /content wrapper -->
-
 		</div>
 		<!-- /content -->
-
 	</div>
 	<!-- /content container -->
-
 	<jsp:include page="../inc/footer.jsp"></jsp:include>
-
 </body>
 </html>
