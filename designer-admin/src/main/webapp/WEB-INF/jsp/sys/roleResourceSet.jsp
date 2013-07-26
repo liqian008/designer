@@ -80,7 +80,7 @@
 	                                <label class="control-label">角色名: <span class="text-error">*</span></label>
 	                                <div class="controls">
 	                                    <input type="text" class="span4" name="roleName" id="roleName" value="<%=adminRole.getRoleName()%>" readonly="readonly"/>
-	                                    <input type="hidden"name="id" id="id" value="<%=adminRole.getId()%>"/>
+	                                    <input type="hidden"name="roleId" id="roleId" value="<%=adminRole.getId()%>"/>
 	                                </div>
 	                            </div>
 	                            
@@ -93,7 +93,7 @@
 	                                		for(AdminMenu loopMenu: allMenus){
 	                                	%>
 	                                	<label class="checkbox inline">
-	                                		<input class="styled" type="checkbox" name="menu" id="menuId_<%=loopMenu.getId()%>" value="<%=loopMenu.getId()%>" data-prompt-position="topLeft:-1,-5"/>
+	                                		<input class="styled" type="checkbox" name="menuIds" id="menuId_<%=loopMenu.getId()%>" value="<%=loopMenu.getId()%>" data-prompt-position="topLeft:-1,-5"/>
 											<%=loopMenu.getMenuName()%>
 										</label>
 										<%}

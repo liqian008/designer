@@ -46,7 +46,7 @@
         invalidate-session 属性：如果为true，在注销的时候会销毁会话
         delete-cookies 属性：以逗号分隔的cookies名称，在用户注销时删除指定的cookies
         -->
-        <logout logout-success-url="/index" invalidate-session="true" delete-cookies="JSESSIONID"/>
+        <logout logout-success-url="/login" invalidate-session="true" delete-cookies="JSESSIONID"/>
         
         <!-- 实现免登陆验证 -->
         <remember-me/>
@@ -55,9 +55,9 @@
         session超时跳转页面 以及每用户可拥有的session最大个数
         如果每次退出后，必须要求用户必须重开浏览器才能登录，可以将 invalid-session-url="/logout.jsp"，防止有些 Web 应用把用户的会话标识符直接通过 URL 的参数来传递        
         -->
-        <session-management invalid-session-url="/logout">
+        <session-management invalid-session-url="/login">
             <concurrency-control max-sessions="1" error-if-maximum-exceeded="true" expired-url="/login" />
-        </session-management>
+        </session-management> 
 		
 		<!-- 使用验证码过滤器 -->
 		<!-- <form-login /> -->

@@ -1,5 +1,6 @@
 package com.bruce.designer.admin.controller.security;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -123,13 +124,17 @@ public class AdminRoleController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/saveRoleResource", method = RequestMethod.POST)
-	public String saveRoleResource(Model model,  Integer roleId, List<Integer> menuIds, HttpServletRequest request) {
+	public String saveRoleResource(Model model,  Integer roleId, Integer[] menuIds, HttpServletRequest request) {
 		String servletPath = request.getRequestURI();
 		model.addAttribute("servletPath", servletPath);
 		
-		adminRoleService.deleteMenusByRoleId(roleId);
-		int result = adminRoleService.saveRoleMenus(roleId, menuIds);
-		
+		int result = 0;
+		if(roleId!=null && roleId>0 && menuIds!=null && menuIds.length>0){
+		    adminRoleService.deleteMenusByRoleId(roleId);
+		    
+		    List<Integer> menuIdList = Arrays.asList(menuIds);
+		    result = adminRoleService.saveRoleMenus(roleId, menuIdList);
+		}
 		model.addAttribute("redirectUrl", "./roles");
 		return "forward:/main/operationRedirect";
 	}

@@ -80,7 +80,7 @@
 	                                <label class="control-label">用户名: <span class="text-error">*</span></label>
 	                                <div class="controls">
 	                                    <input type="text" class="span4" name="username" id="username" value="<%=adminUser.getUsername()%>" readonly="readonly"/>
-	                                    <input type="hidden"name="id" id="id" value="<%=adminUser.getId()%>"/>
+	                                    <input type="hidden"name="userId" id="userId" value="<%=adminUser.getId()%>"/>
 	                                </div>
 	                            </div>
 	                            

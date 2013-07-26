@@ -1,5 +1,6 @@
 package com.bruce.designer.admin.controller.security;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -132,16 +133,32 @@ public class AdminUserController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/saveUserRole", method = RequestMethod.POST)
-	public String saveUserRole(Model model, Integer userId, List<Integer> roleIds, HttpServletRequest request) {
-		String servletPath = request.getRequestURI();
-		model.addAttribute("servletPath", servletPath);
-		
-		adminUserService.deleteRolesByUserId(userId);
-		int result = adminUserService.saveUserRoles(userId, roleIds);
-		
-		model.addAttribute("redirectUrl", "./users");
-		return "forward:/main/operationRedirect";
-	}
+    public String saveUserRole(Model model, Integer userId, Integer[] roleIds, HttpServletRequest request) {
+        String servletPath = request.getRequestURI();
+        model.addAttribute("servletPath", servletPath);
+        
+        int result = 0;
+        if(userId!=null && userId>0 && roleIds!=null && roleIds.length>0){
+            adminUserService.deleteRolesByUserId(userId);
+            List<Integer> roleIdList = Arrays.asList(roleIds);
+            result = adminUserService.saveUserRoles(userId, roleIdList);
+        }
+        
+        model.addAttribute("redirectUrl", "./users");
+        return "forward:/main/operationRedirect";
+    }
+	
+//	@RequestMapping(value = "/saveUserRole", method = RequestMethod.POST)
+//	public String saveUserRole(Model model, Integer userId, List<Integer> roleIds, HttpServletRequest request) {
+//		String servletPath = request.getRequestURI();
+//		model.addAttribute("servletPath", servletPath);
+//		
+//		adminUserService.deleteRolesByUserId(userId);
+//		int result = adminUserService.saveUserRoles(userId, roleIds);
+//		
+//		model.addAttribute("redirectUrl", "./users");
+//		return "forward:/main/operationRedirect";
+//	}
 	
 //	@RequestMapping(value = "/saveUserRole", method = RequestMethod.POST)
 //	public String saveUserRole(Model model, UserInfo userInfo, HttpServletRequest request) {

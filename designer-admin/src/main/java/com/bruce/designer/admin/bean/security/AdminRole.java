@@ -120,15 +120,4 @@ public class AdminRole {
         this.updateTime = updateTime;
     }
 
-    private List<AdminMenu> adminMenus;
-
-    public List<AdminMenu> getAdminMenus() {
-		return adminMenus;
-	}
-
-	public void setAdminMenus(List<AdminMenu> adminMenus) {
-		this.adminMenus = adminMenus;
-	}
-    
-    
 }

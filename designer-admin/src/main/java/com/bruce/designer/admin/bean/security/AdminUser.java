@@ -190,15 +190,4 @@ public class AdminUser {
         this.lastLoginTime = lastLoginTime;
     }
 
-    private List<AdminRole> adminRoles;  
-    
-
-    public List<AdminRole> getAdminRoles() {
-		return adminRoles;
-	}
-
-	public void setAdminRoles(List<AdminRole> adminRoles) {
-		this.adminRoles = adminRoles;
-	}
-    
 }
