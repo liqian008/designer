@@ -1,6 +1,7 @@
 package com.bruce.designer.admin.controller.security;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +36,9 @@ public class AdminUserController extends BaseController {
 	private AdminUserService adminUserService;
 	@Autowired
 	private AdminRoleService adminRoleService;
+	@Autowired
+	private PasswordEncoder pwEncoder;
+	//<beans:bean id="pwEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"/>
 	
 	@RequestMapping("/users")
 	public String userList(Model model, HttpServletRequest request) {
@@ -75,22 +80,30 @@ public class AdminUserController extends BaseController {
 		String username = adminUser.getUsername();
 		if(adminUser==null || StringUtils.isBlank(username)){
 			model.addAttribute("message", "用户信息输入有误，请检查！");
-			return "forward:/operationResult";
+			return "forward:/home/operationResult";
 		}
 		
 		//过滤非法字符
 		username = ValidatorUtil.filterUnSafeChar(username).trim();
 		adminUser.setUsername(username);
 		
-		if(adminUser.getId()>0){
+		Date currentTime = new Date();
+		adminUser.setUpdateTime(currentTime);
+		if(adminUser!=null&&adminUser.getId()!=null&&adminUser.getId()>0){
+			adminUser.setUsername(null);
+			adminUser.setNickname(null);
+			adminUser.setPassword(null);
 			result = adminUserService.updateById(adminUser);
 		}else{
+			//创建新用户时对密码进行加密
+			String password = adminUser.getPassword();
+			adminUser.setPassword(pwEncoder.encode(password));
+			adminUser.setCreateTime(currentTime);
 			result = adminUserService.save(adminUser);
 		}
 		
-		
-		model.addAttribute("redirectUrl", "./users");
-		return "forward:/operationRedirect";
+		model.addAttribute("redirectUrl", "../sys/users");
+		return "forward:/home/operationRedirect";
 	}
 	
 	@RequestMapping(value = "/delUser")
@@ -100,8 +113,8 @@ public class AdminUserController extends BaseController {
 		
 		//删除单个
 		adminUserService.deleteById(id);
-		model.addAttribute("redirectUrl", "./users");
-		return "forward:/operationRedirect";
+		model.addAttribute("redirectUrl", "../sys/users");
+		return "forward:/home/operationRedirect";
 	}
 	
 	
@@ -148,8 +161,8 @@ public class AdminUserController extends BaseController {
             result = adminUserService.saveUserRoles(userId, roleIdList);
         }
         
-        model.addAttribute("redirectUrl", "./users");
-        return "forward:/operationRedirect";
+        model.addAttribute("redirectUrl", "../sys/users");
+        return "forward:/home/operationRedirect";
     }
 	
 //	@RequestMapping(value = "/saveUserRole", method = RequestMethod.POST)
@@ -160,8 +173,8 @@ public class AdminUserController extends BaseController {
 //		adminUserService.deleteRolesByUserId(userId);
 //		int result = adminUserService.saveUserRoles(userId, roleIds);
 //		
-//		model.addAttribute("redirectUrl", "./users");
-//		return "forward:/operationRedirect";
+//		model.addAttribute("redirectUrl", "../sys/users");
+//		return "forward:/home/operationRedirect";
 //	}
 	
 //	@RequestMapping(value = "/saveUserRole", method = RequestMethod.POST)
@@ -174,13 +187,13 @@ public class AdminUserController extends BaseController {
 //		if(userId<=0){
 //			resultStatus = false;
 //			model.addAttribute("message", "没有指定用户");
-//			return "forward:/operationResult";
+//			return "forward:/home/operationResult";
 //		}
 //		
 //		resultStatus = adminUserService.saveUserRole(userInfo);
 //		
-//		model.addAttribute("redirectUrl", "./users");
-//		return "forward:/operationRedirect";
+//		model.addAttribute("redirectUrl", "../sys/users");
+//		return "forward:/home/operationRedirect";
 //	}
 	
 }

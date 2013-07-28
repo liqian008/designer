@@ -49,16 +49,13 @@
 
 	<jsp:include page="../inc/header.jsp"></jsp:include>
 
-
 	<!-- Content container -->
 	<div id="container">
 
 		<jsp:include page="../inc/leftSidebar.jsp"></jsp:include>
 		
-
 		<!-- Content -->
 		<div id="content">
-
 			<!-- Content wrapper -->
 		    <div class="wrapper">
 
@@ -99,28 +96,26 @@
 	                                	
 	                                	<%
 	                                	List<AdminRole> allRoles = (List<AdminRole>)request.getAttribute("allRoles");
+	                                	List<AdminRole> userRoles = (List<AdminRole>)request.getAttribute("userRoles");
 	                                	if(allRoles!=null&&allRoles.size()>0){
 	                                		for(AdminRole loopRole: allRoles){
+	    	                                	
 	                                	%>
 	                                	<label class="checkbox inline">
-	                                		<input class="styled" type="checkbox" name="roleIds" id="roleId_<%=loopRole.getId()%>" value="<%=loopRole.getId()%>" data-prompt-position="topLeft:-1,-5"/>
+	                                		<input class="styled" type="checkbox" name="roleIds" id="roleId_<%=loopRole.getId()%>" value="<%=loopRole.getId()%>" <%=userRoles!=null&&userRoles.contains(loopRole)?"checked='checked'":""%>/>
 											<%=loopRole.getRoleName()%>
 										</label>
 										<%}
 	                                	}%>
 	                                </div>
 	                            </div>
- 
 	                            <div class="form-actions align-left">
 	                                <button type="submit" class="btn btn-info">提 交</button>
 	                                <button type="reset" class="btn">重 置</button>
 	                            </div>
-
 	                        </div>
-
 	                    </div>
 	                    <!-- /form validation -->
-
 	                </fieldset>
 				</form>
 				<!-- /form validation -->

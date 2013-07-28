@@ -56,26 +56,16 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 			    <jsp:include page="../inc/mainHeader.jsp"></jsp:include>
 
-		    	<!-- Basic inputs -->
 	            <h5 class="widget-name"><i class="icon-align-justify"></i>欢迎页</h5>
-
-	            <form class="form-horizontal" action="forms.html#">
-					<fieldset>
-						<!-- General form elements -->
-						<div class="widget row-fluid">
-						    <div class="well">
-						    	<div class="alert margin">
-						    		<button type="button" class="close" data-dismiss="alert">×</button>
-						    		<p/>
-						    		<p><strong>您好, <sec:authentication property="name" />, 欢迎登录后台管理系统！</strong></p>
-                					<p>您的角色是：</p>
-						    	</div>
-						    </div>
-						</div>
-						<!-- /general form elements -->
-					</fieldset> 
-				</form>
-				<!-- /basic inputs -->
+				
+                <div class="well body">
+                    <h5>欢迎登录</h5>
+                    
+                    <p>
+                    您好, <span class="text-info"><sec:authentication property="name" /></span>, 欢迎登录后台管理系统！
+                    </p>
+                </div>
+				
 		    </div>
 		    <!-- /content wrapper -->
 		</div>

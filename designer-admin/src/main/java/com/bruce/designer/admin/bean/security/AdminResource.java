@@ -281,7 +281,7 @@ public class AdminResource {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-
+	
 	List<AdminResource> childResources = new ArrayList<AdminResource>();
 
     public List<AdminResource> getChildResources() {
@@ -294,5 +294,23 @@ public class AdminResource {
      
     public void addChild(AdminResource childResource){
         this.childResources.add(childResource);
+    }
+    
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj){
+            return true;
+        }
+        if(obj instanceof AdminResource){
+        	AdminResource resourceObj = (AdminResource)obj;
+            if(this.id == resourceObj.id){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
 }

@@ -91,11 +91,13 @@
 	                                <div class="controls">
 	                                	<%
 	                                	List<AdminResource> allResources = (List<AdminResource>)request.getAttribute("allResources");
+	                                	List<AdminResource> roleResources = (List<AdminResource>)request.getAttribute("roleResources");
+	                                	
 	                                	if(allResources!=null&&allResources.size()>0){
 	                                		for(AdminResource loopResource: allResources){
 	                                	%>
 	                                	<label class="checkbox inline">
-	                                		<input class="styled" type="checkbox" name="resourceIds" id="resourceId_<%=loopResource.getId()%>" value="<%=loopResource.getId()%>" data-prompt-position="topLeft:-1,-5"/>
+	                                		<input class="styled" type="checkbox" name="resourceIds" id="resourceId_<%=loopResource.getId()%>" value="<%=loopResource.getId()%>" <%=roleResources!=null&&roleResources.contains(loopResource)?"checked='checked'":""%>/>
 											<%=loopResource.getResourceName()%>
 										</label>
 										<%}
@@ -107,29 +109,20 @@
 	                                <button type="submit" class="btn btn-info">提 交</button>
 	                                <button type="reset" class="btn">重 置</button>
 	                            </div>
-
 	                        </div>
-
 	                    </div>
 	                    <!-- /form validation -->
-
 	                </fieldset>
 				</form>
 				<!-- /form validation -->
-
-	           
 		    </div>
 		    <!-- /content wrapper -->
-
 		</div>
 		<!-- /content -->
-
 	</div>
 	<!-- /content container -->
 
-
 	<jsp:include page="../inc/footer.jsp"></jsp:include>
-
 
 </body>
 </html>

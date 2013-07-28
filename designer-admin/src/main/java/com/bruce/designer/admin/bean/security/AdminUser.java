@@ -188,4 +188,5 @@ public class AdminUser {
 	public void setLastLoginTime(Date lastLoginTime) {
 		this.lastLoginTime = lastLoginTime;
 	}
+	
 }

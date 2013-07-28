@@ -119,4 +119,22 @@ public class AdminRole {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
+	
+	@Override
+	public boolean equals(Object obj){
+        if(this == obj){
+            return true;
+        }
+        if(obj instanceof AdminRole){
+        	AdminRole roleObj = (AdminRole)obj;
+            if(this.id == roleObj.id){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
 }

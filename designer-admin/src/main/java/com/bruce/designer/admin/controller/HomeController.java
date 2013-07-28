@@ -24,9 +24,9 @@ import com.bruce.designer.admin.utils.ValidatorUtil;
 
 @Controller
 @RequestMapping(value="/home")
-public class HomeProfileController extends BaseController{
+public class HomeController extends BaseController{
 
-	private static Logger logger = LoggerFactory.getLogger(HomeProfileController.class);
+	private static Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	@Autowired
 	private AdminUserService adminUserService;
@@ -72,6 +72,7 @@ public class HomeProfileController extends BaseController{
 		model.addAttribute("adminUser", adminUser);
 		return "home/profile";
 	}
+	
 	
 //	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
 //	public String updateProfile(Model model, AdminUser adminUser, HttpServletRequest request) {

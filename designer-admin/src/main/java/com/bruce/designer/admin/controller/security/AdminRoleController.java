@@ -1,6 +1,7 @@
 package com.bruce.designer.admin.controller.security;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -77,22 +78,25 @@ public class AdminRoleController extends BaseController {
 		String roleName = adminRole.getRoleName();
 		if(adminRole==null || StringUtils.isBlank(roleName)){
 			model.addAttribute("message", "角色信息输入有误，请检查！");
-			return "forward:/operationResult";
+			return "forward:/home/operationResult";
 		}
 		
 		//过滤非法字符
 		roleName = ValidatorUtil.filterUnSafeChar(roleName).trim();
 		adminRole.setRoleName(roleName);
 		
-		if(adminRole.getId()>0){
+		Date currentTime = new Date();
+		adminRole.setUpdateTime(currentTime);
+		if(adminRole!=null&&adminRole.getId()!=null&&adminRole.getId()>0){
 			result = adminRoleService.updateById(adminRole);
 		}else{
+			adminRole.setCreateTime(currentTime);
 			result = adminRoleService.save(adminRole);
 		}
 		
 		
-		model.addAttribute("redirectUrl", "./roles");
-		return "forward:/operationRedirect";
+		model.addAttribute("redirectUrl", "../sys/roles");
+		return "forward:/home/operationRedirect";
 	}
 	
 	
@@ -102,8 +106,8 @@ public class AdminRoleController extends BaseController {
 		model.addAttribute("servletPath", servletPath);
 		//删除单个
 		adminRoleService.deleteById(id);
-		model.addAttribute("redirectUrl", "./roles");
-		return "forward:/operationRedirect";
+		model.addAttribute("redirectUrl", "../sys/roles");
+		return "forward:/home/operationRedirect";
 	}
 	
 	
@@ -128,19 +132,18 @@ public class AdminRoleController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/saveRoleResource", method = RequestMethod.POST)
-	public String saveRoleResource(Model model,  Integer roleId, Integer[] menuIds, HttpServletRequest request) {
+	public String saveRoleResource(Model model,  Integer roleId, Integer[] resourceIds, HttpServletRequest request) {
 		String servletPath = request.getRequestURI();
 		model.addAttribute("servletPath", servletPath);
 		
 		int result = 0;
-		if(roleId!=null && roleId>0 && menuIds!=null && menuIds.length>0){
+		if(roleId!=null && roleId>0 && resourceIds!=null && resourceIds.length>0){
 		    adminRoleService.deleteResourcesByRoleId(roleId);
-		    
-		    List<Integer> menuIdList = Arrays.asList(menuIds);
+		    List<Integer> menuIdList = Arrays.asList(resourceIds);
 		    result = adminRoleService.saveRoleResources(roleId, menuIdList);
 		}
-		model.addAttribute("redirectUrl", "./roles");
-		return "forward:/operationRedirect";
+		model.addAttribute("redirectUrl", "../sys/roles");
+		return "forward:/home/operationRedirect";
 	}
 	
 }

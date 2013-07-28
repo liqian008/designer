@@ -6,8 +6,9 @@
 <%
 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-String message = (String) request.getAttribute("");
-String redirectUrl = (String) request.getAttribute("");
+String message = (String) request.getAttribute("message");
+String redirectUrl = (String) request.getAttribute("redirectUrl");
+
 if(message==null||message.equals("")){
 	message = "操作成功，现在将转入后续页面！";
 }
@@ -27,17 +28,12 @@ if(message==null||message.equals("")){
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 
 <script type="text/javascript" src="../js/plugins/charts/excanvas.min.js"></script>
-<script type="text/javascript" src="../js/plugins/charts/jquery.flot.js"></script>
-<script type="text/javascript" src="../js/plugins/charts/jquery.flot.resize.js"></script>
 <script type="text/javascript" src="../js/plugins/charts/jquery.sparkline.min.js"></script>
 
 <script type="text/javascript" src="../js/plugins/ui/jquery.easytabs.min.js"></script>
 <script type="text/javascript" src="../js/plugins/ui/jquery.collapsible.min.js"></script>
 <script type="text/javascript" src="../js/plugins/ui/prettify.js"></script>
-<script type="text/javascript" src="../js/plugins/ui/jquery.colorpicker.js"></script>
-<script type="text/javascript" src="../js/plugins/ui/jquery.timepicker.min.js"></script>
 <script type="text/javascript" src="../js/plugins/ui/jquery.fancybox.js"></script>
-<script type="text/javascript" src="../js/plugins/ui/jquery.fullcalendar.min.js"></script>
 
 <script type="text/javascript" src="../js/plugins/forms/jquery.uniform.min.js"></script>
 <script type="text/javascript" src="../js/plugins/forms/jquery.tagsinput.min.js"></script>
@@ -48,17 +44,11 @@ if(message==null||message.equals("")){
 
 <script type="text/javascript" src="../js/functions/index.js"></script>
 
-<script type="text/javascript" src="../js/charts/graph.js"></script>
-<script type="text/javascript" src="../js/charts/chart1.js"></script>
-<script type="text/javascript" src="../js/charts/chart2.js"></script>
-<script type="text/javascript" src="../js/charts/chart3.js"></script>
-
 </head>
 
 <body>
 
 	<jsp:include page="../inc/header.jsp"></jsp:include>
-
 
 	<!-- Content container -->
 	<div id="container">
@@ -86,25 +76,19 @@ if(message==null||message.equals("")){
 						    	<div class="alert margin">
 						    		<button type="button" class="close" data-dismiss="alert">×</button>
 						    		<p><strong><%=message%></strong></p>
-                					<p>如果您的浏览器没有自动跳转，请点击 <a href='<%=redirectUrl%>'>这里</a></p>
 						    	</div>
 						    </div>
 						</div>
 						<!-- /general form elements -->
-
 					</fieldset> 
 				</form>
 				<!-- /basic inputs -->
-
 		    </div>
 		    <!-- /content wrapper -->
-
 		</div>
 		<!-- /content -->
-
 	</div>
 	<!-- /content container -->
-
 
 	<jsp:include page="../inc/footer.jsp"></jsp:include>
 

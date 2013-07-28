@@ -1,5 +1,6 @@
 package com.bruce.designer.admin.controller.security;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,9 +28,6 @@ public class AdminResourceController extends BaseController {
 	
 	@Autowired
 	private AdminResourceService adminResourceService;
-	
-	
-	
 	
 	@RequestMapping("/resources")
 	public String resourceList(Model model, String resourceName, HttpServletRequest request) {
@@ -88,22 +86,26 @@ public class AdminResourceController extends BaseController {
 		String resourceName = adminResource.getResourceName();
 		if(adminResource==null || StringUtils.isBlank(resourceName)){
 			model.addAttribute("message", "角色信息输入有误，请检查！");
-			return "forward:/operationResult";
+			return "forward:/home/operationResult";
 		}
 		
 		//过滤非法字符
 		resourceName = ValidatorUtil.filterUnSafeChar(resourceName).trim();
 		adminResource.setResourceName(resourceName);
-		if(adminResource.getId()>0){
+		
+		Date currentTime = new Date();
+		adminResource.setUpdateTime(currentTime);
+		if(adminResource!=null&&adminResource.getId()!=null&&adminResource.getId()>0){
 			result = adminResourceService.updateById(adminResource);
 		}else{
+			adminResource.setCreateTime(currentTime);
 			result = adminResourceService.save(adminResource);
 		}
-		model.addAttribute("redirectUrl", "./resources");
+		model.addAttribute("redirectUrl", "../sys/resources");
 		
 		//刷新菜单资源
 		//adminResourceService.reloadResourcesForUser(request);
-		return "forward:/operationRedirect";
+		return "forward:/home/operationRedirect";
 	}
 	
 	@RequestMapping(value = "/delResource")
@@ -112,10 +114,10 @@ public class AdminResourceController extends BaseController {
         model.addAttribute("servletPath", servletPath);
         //删除单个
         int result = adminResourceService.deleteById(id);
-        model.addAttribute("redirectUrl", "./resources");
+        model.addAttribute("redirectUrl", "../sys/resources");
         //刷新菜单资源
         //adminResourceService.reloadResourcesForUser(request);
-        return "forward:/operationRedirect";
+        return "forward:/home/operationRedirect";
     }
 	
 }

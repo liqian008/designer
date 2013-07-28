@@ -45,12 +45,10 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 	<jsp:include page="../inc/header.jsp"></jsp:include>
 
-
 	<!-- Content container -->
 	<div id="container">
 
 		<jsp:include page="../inc/leftSidebar.jsp"></jsp:include>
-
 
 		<!-- Content -->
 		<div id="content">
@@ -76,8 +74,8 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                                 <tr>
                                     <th>ID</th>
                                     <th>用户名</th>
+                                    <th>昵称</th>
                                     <th>状态</th>
-                                    <th>最后登录</th>
                                     <th class="actions-column">操作</th>
                                 </tr>
                             </thead>
@@ -90,8 +88,8 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                             	<tr>
 			                        <td><%=adminUser.getId()%></td>
 			                        <td><%=adminUser.getUsername()%></td>
+			                        <td><%=adminUser.getNickname()%></td>
 			                        <td>正常</td>
-			                        <td><%=sdf.format(adminUser.getLastLoginTime())%></td>
 			                        <td>
 		                                <ul class="navbar-icons">
 		                                    <li><a href="./userEdit?id=<%=adminUser.getId()%>" class="tip" title="修改"><i class="ico-edit"></i></a></li>
@@ -107,22 +105,12 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                     </div>
                 </div>
                 <!-- /media datatable -->
-
-
-
-
 		    </div>
 		    <!-- /content wrapper -->
-
 		</div>
 		<!-- /content -->
-
 	</div>
 	<!-- /content container -->
-
-
 	<jsp:include page="../inc/footer.jsp"></jsp:include>
-
-
 </body>
 </html>

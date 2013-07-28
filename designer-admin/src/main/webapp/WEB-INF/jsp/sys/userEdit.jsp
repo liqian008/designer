@@ -81,7 +81,7 @@
 	                            <div class="control-group">
 	                                <label class="control-label">用户名: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="username" id="username" value="${adminUser.username}" readonly="readonly"/>
+	                                    <input type="text" class="validate[required] span4" name="username" id="username" value="${adminUser.username}"/>
 	                                    <form:hidden path="adminUser.id"/>
 	                                </div>
 	                            </div>
@@ -89,7 +89,14 @@
 	                            <div class="control-group">
 	                                <label class="control-label">昵称: <span class="text-error">*</span></label>
 	                                <div class="controls">
-	                                    <input type="text" class="validate[required] span4" name="nickname" id="nickname" value="${adminUser.nickname}" readonly="readonly"/>
+	                                    <input type="text" class="validate[required] span4" name="nickname" id="nickname" value="${adminUser.nickname}"/>
+	                                </div>
+	                            </div>
+	                            
+	                            <div class="control-group">
+	                                <label class="control-label">密码: <span class="text-error">*</span></label>
+	                                <div class="controls">
+	                                    <input type="password" class="validate[required] span4" name="password" id="password" value=""/>
 	                                </div>
 	                            </div>
 	                            

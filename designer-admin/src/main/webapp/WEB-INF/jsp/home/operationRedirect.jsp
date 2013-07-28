@@ -6,8 +6,8 @@
 <%
 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-String message = (String) request.getAttribute("");
-String redirectUrl = (String) request.getAttribute("");
+String message = (String) request.getAttribute("message");
+String redirectUrl = (String) request.getAttribute("redirectUrl");
 if(message==null||message.equals("")){
 	message = "操作成功，现在将转入后续页面！";
 }
@@ -49,7 +49,6 @@ if(message==null||message.equals("")){
 
 	<jsp:include page="../inc/header.jsp"></jsp:include>
 
-
 	<!-- Content container -->
 	<div id="container">
 
@@ -64,11 +63,7 @@ if(message==null||message.equals("")){
 
 			    <jsp:include page="../inc/mainHeader.jsp"></jsp:include>
 
-		    	<!-- Basic inputs -->
-	            <h5 class="widget-name"><i class="icon-align-justify"></i>Basic inputs</h5>
-
-	            <form class="form-horizontal" action="forms.html#">
-					<fieldset>
+	            <h5 class="widget-name"><i class="icon-align-justify"></i>操作结果</h5>
 
 						<!-- General form elements -->
 						<div class="widget row-fluid">
@@ -82,11 +77,6 @@ if(message==null||message.equals("")){
 						    </div>
 						</div>
 						<!-- /general form elements -->
-
-					</fieldset> 
-				</form>
-				<!-- /basic inputs -->
-
 		    </div>
 		    <!-- /content wrapper -->
 

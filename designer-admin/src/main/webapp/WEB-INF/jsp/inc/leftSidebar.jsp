@@ -41,7 +41,7 @@ if(navResourceList==null){
         <div id="general">
 	        <!-- Sidebar user -->
 	        <div class="sidebar-user widget">
-				<div class="navbar"><div class="navbar-inner"><h6>Wazzup, Eugene!</h6></div></div>
+				<div class="navbar"><div class="navbar-inner"><h6>欢迎登录!</h6></div></div>
 	            <a href="index.html#" title="" class="user"><img src="/designer-admin/img/demo/sidebar_user_big.png" alt="" /></a>
 	        </div>
 	        <!-- /sidebar user -->
