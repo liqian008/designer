@@ -15,6 +15,9 @@
 SET NAMES utf8;
 SET FOREIGN_KEY_CHECKS = 0;
 
+DROP DATABASE security;
+CREATE DATABASE security;
+
 -- ----------------------------
 --  Table structure for `admin_resource`
 -- ----------------------------
