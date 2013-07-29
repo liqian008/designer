@@ -17,6 +17,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 DROP DATABASE security;
 CREATE DATABASE security;
+use security;
 
 -- ----------------------------
 --  Table structure for `admin_resource`

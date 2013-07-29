@@ -18,7 +18,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 DROP DATABASE designer;
 CREATE DATABASE designer;
-
+use designer;
 -- ----------------------------
 --  Table structure for `tb_album`
 -- ----------------------------
