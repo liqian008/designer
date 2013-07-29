@@ -45,19 +45,19 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 		</div>
 		<ul class="clearfix">
 			<li class="social-icons-facebook-icon">
-				<a href="#"><img src="./img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
+				<a href="#"><img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
 			</li>
 			<li class="social-icons-facebook-icon">
-				<a href="#"><img src="./img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
+				<a href="#"><img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
 			</li>
 			<li class="social-icons-facebook-icon">
-				<a href="#"><img src="./img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
+				<a href="#"><img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
 			</li>
 			<li class="social-icons-facebook-icon">
-				<a href="#"><img src="./img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
+				<a href="#"><img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
 			</li>
 			<li class="social-icons-facebook-icon">
-				<a href="#"><img src="./img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
+				<a href="#"><img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
 			</li>
 
 		</ul>
@@ -137,7 +137,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			<li class="clearfix">
 				<div class="widget-blogpost-avatar">
 					<a href="post-gallery.html#"> <img
-						src="./img/demo/ecopower-70x70.jpg" alt="Blogpost-1"> <span
+						src="/designer-front/img/demo/ecopower-70x70.jpg" alt="Blogpost-1"> <span
 						class="widget-blogpost-overlay"></span>
 					</a>
 				</div>
@@ -155,7 +155,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			<li class="clearfix">
 				<div class="widget-blogpost-avatar">
 					<a href="post-gallery.html#"> <img
-						src="./img/demo/architecture-70x70.jpg" alt="Blogpost-1"> <span
+						src="/designer-front/img/demo/architecture-70x70.jpg" alt="Blogpost-1"> <span
 						class="widget-blogpost-overlay"></span>
 					</a>
 				</div>
@@ -173,7 +173,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			<li class="clearfix">
 				<div class="widget-blogpost-avatar">
 					<a href="post-gallery.html#"> <img
-						src="./img/demo/ecohands-70x70.jpg" alt="Blogpost-1"> <span
+						src="/designer-front/img/demo/ecohands-70x70.jpg" alt="Blogpost-1"> <span
 						class="widget-blogpost-overlay"></span>
 					</a>
 				</div>
