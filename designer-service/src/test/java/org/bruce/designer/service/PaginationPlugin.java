@@ -1,4 +1,4 @@
-package com.bruce.designer.mybatisUtil;
+package org.bruce.designer.service;
 
 import java.util.List;
 import org.mybatis.generator.api.CommentGenerator;

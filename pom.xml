@@ -9,7 +9,9 @@
 		<module>designer-front</module>
 		<module>designer-admin</module>
 		<module>designer-service</module>
+    	<!-- 
     	<module>design-mcs</module>
+    	-->
   </modules>
 	
 	<!-- <developers>
