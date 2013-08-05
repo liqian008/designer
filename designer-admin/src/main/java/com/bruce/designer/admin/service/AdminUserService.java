@@ -3,9 +3,9 @@ package com.bruce.designer.admin.service;
 import java.util.List;
 
 import com.bruce.designer.admin.bean.security.AdminUser;
-import com.bruce.designer.service.BaseService;
+import com.bruce.baseService.IBaseService;
 
-public interface AdminUserService extends BaseService<AdminUser, Integer> {
+public interface AdminUserService extends IBaseService<AdminUser, Integer> {
 
 	public AdminUser loadUserByUsername(String username);
 

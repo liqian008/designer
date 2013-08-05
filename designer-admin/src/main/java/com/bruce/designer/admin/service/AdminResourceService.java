@@ -4,10 +4,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.bruce.baseService.IBaseService;
 import com.bruce.designer.admin.bean.security.AdminResource;
-import com.bruce.designer.service.BaseService;
 
-public interface AdminResourceService extends BaseService<AdminResource, Integer>{
+public interface AdminResourceService extends IBaseService<AdminResource, Integer>{
 
 	public List<AdminResource> getAvailableResources();
 	

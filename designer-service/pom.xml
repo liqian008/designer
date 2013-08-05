@@ -16,7 +16,13 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
-
+	
+		<dependency>
+			<groupId>com.bruce</groupId>
+			<artifactId>base-service</artifactId>
+			<version>1.0.0-BUILD-SNAPSHOT</version>
+		</dependency>
+		
 		<!-- Mysql -->
 		<dependency>
 			<groupId>mysql</groupId>
