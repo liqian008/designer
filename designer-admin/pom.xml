@@ -96,23 +96,21 @@
 	</dependencies>
     <build>
         <plugins>
-        	<!-- 
         	<plugin>  
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>   
                 <configuration>  
-                    <packagingExcludes>WEB-INF/web.xml</packagingExcludes>
                     <overlays>  
                         <overlay>  
                             <groupId>com.bruce</groupId>
-                            <artifactId>base-admin</artifactId>  
+                            <artifactId>base-admin</artifactId>
+                            <excludes>
+				            	<exclude>WEB-INF/web.xml</exclude>
+				            </excludes>
                         </overlay>
                     </overlays>  
                 </configuration>  
             </plugin>  
-        	
-        	 -->
-        
             <plugin>
                 <artifactId>maven-eclipse-plugin</artifactId>
                 <version>2.9</version>

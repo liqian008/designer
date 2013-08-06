@@ -22,14 +22,14 @@
 	
 	<!-- 拦截器 -->  
    <mvc:interceptors>
-    	<bean class="com.bruce.designer.admin.interceptors.WebDefaultInterceptor"/>    	
+    	<bean class="com.bruce.baseAdmin.interceptors.WebDefaultInterceptor"/>    	
     	<mvc:interceptor>    
         	<mvc:mapping path="/u/**" /> 
-        	<bean class="com.bruce.designer.admin.interceptors.UAuthorizeInterceptor"></bean>    
+        	<bean class="com.bruce.baseAdmin.interceptors.UAuthorizeInterceptor"></bean>    
     	</mvc:interceptor>
 	</mvc:interceptors>
 	
-	<context:component-scan base-package="com.bruce.designer.admin" use-default-filters="false"> 
+	<context:component-scan base-package="com.bruce.baseAdmin" use-default-filters="false"> 
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 
