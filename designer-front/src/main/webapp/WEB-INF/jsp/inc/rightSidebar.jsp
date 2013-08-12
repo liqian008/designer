@@ -190,7 +190,49 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			</li>
 		</ul>
 	</div>
-
 	
+	<script src="/js/jquery.tagcloud.js"></script>
+	<script>
+        $.fn.tagcloud.defaults = {
+          size: {start: 10, end: 15, unit: 'pt'},
+          color: {start: '#cde', end: '#f52'}
+        };
+
+        $(function () {
+          $('#whatever a').tagcloud();
+        });
+    </script>
+	<div class="widget-box widget-social-media">
+		<div class="content-title">
+			<h4 class="widget-title">热门标签</h4>
+		</div>
+		<div id="whatever" style="padding:0px 10px; line-height:2">
+		    <a href="#" rel="0">Lorem</a>
+		    <a href="#" rel="2">ipsum</a>
+		    <a href="#" rel="3">dolor</a>
+		    <a href="#" rel="4">sit</a>
+		    <a href="#" rel="5">amet,</a>
+		    <a href="#" rel="6">consectetur</a>
+		    <a href="#" rel="7">adipisicing</a>
+		    <a href="#" rel="8">elit,</a>
+		    <a href="#" rel="5">sed</a>
+		    <a href="#" rel="7">do</a>
+		    <a href="#" rel="3">eiusmod</a>
+		    <a href="#" rel="1">tempor</a>
+		    <a href="#" rel="12">incididunt</a>
+		    <a href="#" rel="1">ut</a>
+		    <a href="#" rel="2">labore</a>
+		    <a href="#" rel="5">et</a>
+		    <a href="#" rel="7">dolore</a>
+		    <a href="#" rel="1">magna</a>
+		    <a href="#" rel="4">aliqua.</a>
+		    <a href="#" rel="1">Ut</a>
+		    <a href="#" rel="2">enim</a>
+		    <a href="#" rel="10">ad</a>
+		    <a href="#" rel="4">minim</a>
+		    <a href="#" rel="1">veniam,</a>
+		    <a href="#" rel="1">quis</a>
+		</div>
+	</div>
 
 </aside>
