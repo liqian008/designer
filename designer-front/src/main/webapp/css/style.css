@@ -5255,6 +5255,16 @@ input.contact-form-error {
 				-ms-transition: all 0.3s ease-in-out;
 				transition: all 0.3s ease-in-out;
 			}
+			
+		#tagcloud {
+			padding:0px 10px;
+			line-height:1.4;
+		}
+			
+		#tagcloud a {
+			font-weight: bold;
+			margin: 0px 2px;
+		}
 
 		.social-light .social-icons-pinterest-icon a, .social-light .social-icons-linkedin-icon a, .social-light .social-icons-github-icon a, .social-light .social-icons-googleplus-icon a, 
 		.social-light .social-icons-flickr-icon a, .social-light .social-icons-digg-icon a, .social-light .social-icons-skype-icon a, .social-light .social-icons-youtube-icon a, 

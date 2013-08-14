@@ -191,22 +191,22 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 		</ul>
 	</div>
 	
-	<script src="/js/jquery.tagcloud.js"></script>
+	<script src="./js/jquery.tagcloud.js"></script>
 	<script>
         $.fn.tagcloud.defaults = {
-          size: {start: 10, end: 15, unit: 'pt'},
+          size: {start: 8, end: 13, unit: 'pt'},
           color: {start: '#cde', end: '#f52'}
         };
 
         $(function () {
-          $('#whatever a').tagcloud();
+          $('#tagcloud a').tagcloud();
         });
     </script>
 	<div class="widget-box widget-social-media">
 		<div class="content-title">
 			<h4 class="widget-title">热门标签</h4>
 		</div>
-		<div id="whatever" style="padding:0px 10px; line-height:2">
+		<div id="tagcloud">
 		    <a href="#" rel="0">Lorem</a>
 		    <a href="#" rel="2">ipsum</a>
 		    <a href="#" rel="3">dolor</a>

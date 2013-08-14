@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.bruce.designer.bean.User;
 import com.bruce.designer.front.constants.ConstFront;
 
-public class AccessFilter implements Filter{
+public class SessionFilter implements Filter{
 	
 	private List<String> userUrlList = new ArrayList<String>();
 	private List<String> designerUrlList = new ArrayList<String>();
