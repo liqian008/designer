@@ -2,9 +2,13 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
 
-
+	<!-- 
 	<classPathEntry
 		location="/Users/liqian/.m2/repository_lican/mysql/mysql-connector-java/5.1.23/mysql-connector-java-5.1.23.jar" />
+	 -->
+	 		
+	<classPathEntry
+		location="/home/liqian/data/mysql.jar" />		
 
 	<context id="context1">
 		
@@ -15,8 +19,8 @@
 
 
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://localhost:3306/designer" userId="liqian"
-			password="liqian" />
+			connectionURL="jdbc:mysql://localhost:3306/designer" userId="designer"
+			password="designer" />
 		<javaModelGenerator targetPackage="com.bruce.designer.bean"
 			targetProject="designer-service"/>
 		<sqlMapGenerator targetPackage="com.bruce.designer.bean.mapper"
@@ -26,13 +30,16 @@
 			<property name="enableSubPackages" value="false"/>
 		</javaClientGenerator>
 		
+		<!-- 
 		<table schema="designer" tableName="tb_user" domainObjectName="User"/>
 		<table schema="designer" tableName="tb_designer" domainObjectName="Designer"/>
 		<table schema="designer" tableName="tb_album" domainObjectName="Album"/>
 		<table schema="designer" tableName="tb_album_slide" domainObjectName="AlbumSlide"/>
 		<table schema="designer" tableName="tb_message" domainObjectName="Message"/>
 		<table schema="designer" tableName="tb_comment" domainObjectName="Comment"/>
-
+		-->
+		<table schema="designer" tableName="tb_access_token_info" domainObjectName="AccessTokenInfo"/>
+		<table schema="designer" tableName="tb_user_source" domainObjectName="UserSource"/>
 
 	</context>
 </generatorConfiguration>
