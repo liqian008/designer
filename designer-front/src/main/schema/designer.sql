@@ -152,4 +152,35 @@ BEGIN;
 INSERT INTO `tb_user` VALUES ('3', 'liqian', 'liqian', 'email', '2013-07-02 18:55:48', '2013-07-02 18:55:45', '1', 'http://localhost:8080/designer-front/assets/img/avatar.jpg', 'liqian'), ('4', 'liqian1', 'liqian', 'email', '2013-07-02 18:55:48', '2013-07-02 18:55:45', '1', 'http://localhost:8080/designer-front/assets/img/avatar.jpg', 'liqian1'), ('5', 'liqian2', 'liqian', 'email', '2013-07-02 18:55:48', '2013-07-02 18:55:45', '1', 'http://localhost:8080/designer-front/assets/img/avatar.jpg', 'liqian2'), ('6', 'test', 'liqian', 'email', '2013-07-02 18:55:48', '2013-07-02 18:55:45', '1', 'http://localhost:8080/designer-front/assets/img/avatar.jpg', 'test'), ('7', 'test', 'liqian', 'email', '2013-07-02 18:55:48', '2013-07-02 18:55:45', '1', 'http://localhost:8080/designer-front/assets/img/avatar.jpg', 'test'), ('8', 'burce', 'bruce', null, '2013-07-02 18:55:48', '2013-07-02 18:55:45', null, null, 'bruce_lee');
 COMMIT;
 
+-- ----------------------------
+-- Table structure for tb_access_token_info
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_access_token_info`;
+CREATE TABLE `tb_access_token_info` (
+  `id` int(3) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `access_token` varchar(200) DEFAULT '',
+  `refresh_token` varchar(200) DEFAULT '',
+  `token_type` varchar(20) DEFAULT '',
+  `thirdparty_uid` varchar(100) DEFAULT NULL,
+  `expires_in` bigint(20) DEFAULT NULL,
+  `creae_time` datetime DEFAULT NULL,
+  `upate_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for tb_user_source
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_user_source`;
+CREATE TABLE `tb_user_source` (
+  `id` int(3) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `thirdparty_uid` varchar(100) NOT NULL DEFAULT '',
+  `token_type` varchar(20) DEFAULT '',
+  `creae_time` datetime DEFAULT NULL,
+  `upate_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+
 SET FOREIGN_KEY_CHECKS = 1;
