@@ -10,6 +10,7 @@
 		<mapper resource="com/bruce/designer/bean/mapper/AlbumSlideMapper.xml" /> 
 		<mapper resource="com/bruce/designer/bean/mapper/MessageMapper.xml" />
 		<mapper resource="com/bruce/designer/bean/mapper/CommentMapper.xml" />
+		<mapper resource="com/bruce/designer/bean/mapper/AccessTokenInfoMapper.xml" />
 		
 	</mappers>
 

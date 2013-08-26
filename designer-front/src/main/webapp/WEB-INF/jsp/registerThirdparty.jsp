@@ -115,27 +115,24 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                             <div class="shortcode-contact-form row-fluid">
                                 <form action="contact.html#" method="post" id="contactform" class="form">
                                     <div class="span4 offset4">
-                                        <h2>新用户注册</h2>
+                                    
+                                    	<%
+                                    	String username = "username";
+                                    	User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
+                                    	if(user!=null){
+                                    		username = user.getNickname();
+                                    	}
+                                    	%>
+                                    
+                                        <h2>微博用户登录</h2>
                                         <p class="input-wrap">
-                                            <input class="comment_input comment_name" type="text" name="author" id="username" value="username" size="22" tabindex="1" 
+                                            <input class="comment_input comment_name" type="text" name="author" id="username" value="<%=username%>" size="22" tabindex="1" 
                                             onfocus="if(this.value=='username')this.value='';" onblur="if(this.value=='')this.value='username';" />
                                             <i class="icon-user"></i>
-                                        </p>
-                                        <p class="input-wrap">
-                                            <input class="comment_input comment_email" type="text" name="password" id="password" value="password" size="22" tabindex="2" 
-                                            onfocus="if(this.value=='password')this.value='';" onblur="if(this.value=='')this.value='password';"  />
-                                            <i class="icon-envelope-alt"></i>
-                                        </p>
-
-                                        <p class="input-wrap">
-                                            <input class="comment_input comment_email" type="text" name="password" id="password" value="password" size="22" tabindex="2" 
-                                            onfocus="if(this.value=='password')this.value='';" onblur="if(this.value=='')this.value='password';"  />
-                                            <i class="icon-envelope-alt"></i>
                                         </p>
                                         
                                         <p>
                                         <input class="button button-blue" name="submit" type="submit" id="submit" tabindex="5" value="注 册" />      
-                                        <input class="button button-blue" name="submit" type="submit" id="submit" tabindex="5" value="重 置" />    
                                     </p>
                                     </div>
                                     
@@ -154,10 +151,10 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                             </div>
                         </section> <!-- End Content -->
                         
-                        
-                        <jsp:include page="./inc/rightSidebar.jsp"></jsp:include>
+                       
+                       <jsp:include page="./inc/rightSidebar.jsp"></jsp:include>
                     	
-                        
+                       
                     </div>                        
                 </div> <!-- Close Main -->
             </div> 

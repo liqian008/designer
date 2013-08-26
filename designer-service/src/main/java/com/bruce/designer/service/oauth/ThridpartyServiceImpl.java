@@ -4,6 +4,8 @@ package com.bruce.designer.service.oauth;
 //import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 //import org.apache.log4j.Logger;
 
 import weibo4j.Account;
@@ -15,8 +17,8 @@ import com.bruce.designer.bean.User;
 import com.bruce.designer.service.UserService;
 
 
-
-public class ThridpartyServiceImpl implements IThirdpartyService {
+@Service
+public class ThridpartyServiceImpl implements IThirdpartyService { 
 
     /**
      * Logger for this class
@@ -27,17 +29,18 @@ public class ThridpartyServiceImpl implements IThirdpartyService {
     
     private static final String THIRDPARTY_SINA_WEIBO = "SINA_WEIBO";
     
-    private weibo4j.Oauth weiboOauth;
-
+    private weibo4j.Oauth weiboOauth = new weibo4j.Oauth();
+    @Autowired
     private IAccessTokenService accessTokenService;
-
+    @Autowired
     private UserService userService;
 
-    private IUserSourceService userSourceService;
+//    private IUserSourceService userSourceService;
    
 
     @Override
     public User getUserByWeiboCode(String code) throws WeiboException{
+    	
         if (StringUtils.isNotBlank(code)) {
             try{
                 //根据code获取token
@@ -87,7 +90,7 @@ public class ThridpartyServiceImpl implements IThirdpartyService {
     
     private User genGuestUser(){
         User user = new User();
-        String name = "第三方用户";
+        String name = "Weibo用户";
         user.setNickname(name);
         user.setUsername(name);
         user.setStatus((short)2);//临时访问用户

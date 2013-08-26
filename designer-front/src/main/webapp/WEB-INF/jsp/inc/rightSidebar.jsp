@@ -34,7 +34,8 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					class="icon-envelope-alt"></i>
 			</div>
 			<input class="contact-submit button" type="submit" value="登 录">
-
+			<input class="contact-submit button" type="button" value="微博登录" onclick="location.href='https://api.weibo.com/oauth2/authorize?client_id=753177599&redirect_uri=http://localhost:8080/designer-front/wbOauth.art&response_type=code'">
+			
 		</form>
 	</div>
 	<%}%>

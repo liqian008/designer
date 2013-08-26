@@ -9,7 +9,6 @@ import com.bruce.designer.bean.UserSource;
 import com.bruce.designer.bean.UserSourceCriteria;
 import com.bruce.designer.dao.UserSourceMapper;
 
-@Service
 public class UserSourceServiceImpl implements IUserSourceService {
 
 	@Autowired
