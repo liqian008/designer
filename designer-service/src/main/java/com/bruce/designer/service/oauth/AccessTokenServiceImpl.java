@@ -34,12 +34,11 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
 	public AccessTokenInfo loadById(Integer id) {
 		return accessTokenInfoMapper.selectByPrimaryKey(id);
 	}
-
+	
     @Override
-    public AccessTokenInfo loadAccessTokenInfo(String thirdpartyUid,
-            String thirdpartyType) {
+    public AccessTokenInfo load(String thirdpartyUid, String thirdpartyType) {
         AccessTokenInfoCriteria criteria = new AccessTokenInfoCriteria();
-        criteria.createCriteria().andAccessTokenEqualTo(thirdpartyUid).andThirdpartyUidEqualTo(thirdpartyType);
+        criteria.createCriteria().andAccessTokenEqualTo(thirdpartyUid).andThirdpartyTypeEqualTo(thirdpartyType);
         
         List<AccessTokenInfo> tokenList = accessTokenInfoMapper.selectByExample(criteria);
         if(tokenList!=null&&tokenList.size()==1){
@@ -47,5 +46,26 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
         }
         return null;
     }
-
+    
+    
+    /**
+     * 查询用户已绑定的第三方账户
+     */
+    @Override
+    public List<AccessTokenInfo> queryByUserId(Integer userId){
+        AccessTokenInfoCriteria criteria = new AccessTokenInfoCriteria();
+        criteria.createCriteria().andUserIdEqualTo(userId);
+        return accessTokenInfoMapper.selectByExample(criteria);
+    }
+    
+    /**
+     * 解绑定第三方账户
+     */
+    @Override
+    public int delete(Integer userId, String thirdpartyType) {
+        AccessTokenInfoCriteria criteria = new AccessTokenInfoCriteria();
+        criteria.createCriteria().andUserIdEqualTo(userId).andThirdpartyTypeEqualTo(thirdpartyType);
+        return accessTokenInfoMapper.deleteByExample(criteria);
+    }
+    
 }

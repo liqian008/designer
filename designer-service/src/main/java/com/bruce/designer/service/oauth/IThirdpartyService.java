@@ -14,6 +14,12 @@ public interface IThirdpartyService {
      */
     public User getUserByWeiboCode(String code) throws WeiboException;
     
+    /**
+     * 发布至weibo
+     * @return
+     */
+    public long publish2Weibo();
+    
     
    
 }
