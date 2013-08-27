@@ -1,6 +1,8 @@
 package com.bruce.designer.service.oauth;
 
 
+import java.util.List;
+
 import com.bruce.baseSkeleton.service.IBaseService;
 import com.bruce.designer.bean.AccessTokenInfo;
 
@@ -13,7 +15,10 @@ public interface IAccessTokenService extends IBaseService<AccessTokenInfo, Integ
     //更新accessToken
     //public int updateAccessTokenInfo(AccessTokenInfo accessTokenInfo);
     
-    public AccessTokenInfo loadAccessTokenInfo(String thirdpartyUid, String thirdpartyType);
+    public List<AccessTokenInfo> queryByUserId(Integer userId);
     
+    public AccessTokenInfo load(String thirdpartyUid, String thirdpartyType);
+    
+    public int delete(Integer userId, String thirdpartyType);
     
 }

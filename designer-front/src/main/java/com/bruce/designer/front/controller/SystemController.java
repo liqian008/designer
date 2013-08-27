@@ -46,8 +46,7 @@ public class SystemController {
      * Simply selects the home view to render by returning its name.
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String doLogin(Model model, HttpServletRequest request,
-            String username, String password) {
+    public String doLogin(Model model, HttpServletRequest request, String username, String password) {
         User user = userService.authUser(username, password);
         if (user != null) {
             request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
@@ -61,8 +60,7 @@ public class SystemController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String doRegister(Model model, HttpServletRequest request,
-            String username, String nickname, String password, String repassword) {
+    public String doRegister(Model model, HttpServletRequest request, String username, String nickname, String password, String repassword) {
 
         User user = new User();
         user.setUsername(username);
