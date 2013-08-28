@@ -37,13 +37,13 @@ public class OAuthController {
     @RequestMapping(value = "/wbOauth")
     public String wbOauth(Model model, HttpServletRequest request) throws Exception {
         String code = request.getParameter("code");
-        if (StringUtils.isBlank(code)) {
-            //回调错误
-        } else {
+        if (StringUtils.isBlank(code)) {//回调错误
+            
+        } else {//回调正常
             User user = thirdpartyService.getUserByWeiboCode(code);
-            if (user != null) {
+            if (user != null) {//用户未登录，进入注册、绑定已有账户流程
                 request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
-            }else{
+            }else{//用户已登录，进入绑定现有账户流程
                 //验证、加载失败
             }
         }

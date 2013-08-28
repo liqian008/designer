@@ -22,20 +22,30 @@ public class ThirdpartyServiceImpl implements IThirdpartyService {
 
     private static final String THIRDPARTY_SINA_WEIBO = "SINA_WEIBO";
 
-    private weibo4j.Oauth weiboOauth = new weibo4j.Oauth();
     @Autowired
     private IAccessTokenService accessTokenService;
     @Autowired
     private UserService userService;
-
+    
     @Override
     public User getUserByWeiboCode(String code) throws WeiboException {
+        weibo4j.Oauth weiboOauth = new weibo4j.Oauth();
         if (StringUtils.isNotBlank(code)) {
             try {
                 // 根据code获取token
                 weibo4j.http.AccessToken token = weiboOauth.getAccessTokenByCode(code);
                 UnifiedOAuth unifiedOAuth = UnifiedOAuth.parse(token);
+                //根据token获取第三方用户资料
+                
+                //根据第三方用户资料查询用户是否在本站绑定过
+                
+                //如果未绑定过（可进行绑定），直接返回
+                
+                //如果绑定过(不可进行绑定)，load并返回，同时更新token
+                
+                
                 UnifiedOAuthUser oauthUser = loadWeiboUserInfo(unifiedOAuth.getAccessToken());
+                
                 User user = genUser(oauthUser, unifiedOAuth);
                 return user;
             } catch (Exception e) {
@@ -107,13 +117,6 @@ public class ThirdpartyServiceImpl implements IThirdpartyService {
         }
     }
 
-    public weibo4j.Oauth getWeiboOauth() {
-        return weiboOauth;
-    }
-
-    public void setWeiboOauth(weibo4j.Oauth weiboOauth) {
-        this.weiboOauth = weiboOauth;
-    }
 
     public static void main(String[] args) {
         ThirdpartyServiceImpl impl = new ThirdpartyServiceImpl();
