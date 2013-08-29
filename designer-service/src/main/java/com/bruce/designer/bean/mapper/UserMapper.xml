@@ -153,7 +153,7 @@
       email, create_time, update_time, 
       status, head_img, nickname
       )
-    values (#{jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=SMALLINT}, #{headImg,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}
       )

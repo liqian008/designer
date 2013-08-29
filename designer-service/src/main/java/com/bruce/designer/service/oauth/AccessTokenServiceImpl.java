@@ -38,7 +38,7 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
     @Override
     public AccessTokenInfo load(String thirdpartyUid, String thirdpartyType) {
         AccessTokenInfoCriteria criteria = new AccessTokenInfoCriteria();
-        criteria.createCriteria().andAccessTokenEqualTo(thirdpartyUid).andThirdpartyTypeEqualTo(thirdpartyType);
+        criteria.createCriteria().andThirdpartyUidEqualTo(thirdpartyUid).andThirdpartyTypeEqualTo(thirdpartyType);
         
         List<AccessTokenInfo> tokenList = accessTokenInfoMapper.selectByExample(criteria);
         if(tokenList!=null&&tokenList.size()==1){
