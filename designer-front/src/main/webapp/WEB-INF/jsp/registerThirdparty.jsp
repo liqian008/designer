@@ -120,26 +120,65 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 							     
 							    <div class="tab-content">
 							        <div class="tab-pane active" id="tab1">
-							        	<h2>完善帐号信息</h2>
-							           <p>
-							                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-							                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-							                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-							                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-							            </p> 
+							        	<div class="content-title">
+											<h4 class="widget-title">完善登录信息</h4>
+										</div>
+										<form id="contact-form-widget" method="post" class="clearfix"
+											action="/designer-front/oauthRegister.art">
+											<div class="input-container">
+												<input type="text" class="contact-form-name" name="username"
+													value="Your Name"
+													onfocus="if(this.value=='Your Name')this.value='';"
+													onblur="if(this.value=='')this.value='Your Name';" /> <i
+													class="icon-user"></i>
+											</div>
+											<div class="input-container">
+												<input type="text" class="contact-form-name" name="nickname"
+													value="Your Nickname"
+													onfocus="if(this.value=='Your Nickname')this.value='';"
+													onblur="if(this.value=='')this.value='Your Nickname';" /> <i
+													class="icon-user"></i>
+											</div>
+											<div class="input-container">
+												<input type="password" class="contact-form-email" name="password"
+													value="Your Password"
+													onfocus="if(this.value=='Your Password')this.value='';"
+													onblur="if(this.value=='')this.value='Your Password';" /> <i
+													class="icon-envelope-alt"></i>
+											</div>
+											<div class="input-container">
+												<input type="password" class="contact-form-email" name="repassword"
+													value="Re-Password"
+													onfocus="if(this.value=='Re-Password')this.value='';"
+													onblur="if(this.value=='')this.value='Re-Password';" /> <i
+													class="icon-envelope-alt"></i>
+											</div>
+											<input class="contact-submit button" type="submit" value="完善个人资料">
+										</form>
 							        </div>
 							        <div class="tab-pane" id="tab2">
-							            <h2>绑定已有帐号</h2>
-							           <p>
-							                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-							                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-							                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-							                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-							            </p> 
+							            <div class="content-title">
+											<h4 class="widget-title">绑定已有账户</h4>
+										</div>
+										<form id="contact-form-widget" method="post" class="clearfix"
+											action="/designer-front/oauthBind.art">
+											<div class="input-container">
+												<input type="text" class="contact-form-name" name="username"
+													value="Your Name"
+													onfocus="if(this.value=='Your Name')this.value='';"
+													onblur="if(this.value=='')this.value='Your Name';" /> <i
+													class="icon-user"></i>
+											</div>
+											<div class="input-container">
+												<input type="password" class="contact-form-email" name="password"
+													value="Your Password"
+													onfocus="if(this.value=='Your Password')this.value='';"
+													onblur="if(this.value=='')this.value='Your Password';" /> <i
+													class="icon-envelope-alt"></i>
+											</div>
+											<div class="input-container">
+											<input class="contact-submit button" type="submit" value="完善个人资料">
+										</form>
 							        </div>
 							    </div>
 							</div>
