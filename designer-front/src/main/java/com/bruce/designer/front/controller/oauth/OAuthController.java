@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -20,7 +19,7 @@ import com.bruce.designer.bean.User;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.service.UserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;
-import com.bruce.designer.service.oauth.IThirdpartyService;
+import com.bruce.designer.service.oauth.IOAuthService;
 
 @Controller
 public class OAuthController {
@@ -28,27 +27,44 @@ public class OAuthController {
     @Autowired
     private UserService userService;
     @Autowired
-    IThirdpartyService thirdpartyService;
+    IOAuthService oauthService;
     @Autowired
     IAccessTokenService accessTokenService;
 
     private static final Logger logger = LoggerFactory.getLogger(OAuthController.class);
-
+    
     @RequestMapping(value = "/wbOauth")
     public String wbOauth(Model model, HttpServletRequest request) throws Exception {
         String code = request.getParameter("code");
         if (StringUtils.isBlank(code)) {//回调错误
             
         } else {//回调正常
-            User user = thirdpartyService.getUserByWeiboCode(code);
-            if (user != null) {//用户未登录，进入注册、绑定已有账户流程
-                request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
-            }else{//用户已登录，进入绑定现有账户流程
-                //验证、加载失败
-            }
+        	AccessTokenInfo tokenInfo = oauthService.loadTokenByWeiboCode(code);
+        	if(tokenInfo!=null){
+        		//缓存accessToken，便于后续绑定的时候使用
+        		request.getSession().setAttribute(ConstFront.TEMPLATE_ACCESS_TOKEN, tokenInfo);
+        		//token正常
+        	    User user = (User)request.getSession().getAttribute(ConstFront.CURRENT_USER);
+  	          	if (user == null) {//用户未登录
+  	          		//进入注册、绑定已有账户流程
+  	          		return "registerThirdparty";
+  	          	}else{//用户已登录
+  	          		//绑定现有账户流程，需检查已登录用户是否已存在该oauth类型的绑定
+  	          		boolean alreadyBind = false;
+  	          		if(!alreadyBind){
+  	          			//尚未绑定，可以绑定
+  	          			return "registerThirdparty";
+  	          		}else{
+  	          			//已经绑定，不能重复绑定，提示出错
+  	          			return "";
+  	          		}
+  	          	}
+        	}else{
+        		//无法获取token，系统错误
+        	}
         }
         // 跳转到注册、绑定页面
-        return "registerThirdparty";
+        return "";
     }
     
     @RequestMapping(value = "/oauthRegister", method = RequestMethod.POST)
@@ -139,5 +155,11 @@ public class OAuthController {
         }
         return "";
     }
+    
+    @RequestMapping(value="/oauthLogin")
+    public String oauthLogin(){
+        return "registerThirdparty";
+    }
+    
     
 }

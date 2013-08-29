@@ -111,49 +111,40 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                 <div class="container">
                     <div class="row-fluid">
                         
-                        <section class="content span9">
-                            <div class="shortcode-contact-form row-fluid">
-                                <form action="contact.html#" method="post" id="contactform" class="form">
-                                    <div class="span4 offset4">
-                                    
-                                    	<%
-                                    	String username = "username";
-                                    	User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
-                                    	if(user!=null){
-                                    		username = user.getNickname();
-                                    	}
-                                    	%>
-                                    
-                                        <h2>微博用户登录</h2>
-                                        <p class="input-wrap">
-                                            <input class="comment_input comment_name" type="text" name="author" id="username" value="<%=username%>" size="22" tabindex="1" 
-                                            onfocus="if(this.value=='username')this.value='';" onblur="if(this.value=='')this.value='username';" />
-                                            <i class="icon-user"></i>
-                                        </p>
-                                        
-                                        <p>
-                                        <input class="button button-blue" name="submit" type="submit" id="submit" tabindex="5" value="注 册" />      
-                                    </p>
-                                    </div>
-                                    
-                                </form>
-
-                                <div class="contact-form-respons">
-                                    <div class="infobox info-succes info-succes-alt clearfix">
-                                        <span></span>
-                                        <div class="infobox-wrap">
-                                            <h4>Your message was succesfully send!</h4>
-                                            <p>We will contact you as soon as possible. Please reload the page if you want to send a message again.</p>                                            
-                                        </div>
-                                        <a href="contact.html#" class="info-hide"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </section> <!-- End Content -->
-                        
-                       
-                       <jsp:include page="./inc/rightSidebar.jsp"></jsp:include>
-                    	
+                        <section class="content span6 offset3">
+							<div class="shortcode-tabs">
+							    <ul class="tabs-nav tabs clearfix">
+							        <li class="active"><a class="button button-white" href="#tab1" data-toggle="tab">注册新用户</a></li>
+							        <li><a class="button button-white" href="#tab2" data-toggle="tab">绑定用户</a></li>
+							    </ul>
+							     
+							    <div class="tab-content">
+							        <div class="tab-pane active" id="tab1">
+							        	<h2>完善帐号信息</h2>
+							           <p>
+							                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+							                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+							                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+							            </p> 
+							        </div>
+							        <div class="tab-pane" id="tab2">
+							            <h2>绑定已有帐号</h2>
+							           <p>
+							                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+							                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+							                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+							            </p> 
+							        </div>
+							    </div>
+							</div>
+                        </section> 
+                        <!-- End Content -->
                        
                     </div>                        
                 </div> <!-- Close Main -->
