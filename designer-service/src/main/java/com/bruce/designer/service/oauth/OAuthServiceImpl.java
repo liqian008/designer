@@ -1,7 +1,6 @@
 package com.bruce.designer.service.oauth;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +10,6 @@ import weibo4j.org.json.JSONException;
 import weibo4j.org.json.JSONObject;
 
 import com.bruce.designer.bean.AccessTokenInfo;
-import com.bruce.designer.bean.User;
 import com.bruce.designer.service.UserService;
 
 @Service
@@ -24,6 +22,7 @@ public class OAuthServiceImpl implements IOAuthService {
     @Autowired
     private UserService userService;
     
+    @Override
     public AccessTokenInfo loadTokenByWeiboCode(String code) throws WeiboException, JSONException {
         weibo4j.Oauth weiboOauth = new weibo4j.Oauth();
         if (StringUtils.isNotBlank(code)) {
