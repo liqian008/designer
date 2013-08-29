@@ -35,7 +35,7 @@ public class OAuthController {
 
     @RequestMapping(value = "/wbOauth")
     public String wbOauth(Model model, HttpServletRequest request)throws Exception {
-        String code = request.getParameter("code");
+        String code = request.getParameter("code"); 
         if (StringUtils.isBlank(code)) {// 回调错误
 
         } else {// 回调正常
