@@ -36,6 +36,10 @@ public interface IOAuthProcessor {
 	 */
 	public AccessTokenInfo loadThirdpartyProfile(AccessTokenInfo tokenInfo) throws WeiboException;
 
+	/**
+	 * 发布
+	 * @param sharedContent
+	 */
 	public void publishContent(SharedContent sharedContent);
 
 }
