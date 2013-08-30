@@ -1,5 +1,7 @@
 package com.bruce.designer.bean;
 
+import com.bruce.designer.service.oauth.IOAuthService;
+
 public class AccessTokenInfoBase {
     
     //sina weibo转换
@@ -8,7 +10,7 @@ public class AccessTokenInfoBase {
         accessTokenInfo.setAccessToken(at.getAccessToken());
         accessTokenInfo.setRefreshToken(at.getRefreshToken());
         accessTokenInfo.setExpiresIn(Long.parseLong(at.getExpireIn()));
-        accessTokenInfo.setThirdpartyType("SINA_WEIBO");
+        accessTokenInfo.setThirdpartyType(IOAuthService.OAUTH_WEIBO_TYPE);
         return accessTokenInfo;
     }
 

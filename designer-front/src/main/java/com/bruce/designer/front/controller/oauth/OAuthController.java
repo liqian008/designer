@@ -27,9 +27,9 @@ public class OAuthController {
     @Autowired
     private UserService userService;
     @Autowired
-    IOAuthService oauthService;
+    private IOAuthService oAuthService;
     @Autowired
-    IAccessTokenService accessTokenService;
+    private IAccessTokenService accessTokenService;
 
     private static final Logger logger = LoggerFactory.getLogger(OAuthController.class);
 
@@ -39,7 +39,7 @@ public class OAuthController {
         if (StringUtils.isBlank(code)) {// 回调错误
 
         } else {// 回调正常
-            AccessTokenInfo tokenInfo = oauthService.loadTokenByWeiboCode(code);
+            AccessTokenInfo tokenInfo = oAuthService.loadTokenByCode(code, "SINA_WEIBO");
             if (tokenInfo != null) {
                 // 缓存accessToken，便于后续绑定的时候使用
                 request.getSession().setAttribute(ConstFront.TEMPLATE_ACCESS_TOKEN, tokenInfo);
