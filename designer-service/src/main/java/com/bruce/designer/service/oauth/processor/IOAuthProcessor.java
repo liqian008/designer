@@ -1,5 +1,7 @@
 package com.bruce.designer.service.oauth.processor;
 
+import javax.servlet.http.HttpServletRequest;
+
 import weibo4j.model.WeiboException;
 import weibo4j.org.json.JSONException;
 
@@ -21,7 +23,7 @@ public interface IOAuthProcessor {
      * @return
      * @throws OAuthException
      */
-	public AccessTokenInfo loadToken(String code) throws OAuthException;
+	public AccessTokenInfo loadToken(HttpServletRequest request) throws OAuthException;
 
 	/**
 	 * 根据token获取第三方的用户Id，后续用于在token表中查询其绑定记录

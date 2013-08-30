@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -33,49 +34,85 @@ public class OAuthController {
 
     private static final Logger logger = LoggerFactory.getLogger(OAuthController.class);
 
-    @RequestMapping(value = "/wbOauth")
-    public String wbOauth(Model model, HttpServletRequest request)throws Exception {
-        String code = request.getParameter("code"); 
-        if (StringUtils.isBlank(code)) {// 回调错误
-
-        } else {// 回调正常
-            AccessTokenInfo tokenInfo = oAuthService.loadTokenByCode(code, IOAuthService.OAUTH_WEIBO_TYPE);
-            if (tokenInfo != null) {
-                // 缓存accessToken，便于后续绑定的时候使用
-                request.getSession().setAttribute(ConstFront.TEMPLATE_ACCESS_TOKEN, tokenInfo);
-                // token正常
-                User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
-                if (user == null) {// 未登录状态
-                    if (tokenInfo.getUserId()!=null && tokenInfo.getUserId()>0) {// 用户之前绑定过，可直接登录
-                        user = userService.loadById(tokenInfo.getUserId());
-                        // 加载并设置用户的所有token
-                        List<AccessTokenInfo> accessTokenList = accessTokenService.queryByUserId(tokenInfo.getUserId());
-                        user.setAccessTokenList(accessTokenList);
-                        request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
-                        //oauth验证成功，返回首页
-                        return "redirect:/index.art";
-                    } else {// 新用户，需绑定
-                            // 进入注册、绑定已有账户流程
-                        return "registerThirdparty";
-                    }
-                } else {//已登录状态
-                        // 绑定现有账户流程，需检查已登录用户是否已存在该oauth类型的绑定
-                    boolean alreadyBind = false;
-                    if (!alreadyBind) {
-                        // 尚未绑定，可以绑定
-                        return "registerThirdparty";
-                    } else {
-                        // 已经绑定，不能重复绑定，提示出错
-                        return "";
-                    }
+    @RequestMapping(value = "/wbCallback")
+    public String wbCallback(Model model, HttpServletRequest request)throws Exception {
+//        String code = request.getParameter("code");
+        AccessTokenInfo tokenInfo = oAuthService.loadTokenByCallback(request, IOAuthService.OAUTH_WEIBO_TYPE);
+        if (tokenInfo != null) {
+            // 缓存accessToken，便于后续绑定的时候使用
+            request.getSession().setAttribute(ConstFront.TEMPLATE_ACCESS_TOKEN, tokenInfo);
+            // token正常
+            User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+            if (user == null) {// 未登录状态
+                if (tokenInfo.getUserId()!=null && tokenInfo.getUserId()>0) {// 用户之前绑定过，可直接登录
+                    user = userService.loadById(tokenInfo.getUserId());
+                    // 加载并设置用户的所有token
+                    List<AccessTokenInfo> accessTokenList = accessTokenService.queryByUserId(tokenInfo.getUserId());
+                    user.setAccessTokenList(accessTokenList);
+                    request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
+                    //oauth验证成功，返回首页
+                    return "redirect:/index.art";
+                } else {// 新用户，需绑定
+                        // 进入注册、绑定已有账户流程
+                    return "registerThirdparty";
                 }
-            } else {
-                // 无法获取token，系统错误
+            } else {//已登录状态
+                    // 绑定现有账户流程，需检查已登录用户是否已存在该oauth类型的绑定
+                boolean alreadyBind = false;
+                if (!alreadyBind) {
+                    // 尚未绑定，可以绑定
+                    return "registerThirdparty";
+                } else {
+                    // 已经绑定，不能重复绑定，提示出错
+                    return "";
+                }
             }
+        } else {
+            // 无法获取token，系统错误
         }
         // 跳转到注册、绑定页面
         return "";
     }
+    
+    @RequestMapping(value = "/tencentCallback")
+    public String tencentCallback(Model model, HttpServletRequest request)throws Exception {
+        AccessTokenInfo tokenInfo = oAuthService.loadTokenByCallback(request, IOAuthService.OAUTH_TENCENT_TYPE);
+        if (tokenInfo != null) {
+            // 缓存accessToken，便于后续绑定的时候使用
+            request.getSession().setAttribute(ConstFront.TEMPLATE_ACCESS_TOKEN, tokenInfo);
+            // token正常
+            User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+            if (user == null) {// 未登录状态
+                if (tokenInfo.getUserId()!=null && tokenInfo.getUserId()>0) {// 用户之前绑定过，可直接登录
+                    user = userService.loadById(tokenInfo.getUserId());
+                    // 加载并设置用户的所有token
+                    List<AccessTokenInfo> accessTokenList = accessTokenService.queryByUserId(tokenInfo.getUserId());
+                    user.setAccessTokenList(accessTokenList);
+                    request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
+                    //oauth验证成功，返回首页
+                    return "redirect:/index.art";
+                } else {// 新用户，需绑定
+                        // 进入注册、绑定已有账户流程
+                    return "registerThirdparty";
+                }
+            } else {//已登录状态
+                    // 绑定现有账户流程，需检查已登录用户是否已存在该oauth类型的绑定
+                boolean alreadyBind = false;
+                if (!alreadyBind) {
+                    // 尚未绑定，可以绑定
+                    return "registerThirdparty";
+                } else {
+                    // 已经绑定，不能重复绑定，提示出错
+                    return "";
+                }
+            }
+        } else {
+            // 无法获取token，系统错误
+        }
+        // 跳转到注册、绑定页面
+        return "";
+    }
+    
 
     @RequestMapping(value = "/oauthRegister", method = RequestMethod.POST)
     public String oauthRegister(Model model, HttpServletRequest request,
@@ -182,9 +219,14 @@ public class OAuthController {
      * 临时测试api
      * 
      * @return
+     * @throws Exception 
      */
     @RequestMapping(value = "/oauthLogin")
-    public String oauthLogin() {
+    public String oauthLogin() throws Exception {
+        boolean condition = true;
+        if(condition){
+            throw new Exception();
+        }
         return "registerThirdparty";
     }
 
@@ -194,7 +236,7 @@ public class OAuthController {
      * @param request
      * @return
      */
-    private boolean checkOAuthLoginStatus(HttpServletRequest request){
+    private boolean checkTokenStatus4Login(HttpServletRequest request) {
         AccessTokenInfo sessionToken = (AccessTokenInfo) request.getSession().getAttribute(ConstFront.TEMPLATE_ACCESS_TOKEN);
         if (sessionToken == null) {//session中token不存在，无效请求
             return false;
