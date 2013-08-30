@@ -104,16 +104,6 @@ public class OAuthController {
         return "";
     }
     
-    /**
-     * oauth新用户注册
-     * @param model
-     * @param request
-     * @param username
-     * @param nickname
-     * @param password
-     * @param repassword
-     * @return
-     */
     @RequestMapping(value = "/oauthRegister", method = RequestMethod.POST)
     public String oauthRegister(Model model, HttpServletRequest request,
             String username, String nickname, String password, String repassword) {
