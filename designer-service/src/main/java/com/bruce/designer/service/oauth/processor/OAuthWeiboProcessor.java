@@ -1,5 +1,7 @@
 package com.bruce.designer.service.oauth.processor;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Component;
 
 import weibo4j.Account;
@@ -22,11 +24,11 @@ public class OAuthWeiboProcessor implements IOAuthProcessor{
      * @return
      * @throws OAuthException
      */
-	public AccessTokenInfo loadToken(String code)  throws OAuthException {
+	public AccessTokenInfo loadToken(HttpServletRequest request)  throws OAuthException {
 		weibo4j.Oauth weiboOauth = new weibo4j.Oauth();
 		weibo4j.http.AccessToken wbToken;
         try {
-            wbToken = weiboOauth.getAccessTokenByCode(code);
+            wbToken = weiboOauth.getAccessTokenByCode(request.getParameter("code"));
             AccessTokenInfo tokenInfo = parseWeiboToken(wbToken);
             return tokenInfo;
         } catch (Exception e) {
@@ -99,11 +101,11 @@ public class OAuthWeiboProcessor implements IOAuthProcessor{
      * @param at
      * @return
      */
-    private static AccessTokenInfo parseWeiboToken(weibo4j.http.AccessToken at) {
+    private static AccessTokenInfo parseWeiboToken(weibo4j.http.AccessToken wbToken) {
         AccessTokenInfo accessTokenInfo = new AccessTokenInfo();
-        accessTokenInfo.setAccessToken(at.getAccessToken());
-        accessTokenInfo.setRefreshToken(at.getRefreshToken());
-        accessTokenInfo.setExpiresIn(Long.parseLong(at.getExpireIn()));
+        accessTokenInfo.setAccessToken(wbToken.getAccessToken());
+        accessTokenInfo.setRefreshToken(wbToken.getRefreshToken());
+        accessTokenInfo.setExpireIn(Long.parseLong(wbToken.getExpireIn()));
         accessTokenInfo.setThirdpartyType(IOAuthService.OAUTH_WEIBO_TYPE);
         return accessTokenInfo;
     }

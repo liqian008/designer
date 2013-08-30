@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +37,20 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
     /*线程池*/
     private static ExecutorService executorService = Executors.newCachedThreadPool();
     
-    public AccessTokenInfo loadTokenByCode(String code, String thirdpartyType) throws OAuthException {
-        if (StringUtils.isNotBlank(code)) {
+    public AccessTokenInfo loadTokenByCallback(HttpServletRequest request, String thirdpartyType) throws OAuthException {
+//        if(StringUtils.isBlank(code)){
+//            String errorMessage = "OAuth返回的Code为空，无法处理";
+//            //log this
+//            throw new OAuthException(errorMessage);
+//        }
+        
+        if(StringUtils.isBlank(thirdpartyType)){
+            String errorMessage = "参数thirdpartyType为空，无法处理";
+            //log this
+            throw new OAuthException(errorMessage);
+        }else {
             // 根据code获取token
-        	AccessTokenInfo tokenInfo = oauthProcessor.loadToken(code);
+        	AccessTokenInfo tokenInfo = oauthProcessor.loadToken(request);
             //直接第三方账户id
         	oauthProcessor.loadThirdpartyUid(tokenInfo);
             //查询本地token表，看第三方用户是否曾在本站绑定过
@@ -51,7 +63,6 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
                 return refreshToken(dbTokenInfo, tokenInfo);
             }
         }
-        return null;
     }
     
     public void publish2Thirdparty(SharedContent sharedContent){
@@ -69,7 +80,7 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
     private AccessTokenInfo refreshToken(AccessTokenInfo dbTokenInfo, AccessTokenInfo lastestToken) {
         dbTokenInfo.setAccessToken(lastestToken.getAccessToken());
         dbTokenInfo.setRefreshToken(lastestToken.getRefreshToken());
-        dbTokenInfo.setExpiresIn(lastestToken.getExpiresIn());
+        dbTokenInfo.setExpireIn(lastestToken.getExpireIn());
         try{
             //容错处理，即使数据库更新失败，token依然可以使用
             accessTokenService.updateById(dbTokenInfo);
@@ -119,6 +130,8 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
 //            // TODO Auto-generated catch block
 //            e.printStackTrace();
 //        }
+    	
+    	
     }
 
 	@Override
