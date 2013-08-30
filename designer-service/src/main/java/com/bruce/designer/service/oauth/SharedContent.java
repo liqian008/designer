@@ -14,6 +14,8 @@ public class SharedContent {
     private Integer originId;
     /*外链地址*/
     private String originLink;
+    /*外链地址，通常设定为taobao地址*/
+    private String outerLink;
     /*accessToken*/
     private String accessToken;
     /*第三方类型*/
@@ -68,6 +70,11 @@ public class SharedContent {
     public void setThirdpartyType(String thirdpartyType) {
         this.thirdpartyType = thirdpartyType;
     }
-    
+    public String getOuterLink() {
+        return outerLink;
+    }
+    public void setOuterLink(String outerLink) {
+        this.outerLink = outerLink;
+    }
     
 }

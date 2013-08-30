@@ -39,7 +39,7 @@ public class OAuthController {
         if (StringUtils.isBlank(code)) {// 回调错误
 
         } else {// 回调正常
-            AccessTokenInfo tokenInfo = oAuthService.loadTokenByCode(code, "SINA_WEIBO");
+            AccessTokenInfo tokenInfo = oAuthService.loadTokenByCode(code, IOAuthService.OAUTH_WEIBO_TYPE);
             if (tokenInfo != null) {
                 // 缓存accessToken，便于后续绑定的时候使用
                 request.getSession().setAttribute(ConstFront.TEMPLATE_ACCESS_TOKEN, tokenInfo);
