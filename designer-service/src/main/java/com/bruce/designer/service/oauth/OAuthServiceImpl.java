@@ -6,7 +6,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.apache.commons.lang3.StringUtils;
+<<<<<<< HEAD
 import org.springframework.beans.factory.InitializingBean;
+=======
+>>>>>>> branch 'dev_liqian' of https://github.com/liqian008/designer.git
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -35,7 +38,6 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
     private static ExecutorService executorService = Executors.newCachedThreadPool();
     
     public AccessTokenInfo loadTokenByCode(String code, String thirdpartyType) throws WeiboException, JSONException {
-        
         if (StringUtils.isNotBlank(code)) {
             // 根据code获取token
         	AccessTokenInfo tokenInfo = oauthProcessor.loadToken(code);
