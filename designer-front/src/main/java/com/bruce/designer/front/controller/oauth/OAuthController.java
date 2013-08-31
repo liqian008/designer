@@ -2,6 +2,7 @@ package com.bruce.designer.front.controller.oauth;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +23,7 @@ import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.service.UserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;
 import com.bruce.designer.service.oauth.IOAuthService;
+import com.bruce.designer.service.oauth.SharedContent;
 
 @Controller
 public class OAuthController {
@@ -78,7 +80,7 @@ public class OAuthController {
                     user = userService.loadById(tokenInfo.getUserId());
                     // 加载并设置用户的所有token
                     List<AccessTokenInfo> accessTokenList = accessTokenService.queryByUserId(tokenInfo.getUserId());
-                    user.setAccessTokenList(accessTokenList);
+                    user.refreshTokenMap(accessTokenList);
                     request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
                     //oauth验证成功，返回首页
                     return "redirect:/index.art";
@@ -164,14 +166,14 @@ public class OAuthController {
             // 加载用户
             User user = userService.authUser(username, password);
             if (user != null) {
-                List<AccessTokenInfo> tokenList = user.getAccessTokenList();
+            	Map<String, AccessTokenInfo> accessTokenMap = user.getAccessTokenMap();
                 // 判断该用户是否被绑定过同类型账户
-                boolean alreadyBind = false;
+                boolean alreadyBind = accessTokenMap.get(IOAuthService.OAUTH_WEIBO_TYPE)!=null;
                 if (!alreadyBind) {// 之前未绑定过
                     // 获取accessToken
                     sessionToken.setUserId(user.getId());
                     accessTokenService.save(sessionToken);
-                    tokenList.add(sessionToken);
+                    accessTokenMap.put(IOAuthService.OAUTH_WEIBO_TYPE, sessionToken);
                     //绑定完毕，设置user到session中
                     request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
                     //清空sessionToken
@@ -199,16 +201,8 @@ public class OAuthController {
         int result = accessTokenService.delete(user.getId(), thirdpartyType);
         if(result>0){// 删除成功
             // 同步删除session中的绑定信息
-            List<AccessTokenInfo> tokenList = user.getAccessTokenList();
-            if (tokenList != null && tokenList.size() > 0) {
-                // 遍历查找相应的第三方绑定并删除
-                for (AccessTokenInfo userToken : tokenList) {
-                    if (thirdpartyType.equals(userToken.getThirdpartyType())) {
-                        tokenList.remove(userToken);
-                        break;
-                    }
-                }
-            }
+        	Map<String, AccessTokenInfo> accessTokenMap = user.getAccessTokenMap();
+        	accessTokenMap.remove(thirdpartyType);
         }
         return "";
     }
@@ -221,11 +215,39 @@ public class OAuthController {
      */
     @RequestMapping(value = "/oauthLogin")
     public String oauthLogin() throws Exception {
-        boolean condition = true;
-        if(condition){
-            throw new Exception();
-        }
         return "registerThirdparty";
+    }
+    
+    
+    /**
+     * ready2Pub
+     * 
+     * @return
+     * @throws Exception 
+     */
+    @RequestMapping(value = "/ready2Pub")
+    public String ready2Pub(String content) throws Exception {
+    	return "tempReady2pub";
+    }
+    
+    
+    /**
+     * 同步微博api
+     * 
+     * @return
+     * @throws Exception 
+     */
+    @RequestMapping(value = "/publish")
+    public String publish(HttpServletRequest request, String content) throws Exception {
+    	User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+    	
+    	if(user!=null){
+	    	SharedContent sharedContent = new SharedContent();
+	    	sharedContent.setContent(content);
+	    	sharedContent.setAccessToken(user.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE).getAccessToken());
+	        oAuthService.publish2Thirdparty(sharedContent);
+    	}
+        return "redirect:index.art";
     }
 
     

@@ -86,10 +86,10 @@ public class OAuthWeiboProcessor implements IOAuthProcessor{
     public void publishContent(SharedContent sharedContent) throws OAuthException{
         System.out.println("发布weibo");
         try {
-            String content = java.net.URLEncoder.encode(sharedContent.getContent(), "utf-8");
+//            String content = java.net.URLEncoder.encode(sharedContent.getContent(), "utf-8");
             Timeline tl = new Timeline();
             tl.client.setToken(sharedContent.getAccessToken());// access_token
-            Status status = tl.UpdateStatus(content);
+            Status status = tl.UpdateStatus(sharedContent.getContent());
             System.out.println("Successfully upload the status to ["+ status.getText() + "].");
         } catch (Exception e1) {
             throw new OAuthException(e1);

@@ -1,6 +1,7 @@
 <%@page import="com.bruce.designer.front.controller.FrontController"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.bean.*" %>
+<%@ page import="com.bruce.designer.service.oauth.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.*" %>
@@ -113,30 +114,130 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                 <div class="container">
                     <div class="row-fluid">
                         <section class="content span9">
-                            <div class="shortcode-contact-form row-fluid">
-                                <div class="span12">
-                                
-                                <div class="span5 offset2">
-                                <form action="contact.html#" method="post" id="contactform" class="form">
-                                        <h2>修改个人资料</h2>
-                                        <p class="input-wrap">
-                                            <input class="comment_input comment_name" type="text" name="author" id="author" value="<%=user.getUsername()%>" size="22" tabindex="1" 
-                                            onfocus="if(this.value=='Your Name')this.value='';" onblur="if(this.value=='')this.value='Your Name';" />
-                                            <i class="icon-user"></i>
-                                        </p>
-                                        <p class="input-wrap">
-                                            <input class="comment_input comment_email" type="text" name="email" id="email" value="<%=user.getNickname()%>" size="22" tabindex="2" 
-                                            onfocus="if(this.value=='Your Mail')this.value='';" onblur="if(this.value=='')this.value='Your Mail';"  />
-                                            <i class="icon-envelope-alt"></i>
-                                        </p>
-                                        <p>
-                                        	<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="修 改" />       
-                                    	</p>
-                                </form>
+							<div class="content-title">
+                                <h2>个人设置</h2>
+                            </div>
+
+                            <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
+                                <ul class="tabs-nav tabs clearfix span3">
+                                    <li><a class="button button-white" href="#designerProfile" data-toggle="tab">设计师基本信息</a></li>
+                                    <li><a class="button button-white" href="#syncSettings" data-toggle="tab">作品分享器（推荐）</a></li>
+                                    <li class="active"><a class="button button-white" href="#profile" data-toggle="tab">个人基本信息</a></li>
+                                    <li><a class="button button-white" href="#changePwd" data-toggle="tab">修改密码</a></li>
+                                </ul>
+                                <div class="tab-content span8">
+                                    <div class="tab-pane widgets-light" id="syncSettings">
+                                        <div class="widget-box widget-contact-form">
+											<div class="content-title">
+												<h4>分享设置</h4>
+											</div>
+											<div class="input-container">
+												Sina微博: 
+												<%=user.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE)!=null?"已绑定":"未绑定"%>
+												<br/>
+												<input type="text" class="contact-form-name" name="syncAlbum"
+														value="发布作品时同步分享到Sina微博"/>
+											</div>
+											<div class="input-container">
+												腾讯微博: 
+												<%=user.getAccessTokenMap().get(IOAuthService.OAUTH_TENCENT_TYPE)!=null?"已绑定":"未绑定"%>
+												<br/>
+												<input type="text" class="contact-form-name" name="syncAlbum"
+														value="发布作品时同步分享到腾讯微博"/>
+											</div>
+											<div class="input-container">
+												人人网: 
+												<%=user.getAccessTokenMap().get(IOAuthService.OAUTH_RENREN_TYPE)!=null?"已绑定":"未绑定"%>
+												<br/>
+												<input type="text" class="contact-form-name" name="syncAlbum"
+														value="发布作品时同步分享到人人网"/>
+											</div>
+										</div>
                                     </div>
+                                    <div class="tab-pane widgets-light" id="designerProfile">
+                                        <div class="widget-box widget-contact-form">
+											<div class="content-title">
+												<h4>设计师资料</h4>
+											</div>
+											<form id="contact-form-widget" method="post" class="clearfix"
+												action="/designer-front/oauthRegister.art">
+												<div class="input-container">
+													姓 名: <input type="text" class="contact-form-name" name="username"
+														value="姓 名"/>
+												</div>
+												<div class="input-container">
+													身份证号: <input type="text" class="contact-form-name" name="nickname"
+														value="身份证号"/>
+												</div>
+												<div class="input-container">
+													公司: <input type="text" class="contact-form-name" name="nickname"
+														value="公 司"/>
+												</div>
+												<div class="input-container">
+													淘宝店铺链接: <input type="text" class="contact-form-name" name="nickname"
+														value="淘宝店铺链接"/>
+												</div>
+												<input class="contact-submit button" type="submit" value="申 请">
+												<input class="contact-submit button" type="submit" value="完 成">
+												<input class="contact-submit button" type="button" value="取 消">
+											</form>
+										</div>
+                                    </div>
+                                    <div class="tab-pane widgets-light active" id="profile">
+                                        <div class="widget-box widget-contact-form">
+											<div class="content-title">
+												<h4>个人资料</h4>
+											</div>
+											<form id="contact-form-widget" method="post" class="clearfix"
+												action="/designer-front/oauthRegister.art">
+												<div class="input-container">
+													用户名: 
+													<input type="text" class="contact-form-name" name="username"
+														value="<%=user.getUsername()%>" readonly="readonly"/>
+												</div>
+												<div class="input-container">
+													昵 称: 
+													<input type="text" class="contact-form-name" name="nickname"
+														value="<%=user.getNickname()%>"  readonly="readonly"/>
+												</div>
+												<div class="input-container">
+													E-Mail: 
+													<input type="text" class="contact-form-name" name="email"
+														value="<%=user.getEmail()%>"/>
+												</div>
+												<input class="contact-submit button" type="submit" value="完 成">
+												<input class="contact-submit button" type="button" value="取 消">
+											</form>
+										</div>
+                                    </div>
+                                    <div class="tab-pane widgets-light" id="changePwd">
+                                        <div class="widget-box widget-contact-form">
+											<div class="content-title">
+												<h4>修改密码</h4>
+											</div>
+											<form id="contact-form-widget" method="post" class="clearfix"
+												action="/designer-front/oauthRegister.art">
+												<div class="input-container">
+													旧密码: <input type="password" class="contact-form-email" name="oldPassword"
+														value=""/> 
+												</div>
+												<div class="input-container">
+													新密码: <input type="password" class="contact-form-email" name="password"
+														value=""/> 
+												</div>
+												<div class="input-container">
+													确认密码: <input type="password" class="contact-form-email" name="repassword"
+														value=""/> 
+												</div>
+												<input class="contact-submit button" type="submit" value="完 成">
+												<input class="contact-submit button" type="button" value="取 消">
+											</form>
+										</div>
+                                    </div>
+                                    
                                 </div>
                             </div>
-                        </section>
+                        </section> 
                         
                         <jsp:include page="./inc/rightSidebar.jsp"></jsp:include>
                     	

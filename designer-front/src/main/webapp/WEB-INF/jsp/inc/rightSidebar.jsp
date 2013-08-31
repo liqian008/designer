@@ -12,29 +12,49 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 <aside class="sidebar widgets-light span3">
 
 	<%if(user==null){%>
-	<!-- Contactform Widget -->
-	<div class="widget-box widget-contact-form">
-		<div class="content-title">
-			<h4 class="widget-title">用户登录</h4>
+		<!-- Contactform Widget -->
+		<div class="widget-box widget-contact-form">
+			<div class="content-title">
+				<h4 class="widget-title">用户登录</h4>
+			</div>
+			<form id="contact-form-widget" method="post" class="clearfix" action="/designer-front/login.art">
+				<div class="input-container">
+					<input type="text" class="contact-form-name" name="username"
+						value="Your Name"
+						onfocus="if(this.value=='Your Name')this.value='';"
+						onblur="if(this.value=='')this.value='Your Name';" /> <i
+						class="icon-user"></i>
+				</div>
+				<div class="input-container">
+					<input type="text" class="contact-form-email" name="password"
+						value="Your Email"
+						onfocus="if(this.value=='Your Email')this.value='';"
+						onblur="if(this.value=='')this.value='Your Email';" /> <i
+						class="icon-envelope-alt"></i>
+				</div>
+				<input class="contact-submit button" type="submit" value="登 录">
+				<input class="contact-submit button" type="button" value="微博登录" onclick="location.href='https://api.weibo.com/oauth2/authorize?client_id=753177599&redirect_uri=http://localhost:8080/designer-front/wbCallback.art&response_type=code'">
+				<input class="contact-submit button" type="button" value="忘记密码" onclick="location.href='#'">
+				
+			</form>
 		</div>
-		<form id="contact-form-widget" method="post" class="clearfix"
-			action="/designer-front/login.art">
+	<%}else{%>
+		<div class="widget-box widget-contact-form">
+		<div class="content-title">
+			<h4 class="widget-title">个人中心</h4>
+		</div>
+		<form id="contact-form-widget" method="post" class="clearfix" action="/designer-front/login.art">
 			<div class="input-container">
-				<input type="text" class="contact-form-name" name="username"
-					value="Your Name"
-					onfocus="if(this.value=='Your Name')this.value='';"
-					onblur="if(this.value=='')this.value='Your Name';" /> <i
-					class="icon-user"></i>
+				用户名: <input type="text" class="contact-form-name" name="username"
+					value="<%=user.getUsername()%>"/>
+			</div><div class="input-container">
+				角色: <input type="text" class="contact-form-name" name="username"
+					value="设计师"/>
 			</div>
-			<div class="input-container">
-				<input type="text" class="contact-form-email" name="password"
-					value="Your Email"
-					onfocus="if(this.value=='Your Email')this.value='';"
-					onblur="if(this.value=='')this.value='Your Email';" /> <i
-					class="icon-envelope-alt"></i>
-			</div>
-			<input class="contact-submit button" type="submit" value="登 录">
-			<input class="contact-submit button" type="button" value="微博登录" onclick="location.href='https://api.weibo.com/oauth2/authorize?client_id=753177599&redirect_uri=http://localhost:8080/designer-front/wbOauth.art&response_type=code'">
+			<input class="contact-submit button" type="button" value="我的资料" onclick="location.href='/designer-front/settings.art'"/>
+			<input class="contact-submit button" type="button" value="申请设计师"/>
+			<input class="contact-submit button" type="button" value="分享设置"/>
+			<input class="contact-submit button" type="button" value="注 销" onclick="location.href='/designer-front/logout.art'"/>
 			
 		</form>
 	</div>
