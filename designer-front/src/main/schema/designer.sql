@@ -163,24 +163,13 @@ CREATE TABLE `tb_access_token_info` (
   `refresh_token` varchar(200) DEFAULT '',
   `token_type` varchar(20) DEFAULT '',
   `thirdparty_uid` varchar(100) DEFAULT NULL,
-  `expires_in` bigint(20) DEFAULT NULL,
+  `expire_in` bigint(20) DEFAULT NULL,
   `creae_time` datetime DEFAULT NULL,
   `upate_time` datetime DEFAULT NULL,
+  `thirdparty_type` varchar(50) DEFAULT NULL,
+  `thirdparty_uname` varchar(50) DEFAULT NULL,
+  `sync_album` smallint(6) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for tb_user_source
--- ----------------------------
-DROP TABLE IF EXISTS `tb_user_source`;
-CREATE TABLE `tb_user_source` (
-  `id` int(3) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `thirdparty_uid` varchar(100) NOT NULL DEFAULT '',
-  `token_type` varchar(20) DEFAULT '',
-  `creae_time` datetime DEFAULT NULL,
-  `upate_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS = 1;
