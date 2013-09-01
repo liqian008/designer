@@ -83,7 +83,8 @@ public class OAuthController {
                     user.refreshTokenMap(accessTokenList);
                     request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
                     //oauth验证成功，返回首页
-                    return "redirect:/index.art";
+                    request.setAttribute(ConstFront.REDIRECT_PROMPT, "欢迎您回来，"+user.getNickname()+"，现在将转入首页，请稍候…");
+                    return "forward:/redirect.art";
                 } else {// 新用户，需绑定
                         // 进入注册、绑定已有账户流程
                     return "registerThirdparty";
@@ -141,6 +142,8 @@ public class OAuthController {
                     user = userService.authUser(username, password);
                     request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
                 }
+                request.setAttribute(ConstFront.REDIRECT_PROMPT, "欢迎您注册，"+user.getNickname()+"，现在将转入首页，请稍候…");
+                return "forward:/redirect.art";
             }
         }
         return "redirect:/index.art";
@@ -178,6 +181,9 @@ public class OAuthController {
                     request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
                     //清空sessionToken
                     request.getSession().removeAttribute(ConstFront.TEMPLATE_ACCESS_TOKEN);
+                    
+                    request.setAttribute(ConstFront.REDIRECT_PROMPT, "欢迎您，"+user.getNickname()+"，现在将转入首页，请稍候…");
+                    return "forward:/redirect.art";
                 } else {// 账户之前已经绑定过本token，不能重复绑定
                     
                 }

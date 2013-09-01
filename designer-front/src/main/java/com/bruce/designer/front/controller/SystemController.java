@@ -83,7 +83,17 @@ public class SystemController {
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request) {
         request.getSession().removeAttribute(ConstFront.CURRENT_USER);
-        return "redirect:/index.art";
+        request.setAttribute(ConstFront.REDIRECT_PROMPT, "您已退出站点，现在将以游客身份转入首页，请稍候…");
+        return "forward:/redirect.art";
     }
+    
+    /**
+     * Simply selects the home view to render by returning its name.
+     */
+    @RequestMapping(value = "/redirect", method = RequestMethod.GET)
+    public String redirect(HttpServletRequest request) {
+        return "redirect";
+    }
+    
     
 }
