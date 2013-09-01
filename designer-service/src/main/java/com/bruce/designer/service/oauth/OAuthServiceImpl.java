@@ -100,7 +100,11 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
         	//IOAuthProcessor processor = processorMap.get(content.getThirdpartyType());
         	//发布至第三方
         	try {
+<<<<<<< HEAD
         		oauthProcessor.shareout(content);
+=======
+        		oauthProcessor.publishContent(content);
+>>>>>>> branch 'dev_liqian' of https://github.com/liqian008/designer.git
             } catch (OAuthException e) {
                 e.printStackTrace();
                 //log this

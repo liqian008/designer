@@ -265,6 +265,29 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												</div>
 												<input class="contact-submit button" type="button" value="申 请">
 												<input class="contact-submit button" type="button" value="完 成">
+											</form>
+										</div>
+                                    </div>
+                                    <div class="tab-pane widgets-light" id="changePwd">
+                                        <div class="widget-box widget-contact-form">
+											<div class="content-title">
+												<h4>修改密码</h4>
+											</div>
+											<form id="contact-form-widget" method="post" class="clearfix"
+												action="/designer-front/oauthRegister.art">
+												<div class="input-container">
+													旧密码: <input type="password" class="contact-form-email" name="oldPassword"
+														value=""/> 
+												</div>
+												<div class="input-container">
+													新密码: <input type="password" class="contact-form-email" name="password"
+														value=""/> 
+												</div>
+												<div class="input-container">
+													确认密码: <input type="password" class="contact-form-email" name="repassword"
+														value=""/> 
+												</div>
+												<input class="contact-submit button" type="button" value="完 成">
 												<input class="contact-submit button" type="button" value="取 消">
 											</form>
 										</div>

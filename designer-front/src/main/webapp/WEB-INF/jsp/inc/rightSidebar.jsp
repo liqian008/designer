@@ -52,8 +52,10 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					value="设计师"/>
 			</div>
 			<input class="contact-submit button" type="button" value="我的资料" onclick="location.href='/designer-front/settings.art'"/>
+			<!-- 
 			<input class="contact-submit button" type="button" value="申请设计师"/>
 			<input class="contact-submit button" type="button" value="分享设置"/>
+			 -->
 			<input class="contact-submit button" type="button" value="注 销" onclick="location.href='/designer-front/logout.art'"/>
 			
 		</form>
