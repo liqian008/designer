@@ -2,8 +2,12 @@ package com.bruce.designer.front.constants;
 
 public interface ConstFront {
 	
-	/* for login session attribute*/
+	/* 登录的sessionAttribute*/
 	public static final String CURRENT_USER = "_currentUser";
+	/*跳转请求的后续链接*/
+	public static final String REDIRECT_URL = "_redirectUrl";
+	/*跳转时的文字提示*/
+	public static final String REDIRECT_PROMPT = "_redirectPrompt";
 	
 	public static final String TEMPLATE_ACCESS_TOKEN = "_templateAccessToken";
 	

@@ -53,32 +53,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
         <div id="wrapper" class="boxed"> <!-- Page Wrapper: Boxed class for boxed layout - Fullwidth class for fullwidth page --> 
             
             <div class="header-background"> <!-- Header Background -->
-                <div id="header-container" class="clearfix">  <!-- Header Container, contains logo and contact button -->
-                    <header class="clearfix">
-                        <div class="container">
-                            <div class="row-fluid">
-                                <div class="span3 logo">
-                                    <a href="post-gallery.html#">
-                                        <img src="./img/verendus-logo.png" alt="Verendus Logo" title="Verendus Logo" />
-                                    </a>
-                                </div>
-
-                                <div class="header-contact button">
-                                    <a href="post-gallery.html#">
-                                        <ul class="clearfix">
-                                            <li class="phone-number">
-                                                <i class="icon-phone"></i>0(123) - 45678910
-                                            </li>
-                                            <li class="mailto-email">
-                                                <i class="icon-envelope"></i>info@somnia-themes.com
-                                            </li>
-                                        </ul>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </header>       
-                </div>
+                <jsp:include page="./inc/headerBanner.jsp"></jsp:include>
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
                     <jsp:include page="./inc/headerNav.jsp"></jsp:include>
@@ -121,6 +96,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
                                 <ul class="tabs-nav tabs clearfix span3">
                                     <li class="active"><a class="button button-white" href="#profile" data-toggle="tab">个人基本信息</a></li>
+                                    <li><a class="button button-white" href="#avatar" data-toggle="tab">修改头像</a></li>
                                     <li><a class="button button-white" href="#changePwd" data-toggle="tab">修改密码</a></li>
                                     <li><a class="button button-white" href="./myFavorites.art">我的收藏</a></li>
                                     <li><a class="button button-white" href="./myFlowerings.art">我的关注</a></li>
@@ -130,6 +106,13 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                     <li><a class="button button-white" href="#apply4Designer" data-toggle="tab">申请成为设计师</a></li>
                                 </ul>
                                 <div class="tab-content span8">
+                                	<div class="tab-pane widgets-light" id="avatar">
+                                        <div class="widget-box widget-contact-form">
+											<div class="content-title">
+												<h4>修改头像</h4>
+											</div>
+										</div>
+                                    </div>
                                     <div class="tab-pane widgets-light" id="syncSettings">
                                         <div class="widget-box widget-contact-form">
 											<div class="content-title">

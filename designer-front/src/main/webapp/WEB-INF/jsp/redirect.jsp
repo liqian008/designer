@@ -2,10 +2,16 @@
 <%@ page import="com.bruce.designer.bean.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.text.*" %>
 
 <%
-SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
+String prompt = (String) request.getAttribute(ConstFront.REDIRECT_PROMPT);
+String redirectUrl = (String) request.getAttribute(ConstFront.REDIRECT_URL);
+if(prompt==null||"".equals(prompt)){
+	prompt = "操作成功，现在将转入后续页面，请稍候…";
+}
+if(redirectUrl==null||"".equals(redirectUrl)){
+	redirectUrl = "/designer-front/index.art";
+}
 %>
 
 <!DOCTYPE html>
@@ -82,61 +88,27 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                     </ul>
                 </div>
             </div>
-            <div class="main fullwidth">            
-                <div class="container">
-                    <div class="row-fluid">
-                        
-                        <section class="content span9">
-                            <div class="shortcode-contact-form row-fluid">
-                                <form action="contact.html#" method="post" id="contactform" class="form">
-                                    <div class="span4 offset4">
-                                        <h2>新用户注册</h2>
-                                        <p class="input-wrap">
-                                            <input class="comment_input comment_name" type="text" name="author" id="username" value="username" size="22" tabindex="1" 
-                                            onfocus="if(this.value=='username')this.value='';" onblur="if(this.value=='')this.value='username';" />
-                                            <i class="icon-user"></i>
-                                        </p>
-                                        <p class="input-wrap">
-                                            <input class="comment_input comment_email" type="text" name="password" id="password" value="password" size="22" tabindex="2" 
-                                            onfocus="if(this.value=='password')this.value='';" onblur="if(this.value=='')this.value='password';"  />
-                                            <i class="icon-envelope-alt"></i>
-                                        </p>
-
-                                        <p class="input-wrap">
-                                            <input class="comment_input comment_email" type="text" name="password" id="password" value="password" size="22" tabindex="2" 
-                                            onfocus="if(this.value=='password')this.value='';" onblur="if(this.value=='')this.value='password';"  />
-                                            <i class="icon-envelope-alt"></i>
-                                        </p>
-                                        
-                                        <p>
-                                        <input class="button button-blue" name="submit" type="submit" id="submit" tabindex="5" value="注 册" />      
-                                        <input class="button button-blue" name="submit" type="submit" id="submit" tabindex="5" value="重 置" />    
-                                    </p>
-                                    </div>
-                                    
-                                </form>
-
-                                <div class="contact-form-respons">
-                                    <div class="infobox info-succes info-succes-alt clearfix">
-                                        <span></span>
-                                        <div class="infobox-wrap">
-                                            <h4>Your message was succesfully send!</h4>
-                                            <p>We will contact you as soon as possible. Please reload the page if you want to send a message again.</p>                                            
-                                        </div>
-                                        <a href="contact.html#" class="info-hide"></a>
-                                    </div>
-                                </div>
+            
+            
+            <div class="main fullwidth error-page">
+                
+                <section class="content"> <!-- Content -->
+                    <div class="container">
+                        <section class="error-wrap clearfix">
+                            <div class="error-badge">
+                                <h5>
+                                	<%=prompt%><br/>
+                                </h5>
                             </div>
-                        </section> <!-- End Content -->
-                        
-                        
-                        <jsp:include page="./inc/rightSidebar.jsp"></jsp:include>
-                    	
-                        
-                    </div>                        
-                </div> <!-- Close Main -->
-            </div> 
-           
+                            <p>
+                                如果您的浏览器没有自动跳转，请点击 <a href="<%=redirectUrl%>">此处链接</a> 进行跳转
+                            </p>
+                        </section>
+                    </div>
+
+                </section> <!-- Close Content -->
+            </div> <!-- Close Main -->
+            
            <jsp:include page="./inc/footer.jsp"></jsp:include>
            
         </div> <!-- Close Page -->
@@ -153,6 +125,10 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
     <script src="./js/retina.js"></script>
 
     <script src="./js/custom.js"></script>
-
+	
+	<script language='Javascript'>
+	    setTimeout("location.href='<%=redirectUrl%>'", 3000);
+	</script>
+	
     </body>
 </html>

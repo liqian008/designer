@@ -4,9 +4,9 @@
 <div class="breadscrumbs">
     <div class="container">
         <ul class="clearfix">
-            <li><a href="post-gallery.html#">Home</a>/</li>
-            <li><a href="post-gallery.html#">Blog</a>/</li>
-            <li><a href="post-gallery.html#">Gallery Post Format</a></li>
-        </ul>
+            <li><a href="/designer-front/index.art">首页</a>/</li> 
+            <li><a href="#">热门排行</a>/</li>
+            <li><a href="#">本周热门</a></li>
+        </ul> 
     </div>
 </div>

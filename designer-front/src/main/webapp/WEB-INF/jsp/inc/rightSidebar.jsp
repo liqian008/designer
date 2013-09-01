@@ -34,8 +34,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 				</div>
 				<input class="contact-submit button" type="submit" value="登 录">
 				<input class="contact-submit button" type="button" value="微博登录" onclick="location.href='https://api.weibo.com/oauth2/authorize?client_id=753177599&redirect_uri=http://localhost:8080/designer-front/wbCallback.art&response_type=code'">
-				<input class="contact-submit button" type="button" value="忘记密码" onclick="location.href='#'">
-				
+				<input class="contact-submit button" type="button" value="注 册">
 			</form>
 		</div>
 	<%}else{%>
@@ -154,7 +153,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 	<!-- Blogpost Widget -->
 	<div class="widget-box widget-blogposts">
 		<div class="content-title">
-			<h4 class="widget-title">热门关注</h4>
+			<h4 class="widget-title">热门作品</h4>
 		</div>
 		<ul>
 			<li class="clearfix">

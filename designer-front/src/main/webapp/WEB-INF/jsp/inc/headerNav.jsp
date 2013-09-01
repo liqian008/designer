@@ -15,7 +15,7 @@
 				<span class="menu-slider hidden-phone"></span>
 				<!-- Menu Slider -->
 				<ul id="header-menu" class="menu">
-					<li><a href="/designer-front/index.art">首页</a></li>
+					<li  class="active current-menu-item"><a href="/designer-front/index.art">首页</a></li>
 					<li><a href="/designer-front/index.art">热门排行</a>
 						<ul class="sub-menu">
 							<li><a
@@ -35,22 +35,20 @@
 								href="/designer-front/index.art">新人推荐</a></li>
 						</ul>
 					</li>
-					<li class="active current-menu-item"><a
+					<li><a
 						href="http://somnia-themes.com/templates/verendus/blog.html">Blog</a>
 						<ul class="sub-menu">
 							<li><a href="post-aside.html">Post Aside</a></li>
 							<li><a href="post-audio.html">Post Audio</a></li>
 						</ul></li>
 					<li><a
-						href="http://somnia-themes.com/templates/verendus/pages/contact.html">联系我们</a>
-					</li>
-					<li><a
 						href="http://somnia-themes.com/templates/verendus/pages/contact.html">关于我们</a>
 					</li>
 				</ul>
 			</nav>
+			
+			<!-- Menu Search Form -->
 			<div class="searchform">
-				<!-- Menu Search Form -->
 				<form method="get" id="searchform" action="post-gallery.html#"
 					class="clearfix">
 					<input type="text" name="s" id="s" value="Search.."
