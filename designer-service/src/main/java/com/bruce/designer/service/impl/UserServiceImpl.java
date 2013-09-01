@@ -51,7 +51,8 @@ public class UserServiceImpl implements UserService {
 		    User user = userList.get(0);
 		    //加载并设置第三方绑定信息
 		    List<AccessTokenInfo> accessTokenList = accessTokenService.queryByUserId(user.getId());
-		    user.setAccessTokenList(accessTokenList);
+		    //user.setAccessTokenList(accessTokenList);
+		    user.refreshTokenMap(accessTokenList);
 		    //返回
 		    return user;
 		}

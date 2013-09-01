@@ -13,14 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import weibo4j.model.WeiboException;
-import weibo4j.org.json.JSONException;
 
 import com.bruce.designer.bean.AccessTokenInfo;
 import com.bruce.designer.exception.oauth.OAuthException;
 import com.bruce.designer.service.UserService;
 import com.bruce.designer.service.oauth.processor.IOAuthProcessor;
-import com.bruce.designer.service.oauth.processor.OAuthWeiboProcessor;
 
 @Service
 public class OAuthServiceImpl implements IOAuthService, InitializingBean {
@@ -38,12 +35,6 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
     private static ExecutorService executorService = Executors.newCachedThreadPool();
     
     public AccessTokenInfo loadTokenByCallback(HttpServletRequest request, String thirdpartyType) throws OAuthException {
-//        if(StringUtils.isBlank(code)){
-//            String errorMessage = "OAuth返回的Code为空，无法处理";
-//            //log this
-//            throw new OAuthException(errorMessage);
-//        }
-        
         if(StringUtils.isBlank(thirdpartyType)){
             String errorMessage = "参数thirdpartyType为空，无法处理";
             //log this
@@ -65,7 +56,8 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
         }
     }
     
-    public void publish2Thirdparty(SharedContent sharedContent){
+    
+    public void shareout(SharedContent sharedContent){
         SharedThread sharedThread = new SharedThread(sharedContent);
         //添加至线程中执行
         executorService.execute(sharedThread);
@@ -105,10 +97,10 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
         
         @Override
         public void run() {
-        	IOAuthProcessor processor = processorMap.get(content.getThirdpartyType());
-            //发布至第三方
+        	//IOAuthProcessor processor = processorMap.get(content.getThirdpartyType());
+        	//发布至第三方
         	try {
-                processor.publishContent(content);
+        		oauthProcessor.shareout(content);
             } catch (OAuthException e) {
                 e.printStackTrace();
                 //log this

@@ -83,7 +83,7 @@ public class SystemController {
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request) {
         request.getSession().removeAttribute(ConstFront.CURRENT_USER);
-        return "forward:/";
+        return "redirect:/index.art";
     }
     
 }

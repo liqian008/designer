@@ -16,6 +16,6 @@ public interface IOAuthService {
 	
     public AccessTokenInfo loadTokenByCallback(HttpServletRequest request, String thirdpartyType) throws OAuthException;
    
-    public void publish2Thirdparty(SharedContent sharedContent) throws OAuthException;
+    public void shareout(SharedContent sharedContent) throws OAuthException;
     
 }

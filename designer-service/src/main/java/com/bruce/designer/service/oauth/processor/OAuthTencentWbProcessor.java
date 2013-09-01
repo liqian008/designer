@@ -66,7 +66,7 @@ public class OAuthTencentWbProcessor implements IOAuthProcessor, InitializingBea
      * @param sharedContent
      * @throws OAuthException
      */
-    public void publishContent(SharedContent sharedContent) throws OAuthException {
+    public void shareout(SharedContent sharedContent) throws OAuthException {
         System.out.println("发布tencent weibo");
     }
     

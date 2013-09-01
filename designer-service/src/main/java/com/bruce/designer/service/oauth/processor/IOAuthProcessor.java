@@ -45,10 +45,10 @@ public interface IOAuthProcessor {
 	public AccessTokenInfo loadThirdpartyProfile(AccessTokenInfo tokenInfo) throws OAuthException;
 
 	/**
-	 * 发布
+	 * 分享至第三方
 	 * @param sharedContent
 	 * @throws OAuthException
 	 */
-	public void publishContent(SharedContent sharedContent) throws OAuthException;
+	public void shareout(SharedContent sharedContent) throws OAuthException;
 
 }

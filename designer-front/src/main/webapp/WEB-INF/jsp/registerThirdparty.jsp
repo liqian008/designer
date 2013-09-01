@@ -114,75 +114,73 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                         <section class="content span6 offset3">
 							<div class="shortcode-tabs">
 							    <ul class="tabs-nav tabs clearfix">
-							        <li class="active"><a class="button button-white" href="#tab1" data-toggle="tab">注册新用户</a></li>
-							        <li><a class="button button-white" href="#tab2" data-toggle="tab">绑定用户</a></li>
+							        <li class="active"><a class="button button-white" href="#tab1" data-toggle="tab">完善账户信息</a></li>
+							        <li><a class="button button-white" href="#tab2" data-toggle="tab">绑定已有账户</a></li>
 							    </ul>
 							     
 							    <div class="tab-content">
-							        <div class="tab-pane active" id="tab1">
-							        	<div class="content-title">
-											<h4 class="widget-title">完善登录信息</h4>
+							        <div class="tab-pane active widgets-light" id="tab1">
+							        	<div class="widget-box widget-contact-form">
+											<div class="content-title">
+												<h4>完善帐号信息可体验本站更多功能</h4>
+											</div>
+											<form id="contact-form-widget" method="post" class="clearfix"
+												action="/designer-front/oauthRegister.art">
+												<div class="input-container">
+													<input type="text" class="contact-form-name" name="username"
+														value="用户名"
+														onfocus="if(this.value=='用户名')this.value='';"
+														onblur="if(this.value=='')this.value='用户名';" /> <i
+														class="icon-user"></i>
+												</div>
+												<div class="input-container">
+													<input type="text" class="contact-form-name" name="nickname"
+														value="昵 称"
+														onfocus="if(this.value=='昵 称')this.value='';"
+														onblur="if(this.value=='')this.value='昵 称';" /> <i
+														class="icon-user"></i>
+												</div>
+												<div class="input-container">
+													<input type="password" class="contact-form-email" name="password"
+														value=""/> 
+														<i class="icon-envelope-alt"></i>
+												</div>
+												<div class="input-container">
+													<input type="password" class="contact-form-email" name="password"
+														value=""/> 
+														<i class="icon-envelope-alt"></i>
+												</div>
+												<input class="contact-submit button" type="submit" value="完 成">
+												<input class="contact-submit button" type="button" value="取 消">
+											</form>
 										</div>
-										<form id="contact-form-widget" method="post" class="clearfix"
-											action="/designer-front/oauthRegister.art">
-											<div class="input-container">
-												<input type="text" class="contact-form-name" name="username"
-													value="Your Name"
-													onfocus="if(this.value=='Your Name')this.value='';"
-													onblur="if(this.value=='')this.value='Your Name';" /> <i
-													class="icon-user"></i>
-											</div>
-											<div class="input-container">
-												<input type="text" class="contact-form-name" name="nickname"
-													value="Your Nickname"
-													onfocus="if(this.value=='Your Nickname')this.value='';"
-													onblur="if(this.value=='')this.value='Your Nickname';" /> <i
-													class="icon-user"></i>
-											</div>
-											<div class="input-container">
-												<input type="password" class="contact-form-email" name="password"
-													value="Your Password"
-													onfocus="if(this.value=='Your Password')this.value='';"
-													onblur="if(this.value=='')this.value='Your Password';" /> <i
-													class="icon-envelope-alt"></i>
-											</div>
-											<div class="input-container">
-												<input type="password" class="contact-form-email" name="repassword"
-													value="Re-Password"
-													onfocus="if(this.value=='Re-Password')this.value='';"
-													onblur="if(this.value=='')this.value='Re-Password';" /> <i
-													class="icon-envelope-alt"></i>
-											</div>
-											<input class="contact-submit button" type="submit" value="完善个人资料">
-										</form>
 							        </div>
-							        <div class="tab-pane" id="tab2">
-							            <div class="content-title">
-											<h4 class="widget-title">绑定已有账户</h4>
+							        <div class="tab-pane widgets-light" id="tab2">
+							        	<div class="widget-box widget-contact-form">
+								            <div class="content-title">
+												<h4>绑定已有账户可体验本站更多功能</h4>
+											</div>
+											<form id="contact-form-widget" method="post" class="clearfix"
+												action="/designer-front/oauthBind.art">
+												<div class="input-container">
+													<input type="text" class="contact-form-name" name="username"
+														value="用户名"
+														onfocus="if(this.value=='用户名')this.value='';"
+														onblur="if(this.value=='')this.value='用户名';" /> <i
+														class="icon-user"></i>
+												</div>
+												<div class="input-container">
+													<input type="password" class="contact-form-email" name="password"
+														value=""/> 
+														<i class="icon-envelope-alt"></i>
+												</div>
+												<input class="contact-submit button" type="submit" value="完善个人资料">
+											</form>
 										</div>
-										<form id="contact-form-widget" method="post" class="clearfix"
-											action="/designer-front/oauthBind.art">
-											<div class="input-container">
-												<input type="text" class="contact-form-name" name="username"
-													value="Your Name"
-													onfocus="if(this.value=='Your Name')this.value='';"
-													onblur="if(this.value=='')this.value='Your Name';" /> <i
-													class="icon-user"></i>
-											</div>
-											<div class="input-container">
-												<input type="password" class="contact-form-email" name="password"
-													value="Your Password"
-													onfocus="if(this.value=='Your Password')this.value='';"
-													onblur="if(this.value=='')this.value='Your Password';" /> <i
-													class="icon-envelope-alt"></i>
-											</div>
-											<div class="input-container">
-											<input class="contact-submit button" type="submit" value="完善个人资料">
-										</form>
 							        </div>
 							    </div>
 							</div>
-                        </section> 
+                        </section>
                         <!-- End Content -->
                        
                     </div>                        

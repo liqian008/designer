@@ -3327,7 +3327,7 @@ blockquote {
 	border: 1px solid #e2e2e2;
 }
 
-.widgets-light .widget-contact-form input[type="text"], .widgets-light .widget-contact-form textarea, .widgets-light .widget-newsletter input[type="text"] {
+.widgets-light .widget-contact-form input[type="text"], .widgets-light .widget-contact-form input[type="password"], .widgets-light .widget-contact-form textarea, .widgets-light .widget-newsletter input[type="text"] {
 	background-color: #fff;
 	border: 1px solid #e2e2e2;
 	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -4980,7 +4980,7 @@ input.contact-form-error {
 			display: inline-block;
 			padding: 0 15px;
 			width: auto;
-			float: right;
+			float: left;
 			text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
 			margin: 10px 0 0 0;
 		}
