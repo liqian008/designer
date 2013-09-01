@@ -115,13 +115,16 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                     <div class="row-fluid">
                         <section class="content span9">
 							<div class="content-title">
-                                <h2>个人设置</h2>
+                                <h2>管理中心</h2>
                             </div>
 
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
                                 <ul class="tabs-nav tabs clearfix span3">
                                     <li class="active"><a class="button button-white" href="#profile" data-toggle="tab">个人基本信息</a></li>
                                     <li><a class="button button-white" href="#changePwd" data-toggle="tab">修改密码</a></li>
+                                    <li><a class="button button-white" href="./myFavorites.art">我的收藏</a></li>
+                                    <li><a class="button button-white" href="./myFlowerings.art">我的关注</a></li>
+                                    <li><a class="button button-white" href="./myFlowers.art">我的粉丝</a></li>
                                     <li><a class="button button-white" href="#designerProfile" data-toggle="tab">设计师基本信息</a></li>
                                     <li><a class="button button-white" href="#syncSettings" data-toggle="tab">作品分享器（推荐）</a></li>
                                     <li><a class="button button-white" href="#apply4Designer" data-toggle="tab">申请成为设计师</a></li>

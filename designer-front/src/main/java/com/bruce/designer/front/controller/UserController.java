@@ -70,4 +70,62 @@ public class UserController {
         userService.updateById(user);
         return "";
     }
+
+    /**
+     * 修改密码
+     * @param model
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/changePasswd")
+    public String changePasswd(Model model, User user) {
+        return "changePasswd";
+    }
+    
+    /**
+     * 更新个人资料
+     * @param model
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/updateProfile")
+    public String updateProfile(Model model, User user) {
+        return "updateProfile";
+    }
+    
+    
+    
+    /**
+     * 我的粉丝
+     * @param model
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/myFlowers")
+    public String myFlowers(Model model, User user) {
+        return "myFlowers";
+    }
+    
+    
+    /**
+     * 我的关注
+     * @param model
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/myFlowerings")
+    public String myFlowerings(Model model, User user) {
+        return "myFlowerings";
+    }
+    
+    /**
+     * 我的收藏
+     * @param model
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/myFavorities")
+    public String myFavorities(Model model, User user) {
+        return "myFavorities";
+    }
 }
