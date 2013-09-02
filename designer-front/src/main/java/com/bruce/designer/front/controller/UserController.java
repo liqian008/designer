@@ -1,17 +1,32 @@
 package com.bruce.designer.front.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.LinkedList;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bruce.designer.bean.User;
+import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.service.AlbumService;
 import com.bruce.designer.service.CommentService;
 import com.bruce.designer.service.UserService;
+import com.bruce.designer.util.PropertiesUtil;
 
 /**
  * Handles requests for the application home page.
@@ -45,12 +60,67 @@ public class UserController {
         userService.updateById(user);
         return "";
     }
+    
+    @RequestMapping(value = "/testAvatar")
+    public String testAvatar(Model model, User user) {
+        return "testAvatar";
+    }
+    
+    /**
+     * 上传头像，生成头像规则为 $uploadPath/avatar/$userid/50.jpg，另有100.jpg与200.jpg
+     * @param avatarFile
+     * @param request
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping(value = "/uploadAvatar", method = RequestMethod.POST)
+    @ResponseBody
+    public String upload(@RequestParam("avatarImage") MultipartFile avatarImage, HttpServletRequest request) throws IOException{
+        User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+        int userId = user.getId();
+        //获取头像保存路径
+        String avatarPath = genUserAvatarPath(userId);
+        //确定原始文件名
+        String avatarFilename = String.valueOf(userId);
+        //构造&保存头像File
+        File originAvatar = new File(avatarPath, avatarFilename);
+        FileCopyUtils.copy(avatarImage.getBytes(), originAvatar);
+        //返回临时头像的链接
+        return "ok";
+    }
+    
+    /**
+     * 获取用户头像的保存路径
+     * @param userId
+     * @return
+     */
+    private String genUserAvatarPath(int userId) {
+        return PropertiesUtil.getString("avatar_upload_base_path");
+    }
+    
+    /**
+     * resize头像批处理
+     * @param userId
+     * @return
+     */
+//    private File[] batchSize(File originAvatar) {
+//        return null;
+//    }
 
-    @RequestMapping(value = "/headPhotoGo", method = RequestMethod.POST)
-    public String headPhotoGo(Model model) {
-        User user = new User();
-        userService.updateById(user);
-        return "";
+    @RequestMapping(value = "/updateAvatarGo", method = RequestMethod.POST)
+    public String headPhotoGo(Model model,  HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+        
+        
+        //获取头像保存路径
+        
+        //定位临时头像
+        //resize并保存成3套临时头像图片（50x50/100x100/200x200）并返回各自url
+        //File[] resizedAvatars = batchSize(originAvatar);
+        
+        //替换为新头像
+        request.setAttribute(ConstFront.REDIRECT_PROMPT, "头像更新成功，现在将转入后续页面，请稍候…");
+        return "forward:/redirect.art";
     }
 
     @RequestMapping(value = "/applyDesigner", method = RequestMethod.GET)

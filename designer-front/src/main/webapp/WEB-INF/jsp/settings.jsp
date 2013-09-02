@@ -111,6 +111,14 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 											<div class="content-title">
 												<h4>修改头像</h4>
 											</div>
+											<form id="contact-form-widget" method="post" class="clearfix"
+												action="/designer-front/uploadAvatar.art" enctype="MULTIPART/FORM-DATA">
+												<div class="input-container">
+													头 像: <input type="file" class="contact-form-name" name="avatarImage"
+														value="头 像"/>
+												</div>
+												<input class="contact-submit button" type="submit" value="上 传">
+											</form>
 										</div>
                                     </div>
                                     <div class="tab-pane widgets-light" id="syncSettings">
