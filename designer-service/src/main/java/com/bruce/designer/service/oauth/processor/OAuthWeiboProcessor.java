@@ -18,6 +18,8 @@ import com.bruce.designer.service.oauth.SharedContent;
 @Component
 public class OAuthWeiboProcessor implements IOAuthProcessor{
 	
+    private weibo4j.Oauth weiboOauth = new weibo4j.Oauth();
+    
     /**
      * 用code换取weibo的accessToken
      * @param code
@@ -25,7 +27,6 @@ public class OAuthWeiboProcessor implements IOAuthProcessor{
      * @throws OAuthException
      */
 	public AccessTokenInfo loadToken(HttpServletRequest request)  throws OAuthException {
-		weibo4j.Oauth weiboOauth = new weibo4j.Oauth();
 		weibo4j.http.AccessToken wbToken;
         try {
             wbToken = weiboOauth.getAccessTokenByCode(request.getParameter("code"));
