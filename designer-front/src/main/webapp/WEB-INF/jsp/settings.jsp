@@ -96,7 +96,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
                                 <ul class="tabs-nav tabs clearfix span3">
                                     <li class="active"><a class="button button-white" href="#profile" data-toggle="tab">个人基本信息</a></li>
-                                    <li><a class="button button-white" href="#avatar" data-toggle="tab">修改头像</a></li>
+                                    <li><a class="button button-white" href="./testAvatar.art">修改头像</a></li>
                                     <li><a class="button button-white" href="#changePwd" data-toggle="tab">修改密码</a></li>
                                     <li><a class="button button-white" href="./myFavorites.art">我的收藏</a></li>
                                     <li><a class="button button-white" href="./myFlowerings.art">我的关注</a></li>
@@ -106,21 +106,6 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                     <li><a class="button button-white" href="#apply4Designer" data-toggle="tab">申请成为设计师</a></li>
                                 </ul>
                                 <div class="tab-content span8">
-                                	<div class="tab-pane widgets-light" id="avatar">
-                                        <div class="widget-box widget-contact-form">
-											<div class="content-title">
-												<h4>修改头像</h4>
-											</div>
-											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/uploadAvatar.art" enctype="MULTIPART/FORM-DATA">
-												<div class="input-container">
-													头 像: <input type="file" class="contact-form-name" name="avatarImage"
-														value="头 像"/>
-												</div>
-												<input class="contact-submit button" type="submit" value="上 传">
-											</form>
-										</div>
-                                    </div>
                                     <div class="tab-pane widgets-light" id="syncSettings">
                                         <div class="widget-box widget-contact-form">
 											<div class="content-title">

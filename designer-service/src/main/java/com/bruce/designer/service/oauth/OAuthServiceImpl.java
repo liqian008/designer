@@ -1,6 +1,7 @@
 package com.bruce.designer.service.oauth;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,6 +19,8 @@ import com.bruce.designer.bean.AccessTokenInfo;
 import com.bruce.designer.exception.oauth.OAuthException;
 import com.bruce.designer.service.UserService;
 import com.bruce.designer.service.oauth.processor.IOAuthProcessor;
+import com.bruce.designer.service.oauth.processor.OAuthTencentWbProcessor;
+import com.bruce.designer.service.oauth.processor.OAuthWeiboProcessor;
 
 @Service
 public class OAuthServiceImpl implements IOAuthService, InitializingBean {
@@ -26,11 +29,22 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
     private IAccessTokenService accessTokenService;
     @Autowired
     private UserService userService;
-    @Autowired
-    private IOAuthProcessor oauthProcessor;
+//    @Autowired
+//    private IOAuthProcessor oauthProcessor;
     
     private Map<String, IOAuthProcessor> processorMap;
     
+    public OAuthServiceImpl(){
+        init();
+    }
+    
+    private void init() {
+        processorMap = new HashMap<String, IOAuthProcessor>();
+        processorMap.put(IOAuthService.OAUTH_WEIBO_TYPE, new OAuthWeiboProcessor());
+        processorMap.put(IOAuthService.OAUTH_TENCENT_TYPE, new OAuthTencentWbProcessor());
+    }
+
+
     /*线程池*/
     private static ExecutorService executorService = Executors.newCachedThreadPool();
     
@@ -40,6 +54,7 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
             //log this
             throw new OAuthException(errorMessage);
         }else {
+            IOAuthProcessor oauthProcessor = processorMap.get(thirdpartyType);
             // 根据code获取token
         	AccessTokenInfo tokenInfo = oauthProcessor.loadToken(request);
             //直接第三方账户id
@@ -97,7 +112,7 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
         
         @Override
         public void run() {
-        	//IOAuthProcessor processor = processorMap.get(content.getThirdpartyType());
+        	IOAuthProcessor oauthProcessor = processorMap.get(content.getThirdpartyType());
         	//发布至第三方
         	try {
         		oauthProcessor.shareout(content);
@@ -128,8 +143,8 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(oauthProcessor, "oauthProcessor can't be null");
-//		Assert.notNull(processorMap, "processorMap can't be null");
+//		Assert.notNull(oauthProcessor, "oauthProcessor can't be null");
+		Assert.notNull(processorMap, "processorMap can't be null");
 	}
 
 }

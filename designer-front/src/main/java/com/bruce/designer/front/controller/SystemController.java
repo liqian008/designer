@@ -90,7 +90,7 @@ public class SystemController {
     /**
      * Simply selects the home view to render by returning its name.
      */
-    @RequestMapping(value = "/redirect", method = RequestMethod.GET)
+    @RequestMapping(value = "/redirect")
     public String redirect(HttpServletRequest request) {
         return "redirect";
     }

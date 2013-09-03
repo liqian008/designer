@@ -37,6 +37,19 @@ public class OAuthController {
 
     private static final Logger logger = LoggerFactory.getLogger(OAuthController.class);
     
+    
+    @RequestMapping(value = "/connectWeibo")
+    public String connectWeibo(HttpServletRequest request, HttpServletResponse response)throws Exception {
+        response.sendRedirect(new weibo4j.Oauth().authorize("code"));
+        return null;
+    }
+    
+    @RequestMapping(value = "/connectTencent")
+    public String connectTencent(HttpServletRequest request, HttpServletResponse response)throws Exception {
+        response.sendRedirect(new com.qq.connect.oauth.Oauth().getAuthorizeURL(request));
+        return null;
+    }
+    
     /**
      * weibo OAauth callback
      * @param model
@@ -59,6 +72,18 @@ public class OAuthController {
     @RequestMapping(value = "/tencentCallback")
     public String tencentCallback(Model model, HttpServletRequest request)throws Exception {
         return unifiedCallback(request, IOAuthService.OAUTH_TENCENT_TYPE);
+    }
+    
+    /**
+     * renren OAauth callback
+     * @param model
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/renrenCallback")
+    public String renrenCallback(Model model, HttpServletRequest request)throws Exception {
+        return unifiedCallback(request, IOAuthService.OAUTH_RENREN_TYPE);
     }
     
     /**

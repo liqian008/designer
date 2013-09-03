@@ -103,6 +103,14 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 											<div class="content-title">
 												<h4>修改头像</h4>
 											</div>
+											
+我当前的头像
+											<img src="<%=user.getHeadImg()%>" width="200px"/>
+											<%
+											String originAvatarUrl = (String)request.getAttribute("originAvatarUrl");
+											if(originAvatarUrl==null){
+											%>
+											
 											<form id="contact-form-widget" method="post" class="clearfix"
 												action="/designer-front/uploadAvatar.art" enctype="MULTIPART/FORM-DATA">
 												<div class="input-container">
@@ -111,6 +119,14 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												</div>
 												<input class="contact-submit button" type="submit" value="上 传">
 											</form>
+											<%}else{ %>
+												设置我的新头像
+												<form id="contact-form-widget" method="post" class="clearfix"
+												action="/designer-front/updateAvatarGo.art">
+												<img src="<%=originAvatarUrl%>"/>
+												<input class="contact-submit button" type="submit" value="修 改"/>
+												</form>
+											<%} %>
 										</div>
                                     </div>
                                     

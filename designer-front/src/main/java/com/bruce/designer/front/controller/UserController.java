@@ -1,10 +1,12 @@
 package com.bruce.designer.front.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -74,19 +76,28 @@ public class UserController {
      * @throws IOException
      */
     @RequestMapping(value = "/uploadAvatar", method = RequestMethod.POST)
-    @ResponseBody
+//    @ResponseBody
     public String upload(@RequestParam("avatarImage") MultipartFile avatarImage, HttpServletRequest request) throws IOException{
         User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
         int userId = user.getId();
         //获取头像保存路径
-        String avatarPath = genUserAvatarPath(userId);
+        String avatarPath = genAvatarPath(userId);
         //确定原始文件名
-        String avatarFilename = String.valueOf(userId);
+        String avatarFilename = String.valueOf(userId)+"_original.jpg";
         //构造&保存头像File
         File originAvatar = new File(avatarPath, avatarFilename);
         FileCopyUtils.copy(avatarImage.getBytes(), originAvatar);
+        
+        BufferedImage src = ImageIO.read(originAvatar); // 读入文件
+        int imgSrcWidth = src.getWidth(); // 得到源图宽
+        int imgSrcHeight = src.getHeight(); // 得到源图长
+        
+        String originAvatarUrl = "http://localhost:8080/designer-front/staticFile/avatar/"+avatarFilename;
+        
+        request.setAttribute("originAvatarUrl", originAvatarUrl);
+        
         //返回临时头像的链接
-        return "ok";
+        return "testAvatar";
     }
     
     /**
@@ -94,7 +105,7 @@ public class UserController {
      * @param userId
      * @return
      */
-    private String genUserAvatarPath(int userId) {
+    private String genAvatarPath(int userId) {
         return PropertiesUtil.getString("avatar_upload_base_path");
     }
     
@@ -111,8 +122,19 @@ public class UserController {
     public String headPhotoGo(Model model,  HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
         
-        
+        int userId = user.getId();
         //获取头像保存路径
+        String avatarPath = genAvatarPath(userId);
+        //确定原始文件名
+        String avatarFilename = String.valueOf(userId)+"_original.jpg";
+        //构造原始文件
+        File originAvatar = new File(avatarPath, avatarFilename);
+        String destFilename = String.valueOf(userId)+".jpg";
+        
+        File destAvatar = new File(avatarPath, destFilename);
+        if(originAvatar.exists()&&destAvatar.delete()){
+        	originAvatar.renameTo(destAvatar);
+        }
         
         //定位临时头像
         //resize并保存成3套临时头像图片（50x50/100x100/200x200）并返回各自url
