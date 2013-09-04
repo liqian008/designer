@@ -72,7 +72,11 @@ public class OAuthWeiboProcessor implements IOAuthProcessor{
         weibo4j.model.User weiboUser;
         try {
             weiboUser = users.showUserById(tokenInfo.getThirdpartyUid());
-            tokenInfo.setThirdpartyUname(weiboUser.getScreenName());
+            //完善第三方的昵称
+            StringBuilder sb = new StringBuilder("微博用户");
+            sb.append("_");
+            sb.append(weiboUser.getScreenName());
+            tokenInfo.setThirdpartyUname(sb.toString());
             return tokenInfo;
         } catch (WeiboException e) {
             throw new OAuthException(e);

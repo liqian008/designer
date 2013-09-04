@@ -95,44 +95,48 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
                                 <ul class="tabs-nav tabs clearfix span3">
-                                    <li class="active"><a class="button button-white" href="#avatar" data-toggle="tab">修改头像</a></li>
+                                    <li><a class="button button-white" href="#profile" data-toggle="tab">个人基本信息</a></li>
+                                    <li><a class="button button-white" href="./testAvatar.art">修改头像</a></li>
+                                    <li><a class="button button-white" href="#changePwd" data-toggle="tab">修改密码</a></li>
+                                    <li><a class="button button-white" href="./myFavorites.art">我的收藏</a></li>
+                                    <li><a class="button button-white" href="./myFlowerings.art">我的关注</a></li>
+                                    <li><a class="button button-white" href="./myFlowers.art">我的粉丝</a></li>
+                                    <li><a class="button button-white" href="#designerProfile" data-toggle="tab">设计师资料</a></li>
+                                    <li class="active"><a class="button button-white" href="./applyDesigner.art">申请成为设计师</a></li>
+                                    <li><a class="button button-white" href="#syncSettings" data-toggle="tab">作品分享器（推荐）</a></li>
                                 </ul>
                                 <div class="tab-content span8">
-                                	<div class="tab-pane widgets-light active" id="avatar">
+                                    <div class="tab-pane widgets-light active" id="apply4Designer">
                                         <div class="widget-box widget-contact-form">
 											<div class="content-title">
-												<h4>修改头像</h4>
+												<h4>设计师申请单</h4>
 											</div>
-											
-											我当前的头像
-											<img src="<%=user.getHeadImg()%>" width="200px"/>
-											<%
-											String originAvatarUrl = (String)request.getAttribute("originAvatarUrl");
-											if(originAvatarUrl==null){
-											%>
-											
 											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/uploadAvatar.art" enctype="MULTIPART/FORM-DATA">
+												action="/designer-front/applyDesignerGo.art">
 												<div class="input-container">
-													头 像: <input type="file" class="contact-form-name" name="avatarImage"
-														value="头 像"/>
+													身份证号: <input type="text" class="contact-form-name" name="idNum"
+														value="身份证号"/>
 												</div>
-												<input class="contact-submit button" type="submit" value="上 传">
+												<div class="input-container">
+													真实姓名: <input type="text" class="contact-form-name" name="realname"
+														value="真实姓名"/>
+												</div>
+												<div class="input-container">
+													手机号: <input type="text" class="contact-form-name" name="mobile"
+														value="手机号"/>
+												</div>
+												
+												<div class="input-container">
+													公 司: <input type="text" class="contact-form-name" name="company"
+														value="公 司"/>
+												</div>
+												<div class="input-container">
+													淘宝店铺主页: <input type="text" class="contact-form-name" name="taobaoHomepage"
+														value="淘宝店铺店铺"/>
+												</div>
+												<input class="contact-submit button" type="submit" value="申 请">
+												<input class="contact-submit button" type="button" value="完 成">
 											</form>
-											<%}else{ %>
-												设置我的新头像
-												<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/updateAvatarGo.art">
-												<img src="<%=originAvatarUrl%>" id="imgCrop" name="imgCrop"/>
-												
-												<input type="hidden"  id="x" name="x" />  
-											    <input type="hidden"  id="y" name="y" />  
-											    <input type="hidden"  id="w" name="w" />  
-											    <input type="hidden"  id="h" name="h" />    
-												
-												<input class="contact-submit button" type="submit" value="修 改"/>
-												</form>
-											<%} %>
 										</div>
                                     </div>
                                     
@@ -162,39 +166,6 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
     <script src="./js/retina.js"></script>
 
     <script src="./js/custom.js"></script>
-    
-    <script type="text/javascript">  
-		jQuery(document).ready(function(){        
-	        jQuery('#imgCrop').Jcrop({
-	        	aspectRatio: 1,
-	            onChange: showCoords,
-	            onSelect: showCoords  
-	        });   
-          
-		jQuery('#cropButton').click(function(){
-			var w = jQuery("#w").val();
-			var h = jQuery("#h").val();
-			if(w == 0 || h == 0 ){
-			    alert("您还没有选择图片的剪切区域,不能进行剪切图片!");  
-			    return;
-			}
-			//alert("你要剪切图片的X坐标: "+x + ",Y坐标: " + y + ",剪切图片的宽度: " + w + ",高度：" + h );  
-			if(confirm("确定按照当前大小剪切图片吗")){
-			    document.form1.submit();
-			}
-         });
-    });  
-      
-    function showCoords(c){  
-        jQuery('#x').val(c.x);  
-        jQuery('#y').val(c.y);  
-        jQuery('#w').val(c.w);  
-        jQuery('#h').val(c.h);    
-        //显示剪切按键  
-        jQuery('#cropTd').css("display","");  
-                  
-    }  
-</script>  
 
     </body>
 </html>

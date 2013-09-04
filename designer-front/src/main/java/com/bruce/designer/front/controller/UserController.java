@@ -158,9 +158,10 @@ public class UserController {
     }
 
     @RequestMapping(value = "/applyDesignerGo", method = RequestMethod.POST)
-    public String applyDesignerGo(Model model, User user) {
-        userService.updateById(user);
-        return "";
+    public String applyDesignerGo(Model model,  HttpServletRequest request) {
+//        User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+        request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的申请资料已成功提交，现在将转入首页，请稍候…");
+        return "forward:/redirect.art";
     }
 
     /**

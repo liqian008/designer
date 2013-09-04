@@ -196,12 +196,12 @@ public class OAuthController {
             if (user != null) {
             	Map<String, AccessTokenInfo> accessTokenMap = user.getAccessTokenMap();
                 // 判断该用户是否被绑定过同类型账户
-                boolean alreadyBind = accessTokenMap.get(IOAuthService.OAUTH_WEIBO_TYPE)!=null;
+                boolean alreadyBind = accessTokenMap.get(sessionToken.getThirdpartyType())!=null;
                 if (!alreadyBind) {// 之前未绑定过
                     // 获取accessToken
                     sessionToken.setUserId(user.getId());
                     accessTokenService.save(sessionToken);
-                    accessTokenMap.put(IOAuthService.OAUTH_WEIBO_TYPE, sessionToken);
+                    accessTokenMap.put(sessionToken.getThirdpartyType(), sessionToken);
                     //绑定完毕，设置user到session中
                     request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
                     //清空sessionToken

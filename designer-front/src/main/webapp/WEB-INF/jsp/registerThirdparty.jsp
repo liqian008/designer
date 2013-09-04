@@ -90,7 +90,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 							<div class="shortcode-tabs">
 							    <ul class="tabs-nav tabs clearfix">
 							        <li class="active"><a class="button button-white" href="#tab1" data-toggle="tab">完善账户信息</a></li>
-							        <li><a class="button button-white" href="#tab2" data-toggle="tab">绑定已有账户</a></li>
+							        <li><a class="button button-white" href="#tab2" data-toggle="tab">绑定已有账户&分享</a></li>
 							    </ul>
 							     
 							    <div class="tab-content">
@@ -99,18 +99,22 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 											<div class="content-title">
 												<h4>完善帐号信息可体验本站更多功能</h4>
 											</div>
+											<%
+											AccessTokenInfo tempToken = (AccessTokenInfo)session.getAttribute(ConstFront.TEMPLATE_ACCESS_TOKEN);
+											%>
+											
 											<form id="contact-form-widget" method="post" class="clearfix"
 												action="/designer-front/oauthRegister.art">
 												<div class="input-container">
 													<input type="text" class="contact-form-name" name="username"
-														value="用户名"
+														value="<%=tempToken.getThirdpartyUname()%>"
 														onfocus="if(this.value=='用户名')this.value='';"
 														onblur="if(this.value=='')this.value='用户名';" /> <i
 														class="icon-user"></i>
 												</div>
 												<div class="input-container">
 													<input type="text" class="contact-form-name" name="nickname"
-														value="昵 称"
+														value="<%=tempToken.getThirdpartyUname()%>"
 														onfocus="if(this.value=='昵 称')this.value='';"
 														onblur="if(this.value=='')this.value='昵 称';" /> <i
 														class="icon-user"></i>
@@ -133,7 +137,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 							        <div class="tab-pane widgets-light" id="tab2">
 							        	<div class="widget-box widget-contact-form">
 								            <div class="content-title">
-												<h4>绑定已有账户可体验本站更多功能</h4>
+												<h4>设计师绑定已有账户可分享作品至多个平台</h4>
 											</div>
 											<form id="contact-form-widget" method="post" class="clearfix"
 												action="/designer-front/oauthBind.art">

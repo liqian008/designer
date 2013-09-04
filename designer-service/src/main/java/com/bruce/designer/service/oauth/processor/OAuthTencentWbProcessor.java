@@ -9,7 +9,10 @@ import com.bruce.designer.bean.AccessTokenInfo;
 import com.bruce.designer.exception.oauth.OAuthException;
 import com.bruce.designer.service.oauth.IOAuthService;
 import com.bruce.designer.service.oauth.SharedContent;
+import com.qq.connect.QQConnectException;
 import com.qq.connect.api.OpenID;
+import com.qq.connect.api.qzone.UserInfo;
+import com.qq.connect.javabeans.qzone.UserInfoBean;
 
 public class OAuthTencentWbProcessor implements IOAuthProcessor, InitializingBean {
     
@@ -28,7 +31,7 @@ public class OAuthTencentWbProcessor implements IOAuthProcessor, InitializingBea
             token = qqOauth.getAccessTokenByRequest(request);
             return parseTencentToken(token);
         } catch (Exception e) {
-            throw new OAuthException();
+            throw new OAuthException(e);
         }
     }
 
@@ -43,9 +46,10 @@ public class OAuthTencentWbProcessor implements IOAuthProcessor, InitializingBea
         OpenID openId = new OpenID(tokenInfo.getAccessToken());
         try {
             String thirdpartyUid = openId.getUserOpenID();
+            tokenInfo.setThirdpartyUid(thirdpartyUid);
             return thirdpartyUid;
         } catch (Exception e) {
-            throw new OAuthException();
+            throw new OAuthException(e);
         }
     }
 
@@ -57,7 +61,29 @@ public class OAuthTencentWbProcessor implements IOAuthProcessor, InitializingBea
      */
     @Override
     public AccessTokenInfo loadThirdpartyProfile(AccessTokenInfo tokenInfo) throws OAuthException {
-        //腾讯open api中暂不获取用户详细资料，原值返回
+        //获取QQzone中的昵称
+        UserInfo qzoneUserInfo = new UserInfo(tokenInfo.getAccessToken(), tokenInfo.getThirdpartyUid());
+        try {
+            UserInfoBean userInfoBean = qzoneUserInfo.getUserInfo();
+            //完善第三方的昵称
+            StringBuilder sb = new StringBuilder("QQ用户");
+            if(userInfoBean.getRet()==0){//成功响应
+                sb.append("_");
+                sb.append(userInfoBean.getNickname());
+            }
+            tokenInfo.setThirdpartyUname(sb.toString());
+        } catch (QQConnectException e) {
+            throw new OAuthException();
+        }
+        
+        //获取腾讯WB的昵称
+//        com.qq.connect.api.weibo.UserInfo weiboUserInfo = new com.qq.connect.api.weibo.UserInfo(tokenInfo.getAccessToken(), tokenInfo.getThirdpartyUid());
+//        try {
+//            com.qq.connect.javabeans.weibo.UserInfoBean weiboUserInfoBean = weiboUserInfo.getUserInfo();
+//            tokenInfo.setThirdpartyUname(weiboUserInfoBean.getNickName());
+//        } catch (QQConnectException e) {
+//            throw new OAuthException(e);
+//        }
         return tokenInfo;
     }
     
