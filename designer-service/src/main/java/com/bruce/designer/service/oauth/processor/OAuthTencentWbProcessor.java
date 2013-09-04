@@ -43,6 +43,7 @@ public class OAuthTencentWbProcessor implements IOAuthProcessor, InitializingBea
         OpenID openId = new OpenID(tokenInfo.getAccessToken());
         try {
             String thirdpartyUid = openId.getUserOpenID();
+            tokenInfo.setThirdpartyUid(thirdpartyUid);
             return thirdpartyUid;
         } catch (Exception e) {
             throw new OAuthException();
