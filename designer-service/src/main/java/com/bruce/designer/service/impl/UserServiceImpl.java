@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bruce.designer.bean.AccessTokenInfo;
 import com.bruce.designer.bean.User;
 import com.bruce.designer.bean.UserCriteria;
-import com.bruce.designer.dao.DesignerMapper;
 import com.bruce.designer.dao.UserMapper;
 import com.bruce.designer.service.UserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;

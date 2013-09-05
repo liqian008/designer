@@ -134,6 +134,7 @@ CREATE TABLE `tb_message` (
 DROP TABLE IF EXISTS `tb_user`;
 CREATE TABLE `tb_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nickname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `username` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `password` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -141,7 +142,13 @@ CREATE TABLE `tb_user` (
   `update_time` datetime DEFAULT NULL,
   `status` smallint(6) DEFAULT '1',
   `head_img` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `nickname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `designer_status` int(11) DEFAULT '0',
+  `designer_identifer` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `designer_realname` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `designer_mobile` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `designer_company` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `designer_taobao_homepage` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `designer_create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
