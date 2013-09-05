@@ -1,11 +1,14 @@
+<%@page import="com.bruce.designer.front.controller.FrontController"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.bean.*" %>
+<%@ page import="com.bruce.designer.service.oauth.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.*" %>
 
 <%
 SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
+User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 %>
 
 <!DOCTYPE html>
@@ -82,86 +85,67 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                     </ul>
                 </div>
             </div>
-            <div class="main fullwidth">            
+            <div class="main fullwidth">
                 <div class="container">
                     <div class="row-fluid">
-                        
-                        <section class="content span6 offset3">
-							<div class="shortcode-tabs">
-							    <ul class="tabs-nav tabs clearfix">
-							        <li class="active"><a class="button button-white" href="#tab1" data-toggle="tab">完善账户信息</a></li>
-							        <li><a class="button button-white" href="#tab2" data-toggle="tab">绑定已有账户&分享</a></li>
-							    </ul>
-							     
-							    <div class="tab-content">
-							        <div class="tab-pane active widgets-light" id="tab1">
-							        	<div class="widget-box widget-contact-form">
+                        <section class="content span9">
+							<div class="content-title">
+                                <h2>管理中心</h2>
+                            </div>
+
+                            <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
+                                <ul class="tabs-nav tabs clearfix span3">
+                                    <li><a class="button button-white" href="#profile" data-toggle="tab">个人基本信息</a></li>
+                                    <li><a class="button button-white" href="./testAvatar.art">修改头像</a></li>
+                                    <li><a class="button button-white" href="#changePwd" data-toggle="tab">修改密码</a></li>
+                                    <li><a class="button button-white" href="./myFavorites.art">我的收藏</a></li>
+                                    <li><a class="button button-white" href="./myFlowerings.art">我的关注</a></li>
+                                    <li><a class="button button-white" href="./myFlowers.art">我的粉丝</a></li>
+                                    <li><a class="button button-white" href="#designerProfile" data-toggle="tab">设计师资料</a></li>
+                                    <li class="active"><a class="button button-white" href="./applyDesigner.art">申请成为设计师</a></li>
+                                    <li><a class="button button-white" href="#syncSettings" data-toggle="tab">作品分享器（推荐）</a></li>
+                                </ul>
+                                <div class="tab-content span8">
+                                    <div class="tab-pane widgets-light active" id="apply4Designer">
+                                        <div class="widget-box widget-contact-form">
 											<div class="content-title">
-												<h4>完善帐号信息可体验本站更多功能</h4>
-											</div>
-											<%
-											AccessTokenInfo tempToken = (AccessTokenInfo)session.getAttribute(ConstFront.TEMPLATE_ACCESS_TOKEN);
-											%>
-											
-											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/oauthRegister.art">
-												<div class="input-container">
-													<input type="text" class="contact-form-name" name="username"
-														value="<%=tempToken.getThirdpartyUname()%>"
-														onfocus="if(this.value=='用户名')this.value='';"
-														onblur="if(this.value=='')this.value='用户名';" /> <i
-														class="icon-user"></i>
-												</div>
-												<div class="input-container">
-													<input type="text" class="contact-form-name" name="nickname"
-														value="<%=tempToken.getThirdpartyUname()%>"
-														onfocus="if(this.value=='昵 称')this.value='';"
-														onblur="if(this.value=='')this.value='昵 称';" /> <i
-														class="icon-user"></i>
-												</div>
-												<div class="input-container">
-													<input type="password" class="contact-form-email" name="password"
-														value=""/> 
-														<i class="icon-envelope-alt"></i>
-												</div>
-												<div class="input-container">
-													<input type="password" class="contact-form-email" name="password"
-														value=""/> 
-														<i class="icon-envelope-alt"></i>
-												</div>
-												<input class="contact-submit button" type="submit" value="完 成">
-												<input class="contact-submit button" type="button" value="取 消">
-											</form>
-										</div>
-							        </div>
-							        <div class="tab-pane widgets-light" id="tab2">
-							        	<div class="widget-box widget-contact-form">
-								            <div class="content-title">
-												<h4>设计师绑定已有账户可分享作品至多个平台</h4>
+												<h4>设计师申请单</h4>
 											</div>
 											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/oauthBind.art">
+												action="/designer-front/applyDesignerGo.art">
 												<div class="input-container">
-													<input type="text" class="contact-form-name" name="username"
-														value="用户名"
-														onfocus="if(this.value=='用户名')this.value='';"
-														onblur="if(this.value=='')this.value='用户名';" /> <i
-														class="icon-user"></i>
+													身份证号: <input type="text" class="contact-form-name" name="idNum"
+														value="身份证号"/>
 												</div>
 												<div class="input-container">
-													<input type="password" class="contact-form-email" name="password"
-														value=""/> 
-														<i class="icon-envelope-alt"></i>
+													真实姓名: <input type="text" class="contact-form-name" name="realname"
+														value="真实姓名"/>
 												</div>
-												<input class="contact-submit button" type="submit" value="完善个人资料">
+												<div class="input-container">
+													手机号: <input type="text" class="contact-form-name" name="mobile"
+														value="手机号"/>
+												</div>
+												
+												<div class="input-container">
+													公 司: <input type="text" class="contact-form-name" name="company"
+														value="公 司"/>
+												</div>
+												<div class="input-container">
+													淘宝店铺主页: <input type="text" class="contact-form-name" name="taobaoHomepage"
+														value="淘宝店铺店铺"/>
+												</div>
+												<input class="contact-submit button" type="submit" value="申 请">
+												<input class="contact-submit button" type="button" value="完 成">
 											</form>
 										</div>
-							        </div>
-							    </div>
-							</div>
-                        </section>
-                        <!-- End Content -->
-                       
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </section> 
+                        
+                        <jsp:include page="./inc/rightSidebar.jsp"></jsp:include>
+                    	
                     </div>                        
                 </div> <!-- Close Main -->
             </div> 

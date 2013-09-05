@@ -102,8 +102,8 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                     <li><a class="button button-white" href="./myFlowerings.art">我的关注</a></li>
                                     <li><a class="button button-white" href="./myFlowers.art">我的粉丝</a></li>
                                     <li><a class="button button-white" href="#designerProfile" data-toggle="tab">设计师基本信息</a></li>
+                                    <li><a class="button button-white" href="./applyDesigner.art">申请成为设计师</a></li>
                                     <li><a class="button button-white" href="#syncSettings" data-toggle="tab">作品分享器（推荐）</a></li>
-                                    <li><a class="button button-white" href="#apply4Designer" data-toggle="tab">申请成为设计师</a></li>
                                 </ul>
                                 <div class="tab-content span8">
                                     <div class="tab-pane widgets-light" id="syncSettings">
@@ -231,15 +231,19 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 														value="姓 名"/>
 												</div>
 												<div class="input-container">
-													身份证号: <input type="text" class="contact-form-name" name="nickname"
+													手机号: <input type="text" class="contact-form-name" name="mobile"
+														value="手机号"/>
+												</div>
+												<div class="input-container">
+													身份证号: <input type="text" class="contact-form-name" name="idNum"
 														value="身份证号"/>
 												</div>
 												<div class="input-container">
-													公司: <input type="text" class="contact-form-name" name="nickname"
+													公司: <input type="text" class="contact-form-name" name="company"
 														value="公 司"/>
 												</div>
 												<div class="input-container">
-													淘宝店铺链接: <input type="text" class="contact-form-name" name="nickname"
+													淘宝主页链接: <input type="text" class="contact-form-name" name="home_page"
 														value="淘宝店铺链接"/>
 												</div>
 												<input class="contact-submit button" type="button" value="申 请">
