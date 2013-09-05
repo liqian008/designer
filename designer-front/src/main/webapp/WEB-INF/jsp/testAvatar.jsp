@@ -3,6 +3,7 @@
 <%@ page import="com.bruce.designer.bean.*" %>
 <%@ page import="com.bruce.designer.service.oauth.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
+<%@ page import="com.bruce.designer.constants.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.*" %>
 
@@ -99,6 +100,13 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
                                 <ul class="tabs-nav tabs clearfix span3">
                                     <li class="active"><a class="button button-white" href="#avatar" data-toggle="tab">修改头像</a></li>
+                                    <%if(user.getDesignerStatus()==ConstService.DESIGNER_APPLY_PASSED){%>
+                                    <li><a class="button button-white" href="./myFlowers.art">我的粉丝</a></li>
+                                    <li><a class="button button-white" href="./designerProfile.art">设计师基本信息</a></li>
+                                    <li><a class="button button-white" href="#syncSettings" data-toggle="tab">作品分享器（推荐）</a></li>
+                                    <%}else{%>
+                                    <li><a class="button button-white" href="./applyDesigner.art">申请成为设计师</a></li>
+                                    <%}%>
                                 </ul>
                                 <div class="tab-content span8">
                                 	<div class="tab-pane widgets-light active" id="avatar">
@@ -108,8 +116,6 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 											</div>
 
 											我当前的头像
-
-
 
 											<img src="<%=user.getHeadImg()%>" width="200px"/>
 											<%

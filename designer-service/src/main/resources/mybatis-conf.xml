@@ -5,12 +5,15 @@
 
 	<mappers>
 		<mapper resource="com/bruce/designer/bean/mapper/UserMapper.xml" />
-		<mapper resource="com/bruce/designer/bean/mapper/DesignerMapper.xml" /> 
 		<mapper resource="com/bruce/designer/bean/mapper/AlbumMapper.xml" />
 		<mapper resource="com/bruce/designer/bean/mapper/AlbumSlideMapper.xml" /> 
 		<mapper resource="com/bruce/designer/bean/mapper/MessageMapper.xml" />
 		<mapper resource="com/bruce/designer/bean/mapper/CommentMapper.xml" />
 		<mapper resource="com/bruce/designer/bean/mapper/AccessTokenInfoMapper.xml" />
+		
+		<!-- 
+		<mapper resource="com/bruce/designer/bean/mapper/DesignerMapper.xml" />
+		-->
 		
 	</mappers>
 

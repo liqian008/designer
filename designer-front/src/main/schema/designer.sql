@@ -97,23 +97,6 @@ INSERT INTO `tb_comment` VALUES ('1', 'That\'s it，bootstrap!', 'That\'s it，b
 COMMIT;
 
 -- ----------------------------
---  Table structure for `tb_designer`
--- ----------------------------
-DROP TABLE IF EXISTS `tb_designer`;
-CREATE TABLE `tb_designer` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `company` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
-  `home_page` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
-  `status` smallint(6) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `tb_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- ----------------------------
 --  Table structure for `tb_message`
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_message`;
@@ -134,6 +117,7 @@ CREATE TABLE `tb_message` (
 DROP TABLE IF EXISTS `tb_user`;
 CREATE TABLE `tb_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nickname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `username` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `password` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -141,7 +125,14 @@ CREATE TABLE `tb_user` (
   `update_time` datetime DEFAULT NULL,
   `status` smallint(6) DEFAULT '1',
   `head_img` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `nickname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `designer_status` int(11) DEFAULT '0',
+  `designer_identifer` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `designer_realname` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `designer_mobile` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `designer_company` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `designer_taobao_homepage` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `designer_apply_time`  datetime NULL DEFAULT NULL ,
+  `designer_pass_time`  datetime NULL DEFAULT NULL ,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.bean.*"%>
 <%@ page import="com.bruce.designer.front.constants.*"%>
+<%@ page import="com.bruce.designer.constants.*" %>
 <%@ page import="java.util.*"%>
 <%@ page import="java.text.*"%>
 
 <%
 User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 %>
-
 
 <aside class="sidebar widgets-light span3">
 
@@ -35,7 +35,6 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 				<input class="contact-submit button" type="submit" value="登 录">
 				<input class="contact-submit button" type="button" value="微博登录" onclick="location.href='/designer-front/connectWeibo.art'">
 				<input class="contact-submit button" type="button" value="QQ登录" onclick="location.href='/designer-front/connectTencent.art'">
-				
 				<input class="contact-submit button" type="button" value="注 册">
 			</form>
 		</div>
@@ -53,10 +52,12 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					value="设计师"/>
 			</div>
 			<input class="contact-submit button" type="button" value="我的资料" onclick="location.href='/designer-front/settings.art'"/>
-			<!-- 
-			<input class="contact-submit button" type="button" value="申请设计师"/>
-			<input class="contact-submit button" type="button" value="分享设置"/>
-			 -->
+			 <%if(user.getDesignerStatus()==ConstService.DESIGNER_APPLY_PASSED){%> 
+				<input class="contact-submit button" type="button" value="我要发布"/>
+				<input class="contact-submit button" type="button" value="发布设置" />
+			<%}else{%>
+				<input class="contact-submit button" type="button" value="申请设计师"  onclick="location.href='/designer-front/applyDesigner.art'"/>
+			<%}%>
 			<input class="contact-submit button" type="button" value="注 销" onclick="location.href='/designer-front/logout.art'"/>
 			
 		</form>
