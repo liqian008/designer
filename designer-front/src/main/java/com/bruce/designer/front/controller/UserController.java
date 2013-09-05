@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bruce.designer.bean.User;
 import com.bruce.designer.front.constants.ConstFront;
+import com.bruce.designer.front.util.ImageCut;
 import com.bruce.designer.service.AlbumService;
 import com.bruce.designer.service.CommentService;
 import com.bruce.designer.service.UserService;
@@ -95,6 +96,8 @@ public class UserController {
         String originAvatarUrl = "http://localhost:8080/designer-front/staticFile/avatar/"+avatarFilename;
         
         request.setAttribute("originAvatarUrl", originAvatarUrl);
+        request.setAttribute("imgSrcWidth", imgSrcWidth);
+        request.setAttribute("imgSrcHeight", imgSrcHeight);
         
         //返回临时头像的链接
         return "testAvatar";
@@ -119,7 +122,7 @@ public class UserController {
 //    }
 
     @RequestMapping(value = "/updateAvatarGo", method = RequestMethod.POST)
-    public String headPhotoGo(Model model,  HttpServletRequest request) {
+    public String headPhotoGo(Model model,  HttpServletRequest request, int x, int y, int w, int h) {
         User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
         
         int userId = user.getId();
@@ -128,13 +131,15 @@ public class UserController {
         //确定原始文件名
         String avatarFilename = String.valueOf(userId)+"_original.jpg";
         //构造原始文件
-        File originAvatar = new File(avatarPath, avatarFilename);
         String destFilename = String.valueOf(userId)+".jpg";
+        ImageCut.abscut(avatarPath+avatarFilename, avatarPath+destFilename, x,y,w, h);  
         
-        File destAvatar = new File(avatarPath, destFilename);
-        if(originAvatar.exists()&&destAvatar.delete()){
-        	originAvatar.renameTo(destAvatar);
-        }
+        
+//        File originAvatar = new File(avatarPath, avatarFilename);
+//        File destAvatar = new File(avatarPath, destFilename);
+//        if(originAvatar.exists()&&destAvatar.delete()){
+//        	originAvatar.renameTo(destAvatar);
+//        }
         
         //定位临时头像
         //resize并保存成3套临时头像图片（50x50/100x100/200x200）并返回各自url

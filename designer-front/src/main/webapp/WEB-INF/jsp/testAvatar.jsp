@@ -38,6 +38,9 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
         <script src="./js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
         <script src="./js/vendor/jquery-1.8.3.min.js"></script>
 
+		<link rel="stylesheet" href="./css/jcrop/jquery.Jcrop.css">
+        <script src="./js/jcrop/jquery.Jcrop.js"></script>  
+
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
     </head>
@@ -103,14 +106,17 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 											<div class="content-title">
 												<h4>修改头像</h4>
 											</div>
-											
+
 											我当前的头像
+
+
+
 											<img src="<%=user.getHeadImg()%>" width="200px"/>
 											<%
 											String originAvatarUrl = (String)request.getAttribute("originAvatarUrl");
 											if(originAvatarUrl==null){
 											%>
-											
+
 											<form id="contact-form-widget" method="post" class="clearfix"
 												action="/designer-front/uploadAvatar.art" enctype="MULTIPART/FORM-DATA">
 												<div class="input-container">
@@ -123,13 +129,20 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												设置我的新头像
 												<form id="contact-form-widget" method="post" class="clearfix"
 												action="/designer-front/updateAvatarGo.art">
-												<img src="<%=originAvatarUrl%>" id="imgCrop" name="imgCrop"/>
-												
+
+												<table>
+												<tr>              
+									              <td id="imgTd" style="width:<%=request.getAttribute("imgSrcWidth")%>px;height:<%=request.getAttribute("imgSrcHeight")%>px;" align="center" style="padding-top:5px;">    
+									            	<img src="<%=originAvatarUrl%>" id="imgCrop" name="imgCrop"/>
+									            </td>               
+									           </tr> 
+											</table>
+
 												<input type="hidden"  id="x" name="x" />  
 											    <input type="hidden"  id="y" name="y" />  
 											    <input type="hidden"  id="w" name="w" />  
 											    <input type="hidden"  id="h" name="h" />    
-												
+
 												<input class="contact-submit button" type="submit" value="修 改"/>
 												</form>
 											<%} %>
