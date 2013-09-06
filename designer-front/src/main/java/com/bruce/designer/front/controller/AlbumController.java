@@ -20,7 +20,7 @@ import com.bruce.designer.bean.Album;
 import com.bruce.designer.bean.AlbumSlide;
 import com.bruce.designer.bean.Comment;
 import com.bruce.designer.bean.User;
-import com.bruce.designer.constant.ConstService;
+import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.service.AlbumService;
 import com.bruce.designer.service.AlbumSlideService;

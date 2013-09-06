@@ -59,6 +59,10 @@ public class OAuthController {
      */
     @RequestMapping(value = "/wbCallback")
     public String wbCallback(Model model, HttpServletRequest request)throws Exception {
+        String code = request.getParameter("code");
+        if(StringUtils.isEmpty(code)){//用户取消授权，直接返回
+            return "redirect:/index.art";
+        }
         return unifiedCallback(request, IOAuthService.OAUTH_WEIBO_TYPE);
     }
     

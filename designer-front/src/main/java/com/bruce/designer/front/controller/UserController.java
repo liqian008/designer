@@ -164,20 +164,36 @@ public class UserController {
 
     @RequestMapping(value = "/applyDesignerGo", method = RequestMethod.POST)
     public String applyDesignerGo(Model model,  HttpServletRequest request) {
-//        User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+        User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+        int result = userService.apply4Designer(user.getId());
         request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的申请资料已成功提交，现在将转入首页，请稍候…");
         return "forward:/redirect.art";
     }
 
+    /**
+     * 进入修改密码页面
+     * @param model
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/changePasswd")
+    public String changePasswd(Model model) {
+        return "changePasswd";
+    }
+    
     /**
      * 修改密码
      * @param model
      * @param user
      * @return
      */
-    @RequestMapping(value = "/changePasswd")
-    public String changePasswd(Model model, User user) {
-        return "changePasswd";
+    @RequestMapping(value = "/changePasswdGo")
+    public String changePasswdGo(Model model, HttpServletRequest request, String oldPassword, String password, String rePassword) {
+        User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+        //检查密码是否合法
+        int result = userService.changePassword(user.getId(), rePassword);
+        request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的密码已修改成功，现在将转入首页，请稍候…");
+        return "forward:/redirect.art";
     }
     
     /**

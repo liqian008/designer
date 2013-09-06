@@ -51,7 +51,7 @@ public class SystemController {
         if (user != null) {
             request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
         }
-        return "redirect:/";
+        return "redirect:/index.art";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)

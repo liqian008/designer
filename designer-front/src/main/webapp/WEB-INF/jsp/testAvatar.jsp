@@ -3,8 +3,9 @@
 <%@ page import="com.bruce.designer.bean.*" %>
 <%@ page import="com.bruce.designer.service.oauth.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
+<%@ page import="com.bruce.designer.constants.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.text.*" %>
+<%@ page import="java.text.*" %> 
 
 <%
 SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
@@ -97,9 +98,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                             </div>
 
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
-                                <ul class="tabs-nav tabs clearfix span3">
-                                    <li class="active"><a class="button button-white" href="#avatar" data-toggle="tab">修改头像</a></li>
-                                </ul>
+                                <jsp:include page="./inc/settingsTab.jsp"></jsp:include>
                                 <div class="tab-content span8">
                                 	<div class="tab-pane widgets-light active" id="avatar">
                                         <div class="widget-box widget-contact-form">
@@ -108,8 +107,6 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 											</div>
 
 											我当前的头像
-
-
 
 											<img src="<%=user.getHeadImg()%>" width="200px"/>
 											<%

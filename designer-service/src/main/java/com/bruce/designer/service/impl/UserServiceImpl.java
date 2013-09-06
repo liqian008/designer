@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bruce.designer.bean.AccessTokenInfo;
 import com.bruce.designer.bean.User;
 import com.bruce.designer.bean.UserCriteria;
+import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.UserMapper;
 import com.bruce.designer.service.UserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;
@@ -60,6 +61,15 @@ public class UserServiceImpl implements UserService {
 		}
 		return null;
 	}
+	
+	@Override
+    public int changePassword(int userId, String password) {
+	    UserCriteria criteria = new UserCriteria();
+        criteria.createCriteria().andIdEqualTo(userId);
+        User user = new User();
+        user.setPassword(password);
+        return userMapper.updateByExampleSelective(user, criteria);
+    }
 
 	public List<User> queryUsersByStatus(short status) {
 		UserCriteria criteria = new UserCriteria();
@@ -68,5 +78,26 @@ public class UserServiceImpl implements UserService {
 		
 		return userMapper.selectByExample(criteria);
 	}
+	
+	public int apply4Designer(int userId) {
+	    return designerApplyOp(userId, ConstService.DESIGNER_APPLY_SENT);
+    }
+	
+	public int designerDenied(int userId) {
+        return designerApplyOp(userId, ConstService.DESIGNER_APPLY_DENIED);
+    }
+	
+	public int designerApproval(int userId) {
+        return designerApplyOp(userId, ConstService.DESIGNER_APPLY_PASSED);
+    }
+	
+	private int designerApplyOp(int userId, short operationType) {
+        UserCriteria criteria = new UserCriteria();
+        criteria.createCriteria().andIdEqualTo(userId);
+        User user = new User();
+        user.setDesignerStatus(operationType);
+        return userMapper.updateByExampleSelective(user, criteria);
+    }
+
 
 }

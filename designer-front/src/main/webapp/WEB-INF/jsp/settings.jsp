@@ -3,8 +3,9 @@
 <%@ page import="com.bruce.designer.bean.*" %>
 <%@ page import="com.bruce.designer.service.oauth.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
+<%@ page import="com.bruce.designer.constants.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.text.*" %>
+<%@ page import="java.text.*" %> 
 
 <%
 SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
@@ -94,17 +95,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                             </div>
 
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
-                                <ul class="tabs-nav tabs clearfix span3">
-                                    <li class="active"><a class="button button-white" href="#profile" data-toggle="tab">个人基本信息</a></li>
-                                    <li><a class="button button-white" href="./testAvatar.art">修改头像</a></li>
-                                    <li><a class="button button-white" href="#changePwd" data-toggle="tab">修改密码</a></li>
-                                    <li><a class="button button-white" href="./myFavorites.art">我的收藏</a></li>
-                                    <li><a class="button button-white" href="./myFlowerings.art">我的关注</a></li>
-                                    <li><a class="button button-white" href="./myFlowers.art">我的粉丝</a></li>
-                                    <li><a class="button button-white" href="#designerProfile" data-toggle="tab">设计师基本信息</a></li>
-                                    <li><a class="button button-white" href="./applyDesigner.art">申请成为设计师</a></li>
-                                    <li><a class="button button-white" href="#syncSettings" data-toggle="tab">作品分享器（推荐）</a></li>
-                                </ul>
+                                <jsp:include page="./inc/settingsTab.jsp"></jsp:include>
                                 <div class="tab-content span8">
                                     <div class="tab-pane widgets-light" id="syncSettings">
                                         <div class="widget-box widget-contact-form">
@@ -200,7 +191,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<h4>修改密码</h4>
 											</div>
 											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/oauthRegister.art">
+												action="/designer-front/changePasswdGo.art">
 												<div class="input-container">
 													旧密码: <input type="password" class="contact-form-email" name="oldPassword"
 														value=""/> 
@@ -210,11 +201,11 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 														value=""/> 
 												</div>
 												<div class="input-container">
-													确认密码: <input type="password" class="contact-form-email" name="repassword"
+													确认密码: <input type="password" class="contact-form-email" name="rePassword"
 														value=""/> 
 												</div>
-												<input class="contact-submit button" type="button" value="完 成">
-												<input class="contact-submit button" type="button" value="取 消">
+												<input class="contact-submit button" type="submit" value="修 改">
+												<input class="contact-submit button" type="reset" value="取 消">
 											</form>
 										</div>
                                     </div>

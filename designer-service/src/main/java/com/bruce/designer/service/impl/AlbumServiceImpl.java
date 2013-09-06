@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bruce.designer.bean.Album;
 import com.bruce.designer.bean.AlbumCriteria;
-import com.bruce.designer.constant.ConstService;
+import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.AlbumMapper;
 import com.bruce.designer.service.AlbumService;
 

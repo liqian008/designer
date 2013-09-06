@@ -94,17 +94,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                             </div>
 
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
-                                <ul class="tabs-nav tabs clearfix span3">
-                                    <li><a class="button button-white" href="./settings.art">个人基本信息</a></li>
-                                    <li><a class="button button-white" href="#avatar" data-toggle="tab">修改头像</a></li>
-                                    <li><a class="button button-white" href="./settings.art">修改密码</a></li>
-                                    <li><a class="button button-white" href="./myFavorites.art">我的收藏</a></li>
-                                    <li class="active"><a class="button button-white" href="./#myFlowerings">我的关注</a></li>
-                                    <li><a class="button button-white" href="./myFLowers.art">我的粉丝</a></li>
-                                    <li><a class="button button-white" href="./settings.art">设计师基本信息</a></li>
-                                    <li><a class="button button-white" href="./settings.art">作品分享器（推荐）</a></li>
-                                    <li><a class="button button-white" href="./settings.art">申请成为设计师</a></li>
-                                </ul>
+                                <jsp:include page="./inc/settingsTab.jsp"></jsp:include>
                                 <div class="tab-content span8">
                                     <div class="tab-pane widgets-light active" id="myFlowerings">
                                         
