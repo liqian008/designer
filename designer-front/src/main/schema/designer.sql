@@ -125,10 +125,11 @@ CREATE TABLE `tb_user` (
   `update_time` datetime DEFAULT NULL,
   `status` smallint(6) DEFAULT '1',
   `head_img` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `designer_status` int(11) DEFAULT '0',
+  `designer_status` smallint(6) DEFAULT '0',
   `designer_identifer` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `designer_realname` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `designer_mobile` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `designer_introduction` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL;
   `designer_company` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `designer_taobao_homepage` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `designer_apply_time`  datetime NULL DEFAULT NULL ,

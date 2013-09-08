@@ -22,8 +22,8 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					<input type="text" class="contact-form-name" name="username"
 						value="Your Name"
 						onfocus="if(this.value=='Your Name')this.value='';"
-						onblur="if(this.value=='')this.value='Your Name';" /> <i
-						class="icon-user"></i>
+						onblur="if(this.value=='')this.value='Your Name';" /> 
+					<i class="icon-user"></i>
 				</div>
 				<div class="input-container">
 					<input type="text" class="contact-form-email" name="password"
@@ -32,10 +32,10 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 						onblur="if(this.value=='')this.value='Your Email';" /> <i
 						class="icon-envelope-alt"></i>
 				</div>
+				<input class="contact-submit button" type="button" value="微博登录" onclick="location.href='/designer-front/connectWeibo.art'"/>
+				<input class="contact-submit button" type="button" value="QQ登录" onclick="location.href='/designer-front/connectTencent.art'"/>
 				<input class="contact-submit button" type="submit" value="登 录">
-				<input class="contact-submit button" type="button" value="微博登录" onclick="location.href='/designer-front/connectWeibo.art'">
-				<input class="contact-submit button" type="button" value="QQ登录" onclick="location.href='/designer-front/connectTencent.art'">
-				<input class="contact-submit button" type="button" value="注 册">
+				<input class="contact-submit button" type="button" value="注 册"  onclick="location.href='/designer-front/register.art'">
 			</form>
 		</div>
 	<%}else{%>
@@ -44,14 +44,26 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			<h4 class="widget-title">个人中心</h4>
 		</div>
 		<form id="contact-form-widget" method="post" class="clearfix" action="/designer-front/login.art">
-			<div class="input-container">
-				用户名: <input type="text" class="contact-form-name" name="username"
-					value="<%=user.getUsername()%>"/>
-			</div><div class="input-container">
-				角色: <input type="text" class="contact-form-name" name="username"
-					value="设计师"/>
-			</div>
-			<input class="contact-submit button" type="button" value="我的资料" onclick="location.href='/designer-front/settings.art'"/>
+			<ul>
+				<li class="clearfix">
+					<div class="widget-blogpost-avatar">
+						<a href="post-gallery.html#">
+						<img src="/designer-front/img/demo/portraits/1_avatar_middle.jpg" alt="Blogpost-1">
+						</a>
+					</div>
+					<div class="widget-blogpost-content">
+						<div class="widget-blogpost-date">
+							<p>
+								您好：<%=user.getNickname()%>
+							</p>
+							<p>
+								身份：设计师
+							</p>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<input class="contact-submit button" type="button" value="个人设置" onclick="location.href='/designer-front/settings.art'"/>
 			 <%if(user.getDesignerStatus()==ConstService.DESIGNER_APPLY_PASSED){%> 
 				<input class="contact-submit button" type="button" value="我要发布"/>
 				<input class="contact-submit button" type="button" value="发布设置" />
@@ -84,7 +96,6 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			<li class="social-icons-facebook-icon">
 				<a href="#"><img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
 			</li>
-
 		</ul>
 	</div>
 

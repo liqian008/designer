@@ -86,48 +86,81 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                 <div class="container">
                     <div class="row-fluid">
                         
-                        <section class="content span9">
-                            <div class="shortcode-contact-form row-fluid">
-                                <form action="./login.art" method="post" id="loginForm" class="form">
-                                    <div class="span4 offset4">
-                                        <h2>用户登录</h2>
-                                        <div>
-                                        <p class="input-wrap">
-                                            <input class="comment_input comment_name" type="text" name="username" id="username" value="username" size="22" tabindex="1" 
-                                            onfocus="if(this.value=='username')this.value='';" onblur="if(this.value=='')this.value='username';" />
-                                            <i class="icon-user"></i>
-                                        </p>
-                                        <p class="input-wrap">
-                                            <input class="comment_input comment_email" type="password" name="password" id="password" value="password" size="22" tabindex="2" 
-                                            onfocus="if(this.value=='password')this.value='';" onblur="if(this.value=='')this.value='password';"  />
-                                            <i class="icon-envelope-alt"></i>
-                                        </p>
-
-                                        <p>
-                                        <input class="button button-blue" name="submitBtn" type="submit" id="submit" tabindex="5" value="登 录" />      
-                                        <input class="button button-blue" name="regBtn" type="button" id="register" tabindex="5" value="注 册" />
-                                    	</p>
-                                    	</div>
-                                    </div>
-                                    
-                                </form>
-
-                                <div class="contact-form-respons">
-                                    <div class="infobox info-succes info-succes-alt clearfix">
-                                        <span></span>
-                                        <div class="infobox-wrap">
-                                            <h4>Your message was succesfully send!</h4>
-                                            <p>We will contact you as soon as possible. Please reload the page if you want to send a message again.</p>                                            
-                                        </div>
-                                        <a href="contact.html#" class="info-hide"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </section> <!-- End Content -->
-                        
-                        <jsp:include page="./inc/rightSidebar.jsp"></jsp:include>
-                    	
-                        
+                        <section class="content span6 offset3">
+							<div class="shortcode-tabs">
+							    <ul class="tabs-nav tabs clearfix">
+							        <li class="active"><a class="button button-white" href="#login" data-toggle="tab">已有账户登录</a></li>
+							        <li><a class="button button-white" href="#register" data-toggle="tab">新用户注册</a></li>
+							    </ul>
+							     
+							    <div class="tab-content">
+							        <div class="tab-pane widgets-light" id="register">
+							        	<div class="widget-box widget-contact-form">
+											<div class="content-title">
+												<h4>请填写注册信息</h4>
+											</div>
+											<form id="contact-form-widget" method="post" class="clearfix"
+												action="/designer-front/register.art">
+												<div class="input-container">
+													<input type="text" class="contact-form-name" name="username"
+														value="用户名"
+														onfocus="if(this.value=='用户名')this.value='';"
+														onblur="if(this.value=='')this.value='用户名';" /> <i
+														class="icon-user"></i>
+												</div>
+												<div class="input-container">
+													<input type="text" class="contact-form-name" name="nickname"
+														value="昵 称"
+														onfocus="if(this.value=='昵 称')this.value='';"
+														onblur="if(this.value=='')this.value='昵 称';" /> <i
+														class="icon-user"></i>
+												</div>
+												<div class="input-container">
+													<input type="password" class="contact-form-email" name="password"
+														value=""/> 
+														<i class="icon-envelope-alt"></i>
+												</div>
+												<div class="input-container">
+													<input type="password" class="contact-form-email" name="password"
+														value=""/> 
+														<i class="icon-envelope-alt"></i>
+												</div>
+												<input class="contact-submit button" type="submit" value="注 册">
+												<input class="contact-submit button" type="button" value="取 消">
+											</form>
+										</div>
+							        </div>
+							        <div class="tab-pane widgets-light  active" id="login">
+							        	<div class="widget-box widget-contact-form">
+								            <div class="content-title">
+												<h4>请填写账户密码进行登录</h4>
+											</div>
+											<form id="contact-form-widget" method="post" class="clearfix"
+												action="/designer-front/login.art">
+												<div class="input-container">
+													<input type="text" class="contact-form-name" name="username"
+														value="用户名"
+														onfocus="if(this.value=='用户名')this.value='';"
+														onblur="if(this.value=='')this.value='用户名';" /> <i
+														class="icon-user"></i>
+												</div>
+												<div class="input-container">
+													<input type="password" class="contact-form-email" name="password"
+														value=""/> 
+														<i class="icon-envelope-alt"></i>
+												</div>
+												<input class="contact-submit button" type="submit" value="登 录">
+												<input class="contact-submit button" type="button" value="微博登录" onclick="location.href='/designer-front/connectWeibo.art'"/>
+												<input class="contact-submit button" type="button" value="QQ登录" onclick="location.href='/designer-front/connectTencent.art'"/>
+				
+											</form>
+										</div>
+							        </div>
+							    </div>
+							</div>
+                        </section>
+                        <!-- End Content -->
+                       
                     </div>                        
                 </div> <!-- Close Main -->
             </div> 
@@ -148,14 +181,6 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
     <script src="./js/retina.js"></script>
 
     <script src="./js/custom.js"></script>
-	
-	<script>
-	$(document).ready(function(){
-		$("#register").click(function(){
-			location.href="./register.art";
-		});
-	})
-	</script>
-	
+
     </body>
 </html>
