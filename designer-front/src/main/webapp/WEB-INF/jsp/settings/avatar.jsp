@@ -125,7 +125,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 											<%}else{ %>
 												设置我的新头像
 												<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/updateAvatarGo.art">
+												action="/designer-front/updateAvatar.art">
 
 												<table>
 												<tr>              

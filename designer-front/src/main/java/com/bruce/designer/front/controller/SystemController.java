@@ -83,7 +83,7 @@ public class SystemController {
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request) {
         request.getSession().removeAttribute(ConstFront.CURRENT_USER);
-        request.setAttribute(ConstFront.REDIRECT_PROMPT, "您已退出站点，现在将以游客身份转入首页，请稍候…");
+        request.setAttribute(ConstFront.REDIRECT_PROMPT, "您已成功注销登录，现在将以游客身份转入首页，请稍候…");
         return "forward:/redirect.art";
     }
     

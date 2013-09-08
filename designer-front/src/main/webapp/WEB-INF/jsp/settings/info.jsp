@@ -103,7 +103,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<h4>个人资料</h4>
 											</div>
 											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/oauthRegister.art">
+												action="/designer-front/info.art">
 												<div class="input-container">
 													用户名: 
 													<input type="text" class="contact-form-name" name="username"
