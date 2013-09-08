@@ -4928,6 +4928,7 @@ input.contact-form-error {
 	/* Widget: Contact Form */
 	.widget-contact-form form {
 		width: 100%;
+		margin:0 0 10px;
 	}
 
 		.widget-contact-form input, .widget-contact-form textarea {
@@ -4982,7 +4983,7 @@ input.contact-form-error {
 			width: auto;
 			float: left;
 			text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
-			margin: 10px 0 0 0;
+			margin: 10px 5px 0 0;
 		}
 
 		.contact-form-widget-respons {

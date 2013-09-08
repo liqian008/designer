@@ -1,14 +1,11 @@
 <%@page import="com.bruce.designer.front.controller.FrontController"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.bean.*" %>
-<%@ page import="com.bruce.designer.service.oauth.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
 <%@ page import="com.bruce.designer.constants.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.text.*" %> 
 
 <%
-SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 %>
 
@@ -48,16 +45,16 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
         <![endif]-->
         
-        <jsp:include page="./inc/topBar.jsp"></jsp:include>
+        <jsp:include page="../inc/topBar.jsp"></jsp:include>
            
 
         <div id="wrapper" class="boxed"> <!-- Page Wrapper: Boxed class for boxed layout - Fullwidth class for fullwidth page --> 
             
             <div class="header-background"> <!-- Header Background -->
-                <jsp:include page="./inc/headerBanner.jsp"></jsp:include>
+                <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="./inc/headerNav.jsp"></jsp:include>
+                    <jsp:include page="../inc/headerNav.jsp"></jsp:include>
 
                     <div class="page-title">
                         <div class="container">
@@ -95,38 +92,29 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                             </div>
 
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
-                                <jsp:include page="./inc/settingsTab.jsp"></jsp:include>
+                                <jsp:include page="./settingsTabInc.jsp"></jsp:include>
                                 <div class="tab-content span8">
-                                    <div class="tab-pane widgets-light active" id="apply4Designer">
+                                    <div class="tab-pane widgets-light" id="changePwd">
                                         <div class="widget-box widget-contact-form">
 											<div class="content-title">
-												<h4>设计师申请单</h4>
+												<h4>修改密码</h4>
 											</div>
 											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/applyDesignerGo.art">
+												action="/designer-front/changePasswd.art">
 												<div class="input-container">
-													身份证号: <input type="text" class="contact-form-name" name="idNum"
-														value="身份证号"/>
+													旧密码: <input type="password" class="contact-form-email" name="oldPassword"
+														value=""/> 
 												</div>
 												<div class="input-container">
-													真实姓名: <input type="text" class="contact-form-name" name="realname"
-														value="真实姓名"/>
+													新密码: <input type="password" class="contact-form-email" name="password"
+														value=""/> 
 												</div>
 												<div class="input-container">
-													手机号: <input type="text" class="contact-form-name" name="mobile"
-														value="手机号"/>
+													确认密码: <input type="password" class="contact-form-email" name="rePassword"
+														value=""/> 
 												</div>
-												
-												<div class="input-container">
-													公 司: <input type="text" class="contact-form-name" name="company"
-														value="公 司"/>
-												</div>
-												<div class="input-container">
-													淘宝店铺主页: <input type="text" class="contact-form-name" name="taobaoHomepage"
-														value="淘宝店铺店铺"/>
-												</div>
-												<input class="contact-submit button" type="submit" value="申 请">
-												<input class="contact-submit button" type="button" value="完 成">
+												<input class="contact-submit button" type="submit" value="修 改">
+												<input class="contact-submit button" type="reset" value="取 消">
 											</form>
 										</div>
                                     </div>
@@ -135,13 +123,13 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                             </div>
                         </section> 
                         
-                        <jsp:include page="./inc/rightSidebar.jsp"></jsp:include>
+                        <jsp:include page="../inc/rightSidebar.jsp"></jsp:include>
                     	
                     </div>                        
                 </div> <!-- Close Main -->
             </div> 
            
-           <jsp:include page="./inc/footer.jsp"></jsp:include>
+           <jsp:include page="../inc/footer.jsp"></jsp:include>
            
         </div> <!-- Close Page -->
    </div> <!-- Close wrapper -->

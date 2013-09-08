@@ -1,11 +1,15 @@
+<%@page import="com.bruce.designer.front.controller.FrontController"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.bean.*" %>
+<%@ page import="com.bruce.designer.service.oauth.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
+<%@ page import="com.bruce.designer.constants.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.text.*" %>
+<%@ page import="java.text.*" %> 
 
 <%
 SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
+User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 %>
 
 <!DOCTYPE html>
@@ -44,16 +48,16 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
         <![endif]-->
         
-        <jsp:include page="./inc/topBar.jsp"></jsp:include>
+        <jsp:include page="../inc/topBar.jsp"></jsp:include>
            
 
         <div id="wrapper" class="boxed"> <!-- Page Wrapper: Boxed class for boxed layout - Fullwidth class for fullwidth page --> 
             
             <div class="header-background"> <!-- Header Background -->
-                <jsp:include page="./inc/headerBanner.jsp"></jsp:include>
+                <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="./inc/headerNav.jsp"></jsp:include>
+                    <jsp:include page="../inc/headerNav.jsp"></jsp:include>
 
                     <div class="page-title">
                         <div class="container">
@@ -82,87 +86,56 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                     </ul>
                 </div>
             </div>
-            <div class="main fullwidth">            
+            <div class="main fullwidth">
                 <div class="container">
                     <div class="row-fluid">
-                        
-                        <section class="content span6 offset3">
-							<div class="shortcode-tabs">
-							    <ul class="tabs-nav tabs clearfix">
-							        <li class="active"><a class="button button-white" href="#register" data-toggle="tab">新用户注册</a></li>
-							        <li><a class="button button-white" href="#login" data-toggle="tab">已有账户登录</a></li>
-							    </ul>
-							     
-							    <div class="tab-content">
-							        <div class="tab-pane active widgets-light" id="register">
-							        	<div class="widget-box widget-contact-form">
+                        <section class="content span9">
+							<div class="content-title">
+                                <h2>管理中心</h2>
+                            </div>
+
+                            <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
+                                <jsp:include page="./settingsTabInc.jsp"></jsp:include>
+                                <div class="tab-content span8">
+                                    <div class="tab-pane widgets-light active" id="info">
+                                        <div class="widget-box widget-contact-form">
 											<div class="content-title">
-												<h4>请填写注册信息</h4>
+												<h4>个人资料</h4>
 											</div>
 											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/register.art">
+												action="/designer-front/oauthRegister.art">
 												<div class="input-container">
+													用户名: 
 													<input type="text" class="contact-form-name" name="username"
-														value="用户名"
-														onfocus="if(this.value=='用户名')this.value='';"
-														onblur="if(this.value=='')this.value='用户名';" /> <i
-														class="icon-user"></i>
+														value="<%=user.getUsername()%>" readonly="readonly"/>
 												</div>
 												<div class="input-container">
+													昵 称: 
 													<input type="text" class="contact-form-name" name="nickname"
-														value="昵 称"
-														onfocus="if(this.value=='昵 称')this.value='';"
-														onblur="if(this.value=='')this.value='昵 称';" /> <i
-														class="icon-user"></i>
+														value="<%=user.getNickname()%>"  readonly="readonly"/>
 												</div>
 												<div class="input-container">
-													<input type="password" class="contact-form-email" name="password"
-														value=""/> 
-														<i class="icon-envelope-alt"></i>
+													E-Mail: 
+													<input type="text" class="contact-form-name" name="email"
+														value="<%=user.getEmail()%>"/>
 												</div>
-												<div class="input-container">
-													<input type="password" class="contact-form-email" name="password"
-														value=""/> 
-														<i class="icon-envelope-alt"></i>
-												</div>
-												<input class="contact-submit button" type="submit" value="注 册">
+												<input class="contact-submit button" type="submit" value="完 成">
 												<input class="contact-submit button" type="button" value="取 消">
 											</form>
 										</div>
-							        </div>
-							        <div class="tab-pane widgets-light" id="login">
-							        	<div class="widget-box widget-contact-form">
-								            <div class="content-title">
-												<h4>请填写账户密码进行登录</h4>
-											</div>
-											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/login.art">
-												<div class="input-container">
-													<input type="text" class="contact-form-name" name="username"
-														value="用户名"
-														onfocus="if(this.value=='用户名')this.value='';"
-														onblur="if(this.value=='')this.value='用户名';" /> <i
-														class="icon-user"></i>
-												</div>
-												<div class="input-container">
-													<input type="password" class="contact-form-email" name="password"
-														value=""/> 
-														<i class="icon-envelope-alt"></i>
-												</div>
-												<input class="contact-submit button" type="submit" value="登 录">
-											</form>
-										</div>
-							        </div>
-							    </div>
-							</div>
-                        </section>
-                        <!-- End Content -->
-                       
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </section> 
+                        
+                        <jsp:include page="../inc/rightSidebar.jsp"></jsp:include>
+                    	
                     </div>                        
                 </div> <!-- Close Main -->
             </div> 
            
-           <jsp:include page="./inc/footer.jsp"></jsp:include>
+           <jsp:include page="../inc/footer.jsp"></jsp:include>
            
         </div> <!-- Close Page -->
    </div> <!-- Close wrapper -->

@@ -36,12 +36,6 @@
 						</ul>
 					</li>
 					<li><a
-						href="http://somnia-themes.com/templates/verendus/blog.html">Blog</a>
-						<ul class="sub-menu">
-							<li><a href="post-aside.html">Post Aside</a></li>
-							<li><a href="post-audio.html">Post Audio</a></li>
-						</ul></li>
-					<li><a
 						href="http://somnia-themes.com/templates/verendus/pages/contact.html">关于我们</a>
 					</li>
 				</ul>

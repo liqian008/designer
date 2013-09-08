@@ -1,11 +1,15 @@
+<%@page import="com.bruce.designer.front.controller.FrontController"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.bean.*" %>
+<%@ page import="com.bruce.designer.service.oauth.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
+<%@ page import="com.bruce.designer.constants.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.text.*" %>
+<%@ page import="java.text.*" %> 
 
 <%
 SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
+User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 %>
 
 <!DOCTYPE html>
@@ -35,6 +39,9 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
         <script src="./js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
         <script src="./js/vendor/jquery-1.8.3.min.js"></script>
 
+		<link rel="stylesheet" href="./css/jcrop/jquery.Jcrop.css">
+        <script src="./js/jcrop/jquery.Jcrop.js"></script>  
+
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
     </head>
@@ -44,16 +51,16 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
         <![endif]-->
         
-        <jsp:include page="./inc/topBar.jsp"></jsp:include>
+        <jsp:include page="../inc/topBar.jsp"></jsp:include>
            
 
         <div id="wrapper" class="boxed"> <!-- Page Wrapper: Boxed class for boxed layout - Fullwidth class for fullwidth page --> 
             
             <div class="header-background"> <!-- Header Background -->
-                <jsp:include page="./inc/headerBanner.jsp"></jsp:include>
+                <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="./inc/headerNav.jsp"></jsp:include>
+                    <jsp:include page="../inc/headerNav.jsp"></jsp:include>
 
                     <div class="page-title">
                         <div class="container">
@@ -82,87 +89,74 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                     </ul>
                 </div>
             </div>
-            <div class="main fullwidth">            
+            <div class="main fullwidth">
                 <div class="container">
                     <div class="row-fluid">
-                        
-                        <section class="content span6 offset3">
-							<div class="shortcode-tabs">
-							    <ul class="tabs-nav tabs clearfix">
-							        <li class="active"><a class="button button-white" href="#register" data-toggle="tab">新用户注册</a></li>
-							        <li><a class="button button-white" href="#login" data-toggle="tab">已有账户登录</a></li>
-							    </ul>
-							     
-							    <div class="tab-content">
-							        <div class="tab-pane active widgets-light" id="register">
-							        	<div class="widget-box widget-contact-form">
+                        <section class="content span9">
+							<div class="content-title">
+                                <h2>管理中心</h2>
+                            </div>
+
+                            <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
+                                <jsp:include page="./settingsTabInc.jsp"></jsp:include>
+                                <div class="tab-content span8">
+                                	<div class="tab-pane widgets-light active" id="avatar">
+                                        <div class="widget-box widget-contact-form">
 											<div class="content-title">
-												<h4>请填写注册信息</h4>
+												<h4>修改头像</h4>
 											</div>
+
+											我当前的头像
+
+											<img src="<%=user.getHeadImg()%>" width="200px"/>
+											<%
+											String originAvatarUrl = (String)request.getAttribute("originAvatarUrl");
+											if(originAvatarUrl==null){
+											%>
+
 											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/register.art">
+												action="/designer-front/uploadAvatar.art" enctype="MULTIPART/FORM-DATA">
 												<div class="input-container">
-													<input type="text" class="contact-form-name" name="username"
-														value="用户名"
-														onfocus="if(this.value=='用户名')this.value='';"
-														onblur="if(this.value=='')this.value='用户名';" /> <i
-														class="icon-user"></i>
+													头 像: <input type="file" class="contact-form-name" name="avatarImage"
+														value="头 像"/>
 												</div>
-												<div class="input-container">
-													<input type="text" class="contact-form-name" name="nickname"
-														value="昵 称"
-														onfocus="if(this.value=='昵 称')this.value='';"
-														onblur="if(this.value=='')this.value='昵 称';" /> <i
-														class="icon-user"></i>
-												</div>
-												<div class="input-container">
-													<input type="password" class="contact-form-email" name="password"
-														value=""/> 
-														<i class="icon-envelope-alt"></i>
-												</div>
-												<div class="input-container">
-													<input type="password" class="contact-form-email" name="password"
-														value=""/> 
-														<i class="icon-envelope-alt"></i>
-												</div>
-												<input class="contact-submit button" type="submit" value="注 册">
-												<input class="contact-submit button" type="button" value="取 消">
+												<input class="contact-submit button" type="submit" value="上 传">
 											</form>
+											<%}else{ %>
+												设置我的新头像
+												<form id="contact-form-widget" method="post" class="clearfix"
+												action="/designer-front/updateAvatarGo.art">
+
+												<table>
+												<tr>              
+									              <td id="imgTd" style="width:<%=request.getAttribute("imgSrcWidth")%>px;height:<%=request.getAttribute("imgSrcHeight")%>px;" align="center" style="padding-top:5px;">    
+									            	<img src="<%=originAvatarUrl%>" id="imgCrop" name="imgCrop"/>
+									            </td>               
+									           </tr> 
+											</table>
+
+												<input type="hidden"  id="x" name="x" />  
+											    <input type="hidden"  id="y" name="y" />  
+											    <input type="hidden"  id="w" name="w" />  
+											    <input type="hidden"  id="h" name="h" />    
+
+												<input class="contact-submit button" type="submit" value="修 改"/>
+												</form>
+											<%} %>
 										</div>
-							        </div>
-							        <div class="tab-pane widgets-light" id="login">
-							        	<div class="widget-box widget-contact-form">
-								            <div class="content-title">
-												<h4>请填写账户密码进行登录</h4>
-											</div>
-											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/login.art">
-												<div class="input-container">
-													<input type="text" class="contact-form-name" name="username"
-														value="用户名"
-														onfocus="if(this.value=='用户名')this.value='';"
-														onblur="if(this.value=='')this.value='用户名';" /> <i
-														class="icon-user"></i>
-												</div>
-												<div class="input-container">
-													<input type="password" class="contact-form-email" name="password"
-														value=""/> 
-														<i class="icon-envelope-alt"></i>
-												</div>
-												<input class="contact-submit button" type="submit" value="登 录">
-											</form>
-										</div>
-							        </div>
-							    </div>
-							</div>
-                        </section>
-                        <!-- End Content -->
-                       
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </section> 
+                        
+                        <jsp:include page="../inc/rightSidebar.jsp"></jsp:include>
+                    	
                     </div>                        
                 </div> <!-- Close Main -->
             </div> 
            
-           <jsp:include page="./inc/footer.jsp"></jsp:include>
+           <jsp:include page="../inc/footer.jsp"></jsp:include>
            
         </div> <!-- Close Page -->
    </div> <!-- Close wrapper -->
@@ -178,6 +172,39 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
     <script src="./js/retina.js"></script>
 
     <script src="./js/custom.js"></script>
+    
+    <script type="text/javascript">  
+		jQuery(document).ready(function(){        
+	        jQuery('#imgCrop').Jcrop({
+	        	aspectRatio: 1,
+	            onChange: showCoords,
+	            onSelect: showCoords  
+	        });   
+          
+		jQuery('#cropButton').click(function(){
+			var w = jQuery("#w").val();
+			var h = jQuery("#h").val();
+			if(w == 0 || h == 0 ){
+			    alert("您还没有选择图片的剪切区域,不能进行剪切图片!");  
+			    return;
+			}
+			//alert("你要剪切图片的X坐标: "+x + ",Y坐标: " + y + ",剪切图片的宽度: " + w + ",高度：" + h );  
+			if(confirm("确定按照当前大小剪切图片吗")){
+			    document.form1.submit();
+			}
+         });
+    });  
+      
+    function showCoords(c){  
+        jQuery('#x').val(c.x);  
+        jQuery('#y').val(c.y);  
+        jQuery('#w').val(c.w);  
+        jQuery('#h').val(c.h);    
+        //显示剪切按键  
+        jQuery('#cropTd').css("display","");  
+                  
+    }  
+</script>  
 
     </body>
 </html>

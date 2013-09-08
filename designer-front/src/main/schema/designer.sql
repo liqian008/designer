@@ -129,6 +129,7 @@ CREATE TABLE `tb_user` (
   `designer_identifer` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `designer_realname` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `designer_mobile` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `designer_introduction` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL;
   `designer_company` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `designer_taobao_homepage` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `designer_apply_time`  datetime NULL DEFAULT NULL ,
