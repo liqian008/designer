@@ -121,6 +121,7 @@ CREATE TABLE `tb_user` (
   `username` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `password` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `gender` smallint(6)) DEFAULT 1,
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `status` smallint(6) DEFAULT '1',

@@ -127,7 +127,7 @@ if(redirectUrl==null||"".equals(redirectUrl)){
     <script src="./js/custom.js"></script>
 	
 	<script language='Javascript'>
-	    setTimeout("location.href='<%=redirectUrl%>'", 3000);
+	    setTimeout("location.href='<%=redirectUrl%>'", 2000);
 	</script>
 	
     </body>

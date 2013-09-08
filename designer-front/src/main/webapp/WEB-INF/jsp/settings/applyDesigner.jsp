@@ -103,7 +103,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<h4>设计师申请单</h4>
 											</div>
 											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/applyDesignerGo.art">
+												action="/designer-front/applyDesigner.art">
 												<div class="input-container">
 													身份证号: <input type="text" class="contact-form-name" name="idNum"
 														value="身份证号"/>
