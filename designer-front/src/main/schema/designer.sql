@@ -101,15 +101,16 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_message`;
 CREATE TABLE `tb_message` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `from_id` int(11) NOT NULL,
+  `to_id` int(11) NOT NULL,
+  `message_type` smallint(4) NOT NULL,
   `message` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `message_type` tinyint(4) NOT NULL,
+  `status` smallint(6) DEFAULT '1',
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
-  `send_id` int(11) NOT NULL,
-  `recv_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 --  Table structure for `tb_user`

@@ -208,8 +208,8 @@ public class UserSettingsController {
      * @param user
      * @return
      */
-    @RequestMapping(params="op=myFlowers")
-    public String myFlowers(Model model, User user) {
+    @RequestMapping(params="op=flowers")
+    public String flowers(Model model, User user) {
         return "settings/myFlowers";
     }
     
@@ -220,8 +220,8 @@ public class UserSettingsController {
      * @param user
      * @return
      */
-    @RequestMapping(params="op=myFlowerings")
-    public String myFlowerings(Model model, User user) {
+    @RequestMapping(params="op=flowerings")
+    public String flowerings(Model model, User user) {
         return "settings/myFlowerings";
     }
     
@@ -231,8 +231,19 @@ public class UserSettingsController {
      * @param user
      * @return
      */
-    @RequestMapping(params="op=myFavorities")
-    public String myFavorities(Model model, User user) {
+    @RequestMapping(params="op=favorities")
+    public String favorities(Model model, User user) {
         return "settings/myFavorities";
+    }
+    
+    /**
+     * 我的消息
+     * @param model
+     * @param user
+     * @return
+     */
+    @RequestMapping(params="op=inbox")
+    public String inbox(Model model, User user) {
+        return "settings/inbox";
     }
 }
