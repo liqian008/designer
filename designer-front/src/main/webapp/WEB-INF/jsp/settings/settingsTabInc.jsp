@@ -20,7 +20,6 @@ String getActiveStr(String option, String op){
 User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 String op =request.getParameter("op");
 %>
-
 <li <%=getActiveStr("info", op)%>><a class="button button-white" href="./settings.art">个人基本信息</a></li>
 <li <%=getActiveStr("inbox", op)%>><a class="button button-white" href="./settings.art?op=inbox">我的消息</a></li>
 <li <%=getActiveStr("avatar", op)%>><a class="button button-white" href="./settings.art?op=avatar">修改头像</a></li>

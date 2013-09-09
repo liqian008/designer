@@ -235,12 +235,10 @@ public class UserSettingsController {
      */
     @RequestMapping(params="op=favorities")
     public String favorities(Model model, User user) {
-    	
     	List<Album> albumList = albumService.queryAlbumByUserId(3);
 		if(albumList!=null&&albumList.size()>0){
 			model.addAttribute("albumList", albumList);
 		}
-    	
         return "settings/myFavorities";
     }
     
