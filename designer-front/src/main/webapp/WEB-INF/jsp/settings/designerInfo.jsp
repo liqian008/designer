@@ -95,8 +95,10 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                             </div>
 
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
-                                <jsp:include page="./settingsTabInc.jsp"></jsp:include>
-                                <div class="tab-content span8">
+                                <ul class="tabs-nav tabs clearfix span3">
+                                	<jsp:include page="./settingsTabInc.jsp"></jsp:include>
+                                </ul>
+                                <div class="tab-content span9">
                                     <div class="tab-pane widgets-light active" id="designerProfile">
                                         <div class="widget-box widget-contact-form">
 											<div class="content-title">

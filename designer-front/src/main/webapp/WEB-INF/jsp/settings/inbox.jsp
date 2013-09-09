@@ -3,8 +3,9 @@
 <%@ page import="com.bruce.designer.bean.*" %>
 <%@ page import="com.bruce.designer.service.oauth.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
+<%@ page import="com.bruce.designer.constants.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.text.*" %>
+<%@ page import="java.text.*" %> 
 
 <%
 SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
@@ -98,20 +99,29 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                 	<jsp:include page="./settingsTabInc.jsp"></jsp:include>
                                 </ul>
                                 <div class="tab-content span9">
-                                    <div class="tab-pane widgets-light active" id="myFlowerings">
-                                        <article class="post format-blog-left clearfix">
-			                                <div class="post-thumb-wrap span2">
-			                                	<img src="/designer-front/img/demo/portraits/1_avatar_middle.jpg">
-			                                </div>
-			                                <div class="post-content span2">
-			                                    <h5>大树珠宝</h5>
-			                                     <p>
-			                                        已关注
-			                                    </p>
-			                                </div>
-			                                
-			                            </article>
-			                            
+                                    <div class="tab-pane widgets-light active" id="info">
+                                        <div class="comment-container" id="comment-1">
+	                                        <div class="comment-avatar">
+	                                            <div class="comment-author vcard">
+	                                                <img src="img/demo/portraits/portrait-6.png" alt="Blogpost Comment">                 
+	                                            </div>
+	                                            <div class="reply">
+	                                                <a class="comment-reply-link button button-white" href="#">Reply</a>                
+	                                            </div>
+	                                        </div>                          
+	                                        <div class="comment-body">
+	                                            <div class="comment-meta commentmetadata">
+	                                                <h4 class="comment-author">
+	                                                    <a href="http://www.somnia-themes.com" rel="external nofollow" class="url">SomniaThemes</a>
+	                                                </h4>                                   
+	                                            </div>                              
+	                                            <div class="comment-content">
+	                                                <p>
+	                                                    Duis dignissim orci at tellus mollis non dignissim purus auctor. Donec nulla risus, mollis et eleifend id, viverra sit amet nisi. Nulla quis nisl nisi. Aliquam nec nibh est.
+	                                                </p>
+	                                            </div>
+	                                        </div>
+	                                    </div>
                                     </div>
                                     
                                 </div>

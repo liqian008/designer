@@ -73,9 +73,13 @@ public class UserServiceImpl implements UserService {
 
 	public List<User> queryUsersByStatus(short status) {
 		UserCriteria criteria = new UserCriteria();
-//		String username = "%% or 1=1 or email like %%";
 		criteria.createCriteria().andStatusEqualTo(status);
-		
+		return userMapper.selectByExample(criteria);
+	}
+	
+	public List<User> queryDesignersByStatus(short status) {
+		UserCriteria criteria = new UserCriteria();
+		criteria.createCriteria().andStatusEqualTo(status).andDesignerStatusEqualTo(ConstService.DESIGNER_APPLY_PASSED);
 		return userMapper.selectByExample(criteria);
 	}
 	
