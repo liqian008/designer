@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bruce.designer.bean.AccessTokenInfo;
 import com.bruce.designer.bean.User;
+import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.exception.oauth.OAuthException;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.service.UserService;
@@ -118,16 +119,24 @@ public class OAuthController {
                         // 进入注册、绑定已有账户流程
                     return "registerThirdparty";
                 }
-            } else {//已登录状态
-                    // 绑定现有账户流程，需检查已登录用户是否已存在该oauth类型的绑定
-                boolean alreadyBind = false;
-                if (!alreadyBind) {
-                    // 尚未绑定，可以绑定
-                    return "registerThirdparty";
-                } else {
-                    // 已经绑定，不能重复绑定，提示出错
-                    return "";
+            } else {//已登录状态（绑定账户流程）
+                // 绑定现有账户流程，需检查已登录用户是否已存在该oauth类型的绑定
+            	AccessTokenInfo accessToken = user.getAccessTokenMap().get(thirdpartyType);
+            	boolean alreadyBind = accessToken!=null&&accessToken.getUserId()==null;
+                if (alreadyBind) {
+                    // 已经绑定，需判定登录用户的uid与token中的uid是否一致
+                	boolean match = accessToken.getUserId()==user.getId();
+                	if(!match){
+                		// 登录用户的uid与token中的uid不一致，提示出错
+                    	return "error";
+                	}
+                }else{
+                	tokenInfo.setUserId(user.getId());
+                	accessTokenService.save(tokenInfo);
+                	user.getAccessTokenMap().put(tokenInfo.getThirdpartyType(), tokenInfo);
                 }
+                request.setAttribute(ConstFront.REDIRECT_PROMPT, "您已成功绑定"+thirdpartyType+"账户，现在将转入个人主页，请稍候…");
+                return "forward:/redirect.art";
             }
         } else {
             // 无法获取token，系统错误
@@ -239,7 +248,8 @@ public class OAuthController {
         	Map<String, AccessTokenInfo> accessTokenMap = user.getAccessTokenMap();
         	accessTokenMap.remove(thirdpartyType);
         }
-        return "";
+        request.setAttribute(ConstFront.REDIRECT_PROMPT, "您已成功解绑"+thirdpartyType+"账户，现在将转入个人主页，请稍候…");
+        return "forward:/redirect.art";
     }
 
     /**

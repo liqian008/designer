@@ -95,15 +95,17 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                             </div>
 
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
-                                <jsp:include page="./settingsTabInc.jsp"></jsp:include>
-                                <div class="tab-content span8">
+                                <ul class="tabs-nav tabs clearfix span3">
+                                	<jsp:include page="./settingsTabInc.jsp"></jsp:include>
+                                </ul>
+                                <div class="tab-content span9">
                                     <div class="tab-pane widgets-light active" id="info">
                                         <div class="widget-box widget-contact-form">
 											<div class="content-title">
 												<h4>个人资料</h4>
 											</div>
 											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/info.art">
+												action="/designer-front/settings.art">
 												<div class="input-container">
 													用户名: 
 													<input type="text" class="contact-form-name" name="username"
@@ -119,6 +121,38 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													<input type="text" class="contact-form-name" name="email"
 														value="<%=user.getEmail()%>"/>
 												</div>
+												<div class="input-container">
+													性 别: 
+													<input type="radio" name="gender" value="1"/>男
+													<input type="radio" name="gender" value="2"/>女
+												</div>
+												<div class="input-container">
+													<%
+													boolean wbBound = user.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE)!=null;
+													%>
+													Sina微博: 
+													<%=wbBound?"已绑定":"未绑定"%>
+													<br/>
+													<%if(wbBound){%>
+													<a href="/designer-front/unbindOauth.art?thirdpartyType=SINA_WEIBO" class="button button-small button-white">解绑新浪微博账户</a>
+													<%}else{%>
+													<a href="/designer-front/connectWeibo.art" class="button button-small button-green">绑定新浪微博账户</a>
+													<%}%>
+												</div>
+												<div class="input-container">
+													<%
+													boolean qqBound = user.getAccessTokenMap().get(IOAuthService.OAUTH_TENCENT_TYPE)!=null;
+													%>
+													腾讯微博: 
+													<%=qqBound?"已绑定":"未绑定"%>
+													<br/>
+													<%if(qqBound){%>
+													<a href="/designer-front/unbindOauth.art?thirdpartyType=TENCENT" class="button button-small button-white">解绑QQ账户</a>
+													<%}else{%>
+													<a href="/designer-front/connectTencent.art" class="button button-small button-green">绑定QQ账户</a>
+													<%}%>
+												</div>
+												<input type="hidden" name="op" value="info" readonly="readonly"/>
 												<input class="contact-submit button" type="submit" value="完 成">
 												<input class="contact-submit button" type="button" value="取 消">
 											</form>

@@ -1409,7 +1409,7 @@ blockquote {
 /* Blog Page */
 .post {
 	margin: 0 0 20px 0;
-	background: transparent url('../img/stripes.png') repeat-x left bottom;
+	border-bottom: 1.5px solid #e2e2e2;
 	padding: 0 0 10px 0;
 }
 
@@ -2217,7 +2217,7 @@ blockquote {
 }
 
 .format-blog-left .post-thumb-wrap {
-	margin: 0 0 20px 0;
+	margin: 0 0 10px 0;
 }
 
 
