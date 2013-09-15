@@ -24,11 +24,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bruce.designer.bean.Album;
 import com.bruce.designer.bean.Comment;
+import com.bruce.designer.bean.UploadImageResult;
 import com.bruce.designer.bean.User;
 import com.bruce.designer.front.constants.ConstFront;
-import com.bruce.designer.front.util.ImageCut;
 import com.bruce.designer.service.AlbumService;
-import com.bruce.designer.service.CommentService;
+import com.bruce.designer.service.IUploadService;
 import com.bruce.designer.service.UserService;
 import com.bruce.designer.util.PropertiesUtil;
 
@@ -44,7 +44,7 @@ public class UserSettingsController {
     @Autowired
     private AlbumService albumService;
     @Autowired
-    private CommentService commentService;
+    private IUploadService uploadService;
 
     private static final Logger logger = LoggerFactory.getLogger(UserSettingsController.class);
 
@@ -79,31 +79,32 @@ public class UserSettingsController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/uploadAvatar", method = RequestMethod.POST)
+    @RequestMapping(params="op=uploadAvatar", method = RequestMethod.POST)
 //    @ResponseBody
     public String upload(@RequestParam("avatarImage") MultipartFile avatarImage, HttpServletRequest request) throws IOException{
         User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
         int userId = user.getId();
-        //获取头像保存路径
-        String avatarPath = genAvatarPath(userId);
-        //确定原始文件名
-        String avatarFilename = String.valueOf(userId)+"_original.jpg";
-        //构造&保存头像File
-        File originAvatar = new File(avatarPath, avatarFilename);
-        FileCopyUtils.copy(avatarImage.getBytes(), originAvatar);
+        UploadImageResult imageResult = uploadService.uploadAvatar(avatarImage.getBytes(), userId);
+    	request.setAttribute("originAvatarUrl", imageResult.getUrl());
+        request.setAttribute("imgSrcWidth", imageResult.getWidth());
+        request.setAttribute("imgSrcHeight", imageResult.getHeight());
         
-        BufferedImage src = ImageIO.read(originAvatar); // 读入文件
-        int imgSrcWidth = src.getWidth(); // 得到源图宽
-        int imgSrcHeight = src.getHeight(); // 得到源图长
-        
-        String originAvatarUrl = "http://localhost:8080/designer-front/staticFile/avatar/"+avatarFilename;
-        
-        request.setAttribute("originAvatarUrl", originAvatarUrl);
-        request.setAttribute("imgSrcWidth", imgSrcWidth);
-        request.setAttribute("imgSrcHeight", imgSrcHeight);
+//        //获取头像保存路径
+//        String avatarPath = genAvatarPath(userId);
+//        //确定原始文件名
+//        String avatarFilename = String.valueOf(userId)+"_original.jpg";
+//        //构造&保存头像File
+//        File originAvatar = new File(avatarPath, avatarFilename);
+//        FileCopyUtils.copy(avatarImage.getBytes(), originAvatar);
+//        
+//        BufferedImage src = ImageIO.read(originAvatar); // 读入文件
+//        int imgSrcWidth = src.getWidth(); // 得到源图宽
+//        int imgSrcHeight = src.getHeight(); // 得到源图长
+//        
+//        String originAvatarUrl = "http://localhost:8080/designer-front/staticFile/avatar/"+avatarFilename;
         
         //返回临时头像的链接
-        return "testAvatar";
+        return "settings/avatar";
     }
     
     /**
@@ -115,39 +116,12 @@ public class UserSettingsController {
         return PropertiesUtil.getString("avatar_upload_base_path");
     }
     
-    /**
-     * resize头像批处理
-     * @param userId
-     * @return
-     */
-//    private File[] batchSize(File originAvatar) {
-//        return null;
-//    }
-
-    @RequestMapping(value = "/updateAvatar", method = RequestMethod.POST)
-    public String headPhotoGo(Model model,  HttpServletRequest request, int x, int y, int w, int h) {
+    @RequestMapping (params= "op=avatar", method = RequestMethod.POST)
+    public String headPhotoGo(Model model,  HttpServletRequest request, int x, int y, int w, int h) throws IOException {
         User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
-        
         int userId = user.getId();
-        //获取头像保存路径
-        String avatarPath = genAvatarPath(userId);
-        //确定原始文件名
-        String avatarFilename = String.valueOf(userId)+"_original.jpg";
-        //构造原始文件
-        String destFilename = String.valueOf(userId)+".jpg";
-        ImageCut.abscut(avatarPath+avatarFilename, avatarPath+destFilename, x,y,w, h);  
-        
-        
-//        File originAvatar = new File(avatarPath, avatarFilename);
-//        File destAvatar = new File(avatarPath, destFilename);
-//        if(originAvatar.exists()&&destAvatar.delete()){
-//        	originAvatar.renameTo(destAvatar);
-//        }
-        
-        //定位临时头像
-        //resize并保存成3套临时头像图片（50x50/100x100/200x200）并返回各自url
-        //File[] resizedAvatars = batchSize(originAvatar);
-        
+        //接口应该优化，返回头像数组
+        UploadImageResult imageResult = uploadService.updateAvatar(userId,  x,  y,  w,  h);
         //替换为新头像
         request.setAttribute(ConstFront.REDIRECT_PROMPT, "头像更新成功，现在将转入后续页面，请稍候…");
         return "forward:/redirect.art";

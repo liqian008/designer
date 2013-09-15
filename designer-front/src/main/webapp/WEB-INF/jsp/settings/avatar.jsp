@@ -117,17 +117,18 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 											%>
 
 											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/uploadAvatar.art" enctype="MULTIPART/FORM-DATA">
+												action="/designer-front/settings.art" enctype="MULTIPART/FORM-DATA">
 												<div class="input-container">
 													头 像: <input type="file" class="contact-form-name" name="avatarImage"
 														value="头 像"/>
 												</div>
+												<input type="hidden" name="op" value="uploadAvatar">
 												<input class="contact-submit button" type="submit" value="上 传">
 											</form>
 											<%}else{ %>
 												设置我的新头像
 												<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/updateAvatar.art">
+												action="/designer-front/settings.art">
 
 												<table>
 												<tr>              
@@ -141,7 +142,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 											    <input type="hidden"  id="y" name="y" />  
 											    <input type="hidden"  id="w" name="w" />  
 											    <input type="hidden"  id="h" name="h" />    
-
+												<input type="hidden" name="op" value="avatar">
 												<input class="contact-submit button" type="submit" value="修 改"/>
 												</form>
 											<%} %>

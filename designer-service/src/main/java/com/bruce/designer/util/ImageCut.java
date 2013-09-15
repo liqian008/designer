@@ -1,4 +1,4 @@
-package com.bruce.designer.front.util;
+package com.bruce.designer.util;
 
 import java.io.*;
 import java.awt.*;
