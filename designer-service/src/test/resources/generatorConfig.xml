@@ -30,16 +30,15 @@
 			<property name="enableSubPackages" value="false"/>
 		</javaClientGenerator>
 		
-		
-		<table schema="designer" tableName="tb_user" domainObjectName="User"/>
 		<!-- 
+		<table schema="designer" tableName="tb_message" domainObjectName="Message"/>
+		<table schema="designer" tableName="tb_user" domainObjectName="User"/>
 		<table schema="designer" tableName="tb_designer" domainObjectName="Designer"/>
 		<table schema="designer" tableName="tb_album" domainObjectName="Album"/>
 		<table schema="designer" tableName="tb_album_slide" domainObjectName="AlbumSlide"/>
-		<table schema="designer" tableName="tb_message" domainObjectName="Message"/>
 		<table schema="designer" tableName="tb_comment" domainObjectName="Comment"/>
 		<table schema="designer" tableName="tb_user_source" domainObjectName="UserSource"/>
-		<table schema="designer" tableName="tb_access_token_info" domainObjectName="AccessTokenInfo"/>
 		-->
+		<table schema="designer" tableName="tb_access_token_info" domainObjectName="AccessTokenInfo"/>
 	</context>
 </generatorConfiguration>

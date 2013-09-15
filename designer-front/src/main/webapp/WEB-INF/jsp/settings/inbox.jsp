@@ -39,9 +39,6 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
         <script src="./js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
         <script src="./js/vendor/jquery-1.8.3.min.js"></script>
 
-		<link rel="stylesheet" href="./css/jcrop/jquery.Jcrop.css">
-        <script src="./js/jcrop/jquery.Jcrop.js"></script>  
-
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
     </head>
@@ -102,50 +99,29 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                 	<jsp:include page="./settingsTabInc.jsp"></jsp:include>
                                 </ul>
                                 <div class="tab-content span9">
-                                	<div class="tab-pane widgets-light active" id="avatar">
-                                        <div class="widget-box widget-contact-form">
-											<div class="content-title">
-												<h4>修改头像</h4>
-											</div>
-
-											我当前的头像
-
-											<img src="<%=user.getHeadImg()%>" width="200px"/>
-											<%
-											String originAvatarUrl = (String)request.getAttribute("originAvatarUrl");
-											if(originAvatarUrl==null){
-											%>
-
-											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/uploadAvatar.art" enctype="MULTIPART/FORM-DATA">
-												<div class="input-container">
-													头 像: <input type="file" class="contact-form-name" name="avatarImage"
-														value="头 像"/>
-												</div>
-												<input class="contact-submit button" type="submit" value="上 传">
-											</form>
-											<%}else{ %>
-												设置我的新头像
-												<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/updateAvatar.art">
-
-												<table>
-												<tr>              
-									              <td id="imgTd" style="width:<%=request.getAttribute("imgSrcWidth")%>px;height:<%=request.getAttribute("imgSrcHeight")%>px;" align="center" style="padding-top:5px;">    
-									            	<img src="<%=originAvatarUrl%>" id="imgCrop" name="imgCrop"/>
-									            </td>               
-									           </tr> 
-											</table>
-
-												<input type="hidden"  id="x" name="x" />  
-											    <input type="hidden"  id="y" name="y" />  
-											    <input type="hidden"  id="w" name="w" />  
-											    <input type="hidden"  id="h" name="h" />    
-
-												<input class="contact-submit button" type="submit" value="修 改"/>
-												</form>
-											<%} %>
-										</div>
+                                    <div class="tab-pane widgets-light active" id="info">
+                                        <div class="comment-container" id="comment-1">
+	                                        <div class="comment-avatar">
+	                                            <div class="comment-author vcard">
+	                                                <img src="img/demo/portraits/portrait-6.png" alt="Blogpost Comment">                 
+	                                            </div>
+	                                            <div class="reply">
+	                                                <a class="comment-reply-link button button-white" href="#">Reply</a>                
+	                                            </div>
+	                                        </div>                          
+	                                        <div class="comment-body">
+	                                            <div class="comment-meta commentmetadata">
+	                                                <h4 class="comment-author">
+	                                                    <a href="http://www.somnia-themes.com" rel="external nofollow" class="url">SomniaThemes</a>
+	                                                </h4>                                   
+	                                            </div>                              
+	                                            <div class="comment-content">
+	                                                <p>
+	                                                    Duis dignissim orci at tellus mollis non dignissim purus auctor. Donec nulla risus, mollis et eleifend id, viverra sit amet nisi. Nulla quis nisl nisi. Aliquam nec nibh est.
+	                                                </p>
+	                                            </div>
+	                                        </div>
+	                                    </div>
                                     </div>
                                     
                                 </div>
@@ -174,39 +150,6 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
     <script src="./js/retina.js"></script>
 
     <script src="./js/custom.js"></script>
-    
-    <script type="text/javascript">  
-		jQuery(document).ready(function(){        
-	        jQuery('#imgCrop').Jcrop({
-	        	aspectRatio: 1,
-	            onChange: showCoords,
-	            onSelect: showCoords  
-	        });   
-          
-		jQuery('#cropButton').click(function(){
-			var w = jQuery("#w").val();
-			var h = jQuery("#h").val();
-			if(w == 0 || h == 0 ){
-			    alert("您还没有选择图片的剪切区域,不能进行剪切图片!");  
-			    return;
-			}
-			//alert("你要剪切图片的X坐标: "+x + ",Y坐标: " + y + ",剪切图片的宽度: " + w + ",高度：" + h );  
-			if(confirm("确定按照当前大小剪切图片吗")){
-			    document.form1.submit();
-			}
-         });
-    });  
-      
-    function showCoords(c){  
-        jQuery('#x').val(c.x);  
-        jQuery('#y').val(c.y);  
-        jQuery('#w').val(c.w);  
-        jQuery('#h').val(c.h);    
-        //显示剪切按键  
-        jQuery('#cropTd').css("display","");  
-                  
-    }  
-</script>  
 
     </body>
 </html>

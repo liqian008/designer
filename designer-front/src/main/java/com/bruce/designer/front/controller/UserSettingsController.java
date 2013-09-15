@@ -3,13 +3,13 @@ package com.bruce.designer.front.controller;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +19,11 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.bruce.designer.bean.Album;
+import com.bruce.designer.bean.Comment;
 import com.bruce.designer.bean.User;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.ImageCut;
@@ -48,21 +49,22 @@ public class UserSettingsController {
     private static final Logger logger = LoggerFactory.getLogger(UserSettingsController.class);
 
     @RequestMapping(method = RequestMethod.GET)
-    public String settings(Model model) {
-        int userId = 0;
-        User user = userService.loadById(userId);
-        if (user != null) {
-            model.addAttribute("", user);
-        } else {
-
-        }
+    public String info(Model model) {
         return "settings/info";
     }
 
-    @RequestMapping(value = "/info", method = RequestMethod.POST)
-    public String settingsGo(Model model, User user) {
-        userService.updateById(user);
-        return "";
+    @RequestMapping(params="op=info", method = RequestMethod.POST)
+    public String updateInfo(Model model, HttpServletRequest request) {
+    	short gender = NumberUtils.toShort(request.getParameter("gender"), (short)1);
+    	User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+    	User updateUser = new User();
+    	//获取性别
+    	updateUser.setGender(gender);
+    	updateUser.setId(user.getId());
+    	userService.updateById(updateUser);
+    	request.setAttribute(ConstFront.REDIRECT_PROMPT, "个人资料更新成功，现在将转入后续页面，请稍候…");
+    	request.setAttribute(ConstFront.REDIRECT_URL, "./settings.art");
+        return "forward:/redirect.art";
     }
     
     @RequestMapping(params="op=avatar", method=RequestMethod.GET)
@@ -208,8 +210,8 @@ public class UserSettingsController {
      * @param user
      * @return
      */
-    @RequestMapping(params="op=myFlowers")
-    public String myFlowers(Model model, User user) {
+    @RequestMapping(params="op=flowers")
+    public String flowers(Model model, User user) {
         return "settings/myFlowers";
     }
     
@@ -220,8 +222,8 @@ public class UserSettingsController {
      * @param user
      * @return
      */
-    @RequestMapping(params="op=myFlowerings")
-    public String myFlowerings(Model model, User user) {
+    @RequestMapping(params="op=flowerings")
+    public String flowerings(Model model, User user) {
         return "settings/myFlowerings";
     }
     
@@ -231,8 +233,23 @@ public class UserSettingsController {
      * @param user
      * @return
      */
-    @RequestMapping(params="op=myFavorities")
-    public String myFavorities(Model model, User user) {
+    @RequestMapping(params="op=favorities")
+    public String favorities(Model model, User user) {
+    	List<Album> albumList = albumService.queryAlbumByUserId(3);
+		if(albumList!=null&&albumList.size()>0){
+			model.addAttribute("albumList", albumList);
+		}
         return "settings/myFavorities";
+    }
+    
+    /**
+     * 我的消息
+     * @param model
+     * @param user
+     * @return
+     */
+    @RequestMapping(params="op=inbox")
+    public String inbox(Model model, User user) {
+        return "settings/inbox";
     }
 }

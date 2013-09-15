@@ -101,15 +101,16 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_message`;
 CREATE TABLE `tb_message` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `from_id` int(11) NOT NULL,
+  `to_id` int(11) NOT NULL,
+  `message_type` smallint(4) NOT NULL,
   `message` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `message_type` tinyint(4) NOT NULL,
+  `status` smallint(6) DEFAULT '1',
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
-  `send_id` int(11) NOT NULL,
-  `recv_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 --  Table structure for `tb_user`
@@ -159,10 +160,10 @@ CREATE TABLE `tb_access_token_info` (
   `expire_in` bigint(20) DEFAULT NULL,
   `creae_time` datetime DEFAULT NULL,
   `upate_time` datetime DEFAULT NULL,
-  `thirdparty_type` varchar(50) DEFAULT NULL,
+  `thirdparty_type` smallint(6) DEFAULT '0' COMMENT '1:SinaWeibo, 2:QQ, 3:Renren',
   `thirdparty_uname` varchar(50) DEFAULT NULL,
   `sync_album` smallint(6) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 
 
 SET FOREIGN_KEY_CHECKS = 1;

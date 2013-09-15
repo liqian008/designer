@@ -94,10 +94,24 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                             </div>
 
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
-                                <jsp:include page="./settingsTabInc.jsp"></jsp:include>
-                                <div class="tab-content span8">
+                                <ul class="tabs-nav tabs clearfix span3">
+                                	<jsp:include page="./settingsTabInc.jsp"></jsp:include>
+                                </ul>
+                                <div class="tab-content span9">
                                     <div class="tab-pane widgets-light active" id="myFlowerings">
-                                        
+                                        <article class="post format-blog-left clearfix">
+			                                <div class="post-thumb-wrap span2">
+			                                	<img src="/designer-front/img/demo/portraits/1_avatar_middle.jpg">
+			                                </div>
+			                                <div class="post-content span2">
+			                                    <h5>大树珠宝</h5>
+			                                     <p>
+			                                        已关注
+			                                    </p>
+			                                </div>
+			                                
+			                            </article>
+			                            
                                     </div>
                                     
                                 </div>

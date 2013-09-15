@@ -94,10 +94,33 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                             </div>
 
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
-                                <jsp:include page="./settingsTabInc.jsp"></jsp:include>
-                                <div class="tab-content span8">
+                            	<ul class="tabs-nav tabs clearfix span3">
+                                	<jsp:include page="./settingsTabInc.jsp"></jsp:include>
+                                </ul>
+                                <div class="tab-content span9">
                                     <div class="tab-pane widgets-light active" id="myFavorities">
-                                        
+                                    
+                                    	<%
+										List<Album> albumList = (List<Album>)request.getAttribute("albumList");
+										if(albumList!=null){
+					                        for(Album album: albumList){
+					                    %>
+                                        <article class="post format-blog-left clearfix">
+			                                <div class="post-thumb-wrap span3">
+			                                        <img src="<%=album.getCoverImg()%>" alt="Blogpost Preview Image" />
+			                                </div>
+			                                    
+			                                <div class="post-content span9">
+			                                    <h2><%=album.getTitle()%></h2>
+			                                     <p>
+			                                       <%=album.getRemark()%>
+			                                    </p>
+			                                </div>
+										</article>
+										<%}
+										}%>
+			                            
+			                            
                                     </div>
                                     
                                 </div>

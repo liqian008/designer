@@ -12,6 +12,8 @@ public interface UserService extends IBaseService<User, Integer>{
 
     public List<User> queryUsersByStatus(short status);
     
+    public List<User> queryDesignersByStatus(short status);
+    
     public User authUser(String username, String password);
     
     public int changePassword(int userId, String password);
