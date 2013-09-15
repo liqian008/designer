@@ -73,8 +73,9 @@ public class OAuthWeiboProcessor implements IOAuthProcessor{
         try {
             weiboUser = users.showUserById(tokenInfo.getThirdpartyUid());
             //完善第三方的昵称
-            StringBuilder sb = new StringBuilder("微博用户");
-            sb.append("_");
+//            StringBuilder sb = new StringBuilder("微博用户");
+//            sb.append("_");
+            StringBuilder sb = new StringBuilder();
             sb.append(weiboUser.getScreenName());
             tokenInfo.setThirdpartyUname(sb.toString());
             return tokenInfo;

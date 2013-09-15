@@ -36,7 +36,7 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
 	}
 	
     @Override
-    public AccessTokenInfo load(String thirdpartyUid, String thirdpartyType) {
+    public AccessTokenInfo load(String thirdpartyUid, Short thirdpartyType) {
         AccessTokenInfoCriteria criteria = new AccessTokenInfoCriteria();
         criteria.createCriteria().andThirdpartyUidEqualTo(thirdpartyUid).andThirdpartyTypeEqualTo(thirdpartyType);
         
@@ -62,7 +62,7 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
      * 解绑定第三方账户
      */
     @Override
-    public int delete(Integer userId, String thirdpartyType) {
+    public int delete(Integer userId, Short thirdpartyType) {
         AccessTokenInfoCriteria criteria = new AccessTokenInfoCriteria();
         criteria.createCriteria().andUserIdEqualTo(userId).andThirdpartyTypeEqualTo(thirdpartyType);
         return accessTokenInfoMapper.deleteByExample(criteria);

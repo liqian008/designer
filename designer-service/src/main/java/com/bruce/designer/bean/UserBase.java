@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class UserBase{
 	
-	private Map<String, AccessTokenInfo> accessTokenMap = new HashMap<String, AccessTokenInfo>();
+	private Map<Short, AccessTokenInfo> accessTokenMap = new HashMap<Short, AccessTokenInfo>();
 	
 //	private List<AccessTokenInfo> accessTokenList;
 //
@@ -28,11 +28,11 @@ public class UserBase{
 //		return refreshTokenMap(accessTokenList);
 //	}
 	
-	public Map<String, AccessTokenInfo> getAccessTokenMap() {
+	public Map<Short, AccessTokenInfo> getAccessTokenMap() {
 		return accessTokenMap;
 	}
 
-	public void setAccessTokenMap(Map<String, AccessTokenInfo> accessTokenMap) {
+	public void setAccessTokenMap(Map<Short, AccessTokenInfo> accessTokenMap) {
 		this.accessTokenMap = accessTokenMap;
 	}
 	
@@ -40,7 +40,7 @@ public class UserBase{
 	 * 根据tokenList刷新tokenMap
 	 * @return
 	 */
-	public Map<String, AccessTokenInfo> refreshTokenMap(List<AccessTokenInfo> tokenList){
+	public Map<Short, AccessTokenInfo> refreshTokenMap(List<AccessTokenInfo> tokenList){
 		if(tokenList!=null && tokenList.size() > 0){
 			for(AccessTokenInfo token: tokenList){
 				accessTokenMap.put(token.getThirdpartyType(), token);

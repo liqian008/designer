@@ -32,14 +32,14 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
 //    @Autowired
 //    private IOAuthProcessor oauthProcessor;
     
-    private Map<String, IOAuthProcessor> processorMap;
+    private Map<Short, IOAuthProcessor> processorMap;
     
     public OAuthServiceImpl(){
         init();
     }
     
     private void init() {
-        processorMap = new HashMap<String, IOAuthProcessor>();
+        processorMap = new HashMap<Short, IOAuthProcessor>();
         processorMap.put(IOAuthService.OAUTH_WEIBO_TYPE, new OAuthWeiboProcessor());
         processorMap.put(IOAuthService.OAUTH_TENCENT_TYPE, new OAuthTencentWbProcessor());
     }
@@ -48,9 +48,9 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
     /*线程池*/
     private static ExecutorService executorService = Executors.newCachedThreadPool();
     
-    public AccessTokenInfo loadTokenByCallback(HttpServletRequest request, String thirdpartyType) throws OAuthException {
-        if(StringUtils.isBlank(thirdpartyType)){
-            String errorMessage = "参数thirdpartyType为空，无法处理";
+    public AccessTokenInfo loadTokenByCallback(HttpServletRequest request, short thirdpartyType) throws OAuthException {
+        if(thirdpartyType<=0){
+            String errorMessage = "参数thirdpartyType非法，无法处理";
             //log this
             throw new OAuthException(errorMessage);
         }else {

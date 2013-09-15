@@ -66,9 +66,10 @@ public class OAuthTencentWbProcessor implements IOAuthProcessor, InitializingBea
         try {
             UserInfoBean userInfoBean = qzoneUserInfo.getUserInfo();
             //完善第三方的昵称
-            StringBuilder sb = new StringBuilder("QQ用户");
+            StringBuilder sb = new StringBuilder();
+//          StringBuilder sb = new StringBuilder("QQ用户");
             if(userInfoBean.getRet()==0){//成功响应
-                sb.append("_");
+//                sb.append("_");
                 sb.append(userInfoBean.getNickname());
             }
             tokenInfo.setThirdpartyUname(sb.toString());

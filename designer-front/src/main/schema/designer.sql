@@ -160,10 +160,10 @@ CREATE TABLE `tb_access_token_info` (
   `expire_in` bigint(20) DEFAULT NULL,
   `creae_time` datetime DEFAULT NULL,
   `upate_time` datetime DEFAULT NULL,
-  `thirdparty_type` varchar(50) DEFAULT NULL,
+  `thirdparty_type` smallint(6) DEFAULT '0' COMMENT '1:SinaWeibo, 2:QQ, 3:Renren',
   `thirdparty_uname` varchar(50) DEFAULT NULL,
   `sync_album` smallint(6) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 
 
 SET FOREIGN_KEY_CHECKS = 1;

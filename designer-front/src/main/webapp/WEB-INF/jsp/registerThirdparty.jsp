@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.bean.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
+<%@ page import="com.bruce.designer.util.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.*" %>
 
@@ -107,8 +108,8 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 												action="/designer-front/oauthRegister.art">
 												<div class="input-container">
 													<input type="text" class="contact-form-name" name="username"
-														value="<%=tempToken.getThirdpartyUname()%>"
-														onfocus="if(this.value=='用户名')this.value='';"
+														value="<%=OAuthUtil.getSourceNameByType(tempToken.getThirdpartyType())%>_<%=tempToken.getThirdpartyUname()%>"
+														onfocus="if(this.value=='用户名')this.value='';" 
 														onblur="if(this.value=='')this.value='用户名';" /> <i
 														class="icon-user"></i>
 												</div>

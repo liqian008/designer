@@ -8,13 +8,13 @@ import com.bruce.designer.exception.oauth.OAuthException;
 
 public interface IOAuthService {
 	
-	public static final String OAUTH_WEIBO_TYPE="SINA_WEIBO";
+	public static final Short OAUTH_WEIBO_TYPE= 1;// "SINA_WEIBO";
 	
-	public static final String OAUTH_TENCENT_TYPE="TENCENT";
+	public static final Short OAUTH_TENCENT_TYPE = 2; //"TENCENT";
 	
-	public static final String OAUTH_RENREN_TYPE="RENREN";
+	public static final Short OAUTH_RENREN_TYPE = 3; //"RENREN";
 	
-    public AccessTokenInfo loadTokenByCallback(HttpServletRequest request, String thirdpartyType) throws OAuthException;
+    public AccessTokenInfo loadTokenByCallback(HttpServletRequest request, short thirdpartyType) throws OAuthException;
    
     public void shareout(SharedContent sharedContent) throws OAuthException;
     

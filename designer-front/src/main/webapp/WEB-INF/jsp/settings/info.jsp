@@ -102,7 +102,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                     <div class="tab-pane widgets-light active" id="info">
                                         <div class="widget-box widget-contact-form">
 											<div class="content-title">
-												<h4>个人资料</h4>
+												<h4>个人资料</h4> 
 											</div>
 											<form id="contact-form-widget" method="post" class="clearfix"
 												action="/designer-front/settings.art">
@@ -125,6 +125,32 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													性 别: 
 													<input type="radio" name="gender" value="1"/>男
 													<input type="radio" name="gender" value="2"/>女
+												</div>
+												<div class="input-container">
+													<%
+													AccessTokenInfo wbToken = user.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE);
+													boolean wbBound = wbToken!=null;
+													%>
+													Sina微博: 
+													<%=wbBound?"已绑定":"未绑定"%>，<%=wbToken!=null?wbToken.getThirdpartyUname():""%>
+													<%if(wbBound){%>
+													<a href="/designer-front/unbindOauth.art?thirdpartyType=1" class="button button-small button-white">解绑新浪微博账户</a>
+													<%}else{%>
+													<a href="/designer-front/connectWeibo.art" class="button button-small button-green">绑定新浪微博账户</a>
+													<%}%>
+												</div>
+												<div class="input-container">
+													<%
+													AccessTokenInfo tencentToken = user.getAccessTokenMap().get(IOAuthService.OAUTH_TENCENT_TYPE);
+													boolean tencentBound = tencentToken!=null;
+													%>
+													腾讯微博: 
+													<%=tencentBound?"已绑定":"未绑定"%>，<%=tencentToken!=null?tencentToken.getThirdpartyUname():""%>
+													<%if(tencentBound){%>
+													<a href="/designer-front/unbindOauth.art?thirdpartyType=2" class="button button-small button-white">解绑QQ账户</a>
+													<%}else{%>
+													<a href="/designer-front/connectTencent.art" class="button button-small button-green">绑定QQ账户</a>
+													<%}%>
 												</div>
 												<input type="hidden" name="op" value="info" readonly="readonly"/>
 												<input class="contact-submit button" type="submit" value="完 成">

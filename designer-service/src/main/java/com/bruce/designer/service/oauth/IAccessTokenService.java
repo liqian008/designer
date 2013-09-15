@@ -17,8 +17,8 @@ public interface IAccessTokenService extends IBaseService<AccessTokenInfo, Integ
     
     public List<AccessTokenInfo> queryByUserId(Integer userId);
     
-    public AccessTokenInfo load(String thirdpartyUid, String thirdpartyType);
+    public AccessTokenInfo load(String thirdpartyUid, Short thirdpartyType);
     
-    public int delete(Integer userId, String thirdpartyType);
+    public int delete(Integer userId, Short thirdpartyType);
     
 }
