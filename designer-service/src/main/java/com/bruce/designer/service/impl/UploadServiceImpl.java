@@ -20,7 +20,6 @@ import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.service.IUploadService;
 import com.bruce.designer.util.FileUtil;
 import com.bruce.designer.util.ImageUtil;
-import com.bruce.designer.util.PropertiesUtil;
 
 @Service
 public class UploadServiceImpl implements IUploadService {
@@ -54,7 +53,6 @@ public class UploadServiceImpl implements IUploadService {
 		// 获取图片的保存路径
 		String imagePath = FileUtil.getBasePath();
 		long time = System.currentTimeMillis();
-		// 确定原始文件名
 		String imageFileName = FileUtil.getFileNameWithPlaceHolder(userId, filename, "original", time);
 		String originAvatarUrl = FileUtil.saveFile(data, imagePath, FileUtil.getImagePath(), imagePath);
 		
@@ -64,10 +62,10 @@ public class UploadServiceImpl implements IUploadService {
 		Set<String> keys = imageSizeMap.keySet();
 		for (String imageSpec : keys) {
 			int width = imageSizeMap.get(imageSpec);//获取指定的尺寸
-			//缩放的实现，在此先省略
+			//缩放的实现
 			String fileName = FileUtil.getFileNameWithPlaceHolder(userId, filename, imageSpec, time);
 	        ImageUtil.scaleByWidth("sourceImage", "descImage", width);
-			
+	        
 			UploadImageInfo imageInfo = new UploadImageInfo(imageFileName, ConstService.UPLOAD_FILE_TYPE_IMAGE, imageSpec, originAvatarUrl, -1);
 			uploadFileMap.put(imageSpec, imageInfo);
 		}
