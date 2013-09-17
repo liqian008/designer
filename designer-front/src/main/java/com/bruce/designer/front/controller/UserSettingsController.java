@@ -24,8 +24,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bruce.designer.bean.Album;
 import com.bruce.designer.bean.Comment;
-import com.bruce.designer.bean.UploadImageResult;
 import com.bruce.designer.bean.User;
+import com.bruce.designer.bean.upload.UploadImageResult;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.service.AlbumService;
 import com.bruce.designer.service.IUploadService;

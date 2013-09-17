@@ -1,26 +1,26 @@
-package com.bruce.designer.bean;
+package com.bruce.designer.bean.upload;
 
 /**
  * 
  * @author liqian
  * 
  */
-public class UploadResult {
+public class UploadFileInfo {
 	
 	/*文件名*/
 	private String fileName;
-	/*文件类型*/
-	private String fileType;
+	/* 文件类型，normal, image, avatar */
+	private short fileType;
 	/*文件尺寸*/
 	private long length;
 	/*文件url*/
 	private String url;
 	
-	public UploadResult(){
+	public UploadFileInfo(){
 		super();
 	}
 	
-	public UploadResult(String fileName, String fileType, long length, String url){
+	public UploadFileInfo(String fileName, short fileType, String url, long length){
 		this.fileName=fileName;
 		this.fileType=fileType;
 		this.length=length;
@@ -35,11 +35,11 @@ public class UploadResult {
 		this.fileName = fileName;
 	}
 
-	public String getFileType() {
+	public short getFileType() {
 		return fileType;
 	}
 
-	public void setFileType(String fileType) {
+	public void setFileType(short fileType) {
 		this.fileType = fileType;
 	}
 
