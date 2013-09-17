@@ -108,14 +108,14 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 												action="/designer-front/oauthRegister.art">
 												<div class="input-container">
 													<input type="text" class="contact-form-name" name="username"
-														value="<%=OAuthUtil.getSourceNameByType(tempToken.getThirdpartyType())%>_<%=tempToken.getThirdpartyUname()%>"
+														value="<%=tempToken.getThirdpartyUname()%>"
 														onfocus="if(this.value=='用户名')this.value='';" 
 														onblur="if(this.value=='')this.value='用户名';" /> <i
 														class="icon-user"></i>
 												</div>
 												<div class="input-container">
 													<input type="text" class="contact-form-name" name="nickname"
-														value="<%=tempToken.getThirdpartyUname()%>"
+														value="<%=OAuthUtil.getSourceNameByType(tempToken.getThirdpartyType())%>_<%=tempToken.getThirdpartyUname()%>"
 														onfocus="if(this.value=='昵 称')this.value='';"
 														onblur="if(this.value=='')this.value='昵 称';" /> <i
 														class="icon-user"></i>
@@ -126,7 +126,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 														<i class="icon-envelope-alt"></i>
 												</div>
 												<div class="input-container">
-													<input type="password" class="contact-form-email" name="password"
+													<input type="password" class="contact-form-email" name="repassword"
 														value=""/> 
 														<i class="icon-envelope-alt"></i>
 												</div>

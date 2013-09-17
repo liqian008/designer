@@ -7,7 +7,7 @@ import java.awt.Graphics;
 import java.awt.color.ColorSpace;
 import javax.imageio.ImageIO;
 
-public class ImageCut {
+public class ImageUtil {
 
 	/**
 	 * 图像切割（改） *
@@ -92,40 +92,59 @@ public class ImageCut {
 	 * @param result新的图像地址
 	 * @param _width设置新的图像宽度
 	 * @param _height设置新的图像高度
+	 * @throws IOException 
 	 */
 	public static void scale(String srcImageFile, String result, int _width,
-			int _height) {
+			int _height) throws IOException {
 		scale(srcImageFile, result, _width, _height, 0, 0);
 	}
-
-	public static void scale(String srcImageFile, String result, int _width,
-			int _height, int x, int y) {
-		try {
-
-			BufferedImage src = ImageIO.read(new File(srcImageFile)); // 读入文件
-
-			int width = src.getWidth(); // 得到源图宽
-			int height = src.getHeight(); // 得到源图长
-
-			if (width > _width) {
-				width = _width;
-			}
-			if (height > _height) {
-				height = _height;
-			}
-			Image image = src.getScaledInstance(width, height,
-					Image.SCALE_DEFAULT);
-			BufferedImage tag = new BufferedImage(width, height,
-					BufferedImage.TYPE_INT_RGB);
-			Graphics g = tag.getGraphics();
-			g.drawImage(image, x, y, null); // 绘制缩小后的图
-			g.dispose();
-			ImageIO.write(tag, "JPEG", new File(result));// 输出到文件流
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	
+	/**
+	 * 重新生成按指定宽度图像
+	 * @param srcImageFile
+	 * @param result
+	 * @param _width
+	 * @param _height
+	 * @throws IOException 
+	 */
+    public static void scaleByWidth(String srcImageFile, String result, int _width) throws IOException {
+        scale(srcImageFile, result, _width, 0);
+    }
+	
+	public static void scale(String srcImageFile, String targetImageFile, int _width,
+			int _height, int x, int y) throws IOException {
+		scale(new File(srcImageFile), new File(targetImageFile), _width,
+	            _height, x, y);
 	}
-
+	
+	public static void scale(File sourceImage, File targetImage, int _width,
+            int _height, int x, int y) throws IOException {
+            BufferedImage src = ImageIO.read(sourceImage); // 读入文件
+            int sourceWidth = src.getWidth(); // 得到源图宽
+            int sourceHeight = src.getHeight(); // 得到源图长
+            int width = sourceWidth;
+            int height = sourceHeight;
+            
+            if(_height<=0){//忽略height，按width进行缩放
+                _height = (int)Math.round(( sourceHeight * _width * 1.0 / sourceWidth));
+            }
+            
+            if (sourceWidth > _width) {
+                width = _width;
+            }
+            if (sourceHeight > _height) {
+                height = _height;
+            }
+            Image image = src.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            BufferedImage tag = new BufferedImage(width, height,
+                    BufferedImage.TYPE_INT_RGB);
+            Graphics g = tag.getGraphics();
+            g.drawImage(image, x, y, null); // 绘制缩小后的图
+            g.dispose();
+            ImageIO.write(tag, "JPEG", targetImage);// 输出到文件流
+       
+    }
+	
 	/**
 	 * 图像类型转换 GIF->JPG GIF->PNG PNG->JPG PNG->GIF(X)
 	 */
@@ -161,8 +180,9 @@ public class ImageCut {
 
 	/**
 	 * @param args
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// cut("c:/images/ipomoea.jpg", "c:/images/t/ipomoea.jpg", 200, 150);
 		// ok
 		// gray("c:/images/ipomoea.jpg", "c:/images/t/ipomoea.jpg");
@@ -171,7 +191,7 @@ public class ImageCut {
 		// "c:/images/t/5105049910001020110718648725.jpg",154,166,157,208);
 		// scale("c:/images/rose1.jpg",
 		// "c:/images/t/rose1.jpg",154,166,157,208);
-		scale("c:/images/rose1.jpg", "c:/images/t/rose2.jpg", 154, 166, 10, 10);
+		scale("/home/liqian/Desktop/pic/panoramic-870x450.jpg", "/home/liqian/Desktop/pic/temp.jpg", 200, 0);
 
 	}
 }

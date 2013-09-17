@@ -19,8 +19,7 @@ import com.bruce.designer.bean.upload.UploadImageResult;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.service.IUploadService;
 import com.bruce.designer.util.FileUtil;
-import com.bruce.designer.util.ImageCut;
-import com.bruce.designer.util.PropertiesUtil;
+import com.bruce.designer.util.ImageUtil;
 
 @Service
 public class UploadServiceImpl implements IUploadService {
@@ -31,17 +30,22 @@ public class UploadServiceImpl implements IUploadService {
 	static{
 		imageSizeMap.put(ConstService.UPLOAD_IMAGE_SPEC_LARGE, 1024);
 		imageSizeMap.put(ConstService.UPLOAD_IMAGE_SPEC_MEDIUM, 400);
-		imageSizeMap.put(ConstService.UPLOAD_IMAGE_SPEC_TINY, 100);
+		imageSizeMap.put(ConstService.UPLOAD_IMAGE_SPEC_SMALL, 200);
 		
 		avatarSizeMap.put(ConstService.UPLOAD_IMAGE_SPEC_LARGE, 200);
 		avatarSizeMap.put(ConstService.UPLOAD_IMAGE_SPEC_MEDIUM, 100);
 		avatarSizeMap.put(ConstService.UPLOAD_IMAGE_SPEC_TINY, 50);
 	}
 
-	
+	/**
+	 * 保存文件
+	 */
 	@Override
-	public String uploadFile(byte[] bytes, int userId, String filename) {
-		return null;
+	public String uploadFile(byte[] data, int userId, String fileName) throws IOException {
+	    String basePath = FileUtil.getBasePath();
+	    String newFileName = FileUtil.getFileName(userId, fileName); 
+        String fileUrl = FileUtil.saveFile(data, basePath, FileUtil.getImagePath(), newFileName);
+        return fileUrl; 
 	}
 	
 	
@@ -52,25 +56,33 @@ public class UploadServiceImpl implements IUploadService {
 	@Override
 	public UploadImageResult uploadImage(byte[] data, int userId, String filename) throws IOException {
 		// 获取图片的保存路径
-		String imagePath = FileUtil.getBasePath();
-		// 确定原始文件名
-		String imageFileName = FileUtil.getFileNameWithPlaceHolder(userId, filename, "original", System.currentTimeMillis());
-		String originAvatarUrl = FileUtil.saveFile(data, imagePath, FileUtil.getImagePath(), imagePath);
+	    String basePath = FileUtil.getBasePath();
+		long time = System.currentTimeMillis();
+		//获取图片存储的绝对、相对路径及文件名
+		String imageDirPath = FileUtil.getImagePath(time);
+		String absoultImagePath = basePath + imageDirPath;
+		String sourceImageName = FileUtil.getFileNameWithPlaceHolder(userId, filename, null, time);
+		String baseUrl = "http://localhost:8080/designer-front/staticFile/";
 		
+		//保存原文件(自动创建目录)
+		FileUtil.saveFile(data, basePath, imageDirPath, sourceImageName);
 		//根据需要的尺寸进行zoom
 		HashMap<String, UploadFileInfo> uploadFileMap = new HashMap<String, UploadFileInfo>();
 		
 		Set<String> keys = imageSizeMap.keySet();
 		for (String imageSpec : keys) {
 			int width = imageSizeMap.get(imageSpec);//获取指定的尺寸
-			//缩放的实现，在此先省略
-			UploadImageInfo imageInfo = new UploadImageInfo(imageFileName, ConstService.UPLOAD_FILE_TYPE_IMAGE, imageSpec, originAvatarUrl, -1);
+			//缩放的实现
+			String targetImageName = FileUtil.getFileNameWithPlaceHolder(userId, filename, imageSpec, time);
+	        ImageUtil.scaleByWidth(absoultImagePath + sourceImageName, absoultImagePath + targetImageName, width);
+	        String imageUrl = baseUrl + imageDirPath + targetImageName;
+	        
+			UploadImageInfo imageInfo = new UploadImageInfo(targetImageName, ConstService.UPLOAD_FILE_TYPE_IMAGE, imageSpec, imageUrl, -1);
 			uploadFileMap.put(imageSpec, imageInfo);
 		}
 		UploadImageResult uploadResult = new UploadImageResult(uploadFileMap);
 		return uploadResult;
 	}
-	
 	
 	/**
 	 * 上传头像，无需缩放
@@ -78,7 +90,7 @@ public class UploadServiceImpl implements IUploadService {
 	@Override
 	public UploadImageResult uploadAvatar(byte[] bytes, int userId, String filename) throws IOException {
 		// 获取头像保存路径
-		String avatarPath = FileUtil.getAvatarPath(userId);
+		String avatarPath = FileUtil.getAvatarPath();
 		// 确定原始图片名
 		String avatarFilename = String.valueOf(userId) + "_original.jpg";
 		// 构造图片File
@@ -99,14 +111,12 @@ public class UploadServiceImpl implements IUploadService {
 	
 	@Override
 	public UploadImageResult updateAvatar(int userId, int x, int y, int w, int h) throws IOException {
-		 String avatarPath = FileUtil.getAvatarPath(userId);
+		 String avatarPath = FileUtil.getAvatarPath();
         //确定原始文件名
         String avatarFilename = String.valueOf(userId)+"_original.jpg";
         //构造原始文件
         String destFilename = String.valueOf(userId)+".jpg";
-        ImageCut.abscut(avatarPath+avatarFilename, avatarPath+destFilename, x,y,w, h);
-        
-        
+        ImageUtil.abscut(avatarPath+avatarFilename, avatarPath+destFilename, x,y,w, h);
 
 //      File originAvatar = new File(avatarPath, avatarFilename);
 //      File destAvatar = new File(avatarPath, destFilename);
@@ -129,7 +139,5 @@ public class UploadServiceImpl implements IUploadService {
 //		return imageResult;
         return null;
 	}
-
-	
 	
 }

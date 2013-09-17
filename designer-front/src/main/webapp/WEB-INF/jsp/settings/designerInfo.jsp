@@ -130,6 +130,12 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<input class="contact-submit button" type="button" value="完 成">
 												<input class="contact-submit button" type="button" value="取 消">
 											</form>
+											
+											<form id="contact-form-widget" method="post" class="clearfix"
+												action="/designer-front/ajax/uploadImage.art" enctype="MULTIPART/FORM-DATA">
+											<input type="file" class="contact-form-name" name="image"/>
+											<input class="contact-submit button" type="submit" value="上 传"/>
+											</form>
 										</div>
                                     </div>
                                     

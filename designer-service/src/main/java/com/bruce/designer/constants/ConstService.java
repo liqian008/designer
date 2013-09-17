@@ -55,13 +55,15 @@ public interface ConstService{
 	/*头像文件类型*/
 	public static final short UPLOAD_FILE_TYPE_AVATAR = 2;
 	
-	/*原始头像类型*/
-	public static final String UPLOAD_IMAGE_SPEC_ORIGINAL = "original";
-	/*大头像类型*/
+	/*原始图片类型*/
+	public static final String UPLOAD_IMAGE_SPEC_ORIGINAL = "";
+	/*大图片规格*/
 	public static final String UPLOAD_IMAGE_SPEC_LARGE = "large";
-	/*中头像类型*/
-	public static final String UPLOAD_IMAGE_SPEC_MEDIUM = "meduim";
-	/*小头像类型*/
+	/*中图片规格*/
+	public static final String UPLOAD_IMAGE_SPEC_MEDIUM = "medium";
+	/*小图片规格*/
+    public static final String UPLOAD_IMAGE_SPEC_SMALL = "small";
+	/*小图片规格*/
 	public static final String UPLOAD_IMAGE_SPEC_TINY = "tiny";
 	
 	

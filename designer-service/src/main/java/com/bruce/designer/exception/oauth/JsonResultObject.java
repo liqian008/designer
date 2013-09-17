@@ -10,16 +10,25 @@ import java.io.Serializable;
  */
 public class JsonResultObject implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     private int result;
 
     private String message;
-
-//    private String reason;
 
     private Object data;
 
     public JsonResultObject() {
         super();
+    }
+    
+    public JsonResultObject(int result, String message, Object data){
+        this.result = result;
+        this.message = message;
+        this.data = data;
     }
 
     public int getResult() {
@@ -45,6 +54,8 @@ public class JsonResultObject implements Serializable {
     public void setData(Object data) {
         this.data = data;
     }
+    
+//  private String reason;
 
 //    public String getReason() {
 //        return reason;

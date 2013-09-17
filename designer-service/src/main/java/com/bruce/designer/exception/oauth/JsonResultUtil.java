@@ -41,6 +41,10 @@ public class JsonResultUtil{
         User user = new User();
         user.setUsername("liqian");
         user.setNickname("nick_liqian");
+        
+        
+        
+        
         JsonResultObject jsonSucceedResult = generateSucceedResult(user);
         System.out.println(jsonSucceedResult);
         

@@ -164,6 +164,6 @@ CREATE TABLE `tb_access_token_info` (
   `thirdparty_uname` varchar(50) DEFAULT NULL,
   `sync_album` smallint(6) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS = 1;
