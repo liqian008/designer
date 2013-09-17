@@ -2,7 +2,7 @@ package com.bruce.designer.service;
 
 import java.io.IOException;
 
-import com.bruce.designer.bean.UploadImageResult;
+import com.bruce.designer.bean.upload.UploadImageResult;
 
 public interface IUploadService{
     
@@ -11,14 +11,14 @@ public interface IUploadService{
 	 * @param bytes
 	 * @return
 	 */
-	public String uploadFile(byte[] bytes);
+	public String uploadFile(byte[] bytes, int userId, String filename);
 	
 	/**
 	 * 保存图片文件，需切割图片
 	 * @param bytes
 	 * @return
 	 */
-	public String uploadImage(byte[] bytes);
+	public UploadImageResult uploadImage(byte[] bytes, int userId, String filename) throws IOException;
 	
 	/**
 	 * 保存原始头像文件
@@ -26,7 +26,7 @@ public interface IUploadService{
 	 * @return
 	 * @throws IOException 
 	 */
-	public UploadImageResult uploadAvatar(byte[] bytes, int userId) throws IOException;
+	public UploadImageResult uploadAvatar(byte[] bytes, int userId, String filename) throws IOException;
 
 	public UploadImageResult updateAvatar(int userId, int x, int y, int w, int h) throws IOException;
 	
