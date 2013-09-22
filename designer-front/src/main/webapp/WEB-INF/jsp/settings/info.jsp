@@ -126,6 +126,21 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													<input type="radio" name="gender" value="1"/>男
 													<input type="radio" name="gender" value="2"/>女
 												</div>
+												
+												
+												<div class="content-title">
+													<h4>第三方账户绑定</h4> 
+												</div>
+												
+												<div class="infobox info-info info-info-alt clearfix">
+					                                <span>i</span>
+					                                <div class="infobox-wrap">
+					                                    <h4>小贴士：</h4>
+					                                    <p>绑定微博或QQ后，您在本站发布的作品会自动发布到微博或QQ空间上。</p>
+					                                </div>
+					                                <a href="#" class="info-hide"></a>
+					                            </div>
+												
 												<div class="input-container">
 													<%
 													AccessTokenInfo wbToken = user.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE);
@@ -136,7 +151,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													<%if(wbBound){%>
 													<a href="/designer-front/unbindOauth.art?thirdpartyType=1" class="button button-small button-white">解绑新浪微博账户</a>
 													<%}else{%>
-													<a href="/designer-front/connectWeibo.art" class="button button-small button-green">绑定新浪微博账户</a>
+													<a href="/designer-front/connectWeibo.art" class="button button-small button-green">现在就去绑定</a>
 													<%}%>
 												</div>
 												<div class="input-container">
@@ -149,7 +164,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													<%if(tencentBound){%>
 													<a href="/designer-front/unbindOauth.art?thirdpartyType=2" class="button button-small button-white">解绑QQ账户</a>
 													<%}else{%>
-													<a href="/designer-front/connectTencent.art" class="button button-small button-green">绑定QQ账户</a>
+													<a href="/designer-front/connectTencent.art" class="button button-small button-green">现在就去绑定</a>
 													<%}%>
 												</div>
 												<input type="hidden" name="op" value="info" readonly="readonly"/>

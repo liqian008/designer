@@ -66,21 +66,29 @@ public class UploadServiceImpl implements IUploadService {
 		
 		//保存原文件(自动创建目录)
 		FileUtil.saveFile(data, basePath, imageDirPath, sourceImageName);
-		//根据需要的尺寸进行zoom
-		HashMap<String, UploadFileInfo> uploadFileMap = new HashMap<String, UploadFileInfo>();
+		
+		//构造uploadResult
+		UploadImageResult uploadResult = new UploadImageResult();
 		
 		Set<String> keys = imageSizeMap.keySet();
+		//根据需要的尺寸进行zoom
 		for (String imageSpec : keys) {
 			int width = imageSizeMap.get(imageSpec);//获取指定的尺寸
-			//缩放的实现
+			//zoom
 			String targetImageName = FileUtil.getFileNameWithPlaceHolder(userId, filename, imageSpec, time);
 	        ImageUtil.scaleByWidth(absoultImagePath + sourceImageName, absoultImagePath + targetImageName, width);
 	        String imageUrl = baseUrl + imageDirPath + targetImageName;
+	    	UploadImageInfo imageInfo = new UploadImageInfo(targetImageName, ConstService.UPLOAD_FILE_TYPE_IMAGE, imageSpec, imageUrl, -1);
 	        
-			UploadImageInfo imageInfo = new UploadImageInfo(targetImageName, ConstService.UPLOAD_FILE_TYPE_IMAGE, imageSpec, imageUrl, -1);
-			uploadFileMap.put(imageSpec, imageInfo);
+	    	//组装uploadResult
+	    	if(ConstService.UPLOAD_IMAGE_SPEC_LARGE.equals(imageSpec)){
+	        	uploadResult.setLargeImage(imageInfo);
+	        }else if(ConstService.UPLOAD_IMAGE_SPEC_MEDIUM.equals(imageSpec)){
+	        	uploadResult.setMediumImage(imageInfo);
+	        }else if(ConstService.UPLOAD_IMAGE_SPEC_SMALL.equals(imageSpec)){
+	        	uploadResult.setSmallImage(imageInfo);
+	        }
 		}
-		UploadImageResult uploadResult = new UploadImageResult(uploadFileMap);
 		return uploadResult;
 	}
 	
@@ -105,7 +113,7 @@ public class UploadServiceImpl implements IUploadService {
         HashMap<String, UploadFileInfo> uploadFileMap = new HashMap<String, UploadFileInfo>();
         UploadImageInfo imageInfo = new UploadImageInfo(avatarFilename, ConstService.UPLOAD_FILE_TYPE_IMAGE, ConstService.UPLOAD_IMAGE_SPEC_ORIGINAL, originAvatarUrl, -1, imgWidth, imgHeight);
   		uploadFileMap.put(ConstService.UPLOAD_IMAGE_SPEC_ORIGINAL, imageInfo);
-  		UploadImageResult uploadResult = new UploadImageResult(uploadFileMap); 
+  		UploadImageResult uploadResult = null;//new UploadImageResult(uploadFileMap); 
   		return uploadResult;
 	}
 	

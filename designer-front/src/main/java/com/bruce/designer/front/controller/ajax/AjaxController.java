@@ -51,18 +51,26 @@ public class AjaxController {
     
     @RequestMapping(value="uploadImage", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResultObject upload(@RequestParam("image") MultipartFile avatarImage, HttpServletRequest request){
+    public JsonResultObject upload(@RequestParam("image") MultipartFile image, HttpServletRequest request){
         User user = null;
         try {
             user = getSessionUser(request);
             int userId = user.getId();
-            UploadImageResult imageResult = uploadService.uploadImage(avatarImage.getBytes(), userId, "upload.jpg");
+            UploadImageResult imageResult = uploadService.uploadImage(image.getBytes(), userId, "upload.jpg");
             return JsonResultUtil.generateSucceedResult(imageResult);
         } catch (NotLoginException e) {//未登录异常
             return JsonResultUtil.generateExceptionResult(e);
         } catch(Exception e2){//系统异常
             return JsonResultUtil.generateExceptionResult(new DesignerException(ErrorCode.UPLOAD_IMAGE_ERROR, "上传图片出错，请稍后再试!"));
         }
+    }
+    
+    @RequestMapping(value="uploadImage2")
+    @ResponseBody
+    public JsonResultObject uploadImage2(HttpServletRequest request){
+        User user = new User();
+        user.setUsername("user");
+        return JsonResultUtil.generateSucceedResult(user);
     }
     
     /**

@@ -31,6 +31,8 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
         <link rel="stylesheet" href="./css/animate.css">
         <link rel="stylesheet" href="./css/flexslider.css">
         <link rel="stylesheet" href="./css/style.css">
+        
+        <link rel="stylesheet"href="./uploadify/uploadify.css">
                                 <!--[if IE 8]>
         <link rel="stylesheet" type="text/css" media="all" href="./css/ie8.css" />    
         <![endif]-->
@@ -38,6 +40,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
         <script src="./js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
         <script src="./js/vendor/jquery-1.8.3.min.js"></script>
+        <script src="./uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
 
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
@@ -101,11 +104,12 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                 <div class="tab-content span9">
                                     <div class="tab-pane widgets-light active" id="apply4Designer">
                                         <div class="widget-box widget-contact-form">
-											<div class="content-title">
-												<h4>设计师申请单</h4>
-											</div>
-											<form id="contact-form-widget" method="post" class="clearfix"
+                                        	<form id="contact-form-widget" method="post" class="clearfix"
 												action="/designer-front/applyDesigner.art">
+												<div class="content-title">
+													<h4>请填写设计师申请资料（您的申请已提交，请耐心等待审核结果）</h4>
+												</div>
+												
 												<div class="input-container">
 													身份证号: <input type="text" class="contact-form-name" name="idNum"
 														value="身份证号"/>
@@ -127,10 +131,72 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													淘宝店铺主页: <input type="text" class="contact-form-name" name="taobaoHomepage"
 														value="淘宝店铺店铺"/>
 												</div>
-												<input class="contact-submit button" type="submit" value="申 请">
-												<input class="contact-submit button" type="button" value="完 成">
-											</form>
-										</div>
+												
+												
+												<div class="content-title">
+													<h4>并附带一组作品集【上限6张】</h4>
+												</div>
+												<div class="infobox info-info info-info-alt clearfix">
+					                                <span>i</span>
+					                                <div class="infobox-wrap">
+					                                    <h4>小贴士：</h4>
+					                                    <p>为达到最佳浏览效果，建议使用横竖比为4:3，且分辨率不小于800x600的图片</p>
+					                                </div>
+					                                <a href="#" class="info-hide"></a>
+					                            </div>
+												<div class="input-container">
+													<input id="fileUploader" name="image" type="file" multiple="true">
+												</div>
+												<div id="queue"></div>
+												
+												<div>
+													<ul id="imgPreview" class="clearfix">
+														<!-- <li>
+															<img src="/designer-front/img/demo/portraits/avatar_middle.jpg">
+															设置为封面
+															<input type="radio" name="setCover" value=""/>
+															标题
+															<input type="text" class="contact-form-name" name="taobaoHomepage"/>
+															详细描述
+															<textarea class="contact-form-name" name="remark" rows="3"></textarea>
+														</li> -->
+													</ul>
+												</div>
+												
+												
+												<script type="text/javascript">
+													$(function() {
+														$('#fileUploader').uploadify({
+															'swf' : '/designer-front//uploadify/uploadify.swf',
+															//'uploader' : '/designer-front/uploadify/response.json',
+															'uploader' : '/designer-front/ajax/uploadImage.art;jsessionid=<%=session.getId()%>',
+															//'cancelImg' : "uploadify-cancel.png",
+															 'fileObjName' : 'image',
+															'debug' : false,
+															'buttonText' : '选择照片',
+															'method' : 'post',
+															'fileTypeDesc' : '图片文件',
+															'fileTypeExts' : '*.*',
+															'multi' : true,
+															'auto' : true,
+															'uploadLimit' : 6,
+															'simUploadLimit' : 1,
+															'fileSizeLimit' : 2048,
+															'onUploadSuccess' : function(file, data, response) {
+													            //alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
+													            //alert(data);
+													            var response = jQuery.parseJSON(data);
+													        	$("<li><img id='img1' src='"+response.data.mediumImage.url+"' width='200'/></li>").appendTo($("#imgPreview"));
+															},
+													        
+														});
+													});
+												</script>
+												
+												<input class="contact-submit button" type="submit" value="提 交" disabled="disabled">
+												<input class="contact-submit button" type="button" value="返回个人信息">
+												</form>
+											</div>
                                     </div>
                                     
                                 </div>
@@ -157,8 +223,10 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
    <!--  <script src="./js/jquery.tweet.js"></script>  -->
     <script src="./js/jquery.flexslider.js"></script> 
     <script src="./js/retina.js"></script>
-
     <script src="./js/custom.js"></script>
+    
+    
+    
 
     </body>
 </html>
