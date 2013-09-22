@@ -116,25 +116,26 @@ public class AlbumController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/saveAlbum", method = RequestMethod.POST)
-	public String saveAlbum(Model model, Album album) { 
-		if(album!=null&&album.getSlideList()!=null&&album.getSlideList().size()>0){
+	@RequestMapping(value = "/publishAlbum", method = RequestMethod.POST)
+	public String publishAlbum(Model model,  HttpServletRequest request, Album album) {
+	    //检查用户登录
+        User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+        
+        //提交作品专辑，建议使用外部主键生成器
+	    if(album!=null&&album.getSlideList()!=null&&album.getSlideList().size()>0){
 			List<AlbumSlide> slideList = album.getSlideList();
-			int userId = 3;
+			int userId = user.getId();
 			album.setUserId(userId);
 			album.setCoverImg(slideList.get(0).getSlideImg());
 			
 			int result = albumService.save(album);
 			if(result==1){
-				
 				for(AlbumSlide slide: slideList){
 					slide.setAlbumId(album.getId());
 					slide.setUserId(userId);
 					albumSlideService.save(slide);
-					
 				}
 			}
-			//System.out.println(result);
 		}
 		return "redirect:index.art";
 	}

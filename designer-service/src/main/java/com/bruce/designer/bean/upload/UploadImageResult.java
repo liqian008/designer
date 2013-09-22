@@ -9,52 +9,63 @@ import java.util.Map;
  */
 public class UploadImageResult{
 	
-	private Map<String, UploadFileInfo> uploadFileMap;
+//	private Map<String, UploadFileInfo> uploadFileMap;
+//	
+//	public UploadImageResult(){
+//	}
+//	
+//	public UploadImageResult(Map<String, UploadFileInfo> uploadFileMap){
+//		this.uploadFileMap = uploadFileMap;
+//	}
+//
+//	public Map<String, UploadFileInfo> getUploadFileMap() {
+//		return uploadFileMap;
+//	}
+//
+//	public void setUploadFileMap(Map<String, UploadFileInfo> uploadFileMap) {
+//		this.uploadFileMap = uploadFileMap;
+//	}
 	
-	public UploadImageResult(){
-	}
 	
-	public UploadImageResult(Map<String, UploadFileInfo> uploadFileMap){
-		this.uploadFileMap = uploadFileMap;
+	private UploadImageInfo largeImage;
+	
+	private UploadImageInfo mediumImage;
+	
+	private UploadImageInfo smallImage;
+	
+	private UploadImageInfo tinyImage;
+	
+	public UploadImageInfo getLargeImage() {
+		return largeImage;
 	}
 
-	public Map<String, UploadFileInfo> getUploadFileMap() {
-		return uploadFileMap;
+	public void setLargeImage(UploadImageInfo largeImage) {
+		this.largeImage = largeImage;
 	}
 
-	public void setUploadFileMap(Map<String, UploadFileInfo> uploadFileMap) {
-		this.uploadFileMap = uploadFileMap;
+	public UploadImageInfo getMediumImage() {
+		return mediumImage;
 	}
-	
-	
-//	private String largeImgUrl;
-//	private String mediumImgUrl;
-//	private String tinyImgUrl;
-//
-//    public String getLargeImgUrl() {
-//        return largeImgUrl;
-//    }
-//
-//    public void setLargeImgUrl(String largeImgUrl) {
-//        this.largeImgUrl = largeImgUrl;
-//    }
-//
-//    public String getMediumImgUrl() {
-//        return mediumImgUrl;
-//    }
-//
-//    public void setMediumImgUrl(String mediumImgUrl) {
-//        this.mediumImgUrl = mediumImgUrl;
-//    }
-//
-//    public String getTinyImgUrl() {
-//        return tinyImgUrl;
-//    }
-//
-//    public void setTinyImgUrl(String tinyImgUrl) {
-//        this.tinyImgUrl = tinyImgUrl;
-//    }
-	
+
+	public void setMediumImage(UploadImageInfo mediumImage) {
+		this.mediumImage = mediumImage;
+	}
+
+	public UploadImageInfo getTinyImage() {
+		return tinyImage;
+	}
+
+	public void setTinyImage(UploadImageInfo tinyImage) {
+		this.tinyImage = tinyImage;
+	}
+
+	public UploadImageInfo getSmallImage() {
+		return smallImage;
+	}
+
+	public void setSmallImage(UploadImageInfo smallImage) {
+		this.smallImage = smallImage;
+	}
 	
 	
 }

@@ -101,14 +101,23 @@ public class UserServiceImpl implements UserService {
 		return userMapper.selectByExample(criteria);
 	}
 	
+	/**
+     * 提交审核
+     */
+	@Override
 	public int apply4Designer(int userId) {
 	    return designerApplyOp(userId, ConstService.DESIGNER_APPLY_SENT);
     }
 	
+	@Override
 	public int designerDenied(int userId) {
         return designerApplyOp(userId, ConstService.DESIGNER_APPLY_DENIED);
     }
 	
+	/**
+	 * 审核通过
+	 */
+	@Override
 	public int designerApproval(int userId) {
         return designerApplyOp(userId, ConstService.DESIGNER_APPLY_PASSED);
     }

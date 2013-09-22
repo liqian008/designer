@@ -31,6 +31,8 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
         <link rel="stylesheet" href="./css/animate.css">
         <link rel="stylesheet" href="./css/flexslider.css">
         <link rel="stylesheet" href="./css/style.css">
+        
+        <link rel="stylesheet"href="./uploadify/uploadify.css">
                                 <!--[if IE 8]>
         <link rel="stylesheet" type="text/css" media="all" href="./css/ie8.css" />    
         <![endif]-->
@@ -38,6 +40,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
         <script src="./js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
         <script src="./js/vendor/jquery-1.8.3.min.js"></script>
+        <script src="./uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
 
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
@@ -99,81 +102,98 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                 	<jsp:include page="./settingsTabInc.jsp"></jsp:include>
                                 </ul>
                                 <div class="tab-content span9">
-                                    <div class="tab-pane widgets-light active" id="info">
+                                    <div class="tab-pane widgets-light active" id="apply4Designer">
                                         <div class="widget-box widget-contact-form">
-											<div class="content-title">
-												<h4>个人资料</h4> 
-											</div>
-											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/settings.art">
+                                        	<form id="contact-form-widget" method="post" class="clearfix"
+												action="/designer-front/designerApply.art">
+												<div class="content-title">
+													<h4>请填写设计师申请资料（您的申请已提交，请耐心等待审核结果）</h4>
+												</div>
+												
 												<div class="input-container">
-													用户名: 
-													<input type="text" class="contact-form-name" name="username"
-														value="<%=user.getUsername()%>" readonly="readonly"/>
+													身份证号: <input type="text" class="contact-form-name" name="idNum"
+														value="身份证号"/>
 												</div>
 												<div class="input-container">
-													昵 称: 
-													<input type="text" class="contact-form-name" name="nickname"
-														value="<%=user.getNickname()%>"  readonly="readonly"/>
+													真实姓名: <input type="text" class="contact-form-name" name="realname"
+														value="真实姓名"/>
 												</div>
 												<div class="input-container">
-													E-Mail: 
-													<input type="text" class="contact-form-name" name="email"
-														value="<%=user.getEmail()%>"/>
+													手机号: <input type="text" class="contact-form-name" name="mobile"
+														value="手机号"/>
+												</div>
+												
+												<div class="input-container">
+													公 司: <input type="text" class="contact-form-name" name="company"
+														value="公 司"/>
 												</div>
 												<div class="input-container">
-													性 别: 
-													<input type="radio" name="gender" value="1"/>男
-													<input type="radio" name="gender" value="2"/>女
+													淘宝店铺主页: <input type="text" class="contact-form-name" name="taobaoHomepage"
+														value="淘宝店铺店铺"/>
 												</div>
 												
 												
 												<div class="content-title">
-													<h4>第三方账户绑定</h4> 
+													<h4>并附带一组作品集【上限6张】</h4>
 												</div>
-												
 												<div class="infobox info-info info-info-alt clearfix">
 					                                <span>i</span>
 					                                <div class="infobox-wrap">
 					                                    <h4>小贴士：</h4>
-					                                    <p>绑定微博或QQ后，您在本站发布的作品会自动发布到微博或QQ空间上。</p>
+					                                    <p>为达到最佳浏览效果，建议使用横竖比为4:3，且分辨率不小于800x600的图片</p>
 					                                </div>
 					                                <a href="#" class="info-hide"></a>
 					                            </div>
+												<div class="input-container">
+													<input id="fileUploader" name="image" type="file" multiple="true">
+												</div>
+												<div id="queue"></div>
 												
-												<div class="input-container">
-													<%
-													AccessTokenInfo wbToken = user.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE);
-													boolean wbBound = wbToken!=null;
-													%>
-													Sina微博: 
-													<%=wbBound?"已绑定":"未绑定"%>，<%=wbToken!=null?wbToken.getThirdpartyUname():""%>
-													<%if(wbBound){%>
-													<a href="/designer-front/unbindOauth.art?thirdpartyType=1" class="button button-small button-white">解绑新浪微博账户</a>
-													<%}else{%>
-													<a href="/designer-front/connectWeibo.art" class="button button-small button-green">现在就去绑定</a>
-													<%}%>
+												<div>
+													<ul id="imgPreview" class="clearfix">
+														<!-- <li>
+															<img src="/designer-front/img/demo/portraits/avatar_middle.jpg">
+															设置为封面
+															<input type="radio" name="setCover" value=""/>标题<input type="text" class="contact-form-name" name="taobaoHomepage"/>详细描述<textarea class="contact-form-name" name="remark" rows="3"></textarea>
+														</li> -->
+													</ul>
 												</div>
-												<div class="input-container">
-													<%
-													AccessTokenInfo tencentToken = user.getAccessTokenMap().get(IOAuthService.OAUTH_TENCENT_TYPE);
-													boolean tencentBound = tencentToken!=null;
-													%>
-													腾讯微博: 
-													<%=tencentBound?"已绑定":"未绑定"%>，<%=tencentToken!=null?tencentToken.getThirdpartyUname():""%>
-													<%if(tencentBound){%>
-													<a href="/designer-front/unbindOauth.art?thirdpartyType=2" class="button button-small button-white">解绑QQ账户</a>
-													<%}else{%>
-													<a href="/designer-front/connectTencent.art" class="button button-small button-green">现在就去绑定</a>
-													<%}%>
-												</div>
-												<input type="hidden" name="op" value="info" readonly="readonly"/>
-												<input class="contact-submit button" type="submit" value="完 成">
-												<input class="contact-submit button" type="button" value="取 消">
+												
+												<script type="text/javascript">
+													$(function() {
+														var counter = 0;
+														$('#fileUploader').uploadify({
+															'swf' : '/designer-front//uploadify/uploadify.swf',
+															//'uploader' : '/designer-front/uploadify/response.json',
+															'uploader' : '/designer-front/ajax/uploadImage.art;jsessionid=<%=session.getId()%>',
+															//'cancelImg' : "uploadify-cancel.png",
+															'fileObjName' : 'image',
+															'debug' : false,
+															'buttonText' : '选择照片',
+															'method' : 'post',
+															'fileTypeDesc' : '图片文件',
+															'fileTypeExts' : '*.*',
+															'multi' : true,
+															'auto' : true,
+															'uploadLimit' : 6,
+															'simUploadLimit' : 1,
+															'fileSizeLimit' : 2048,
+															'onUploadSuccess' : function(file, data, response) {
+													            //alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
+													            //alert(data);
+													            counter = counter + 1;
+													            var response = jQuery.parseJSON(data);
+													        	$("<li><img id='img1' src='"+response.data.mediumImage.url+"' width='200'/>设置为封面<input type='radio' name='setCover' value='"+counter+"'/>标题<input type='text' class='contact-form-name' name='title"+counter+"'/>详细描述<textarea class='contact-form-name' name='remark"+counter+"' rows='3'></textarea></li>").appendTo($("#imgPreview"));
+															},
+														});
+													});
+												</script>
+												
+												<input class="contact-submit button" type="submit" value="提 交" disabled="disabled">
+												<input class="contact-submit button" type="button" value="返回个人信息">
 											</form>
 										</div>
                                     </div>
-                                    
                                 </div>
                             </div>
                         </section> 
@@ -198,8 +218,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
    <!--  <script src="./js/jquery.tweet.js"></script>  -->
     <script src="./js/jquery.flexslider.js"></script> 
     <script src="./js/retina.js"></script>
-
     <script src="./js/custom.js"></script>
-
+    
     </body>
 </html>

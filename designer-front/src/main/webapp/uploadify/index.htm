@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>UploadiFive Test</title>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
+	type="text/javascript"></script>
+<script src="jquery.uploadify.min.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="uploadify.css">
+<style type="text/css">
+body {
+	font: 13px Arial, Helvetica, Sans-serif;
+}
+</style>
+</head>
+
+<body>
+	<h1>Uploadify Demo</h1>
+	<form>
+		<div id="queue"></div>
+		<input id="file_upload" name="file_upload" type="file" multiple="true">
+	</form>
+
+	<script type="text/javascript">
+		$(function() {
+			$('#file_upload').uploadify({
+				'swf' : 'uploadify.swf',
+				'uploader' : 'uploadify.php',
+				//'cancelImg' : "uploadify-cancel.png",
+				'debug' : true,
+				'buttonText' : '选择照片',
+				'method' : 'post',
+				'fileTypeDesc' : '图片文件',
+				'fileTypeExts' : '*.*',
+				'multi' : true,
+				//'auto' : false,
+				'uploadLimit' : 2,
+				'fileSizeLimit' : 2048,
+				'onUploadSuccess' : function(file, data, response) {
+		            alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
+		        }
+			});
+		});
+	</script>
+</body>
+</html>
