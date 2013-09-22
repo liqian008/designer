@@ -50,8 +50,9 @@ public class SystemController {
         User user = userService.authUser(username, password);
         if (user != null) {
             request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
+            return "redirect:/index.art";
         }
-        return "redirect:/index.art";
+        return "redirect:/login.art";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -61,7 +62,6 @@ public class SystemController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String doRegister(Model model, HttpServletRequest request, String username, String nickname, String password, String repassword) {
-
         User user = new User();
         user.setUsername(username);
         user.setNickname(nickname);
@@ -73,8 +73,10 @@ public class SystemController {
         if (result == 1) {
             user = userService.authUser(username, password);
             request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
+            request.setAttribute(ConstFront.REDIRECT_PROMPT, "您好,"+nickname+"，您已成功注册，现在将转入首页，请稍候…");
+            return "forward:/redirect.art";
         }
-        return "redirect:/";
+        return "redirect:/login.art";
     }
 
     /**
@@ -88,12 +90,13 @@ public class SystemController {
     }
     
     /**
-     * Simply selects the home view to render by returning its name.
+     * 
+     * @param request
+     * @return
      */
     @RequestMapping(value = "/redirect")
     public String redirect(HttpServletRequest request) {
         return "redirect";
     }
-    
     
 }

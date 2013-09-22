@@ -1,4 +1,4 @@
-package com.bruce.designer.exception.oauth;
+package com.bruce.designer.exception;
 
 import java.io.Serializable;
 

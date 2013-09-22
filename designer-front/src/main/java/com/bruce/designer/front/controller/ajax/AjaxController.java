@@ -1,7 +1,5 @@
 package com.bruce.designer.front.controller.ajax;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +12,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.bruce.designer.bean.User;
 import com.bruce.designer.bean.upload.UploadImageResult;
-import com.bruce.designer.exception.oauth.JsonResultObject;
-import com.bruce.designer.exception.oauth.JsonResultUtil;
+import com.bruce.designer.exception.DesignerException;
+import com.bruce.designer.exception.ErrorCode;
+import com.bruce.designer.exception.JsonResultObject;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.exception.NotLoginException;
 import com.bruce.designer.service.IUploadService;
 import com.bruce.designer.service.UserService;
+import com.bruce.designer.util.JsonResultUtil;
 
 /**
  * Handles requests for the application home page.
@@ -33,26 +33,48 @@ public class AjaxController {
     @Autowired
     private IUploadService uploadService;
     
+    @RequestMapping(value="usernameExists", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResultObject usernameExists(String username){
+        boolean usernameExists = false;
+        try {
+            usernameExists = userService.userExists(username);
+            if(usernameExists){
+                return JsonResultUtil.generateSucceedResult(usernameExists);
+            }else{
+                return JsonResultUtil.generateExceptionResult(ErrorCode.USERNAME_EXISTS_ERROR, "用户名已存在!");
+            }
+        } catch(Exception e){
+            return JsonResultUtil.generateExceptionResult(ErrorCode.SYSTEM_ERROR, "系统出错，请稍后再试!");
+        }
+    }
+    
     @RequestMapping(value="uploadImage", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResultObject upload(@RequestParam("image") MultipartFile avatarImage, HttpServletRequest request) throws IOException{
-        User user;
+    public JsonResultObject upload(@RequestParam("image") MultipartFile avatarImage, HttpServletRequest request){
+        User user = null;
         try {
             user = getSessionUser(request);
             int userId = user.getId();
             UploadImageResult imageResult = uploadService.uploadImage(avatarImage.getBytes(), userId, "upload.jpg");
             return JsonResultUtil.generateSucceedResult(imageResult);
-        } catch (NotLoginException e) {
+        } catch (NotLoginException e) {//未登录异常
             return JsonResultUtil.generateExceptionResult(e);
-        } catch(Exception e2){
-            
+        } catch(Exception e2){//系统异常
+            return JsonResultUtil.generateExceptionResult(new DesignerException(ErrorCode.UPLOAD_IMAGE_ERROR, "上传图片出错，请稍后再试!"));
         }
-        return null;
     }
+    
+    /**
+     * 从Session中获取用户对象
+     * @param request
+     * @return
+     * @throws NotLoginException
+     */
     private User getSessionUser(HttpServletRequest request) throws NotLoginException {
         User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
         if(user==null){
-            throw new NotLoginException(0, null, null); 
+            throw new NotLoginException(ErrorCode.USER_NOT_LOGIN, "用户尚未登录，无法执行该操作");
         }
         return user;
     }

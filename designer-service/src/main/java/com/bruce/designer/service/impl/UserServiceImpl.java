@@ -62,6 +62,24 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 	
+	/**
+	 * 检查用户exists
+	 * @param username
+	 * @param nickname
+	 * @param email
+	 * @return
+	 */
+	@Override
+    public boolean userExists(String username){
+        UserCriteria criteria = new UserCriteria();
+        criteria.createCriteria().andUsernameEqualTo(username);
+        List<User> userList = userMapper.selectByExample(criteria);
+        if(userList!=null&&userList.size()>0){
+            return true;
+        }
+        return false;
+    }
+	
 	@Override
     public int changePassword(int userId, String password) {
 	    UserCriteria criteria = new UserCriteria();
@@ -95,6 +113,12 @@ public class UserServiceImpl implements UserService {
         return designerApplyOp(userId, ConstService.DESIGNER_APPLY_PASSED);
     }
 	
+	/**
+	 * 处理设计师申请操作
+	 * @param userId
+	 * @param operationType
+	 * @return
+	 */
 	private int designerApplyOp(int userId, short operationType) {
         UserCriteria criteria = new UserCriteria();
         criteria.createCriteria().andIdEqualTo(userId);
