@@ -4,14 +4,15 @@ import java.io.IOException;
 
 import com.bruce.designer.bean.upload.UploadImageResult;
 
-public interface IUploadService{
+public interface IUploadService{ 
     
 	/**
 	 * 保存普通文件
 	 * @param bytes
 	 * @return
+	 * @throws IOException 
 	 */
-	public String uploadFile(byte[] bytes, int userId, String filename);
+	public String uploadFile(byte[] bytes, int userId, String filename) throws IOException;
 	
 	/**
 	 * 保存图片文件，需切割图片

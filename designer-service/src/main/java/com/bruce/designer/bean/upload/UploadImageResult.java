@@ -25,5 +25,36 @@ public class UploadImageResult{
 	public void setUploadFileMap(Map<String, UploadFileInfo> uploadFileMap) {
 		this.uploadFileMap = uploadFileMap;
 	}
-
+	
+	
+//	private String largeImgUrl;
+//	private String mediumImgUrl;
+//	private String tinyImgUrl;
+//
+//    public String getLargeImgUrl() {
+//        return largeImgUrl;
+//    }
+//
+//    public void setLargeImgUrl(String largeImgUrl) {
+//        this.largeImgUrl = largeImgUrl;
+//    }
+//
+//    public String getMediumImgUrl() {
+//        return mediumImgUrl;
+//    }
+//
+//    public void setMediumImgUrl(String mediumImgUrl) {
+//        this.mediumImgUrl = mediumImgUrl;
+//    }
+//
+//    public String getTinyImgUrl() {
+//        return tinyImgUrl;
+//    }
+//
+//    public void setTinyImgUrl(String tinyImgUrl) {
+//        this.tinyImgUrl = tinyImgUrl;
+//    }
+	
+	
+	
 }

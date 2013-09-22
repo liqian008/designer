@@ -84,10 +84,10 @@ public class UserSettingsController {
     public String upload(@RequestParam("avatarImage") MultipartFile avatarImage, HttpServletRequest request) throws IOException{
         User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
         int userId = user.getId();
-        UploadImageResult imageResult = uploadService.uploadAvatar(avatarImage.getBytes(), userId);
-    	request.setAttribute("originAvatarUrl", imageResult.getUrl());
-        request.setAttribute("imgSrcWidth", imageResult.getWidth());
-        request.setAttribute("imgSrcHeight", imageResult.getHeight());
+        UploadImageResult imageResult = uploadService.uploadAvatar(avatarImage.getBytes(), userId, null);
+//    	request.setAttribute("originAvatarUrl", imageResult.getUrl());
+//        request.setAttribute("imgSrcWidth", imageResult.getWidth());
+//        request.setAttribute("imgSrcHeight", imageResult.getHeight());
         
 //        //获取头像保存路径
 //        String avatarPath = genAvatarPath(userId);

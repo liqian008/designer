@@ -92,9 +92,10 @@ public class ImageUtil {
 	 * @param result新的图像地址
 	 * @param _width设置新的图像宽度
 	 * @param _height设置新的图像高度
+	 * @throws IOException 
 	 */
 	public static void scale(String srcImageFile, String result, int _width,
-			int _height) {
+			int _height) throws IOException {
 		scale(srcImageFile, result, _width, _height, 0, 0);
 	}
 	
@@ -104,20 +105,20 @@ public class ImageUtil {
 	 * @param result
 	 * @param _width
 	 * @param _height
+	 * @throws IOException 
 	 */
-    public static void scaleByWidth(String srcImageFile, String result, int _width) {
+    public static void scaleByWidth(String srcImageFile, String result, int _width) throws IOException {
         scale(srcImageFile, result, _width, 0);
     }
 	
 	public static void scale(String srcImageFile, String targetImageFile, int _width,
-			int _height, int x, int y) {
+			int _height, int x, int y) throws IOException {
 		scale(new File(srcImageFile), new File(targetImageFile), _width,
 	            _height, x, y);
 	}
 	
 	public static void scale(File sourceImage, File targetImage, int _width,
-            int _height, int x, int y) {
-        try {
+            int _height, int x, int y) throws IOException {
             BufferedImage src = ImageIO.read(sourceImage); // 读入文件
             int sourceWidth = src.getWidth(); // 得到源图宽
             int sourceHeight = src.getHeight(); // 得到源图长
@@ -140,10 +141,8 @@ public class ImageUtil {
             Graphics g = tag.getGraphics();
             g.drawImage(image, x, y, null); // 绘制缩小后的图
             g.dispose();
-            ImageIO.write(tag, "JPEG", sourceImage);// 输出到文件流
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            ImageIO.write(tag, "JPEG", targetImage);// 输出到文件流
+       
     }
 	
 	/**
@@ -181,8 +180,9 @@ public class ImageUtil {
 
 	/**
 	 * @param args
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// cut("c:/images/ipomoea.jpg", "c:/images/t/ipomoea.jpg", 200, 150);
 		// ok
 		// gray("c:/images/ipomoea.jpg", "c:/images/t/ipomoea.jpg");

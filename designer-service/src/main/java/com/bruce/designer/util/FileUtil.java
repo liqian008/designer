@@ -26,7 +26,7 @@ public class FileUtil {
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
     
     /**
-     * 
+     * 返回系统生成的文件名
      * @param userId
      * @param fileName
      * @param placeHolder
@@ -68,28 +68,52 @@ public class FileUtil {
         return simpleDateFormat.format(new Date());
     }
    	
+   	private static String getDictionary(long time) {
+        return simpleDateFormat.format(new Date(time));
+    }
+
+    /**
+     * 获取文件保存的相对路径
+     * @param userId
+     * @return
+     */
+    public static String getFilePath() {
+        String filePath = PropertiesUtil.getString("upload_path_file") + FileUtil.FILE_SEPARTOR + getDictionary() + FileUtil.FILE_SEPARTOR;;
+        return filePath;
+    }
+    
     /**
 	 * 获取用户头像保存的相对路径
 	 * @param userId
 	 * @return
 	 */
-	public static String getAvatarPath(int userId) {
-		String avatarPath = PropertiesUtil.getString("upload_path_avatar");
+	public static String getAvatarPath() {
+		String avatarPath = PropertiesUtil.getString("upload_path_avatar") + FileUtil.FILE_SEPARTOR;
 		return avatarPath;
 	}
 	
 	/**
-	 * 获取用户头像保存的相对路径
+	 * 获取用户图片保存的相对路径
 	 * @param userId
 	 * @return
 	 */
-	public static String getImagePath() {
-		String imagePath = PropertiesUtil.getString("upload_path_image") + FileUtil.FILE_SEPARTOR + getDictionary();
+	public static String getImagePath(long time) {
+		String imagePath = PropertiesUtil.getString("upload_path_image") + FileUtil.FILE_SEPARTOR + getDictionary(time) + FileUtil.FILE_SEPARTOR;
 		return imagePath;
 	}
 	
 	/**
-	 * 保存文件
+     * 获取用户图片保存的相对路径
+     * @param userId
+     * @return
+     */
+    public static String getImagePath() {
+        return getImagePath(System.currentTimeMillis());
+    }
+    
+	
+	/**
+	 * 保存文件，返回url
 	 * @param data
 	 * @param basePath
 	 * @param dictionary
@@ -98,8 +122,13 @@ public class FileUtil {
 	 * @throws IOException
 	 */
     public static String saveFile(byte[] data, String basePath, String dictionary, String filename) throws IOException{
-    	File file = new File(basePath + FileUtil.FILE_SEPARTOR + dictionary, filename);
-		FileCopyUtils.copy(data, file);
+    	
+        File dir = new File(basePath + FileUtil.FILE_SEPARTOR + dictionary);
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+        File file = new File(dir, filename);
+    	FileCopyUtils.copy(data, file);
 		return prefixUrl  + FileUtil.FILE_SEPARTOR + dictionary + FileUtil.FILE_SEPARTOR + filename;
     }
     
