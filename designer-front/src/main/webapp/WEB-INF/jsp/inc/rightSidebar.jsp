@@ -65,10 +65,10 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			</ul>
 			<input class="contact-submit button" type="button" value="个人设置" onclick="location.href='/designer-front/settings.art'"/>
 			 <%if(user.getDesignerStatus()!=null&&user.getDesignerStatus()==ConstService.DESIGNER_APPLY_PASSED){%> 
-				<input class="contact-submit button" type="button" value="我要发布"/>
-				<input class="contact-submit button" type="button" value="发布设置" />
+				<input class="contact-submit button" type="button" value="我要发布"  onclick="location.href='/designer-front/settings.art?op=publisher'"/>
+				<input class="contact-submit button" type="button" value="发布设置"  onclick="location.href='/designer-front/settings.art?op=shareSettings'"/>
 			<%}else{%>
-				<input class="contact-submit button" type="button" value="申请设计师"  onclick="location.href='/designer-front/applyDesigner.art'"/>
+				<input class="contact-submit button" type="button" value="申请设计师"  onclick="location.href='/designer-front/settings.art?op=designerApply'"/>
 			<%}%>
 			<input class="contact-submit button" type="button" value="注 销" onclick="location.href='/designer-front/logout.art'"/>
 			

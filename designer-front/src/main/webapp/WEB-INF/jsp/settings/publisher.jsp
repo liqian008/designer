@@ -105,36 +105,9 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                     <div class="tab-pane widgets-light active" id="apply4Designer">
                                         <div class="widget-box widget-contact-form">
                                         	<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/applyDesigner.art">
+												action="/designer-front/publishAlbum.art">
 												<div class="content-title">
-													<h4>请填写设计师申请资料（您的申请已提交，请耐心等待审核结果）</h4>
-												</div>
-												
-												<div class="input-container">
-													身份证号: <input type="text" class="contact-form-name" name="idNum"
-														value="身份证号"/>
-												</div>
-												<div class="input-container">
-													真实姓名: <input type="text" class="contact-form-name" name="realname"
-														value="真实姓名"/>
-												</div>
-												<div class="input-container">
-													手机号: <input type="text" class="contact-form-name" name="mobile"
-														value="手机号"/>
-												</div>
-												
-												<div class="input-container">
-													公 司: <input type="text" class="contact-form-name" name="company"
-														value="公 司"/>
-												</div>
-												<div class="input-container">
-													淘宝店铺主页: <input type="text" class="contact-form-name" name="taobaoHomepage"
-														value="淘宝店铺店铺"/>
-												</div>
-												
-												
-												<div class="content-title">
-													<h4>并附带一组作品集【上限6张】</h4>
+													<h4>发布作品集【上限6张】</h4>
 												</div>
 												<div class="infobox info-info info-info-alt clearfix">
 					                                <span>i</span>
@@ -148,30 +121,20 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													<input id="fileUploader" name="image" type="file" multiple="true">
 												</div>
 												<div id="queue"></div>
-												
 												<div>
 													<ul id="imgPreview" class="clearfix">
-														<!-- <li>
-															<img src="/designer-front/img/demo/portraits/avatar_middle.jpg">
-															设置为封面
-															<input type="radio" name="setCover" value=""/>
-															标题
-															<input type="text" class="contact-form-name" name="taobaoHomepage"/>
-															详细描述
-															<textarea class="contact-form-name" name="remark" rows="3"></textarea>
-														</li> -->
 													</ul>
 												</div>
 												
-												
 												<script type="text/javascript">
 													$(function() {
+														var counter = 0;
 														$('#fileUploader').uploadify({
 															'swf' : '/designer-front//uploadify/uploadify.swf',
 															//'uploader' : '/designer-front/uploadify/response.json',
 															'uploader' : '/designer-front/ajax/uploadImage.art;jsessionid=<%=session.getId()%>',
 															//'cancelImg' : "uploadify-cancel.png",
-															 'fileObjName' : 'image',
+															'fileObjName' : 'image',
 															'debug' : false,
 															'buttonText' : '选择照片',
 															'method' : 'post',
@@ -185,20 +148,19 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 															'onUploadSuccess' : function(file, data, response) {
 													            //alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
 													            //alert(data);
+													            counter = counter + 1;
 													            var response = jQuery.parseJSON(data);
-													        	$("<li><img id='img1' src='"+response.data.mediumImage.url+"' width='200'/></li>").appendTo($("#imgPreview"));
+													        	$("<li><img id='img1' src='"+response.data.mediumImage.url+"' width='200'/>设置为封面<input type='radio' name='setCover' value='"+counter+"'/>标题<input type='text' class='contact-form-name' name='title"+counter+"'/>详细描述<textarea class='contact-form-name' name='remark"+counter+"' rows='3'></textarea></li>").appendTo($("#imgPreview"));
 															},
-													        
 														});
 													});
 												</script>
 												
 												<input class="contact-submit button" type="submit" value="提 交" disabled="disabled">
 												<input class="contact-submit button" type="button" value="返回个人信息">
-												</form>
-											</div>
+											</form>
+										</div>
                                     </div>
-                                    
                                 </div>
                             </div>
                         </section> 

@@ -23,11 +23,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bruce.designer.bean.Album;
+import com.bruce.designer.bean.AlbumSlide;
 import com.bruce.designer.bean.Comment;
 import com.bruce.designer.bean.User;
 import com.bruce.designer.bean.upload.UploadImageResult;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.service.AlbumService;
+import com.bruce.designer.service.AlbumSlideService;
+import com.bruce.designer.service.CommentService;
 import com.bruce.designer.service.IUploadService;
 import com.bruce.designer.service.UserService;
 import com.bruce.designer.util.PropertiesUtil;
@@ -40,11 +43,15 @@ import com.bruce.designer.util.PropertiesUtil;
 public class UserSettingsController {
 
     @Autowired
-    private UserService userService; 
+    private UserService userService;
+    @Autowired
+    private IUploadService uploadService;
     @Autowired
     private AlbumService albumService;
     @Autowired
-    private IUploadService uploadService;
+    private AlbumSlideService albumSlideService;
+
+    
 
     private static final Logger logger = LoggerFactory.getLogger(UserSettingsController.class);
 
@@ -132,8 +139,8 @@ public class UserSettingsController {
         return "settings/designerInfo";
     }
 
-    @RequestMapping(params="op=applyDesigner", method = RequestMethod.GET)
-    public String applyDesigner(Model model) {
+    @RequestMapping(params="op=designerApply", method = RequestMethod.GET)
+    public String designerApply(Model model) {
         int userId = 0;
         User user = userService.loadById(userId);
         if (user != null) {
@@ -141,15 +148,38 @@ public class UserSettingsController {
         } else {
 
         }
-        return "settings/applyDesigner";
+        return "settings/designerApply";
     }
 
-    @RequestMapping(value = "/applyDesigner", method = RequestMethod.POST)
-    public String applyDesignerGo(Model model,  HttpServletRequest request) {
+    @RequestMapping(value = "/designerApply", method = RequestMethod.POST)
+    public String designerApply(Model model,  HttpServletRequest request, Album album) {
+        //检查用户登录
         User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+        
+        //提交作品专辑，建议使用外部主键生成器
+        if(album!=null&&album.getSlideList()!=null&&album.getSlideList().size()>0){
+            List<AlbumSlide> slideList = album.getSlideList();
+            int userId = user.getId();
+            album.setUserId(userId);
+            album.setCoverImg(slideList.get(0).getSlideImg());
+            int result = albumService.save(album);
+            if(result==1){
+                for(AlbumSlide slide: slideList){
+                    slide.setAlbumId(album.getId());
+                    slide.setUserId(userId);
+                    albumSlideService.save(slide);
+                }
+            }
+        }
+        
         int result = userService.apply4Designer(user.getId());
         request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的申请资料已成功提交，现在将转入首页，请稍候…");
         return "forward:/redirect.art";
+    }
+    
+    @RequestMapping(params="op=publisher", method = RequestMethod.GET)
+    public String publisher(Model model) {
+        return "settings/publisher";
     }
 
     /**
