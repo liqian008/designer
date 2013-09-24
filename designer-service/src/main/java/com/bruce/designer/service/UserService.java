@@ -16,6 +16,8 @@ public interface UserService extends IBaseService<User, Integer>{
     
     public User authUser(String username, String password);
     
+    public boolean userExists(String username);
+    
     public int changePassword(int userId, String password);
     
     /**
@@ -40,5 +42,5 @@ public interface UserService extends IBaseService<User, Integer>{
     public int designerDenied(int userId);
 //    public User loadUserById(int userId) throws SQLException;
 //    public int saveUser(User user) throws SQLException;
-    
+
 }

@@ -1,6 +1,7 @@
 package com.bruce.designer.front.exception;
 
-import com.bruce.designer.exception.oauth.DesignerException;
+import com.bruce.designer.exception.DesignerException;
+
 
 public class NotLoginException extends DesignerException {
 
@@ -14,12 +15,13 @@ public class NotLoginException extends DesignerException {
         super(errorCode, message);
     }
 
-    public NotLoginException(Throwable cause, int errorCode) {
+    public NotLoginException(int errorCode, Throwable cause) {
         super(errorCode, cause);
     }
 
-    public NotLoginException(String message, Throwable cause, int errorCode) {
+    public NotLoginException(int errorCode, String message, Throwable cause) {
         super(errorCode, message, cause);
     }
+
 
 }

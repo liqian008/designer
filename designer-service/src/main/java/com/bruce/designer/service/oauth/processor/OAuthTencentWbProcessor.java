@@ -6,6 +6,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 import com.bruce.designer.bean.AccessTokenInfo;
+import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.exception.oauth.OAuthException;
 import com.bruce.designer.service.oauth.IOAuthService;
 import com.bruce.designer.service.oauth.SharedContent;
@@ -31,7 +32,7 @@ public class OAuthTencentWbProcessor implements IOAuthProcessor, InitializingBea
             token = qqOauth.getAccessTokenByRequest(request);
             return parseTencentToken(token);
         } catch (Exception e) {
-            throw new OAuthException(e);
+            throw new OAuthException(ErrorCode.OAUTH_ERROR, e);
         }
     }
 
@@ -49,7 +50,7 @@ public class OAuthTencentWbProcessor implements IOAuthProcessor, InitializingBea
             tokenInfo.setThirdpartyUid(thirdpartyUid);
             return thirdpartyUid;
         } catch (Exception e) {
-            throw new OAuthException(e);
+            throw new OAuthException(ErrorCode.OAUTH_ERROR, e);
         }
     }
 
@@ -74,7 +75,7 @@ public class OAuthTencentWbProcessor implements IOAuthProcessor, InitializingBea
             }
             tokenInfo.setThirdpartyUname(sb.toString());
         } catch (QQConnectException e) {
-            throw new OAuthException();
+            throw new OAuthException(ErrorCode.OAUTH_ERROR, e);
         }
         
         //获取腾讯WB的昵称

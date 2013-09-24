@@ -16,6 +16,7 @@ import org.springframework.util.Assert;
 
 
 import com.bruce.designer.bean.AccessTokenInfo;
+import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.exception.oauth.OAuthException;
 import com.bruce.designer.service.UserService;
 import com.bruce.designer.service.oauth.processor.IOAuthProcessor;
@@ -52,7 +53,7 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
         if(thirdpartyType<=0){
             String errorMessage = "参数thirdpartyType非法，无法处理";
             //log this
-            throw new OAuthException(errorMessage);
+            throw new OAuthException(ErrorCode.OAUTH_ERROR, errorMessage);
         }else {
             IOAuthProcessor oauthProcessor = processorMap.get(thirdpartyType);
             // 根据code获取token

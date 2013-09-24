@@ -1,4 +1,4 @@
-package com.bruce.designer.exception.oauth;
+package com.bruce.designer.exception;
 
 public class DesignerException extends Exception {
 

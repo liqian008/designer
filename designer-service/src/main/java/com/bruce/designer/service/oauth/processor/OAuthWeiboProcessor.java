@@ -11,6 +11,7 @@ import weibo4j.model.WeiboException;
 import weibo4j.org.json.JSONObject;
 
 import com.bruce.designer.bean.AccessTokenInfo;
+import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.exception.oauth.OAuthException;
 import com.bruce.designer.service.oauth.IOAuthService;
 import com.bruce.designer.service.oauth.SharedContent;
@@ -33,7 +34,7 @@ public class OAuthWeiboProcessor implements IOAuthProcessor{
             AccessTokenInfo tokenInfo = parseWeiboToken(wbToken);
             return tokenInfo;
         } catch (Exception e) {
-            throw new OAuthException(e);
+            throw new OAuthException(ErrorCode.OAUTH_ERROR, e);
         }
 	}
     
@@ -56,7 +57,7 @@ public class OAuthWeiboProcessor implements IOAuthProcessor{
             tokenInfo.setThirdpartyUid(thirdpartyUid);
             return thirdpartyUid;
         } catch (Exception e) {
-            throw new OAuthException(e);
+            throw new OAuthException(ErrorCode.OAUTH_ERROR, e);
         }
     }
     
@@ -80,7 +81,7 @@ public class OAuthWeiboProcessor implements IOAuthProcessor{
             tokenInfo.setThirdpartyUname(sb.toString());
             return tokenInfo;
         } catch (WeiboException e) {
-            throw new OAuthException(e);
+            throw new OAuthException(ErrorCode.OAUTH_ERROR, e);
         }
     }
 	
@@ -97,8 +98,8 @@ public class OAuthWeiboProcessor implements IOAuthProcessor{
             tl.client.setToken(sharedContent.getAccessToken());// access_token
             Status status = tl.UpdateStatus(sharedContent.getContent());
             System.out.println("Successfully upload the status to ["+ status.getText() + "].");
-        } catch (Exception e1) {
-            throw new OAuthException(e1);
+        } catch (Exception e) {
+            throw new OAuthException(ErrorCode.OAUTH_ERROR, e);
         }
     }
     

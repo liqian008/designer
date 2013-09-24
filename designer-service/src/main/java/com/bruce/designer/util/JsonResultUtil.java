@@ -1,6 +1,8 @@
-package com.bruce.designer.exception.oauth;
+package com.bruce.designer.util;
 
 import com.bruce.designer.bean.User;
+import com.bruce.designer.exception.DesignerException;
+import com.bruce.designer.exception.JsonResultObject;
 
 
 /**
@@ -33,17 +35,26 @@ public class JsonResultUtil{
         return jsonResult;
     }
     
+    /**
+     * 生成失败的响应json
+     * @param errorCode
+     * @param message
+     * @return
+     */
+    public static JsonResultObject generateExceptionResult(int errorCode, String message){
+        JsonResultObject jsonResult = new JsonResultObject();
+        jsonResult.setResult(errorCode);
+        jsonResult.setMessage(message);
+        return jsonResult;
+    }
+    
     public static void main(String[] args) {
 //        JsonResultObject jsonExceptionResult = generateExceptionResult(new OAuthException("oauth error"));
 //        System.out.println(jsonExceptionResult);
         
-        
         User user = new User();
         user.setUsername("liqian");
         user.setNickname("nick_liqian");
-        
-        
-        
         
         JsonResultObject jsonSucceedResult = generateSucceedResult(user);
         System.out.println(jsonSucceedResult);
