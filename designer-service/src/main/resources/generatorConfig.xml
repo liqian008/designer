@@ -3,7 +3,7 @@
 <generatorConfiguration>
 
 	<classPathEntry
-		location="/Users/liqian/.m2/repository_lican/mysql/mysql-connector-java/5.1.23/mysql-connector-java-5.1.23.jar" />
+		location="/Users/zc/.m2/repository/mysql/mysql-connector-java/5.1.23/mysql-connector-java-5.1.23.jar" />
 	 		
 	<!-- 
 	<classPathEntry
@@ -38,7 +38,10 @@
 		<table schema="designer" tableName="tb_album_slide" domainObjectName="AlbumSlide"/>
 		<table schema="designer" tableName="tb_comment" domainObjectName="Comment"/>
 		<table schema="designer" tableName="tb_user_source" domainObjectName="UserSource"/>
-		-->
 		<table schema="designer" tableName="tb_access_token_info" domainObjectName="AccessTokenInfo"/>
+		<table schema="designer" tableName="tb_feed" domainObjectName="FeedDTO" />
+		-->
+		<table schema="designer" tableName="tb_tag" domainObjectName="Tag"></table>
+		
 	</context>
 </generatorConfiguration>

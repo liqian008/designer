@@ -10,7 +10,10 @@
 		<mapper resource="com/bruce/designer/bean/mapper/MessageMapper.xml" />
 		<mapper resource="com/bruce/designer/bean/mapper/CommentMapper.xml" />
 		<mapper resource="com/bruce/designer/bean/mapper/AccessTokenInfoMapper.xml" />
-		
+		<mapper resource="com/bruce/designer/bean/mapper/FeedDTOMapper.xml" />
+		<mapper resource="com/bruce/designer/bean/mapper/FeedDTOExtendMapper.xml" />
+		<mapper resource="com/bruce/designer/bean/mapper/FeedLiveIndexMapper.xml" />
+		<mapper resource="com/bruce/designer/bean/mapper/FeedTagIndexMapper.xml" />
 		<!-- 
 		<mapper resource="com/bruce/designer/bean/mapper/DesignerMapper.xml" />
 		-->

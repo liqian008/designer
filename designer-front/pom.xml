@@ -177,6 +177,7 @@
                     <compilerArgument>-Xlint:all</compilerArgument>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
+                    <encode>UTF-8</encode>
                 </configuration>
             </plugin>
             <plugin>
