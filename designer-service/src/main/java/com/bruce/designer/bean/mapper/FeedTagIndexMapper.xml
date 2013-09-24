@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bruce.designer.dao.FeedTagIndexMapper" >
+    <select id="getIndex" resultType="long">
+    	select feed_id from tb_feed_index_tag where tag_id = #{targetId} limit #{offset}, #{limit}
+    </select>
+    
+    <insert id="insert">
+    	insert into tb_feed_index_tag (feed_id, tag_id) values (#{feedId}, #{targetId})
+    </insert>
+</mapper>
