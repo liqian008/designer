@@ -56,7 +56,6 @@ public interface IMessageService extends IBaseService<Message, Long>{
      */
     public int broadcase2Designers(String message);
 
-
     /**
      * 将用户所有消息都标记为已读
      */
