@@ -17,16 +17,15 @@ import com.bruce.designer.dao.FeedTagIndexMapper;
 import com.bruce.designer.service.FeedDispatcher;
 import com.bruce.designer.service.FeedService;
 
-@Service
 public class FeedServiceImpl implements FeedService, InitializingBean {
 
-    @Autowired
+    //@Autowired
     private FeedDTOMapper feedDTOMapper;
 
-    @Autowired
+   // @Autowired
     private FeedLiveIndexMapper feedLiveIndexMapper;
     
-    @Autowired
+    //@Autowired
     private FeedTagIndexMapper feedTagIndexMapper;
 
     private FeedDispatcher liveFeedDispatcher;

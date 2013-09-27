@@ -30,11 +30,11 @@ public interface IMessageService extends IBaseService<Message, Long>{
      * 广播至所有用户
      * @return
      */
-    public int broadcast2All(Message message);
+    public int broadcast2All(String message);
     
     /**
      * 广播至所有设计师
      * @return
      */
-    public int broadcase2Designers(Message message);
+    public int broadcase2Designers(String message);
 }

@@ -7,10 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bruce.designer.bean.User;
 import com.bruce.designer.service.AlbumService;
 import com.bruce.designer.service.CommentService;
+import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.UserService;
 
 /**
@@ -22,9 +24,7 @@ public class MessageController {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private AlbumService albumService;
-	@Autowired
-	private CommentService commentService;
+	private IMessageService messageService;
 
 	private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
 
@@ -33,9 +33,9 @@ public class MessageController {
 		return "inbox";
 	}
 	
-	@RequestMapping(value = "/mark2Read")
-    public String mark2Read(Model model) {
-        return "mark2Read";
+	@RequestMapping(value = "/markRead")
+    public String markRead(Model model) {
+        return "markRead";
     }
 	
 	@RequestMapping(value = "/outbox")
@@ -44,8 +44,16 @@ public class MessageController {
     }
 	
 	@RequestMapping(value = "/sendMsg", method = RequestMethod.POST)
-    public String settingsGo(Model model, User user) {
+    public String sendMsg(Model model, User user) {
 	    return "sendMsg";
+    }
+	
+	@ResponseBody
+	@RequestMapping(value = "/broadcastMsg")
+    public String broadcastMsg() {
+	    String message = "这是一条系统广播";
+	    messageService.broadcast2All(message);
+        return message;
     }
 	
 }

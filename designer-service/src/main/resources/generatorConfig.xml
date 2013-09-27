@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
-
-	<classPathEntry
-		location="/Users/zc/.m2/repository/mysql/mysql-connector-java/5.1.23/mysql-connector-java-5.1.23.jar" />
-	 		
+	
 	<!-- 
 	<classPathEntry
+		location="/Users/zc/.m2/repository/mysql/mysql-connector-java/5.1.23/mysql-connector-java-5.1.23.jar" />
+	-->
+	
+	<classPathEntry
 		location="/home/liqian/data/mysql.jar" />		
-	 -->
 
 	<context id="context1">
 		
@@ -30,8 +30,10 @@
 			<property name="enableSubPackages" value="false"/>
 		</javaClientGenerator>
 		
-		<!-- 
+		
 		<table schema="designer" tableName="tb_message" domainObjectName="Message"/>
+		<!-- 
+		<table schema="designer" tableName="tb_user_message" domainObjectName="UserMessage"/>
 		<table schema="designer" tableName="tb_user" domainObjectName="User"/>
 		<table schema="designer" tableName="tb_designer" domainObjectName="Designer"/>
 		<table schema="designer" tableName="tb_album" domainObjectName="Album"/>
@@ -40,8 +42,8 @@
 		<table schema="designer" tableName="tb_user_source" domainObjectName="UserSource"/>
 		<table schema="designer" tableName="tb_access_token_info" domainObjectName="AccessTokenInfo"/>
 		<table schema="designer" tableName="tb_feed" domainObjectName="FeedDTO" />
-		-->
 		<table schema="designer" tableName="tb_tag" domainObjectName="Tag"></table>
+		-->
 		
 	</context>
 </generatorConfiguration>
