@@ -25,12 +25,14 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.bruce.designer.bean.Album;
 import com.bruce.designer.bean.AlbumSlide;
 import com.bruce.designer.bean.Comment;
+import com.bruce.designer.bean.Message;
 import com.bruce.designer.bean.User;
 import com.bruce.designer.bean.upload.UploadImageResult;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.service.AlbumService;
 import com.bruce.designer.service.AlbumSlideService;
 import com.bruce.designer.service.CommentService;
+import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUploadService;
 import com.bruce.designer.service.UserService;
 import com.bruce.designer.util.PropertiesUtil;
@@ -50,6 +52,8 @@ public class UserSettingsController {
     private AlbumService albumService;
     @Autowired
     private AlbumSlideService albumSlideService;
+    @Autowired
+    private IMessageService messageService;
 
     
 
@@ -253,7 +257,19 @@ public class UserSettingsController {
      * @return
      */
     @RequestMapping(params="op=inbox")
-    public String inbox(Model model, User user) {
-        return "settings/inbox";
+    public String inbox(Model model, HttpServletRequest request, short messageType) {
+        User user = (User)request.getSession().getAttribute(ConstFront.CURRENT_USER);
+        int userId = user.getId();
+        List<Message> messageList = null;
+        if(messageType<=0){
+            messageList = messageService.queryInboxMessages(userId);
+        }else{
+            messageList = messageService.queryMessagesByType(userId, messageType);
+            //同时标记为已读
+            int readNum = messageService.markRead(userId, messageType);
+        }
+        model.addAttribute("messageList", messageList);
+        return "/settings/inbox";
     }
+
 }

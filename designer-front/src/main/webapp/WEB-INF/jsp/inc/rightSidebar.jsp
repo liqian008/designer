@@ -20,17 +20,15 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			<form id="contact-form-widget" method="post" class="clearfix" action="/designer-front/login.art">
 				<div class="input-container">
 					<input type="text" class="contact-form-name" name="username"
-						value="Your Name"
+						value="liqian"
 						onfocus="if(this.value=='Your Name')this.value='';"
 						onblur="if(this.value=='')this.value='Your Name';" /> 
 					<i class="icon-user"></i>
 				</div>
 				<div class="input-container">
-					<input type="text" class="contact-form-email" name="password"
-						value="Your Email"
-						onfocus="if(this.value=='Your Email')this.value='';"
-						onblur="if(this.value=='')this.value='Your Email';" /> <i
-						class="icon-envelope-alt"></i>
+					<input type="password" class="contact-form-email" name="password"
+						value="liqian"/> 
+						<i class="icon-envelope-alt"></i>
 				</div>
 				<input class="contact-submit button" type="button" value="微博登录" onclick="location.href='/designer-front/connectWeibo.art'"/>
 				<input class="contact-submit button" type="button" value="QQ登录" onclick="location.href='/designer-front/connectTencent.art'"/>
@@ -58,6 +56,9 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 							</p>
 							<p>
 								身份：设计师
+							</p>
+							<p>
+								未读消息：2条
 							</p>
 						</div>
 					</div>
