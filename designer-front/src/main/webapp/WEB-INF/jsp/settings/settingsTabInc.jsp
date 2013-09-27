@@ -31,7 +31,7 @@ String op =request.getParameter("op");
 <li <%=getActiveStr("info", op)%>><a class="button button-white" href="./settings.art">个人基本资料</a></li>
 <li <%=getActiveStr("avatar", op)%>><a class="button button-white" href="./settings.art?op=avatar">修改头像</a></li>
 <li <%=getActiveStr("changePasswd", op)%>><a class="button button-white" href="./settings.art?op=changePasswd">修改密码</a></li>
-<li <%=getActiveStr("inbox", op)%>><a class="button button-white" href="./settings.art?op=inbox">我的消息</a></li>
+<li <%=getActiveStr("inbox", op)%>><a class="button button-white" href="./settings.art?op=inbox&messageType=0">我的消息</a></li>
 <li <%=getActiveStr("favorities", op)%>><a class="button button-white" href="./settings.art?op=favorities">我的收藏</a></li>
 <li <%=getActiveStr("flowerings", op)%>><a class="button button-white" href="./settings.art?op=flowerings">我关注的人</a></li>
 

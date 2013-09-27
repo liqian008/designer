@@ -77,31 +77,58 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	}
 	
 	/**
-	 * 未读消息列表
+     * 未读消息列表
+     */
+    @Override
+    public List<Message> queryInboxMessages(int userId) {
+        //select *, count(message_type) from (select * from tb_message ORDER BY id desc ) aliasTb where to_id=3 group by message_type ;
+        MessageCriteria criteria = new MessageCriteria();
+        criteria.createCriteria().andToIdEqualTo(userId);
+        return messageMapper.selectByExample(criteria);
+    }
+    
+	/**
+	 * 根据消息类型查询
 	 */
-	public List<Message> queryUnreadMessages(int userId) {
+	@Override
+	public List<Message> queryMessagesByType(int userId, short messageType) {
 		MessageCriteria criteria = new MessageCriteria();
-		criteria.createCriteria().andToIdEqualTo(userId).andStatusEqualTo(ConstService.MESSAGE_STATUS_UNREAD);
+		criteria.createCriteria().andToIdEqualTo(userId).andMessageTypeEqualTo(messageType);
 		return messageMapper.selectByExample(criteria);
 	}
 	
 	/**
+     * 将用户所有消息都标记为已读
+     */
+	@Override
+    public int markReadAll(int userId) {
+        Message message = new Message();
+        message.setStatus(ConstService.MESSAGE_STATUS_READ);
+        //查询条件
+        MessageCriteria criteria = new MessageCriteria();
+        criteria.createCriteria().andToIdEqualTo(userId);
+        int result = messageMapper.updateByExampleSelective(message, criteria);
+        return result;
+    }
+	
+	/**
      * 批量标记为已读
      */
-    public int markRead(int userId, long[] messageIds) {
-        if(messageIds!=null&&messageIds.length>0){
-            //需使用批处理
-            for(long messageId: messageIds){
-                markRead(userId, messageId);
-            }
-            return messageIds.length;
-        }
-        return 0;
+    @Override
+    public int markRead(int userId, short messageType) {
+        Message message = new Message();
+        message.setStatus(ConstService.MESSAGE_STATUS_READ);
+        //查询条件
+        MessageCriteria criteria = new MessageCriteria();
+        criteria.createCriteria().andToIdEqualTo(userId).andMessageTypeEqualTo(messageType);
+        int result = messageMapper.updateByExampleSelective(message, criteria);
+        return result;
     }
     
     /**
      * 标记为已读
      */
+    @Override
     public int markRead(int userId, long messageId) {
         Message message = new Message();
         message.setStatus(ConstService.MESSAGE_STATUS_READ);

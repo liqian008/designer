@@ -4,6 +4,7 @@
 <%@ page import="com.bruce.designer.service.oauth.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
 <%@ page import="com.bruce.designer.constants.*" %>
+<%@ page import="com.bruce.designer.util.*" %> 
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.*" %> 
 
@@ -93,37 +94,33 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 							<div class="content-title">
                                 <h2>管理中心</h2>
                             </div>
-
+	
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
                                 <ul class="tabs-nav tabs clearfix span3">
                                 	<jsp:include page="./settingsTabInc.jsp"></jsp:include>
                                 </ul>
                                 <div class="tab-content span9">
-                                    <div class="tab-pane widgets-light active" id="info">
-                                        <div class="comment-container" id="comment-1">
-	                                        <div class="comment-avatar">
-	                                            <div class="comment-author vcard">
-	                                                <img src="img/demo/portraits/portrait-6.png" alt="Blogpost Comment">                 
-	                                            </div>
-	                                            <div class="reply">
-	                                                <a class="comment-reply-link button button-white" href="#">Reply</a>                
-	                                            </div>
-	                                        </div>                          
-	                                        <div class="comment-body">
-	                                            <div class="comment-meta commentmetadata">
-	                                                <h4 class="comment-author">
-	                                                    <a href="http://www.somnia-themes.com" rel="external nofollow" class="url">SomniaThemes</a>
-	                                                </h4>                                   
-	                                            </div>                              
-	                                            <div class="comment-content">
-	                                                <p>
-	                                                    Duis dignissim orci at tellus mollis non dignissim purus auctor. Donec nulla risus, mollis et eleifend id, viverra sit amet nisi. Nulla quis nisl nisi. Aliquam nec nibh est.
-	                                                </p>
-	                                            </div>
-	                                        </div>
-	                                    </div>
+                                    <div class="tab-pane widgets-light active" id="inbox">
+			                            <div class="content-title">
+											<h4>消息中心</h4> 
+										</div>
+                                    	<%
+                                    	List<Message> messageList = (List<Message>)request.getAttribute("messageList");
+                                    	if(messageList!=null&&messageList.size()>0){
+                                    		for(Message message: messageList){
+                                    	%> 
+                                        <div class="infobox info-succes clearfix">
+			                                <span></span>
+			                                <div class="infobox-wrap"> 
+			                                    <h5><%=MessageUtil.getMessageTypeName(message.getMessageType())%></h5>
+			                                    <p><%=message.getMessage()%></p>
+			                                </div>
+			                                
+			                            </div>
+			                            <%}
+			                            }%>
+			                            
                                     </div>
-                                    
                                 </div>
                             </div>
                         </section> 

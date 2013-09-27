@@ -8,10 +8,10 @@
 		<mapper resource="com/bruce/designer/bean/mapper/AlbumMapper.xml" />
 		<mapper resource="com/bruce/designer/bean/mapper/AlbumSlideMapper.xml" /> 
 		<mapper resource="com/bruce/designer/bean/mapper/MessageMapper.xml" />
-		<mapper resource="com/bruce/designer/bean/mapper/UserMessageMapper.xml"/>
 		<mapper resource="com/bruce/designer/bean/mapper/CommentMapper.xml" />
 		<mapper resource="com/bruce/designer/bean/mapper/AccessTokenInfoMapper.xml" />
 		<!-- 
+		<mapper resource="com/bruce/designer/bean/mapper/UserMessageMapper.xml"/>
 		<mapper resource="com/bruce/designer/bean/mapper/FeedDTOMapper.xml" />
 		<mapper resource="com/bruce/designer/bean/mapper/FeedDTOExtendMapper.xml" />
 		<mapper resource="com/bruce/designer/bean/mapper/FeedLiveIndexMapper.xml" />

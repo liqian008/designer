@@ -26,19 +26,18 @@ public interface ConstService{
 	public static final int MESSAGE_SYSTEM_SOURCE_ID = 0;
 	/*系统类型消息*/
 	public static final short MESSAGE_TYPE_BROADCAST = 0;
-	/*聊天类型消息*/
-	public static final short MESSAGE_TYPE_CHAT = 1;
-	/*@类型消息*/
-	public static final short MESSAGE_TYPE_AT = 2;
 	/*关注类型消息*/
-	public static final short MESSAGE_TYPE_FLOWER = 3;
+	public static final short MESSAGE_TYPE_FLOWER = 1;
 	/*评论类型消息*/
-	public static final short MESSAGE_TYPE_COMMENT = 4;
+	public static final short MESSAGE_TYPE_COMMENT = 2;
 	/*like类型消息*/
-	public static final short MESSAGE_TYPE_LIKE = 5;
+	public static final short MESSAGE_TYPE_LIKE = 3;
 	/*收藏类型消息*/
-	public static final short MESSAGE_TYPE_FAVORITIES = 6;
-	
+	public static final short MESSAGE_TYPE_FAVORITIES = 4;
+	/*@类型消息*/
+    public static final short MESSAGE_TYPE_AT = 5;
+	/*聊天类型消息（点到点）*/
+    public static final short MESSAGE_TYPE_CHAT = 100;
 	
 	/*未读消息状态*/
 	public static final short MESSAGE_STATUS_UNREAD = 0;
