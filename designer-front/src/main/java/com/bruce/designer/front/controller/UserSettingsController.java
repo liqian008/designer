@@ -28,6 +28,7 @@ import com.bruce.designer.bean.Comment;
 import com.bruce.designer.bean.Message;
 import com.bruce.designer.bean.User;
 import com.bruce.designer.bean.upload.UploadImageResult;
+import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.service.AlbumService;
 import com.bruce.designer.service.AlbumSlideService;
@@ -156,28 +157,40 @@ public class UserSettingsController {
     }
 
     @RequestMapping(value = "/designerApply", method = RequestMethod.POST)
-    public String designerApply(Model model,  HttpServletRequest request, Album album) {
+    public String designerApply(Model model,  HttpServletRequest request, String title, int coverId, int[] albumNums) {
         //检查用户登录
         User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+        int userId = user.getId();
         
-        //提交作品专辑，建议使用外部主键生成器
-        if(album!=null&&album.getSlideList()!=null&&album.getSlideList().size()>0){
-            List<AlbumSlide> slideList = album.getSlideList();
-            int userId = user.getId();
+        if(albumNums!=null && albumNums.length>0){
+            Album album = new Album();
             album.setUserId(userId);
-            album.setCoverImg(slideList.get(0).getSlideImg());
+            album.setTitle(title);
+            album.setStatus(ConstService.ALBUM_PRIVATE_STATUS);
+            String coverImgUrl = request.getParameter("largeImage"+coverId);
+            album.setCoverImg(coverImgUrl);
+            
+            //提交作品专辑，建议使用外部主键生成器
             int result = albumService.save(album);
-            if(result==1){
-                for(AlbumSlide slide: slideList){
-                    slide.setAlbumId(album.getId());
-                    slide.setUserId(userId);
-                    albumSlideService.save(slide);
-                }
+            
+            for(int loopId: albumNums){
+//                String smallImageUrl = request.getParameter("smallImage"+loopId);
+//                String mediumImageUrl = request.getParameter("mediumImage"+loopId);
+                String largeImageUrl = request.getParameter("largeImage"+loopId);
+                String remark = request.getParameter("remark"+loopId);
+                
+                AlbumSlide slide = new AlbumSlide();
+                slide.setAlbumId(album.getId());
+                slide.setSlideImg(largeImageUrl);
+                slide.setRemark(remark);
+                slide.setUserId(userId);
+                slide.setStatus(ConstService.ALBUM_PRIVATE_STATUS);
+                albumSlideService.save(slide);
             }
         }
         
-        int result = userService.apply4Designer(user.getId());
-        request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的申请资料已成功提交，现在将转入首页，请稍候…");
+        userService.apply4Designer(user.getId());
+        request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的申请资料已成功提交，请耐心等待回复。现在将转入首页，请稍候…");
         return "forward:/redirect.art";
     }
     

@@ -105,7 +105,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                     <div class="tab-pane widgets-light active" id="apply4Designer">
                                         <div class="widget-box widget-contact-form">
                                         	<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/designerApply.art">
+												action="/designer-front/settings/designerApply.art">
 												<div class="content-title">
 													<h4>请填写设计师申请资料（您的申请已提交，请耐心等待审核结果）</h4>
 												</div>
@@ -136,6 +136,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<div class="content-title">
 													<h4>并附带一组作品集【上限6张】</h4>
 												</div>
+												
 												<div class="infobox info-info info-info-alt clearfix">
 					                                <span>i</span>
 					                                <div class="infobox-wrap">
@@ -144,6 +145,9 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					                                </div>
 					                                <a href="#" class="info-hide"></a>
 					                            </div>
+					                            <div class="input-container">
+													主题名称: <input type="text" class="contact-form-name" name="title" value=""/>
+												</div>
 												<div class="input-container">
 													<input id="fileUploader" name="image" type="file" multiple="true">
 												</div>
@@ -183,13 +187,18 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													            //alert(data);
 													            counter = counter + 1;
 													            var response = jQuery.parseJSON(data);
-													        	$("<li><img id='img1' src='"+response.data.mediumImage.url+"' width='200'/>设置为封面<input type='radio' name='setCover' value='"+counter+"'/>标题<input type='text' class='contact-form-name' name='title"+counter+"'/>详细描述<textarea class='contact-form-name' name='remark"+counter+"' rows='3'></textarea></li>").appendTo($("#imgPreview"));
+													            
+													        	$("<li><img id='img1' src='"+response.data.mediumImage.url+"' width='200'/>设置为封面详细描述<input type='radio' name='coverId' value='"+counter+"'/><textarea class='contact-form-name' name='remark"+counter+"' rows='3'></textarea></li>").appendTo($("#imgPreview"));
+													        	$("<input type='hidden' name='albumNums' value='"+counter+"'/>").appendTo($("#imgPreview"));
+													        	$("<input type='hidden' name='largeImage"+counter+"' value='"+response.data.largeImage.url+"'/>").appendTo($("#imgPreview"));
+													        	$("<input type='hidden' name='mediumImage"+counter+"' value='"+response.data.mediumImage.url+"'/>").appendTo($("#imgPreview"));
+													        	$("<input type='hidden' name='smallImage"+counter+"' value='"+response.data.smallImage.url+"'/>").appendTo($("#imgPreview"));
 															},
 														});
 													});
 												</script>
 												
-												<input class="contact-submit button" type="submit" value="提 交" disabled="disabled">
+												<input class="contact-submit button" type="submit" value="提 交">
 												<input class="contact-submit button" type="button" value="返回个人信息">
 											</form>
 										</div>

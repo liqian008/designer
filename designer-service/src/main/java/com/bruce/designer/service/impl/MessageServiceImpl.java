@@ -77,14 +77,16 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	}
 	
 	/**
-     * 未读消息列表
+     * 消息摘要
      */
     @Override
     public List<Message> queryInboxMessages(int userId) {
         //select *, count(message_type) from (select * from tb_message ORDER BY id desc ) aliasTb where to_id=3 group by message_type ;
-        MessageCriteria criteria = new MessageCriteria();
-        criteria.createCriteria().andToIdEqualTo(userId);
-        return messageMapper.selectByExample(criteria);
+//        MessageCriteria criteria = new MessageCriteria();
+//        criteria.createCriteria().andToIdEqualTo(userId);
+//        return messageMapper.selectByExample(criteria);
+        
+        return messageMapper.queryMessageSummary(userId);
     }
     
 	/**
@@ -103,7 +105,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	@Override
     public int markReadAll(int userId) {
         Message message = new Message();
-        message.setStatus(ConstService.MESSAGE_STATUS_READ);
+        message.setUnread(ConstService.MESSAGE_READ);
         //查询条件
         MessageCriteria criteria = new MessageCriteria();
         criteria.createCriteria().andToIdEqualTo(userId);
@@ -117,7 +119,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
     @Override
     public int markRead(int userId, short messageType) {
         Message message = new Message();
-        message.setStatus(ConstService.MESSAGE_STATUS_READ);
+        message.setUnread(ConstService.MESSAGE_READ);
         //查询条件
         MessageCriteria criteria = new MessageCriteria();
         criteria.createCriteria().andToIdEqualTo(userId).andMessageTypeEqualTo(messageType);
@@ -131,7 +133,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
     @Override
     public int markRead(int userId, long messageId) {
         Message message = new Message();
-        message.setStatus(ConstService.MESSAGE_STATUS_READ);
+        message.setUnread(ConstService.MESSAGE_READ);
         //查询条件
         MessageCriteria criteria = new MessageCriteria();
         criteria.createCriteria().andToIdEqualTo(userId).andIdEqualTo(messageId);

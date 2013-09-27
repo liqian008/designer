@@ -25,24 +25,24 @@ public interface ConstService{
 	/*系统广播专用的fromId*/
 	public static final int MESSAGE_SYSTEM_SOURCE_ID = 0;
 	/*系统类型消息*/
-	public static final short MESSAGE_TYPE_BROADCAST = 0;
-	/*关注类型消息*/
-	public static final short MESSAGE_TYPE_FLOWER = 1;
+	public static final short MESSAGE_TYPE_BROADCAST = 1;
 	/*评论类型消息*/
 	public static final short MESSAGE_TYPE_COMMENT = 2;
+	/*关注类型消息*/
+	public static final short MESSAGE_TYPE_FLOWER = 3;
 	/*like类型消息*/
-	public static final short MESSAGE_TYPE_LIKE = 3;
+	public static final short MESSAGE_TYPE_LIKE = 4;
 	/*收藏类型消息*/
-	public static final short MESSAGE_TYPE_FAVORITIES = 4;
+	public static final short MESSAGE_TYPE_FAVORITIES = 5;
 	/*@类型消息*/
-    public static final short MESSAGE_TYPE_AT = 5;
+    public static final short MESSAGE_TYPE_AT = 6;
 	/*聊天类型消息（点到点）*/
     public static final short MESSAGE_TYPE_CHAT = 100;
 	
-	/*未读消息状态*/
-	public static final short MESSAGE_STATUS_UNREAD = 0;
-	/*已读消息状态*/
-	public static final short MESSAGE_STATUS_READ = 1;
+	/*消息可读状态*/
+	public static final short MESSAGE_READ = 0;
+	/*消息可读状态*/
+	public static final short MESSAGE_UNREAD = 1;
 	
 	
 	//////////////////////上传常量////////////////////////////////

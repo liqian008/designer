@@ -112,7 +112,9 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                         <div class="infobox info-succes clearfix">
 			                                <span></span>
 			                                <div class="infobox-wrap"> 
-			                                    <h5><%=MessageUtil.getMessageTypeName(message.getMessageType())%></h5>
+			                                    <h5>
+			                                    <a href='/designer-front/settings.art?op=inbox&messageType=<%=message.getMessageType()%>'><%=MessageUtil.getMessageTypeName(message.getMessageType())%> ( <%=message.getUnread()%> 条未读) </a>
+			                                    </h5>
 			                                    <p><%=message.getMessage()%></p>
 			                                </div>
 			                                

@@ -6,7 +6,7 @@ public class MessageUtil {
     
     public static String getMessageTypeName(short messageType){
         switch(messageType){
-            case ConstService.MESSAGE_TYPE_BROADCAST:{
+            case ConstService.MESSAGE_TYPE_BROADCAST:{ 
                 return "系统消息";
             }
             case ConstService.MESSAGE_TYPE_FLOWER:{
