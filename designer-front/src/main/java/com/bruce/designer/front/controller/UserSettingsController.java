@@ -172,20 +172,21 @@ public class UserSettingsController {
             
             //提交作品专辑，建议使用外部主键生成器
             int result = albumService.save(album);
-            
-            for(int loopId: albumNums){
-//                String smallImageUrl = request.getParameter("smallImage"+loopId);
-//                String mediumImageUrl = request.getParameter("mediumImage"+loopId);
-                String largeImageUrl = request.getParameter("largeImage"+loopId);
-                String remark = request.getParameter("remark"+loopId);
-                
-                AlbumSlide slide = new AlbumSlide();
-                slide.setAlbumId(album.getId());
-                slide.setSlideImg(largeImageUrl);
-                slide.setRemark(remark);
-                slide.setUserId(userId);
-                slide.setStatus(ConstService.ALBUM_PRIVATE_STATUS);
-                albumSlideService.save(slide);
+            if(result>0){
+            	for(int loopId: albumNums){
+//                  String smallImageUrl = request.getParameter("smallImage"+loopId);
+//                  String mediumImageUrl = request.getParameter("mediumImage"+loopId);
+                  String largeImageUrl = request.getParameter("largeImage"+loopId);
+                  String remark = request.getParameter("remark"+loopId);
+                  
+                  AlbumSlide slide = new AlbumSlide();
+                  slide.setAlbumId(album.getId());
+                  slide.setSlideImg(largeImageUrl);
+                  slide.setRemark(remark);
+                  slide.setUserId(userId);
+                  slide.setStatus(ConstService.ALBUM_PRIVATE_STATUS);
+                  albumSlideService.save(slide);
+              }
             }
         }
         

@@ -37,12 +37,12 @@ public interface IMessageService extends IBaseService<Message, Long>{
     /**
      * 发送单条消息
      */
-    public int sendMessage(int fromId, int toId, String message, short messageType);
-    
+    public int sendMessage(int fromId, int toId, int systemFromId, String content, short messageType);
+    	
     /**
      * 发送多条消息
      */
-    public int sendMessage(int fromId, int[] toIds, String message, short messageType);
+    public int sendMessage(int fromId, int[] toIds, int systemFromId, String message, short messageType);
     
     /**
      * 广播至所有用户

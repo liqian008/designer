@@ -155,11 +155,6 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												
 												<div>
 													<ul id="imgPreview" class="clearfix">
-														<!-- <li>
-															<img src="/designer-front/img/demo/portraits/avatar_middle.jpg">
-															设置为封面
-															<input type="radio" name="setCover" value=""/>标题<input type="text" class="contact-form-name" name="taobaoHomepage"/>详细描述<textarea class="contact-form-name" name="remark" rows="3"></textarea>
-														</li> -->
 													</ul>
 												</div>
 												

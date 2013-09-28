@@ -109,11 +109,19 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                     	if(messageList!=null&&messageList.size()>0){
                                     		for(Message message: messageList){
                                     	%> 
-                                        <div class="infobox info-succes clearfix">
-			                                <span></span>
+                                        <div class="infobox info-info clearfix">
+			                                <span>i</span>
 			                                <div class="infobox-wrap"> 
 			                                    <h5>
-			                                    <a href='/designer-front/settings.art?op=inbox&messageType=<%=message.getMessageType()%>'><%=MessageUtil.getMessageTypeName(message.getMessageType())%> ( <%=message.getUnread()%> 条未读) </a>
+			                                    <a href='/designer-front/settings.art?op=inbox&messageType=<%=message.getMessageType()%>'>
+			                                    	<%
+			                                    	//系统消息
+			                                    	if(message.getMessageType()!=ConstService.MESSAGE_TYPE_CHAT){%>
+			                                    		<%=MessageUtil.getMessageTypeName(message.getMessageType())%> ( <%=message.getUnread()%> 条未读）
+			                                    	<%}else{%>
+			                                    		私信消息：用户<%=message.getFromId()%> ( <%=message.getUnread()%> 条未读）
+			                                    	<%}%> 
+			                                    </a>
 			                                    </h5>
 			                                    <p><%=message.getMessage()%></p>
 			                                </div>

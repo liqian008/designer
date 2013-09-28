@@ -102,26 +102,18 @@ COMMIT;
 DROP TABLE IF EXISTS `tb_message`;
 CREATE TABLE `tb_message` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `message` varchar(1000) COLLATE utf8_unicode_ci NOT NULL,
+  `message` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `message_type` smallint(4) NOT NULL,
+  `source_id` bigint(20) DEFAULT NULL,
+  `system_from_id` int(11) DEFAULT NULL,
+  `from_id` int(11) DEFAULT NULL,
+  `to_id` int(11) DEFAULT NULL,
+  `unread` smallint(6) DEFAULT '1',
+  `status` smallint(6) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8COLLATE=utf8_unicode_ci;
-
--- ----------------------------
---  Table structure for `tb_user_message`
--- ----------------------------
-DROP TABLE IF EXISTS `tb_user_message`;
-CREATE TABLE `tb_user_message` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `message_id` bigint(20) NOT NULL,
-  `from_id` int(11) NOT NULL,
-  `to_id` int(11) NOT NULL,
-  `create_time` datetime DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8
 
 -- ----------------------------
 --  Table structure for `tb_user`

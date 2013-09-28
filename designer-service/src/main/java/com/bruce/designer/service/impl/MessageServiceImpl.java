@@ -48,13 +48,14 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	 * 发送消息
 	 */
 	@Override
-	public int sendMessage(int fromId, int toId, String content, short messageType){
+	public int sendMessage(int fromId, int toId, int systemFromId, String content, short messageType){
 		//保存消息实体
 	    Message message = new Message();
 		message.setMessage(content);
 		message.setMessageType(messageType);
 		message.setFromId(fromId);
 		message.setToId(toId);
+		message.setSystemFromId(systemFromId);
 		Date currentTime = new Date(System.currentTimeMillis());
 		message.setCreateTime(currentTime);
 		int result = save(message);
@@ -66,10 +67,10 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	 * 批量发送消息
 	 */
 	@Override
-	public int sendMessage(int fromId, int[] toIds, String message, short messageType) {
+	public int sendMessage(int fromId, int[] toIds, int systemFromId, String message, short messageType) {
 		if(toIds!=null&&toIds.length>0){
 			for(int toId: toIds){
-				sendMessage(fromId, toId, message, messageType);
+				sendMessage(fromId, toId, systemFromId, message, messageType);
 			}
 			return toIds.length;
 		}
@@ -151,7 +152,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 		if(userList!=null&&userList.size()>0){
 		    //需使用批处理
 			for(User user: userList){
-			    sendMessage(ConstService.MESSAGE_SYSTEM_SOURCE_ID, user.getId(), message, ConstService.MESSAGE_TYPE_BROADCAST);
+			    sendMessage(ConstService.MESSAGE_SOURCE_ID_BROADCAST, user.getId(), ConstService.MESSAGE_SOURCE_ID_BROADCAST, message, ConstService.MESSAGE_TYPE_BROADCAST);
 			}
 			return userList.size();
 		}
@@ -166,9 +167,9 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 		//此api需要重构只获取designerId即可
 		List<User> desiangerList = userService.queryDesignersByStatus(ConstService.USER_STATUS_OPEN);
 		if(desiangerList!=null&&desiangerList.size()>0){
-		    //需使用批处理
+			//需使用批处理
 			for(User user: desiangerList){
-			    sendMessage(ConstService.MESSAGE_SYSTEM_SOURCE_ID, user.getId(), message, ConstService.MESSAGE_TYPE_BROADCAST);
+			    sendMessage(ConstService.MESSAGE_SOURCE_ID_BROADCAST, user.getId(), ConstService.MESSAGE_SOURCE_ID_BROADCAST,  message, ConstService.MESSAGE_TYPE_BROADCAST);
 			}
 			return desiangerList.size();
 		}

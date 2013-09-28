@@ -58,7 +58,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 								身份：设计师
 							</p>
 							<p>
-								未读消息：2条
+								未读消息：(XX条)
 							</p>
 						</div>
 					</div>
