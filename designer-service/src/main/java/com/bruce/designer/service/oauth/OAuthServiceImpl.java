@@ -18,7 +18,7 @@ import org.springframework.util.Assert;
 import com.bruce.designer.bean.AccessTokenInfo;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.exception.oauth.OAuthException;
-import com.bruce.designer.service.UserService;
+import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.processor.IOAuthProcessor;
 import com.bruce.designer.service.oauth.processor.OAuthTencentWbProcessor;
 import com.bruce.designer.service.oauth.processor.OAuthWeiboProcessor;
@@ -29,7 +29,7 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
     @Autowired
     private IAccessTokenService accessTokenService;
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 //    @Autowired
 //    private IOAuthProcessor oauthProcessor;
     

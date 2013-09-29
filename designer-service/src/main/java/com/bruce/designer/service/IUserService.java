@@ -7,7 +7,7 @@ import com.bruce.baseSkeleton.service.IBaseService;
 import com.bruce.designer.bean.User;
 import com.bruce.designer.constants.ConstService;
 
-public interface UserService extends IBaseService<User, Integer>{
+public interface IUserService extends IBaseService<User, Integer>{
     
 
     public List<User> queryUsersByStatus(short status);

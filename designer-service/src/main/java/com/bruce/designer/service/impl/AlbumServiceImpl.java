@@ -9,10 +9,10 @@ import com.bruce.designer.bean.Album;
 import com.bruce.designer.bean.AlbumCriteria;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.AlbumMapper;
-import com.bruce.designer.service.AlbumService;
+import com.bruce.designer.service.IAlbumService;
 
 @Service
-public class AlbumServiceImpl implements AlbumService {
+public class AlbumServiceImpl implements IAlbumService {
 
 	@Autowired
 	private AlbumMapper albumMapper;

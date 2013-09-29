@@ -21,7 +21,7 @@ import com.bruce.designer.bean.User;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.exception.oauth.OAuthException;
 import com.bruce.designer.front.constants.ConstFront;
-import com.bruce.designer.service.UserService;
+import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;
 import com.bruce.designer.service.oauth.IOAuthService;
 import com.bruce.designer.service.oauth.SharedContent;
@@ -30,7 +30,7 @@ import com.bruce.designer.service.oauth.SharedContent;
 public class OAuthController {
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
     @Autowired
     private IOAuthService oAuthService;
     @Autowired

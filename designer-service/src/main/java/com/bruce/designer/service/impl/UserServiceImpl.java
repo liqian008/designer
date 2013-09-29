@@ -10,11 +10,11 @@ import com.bruce.designer.bean.User;
 import com.bruce.designer.bean.UserCriteria;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.UserMapper;
-import com.bruce.designer.service.UserService;
+import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private UserMapper userMapper;

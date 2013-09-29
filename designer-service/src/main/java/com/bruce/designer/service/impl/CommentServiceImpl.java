@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bruce.designer.bean.Comment;
 import com.bruce.designer.bean.CommentCriteria;
 import com.bruce.designer.dao.CommentMapper;
-import com.bruce.designer.service.CommentService;
+import com.bruce.designer.service.ICommentService;
 
 @Service
-public class CommentServiceImpl implements CommentService {
+public class CommentServiceImpl implements ICommentService {
 
 	@Autowired
 	private CommentMapper commentMapper;
@@ -43,6 +43,26 @@ public class CommentServiceImpl implements CommentService {
 		criteria.setOrderByClause("create_time desc");
 		criteria.createCriteria().andAlbumIdEqualTo(albumId);
 		return commentMapper.selectByExample(criteria);
+	}
+
+	@Override
+	public int comment(String title, String content, int albumId,
+			int albumSlideId, int fromId, int toId, int designerId) {
+		Comment comment = new Comment();
+		comment.setTitle(title);
+		comment.setComment(content);
+		comment.setAlbumId(albumId);
+		comment.setAlbumSlideId(albumSlideId);
+		comment.setFromId(fromId);
+		comment.setToId(toId);
+		comment.setDesignerId(designerId);
+		return save(comment);
+	}
+
+	@Override
+	public int comment(String title, String content, int albumId,
+			int albumSlideId, int fromId, int toId) {
+		return comment(title, content, albumId, albumSlideId, fromId, toId, toId);
 	}
 
 }

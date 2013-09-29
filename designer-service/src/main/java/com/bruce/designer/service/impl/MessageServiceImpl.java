@@ -14,7 +14,7 @@ import com.bruce.designer.bean.User;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.MessageMapper;
 import com.bruce.designer.service.IMessageService;
-import com.bruce.designer.service.UserService;
+import com.bruce.designer.service.IUserService;
 
 @Service
 public class MessageServiceImpl implements IMessageService, InitializingBean {
@@ -22,7 +22,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	@Autowired
 	private MessageMapper messageMapper;
 	@Autowired
-	private UserService userService; 
+	private IUserService userService; 
 
 	public int save(Message t) {
 		return messageMapper.insertSelective(t);

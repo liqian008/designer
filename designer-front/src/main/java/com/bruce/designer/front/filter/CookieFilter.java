@@ -23,7 +23,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.bruce.designer.bean.User;
 import com.bruce.designer.front.constants.ConstFront;
-import com.bruce.designer.service.UserService;
+import com.bruce.designer.service.IUserService;
 
 public class CookieFilter implements Filter {
 
@@ -31,7 +31,7 @@ public class CookieFilter implements Filter {
     private List<String> designerUrlList = new ArrayList<String>();
     
     @Autowired
-    private UserService userService; 
+    private IUserService userService; 
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -92,11 +92,11 @@ public class CookieFilter implements Filter {
 
     }
 
-    public UserService getUserService() {
+    public IUserService getUserService() {
         return userService;
     }
 
-    public void setUserService(UserService userService) {
+    public void setUserService(IUserService userService) {
         this.userService = userService;
     }
     

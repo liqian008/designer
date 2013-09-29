@@ -1,4 +1,4 @@
-package com.bruce.designer.exception;
+package com.bruce.designer.json;
 
 import java.io.Serializable;
 

@@ -22,10 +22,10 @@ import com.bruce.designer.bean.Comment;
 import com.bruce.designer.bean.User;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.front.constants.ConstFront;
-import com.bruce.designer.service.AlbumService;
-import com.bruce.designer.service.AlbumSlideService;
-import com.bruce.designer.service.CommentService;
-import com.bruce.designer.service.UserService;
+import com.bruce.designer.service.IAlbumService;
+import com.bruce.designer.service.IAlbumSlideService;
+import com.bruce.designer.service.ICommentService;
+import com.bruce.designer.service.IUserService;
 
 /**
  * Handles requests for the application home page.
@@ -34,13 +34,13 @@ import com.bruce.designer.service.UserService;
 public class FrontController {
     
 	//@Autowired
-	private UserService userService;
+	private IUserService userService;
 	//@Autowired
-	private AlbumService albumService;
+	private IAlbumService albumService;
 	//@Autowired
-	private CommentService commentService;
+	private ICommentService commentService;
 	//@Autowired
-	private AlbumSlideService albumSlideService;
+	private IAlbumSlideService albumSlideService;
 	
 
 	private static final Logger logger = LoggerFactory.getLogger(FrontController.class);

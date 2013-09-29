@@ -17,10 +17,10 @@ import com.bruce.designer.bean.Message;
 import com.bruce.designer.bean.User;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.front.constants.ConstFront;
-import com.bruce.designer.service.AlbumService;
-import com.bruce.designer.service.CommentService;
+import com.bruce.designer.service.IAlbumService;
+import com.bruce.designer.service.ICommentService;
 import com.bruce.designer.service.IMessageService;
-import com.bruce.designer.service.UserService;
+import com.bruce.designer.service.IUserService;
 
 /**
  * Handles requests for the application home page.
@@ -30,7 +30,7 @@ import com.bruce.designer.service.UserService;
 public class MessageController {
 
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 	@Autowired
 	private IMessageService messageService;
 

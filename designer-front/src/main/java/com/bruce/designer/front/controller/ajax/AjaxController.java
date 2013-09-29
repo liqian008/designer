@@ -14,11 +14,12 @@ import com.bruce.designer.bean.User;
 import com.bruce.designer.bean.upload.UploadImageResult;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
-import com.bruce.designer.exception.JsonResultObject;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.exception.NotLoginException;
+import com.bruce.designer.json.JsonResultObject;
+import com.bruce.designer.service.ICommentService;
 import com.bruce.designer.service.IUploadService;
-import com.bruce.designer.service.UserService;
+import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.JsonResultUtil;
 
 /**
@@ -29,9 +30,11 @@ import com.bruce.designer.util.JsonResultUtil;
 public class AjaxController {
     
     @Autowired
-    private UserService userService;
+    private IUserService userService;
     @Autowired
     private IUploadService uploadService;
+    @Autowired
+    private ICommentService commentService;
     
     @RequestMapping(value="usernameExists", method = RequestMethod.POST)
     @ResponseBody
@@ -65,6 +68,22 @@ public class AjaxController {
         }
     }
     
+    @RequestMapping(value="comment", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResultObject like(HttpServletRequest request, String comment, int albumId, int albumSlideId, int toId, int designerId){
+        User user = null;
+        try {
+            user = getSessionUser(request);
+            int commentResult = commentService.comment("", comment, albumId, albumSlideId, user.getId(), toId, designerId);
+            return JsonResultUtil.generateSucceedResult(null);
+        } catch (NotLoginException e) {//未登录异常
+            return JsonResultUtil.generateExceptionResult(e);
+        } catch(Exception e2){//系统异常
+            return JsonResultUtil.generateExceptionResult(new DesignerException(ErrorCode.UPLOAD_IMAGE_ERROR, "评论出错，请稍后再试!"));
+        }
+    }
+    
+    
     @RequestMapping(value="uploadImage2")
     @ResponseBody
     public JsonResultObject uploadImage2(HttpServletRequest request){
@@ -86,4 +105,8 @@ public class AjaxController {
         }
         return user;
     }
+    
+    
+    
+    
 }

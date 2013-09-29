@@ -14,7 +14,7 @@ import com.bruce.designer.bean.upload.UploadFileInfo;
 import com.bruce.designer.dao.FeedDTOMapper;
 import com.bruce.designer.dao.FeedIndexMapper;
 import com.bruce.designer.dao.FeedLiveIndexMapper;
-import com.bruce.designer.service.FeedService;
+import com.bruce.designer.service.IFeedService;
 
 
 public class Main {
@@ -36,7 +36,7 @@ public class Main {
 //        System.out.println(mapper.getFeedsByIds(l).size());
         
         
-        FeedService fim = ctx.getBean(FeedService.class);
+        IFeedService fim = ctx.getBean(IFeedService.class);
         List<UploadFileInfo> photos = new ArrayList<UploadFileInfo>();
         UploadFileInfo ui = new UploadFileInfo("abc.jpg", (short) 1, "http://www.baidu.com", 1231243);
         photos.add(ui);
