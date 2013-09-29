@@ -146,7 +146,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					                                <a href="#" class="info-hide"></a>
 					                            </div>
 					                            <div class="input-container">
-													主题名称: <input type="text" class="contact-form-name" name="title" value=""/>
+													作品主题: <input type="text" class="contact-form-name" name="title" value=""/>
 												</div>
 												<div class="input-container">
 													<input id="fileUploader" name="image" type="file" multiple="true">

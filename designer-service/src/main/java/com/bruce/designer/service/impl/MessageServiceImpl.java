@@ -25,7 +25,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	private UserService userService; 
 
 	public int save(Message t) {
-		return messageMapper.insert(t);
+		return messageMapper.insertSelective(t);
 	}
 
 	public List<Message> queryAll() {
@@ -37,7 +37,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	}
 
 	public int deleteById(Long id) {
-		return messageMapper.deleteByPrimaryKey(id);
+	    return messageMapper.deleteByPrimaryKey(id);
 	}
 
 	public Message loadById(Long id) {
@@ -48,14 +48,14 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	 * 发送消息
 	 */
 	@Override
-	public int sendMessage(int fromId, int toId, int systemFromId, String content, short messageType){
+	public int sendMessage(int fromId, int toId, int deliverId, String content, short messageType){
 		//保存消息实体
 	    Message message = new Message();
 		message.setMessage(content);
 		message.setMessageType(messageType);
 		message.setFromId(fromId);
 		message.setToId(toId);
-		message.setSystemFromId(systemFromId);
+		message.setDeliverId(deliverId);
 		Date currentTime = new Date(System.currentTimeMillis());
 		message.setCreateTime(currentTime);
 		int result = save(message);
@@ -67,10 +67,10 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	 * 批量发送消息
 	 */
 	@Override
-	public int sendMessage(int fromId, int[] toIds, int systemFromId, String message, short messageType) {
+	public int sendMessage(int fromId, int[] toIds, int deliverId, String message, short messageType) {
 		if(toIds!=null&&toIds.length>0){
 			for(int toId: toIds){
-				sendMessage(fromId, toId, systemFromId, message, messageType);
+				sendMessage(fromId, toId, deliverId, message, messageType);
 			}
 			return toIds.length;
 		}
@@ -81,7 +81,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
      * 消息摘要
      */
     @Override
-    public List<Message> queryInboxMessages(int userId) {
+    public List<Message> queryMessageSummary(int userId) {
         //select *, count(message_type) from (select * from tb_message ORDER BY id desc ) aliasTb where to_id=3 group by message_type ;
 //        MessageCriteria criteria = new MessageCriteria();
 //        criteria.createCriteria().andToIdEqualTo(userId);
@@ -152,7 +152,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 		if(userList!=null&&userList.size()>0){
 		    //需使用批处理
 			for(User user: userList){
-			    sendMessage(ConstService.MESSAGE_SOURCE_ID_BROADCAST, user.getId(), ConstService.MESSAGE_SOURCE_ID_BROADCAST, message, ConstService.MESSAGE_TYPE_BROADCAST);
+			    sendMessage(ConstService.MESSAGE_DELIVER_ID_BROADCAST, user.getId(), ConstService.MESSAGE_DELIVER_ID_BROADCAST, message, ConstService.MESSAGE_TYPE_SYSTEM);
 			}
 			return userList.size();
 		}
@@ -169,7 +169,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 		if(desiangerList!=null&&desiangerList.size()>0){
 			//需使用批处理
 			for(User user: desiangerList){
-			    sendMessage(ConstService.MESSAGE_SOURCE_ID_BROADCAST, user.getId(), ConstService.MESSAGE_SOURCE_ID_BROADCAST,  message, ConstService.MESSAGE_TYPE_BROADCAST);
+			    sendMessage(ConstService.MESSAGE_DELIVER_ID_BROADCAST, user.getId(), ConstService.MESSAGE_DELIVER_ID_BROADCAST,  message, ConstService.MESSAGE_TYPE_SYSTEM);
 			}
 			return desiangerList.size();
 		}

@@ -58,7 +58,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 								身份：设计师
 							</p>
 							<p>
-								未读消息：(XX条)
+								未读消息：<a href="/designer-front/settings.art?op=inbox&messageType=0">(XX条)</a>
 							</p>
 						</div>
 					</div>
@@ -66,8 +66,10 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			</ul>
 			<input class="contact-submit button" type="button" value="个人设置" onclick="location.href='/designer-front/settings.art'"/>
 			 <%if(user.getDesignerStatus()!=null&&user.getDesignerStatus()==ConstService.DESIGNER_APPLY_PASSED){%> 
-				<input class="contact-submit button" type="button" value="我要发布"  onclick="location.href='/designer-front/settings.art?op=publisher'"/>
+				<input class="contact-submit button" type="button" value="发布作品"  onclick="location.href='/designer-front/settings.art?op=publisher'"/>
+				<!--  
 				<input class="contact-submit button" type="button" value="发布设置"  onclick="location.href='/designer-front/settings.art?op=shareSettings'"/>
+				 -->
 			<%}else{%>
 				<input class="contact-submit button" type="button" value="申请设计师"  onclick="location.href='/designer-front/settings.art?op=designerApply'"/>
 			<%}%>

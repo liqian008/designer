@@ -63,6 +63,22 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	/**
+     * 重新加载用户
+     */
+    public User reloadUser(Integer userId) {
+        User user = loadById(userId);
+        if(user!=null&&user.getId()!=null&&user.getId()>0){
+            //加载并设置第三方绑定信息
+            List<AccessTokenInfo> accessTokenList = accessTokenService.queryByUserId(user.getId());
+            //user.setAccessTokenList(accessTokenList);
+            user.refreshTokenMap(accessTokenList);
+            //返回
+            return user;
+        }
+        return null;
+    }
+	
+	/**
 	 * 检查用户exists
 	 * @param username
 	 * @param nickname

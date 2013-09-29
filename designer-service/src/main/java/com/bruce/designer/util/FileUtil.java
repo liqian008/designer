@@ -64,6 +64,12 @@ public class FileUtil {
    		return basePath;
    	}
    	
+   	
+    public static String getBaseUrl() {
+        String basePath = PropertiesUtil.getString("upload_url_base");
+        return basePath;
+    }
+   	
    	private static String getDictionary() {
         return simpleDateFormat.format(new Date());
     }

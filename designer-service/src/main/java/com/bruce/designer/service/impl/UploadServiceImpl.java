@@ -62,7 +62,7 @@ public class UploadServiceImpl implements IUploadService {
 		String imageDirPath = FileUtil.getImagePath(time);
 		String absoultImagePath = basePath + imageDirPath;
 		String sourceImageName = FileUtil.getFileNameWithPlaceHolder(userId, filename, null, time);
-		String baseUrl = "http://localhost:8080/designer-front/staticFile/";
+		String baseUrl = FileUtil.getBaseUrl();
 		
 		//保存原文件(自动创建目录)
 		FileUtil.saveFile(data, basePath, imageDirPath, sourceImageName);

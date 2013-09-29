@@ -16,6 +16,8 @@ public interface UserService extends IBaseService<User, Integer>{
     
     public User authUser(String username, String password);
     
+    public User reloadUser(Integer userId);
+    
     public boolean userExists(String username);
     
     public int changePassword(int userId, String password);

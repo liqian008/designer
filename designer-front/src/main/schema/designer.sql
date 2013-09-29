@@ -105,7 +105,7 @@ CREATE TABLE `tb_message` (
   `message` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `message_type` smallint(4) NOT NULL,
   `source_id` bigint(20) DEFAULT NULL,
-  `system_from_id` int(11) DEFAULT NULL,
+  `deliver_id` int(11) DEFAULT NULL,
   `from_id` int(11) DEFAULT NULL,
   `to_id` int(11) DEFAULT NULL,
   `unread` smallint(6) DEFAULT '1',
@@ -113,7 +113,7 @@ CREATE TABLE `tb_message` (
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tb_user`

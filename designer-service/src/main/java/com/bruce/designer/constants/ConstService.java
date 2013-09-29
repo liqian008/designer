@@ -23,7 +23,7 @@ public interface ConstService{
 	//////////////////////消息常量////////////////////////////////
 	
 	/*系统类型消息*/
-	public static final short MESSAGE_TYPE_BROADCAST = 1;
+	public static final short MESSAGE_TYPE_SYSTEM = 1;
 	/*评论类型消息*/
 	public static final short MESSAGE_TYPE_COMMENT = 2;
 	/*关注类型消息*/
@@ -38,19 +38,17 @@ public interface ConstService{
     public static final short MESSAGE_TYPE_CHAT = 100;
     
     /*系统广播专用的fromId*/
-	public static final int MESSAGE_SOURCE_ID_BROADCAST = MESSAGE_TYPE_BROADCAST;
+	public static final int MESSAGE_DELIVER_ID_BROADCAST = MESSAGE_TYPE_SYSTEM;
 	/*评论类型消息*/
-	public static final int MESSAGE_SOURCE_ID_COMMENT = MESSAGE_TYPE_COMMENT;
+	public static final int MESSAGE_DELIVER_ID_COMMENT = MESSAGE_TYPE_COMMENT;
 	/*关注类型消息*/
-	public static final int MESSAGE_SOURCE_ID_FLOWER = MESSAGE_TYPE_FLOWER;
+	public static final int MESSAGE_DELIVER_ID_FLOWER = MESSAGE_TYPE_FLOWER;
 	/*like类型消息*/
-	public static final int MESSAGE_SOURCE_ID_LIKE = MESSAGE_TYPE_LIKE;
+	public static final int MESSAGE_DELIVER_ID_LIKE = MESSAGE_TYPE_LIKE;
 	/*收藏类型消息*/
-	public static final int MESSAGE_SOURCE_ID_FAVORITES = MESSAGE_TYPE_FAVORITIES;
+	public static final int MESSAGE_DELIVER_ID_FAVORITES = MESSAGE_TYPE_FAVORITIES;
 	/*@类型消息*/
-	public static final int MESSAGE_SOURCE_ID_AT = MESSAGE_TYPE_AT;
-    
-    
+	public static final int MESSAGE_DELIVER_ID_AT = MESSAGE_TYPE_AT;
     
 	
 	

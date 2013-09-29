@@ -56,8 +56,6 @@ public class UserSettingsController {
     @Autowired
     private IMessageService messageService;
 
-    
-
     private static final Logger logger = LoggerFactory.getLogger(UserSettingsController.class);
 
     @RequestMapping(method = RequestMethod.GET)
@@ -166,7 +164,7 @@ public class UserSettingsController {
             Album album = new Album();
             album.setUserId(userId);
             album.setTitle(title);
-            album.setStatus(ConstService.ALBUM_PRIVATE_STATUS);
+            album.setStatus(ConstService.ALBUM_OPEN_STATUS);
             String coverImgUrl = request.getParameter("largeImage"+coverId);
             album.setCoverImg(coverImgUrl);
             
@@ -184,14 +182,26 @@ public class UserSettingsController {
                   slide.setSlideImg(largeImageUrl);
                   slide.setRemark(remark);
                   slide.setUserId(userId);
-                  slide.setStatus(ConstService.ALBUM_PRIVATE_STATUS);
+                  slide.setStatus(ConstService.ALBUM_OPEN_STATUS);
                   albumSlideService.save(slide);
               }
             }
         }
         
-        userService.apply4Designer(user.getId());
+        int applyResult = userService.apply4Designer(user.getId());
         request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的申请资料已成功提交，请耐心等待回复。现在将转入首页，请稍候…");
+        
+        //验证通过（修改用户状态、修改作品状态）
+        int approvalResult = userService.designerApproval(user.getId());
+        if(approvalResult>0){
+            User designerUser = userService.reloadUser(userId);
+            if(designerUser!=null){
+                request.getSession().setAttribute(ConstFront.CURRENT_USER, designerUser);
+                
+            }
+            messageService.sendMessage(ConstService.MESSAGE_DELIVER_ID_BROADCAST, userId, ConstService.MESSAGE_DELIVER_ID_BROADCAST, "恭喜您，您的设计师申请已经通过！", ConstService.MESSAGE_TYPE_SYSTEM);
+        }
+        
         return "forward:/redirect.art";
     }
     
@@ -276,7 +286,7 @@ public class UserSettingsController {
         int userId = user.getId();
         List<Message> messageList = null;
         if(messageType<=0){
-            messageList = messageService.queryInboxMessages(userId);
+            messageList = messageService.queryMessageSummary(userId);
         }else{
             messageList = messageService.queryMessagesByType(userId, messageType);
             //同时标记为已读

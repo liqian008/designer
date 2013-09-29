@@ -15,7 +15,7 @@ public interface IMessageService extends IBaseService<Message, Long>{
      * @param userId
      * @return
      */
-    public List<Message> queryInboxMessages(int userId);
+    public List<Message> queryMessageSummary(int userId);
     
     /**
      * 查询用户的未读消息
@@ -37,12 +37,12 @@ public interface IMessageService extends IBaseService<Message, Long>{
     /**
      * 发送单条消息
      */
-    public int sendMessage(int fromId, int toId, int systemFromId, String content, short messageType);
+    public int sendMessage(int fromId, int toId, int deliverId, String content, short messageType);
     	
     /**
      * 发送多条消息
      */
-    public int sendMessage(int fromId, int[] toIds, int systemFromId, String message, short messageType);
+    public int sendMessage(int fromId, int[] toIds, int deliverId, String message, short messageType);
     
     /**
      * 广播至所有用户
