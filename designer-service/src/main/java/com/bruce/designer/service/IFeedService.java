@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.bruce.designer.bean.Feed;
 
-public interface FeedService {
+public interface IFeedService {
 
     public long insert(Feed feed);
 

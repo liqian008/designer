@@ -2,8 +2,6 @@ package com.bruce.designer.service;
 
 import java.util.List;
 
-import com.bruce.baseSkeleton.service.IBaseService;
-
 import com.bruce.designer.bean.Message;
 import com.bruce.designer.bean.MessageCriteria;
 import com.bruce.designer.constants.ConstService;

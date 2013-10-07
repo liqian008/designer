@@ -22,10 +22,10 @@ import com.bruce.designer.bean.Comment;
 import com.bruce.designer.bean.User;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.front.constants.ConstFront;
-import com.bruce.designer.service.AlbumService;
-import com.bruce.designer.service.AlbumSlideService;
-import com.bruce.designer.service.CommentService;
-import com.bruce.designer.service.UserService;
+import com.bruce.designer.service.IAlbumService;
+import com.bruce.designer.service.IAlbumSlideService;
+import com.bruce.designer.service.ICommentService;
+import com.bruce.designer.service.IUserService;
 
 /**
  * Handles requests for the application home page.
@@ -34,13 +34,13 @@ import com.bruce.designer.service.UserService;
 public class FrontController {
     
 	//@Autowired
-	private UserService userService;
+	private IUserService userService;
 	//@Autowired
-	private AlbumService albumService;
+	private IAlbumService albumService;
 	//@Autowired
-	private CommentService commentService;
+	private ICommentService commentService;
 	//@Autowired
-	private AlbumSlideService albumSlideService;
+	private IAlbumSlideService albumSlideService;
 	
 
 	private static final Logger logger = LoggerFactory.getLogger(FrontController.class);
@@ -60,7 +60,9 @@ public class FrontController {
 	}
 	
 	/**
-	 * Simply selects the home view to render by returning its name.
+	 * 首页请求
+	 * @param model
+	 * @return
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index( Model model) {
@@ -74,6 +76,26 @@ public class FrontController {
 			model.addAttribute("albumList", albumList);
 		}
 		return "index";
+	}
+	
+	
+	/**
+	 * 时间轴作品列表
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/timeline", method = RequestMethod.GET) 
+	public String timeline( Model model) {
+		List<Album> albumList = albumService.queryAlbumByStatus(ConstService.ALBUM_OPEN_STATUS);
+		if(albumList!=null&&albumList.size()>0){
+			for(Album loopAlbum: albumList){
+				int albumId = loopAlbum.getId(); 
+				List<Comment> commentList = commentService.queryCommentsByAlbumId(albumId);
+				loopAlbum.setCommentList(commentList);
+			}
+			model.addAttribute("albumList", albumList); 
+		}
+		return "timeline";
 	}
 	
 	/**
@@ -222,8 +244,8 @@ public class FrontController {
 			Comment commentBean = new Comment();
 			commentBean.setComment(comment);
 			commentBean.setAlbumId(albumId);
-			commentBean.setAlbumContentId(albumPostId);
-			commentBean.setUserId(user.getId());
+//			commentBean.setAlbumContentId(albumPostId);
+//			commentBean.setUserId(user.getId());
 			commentBean.setNickname(user.getNickname());
 			Date currentTime = new Date();
 			commentBean.setCreateTime(currentTime);

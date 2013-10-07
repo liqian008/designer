@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.bruce.designer.bean.Comment;
 import com.bruce.designer.bean.User;
 import com.bruce.designer.front.constants.ConstFront;
-import com.bruce.designer.service.CommentService;
+import com.bruce.designer.service.ICommentService;
 
 /**
  * Handles requests for the application home page.
@@ -24,7 +24,7 @@ import com.bruce.designer.service.CommentService;
 public class CommentController {
 
 	@Autowired
-	private CommentService commentService;
+	private ICommentService commentService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(CommentController.class);
 
@@ -35,8 +35,8 @@ public class CommentController {
 			Comment commentBean = new Comment();
 			commentBean.setComment(comment);
 			commentBean.setAlbumId(albumId);
-			commentBean.setAlbumContentId(albumPostId);
-			commentBean.setUserId(user.getId());
+//			commentBean.setAlbumContentId(albumPostId);
+//			commentBean.setUserId(user.getId());
 			commentBean.setNickname(user.getNickname());
 			Date currentTime = new Date();
 			commentBean.setCreateTime(currentTime);

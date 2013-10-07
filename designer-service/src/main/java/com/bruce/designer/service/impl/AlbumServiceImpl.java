@@ -9,20 +9,17 @@ import com.bruce.designer.bean.Album;
 import com.bruce.designer.bean.AlbumCriteria;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.AlbumMapper;
-import com.bruce.designer.service.AlbumService;
+import com.bruce.designer.data.PagingData;
+import com.bruce.designer.service.IAlbumService;
 
 @Service
-public class AlbumServiceImpl implements AlbumService {
+public class AlbumServiceImpl implements IAlbumService {
 
 	@Autowired
 	private AlbumMapper albumMapper;
 
 	public int save(Album t) {
 		return albumMapper.insert(t);
-	}
-
-	public List<Album> queryAll() {
-		return albumMapper.selectByExample(null);
 	}
 
 	public int updateById(Album t) {
@@ -37,6 +34,25 @@ public class AlbumServiceImpl implements AlbumService {
 		return albumMapper.selectByPrimaryKey(id);
 	}
 
+	public List<Album> queryAll() {
+		return albumMapper.selectByExample(null);
+	}
+	
+	public PagingData<Album> pagingQuery(short status, int pageNo, int pageSize){
+		if(pageNo<0) pageNo = 1;
+		int offset = (pageNo-1) * pageSize;
+		AlbumCriteria criteria = new AlbumCriteria();
+		criteria.createCriteria().andStatusEqualTo(status);
+		criteria.setOffset(offset);
+		criteria.setLimit(pageSize);
+		criteria.setOrderByClause("id desc");
+		List<Album> albumList = albumMapper.selectByExample(criteria);
+		int totalCount = albumMapper.countByExample(criteria);//总条数
+		
+		PagingData<Album> pagingData = new PagingData<Album>(albumList, totalCount, pageNo, pageSize);
+		return pagingData;
+	}
+	
 	public List<Album> queryAlbumByStatus(short status) {
 		AlbumCriteria criteria = new AlbumCriteria();
 		criteria.createCriteria().andStatusEqualTo(status);

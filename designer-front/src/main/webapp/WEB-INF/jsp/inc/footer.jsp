@@ -7,7 +7,7 @@
 		<div class="container">
 			<div class="row-fluid">
 				<div class="footer-logo span3">
-					<img src="./img/footer-verendus-logo.png" alt="Verendus" />
+					<img src="/designer-front/img/footer-verendus-logo.png" alt="Verendus" />
 				</div>
 				<div class="top-off-page span1 offset8">
 					<a href="post-gallery.html#"><i class="icon-arrow-up"></i></a>

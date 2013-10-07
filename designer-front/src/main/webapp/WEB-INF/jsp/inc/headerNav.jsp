@@ -16,7 +16,7 @@
 				<!-- Menu Slider -->
 				<ul id="header-menu" class="menu">
 					<li  class="active current-menu-item"><a href="/designer-front/index.art">首页</a></li>
-					<li><a href="/designer-front/index.art">热门排行</a>
+					<li><a href="/designer-front/timeline.art">热门排行</a>
 						<ul class="sub-menu">
 							<li><a
 								href="/designer-front/index.art">本周热门</a></li>
@@ -26,7 +26,7 @@
 								href="/designer-front/index.art">本月热门</a></li>
 						</ul>
 					</li>
-					<li><a href="/designer-front/3/profile.art">个人主页</a></li>
+					<li><a href="/designer-front/profile/3.art">个人主页</a></li>
 					<li><a href="/designer-front/index.art">新晋推荐</a>
 						<ul class="sub-menu">
 							<li><a

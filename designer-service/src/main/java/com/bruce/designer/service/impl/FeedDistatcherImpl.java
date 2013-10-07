@@ -1,10 +1,10 @@
 package com.bruce.designer.service.impl;
 
 import com.bruce.designer.dao.FeedIndexMapper;
-import com.bruce.designer.service.FeedDispatcher;
+import com.bruce.designer.service.IFeedDispatcher;
 
 
-public class FeedDistatcherImpl implements FeedDispatcher {
+public class FeedDistatcherImpl implements IFeedDispatcher {
 
     private FeedIndexMapper indexMapper;
     

@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bruce.designer.bean.User;
 import com.bruce.designer.front.constants.ConstFront;
-import com.bruce.designer.service.AlbumService;
-import com.bruce.designer.service.CommentService;
-import com.bruce.designer.service.UserService;
+import com.bruce.designer.service.IAlbumService;
+import com.bruce.designer.service.ICommentService;
+import com.bruce.designer.service.IUserService;
 
 /**
  * Handles requests for the application home page.
@@ -25,7 +25,7 @@ import com.bruce.designer.service.UserService;
 public class SystemController {
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 //    @Autowired
 //    private AlbumService albumService;
 //    @Autowired

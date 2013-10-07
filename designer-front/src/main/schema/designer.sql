@@ -72,23 +72,22 @@ COMMIT;
 --  Table structure for `tb_comment`
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_comment`;
-CREATE TABLE `tb_comment` (
-  `id` bigint(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `comment` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `user_id` int(11) NOT NULL,
-  `create_time` datetime DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
-  `status` smallint(6) DEFAULT '1',
-  `album_id` int(11) DEFAULT NULL,
-  `album_content_id` int(11) DEFAULT NULL,
-  `user_head_img` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `nickname` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `tb_comment_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tb_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
+CREATE TABLE `<tb_comment>` (
+	`id` bigint(11) NOT NULL AUTO_INCREMENT,
+	`title` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+	`comment` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+	`from_id` int(11) DEFAULT NULL,
+	`to_id` int(11) DEFAULT NULL,
+	`designer_id` int(11) DEFAULT NULL,
+	`album_id` int(11) DEFAULT NULL,
+	`album_slide_id` int(11) DEFAULT NULL,
+	`user_head_img` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+	`nickname` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+	`status` smallint(6) DEFAULT '1',
+	`create_time` datetime DEFAULT NULL,
+	`update_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+	PRIMARY KEY (`id`)
+) ENGINE=`InnoDB` AUTO_INCREMENT=12 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 -- ----------------------------
 --  Records of `tb_comment`
 -- ----------------------------

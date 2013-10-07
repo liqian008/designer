@@ -8,7 +8,7 @@
 SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 %>
 
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
@@ -22,23 +22,22 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
         <meta name="keywords" content="Bootstrap, Verendus, HTML5, CSS3, Business, Multipurpose, Template">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="../css/bootstrap.min.css">
-        <link rel="stylesheet" href="../css/font-awesome.css">
-        <link rel="stylesheet" href="../css/animate.css">
-        <link rel="stylesheet" href="../css/flexslider.css">
-        <link rel="stylesheet" href="../css/style.css">
-                                <!--[if IE 8]>
-        <link rel="stylesheet" type="text/css" media="all" href="../css/ie8.css" />    
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/font-awesome.css">
+        <link rel="stylesheet" href="./css/animate.css">
+        <link rel="stylesheet" href="./css/style.css">
+        <!--[if IE 8]>
+        <link rel="stylesheet" type="text/css" media="all" href="./css/ie8.css" />    
         <![endif]-->
                 
 
-        <script src="../js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-        <script src="../js/vendor/jquery-1.8.3.min.js"></script>
+        <script src="./js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+        <script src="./js/vendor/jquery-1.8.3.min.js"></script>
 
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
     </head>
-    <body class="body-background" style="background-image: url(../img/backgrounds/bg3.jpg); ">
+    <body class="body-background" style="background-image: url(./img/backgrounds/bg3.jpg); ">
 
         <!--[if lt IE 8]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
@@ -50,56 +49,34 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
         <div id="wrapper" class="boxed"> <!-- Page Wrapper: Boxed class for boxed layout - Fullwidth class for fullwidth page --> 
             
             <div class="header-background"> <!-- Header Background -->
+                
                 <jsp:include page="./inc/headerBanner.jsp"></jsp:include>
-
+				
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
                     <jsp:include page="./inc/headerNav.jsp"></jsp:include>
-
-                    <div class="page-title">
-                        <div class="container">
-                            <div class="page-title-avatar">
-                                <img src="../img/demo/portraits/avatar_middle.jpg" alt="Page Title" width="80" height="80"/>
-                            </div>
-                            <div class="page-title-content">
-                                <h2>大树珠宝</h2>
-                                <p class="page-description">
-                                    With this gallery you can create a blogpost with multiple images. With the FlexSlider or Twitter Bootstrap Carousel you can rotate between these images.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
         <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
 
         <div class="page"> <!-- Page -->
-            <div class="breadscrumbs">
-                <div class="container">
-                    <ul class="clearfix">
-                        <li><a href="post-gallery.html#">Home</a>/</li>
-                        <li><a href="post-gallery.html#">Blog</a>/</li>
-                        <li><a href="post-gallery.html#">Gallery Post Format</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="main fullwidth">            
-                <div class="container">
-                    <div class="row-fluid">
-                        <section class="content span9">
-                            
-                            <%
+            <jsp:include page="./inc/breadcrumb.jsp"></jsp:include>
+            
+            <div class="main fullwidth">
+            	<section class="content"> <!-- Content -->
+                    <div class="container">
+                    	<%
 						List<Album> albumList = (List<Album>)request.getAttribute("albumList");
 						if(albumList!=null){
 							int count =0;
 	                        for(Album album: albumList){
 	                        	count++;
-	                        	boolean newline = count%3==1;
-	                        	boolean endline = count%3==0;
+	                        	boolean newline = count%4==1;
+	                        	boolean endline = count%4==0;
 	                    %>
 	                    <%if(newline){%>
                     	<div class="shortcode-blogpost row-fluid">
                         <%}%>
-                            <article class="blog-item span4">
+                            <article class="blog-item span3">
                                 <div class="blog-post-image-wrap">
                                     <a class="blog-single-link" href="/designer-front/album.art?id=<%=album.getId()%>">
                                         <img src="<%=album.getCoverImg()%>" alt="Portfolio Image">
@@ -120,30 +97,46 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                         }
 	                    }%>
 	                    
-                        </section>
-                       	
-                       	<jsp:include page="./inc/rightSidebar.jsp"></jsp:include>
-                    	
-                    </div>                        
-                </div> <!-- Close Main -->
-            </div> 
+	                    <div class="blog-navigation">
+                            <ul class="clearfix">
+                                <li><a class="button button-white" href="#">1</a></li>
+                                <li><a class="button button-white" href="#">2</a></li>
+                                <li><a class="button button-white" href="#">3</a></li>
+                                <li><a class="button button-white" href="#">4</a></li>
+                            </ul>
+                        </div>
+	                    
+                    	<!-- <div class="shortcode-blogpost row-fluid">
+                    		<div class="span4 offset4">
+                    			<input id="currentPageNo" type="hidden" value="1"/>
+                    			<input id="pageSize" type="hidden" value="4"/>
+                    			<input class="button-small button button-white btn-block" id="moreAlbums" type="button" value="查看更多"/>
+                    		</div>
+                    	</div> -->
+                    </div>
+                </section> <!-- Close Content -->
+			</div> <!-- Close Main -->
+
+			<jsp:include page="./inc/footer.jsp"></jsp:include>
            
-           <jsp:include page="./inc/footer.jsp"></jsp:include>
-           
-        </div> <!-- Close Page -->
-   </div> <!-- Close wrapper -->
+		</div> <!-- Close Page -->
+	</div> <!-- Close wrapper -->
 
         
     <!-- Load all Javascript Files -->
-    <script src="../js/vendor/bootstrap.min.js"></script>
-    <script src="../js/jquery.hoverdir.js"></script>
-    <script src="../js/superfish.js"></script>
-    <!-- <script src="../js/supersubs.js"></script> -->
-   <!--  <script src="../js/jquery.tweet.js"></script>  -->
-    <script src="../js/jquery.flexslider.js"></script> 
-    <script src="../js/retina.js"></script>
-
-    <script src="../js/custom.js"></script>
+    <script src="./js/vendor/bootstrap.min.js"></script>
+    <script src="./js/superfish.js"></script>
+    <!-- <script src="./js/supersubs.js"></script> -->
+    <script src="./js/retina.js"></script>
+    <script src="./js/custom.js"></script>
+    <script>
+    	$('#moreAlbums').click(function(){
+    		//onclick="location.href='/designer-front/ajax/moreAlbums.art?pageNo=2&pageSize=4'"
+   			$.post('/designer-front/ajax/moreAlbums.art?pageNo=2&pageSize=4', function(data) {
+   				//alert(data);
+   			});
+    	})
+    </script>
 
     </body>
 </html>

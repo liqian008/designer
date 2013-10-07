@@ -30,12 +30,12 @@ import com.bruce.designer.bean.User;
 import com.bruce.designer.bean.upload.UploadImageResult;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.front.constants.ConstFront;
-import com.bruce.designer.service.AlbumService;
-import com.bruce.designer.service.AlbumSlideService;
-import com.bruce.designer.service.CommentService;
+import com.bruce.designer.service.IAlbumService;
+import com.bruce.designer.service.IAlbumSlideService;
+import com.bruce.designer.service.ICommentService;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUploadService;
-import com.bruce.designer.service.UserService;
+import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.PropertiesUtil;
 
 /**
@@ -46,13 +46,13 @@ import com.bruce.designer.util.PropertiesUtil;
 public class UserSettingsController {
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
     @Autowired
     private IUploadService uploadService;
     @Autowired
-    private AlbumService albumService;
+    private IAlbumService albumService;
     @Autowired
-    private AlbumSlideService albumSlideService;
+    private IAlbumSlideService albumSlideService;
     @Autowired
     private IMessageService messageService;
 
@@ -285,15 +285,18 @@ public class UserSettingsController {
         User user = (User)request.getSession().getAttribute(ConstFront.CURRENT_USER);
         int userId = user.getId();
         List<Message> messageList = null;
-        if(messageType<=0){
+        if(messageType<=0){//消息中心
             messageList = messageService.queryMessageSummary(userId);
-        }else{
+            model.addAttribute("messageList", messageList);
+            return "/settings/inbox";
+        }else{//进入消息列表页
             messageList = messageService.queryMessagesByType(userId, messageType);
-            //同时标记为已读
+            //同时将消息标记为已读
             int readNum = messageService.markRead(userId, messageType);
+            model.addAttribute("messageList", messageList);
+            return "/settings/messageList";
         }
-        model.addAttribute("messageList", messageList);
-        return "/settings/inbox";
+       
     }
 
 }

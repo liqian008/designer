@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bruce.designer.bean.AlbumSlide;
 import com.bruce.designer.bean.AlbumSlideCriteria;
 import com.bruce.designer.dao.AlbumSlideMapper;
-import com.bruce.designer.service.AlbumSlideService;
+import com.bruce.designer.service.IAlbumSlideService;
 
 @Service
-public class AlbumSlideServiceImpl implements AlbumSlideService {
+public class AlbumSlideServiceImpl implements IAlbumSlideService {
 	
 	@Autowired
 	private AlbumSlideMapper albumSlideMapper;

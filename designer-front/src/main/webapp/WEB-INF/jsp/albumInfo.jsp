@@ -49,32 +49,8 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
         <div id="wrapper" class="boxed"> <!-- Page Wrapper: Boxed class for boxed layout - Fullwidth class for fullwidth page --> 
             
             <div class="header-background"> <!-- Header Background -->
-                <div id="header-container" class="clearfix">  <!-- Header Container, contains logo and contact button -->
-                    <header class="clearfix">
-                        <div class="container">
-                            <div class="row-fluid">
-                                <div class="span3 logo">
-                                    <a href="post-gallery.html#">
-                                        <img src="./img/verendus-logo.png" alt="Verendus Logo" title="Verendus Logo" />
-                                    </a>
-                                </div>
-
-                                <div class="header-contact button">
-                                    <a href="post-gallery.html#">
-                                        <ul class="clearfix">
-                                            <li class="phone-number">
-                                                <i class="icon-phone"></i>0(123) - 45678910
-                                            </li>
-                                            <li class="mailto-email">
-                                                <i class="icon-envelope"></i>info@somnia-themes.com
-                                            </li>
-                                        </ul>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </header>       
-                </div>
+                
+                <jsp:include page="./inc/headerBanner.jsp"></jsp:include>
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
                     <jsp:include page="./inc/headerNav.jsp"></jsp:include>
@@ -85,7 +61,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                                 <img src="./img/demo/portraits/portrait-21.png" alt="Page Title" width="80" height="80"/>
                             </div> -->
                             <div class="page-title-content">
-                                <h1>Gallery Post Format</h1>
+                                <h1>此处放置推荐作品</h1>
                                 <p class="page-description">
                                     With this gallery you can create a blogpost with multiple images. With the FlexSlider or Twitter Bootstrap Carousel you can rotate between these images.
                                 </p>
@@ -109,39 +85,17 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
             <div class="main fullwidth">            
                 <div class="container">
                     <div class="row-fluid">
+                    	
+                    
                         <section class="content span9">
                             <%
 							Album album = (Album)request.getAttribute("albumInfo");
 							if(album!=null){%>
                             <article class="post format-blogpost clearfix">
-	                            <div class="span2 clearfix content-side">
-	                            	 <div class="content-side">
-		                                <div class="content-side-avatar">
-	                                    	<img src="./img/demo/portraits/portrait-21.png" alt="Page Title" width="80" height="80"/>
-	                                	</div>
-	                                	
-	                                	<div>
-	                                        <table>
-	                                            <tbody>
-	                                                <tr>
-	                                                    <th>
-	                                                        <a href="" class="xi2">31</a><br/>主题
-	                                                    </th>
-	                                                    <th>
-	                                                        <a href="" class="xi2">31</a><br/>粉丝
-	                                                    </th>
-	                                                </tr>
-	                                                <!-- <tr>
-	                                                    <th colspan="2">
-	                                                        Tag: AAA, BBB
-	                                                    </th>
-	                                                </tr> -->
-	                                            </tbody>
-	                                        </table>
-	                                    </div>
-	                                </div>
-	                            </div> 
-                                <div class="span10 post-thumb">
+                                <div class="post-thumb">
+                                	<div class="divider-text divider-mid">
+                                        <span><%=album.getTitle()%>【<%=album.getSlideList().size()%>张】</span>
+                                    </div>
                                     <div class="flexslider">
                                         <%
 		                                List<AlbumSlide> slideList = album.getSlideList();
@@ -257,7 +211,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                             <%}%>
                         </section>
 
-                       <jsp:include page="./inc/rightSidebar.jsp"></jsp:include>
+                       <jsp:include page="./inc/designerBox.jsp"></jsp:include>
                     	
                     	
                     </div>                        

@@ -14,10 +14,10 @@ import com.bruce.designer.bean.Tag;
 import com.bruce.designer.dao.FeedDTOMapper;
 import com.bruce.designer.dao.FeedLiveIndexMapper;
 import com.bruce.designer.dao.FeedTagIndexMapper;
-import com.bruce.designer.service.FeedDispatcher;
-import com.bruce.designer.service.FeedService;
+import com.bruce.designer.service.IFeedDispatcher;
+import com.bruce.designer.service.IFeedService;
 
-public class FeedServiceImpl implements FeedService, InitializingBean {
+public class FeedServiceImpl implements IFeedService, InitializingBean {
 
     //@Autowired
     private FeedDTOMapper feedDTOMapper;
@@ -28,9 +28,9 @@ public class FeedServiceImpl implements FeedService, InitializingBean {
     //@Autowired
     private FeedTagIndexMapper feedTagIndexMapper;
 
-    private FeedDispatcher liveFeedDispatcher;
+    private IFeedDispatcher liveFeedDispatcher;
     
-    private FeedDispatcher tagFeedDispatcher;
+    private IFeedDispatcher tagFeedDispatcher;
 
     @Override
     public long insert(Feed feed) {
@@ -104,12 +104,12 @@ public class FeedServiceImpl implements FeedService, InitializingBean {
     }
 
     
-    public void setLiveFeedDispatcher(FeedDispatcher liveFeedDispatcher) {
+    public void setLiveFeedDispatcher(IFeedDispatcher liveFeedDispatcher) {
         this.liveFeedDispatcher = liveFeedDispatcher;
     }
 
     
-    public void setTagFeedDispatcher(FeedDispatcher tagFeedDispatcher) {
+    public void setTagFeedDispatcher(IFeedDispatcher tagFeedDispatcher) {
         this.tagFeedDispatcher = tagFeedDispatcher;
     }
 

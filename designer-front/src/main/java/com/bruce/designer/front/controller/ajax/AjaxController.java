@@ -1,5 +1,7 @@
 package com.bruce.designer.front.controller.ajax;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +12,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bruce.designer.bean.Album;
+import com.bruce.designer.bean.Comment;
 import com.bruce.designer.bean.User;
 import com.bruce.designer.bean.upload.UploadImageResult;
+import com.bruce.designer.constants.ConstService;
+import com.bruce.designer.data.PagingData;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
-import com.bruce.designer.exception.JsonResultObject;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.exception.NotLoginException;
+import com.bruce.designer.json.JsonResultObject;
+import com.bruce.designer.service.IAlbumService;
+import com.bruce.designer.service.ICommentService;
 import com.bruce.designer.service.IUploadService;
-import com.bruce.designer.service.UserService;
+import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.JsonResultUtil;
 
 /**
@@ -29,9 +37,13 @@ import com.bruce.designer.util.JsonResultUtil;
 public class AjaxController {
     
     @Autowired
-    private UserService userService;
+    private IUserService userService;
     @Autowired
     private IUploadService uploadService;
+    @Autowired
+    private IAlbumService albumService;
+    @Autowired
+    private ICommentService commentService;
     
     @RequestMapping(value="usernameExists", method = RequestMethod.POST)
     @ResponseBody
@@ -65,6 +77,22 @@ public class AjaxController {
         }
     }
     
+    @RequestMapping(value="comment", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResultObject like(HttpServletRequest request, String comment, int albumId, int albumSlideId, int toId, int designerId){
+        User user = null;
+        try {
+            user = getSessionUser(request);
+            int commentResult = commentService.comment("", comment, albumId, albumSlideId, user.getId(), toId, designerId);
+            return JsonResultUtil.generateSucceedResult(null);
+        } catch (NotLoginException e) {//未登录异常
+            return JsonResultUtil.generateExceptionResult(e);
+        } catch(Exception e2){//系统异常
+            return JsonResultUtil.generateExceptionResult(new DesignerException(ErrorCode.UPLOAD_IMAGE_ERROR, "评论出错，请稍后再试!"));
+        }
+    }
+    
+    
     @RequestMapping(value="uploadImage2")
     @ResponseBody
     public JsonResultObject uploadImage2(HttpServletRequest request){
@@ -86,4 +114,21 @@ public class AjaxController {
         }
         return user;
     }
+    
+    @RequestMapping(value="moreAlbums")
+    @ResponseBody
+    public JsonResultObject loadMoreAlbums(int pageNo, int pageSize){
+        try {
+        	PagingData<Album> albumPagingData = albumService.pagingQuery(ConstService.ALBUM_OPEN_STATUS, pageNo, pageSize);
+    		if(albumPagingData!=null&&albumPagingData.getPageData()!=null){
+    			return JsonResultUtil.generateSucceedResult(albumPagingData);
+    		}else{
+    			return JsonResultUtil.generateSucceedResult(null);
+    		}
+        } catch(Exception e2){//系统异常
+            return JsonResultUtil.generateExceptionResult(new DesignerException(ErrorCode.UPLOAD_IMAGE_ERROR, "评论出错，请稍后再试!"));
+        }
+    }
+    
+    
 }

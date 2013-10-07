@@ -25,7 +25,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
         <link rel="stylesheet" href="./css/bootstrap.min.css">
         <link rel="stylesheet" href="./css/font-awesome.css">
         <link rel="stylesheet" href="./css/animate.css">
-        <link rel="stylesheet" href="./css/flexslider.css">
+        <link rel="stylesheet" href="./css/layerslider.css">
         <link rel="stylesheet" href="./css/style.css">
         <!--[if IE 8]>
         <link rel="stylesheet" type="text/css" media="all" href="./css/ie8.css" />    
@@ -55,20 +55,28 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 				
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
                     <jsp:include page="./inc/headerNav.jsp"></jsp:include>
-
-                    <div class="page-title">
-                        <div class="container">
-                            <div class="page-title-avatar">
-                                <img src="./img/demo/portraits/avatar_middle.jpg" alt="Page Title" width="80" height="80"/>
+					
+					<div id="homepage-slider"> <!-- Homepage Slider Container -->
+                        <!--LayerSlider begin-->
+                        <div id="layerslider" style="width: 1000px; height: 320px;">
+                            <!--LayerSlider layer-->
+                            <div style="slidedirection: right;" class="ls-layer"> 
+                                
+                                <!--LayerSlider background-->
+                                <img src="./img/slides/slide-1/background.png" class="ls-bg" alt="Slide Background"/>
+                                <!--LayerSlider sublayers-->                                
+                                <img style="top: 20px; left: 220px; slidedirection: left; slideoutdirection: top; durationin: 2400; delayin: 500; delayout: 100; easingin: easeOutBack;" src="img/slides/slide-1/ipad.png" class="ls-s2"  alt="" />
+                                <img style="top: 100px; left: 80px; slidedirection: bottom; slideoutdirection: bottom; durationin: 2100; delayin: 500; delayout: 200 easingin: easeOutBack;" src="img/slides/slide-1/iphone.png" class="ls-s3"  alt="" />
+                                <img style="top: 40px; left: 590px; slidedirection: top; slideoutdirection: durationin: 100; top; delayout: 300" src="img/slides/slide-1/title.png" class="ls-s4"  alt="" />
+                                <img style="top: 120px; left: 590px; slidedirection: left; slideoutdirection: left; delayout: 400;" src="img/slides/slide-1/subtitle.png" class="ls-s5"  alt=""  />
+                                <img style="top: 180px; left: 590px; slidedirection: right; slideoutdirection: right; durationin: 1800;" src="img/slides/slide-1/description.png" class="ls-s6"  alt=""  />                                   
+                                <a href="index.html#" style="top: 240px; left: 590px; parallaxin: top; slidedirection: bottom; durationin: 2000; slideoutdirection: bottom;" class="ls-s7 button"><i class="icon-plane"></i>Take the tour</a>                                    
+                            
                             </div>
-                            <div class="page-title-content">
-                                <h3>大树珠宝</h3>
-                                <p class="page-description">
-                                    With this gallery you can create a blogpost with multiple images. With the FlexSlider or Twitter Bootstrap Carousel you can rotate between these images.
-                                </p>
-                            </div>
+                            
                         </div>
-                    </div>
+                        <!--LayerSlider end-->
+                    </div> <!-- Close Homepage Slider Container -->
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
         <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
@@ -76,158 +84,66 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
         <div class="page"> <!-- Page -->
             <jsp:include page="./inc/breadcrumb.jsp"></jsp:include>
             
-            <div class="main fullwidth">            
-                <div class="container">
-                    <div class="row-fluid">
-                        <section class="content span9">
-                            
-                            <%
-							List<Album> albumList = (List<Album>)request.getAttribute("albumList");
-							if(albumList!=null){
-		                        for(Album album: albumList){
-		                    %>
-                            <article class="post format-blogpost clearfix">
-	                            <div class="span2 clearfix content-side">
-	                            	 <div class="content-side">
-		                                <div class="content-side-avatar">
-		                                    <img src="./img/demo/portraits/1_avatar_middle.jpg" alt="Page Title" width="100" height="100"/>
-		                                </div>
-		                                
-		                                <div>
-	                                        <table>
-	                                            <tbody>
-	                                            	<tr>
-	                                                	<th colspan="2">
-	                                                        大树珠宝
-	                                                    </th>
-	                                                </tr>
-	                                                <tr>
-	                                                    <th>
-	                                                        <a href="" class="xi2">31</a><br/>主题
-	                                                    </th>
-	                                                    <th>
-	                                                        <a href="" class="xi2">31</a><br/>粉丝
-	                                                    </th>
-	                                                </tr>
-	                                                
-	                                            </tbody>
-	                                        </table>
-	                                    </div>
-		                             </div>
-	                            </div> 
-                            	
-                                <div class="span10 post-thumb">
-                                    <div class="flexslider">
-                                        <ul class="slides">
-                                        	<li>
-                                                <a href="./album.art?id=<%=album.getId()%>"><img src="<%=album.getCoverImg()%>" alt="Carousel Item 3" /></a>
-                                                    <div class="flex-caption">
-                                                    <h3><%=album.getTitle()%></h3>
-                                                    <p>
-                                                    	<%=album.getRemark()%>
-                                                    </p> 
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                
-	                                <div class="row-fluid clearfix">
-	                                    <div class="meta-container-single clearfix">
-                                        
-	                                        <div class="meta-tags">
-	                                            <ul>
-	                                                <li><a href="single.html#">翡翠</a>,</li>
-	                                                <li><a href="single.html#">玉石</a></li>
-	                                            </ul>
-	                                        </div>
-	                                        
-	                                        <div class="meta-categories">
-	                                        	<ul>
-	                                                <li><a href="single.html#">举报</a> </li>
-	                                            </ul>
-	                                            <ul>
-	                                                <li><a href="single.html#">喜欢(1220)</a> </li>
-	                                            </ul>
-	                                             <ul>
-	                                                <li><a href="single.html#">收藏(120)</a> </li>
-	                                            </ul>
-	                                            
-	                                            <ul>
-	                                                <li><a href="single.html#">评论(10)</a> </li>
-	                                            </ul>
-	                                        </div>
-	                                    </div>
-	                                    
-	                                    <div id="comments">
-                                        <ol class="commentlist">
-                                            <li class="comment depth-1" id="li-comment-1">
-                                                <div class="comment-container" id="comment-1">
-                                                    <div class="comment-avatar">
-                                                        <div class="comment-author vcard">
-                                                            <img src="./img/demo/portraits/avatar_middle.jpg" alt="Blogpost Comment" />                 
-                                                        </div>
-                                                    </div>                          
-                                                    <div class="comment-body">
-                                                        <div class="comment-meta commentmetadata">
-                                                            <h6 class="comment-author">
-                                                                <a href='http://www.somnia-themes.com' rel='external nofollow' class='url'>猫王</a> 发表于 2013-01-01 23:23
-                                                            </h6>                                   
-                                                        </div>                              
-                                                        <div class="comment-content">
-                                                                很带感啊！
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="comment depth-1" id="li-comment-1">
-                                                <div class="comment-container" id="comment-1">
-                                                    <div class="comment-avatar">
-                                                        <div class="comment-author vcard">
-                                                            <img src="./img/demo/portraits/avatar_middle.jpg" alt="Blogpost Comment" />                 
-                                                        </div>
-                                                    </div>                          
-                                                    <div class="comment-body">
-                                                        <div class="comment-meta commentmetadata">
-                                                            <h6 class="comment-author">
-                                                                <a href='http://www.somnia-themes.com' rel='external nofollow' class='url'>猫王</a> 发表于 2013-01-01 23:23
-                                                            </h6>                                   
-                                                        </div>                              
-                                                        <div class="comment-content">
-                                                                很带感啊！
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ol>
-                                    </div><!-- Close Comments -->
-                                    
-	                                 </div>
-                                 </div>
+            <div class="main fullwidth">
+            	<section class="content"> <!-- Content -->
+                    <div class="container">
+                    	<%
+						List<Album> albumList = (List<Album>)request.getAttribute("albumList");
+						if(albumList!=null){
+							int count =0;
+	                        for(Album album: albumList){
+	                        	count++;
+	                        	boolean newline = count%4==1;
+	                        	boolean endline = count%4==0;
+	                    %>
+	                    <%if(newline){%>
+                    	<div class="shortcode-blogpost row-fluid">
+                        <%}%>
+                            <article class="blog-item span3">
+                                <div class="blog-post-image-wrap">
+                                    <a class="blog-single-link" href="/designer-front/album.art?id=<%=album.getId()%>">
+                                        <img src="<%=album.getCoverImg()%>" alt="Portfolio Image">
+                                    </a>
+                                </div>
+                                <div class="content-wrap span9">
+                                    <a href="#"><h5><%=album.getTitle()%></h5></a>
+                                    <ul>
+                                        <li><span>标 签:&nbsp;</span>翡翠, 珠宝, 玉石</li>
+                                        <li><span>价 格:</span>1w~2w</li>
+                                        <li>111 评论 / 33 收藏 / 3 喜欢</li> 
+                                    </ul>
+                                </div>
                             </article>
-                            <%}
-		                    }%>
-                          
-                        </section>
-                        
-                        <jsp:include page="./inc/rightSidebar.jsp"></jsp:include>
-                    	
-                    </div>                        
-                </div> <!-- Close Main -->
-            </div> 
+                        <%if(endline){%>
+                    	</div>
+                        <%}
+                        }
+	                    }%>
+	                    
+                    	<div class="shortcode-blogpost row-fluid">
+                    		<div class="span2 offset5">
+                    			<input class="button-small button button-white btn-block" type="button" value="查看更多" onclick="location.href='/designer-front/timeline.art'"/>
+                    		</div>
+                    	</div>
+                    </div>
+                </section> <!-- Close Content -->
+			</div> <!-- Close Main -->
+
+			<jsp:include page="./inc/footer.jsp"></jsp:include>
            
-           <jsp:include page="./inc/footer.jsp"></jsp:include>
-           
-        </div> <!-- Close Page -->
-   </div> <!-- Close wrapper -->
+		</div> <!-- Close Page -->
+	</div> <!-- Close wrapper -->
 
         
     <!-- Load all Javascript Files -->
+    <script src="./js/jquery-easing-1.3.js"></script>
     <script src="./js/vendor/bootstrap.min.js"></script>
-    <script src="./js/jquery.hoverdir.js"></script>
     <script src="./js/superfish.js"></script>
     <!-- <script src="./js/supersubs.js"></script> -->
    <!--  <script src="./js/jquery.tweet.js"></script>  -->
-    <script src="./js/jquery.flexslider.js"></script> 
+    <script src="./js/layerslider.kreaturamedia.jquery.js"></script>
+<!--     <script src="./js/jquery.flexslider.js"></script>   -->
+	<script src="./js/jquery.jcarousel.min.js"></script>
     <script src="./js/retina.js"></script>
 
     <script src="./js/custom.js"></script>

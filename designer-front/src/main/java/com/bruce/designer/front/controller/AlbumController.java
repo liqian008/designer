@@ -21,11 +21,12 @@ import com.bruce.designer.bean.AlbumSlide;
 import com.bruce.designer.bean.Comment;
 import com.bruce.designer.bean.User;
 import com.bruce.designer.constants.ConstService;
+import com.bruce.designer.data.PagingData;
 import com.bruce.designer.front.constants.ConstFront;
-import com.bruce.designer.service.AlbumService;
-import com.bruce.designer.service.AlbumSlideService;
-import com.bruce.designer.service.CommentService;
-import com.bruce.designer.service.UserService;
+import com.bruce.designer.service.IAlbumService;
+import com.bruce.designer.service.IAlbumSlideService;
+import com.bruce.designer.service.ICommentService;
+import com.bruce.designer.service.IUserService;
 
 /**
  * Handles requests for the application home page.
@@ -34,13 +35,13 @@ import com.bruce.designer.service.UserService;
 public class AlbumController {
 
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 	@Autowired
-	private AlbumService albumService;
+	private IAlbumService albumService;
 	@Autowired
-	private CommentService commentService;
+	private ICommentService commentService;
 	@Autowired
-	private AlbumSlideService albumSlideService;
+	private IAlbumSlideService albumSlideService;
 	
 
 	private static final Logger logger = LoggerFactory.getLogger(AlbumController.class);
@@ -55,20 +56,53 @@ public class AlbumController {
 	}
 	
 	/**
-	 * Simply selects the home view to render by returning its name.
+	 * 首页请求
+	 * @param model
+	 * @return
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index( Model model) {
-		List<Album> albumList = albumService.queryAlbumByStatus(ConstService.ALBUM_OPEN_STATUS);
-		if(albumList!=null&&albumList.size()>0){
-			for(Album loopAlbum: albumList){
-				int albumId = loopAlbum.getId(); 
-				List<Comment> commentList = commentService.queryCommentsByAlbumId(albumId);
-				loopAlbum.setCommentList(commentList);
+		
+		PagingData<Album> albumPagingData = albumService.pagingQuery(ConstService.ALBUM_OPEN_STATUS, 1, 8);
+		if(albumPagingData!=null&&albumPagingData.getPageData()!=null){
+			//List<Album> albumList = albumService.queryAlbumByStatus(ConstService.ALBUM_OPEN_STATUS);
+			List<Album> albumList = albumPagingData.getPageData();
+			if(albumList!=null&&albumList.size()>0){
+				for(Album loopAlbum: albumList){
+					int albumId = loopAlbum.getId(); 
+					List<Comment> commentList = commentService.queryCommentsByAlbumId(albumId);
+					loopAlbum.setCommentList(commentList);
+				}
+				model.addAttribute("albumList", albumList);
 			}
-			model.addAttribute("albumList", albumList);
+			model.addAttribute("albumPagingData", albumPagingData);
 		}
 		return "index";
+	}
+	
+	
+	/**
+	 * 时间轴作品列表
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/timeline", method = RequestMethod.GET) 
+	public String timeline( Model model) {
+		PagingData<Album> albumPagingData = albumService.pagingQuery(ConstService.ALBUM_OPEN_STATUS, 1, 16);
+		if(albumPagingData!=null&&albumPagingData.getPageData()!=null){
+			//List<Album> albumList = albumService.queryAlbumByStatus(ConstService.ALBUM_OPEN_STATUS);
+			List<Album> albumList = albumPagingData.getPageData();
+			if(albumList!=null&&albumList.size()>0){
+				for(Album loopAlbum: albumList){
+					int albumId = loopAlbum.getId(); 
+					List<Comment> commentList = commentService.queryCommentsByAlbumId(albumId);
+					loopAlbum.setCommentList(commentList);
+				}
+				model.addAttribute("albumList", albumList);
+			}
+			model.addAttribute("albumPagingData", albumPagingData);
+		}
+		return "timeline";
 	}
 	
 	/**
@@ -154,7 +188,7 @@ public class AlbumController {
         return "forward:/redirect.art";
     }
 	
-	@RequestMapping(value = "/{userId}/profile")
+	@RequestMapping(value = "/profile/{userId}")
 	public String userProfile(Model model, @PathVariable("userId") int userId) {
 		User tbUser = userService.loadById(userId);
 		if(tbUser!=null){
