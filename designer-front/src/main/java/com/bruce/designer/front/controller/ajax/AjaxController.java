@@ -1,7 +1,5 @@
 package com.bruce.designer.front.controller.ajax;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bruce.designer.bean.Album;
-import com.bruce.designer.bean.Comment;
 import com.bruce.designer.bean.User;
 import com.bruce.designer.bean.upload.UploadImageResult;
 import com.bruce.designer.constants.ConstService;
@@ -129,6 +126,5 @@ public class AjaxController {
             return JsonResultUtil.generateExceptionResult(new DesignerException(ErrorCode.UPLOAD_IMAGE_ERROR, "评论出错，请稍后再试!"));
         }
     }
-    
     
 }

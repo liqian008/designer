@@ -3,8 +3,6 @@ package com.bruce.designer.service;
 import java.util.List;
 
 import com.bruce.designer.bean.Message;
-import com.bruce.designer.bean.MessageCriteria;
-import com.bruce.designer.constants.ConstService;
 
 public interface IMessageService extends IBaseService<Message, Long>{
     

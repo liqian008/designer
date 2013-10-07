@@ -2,7 +2,6 @@ package com.bruce.designer.service;
 
 import java.util.List;
 
-
 import com.bruce.designer.bean.User;
 
 public interface IUserService extends IBaseService<User, Integer>{
