@@ -3,6 +3,7 @@ package com.bruce.designer.service;
 import java.util.List;
 
 import com.bruce.designer.bean.Message;
+import com.bruce.designer.data.PagingData;
 
 public interface IMessageService extends IBaseService<Message, Long>{
     
@@ -20,6 +21,15 @@ public interface IMessageService extends IBaseService<Message, Long>{
      * @return
      */
     public List<Message> queryMessagesByType(int userId, short type);
+    
+    /**
+     * 分页查询用户的对话消息
+     * @param status
+     * @param offset
+     * @param limit
+     * @return
+     */
+    public PagingData<Message> pagingQuery(int userId, int deliverId, int pageNo, int pageSize);
     
 //    public int sendFLowerMessage(int fromId, int toId, String message);
 //    

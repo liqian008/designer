@@ -11,5 +11,5 @@ public interface IAlbumService extends IBaseService<Album, Integer> {
 	
 	public List<Album> queryAlbumByUserId(int userId);
 	
-	public PagingData<Album> pagingQuery(short status, int offset, int limit);
+	public PagingData<Album> pagingQuery(short status, int pageNo, int pageSize);
 }

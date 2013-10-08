@@ -29,6 +29,7 @@ import com.bruce.designer.bean.Message;
 import com.bruce.designer.bean.User;
 import com.bruce.designer.bean.upload.UploadImageResult;
 import com.bruce.designer.constants.ConstService;
+import com.bruce.designer.data.PagingData;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
@@ -290,7 +291,11 @@ public class UserSettingsController {
             model.addAttribute("messageList", messageList);
             return "/settings/inbox";
         }else{//进入消息列表页
-            messageList = messageService.queryMessagesByType(userId, messageType);
+            PagingData<Message> messagePagingData = messageService.pagingQuery(userId, messageType, 1, 16);
+            if(messagePagingData!=null&&messagePagingData.getPageData()!=null){
+                messageList = messagePagingData.getPageData();
+                model.addAttribute("messagePagingData", messagePagingData);
+            }
             //同时将消息标记为已读
             int readNum = messageService.markRead(userId, messageType);
             model.addAttribute("messageList", messageList);

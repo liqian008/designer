@@ -8,11 +8,13 @@ import org.springframework.util.Assert;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bruce.designer.bean.Album;
 import com.bruce.designer.bean.Message;
 import com.bruce.designer.bean.MessageCriteria;
 import com.bruce.designer.bean.User;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.MessageMapper;
+import com.bruce.designer.data.PagingData;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
 
@@ -48,14 +50,14 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	 * 发送消息
 	 */
 	@Override
-	public int sendMessage(int fromId, int toId, int deliverId, String content, short messageType){
+	public int sendMessage(int fromId, int toId, int dialogId, String content, short messageType){
 		//保存消息实体
 	    Message message = new Message();
 		message.setMessage(content);
 		message.setMessageType(messageType);
 		message.setFromId(fromId);
 		message.setToId(toId);
-		message.setDeliverId(deliverId);
+		message.setDialogId(dialogId);
 		Date currentTime = new Date(System.currentTimeMillis());
 		message.setCreateTime(currentTime);
 		int result = save(message);
@@ -81,13 +83,9 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
      * 消息摘要
      */
     @Override
-    public List<Message> queryMessageSummary(int userId) {
-        //select *, count(message_type) from (select * from tb_message ORDER BY id desc ) aliasTb where to_id=3 group by message_type ;
-//        MessageCriteria criteria = new MessageCriteria();
-//        criteria.createCriteria().andToIdEqualTo(userId);
-//        return messageMapper.selectByExample(criteria);
-        
-        return messageMapper.queryMessageSummary(userId);
+    public List<Message> queryMessageSummary(int userId){
+        //Sql：select id, message, message_type, source_id, from_id, to_id, dialog_id, status, create_time, update_time, sum(unread) unread from (select * from tb_message ORDER BY id desc ) aliasMessage where to_id= #{id,jdbcType=INTEGER} group by dialog_id 
+      return messageMapper.queryMessageSummary(userId);
     }
     
 	/**
@@ -99,6 +97,25 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 		criteria.createCriteria().andToIdEqualTo(userId).andMessageTypeEqualTo(messageType);
 		return messageMapper.selectByExample(criteria);
 	}
+	
+	/**
+	 * 分页展示消息列表
+	 */
+    @Override
+    public PagingData<Message> pagingQuery(int userId, int dialogId, int pageNo, int pageSize){
+        if(pageNo<0) pageNo = 1;
+        int offset = (pageNo-1) * pageSize;
+        MessageCriteria criteria = new MessageCriteria();
+        criteria.createCriteria().andToIdEqualTo(userId).andDialogIdEqualTo(dialogId);
+        criteria.setOffset(offset);
+        criteria.setLimit(pageSize);
+        criteria.setOrderByClause("id desc");
+        List<Message> messageList = messageMapper.selectByExample(criteria); 
+        int totalCount = messageMapper.countByExample(criteria);//总条数
+        PagingData<Message> pagingData = new PagingData<Message>(messageList, totalCount, pageNo, pageSize);
+        return pagingData;
+    }
+	
 	
 	/**
      * 将用户所有消息都标记为已读
