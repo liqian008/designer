@@ -149,7 +149,7 @@ public class FrontController {
 			List<AlbumSlide> slideList = album.getSlideList();
 			int userId = 3;
 			album.setUserId(userId);
-			album.setCoverImg(slideList.get(0).getSlideImg());
+			album.setCoverLargeImg(slideList.get(0).getSlideLargeImg());
 			
 			int result = albumService.save(album);
 			if(result==1){

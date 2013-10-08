@@ -102,7 +102,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                             <article class="blog-item span3">
                                 <div class="blog-post-image-wrap">
                                     <a class="blog-single-link" href="/designer-front/album.art?id=<%=album.getId()%>">
-                                        <img src="<%=album.getCoverImg()%>" alt="Portfolio Image">
+                                        <img src="<%=album.getCoverLargeImg()%>" alt="Portfolio Image">
                                     </a>
                                 </div>
                                 <div class="content-wrap span9">
@@ -110,7 +110,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                                     <ul>
                                         <li><span>标 签:&nbsp;</span>翡翠, 珠宝, 玉石</li>
                                         <li><span>价 格:</span>1w~2w</li>
-                                        <li>111 评论 / 33 收藏 / 3 喜欢</li> 
+                                        <li><%=album.getBrowseCount()%> 浏览 / <%=album.getCommentCount()%> 评论 / <%=album.getFavoriteCount()%> 收藏 </li> 
                                     </ul>
                                 </div>
                             </article>

@@ -20,13 +20,16 @@ import com.bruce.designer.bean.Album;
 import com.bruce.designer.bean.AlbumSlide;
 import com.bruce.designer.bean.Comment;
 import com.bruce.designer.bean.User;
+import com.bruce.designer.constants.ConstRedis;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.data.PagingData;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
 import com.bruce.designer.service.ICommentService;
+import com.bruce.designer.service.ICounterService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.service.impl.CounterServiceImpl;
 
 /**
  * Handles requests for the application home page.
@@ -42,7 +45,8 @@ public class AlbumController {
 	private ICommentService commentService;
 	@Autowired
 	private IAlbumSlideService albumSlideService;
-	
+	@Autowired
+    private ICounterService counterService;
 
 	private static final Logger logger = LoggerFactory.getLogger(AlbumController.class);
 
@@ -62,16 +66,16 @@ public class AlbumController {
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index( Model model) {
-		
 		PagingData<Album> albumPagingData = albumService.pagingQuery(ConstService.ALBUM_OPEN_STATUS, 1, 8);
 		if(albumPagingData!=null&&albumPagingData.getPageData()!=null){
-			//List<Album> albumList = albumService.queryAlbumByStatus(ConstService.ALBUM_OPEN_STATUS);
 			List<Album> albumList = albumPagingData.getPageData();
 			if(albumList!=null&&albumList.size()>0){
 				for(Album loopAlbum: albumList){
-					int albumId = loopAlbum.getId(); 
-					List<Comment> commentList = commentService.queryCommentsByAlbumId(albumId);
-					loopAlbum.setCommentList(commentList);
+					int albumId = loopAlbum.getId();
+					loopAlbum.setBrowseCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUM_BROWSE + albumId));
+					loopAlbum.setCommentCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUM_COMMENT + albumId));
+					loopAlbum.setLikeCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUM_LIKE + albumId));
+					loopAlbum.setFavoriteCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUM_FAVORITE + albumId));
 				}
 				model.addAttribute("albumList", albumList);
 			}
@@ -93,11 +97,11 @@ public class AlbumController {
 			//List<Album> albumList = albumService.queryAlbumByStatus(ConstService.ALBUM_OPEN_STATUS);
 			List<Album> albumList = albumPagingData.getPageData();
 			if(albumList!=null&&albumList.size()>0){
-				for(Album loopAlbum: albumList){
-					int albumId = loopAlbum.getId(); 
-					List<Comment> commentList = commentService.queryCommentsByAlbumId(albumId);
-					loopAlbum.setCommentList(commentList);
-				}
+//				for(Album loopAlbum: albumList){
+//					int albumId = loopAlbum.getId(); 
+//					List<Comment> commentList = commentService.queryCommentsByAlbumId(albumId);
+//					loopAlbum.setCommentList(commentList);
+//				}
 				model.addAttribute("albumList", albumList);
 			}
 			model.addAttribute("albumPagingData", albumPagingData);
@@ -161,21 +165,21 @@ public class AlbumController {
             album.setUserId(userId);
             album.setTitle(title);
             album.setStatus(ConstService.ALBUM_OPEN_STATUS);
-            String coverImgUrl = request.getParameter("largeImage"+coverId);
-            album.setCoverImg(coverImgUrl);
+            album.setCoverSmallImg(request.getParameter("smallImage"+coverId));
+            album.setCoverMediumImg(request.getParameter("largeImage"+coverId));
+            album.setCoverLargeImg(request.getParameter("largeImage"+coverId));
             
             //提交作品专辑，建议使用外部主键生成器
             int result = albumService.save(album);
             if(result>0){
             	for(int loopId: albumNums){
-//                  String smallImageUrl = request.getParameter("smallImage"+loopId);
-//                  String mediumImageUrl = request.getParameter("mediumImage"+loopId);
-                  String largeImageUrl = request.getParameter("largeImage"+loopId);
                   String remark = request.getParameter("remark"+loopId);
                   
                   AlbumSlide slide = new AlbumSlide();
                   slide.setAlbumId(album.getId());
-                  slide.setSlideImg(largeImageUrl);
+                  slide.setSlideSmallImg(request.getParameter("smallImage"+loopId));
+                  slide.setSlideMediumImg(request.getParameter("largeImage"+loopId));
+                  slide.setSlideLargeImg(request.getParameter("largeImage"+loopId));
                   slide.setRemark(remark);
                   slide.setUserId(userId);
                   slide.setStatus(ConstService.ALBUM_OPEN_STATUS);

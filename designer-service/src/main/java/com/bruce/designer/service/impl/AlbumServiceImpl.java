@@ -7,19 +7,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bruce.designer.bean.Album;
 import com.bruce.designer.bean.AlbumCriteria;
+import com.bruce.designer.cache.album.AlbumCache;
+import com.bruce.designer.constants.ConstRedis;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.AlbumMapper;
 import com.bruce.designer.data.PagingData;
 import com.bruce.designer.service.IAlbumService;
+import com.bruce.designer.service.ICounterService;
 
 @Service
 public class AlbumServiceImpl implements IAlbumService {
 
 	@Autowired
 	private AlbumMapper albumMapper;
-
+	@Autowired
+    private ICounterService counterService;
+//	@Autowired
+//    private AlbumCache albumCache;
+	
+	
 	public int save(Album t) {
-		return albumMapper.insert(t);
+//		int result = albumMapper.insert(t);
+//		if(result>0){
+//		    albumCache.setAlbum(t);
+//		}
+//		return result;
+	    return albumMapper.insert(t);
 	}
 
 	public int updateById(Album t) {
@@ -31,7 +44,11 @@ public class AlbumServiceImpl implements IAlbumService {
 	}
 
 	public Album loadById(Integer id) {
-		return albumMapper.selectByPrimaryKey(id);
+	    Album album = albumMapper.selectByPrimaryKey(id);
+	    if(album!=null){
+	        counterService.increase(ConstRedis.COUNTER_KEY_ALBUM_BROWSE+id);
+	    }
+	    return album;
 	}
 
 	public List<Album> queryAll() {
@@ -48,7 +65,6 @@ public class AlbumServiceImpl implements IAlbumService {
 		criteria.setOrderByClause("id desc");
 		List<Album> albumList = albumMapper.selectByExample(criteria);
 		int totalCount = albumMapper.countByExample(criteria);//总条数
-		
 		PagingData<Album> pagingData = new PagingData<Album>(albumList, totalCount, pageNo, pageSize);
 		return pagingData;
 	}

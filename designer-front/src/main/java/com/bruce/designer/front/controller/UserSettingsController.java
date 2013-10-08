@@ -166,21 +166,24 @@ public class UserSettingsController {
             album.setUserId(userId);
             album.setTitle(title);
             album.setStatus(ConstService.ALBUM_OPEN_STATUS);
-            String coverImgUrl = request.getParameter("largeImage"+coverId);
-            album.setCoverImg(coverImgUrl);
+            
+            album.setCoverSmallImg(request.getParameter("smallImage"+coverId));
+            album.setCoverMediumImg(request.getParameter("largeImage"+coverId));
+            album.setCoverLargeImg(request.getParameter("largeImage"+coverId));
             
             //提交作品专辑，建议使用外部主键生成器
             int result = albumService.save(album);
             if(result>0){
             	for(int loopId: albumNums){
-//                  String smallImageUrl = request.getParameter("smallImage"+loopId);
-//                  String mediumImageUrl = request.getParameter("mediumImage"+loopId);
-                  String largeImageUrl = request.getParameter("largeImage"+loopId);
                   String remark = request.getParameter("remark"+loopId);
                   
                   AlbumSlide slide = new AlbumSlide();
                   slide.setAlbumId(album.getId());
-                  slide.setSlideImg(largeImageUrl);
+
+                  slide.setSlideSmallImg(request.getParameter("smallImage"+loopId));
+                  slide.setSlideMediumImg(request.getParameter("largeImage"+loopId));
+                  slide.setSlideLargeImg(request.getParameter("largeImage"+loopId));
+                  
                   slide.setRemark(remark);
                   slide.setUserId(userId);
                   slide.setStatus(ConstService.ALBUM_OPEN_STATUS);

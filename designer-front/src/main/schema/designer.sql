@@ -28,14 +28,15 @@ CREATE TABLE `tb_album` (
   `title` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `remark` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_id` int(11) NOT NULL,
+  `cover_large_img` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `cover_medium_img` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `cover_small_img` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `status` smallint(6) DEFAULT '1',
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
-  `status` smallint(6) DEFAULT '1',
-  `cover_img` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `fk_album_user_id` FOREIGN KEY (`user_id`) REFERENCES `tb_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 --  Records of `tb_album`
@@ -54,12 +55,15 @@ CREATE TABLE `tb_album_slide` (
   `remark` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `album_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `is_cover` smallint(6) DEFAULT NULL,
+  `slide_large_img` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `slide_medium_img` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `slide_small_img` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `status` smallint(6) DEFAULT '1',
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
-  `status` smallint(6) DEFAULT '1',
-  `slide_img` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 --  Records of `tb_album_slide`
@@ -101,10 +105,10 @@ COMMIT;
 DROP TABLE IF EXISTS `tb_message`;
 CREATE TABLE `tb_message` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `message` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `message` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `message_type` smallint(4) NOT NULL,
   `source_id` bigint(20) DEFAULT NULL,
-  `deliver_id` int(11) DEFAULT NULL,
+  `dialog_id` int(11) DEFAULT NULL,
   `from_id` int(11) DEFAULT NULL,
   `to_id` int(11) DEFAULT NULL,
   `unread` smallint(6) DEFAULT '1',
@@ -112,7 +116,7 @@ CREATE TABLE `tb_message` (
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 --  Table structure for `tb_user`
@@ -204,5 +208,27 @@ CREATE TABLE `tb_feed_index_tag` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `tb_user_fans`;
+CREATE TABLE `tb_user_fans` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `fans_id` int(11) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+DROP TABLE IF EXISTS `tb_user_follow`;
+CREATE TABLE `tb_user_follow` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `follow_id` int(11) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;
