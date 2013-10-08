@@ -29,9 +29,10 @@
 			<property name="enableSubPackages" value="false"/>
 		</javaClientGenerator>
 		
-		
-		<table schema="designer" tableName="tb_message" domainObjectName="Message"/>
+		<table schema="designer" tableName="tb_user_fans" domainObjectName="UserFans"/>
+		<table schema="designer" tableName="tb_user_follow" domainObjectName="UserFollow"/>		
 		<!-- 
+		<table schema="designer" tableName="tb_message" domainObjectName="Message"/>
 		<table schema="designer" tableName="tb_comment" domainObjectName="Comment"/>
 		<table schema="designer" tableName="tb_user_message" domainObjectName="UserMessage"/>
 		<table schema="designer" tableName="tb_user" domainObjectName="User"/>

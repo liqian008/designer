@@ -1,8 +1,8 @@
 package com.bruce.designer.util;
 
 import com.bruce.designer.bean.User;
+import com.bruce.designer.data.JsonResultObject;
 import com.bruce.designer.exception.DesignerException;
-import com.bruce.designer.json.JsonResultObject;
 
 
 /**

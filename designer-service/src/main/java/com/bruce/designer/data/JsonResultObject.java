@@ -1,4 +1,4 @@
-package com.bruce.designer.json;
+package com.bruce.designer.data;
 
 import java.io.Serializable;
 

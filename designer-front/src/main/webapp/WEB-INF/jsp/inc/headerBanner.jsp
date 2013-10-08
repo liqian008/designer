@@ -26,7 +26,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                     <%}else{ %>
                     欢迎您，<%=user.getNickname() %>&nbsp;|&nbsp;
                     <a href="/designer-front/settings.art">设置</a>&nbsp;|&nbsp;
-                    <a href="/designer-front/settings.art">消息</a>&nbsp;|&nbsp;
+                    <a href="/designer-front/settings.art?op=inbox&messageType=0">消息</a>&nbsp;|&nbsp;
                     <a href="/designer-front/logout.art">注销</a>
                     <%}%>
                 </div>
