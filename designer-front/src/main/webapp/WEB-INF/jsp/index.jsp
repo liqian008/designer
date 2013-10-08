@@ -105,14 +105,25 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                                         <img src="<%=album.getCoverLargeImg()%>" alt="Portfolio Image">
                                     </a>
                                 </div>
-                                <div class="content-wrap span9">
-                                    <a href="#"><h5><%=album.getTitle()%></h5></a>
+                               	<div class="content-wrap span9">
+                                   	<a href="#"><h5><%=album.getTitle()%></h5></a>
                                     <ul>
                                         <li><span>标 签:&nbsp;</span>翡翠, 珠宝, 玉石</li>
                                         <li><span>价 格:</span>1w~2w</li>
-                                        <li><%=album.getBrowseCount()%> 浏览 / <%=album.getCommentCount()%> 评论 / <%=album.getFavoriteCount()%> 收藏 </li> 
+                                        <li>
+                                        	<%=album.getBrowseCount()%>&nbsp;浏览&nbsp;/&nbsp;
+                                        	<%=album.getCommentCount()%>&nbsp;评论&nbsp;/&nbsp;
+                                        	<%=album.getFavoriteCount()%>&nbsp;收藏&nbsp;
+                                        </li> 
                                     </ul>
                                 </div>
+                                <div class="content-avatar">
+                                     <div class="content-author vcard">
+                                     	<a href="/designer-front/profile/<%=album.getUserId()%>.art" title="xxx">
+	                                     	<img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Blogpost Comment">
+                                     	</a>
+                                      </div>
+                                 </div>
                             </article>
                         <%if(endline){%>
                     	</div>

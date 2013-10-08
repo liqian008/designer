@@ -38,8 +38,8 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					</div>
 				</li>
 			</ul>
-			<input class="contact-submit button" type="button" value="个人主页" onclick="location.href='/designer-front/settings.art'"/>
-			<input class="contact-submit button" type="button" value="微博关注" onclick="location.href='/designer-front/settings.art'"/>
+			<input class="contact-submit button" type="button" value="设计师主页" onclick="location.href='/designer-front/profile/<%=user.getId() %>.art'"/>
+			<input class="contact-submit button" type="button" value="新浪微博" onclick="location.href='/designer-front/settings.art'"/>
 		</form>
 	</div>
 	
@@ -129,7 +129,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 		</ul>
 	</div>
 	
-	<script src="./js/jquery.tagcloud.js"></script>
+	<script src="/designer-front/js/jquery.tagcloud.js"></script>
 	<script>
         $.fn.tagcloud.defaults = {
           size: {start: 8, end: 13, unit: 'pt'},

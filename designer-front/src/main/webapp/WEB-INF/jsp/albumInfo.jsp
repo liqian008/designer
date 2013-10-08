@@ -61,7 +61,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                                 <img src="./img/demo/portraits/portrait-21.png" alt="Page Title" width="80" height="80"/>
                             </div> -->
                             <div class="page-title-content">
-                                <h1>此处放置推荐作品</h1>
+                                <h2>此处放置广告作品</h2>
                                 <p class="page-description">
                                     With this gallery you can create a blogpost with multiple images. With the FlexSlider or Twitter Bootstrap Carousel you can rotate between these images.
                                 </p>
@@ -107,7 +107,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 											for(AlbumSlide slide: slideList){
 											%>
                                             <li>
-                                                <img src="<%=slide.getSlideImg()%>" alt="Carousel Item 3" />
+                                                <img src="<%=slide.getSlideLargeImg()%>" alt="Carousel Item 3" />
                                                     <div class="flex-caption">
                                                     <h3><%=slide.getTitle()%></h3>
                                                     <p>

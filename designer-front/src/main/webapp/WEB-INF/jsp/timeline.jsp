@@ -54,6 +54,21 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 				
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
                     <jsp:include page="./inc/headerNav.jsp"></jsp:include>
+                    
+                    <div class="page-title">
+                        <div class="container">
+                            <!-- <div class="page-title-avatar">
+                                <img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Page Title" width="80" height="80"/>
+                            </div> -->
+                            <div class="page-title-content">
+                                <h2>此处放置广告作品</h2>
+                                <p class="page-description">
+                                    With this gallery you can create a blogpost with multiple images. With the FlexSlider or Twitter Bootstrap Carousel you can rotate between these images.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
         <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
@@ -79,17 +94,26 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                             <article class="blog-item span3">
                                 <div class="blog-post-image-wrap">
                                     <a class="blog-single-link" href="/designer-front/album.art?id=<%=album.getId()%>">
-                                        <img src="<%=album.getCoverImg()%>" alt="Portfolio Image">
+                                        <img src="<%=album.getCoverLargeImg()%>" alt="Portfolio Image">
                                     </a>
                                 </div>
                                 <div class="content-wrap span9">
-                                    <a href="#"><h5><%=album.getTitle()%></h5></a>
+                                   	<a href="#"><h5><%=album.getTitle()%></h5></a>
                                     <ul>
                                         <li><span>标 签:&nbsp;</span>翡翠, 珠宝, 玉石</li>
                                         <li><span>价 格:</span>1w~2w</li>
-                                        <li>111 评论 / 33 收藏 / 3 喜欢</li> 
+                                        <li>
+                                        	<%=album.getBrowseCount()%>&nbsp;浏览&nbsp;/&nbsp;
+                                        	<%=album.getCommentCount()%>&nbsp;评论&nbsp;/&nbsp;
+                                        	<%=album.getFavoriteCount()%>&nbsp;收藏&nbsp;
+                                        </li> 
                                     </ul>
                                 </div>
+                                <div class="content-avatar">
+                                     <div class="content-author vcard">
+                                         <img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Blogpost Comment">
+                                     </div>
+                                 </div>
                             </article>
                         <%if(endline){%>
                     	</div>

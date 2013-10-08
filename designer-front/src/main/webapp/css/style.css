@@ -508,7 +508,7 @@ blockquote p {
 }
 
 .page-title-content .button {
-	margin: 0 20px 0 0;
+	margin: 0 5px 0 0;
 }
 
 .page-title-content h1 {
@@ -2962,6 +2962,21 @@ blockquote {
 		overflow: hidden;
 		margin: 0 0 5px 0;
 		height:70%;
+	}
+	
+	.blog-item .blog-post-image-wrap img{
+		border-radius: 1%;
+	}
+	
+	.blog-item .content-avatar {
+		float: right;
+		margin: 0 0 0 0;
+		width: 45px;
+		height: 45px;
+	}
+	
+	.blog-item .content-avatar img{
+		border-radius: 12%;
 	}
 
 	.blogposts-four .blog-post-image-wrap { height: 180px; }

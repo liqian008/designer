@@ -39,7 +39,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 	<%}else{%>
 		<div class="widget-box widget-contact-form">
 		<div class="content-title">
-			<h4 class="widget-title">个人中心</h4>
+			<h4 class="widget-title">设计师资料</h4>
 		</div>
 		<form id="contact-form-widget" method="post" class="clearfix" action="/designer-front/login.art">
 			<ul>
@@ -230,7 +230,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 		</ul>
 	</div>
 	
-	<script src="./js/jquery.tagcloud.js"></script>
+	<script src="/designer-front/js/jquery.tagcloud.js"></script>
 	<script>
         $.fn.tagcloud.defaults = {
           size: {start: 8, end: 13, unit: 'pt'},
