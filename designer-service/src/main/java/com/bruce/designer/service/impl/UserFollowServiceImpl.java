@@ -14,33 +14,33 @@ import com.bruce.designer.service.IUserFollowService;
 public class UserFollowServiceImpl implements IUserFollowService{ 
     
     @Autowired
-    private UserFollowMapper followMapper;
+    private UserFollowMapper userFollowMapper;
     
     public int save(UserFollow t) {
-        return followMapper.insert(t);
+        return userFollowMapper.insert(t);
     }
 
     public List<UserFollow> queryAll() {
-        return followMapper.selectByExample(null);
+        return userFollowMapper.selectByExample(null);
     }
 
     public int updateById(UserFollow t) {
-        return followMapper.updateByPrimaryKeySelective(t);
+        return userFollowMapper.updateByPrimaryKeySelective(t);
     }
 
     public int deleteById(Long id) {
-        return followMapper.deleteByPrimaryKey(id);
+        return userFollowMapper.deleteByPrimaryKey(id);
     }
 
     public UserFollow loadById(Long id) {
-        return followMapper.selectByPrimaryKey(id);
+        return userFollowMapper.selectByPrimaryKey(id);
     }
 
     @Override
     public List<UserFollow> getFollowList(int userId) {
         UserFollowCriteria criteria = new UserFollowCriteria();
         criteria.createCriteria().andUserIdEqualTo(userId);
-        List<UserFollow> followList = followMapper.selectByExample(criteria);
+        List<UserFollow> followList = userFollowMapper.selectByExample(criteria);
         return followList;
     }
 
@@ -48,7 +48,7 @@ public class UserFollowServiceImpl implements IUserFollowService{
     public int deleteFollow(int uid, int unfollowId) {
         UserFollowCriteria criteria = new UserFollowCriteria();
         criteria.createCriteria().andUserIdEqualTo(uid).andFollowIdEqualTo(unfollowId);
-        return followMapper.deleteByExample(criteria);
+        return userFollowMapper.deleteByExample(criteria);
     }
 
 } 

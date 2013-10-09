@@ -11,6 +11,8 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
 import com.bruce.designer.model.User;
@@ -26,6 +28,7 @@ import com.google.gson.GsonBuilder;
  * @author <a href="mailto:jun.liu@opi-corp.com">刘军</a>
  * @createTime 2013-9-24 下午09:34:49
  */
+@Repository
 public class UserCache implements InitializingBean {
     
     private static final Gson gson = new GsonBuilder().create();
@@ -36,22 +39,22 @@ public class UserCache implements InitializingBean {
     private static final Logger logger = Logger.getLogger(UserCache.class);
 
     private static final String KEY_PREFIX = "user";
-
-    private DesignerShardedJedisPool shardedJedisPool;
+    @Autowired
+    private DesignerShardedJedisPool cacheShardedJedisPool;
 
     public User getUser(long userId) {
         DesignerShardedJedis shardedJedis = null;
         try {
-            shardedJedis = shardedJedisPool.getResource();
+            shardedJedis = cacheShardedJedisPool.getResource();
             String userJson = shardedJedis.get(getKey(userId));
-            shardedJedisPool.returnResource(shardedJedis);
+            cacheShardedJedisPool.returnResource(shardedJedis);
             if (userJson != null) {
                 return gson.fromJson(userJson, User.class);
             }
         } catch (Throwable t) {
             logger.error("getUser", t);
             if (shardedJedis != null) {
-                shardedJedisPool.returnBrokenResource(shardedJedis);
+                cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
         }
         return null;
@@ -65,14 +68,14 @@ public class UserCache implements InitializingBean {
         if (user != null) {
             DesignerShardedJedis shardedJedis = null;
             try {
-                shardedJedis = shardedJedisPool.getResource();
+                shardedJedis = cacheShardedJedisPool.getResource();
                 shardedJedis.set(getKey(user.getId()), gson.toJson(user));
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 return true;
             } catch (Throwable t) {
-                logger.error("setTicket", t);
+//                logger.error("setTicket", t);
                 if (shardedJedis != null) {
-                    shardedJedisPool.returnBrokenResource(shardedJedis);
+                    cacheShardedJedisPool.returnBrokenResource(shardedJedis);
                 }
             }
         }
@@ -93,14 +96,14 @@ public class UserCache implements InitializingBean {
     public boolean deleteUser(long userId) {
         DesignerShardedJedis shardedJedis = null;
         try {
-            shardedJedis = shardedJedisPool.getResource();
+            shardedJedis = cacheShardedJedisPool.getResource();
             shardedJedis.del(getKey(userId));
-            shardedJedisPool.returnResource(shardedJedis);
+            cacheShardedJedisPool.returnResource(shardedJedis);
             return true;
         } catch (Throwable t) {
-            logger.error("setTicket", t);
+//            logger.error("setTicket", t);
             if (shardedJedis != null) {
-                shardedJedisPool.returnBrokenResource(shardedJedis);
+                cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
         }
         return false;
@@ -109,17 +112,10 @@ public class UserCache implements InitializingBean {
     private String getKey(long userId) {
         return ConstRedis.REDIS_NAMESPACE + "_" + KEY_PREFIX + "_" + userId;
     }
-
-    public void setShardedJedisPool(DesignerShardedJedisPool shardedJedisPool) {
-        this.shardedJedisPool = shardedJedisPool;
-    }
-
-    /* (non-Javadoc)
-     * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
-     */
+    
     @Override
     public void afterPropertiesSet() throws Exception {
-        Assert.notNull(shardedJedisPool, "shardedJedisPool must not null!");
+        Assert.notNull(cacheShardedJedisPool, "cacheShardedJedisPool must not null!");
     }
 
 }

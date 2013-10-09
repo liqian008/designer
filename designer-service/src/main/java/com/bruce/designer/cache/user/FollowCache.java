@@ -1,7 +1,3 @@
-/**
- * $Id$
- * weibo.com . All rights reserved.
- */
 package com.bruce.designer.cache.user;
 
 import java.util.ArrayList;
@@ -13,6 +9,8 @@ import java.util.Set;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import redis.clients.jedis.Tuple;
 import redis.clients.jedis.exceptions.JedisException;
@@ -29,6 +27,7 @@ import com.bruce.designer.exception.RedisKeyNotExistException;
  * @author <a href="mailto:liujun4@staff.sina.com.cn">刘军</a>
  * @createTime 2013-9-11 下午06:46:02
  */
+@Repository
 public class FollowCache {
 
     /**
@@ -37,8 +36,8 @@ public class FollowCache {
     private static final Logger logger = Logger.getLogger(FollowCache.class);
 
     private static final String KEY_PREFIX = "follow";
-
-    private DesignerShardedJedisPool shardedJedisPool;
+    @Autowired
+    private DesignerShardedJedisPool cacheShardedJedisPool;
 
     /**
      * 添加关注至缓存
@@ -47,25 +46,26 @@ public class FollowCache {
      * @return
      */
     public boolean addFollow(UserFollow follow) throws RedisKeyNotExistException {
-        String key = KEY_PREFIX + follow.getUserId();
+//        String key = KEY_PREFIX + follow.getUserId();
+        String key = getKey(follow.getUserId());
         DesignerShardedJedis shardedJedis = null;
         try {
-            shardedJedis = shardedJedisPool.getResource();
+            shardedJedis = cacheShardedJedisPool.getResource();
             boolean exists = shardedJedis.exists(key);
             if (exists == false) {
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 throw new RedisKeyNotExistException();
             } else {
                 boolean result = shardedJedis.zadd(key, (double) follow.getCreateTime().getTime(),
                         String.valueOf(follow.getFollowId())) > 0;
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 return result;
             }
 
         } catch (JedisException t) {
             logger.error("addUserFollow", t);
             if (shardedJedis != null) {
-                shardedJedisPool.returnBrokenResource(shardedJedis);
+                cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
         }
         return false;
@@ -78,24 +78,25 @@ public class FollowCache {
      * @return
      */
     public boolean removeFollow(int uid, long follow) {
-        String key = KEY_PREFIX + uid;
+//        String key = KEY_PREFIX + uid;
+        String key = getKey(uid);
         DesignerShardedJedis shardedJedis = null;
         try {
-            shardedJedis = shardedJedisPool.getResource();
+            shardedJedis = cacheShardedJedisPool.getResource();
             boolean exists = shardedJedis.exists(key);
             if (exists == false) {
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 return false;
             } else {
                 boolean result = shardedJedis.zrem(key, String.valueOf(follow)) > 0;
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 return result;
             }
 
         } catch (JedisException t) {
             logger.error("removeUserFollow", t);
             if (shardedJedis != null) {
-                shardedJedisPool.returnBrokenResource(shardedJedis);
+                cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
         }
         return false;
@@ -108,24 +109,25 @@ public class FollowCache {
      * @return
      */
     public boolean isFollowed(int hostId, int clientId) throws RedisKeyNotExistException {
-        String key = KEY_PREFIX + hostId;
+//        String key = KEY_PREFIX + hostId;
+        String key = getKey(hostId);
         DesignerShardedJedis shardedJedis = null;
         try {
-            shardedJedis = shardedJedisPool.getResource();
+            shardedJedis = cacheShardedJedisPool.getResource();
             boolean exists = shardedJedis.exists(key);
             if (exists == false) {
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 throw new RedisKeyNotExistException();
             } else {
                 boolean result = shardedJedis.zrank(key, String.valueOf(clientId)) != null;
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 return result;
             }
 
         } catch (JedisException t) {
             logger.error("isUserFollowed", t);
             if (shardedJedis != null) {
-                shardedJedisPool.returnBrokenResource(shardedJedis);
+                cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
         }
         return false;
@@ -138,24 +140,25 @@ public class FollowCache {
      * @return
      */
     public boolean isFans(long uid1, long uid2) throws RedisKeyNotExistException {
-        String key = KEY_PREFIX + uid2;
+//        String key = KEY_PREFIX + uid2;
+        String key = getKey(uid2);
         DesignerShardedJedis shardedJedis = null;
         try {
-            shardedJedis = shardedJedisPool.getResource();
+            shardedJedis = cacheShardedJedisPool.getResource();
             boolean exists = shardedJedis.exists(key);
             if (exists == false) {
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 throw new RedisKeyNotExistException();
             } else {
                 boolean result = shardedJedis.zrank(key, String.valueOf(uid1)) != null;
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 return result;
             }
 
         } catch (JedisException t) {
             logger.error("isFans", t);
             if (shardedJedis != null) {
-                shardedJedisPool.returnBrokenResource(shardedJedis);
+                cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
         }
         return false;
@@ -170,10 +173,11 @@ public class FollowCache {
      */
     public boolean setFollowList(long uid, List<UserFollow> followList) {
         if (followList != null && followList.size() > 0) {
-            String key = KEY_PREFIX + uid;
+//            String key = KEY_PREFIX + uid;
+            String key = getKey(uid);
             DesignerShardedJedis shardedJedis = null;
             try {
-                shardedJedis = shardedJedisPool.getResource();
+                shardedJedis = cacheShardedJedisPool.getResource();
                 shardedJedis.del(key);
                 Map<Double, String> followMap = new HashMap<Double, String>();
                 for (UserFollow follow : followList) {
@@ -181,13 +185,13 @@ public class FollowCache {
                 }
 
                 boolean result = shardedJedis.zadd(key, followMap) > 0;
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
 
                 return result;
             } catch (JedisException t) {
                 logger.error("setUserFollowList", t);
                 if (shardedJedis != null) {
-                    shardedJedisPool.returnBrokenResource(shardedJedis);
+                    cacheShardedJedisPool.returnBrokenResource(shardedJedis);
                 }
             }
         }
@@ -201,18 +205,19 @@ public class FollowCache {
      * @return
      */
     public List<UserFollow> getAllFollowList(int uid) throws RedisKeyNotExistException {
-        String key = KEY_PREFIX + uid;
+//        String key = KEY_PREFIX + uid;
+        String key = getKey(uid);
         DesignerShardedJedis shardedJedis = null;
         try {
-            shardedJedis = shardedJedisPool.getResource();
+            shardedJedis = cacheShardedJedisPool.getResource();
             boolean exists = shardedJedis.exists(key);
             if (exists == false) {
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 throw new RedisKeyNotExistException();
             } else {
                 Set<Tuple> tupleSet = shardedJedis.zrangeWithScores(key, 0, -1);
 
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 List<UserFollow> followList = new ArrayList<UserFollow>();
                 for (Tuple tuple : tupleSet) {
                     UserFollow follow = new UserFollow();
@@ -226,7 +231,7 @@ public class FollowCache {
         } catch (JedisException t) {
             logger.error("getAllUserFollowList", t);
             if (shardedJedis != null) {
-                shardedJedisPool.returnBrokenResource(shardedJedis);
+                cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
         }
         return null;
@@ -240,19 +245,20 @@ public class FollowCache {
      */
     public List<UserFollow> getFollowList(int uid, int start, int end)
             throws RedisKeyNotExistException {
-        String key = KEY_PREFIX + uid;
+//        String key = KEY_PREFIX + uid;
+        String key = getKey(uid);
         DesignerShardedJedis shardedJedis = null;
         try {
-            shardedJedis = shardedJedisPool.getResource();
+            shardedJedis = cacheShardedJedisPool.getResource();
             boolean exists = shardedJedis.exists(key);
             if (exists == false) {
 
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 throw new RedisKeyNotExistException();
             } else {
                 Set<Tuple> tupleSet = shardedJedis.zrangeWithScores(key, start, end);
 
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 List<UserFollow> followList = new ArrayList<UserFollow>();
                 for (Tuple tuple : tupleSet) {
                     UserFollow follow = new UserFollow();
@@ -266,7 +272,7 @@ public class FollowCache {
         } catch (JedisException t) {
             logger.error("getUserFollowList", t);
             if (shardedJedis != null) {
-                shardedJedisPool.returnBrokenResource(shardedJedis);
+                cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
         }
         return null;
@@ -276,9 +282,5 @@ public class FollowCache {
         return ConstRedis.REDIS_NAMESPACE + "_" + KEY_PREFIX + "_" + uid;
     }
 
-    public void setShardedJedisPool(DesignerShardedJedisPool shardedJedisPool) {
-        this.shardedJedisPool = shardedJedisPool;
-    }
-    
 
 }

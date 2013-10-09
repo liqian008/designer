@@ -110,9 +110,9 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                                     </ul>
                                 </div>
                                 <div class="content-avatar">
-                                     <div class="content-author vcard">
-                                         <img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Blogpost Comment">
-                                     </div>
+									<a href="/designer-front/<%=album.getUserId()%>/home.art" title="xxx">
+                                    	<img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Blogpost Comment">
+									</a>
                                  </div>
                             </article>
                         <%if(endline){%>

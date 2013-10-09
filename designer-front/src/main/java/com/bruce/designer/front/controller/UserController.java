@@ -2,6 +2,8 @@ package com.bruce.designer.front.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,11 +42,19 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/{userId}/home")
-    public String userHome(Model model, @PathVariable("userId") int userId) {
-        User tbUser = userService.loadById(userId);
-        if(tbUser!=null){
-            model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, tbUser);
-            List<Album> albumList = albumService.queryAlbumByUserId(userId);
+    public String userHome(Model model,  HttpServletRequest request, @PathVariable("userId") int queryUserId) {
+        User queryUser = userService.loadById(queryUserId);
+        if(queryUser!=null){
+            model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
+            List<Album> albumList = albumService.queryAlbumByUserId(queryUserId);
+            
+            User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+            if(user!=null&&user.getId()>0){
+                int userId = user.getId();
+                boolean hasFollowed = userGraphService.isFollow(userId, queryUserId);
+                model.addAttribute("hasFollowed", hasFollowed);
+            }
+            
             if(albumList!=null&&albumList.size()>0){
 //                for(Album loopAlbum: albumList){
 //                    int albumId = loopAlbum.getId();
@@ -64,10 +74,18 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/{userId}/info")
-    public String userInfo(Model model, @PathVariable("userId") int userId) {
-        User tbUser = userService.loadById(userId);
-        if(tbUser!=null){
-            model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, tbUser);
+    public String userInfo(Model model,  HttpServletRequest request, @PathVariable("userId") int queryUserId) {
+        
+        User queryUser = userService.loadById(queryUserId);
+        if(queryUser!=null){
+            model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
+            
+            User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+            if(user!=null&&user.getId()>0){
+                int userId = user.getId();
+                boolean hasFollowed = userGraphService.isFollow(userId, queryUserId);
+                model.addAttribute("hasFollowed", hasFollowed);
+            }
         }
         return "userInfo";
     }
@@ -79,15 +97,22 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/{userId}/follow")
-    public String userFollow(Model model, @PathVariable("userId") int userId) {
-        User tbUser = userService.loadById(userId);
-        if(tbUser!=null){
-            
+    public String userFollow(Model model, HttpServletRequest request, @PathVariable("userId") int queryUserId) {
+        
+        User queryUser = userService.loadById(queryUserId);
+        if(queryUser!=null){
+            model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
+
             //TODO 获取关注列表
-            List<UserFollow> followList = userGraphService.getFollowListWithUser(userId, 1, 20);
+            List<UserFollow> followList = userGraphService.getFollowListWithUser(queryUserId, 1, 20);
             model.addAttribute("followList", followList);
             
-            model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, tbUser);
+            User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+            if(user!=null&&user.getId()>0){
+                int userId = user.getId();
+                boolean hasFollowed = userGraphService.isFollow(userId, queryUserId);
+                model.addAttribute("hasFollowed", hasFollowed);
+            }
         }
         return "userFollow";
     }
@@ -99,15 +124,40 @@ public class UserController {
      * @return 
      */
     @RequestMapping(value = "/{userId}/fans")
-    public String userFans(Model model, @PathVariable("userId") int userId) {
-        User tbUser = userService.loadById(userId);
-        if(tbUser!=null){
+    public String userFans(Model model, HttpServletRequest request, @PathVariable("userId") int queryUserId) {
+        
+        User queryUser = userService.loadById(queryUserId);
+        if(queryUser!=null){
+            model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
+            
             //TODO 获取粉丝列表
-            List<UserFans> fansList = userGraphService.getFansListWithUser(userId, 1, 20);
+            List<UserFans> fansList = userGraphService.getFansListWithUser(queryUserId, 1, 20);
             model.addAttribute("fansList", fansList);
             
-            model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, tbUser);
+            User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+            if(user!=null&&user.getId()>0){
+                int userId = user.getId();
+                boolean hasFollowed = userGraphService.isFollow(userId, queryUserId);
+                model.addAttribute("hasFollowed", hasFollowed);
+            }
         }
         return "userFans";
     }
+    
+    @RequestMapping(value = "/follow")
+    public String follow(Model model,  HttpServletRequest request, int uid) {
+        User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+        int userId = user.getId();
+        boolean result = userGraphService.follow(userId, uid);
+        return "redirect:/index.art";
+    }
+    
+    @RequestMapping(value = "/unfollow")
+    public String unflower(Model model, HttpServletRequest request, int uid) {
+        User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+        int userId = user.getId();
+        boolean result = userGraphService.unfollow(userId, uid);
+        return "redirect:/index.art";
+    }
+    
 }

@@ -119,7 +119,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                                 </div>
                                 <div class="content-avatar">
                                      <div class="content-author vcard">
-                                     	<a href="/designer-front/profile/<%=album.getUserId()%>.art" title="xxx">
+                                     	<a href="/designer-front/<%=album.getUserId()%>/home.art" title="xxx">
 	                                     	<img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Blogpost Comment">
                                      	</a>
                                       </div>

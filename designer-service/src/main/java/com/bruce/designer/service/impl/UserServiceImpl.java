@@ -47,6 +47,7 @@ public class UserServiceImpl implements IUserService {
         if (user == null) {
             user = userMapper.selectByPrimaryKey(id);
             if (user != null) {
+                user.setPassword(null);
                 completeUser(user);
                 userCache.setUser(user);
             }

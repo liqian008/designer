@@ -13,6 +13,8 @@ import java.util.Set;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import redis.clients.jedis.Tuple;
 import redis.clients.jedis.exceptions.JedisException;
@@ -29,6 +31,7 @@ import com.bruce.designer.exception.RedisKeyNotExistException;
  * @author <a href="mailto:liujun4@staff.sina.com.cn">刘军</a>
  * @createTime 2013-9-11 下午06:46:09
  */
+@Repository
 public class FansCache {
 
     /**
@@ -37,8 +40,8 @@ public class FansCache {
     private static final Logger logger = Logger.getLogger(FansCache.class);
 
     private static final String KEY_PREFIX = "fans";
-
-    private DesignerShardedJedisPool shardedJedisPool;
+    @Autowired
+    private DesignerShardedJedisPool cacheShardedJedisPool;
 
     /**
      * 添加粉丝至缓存
@@ -50,22 +53,22 @@ public class FansCache {
         String key = getKey(fans.getUserId());
         DesignerShardedJedis shardedJedis = null;
         try {
-            shardedJedis = shardedJedisPool.getResource();
+            shardedJedis = cacheShardedJedisPool.getResource();
             boolean exists = shardedJedis.exists(key);
             if (exists == false) {
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 throw new RedisKeyNotExistException();
             } else {
                 boolean result = shardedJedis.zadd(key, (double) fans.getCreateTime().getTime(),
                         String.valueOf(fans.getFansId())) > 0;
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 return result;
             }
 
         } catch (JedisException t) {
             logger.error("addUserFans", t);
             if (shardedJedis != null) {
-                shardedJedisPool.returnBrokenResource(shardedJedis);
+                cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
         }
         return false;
@@ -81,21 +84,21 @@ public class FansCache {
         String key = getKey(uid);
         DesignerShardedJedis shardedJedis = null;
         try {
-            shardedJedis = shardedJedisPool.getResource();
+            shardedJedis = cacheShardedJedisPool.getResource();
             boolean exists = shardedJedis.exists(key);
             if (exists == false) {
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 return false;
             } else {
                 boolean result = shardedJedis.zrem(key, String.valueOf(fans)) > 0;
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 return result;
             }
 
         } catch (JedisException t) {
             logger.error("removeUserFans", t);
             if (shardedJedis != null) {
-                shardedJedisPool.returnBrokenResource(shardedJedis);
+                cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
         }
         return false;
@@ -113,20 +116,20 @@ public class FansCache {
             String key = getKey(uid);
             DesignerShardedJedis shardedJedis = null;
             try {
-                shardedJedis = shardedJedisPool.getResource();
+                shardedJedis = cacheShardedJedisPool.getResource();
                 shardedJedis.del(key);
                 Map<Double, String> fansMap = new HashMap<Double, String>();
                 for (UserFans fans : fansList) {
                     fansMap.put((double) fans.getCreateTime().getTime(), String.valueOf(fans.getFansId()));
                 }
                 boolean result = shardedJedis.zadd(key, fansMap) > 0;
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 return result;
 
             } catch (JedisException t) {
                 logger.error("setUserFansList", t);
                 if (shardedJedis != null) {
-                    shardedJedisPool.returnBrokenResource(shardedJedis);
+                    cacheShardedJedisPool.returnBrokenResource(shardedJedis);
                 }
             }
         }
@@ -143,10 +146,10 @@ public class FansCache {
         String key = getKey(uid);
         DesignerShardedJedis shardedJedis = null;
         try {
-            shardedJedis = shardedJedisPool.getResource();
+            shardedJedis = cacheShardedJedisPool.getResource();
             boolean exists = shardedJedis.exists(key);
             if (exists == false) {
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 throw new RedisKeyNotExistException();
             } else {
                 Set<Tuple> tupleSet = shardedJedis.zrangeWithScores(key, 0, -1);
@@ -158,13 +161,13 @@ public class FansCache {
                     fans.setCreateTime(new Date((long) tuple.getScore()));
                     fansList.add(fans);
                 }
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 return fansList;
             }
         } catch (JedisException t) {
             logger.error("getAllUserFansList", t);
             if (shardedJedis != null) {
-                shardedJedisPool.returnBrokenResource(shardedJedis);
+                cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
         }
 
@@ -182,10 +185,10 @@ public class FansCache {
         String key = getKey(uid);
         DesignerShardedJedis shardedJedis = null;
         try {
-            shardedJedis = shardedJedisPool.getResource();
+            shardedJedis = cacheShardedJedisPool.getResource();
             boolean exists = shardedJedis.exists(key);
             if (exists == false) {
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 throw new RedisKeyNotExistException();
             } else {
                 Set<Tuple> tupleSet = shardedJedis.zrangeWithScores(key, start, end);
@@ -197,13 +200,13 @@ public class FansCache {
                     fans.setCreateTime(new Date((long) tuple.getScore()));
                     fansList.add(fans);
                 }
-                shardedJedisPool.returnResource(shardedJedis);
+                cacheShardedJedisPool.returnResource(shardedJedis);
                 return fansList;
             }
         } catch (JedisException t) {
             logger.error("getUserFansList", t);
             if (shardedJedis != null) {
-                shardedJedisPool.returnBrokenResource(shardedJedis);
+                cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
         }
         return null;
@@ -212,10 +215,6 @@ public class FansCache {
     private String getKey(long uid) {
         return ConstRedis.REDIS_NAMESPACE + "_" + KEY_PREFIX + "_" + uid;
     }
+
     
-
-    public void setShardedJedisPool(DesignerShardedJedisPool shardedJedisPool) {
-        this.shardedJedisPool = shardedJedisPool;
-    }
-
 }

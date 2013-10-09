@@ -144,8 +144,4 @@ public class CounterCache implements InitializingBean {
         Assert.notNull(cacheShardedJedisPool, "cacheShardedJedisPool must not null!");
     }
 
-    public void setShardedJedisPool(DesignerShardedJedisPool cacheShardedJedisPool) {
-        this.cacheShardedJedisPool = cacheShardedJedisPool;
-    }
-
 }

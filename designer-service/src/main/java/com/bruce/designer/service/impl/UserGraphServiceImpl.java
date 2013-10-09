@@ -20,6 +20,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.bruce.designer.cache.user.FansCache;
@@ -35,6 +36,7 @@ import com.bruce.designer.service.IUserFollowService;
 import com.bruce.designer.service.IUserGraphService;
 import com.bruce.designer.service.IUserService;
 
+@Service
 public class UserGraphServiceImpl implements IUserGraphService, InitializingBean {
 
     /**
@@ -153,7 +155,7 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
         if (isFollow) {
             return false;
         } else {
-            boolean isFriend = isFollow(followId, uid);
+//            boolean isFriend = isFollow(followId, uid);
 
             Date currentTime = new Date(System.currentTimeMillis());
             //添加关注
@@ -183,7 +185,7 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
             UserFans fans = new UserFans();
             fans.setUserId(followId);
             fans.setFansId(uid);
-            follow.setCreateTime(currentTime);
+            fans.setCreateTime(currentTime);
             
             if (fansService.save(fans) > 0) {
                 try {
@@ -217,7 +219,7 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
                     counterService.reduce(ConstRedis.COUNTER_KEY_FOLLOW + uid);
                 } else {
                     //TODO 队列修复
-                }
+                } 
 
                 //删除粉丝
                 if (fansService.deleteFans(unfollowId, uid) > 0) {

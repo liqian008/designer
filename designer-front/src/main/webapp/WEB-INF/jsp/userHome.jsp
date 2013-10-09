@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.model.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
+<%@ page import="com.bruce.designer.constants.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.*" %>
 
@@ -68,10 +69,20 @@ User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE)
                                 <p class="page-description">
                                     With this gallery you can create a blogpost with multiple images.
                                 </p>
+                               <%
+                               boolean isDesigner = requestUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_PASSED;
+                               if(isDesigner){
+                                   Boolean hasFollowed = (Boolean)request.getAttribute("hasFollowed");
+                                   
+                                   System.out.println(hasFollowed);
+                               	if(hasFollowed!=null&&hasFollowed){%>
+                                <a href="/designer-front/unfollow.art?uid=<%=requestUser.getId()%>" class="button button-small button-white">取消关注</a>
+                                <%}else{%>
+                                <a href="/designer-front/follow.art?uid=<%=requestUser.getId()%>" class="button button-small button-green">关注</a>
+                                <%}%>
                                 <a href="javascript:void(0)" class="button button-small">作品辑</a>
+                                <%}%>
                                 <a href="/designer-front/3/info.art" class="button button-small button-white">个人资料</a>
-                                <a href="javascript:void(0)" class="button button-small button-green">关注</a>
-                                <a href="javascript:void(0)" class="button button-small button-white">取消关注</a>
                             </div>
                             <%}%>
                         </div>
@@ -126,9 +137,9 @@ User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE)
                                     </ul>
                                 </div>
                                 <div class="content-avatar">
-                                     <div class="content-author vcard">
-                                         <img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Blogpost Comment">
-                                     </div>
+                                     <a href="/designer-front/<%=album.getUserId()%>/home.art" title="xxx">
+                                    	<img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Blogpost Comment">
+									</a>
                                  </div>
                             </article>
                         <%if(endline){%>
