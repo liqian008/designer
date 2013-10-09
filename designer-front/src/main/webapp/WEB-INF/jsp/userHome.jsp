@@ -64,17 +64,16 @@ User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE)
                                 <img src="<%=requestUser.getHeadImg()%>" alt="Page Title" width="80" height="80"/>
                             </div>
                             <div class="page-title-content">
-                            	
-                                <h3><%=requestUser.getNickname()%></h3>
+                            	<%
+                                boolean isDesigner = requestUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_PASSED;
+                            	%>
+                                <h3><%=requestUser.getNickname()%><%=isDesigner?"【设计师】":""%></h3>
                                 <p class="page-description">
                                     With this gallery you can create a blogpost with multiple images.
                                 </p>
                                <%
-                               boolean isDesigner = requestUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_PASSED;
                                if(isDesigner){
                                    Boolean hasFollowed = (Boolean)request.getAttribute("hasFollowed");
-                                   
-                                   System.out.println(hasFollowed);
                                	if(hasFollowed!=null&&hasFollowed){%>
                                 <a href="/designer-front/unfollow.art?uid=<%=requestUser.getId()%>" class="button button-small button-white">取消关注</a>
                                 <%}else{%>
@@ -95,9 +94,9 @@ User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE)
             <div class="breadscrumbs">
                 <div class="container">
                     <ul class="clearfix">
-                        <li><a href="post-gallery.html#">Home</a>/</li>
-                        <li><a href="post-gallery.html#">Blog</a>/</li>
-                        <li><a href="post-gallery.html#">Gallery Post Format</a></li>
+                        <li><a href="post-gallery.html#">首页</a>/</li>
+                        <li><a href="post-gallery.html#">他的主页</a>/</li>
+                        <li><a href="post-gallery.html#">个人资料</a></li>
                     </ul>
                 </div>
             </div>

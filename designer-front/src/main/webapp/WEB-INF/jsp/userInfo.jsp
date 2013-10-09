@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.model.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
+<%@ page import="com.bruce.designer.constants.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.*" %>
 
 <%
 SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
+User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE);
 %>
 
 <!DOCTYPE html>
@@ -57,17 +59,31 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 
                     <div class="page-title">
                         <div class="container">
+                            <%if(requestUser!=null&&requestUser.getId()!=null){%>
                             <div class="page-title-avatar">
-                                <img src="../img/demo/portraits/avatar_middle.jpg" alt="Page Title" width="80" height="80"/>
+                                <img src="<%=requestUser.getHeadImg()%>" alt="Page Title" width="80" height="80"/>
                             </div>
                             <div class="page-title-content">
-                                <h3>大树珠宝</h3>
+                            	<%
+                                boolean isDesigner = requestUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_PASSED;
+                            	%>
+                                <h3><%=requestUser.getNickname()%><%=isDesigner?"【设计师】":""%></h3>
                                 <p class="page-description">
                                     With this gallery you can create a blogpost with multiple images.
                                 </p>
-                                <a href="/designer-front/3/home.art" class="button button-small button-white">作品辑【42】</a>
-                                <a href="#" class="button button-small">个人资料</a>
+                               <%
+                               if(isDesigner){
+                                   Boolean hasFollowed = (Boolean)request.getAttribute("hasFollowed");
+                               	if(hasFollowed!=null&&hasFollowed){%>
+                                <a href="/designer-front/unfollow.art?uid=<%=requestUser.getId()%>" class="button button-small button-white">取消关注</a>
+                                <%}else{%>
+                                <a href="/designer-front/follow.art?uid=<%=requestUser.getId()%>" class="button button-small button-green">关注</a>
+                                <%}%>
+                                <a href="/designer-front/3/home.art" class="button button-small button-white">作品辑</a>
+                                <%}%>
+                                <a href="javascript:void(0)" class="button button-small">个人资料</a>
                             </div>
+                            <%}%>
                         </div>
                     </div>
                 </div> <!-- Close Header Menu -->
@@ -78,9 +94,9 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
             <div class="breadscrumbs">
                 <div class="container">
                     <ul class="clearfix">
-                        <li><a href="post-gallery.html#">Home</a>/</li>
-                        <li><a href="post-gallery.html#">Blog</a>/</li>
-                        <li><a href="post-gallery.html#">Gallery Post Format</a></li>
+                        <li><a href="post-gallery.html#">首页</a>/</li>
+                        <li><a href="post-gallery.html#">他的主页</a>/</li>
+                        <li><a href="post-gallery.html#">个人资料</a></li>
                     </ul>
                 </div>
             </div>
@@ -88,10 +104,38 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                 <div class="container">
                     <div class="row-fluid">
                         <section class="content span9">
-	                    
+	
+                            <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
+                                <ul class="tabs-nav tabs clearfix span3">
+                                	<jsp:include page="./settings/settingsTabInc.jsp"></jsp:include>
+                                </ul>
+                                <div class="tab-content span9">
+                                    <div class="tab-pane widgets-light active" id="inbox">
+			                            <div class="content-title">
+											<h4>消息中心</h4> 
+										</div>
+                                    	<%
+                                    	List<Message> messageList = (List<Message>)request.getAttribute("messageList");
+                                    	if(messageList!=null&&messageList.size()>0){
+                                    		for(Message message: messageList){
+                                    	%> 
+                                        <div class="infobox info-info clearfix">
+			                                <span>i</span>
+			                                <div class="infobox-wrap"> 
+			                                    
+			                                </div>
+			                                
+			                            </div>
+			                            <%}
+			                            }%>
+			                            
+                                    </div>
+                                </div>
+                            </div>
                         </section>
-                        
+                       	
                        	<jsp:include page="./inc/designerBox.jsp"></jsp:include>
+                    	
                     </div>                        
                 </div> <!-- Close Main -->
             </div> 
