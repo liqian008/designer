@@ -4,6 +4,10 @@ public interface ConstFront {
 	
 	/* 登录的sessionAttribute*/
 	public static final String CURRENT_USER = "_currentUser";
+	
+	/* 用户对象的Attribute*/
+    public static final String REQUEST_USER_ATTRIBUTE = "_user";
+	
 	/*跳转请求的后续链接*/
 	public static final String REDIRECT_URL = "_redirectUrl";
 	/*跳转时的文字提示*/

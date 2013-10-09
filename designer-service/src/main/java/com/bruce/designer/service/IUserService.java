@@ -1,6 +1,7 @@
 package com.bruce.designer.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.bruce.designer.model.User;
 
@@ -11,9 +12,11 @@ public interface IUserService extends IBaseService<User, Integer>{
     
     public List<User> queryDesignersByStatus(short status);
     
+    public Map<Integer, User> getUserMap(List<Integer> userIds);
+    
     public User authUser(String username, String password);
     
-    public User reloadUser(Integer userId);
+//    public User reloadUser(Integer userId);
     
     public boolean userExists(String username);
     

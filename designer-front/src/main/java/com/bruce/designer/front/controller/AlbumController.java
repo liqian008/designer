@@ -46,8 +46,8 @@ public class AlbumController {
 	@Autowired
 	private IAlbumSlideService albumSlideService;
 	@Autowired
-    private ICounterService counterService;
-
+	private ICounterService counterService;
+	
 	private static final Logger logger = LoggerFactory.getLogger(AlbumController.class);
 
 	
@@ -97,11 +97,13 @@ public class AlbumController {
 			//List<Album> albumList = albumService.queryAlbumByStatus(ConstService.ALBUM_OPEN_STATUS);
 			List<Album> albumList = albumPagingData.getPageData();
 			if(albumList!=null&&albumList.size()>0){
-//				for(Album loopAlbum: albumList){
-//					int albumId = loopAlbum.getId(); 
-//					List<Comment> commentList = commentService.queryCommentsByAlbumId(albumId);
-//					loopAlbum.setCommentList(commentList);
-//				}
+				for(Album loopAlbum: albumList){
+				    int albumId = loopAlbum.getId();
+					loopAlbum.setBrowseCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUM_BROWSE + albumId));
+                    loopAlbum.setCommentCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUM_COMMENT + albumId));
+                    loopAlbum.setLikeCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUM_LIKE + albumId));
+                    loopAlbum.setFavoriteCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUM_FAVORITE + albumId));
+				}
 				model.addAttribute("albumList", albumList);
 			}
 			model.addAttribute("albumPagingData", albumPagingData);
@@ -192,21 +194,5 @@ public class AlbumController {
         return "forward:/redirect.art";
     }
 	
-	@RequestMapping(value = "/profile/{userId}")
-	public String userProfile(Model model, @PathVariable("userId") int userId) {
-		User tbUser = userService.loadById(userId);
-		if(tbUser!=null){
-			model.addAttribute("tbUser", tbUser);
-			List<Album> albumList = albumService.queryAlbumByUserId(userId);
-			if(albumList!=null&&albumList.size()>0){
-				for(Album loopAlbum: albumList){
-					int albumId = loopAlbum.getId(); 
-					List<Comment> commentList = commentService.queryCommentsByAlbumId(albumId);
-					loopAlbum.setCommentList(commentList);
-				}
-				model.addAttribute("albumList", albumList);
-			}
-		}
-		return "userProfile";
-	}
+	
 }

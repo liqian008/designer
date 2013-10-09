@@ -57,7 +57,7 @@ public class UserCache implements InitializingBean {
         return null;
     }
 
-    public Map<Long, User> multiGetUser(List<Long> userIdList) {
+    public Map<Integer, User> multiGetUser(List<Integer> userIdList) {
         return null;
     }
 

@@ -198,7 +198,7 @@ public class UserSettingsController {
         //验证通过（修改用户状态、修改作品状态）
         int approvalResult = userService.designerApproval(user.getId());
         if(approvalResult>0){
-            User designerUser = userService.reloadUser(userId);
+            User designerUser = userService.loadById(userId);
             if(designerUser!=null){
                 request.getSession().setAttribute(ConstFront.CURRENT_USER, designerUser);
                 

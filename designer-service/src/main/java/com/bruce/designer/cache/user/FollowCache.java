@@ -20,6 +20,7 @@ import redis.clients.jedis.exceptions.JedisException;
 import com.bruce.designer.model.UserFollow;
 import com.bruce.designer.cache.DesignerShardedJedis;
 import com.bruce.designer.cache.DesignerShardedJedisPool;
+import com.bruce.designer.constants.ConstRedis;
 import com.bruce.designer.exception.RedisKeyNotExistException;
 
 /**
@@ -35,7 +36,7 @@ public class FollowCache {
      */
     private static final Logger logger = Logger.getLogger(FollowCache.class);
 
-    private static final String KEY_PREFIX = "follow_";
+    private static final String KEY_PREFIX = "follow";
 
     private DesignerShardedJedisPool shardedJedisPool;
 
@@ -270,9 +271,14 @@ public class FollowCache {
         }
         return null;
     }
+    
+    private String getKey(long uid) {
+        return ConstRedis.REDIS_NAMESPACE + "_" + KEY_PREFIX + "_" + uid;
+    }
 
     public void setShardedJedisPool(DesignerShardedJedisPool shardedJedisPool) {
         this.shardedJedisPool = shardedJedisPool;
     }
+    
 
 }

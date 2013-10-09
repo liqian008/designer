@@ -20,6 +20,7 @@ import redis.clients.jedis.exceptions.JedisException;
 import com.bruce.designer.model.UserFans;
 import com.bruce.designer.cache.DesignerShardedJedis;
 import com.bruce.designer.cache.DesignerShardedJedisPool;
+import com.bruce.designer.constants.ConstRedis;
 import com.bruce.designer.exception.RedisKeyNotExistException;
 
 /**
@@ -35,7 +36,7 @@ public class FansCache {
      */
     private static final Logger logger = Logger.getLogger(FansCache.class);
 
-    private static final String KEY_PREFIX = "fans_";
+    private static final String KEY_PREFIX = "fans";
 
     private DesignerShardedJedisPool shardedJedisPool;
 
@@ -209,8 +210,9 @@ public class FansCache {
     }
 
     private String getKey(long uid) {
-        return KEY_PREFIX + uid;
+        return ConstRedis.REDIS_NAMESPACE + "_" + KEY_PREFIX + "_" + uid;
     }
+    
 
     public void setShardedJedisPool(DesignerShardedJedisPool shardedJedisPool) {
         this.shardedJedisPool = shardedJedisPool;

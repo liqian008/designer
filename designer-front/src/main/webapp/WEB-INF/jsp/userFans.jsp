@@ -65,8 +65,8 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                                 <p class="page-description">
                                     With this gallery you can create a blogpost with multiple images.
                                 </p>
-                                <a href="#" class="button button-small">作品辑【42】</a>
-                                <a href="#" class="button button-small button-white">个人资料</a>
+                                <a href="/designer-front/3/home.art" class="button button-small button-white">作品辑【42】</a>
+                                <a href="#" class="button button-small">个人资料</a>
                             </div>
                         </div>
                     </div>
@@ -88,53 +88,10 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                 <div class="container">
                     <div class="row-fluid">
                         <section class="content span9">
-                            
-                            <%
-						List<Album> albumList = (List<Album>)request.getAttribute("albumList");
-						if(albumList!=null){
-							int count =0;
-	                        for(Album album: albumList){
-	                        	count++;
-	                        	boolean newline = count%3==1;
-	                        	boolean endline = count%3==0;
-	                    %>
-	                    <%if(newline){%>
-                    	<div class="shortcode-blogpost row-fluid">
-                        <%}%>
-                            <article class="blog-item span4">
-                                <div class="blog-post-image-wrap">
-                                    <a class="blog-single-link" href="/designer-front/album.art?id=<%=album.getId()%>">
-                                        <img src="<%=album.getCoverLargeImg()%>" alt="Portfolio Image">
-                                    </a>
-                                </div>
-                                <div class="content-wrap span9">
-                                   	<a href="#"><h5><%=album.getTitle()%></h5></a>
-                                    <ul>
-                                        <li><span>标 签:&nbsp;</span>翡翠, 珠宝, 玉石</li>
-                                        <li><span>价 格:</span>1w~2w</li>
-                                        <li>
-                                        	<%=album.getBrowseCount()%>&nbsp;浏览&nbsp;/&nbsp;
-                                        	<%=album.getCommentCount()%>&nbsp;评论&nbsp;/&nbsp;
-                                        	<%=album.getFavoriteCount()%>&nbsp;收藏&nbsp;
-                                        </li> 
-                                    </ul>
-                                </div>
-                                <div class="content-avatar">
-                                     <div class="content-author vcard">
-                                         <img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Blogpost Comment">
-                                     </div>
-                                 </div>
-                            </article>
-                        <%if(endline){%>
-                    	</div>
-                        <%}
-                        }
-	                    }%>
 	                    
                         </section>
-                       	
+                        
                        	<jsp:include page="./inc/designerBox.jsp"></jsp:include>
-                    	
                     </div>                        
                 </div> <!-- Close Main -->
             </div> 

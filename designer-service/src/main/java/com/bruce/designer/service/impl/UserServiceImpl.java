@@ -1,6 +1,8 @@
 package com.bruce.designer.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bruce.designer.model.AccessTokenInfo;
 import com.bruce.designer.model.User;
 import com.bruce.designer.model.UserCriteria;
+import com.bruce.designer.cache.user.UserCache;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.UserMapper;
 import com.bruce.designer.service.IUserService;
@@ -20,8 +23,8 @@ public class UserServiceImpl implements IUserService {
 	private UserMapper userMapper;
 	@Autowired
 	private IAccessTokenService accessTokenService;
-//	@Autowired
-//	private DesignerMapper designer;
+	@Autowired
+    private UserCache userCache;
 
 	public int save(User t) {
 		return userMapper.insert(t);
@@ -40,7 +43,15 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	public User loadById(Integer id) {
-		return userMapper.selectByPrimaryKey(id);
+	    User user = userCache.getUser(id);
+        if (user == null) {
+            user = userMapper.selectByPrimaryKey(id);
+            if (user != null) {
+                completeUser(user);
+                userCache.setUser(user);
+            }
+        }
+        return user;
 	}
 	
 	/**
@@ -65,18 +76,44 @@ public class UserServiceImpl implements IUserService {
 	/**
      * 重新加载用户
      */
-    public User reloadUser(Integer userId) {
-        User user = loadById(userId);
-        if(user!=null&&user.getId()!=null&&user.getId()>0){
-            //加载并设置第三方绑定信息
-            List<AccessTokenInfo> accessTokenList = accessTokenService.queryByUserId(user.getId());
-            //user.setAccessTokenList(accessTokenList);
-            user.refreshTokenMap(accessTokenList);
-            //返回
-            return user;
+//    public User reloadUser(Integer userId) {
+//        User user = loadById(userId);
+//        if(user!=null&&user.getId()!=null&&user.getId()>0){
+//            //加载并设置第三方绑定信息
+//            List<AccessTokenInfo> accessTokenList = accessTokenService.queryByUserId(user.getId());
+//            //user.setAccessTokenList(accessTokenList);
+//            user.refreshTokenMap(accessTokenList);
+//            //返回
+//            return user;
+//        }
+//        return null;
+//    }
+    
+    public Map<Integer, User> getUserMap(List<Integer> userIds) {
+        Map<Integer, User> userMap = userCache.multiGetUser(userIds);
+        List<Integer> leftIdList = new ArrayList<Integer>();
+        for (Integer id : userIds) {
+            User user = userMap.get(id);
+            if (user == null) {
+                leftIdList.add(id);
+            }
         }
-        return null;
+        if (leftIdList.size() > 0) {
+            //批量获取不在cache中的user
+            UserCriteria userCriteria = new UserCriteria();
+            userCriteria.createCriteria().andIdIn(leftIdList);
+            List<User> userList = userMapper.selectByExample(userCriteria);
+            for (User user : userList) {
+                if (user != null) {
+                    completeUser(user);  //补全信息
+                    userMap.put(user.getId(), user);
+                }
+            }
+            userCache.setUserList(userList);
+        }
+        return userMap;
     }
+    
 	
 	/**
 	 * 检查用户exists
@@ -152,5 +189,8 @@ public class UserServiceImpl implements IUserService {
         return userMapper.updateByExampleSelective(user, criteria);
     }
 
-
+	private void completeUser(User user) {
+	    List<AccessTokenInfo> accessTokenList = accessTokenService.queryByUserId(user.getId());
+	    user.refreshTokenMap(accessTokenList);
+    }
 }

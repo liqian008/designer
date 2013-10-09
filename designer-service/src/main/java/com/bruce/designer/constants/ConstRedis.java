@@ -10,9 +10,9 @@ public interface ConstRedis{
     public static final String REDIS_NAMESPACE = "designer";
     
     /*用户粉丝数量*/
-    public static final String COUNTER_KEY_FANS = "fans";
+    public static final String COUNTER_KEY_FANS = "fans_count_";
     /*用户关注数量*/
-    public static final String COUNTER_KEY_FOLLOW = "follow";
+    public static final String COUNTER_KEY_FOLLOW = "follow_count_";
     
     
     /*单个作品浏览数的key*/
