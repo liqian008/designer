@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.bruce.designer.bean.Feed;
-import com.bruce.designer.bean.FeedDTO;
-import com.bruce.designer.bean.Tag;
+import com.bruce.designer.model.Feed;
+import com.bruce.designer.model.FeedDTO;
+import com.bruce.designer.model.Tag;
 import com.bruce.designer.dao.FeedDTOMapper;
 import com.bruce.designer.dao.FeedLiveIndexMapper;
 import com.bruce.designer.dao.FeedTagIndexMapper;

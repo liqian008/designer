@@ -14,7 +14,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bruce.designer.bean.User;
+import com.bruce.designer.model.User;
 import com.bruce.designer.front.constants.ConstFront;
 
 public class SessionFilter implements Filter{

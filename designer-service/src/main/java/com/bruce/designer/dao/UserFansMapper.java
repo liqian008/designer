@@ -1,7 +1,7 @@
 package com.bruce.designer.dao;
 
-import com.bruce.designer.bean.UserFans;
-import com.bruce.designer.bean.UserFansCriteria;
+import com.bruce.designer.model.UserFans;
+import com.bruce.designer.model.UserFansCriteria;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

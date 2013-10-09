@@ -7,10 +7,10 @@ import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.bruce.designer.bean.Feed;
-import com.bruce.designer.bean.FeedDTO;
-import com.bruce.designer.bean.Tag;
-import com.bruce.designer.bean.upload.UploadFileInfo;
+import com.bruce.designer.model.Feed;
+import com.bruce.designer.model.FeedDTO;
+import com.bruce.designer.model.Tag;
+import com.bruce.designer.model.upload.UploadFileInfo;
 import com.bruce.designer.dao.FeedDTOMapper;
 import com.bruce.designer.dao.FeedIndexMapper;
 import com.bruce.designer.dao.FeedLiveIndexMapper;

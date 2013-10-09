@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bruce.designer.bean.AlbumSlide;
-import com.bruce.designer.bean.AlbumSlideCriteria;
+import com.bruce.designer.model.AlbumSlide;
+import com.bruce.designer.model.AlbumSlideCriteria;
 import com.bruce.designer.dao.AlbumSlideMapper;
 import com.bruce.designer.service.IAlbumSlideService;
 

@@ -1,7 +1,7 @@
 package com.bruce.designer.dao;
 
-import com.bruce.designer.bean.Comment;
-import com.bruce.designer.bean.CommentCriteria;
+import com.bruce.designer.model.Comment;
+import com.bruce.designer.model.CommentCriteria;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

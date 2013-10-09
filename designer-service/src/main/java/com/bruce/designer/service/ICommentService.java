@@ -1,7 +1,7 @@
 package com.bruce.designer.service;
 
 import java.util.List;
-import com.bruce.designer.bean.Comment;
+import com.bruce.designer.model.Comment;
 
 public interface ICommentService extends IBaseService<Comment, Long> {
 

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
-<%@ page import="com.bruce.designer.bean.*" %>
+<%@ page import="com.bruce.designer.model.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
 <%@ page import="java.util.*" %>
 

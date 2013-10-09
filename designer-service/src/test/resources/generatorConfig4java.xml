@@ -19,12 +19,12 @@
 		<javaTypeResolver>
 			<property name="forceBigDecimals" value="false" />
 		</javaTypeResolver>
-		<javaModelGenerator targetPackage="com.bruce.designer.bean"
+		<javaModelGenerator targetPackage="com.bruce.designer.model"
 			targetProject="${generate.src.dir}">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
-		<sqlMapGenerator targetPackage="com.bruce.designer.bean.mapper"
+		<sqlMapGenerator targetPackage="com.bruce.designer.model.mapper"
 			targetProject="${generate.config.dir}">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>

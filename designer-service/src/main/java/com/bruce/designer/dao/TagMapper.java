@@ -1,7 +1,7 @@
 package com.bruce.designer.dao;
 
-import com.bruce.designer.bean.Tag;
-import com.bruce.designer.bean.TagCriteria;
+import com.bruce.designer.model.Tag;
+import com.bruce.designer.model.TagCriteria;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

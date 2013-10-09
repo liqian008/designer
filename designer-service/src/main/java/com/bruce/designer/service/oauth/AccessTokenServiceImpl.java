@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bruce.designer.bean.AccessTokenInfo;
-import com.bruce.designer.bean.AccessTokenInfoCriteria;
+import com.bruce.designer.model.AccessTokenInfo;
+import com.bruce.designer.model.AccessTokenInfoCriteria;
 import com.bruce.designer.dao.AccessTokenInfoMapper;
 
 @Service

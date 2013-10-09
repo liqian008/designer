@@ -17,7 +17,7 @@ import org.springframework.util.Assert;
 
 import redis.clients.jedis.exceptions.JedisException;
 
-import com.bruce.designer.bean.Album;
+import com.bruce.designer.model.Album;
 import com.bruce.designer.cache.DesignerShardedJedis;
 import com.bruce.designer.cache.DesignerShardedJedisPool;
 //import com.google.protobuf.InvalidProtocolBufferException;

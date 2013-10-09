@@ -8,10 +8,10 @@ import org.springframework.util.Assert;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bruce.designer.bean.Album;
-import com.bruce.designer.bean.Message;
-import com.bruce.designer.bean.MessageCriteria;
-import com.bruce.designer.bean.User;
+import com.bruce.designer.model.Album;
+import com.bruce.designer.model.Message;
+import com.bruce.designer.model.MessageCriteria;
+import com.bruce.designer.model.User;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.MessageMapper;
 import com.bruce.designer.data.PagingData;

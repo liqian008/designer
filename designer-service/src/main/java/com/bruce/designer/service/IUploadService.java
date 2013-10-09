@@ -2,7 +2,7 @@ package com.bruce.designer.service;
 
 import java.io.IOException;
 
-import com.bruce.designer.bean.upload.UploadImageResult;
+import com.bruce.designer.model.upload.UploadImageResult;
 
 public interface IUploadService{ 
     

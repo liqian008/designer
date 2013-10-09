@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
-import com.bruce.designer.bean.User;
+import com.bruce.designer.model.User;
 import com.bruce.designer.cache.DesignerShardedJedis;
 import com.bruce.designer.cache.DesignerShardedJedisPool;
 import com.bruce.designer.constants.ConstRedis;

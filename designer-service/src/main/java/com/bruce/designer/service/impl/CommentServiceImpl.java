@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bruce.designer.bean.Comment;
-import com.bruce.designer.bean.CommentCriteria;
+import com.bruce.designer.model.Comment;
+import com.bruce.designer.model.CommentCriteria;
 import com.bruce.designer.dao.CommentMapper;
 import com.bruce.designer.service.ICommentService;
 

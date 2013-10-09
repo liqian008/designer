@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 import redis.clients.jedis.Tuple;
 import redis.clients.jedis.exceptions.JedisException;
 
-import com.bruce.designer.bean.UserFollow;
+import com.bruce.designer.model.UserFollow;
 import com.bruce.designer.cache.DesignerShardedJedis;
 import com.bruce.designer.cache.DesignerShardedJedisPool;
 import com.bruce.designer.exception.RedisKeyNotExistException;

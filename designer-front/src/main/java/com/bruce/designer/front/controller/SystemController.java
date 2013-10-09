@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.bruce.designer.bean.User;
+import com.bruce.designer.model.User;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.ICommentService;

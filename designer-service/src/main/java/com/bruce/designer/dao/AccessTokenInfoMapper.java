@@ -1,7 +1,7 @@
 package com.bruce.designer.dao;
 
-import com.bruce.designer.bean.AccessTokenInfo;
-import com.bruce.designer.bean.AccessTokenInfoCriteria;
+import com.bruce.designer.model.AccessTokenInfo;
+import com.bruce.designer.model.AccessTokenInfoCriteria;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

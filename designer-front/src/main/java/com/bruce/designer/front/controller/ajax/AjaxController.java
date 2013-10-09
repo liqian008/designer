@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.bruce.designer.bean.Album;
-import com.bruce.designer.bean.User;
-import com.bruce.designer.bean.upload.UploadImageResult;
+import com.bruce.designer.model.Album;
+import com.bruce.designer.model.User;
+import com.bruce.designer.model.upload.UploadImageResult;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.data.JsonResultObject;
 import com.bruce.designer.data.PagingData;

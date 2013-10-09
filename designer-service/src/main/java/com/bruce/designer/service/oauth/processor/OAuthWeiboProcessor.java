@@ -10,7 +10,7 @@ import weibo4j.model.Status;
 import weibo4j.model.WeiboException;
 import weibo4j.org.json.JSONObject;
 
-import com.bruce.designer.bean.AccessTokenInfo;
+import com.bruce.designer.model.AccessTokenInfo;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.exception.oauth.OAuthException;
 import com.bruce.designer.service.oauth.IOAuthService;

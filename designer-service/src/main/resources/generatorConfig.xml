@@ -20,10 +20,10 @@
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
 			connectionURL="jdbc:mysql://localhost:3306/designer" userId="designer"
 			password="designer" />
-		<javaModelGenerator targetPackage="com.bruce.designer.bean"
-			targetProject="designer-service"/>
-		<sqlMapGenerator targetPackage="com.bruce.designer.bean.mapper"
-			targetProject="designer-service" />
+		<javaModelGenerator targetPackage="com.bruce.designer.model"
+			targetProject="designer-model"/>
+		<sqlMapGenerator targetPackage="com.bruce.designer.model.mapper"
+			targetProject="designer-model" />
 		<javaClientGenerator targetPackage="com.bruce.designer.dao"
 			targetProject="designer-service" type="XMLMAPPER">
 			<property name="enableSubPackages" value="false"/>

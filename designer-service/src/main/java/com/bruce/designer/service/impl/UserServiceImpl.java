@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bruce.designer.bean.AccessTokenInfo;
-import com.bruce.designer.bean.User;
-import com.bruce.designer.bean.UserCriteria;
+import com.bruce.designer.model.AccessTokenInfo;
+import com.bruce.designer.model.User;
+import com.bruce.designer.model.UserCriteria;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.UserMapper;
 import com.bruce.designer.service.IUserService;

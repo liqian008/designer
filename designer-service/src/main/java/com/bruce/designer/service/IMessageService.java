@@ -2,7 +2,7 @@ package com.bruce.designer.service;
 
 import java.util.List;
 
-import com.bruce.designer.bean.Message;
+import com.bruce.designer.model.Message;
 import com.bruce.designer.data.PagingData;
 
 public interface IMessageService extends IBaseService<Message, Long>{

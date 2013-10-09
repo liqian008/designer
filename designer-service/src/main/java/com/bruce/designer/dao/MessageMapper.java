@@ -1,7 +1,7 @@
 package com.bruce.designer.dao;
 
-import com.bruce.designer.bean.Message;
-import com.bruce.designer.bean.MessageCriteria;
+import com.bruce.designer.model.Message;
+import com.bruce.designer.model.MessageCriteria;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

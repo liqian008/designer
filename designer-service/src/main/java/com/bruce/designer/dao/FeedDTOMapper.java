@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.bruce.designer.bean.FeedDTO;
-import com.bruce.designer.bean.FeedDTOCriteria;
+import com.bruce.designer.model.FeedDTO;
+import com.bruce.designer.model.FeedDTOCriteria;
 
 public interface FeedDTOMapper {
 

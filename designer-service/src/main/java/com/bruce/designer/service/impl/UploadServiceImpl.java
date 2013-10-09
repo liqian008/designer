@@ -13,9 +13,9 @@ import javax.imageio.ImageIO;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
-import com.bruce.designer.bean.upload.UploadFileInfo;
-import com.bruce.designer.bean.upload.UploadImageInfo;
-import com.bruce.designer.bean.upload.UploadImageResult;
+import com.bruce.designer.model.upload.UploadFileInfo;
+import com.bruce.designer.model.upload.UploadImageInfo;
+import com.bruce.designer.model.upload.UploadImageResult;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.service.IUploadService;
 import com.bruce.designer.util.FileUtil;

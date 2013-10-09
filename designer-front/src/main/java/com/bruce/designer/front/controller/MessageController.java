@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bruce.designer.bean.Message;
-import com.bruce.designer.bean.User;
+import com.bruce.designer.model.Message;
+import com.bruce.designer.model.User;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.service.IAlbumService;

@@ -1,6 +1,6 @@
 <%@page import="com.bruce.designer.front.controller.FrontController"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
-<%@ page import="com.bruce.designer.bean.*" %>
+<%@ page import="com.bruce.designer.model.*" %>
 <%@ page import="com.bruce.designer.service.oauth.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
 <%@ page import="java.util.*" %>
@@ -107,7 +107,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					                    %>
                                         <article class="post format-blog-left clearfix">
 			                                <div class="post-thumb-wrap span3">
-			                                        <img src="<%=album.getCoverImg()%>" alt="Blogpost Preview Image" />
+			                                        <img src="<%=album.getCoverLargeImg()%>" alt="Blogpost Preview Image" />
 			                                </div>
 			                                    
 			                                <div class="post-content span9">

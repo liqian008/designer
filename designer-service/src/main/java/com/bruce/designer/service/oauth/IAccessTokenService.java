@@ -3,7 +3,7 @@ package com.bruce.designer.service.oauth;
 
 import java.util.List;
 
-import com.bruce.designer.bean.AccessTokenInfo;
+import com.bruce.designer.model.AccessTokenInfo;
 import com.bruce.designer.service.IBaseService;
 
 

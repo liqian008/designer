@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bruce.designer.bean.Album;
-import com.bruce.designer.bean.AlbumCriteria;
+import com.bruce.designer.model.Album;
+import com.bruce.designer.model.AlbumCriteria;
 import com.bruce.designer.cache.album.AlbumCache;
 import com.bruce.designer.constants.ConstRedis;
 import com.bruce.designer.constants.ConstService;

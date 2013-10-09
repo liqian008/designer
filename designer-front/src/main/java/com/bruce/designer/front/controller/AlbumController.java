@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.bruce.designer.bean.Album;
-import com.bruce.designer.bean.AlbumSlide;
-import com.bruce.designer.bean.Comment;
-import com.bruce.designer.bean.User;
+import com.bruce.designer.model.Album;
+import com.bruce.designer.model.AlbumSlide;
+import com.bruce.designer.model.Comment;
+import com.bruce.designer.model.User;
 import com.bruce.designer.constants.ConstRedis;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.data.PagingData;

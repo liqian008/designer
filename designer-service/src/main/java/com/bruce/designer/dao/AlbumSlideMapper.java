@@ -1,7 +1,7 @@
 package com.bruce.designer.dao;
 
-import com.bruce.designer.bean.AlbumSlide;
-import com.bruce.designer.bean.AlbumSlideCriteria;
+import com.bruce.designer.model.AlbumSlide;
+import com.bruce.designer.model.AlbumSlideCriteria;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

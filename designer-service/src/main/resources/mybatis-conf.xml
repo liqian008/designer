@@ -4,23 +4,23 @@
 <configuration>
 
 	<mappers>
-		<mapper resource="com/bruce/designer/bean/mapper/UserMapper.xml" />
-		<mapper resource="com/bruce/designer/bean/mapper/AlbumMapper.xml" />
-		<mapper resource="com/bruce/designer/bean/mapper/AlbumSlideMapper.xml" /> 
-		<mapper resource="com/bruce/designer/bean/mapper/MessageMapper.xml" />
-		<mapper resource="com/bruce/designer/bean/mapper/MessageExtendMapper.xml" />
-		<mapper resource="com/bruce/designer/bean/mapper/CommentMapper.xml" />
-		<mapper resource="com/bruce/designer/bean/mapper/AccessTokenInfoMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/UserMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/AlbumMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/AlbumSlideMapper.xml" /> 
+		<mapper resource="com/bruce/designer/model/mapper/MessageMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/MessageExtendMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/CommentMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/AccessTokenInfoMapper.xml" />
 		<!-- 
-		<mapper resource="com/bruce/designer/bean/mapper/UserMessageMapper.xml"/>
-		<mapper resource="com/bruce/designer/bean/mapper/FeedDTOMapper.xml" />
-		<mapper resource="com/bruce/designer/bean/mapper/FeedDTOExtendMapper.xml" />
-		<mapper resource="com/bruce/designer/bean/mapper/FeedLiveIndexMapper.xml" />
-		<mapper resource="com/bruce/designer/bean/mapper/FeedTagIndexMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/UserMessageMapper.xml"/>
+		<mapper resource="com/bruce/designer/model/mapper/FeedDTOMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/FeedDTOExtendMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/FeedLiveIndexMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/FeedTagIndexMapper.xml" />
 		-->
 		
 		<!-- 
-		<mapper resource="com/bruce/designer/bean/mapper/DesignerMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/DesignerMapper.xml" />
 		-->
 		
 	</mappers>

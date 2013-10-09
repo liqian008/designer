@@ -21,7 +21,7 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.bruce.designer.bean.User;
+import com.bruce.designer.model.User;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.service.IUserService;
 

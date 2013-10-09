@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.bruce.designer.bean.Album;
-import com.bruce.designer.bean.AlbumSlide;
-import com.bruce.designer.bean.Comment;
-import com.bruce.designer.bean.Message;
-import com.bruce.designer.bean.User;
-import com.bruce.designer.bean.upload.UploadImageResult;
+import com.bruce.designer.model.Album;
+import com.bruce.designer.model.AlbumSlide;
+import com.bruce.designer.model.Comment;
+import com.bruce.designer.model.Message;
+import com.bruce.designer.model.User;
+import com.bruce.designer.model.upload.UploadImageResult;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.data.PagingData;
 import com.bruce.designer.front.constants.ConstFront;

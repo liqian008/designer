@@ -1,7 +1,7 @@
 package com.bruce.designer.dao;
 
-import com.bruce.designer.bean.UserFollow;
-import com.bruce.designer.bean.UserFollowCriteria;
+import com.bruce.designer.model.UserFollow;
+import com.bruce.designer.model.UserFollowCriteria;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
