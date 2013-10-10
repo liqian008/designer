@@ -64,8 +64,6 @@ public class AlbumDaoImpl implements IAlbumDao {
 //	}
 	
 	
-	
-	
 	public List<Album> queryAlbumByStatus(short status) {
 		AlbumCriteria criteria = new AlbumCriteria();
 		criteria.createCriteria().andStatusEqualTo(status);
