@@ -6,12 +6,12 @@
 <%@ page import="java.text.*"%>
 
 <%
-User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
+User queryUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE);
 %>
 
 <aside class="sidebar widgets-light span3">
-
-		<div class="widget-box widget-contact-form">
+	<%if(queryUser!=null) %>
+	<div class="widget-box widget-contact-form">
 		<div class="content-title">
 			<h4 class="widget-title">设计师个人资料</h4>
 		</div>
@@ -24,9 +24,9 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 						</a>
 					</div>
 					<div class="widget-blogpost-content">
-						<div class="widget-blogpost-date">
+						<div class="widget-blogpost-date"> 
 							<p>
-								设计师：<%=user.getNickname()%>
+								设计师：<%=queryUser.getNickname()%>
 							</p>
 							<p>
 								作品数量：xx个
@@ -38,7 +38,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					</div>
 				</li>
 			</ul>
-			<input class="contact-submit button" type="button" value="设计师主页" onclick="location.href='/designer-front/profile/<%=user.getId() %>.art'"/>
+			<input class="contact-submit button" type="button" value="设计师主页" onclick="location.href='/designer-front/profile/<%=queryUser.getId() %>.art'"/>
 			<input class="contact-submit button" type="button" value="新浪微博" onclick="location.href='/designer-front/settings.art'"/>
 		</form>
 	</div>
