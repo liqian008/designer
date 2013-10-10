@@ -11,9 +11,9 @@ import org.springframework.util.Assert;
 import com.bruce.designer.model.Feed;
 import com.bruce.designer.model.FeedDTO;
 import com.bruce.designer.model.Tag;
-import com.bruce.designer.dao.FeedDTOMapper;
-import com.bruce.designer.dao.FeedLiveIndexMapper;
-import com.bruce.designer.dao.FeedTagIndexMapper;
+import com.bruce.designer.dao.mapper.FeedDTOMapper;
+import com.bruce.designer.dao.mapper.FeedLiveIndexMapper;
+import com.bruce.designer.dao.mapper.FeedTagIndexMapper;
 import com.bruce.designer.service.IFeedDispatcher;
 import com.bruce.designer.service.IFeedService;
 

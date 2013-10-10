@@ -13,7 +13,7 @@ import com.bruce.designer.model.Message;
 import com.bruce.designer.model.MessageCriteria;
 import com.bruce.designer.model.User;
 import com.bruce.designer.constants.ConstService;
-import com.bruce.designer.dao.MessageMapper;
+import com.bruce.designer.dao.IMessageDao;
 import com.bruce.designer.data.PagingData;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
@@ -22,28 +22,28 @@ import com.bruce.designer.service.IUserService;
 public class MessageServiceImpl implements IMessageService, InitializingBean {
 
 	@Autowired
-	private MessageMapper messageMapper;
+	private IMessageDao messageDao;
 	@Autowired
 	private IUserService userService; 
 
 	public int save(Message t) {
-		return messageMapper.insertSelective(t);
+		return messageDao.save(t);
 	}
 
 	public List<Message> queryAll() {
-		return messageMapper.selectByExample(null);
+		return messageDao.queryAll();
 	}
 
 	public int updateById(Message t) {
-		return messageMapper.updateByPrimaryKeySelective(t);
+		return messageDao.updateById(t);
 	}
 
 	public int deleteById(Long id) {
-	    return messageMapper.deleteByPrimaryKey(id);
+	    return messageDao.deleteById(id);
 	}
 
 	public Message loadById(Long id) {
-		return messageMapper.selectByPrimaryKey(id);
+		return messageDao.loadById(id);
 	}
 	
 	/**
@@ -51,18 +51,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	 */
 	@Override
 	public int sendMessage(int fromId, int toId, int dialogId, String content, short messageType){
-		//保存消息实体
-	    Message message = new Message();
-		message.setMessage(content);
-		message.setMessageType(messageType);
-		message.setFromId(fromId);
-		message.setToId(toId);
-		message.setDialogId(dialogId);
-		Date currentTime = new Date(System.currentTimeMillis());
-		message.setCreateTime(currentTime);
-		int result = save(message);
-		return result;
-		//保存user_message关系
+		return messageDao.sendMessage(fromId, toId, dialogId, content, messageType);
 	}
 	
 	/**
@@ -85,7 +74,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
     @Override
     public List<Message> queryMessageSummary(int userId){
         //Sql：select id, message, message_type, source_id, from_id, to_id, dialog_id, status, create_time, update_time, sum(unread) unread from (select * from tb_message ORDER BY id desc ) aliasMessage where to_id= #{id,jdbcType=INTEGER} group by dialog_id 
-      return messageMapper.queryMessageSummary(userId);
+      return messageDao.queryMessageSummary(userId);
     }
     
 	/**
@@ -93,9 +82,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	 */
 	@Override
 	public List<Message> queryMessagesByType(int userId, short messageType) {
-		MessageCriteria criteria = new MessageCriteria();
-		criteria.createCriteria().andToIdEqualTo(userId).andMessageTypeEqualTo(messageType);
-		return messageMapper.selectByExample(criteria);
+		return messageDao.queryMessagesByType(userId, messageType);
 	}
 	
 	/**
@@ -103,17 +90,18 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	 */
     @Override
     public PagingData<Message> pagingQuery(int userId, int dialogId, int pageNo, int pageSize){
-        if(pageNo<0) pageNo = 1;
-        int offset = (pageNo-1) * pageSize;
-        MessageCriteria criteria = new MessageCriteria();
-        criteria.createCriteria().andToIdEqualTo(userId).andDialogIdEqualTo(dialogId);
-        criteria.setOffset(offset);
-        criteria.setLimit(pageSize);
-        criteria.setOrderByClause("id desc");
-        List<Message> messageList = messageMapper.selectByExample(criteria); 
-        int totalCount = messageMapper.countByExample(criteria);//总条数
-        PagingData<Message> pagingData = new PagingData<Message>(messageList, totalCount, pageNo, pageSize);
-        return pagingData;
+//        if(pageNo<0) pageNo = 1;
+//        int offset = (pageNo-1) * pageSize;
+//        MessageCriteria criteria = new MessageCriteria();
+//        criteria.createCriteria().andToIdEqualTo(userId).andDialogIdEqualTo(dialogId);
+//        criteria.setOffset(offset);
+//        criteria.setLimit(pageSize);
+//        criteria.setOrderByClause("id desc");
+//        List<Message> messageList = messageDao.selectByExample(criteria); 
+//        int totalCount = messageDao.countByExample(criteria);//总条数
+//        PagingData<Message> pagingData = new PagingData<Message>(messageList, totalCount, pageNo, pageSize);
+//        return pagingData;
+        return null;
     }
 	
 	
@@ -122,27 +110,14 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
      */
 	@Override
     public int markReadAll(int userId) {
-        Message message = new Message();
-        message.setUnread(ConstService.MESSAGE_READ);
-        //查询条件
-        MessageCriteria criteria = new MessageCriteria();
-        criteria.createCriteria().andToIdEqualTo(userId);
-        int result = messageMapper.updateByExampleSelective(message, criteria);
-        return result;
-    }
-	
+        return messageDao.markReadAll(userId);
+	}
 	/**
      * 批量标记为已读
      */
     @Override
     public int markRead(int userId, short messageType) {
-        Message message = new Message();
-        message.setUnread(ConstService.MESSAGE_READ);
-        //查询条件
-        MessageCriteria criteria = new MessageCriteria();
-        criteria.createCriteria().andToIdEqualTo(userId).andMessageTypeEqualTo(messageType);
-        int result = messageMapper.updateByExampleSelective(message, criteria);
-        return result;
+        return messageDao.markRead(userId, messageType);
     }
     
     /**
@@ -150,13 +125,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
      */
     @Override
     public int markRead(int userId, long messageId) {
-        Message message = new Message();
-        message.setUnread(ConstService.MESSAGE_READ);
-        //查询条件
-        MessageCriteria criteria = new MessageCriteria();
-        criteria.createCriteria().andToIdEqualTo(userId).andIdEqualTo(messageId);
-        int result = messageMapper.updateByExampleSelective(message, criteria);
-        return result;
+        return messageDao.markRead(userId, messageId);
     }
 
 	/**
@@ -195,8 +164,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        Assert.notNull(messageMapper, "messageMapper can't be null");
-//        Assert.notNull(userMessageMapper, "userMessageMapper can't be null");
+        Assert.notNull(messageDao, "messageDao can't be null");
         Assert.notNull(userService, "userService can't be null");
     }
 

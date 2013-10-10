@@ -26,13 +26,13 @@ import org.springframework.util.Assert;
 import com.bruce.designer.cache.user.FansCache;
 import com.bruce.designer.cache.user.FollowCache;
 import com.bruce.designer.constants.ConstRedis;
+import com.bruce.designer.dao.IUserFansDao;
+import com.bruce.designer.dao.IUserFollowDao;
 import com.bruce.designer.exception.RedisKeyNotExistException;
 import com.bruce.designer.model.User;
 import com.bruce.designer.model.UserFans;
 import com.bruce.designer.model.UserFollow;
 import com.bruce.designer.service.ICounterService;
-import com.bruce.designer.service.IUserFansService;
-import com.bruce.designer.service.IUserFollowService;
 import com.bruce.designer.service.IUserGraphService;
 import com.bruce.designer.service.IUserService;
 
@@ -46,21 +46,12 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
     
     private static final int FANS_CACHE_MAX_COUNT = 5000;
     
-    private static final long MULTI_GET_FOLLOW_TIMEOUT = 500;
+//    private static final long MULTI_GET_FOLLOW_TIMEOUT = 500;
 
-//    private static final String FOLLOW_COUNT_PREFIX = "follow_count_";
-//
-//    private static final String FANS_COUNT_PREFIX = "fans_count_";
-//
-//    private static final String FRIEND_COUNT_PREFIX = "friend_count_";
-//
-//  private FriendCache friendCache;
-
-    
     @Autowired
-    private IUserFollowService followService;
+    private IUserFollowDao followDao;
     @Autowired
-    private IUserFansService fansService;
+    private IUserFansDao fansDao;
     @Autowired
     private FollowCache followCache;
     @Autowired
@@ -79,7 +70,7 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
         try {
             followList = followCache.getAllFollowList(uid);
         } catch (Exception e) {
-            followList = followService.getFollowList(uid);
+            followList = followDao.getFollowList(uid);
             followCache.setFollowList(uid, followList);
 //            friendCache.setFriendList(uid, followList);
         }
@@ -164,21 +155,21 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
             follow.setFollowId(followId);
             follow.setCreateTime(currentTime);
 
-            if (followService.save(follow) > 0) {
+            if (followDao.save(follow) > 0) {
                 try {
                     followCache.addFollow(follow);
 //                    if (isFriend) {
 //                        friendCache.addFriend(follow);
 //                    }
                 } catch (RedisKeyNotExistException e) {
-                    List<UserFollow> followList = followService.getFollowList(uid);
+                    List<UserFollow> followList = followDao.getFollowList(uid);
                     followCache.setFollowList(uid, followList);
 //                    friendCache.setFriendList(uid, followList);
                 }
                 //增加follow计数
                 counterService.increase(ConstRedis.COUNTER_KEY_FOLLOW + uid);
             } else {
-                //TODO添加失败队列修复
+                //TODO 添加失败队列修复
             }
 
             //添加粉丝
@@ -187,17 +178,17 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
             fans.setFansId(uid);
             fans.setCreateTime(currentTime);
             
-            if (fansService.save(fans) > 0) {
+            if (fansDao.save(fans) > 0) {
                 try {
                     fansCache.addFans(fans);
                 } catch (Exception e) {
-                    List<UserFans> fansList = fansService.getFansList(followId, FANS_CACHE_MAX_COUNT);
+                    List<UserFans> fansList = fansDao.getFansList(followId, FANS_CACHE_MAX_COUNT);
                     fansCache.setFansList(followId, fansList);
                 }
                 //增加粉丝计数
                 counterService.increase(ConstRedis.COUNTER_KEY_FANS + followId);
             } else {
-                //TODO添加失败队列修复
+                //TODO 添加失败队列修复
             }
             return true;
         }
@@ -213,7 +204,7 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
             //boolean isFriend = isFollow(unfollowId, uid);
             try {
                 //删除关注
-                if (followService.deleteFollow(uid, unfollowId) > 0) {
+                if (followDao.deleteFollow(uid, unfollowId) > 0) {
                     //删cache减少计数
                     followCache.removeFollow(uid, unfollowId);
                     counterService.reduce(ConstRedis.COUNTER_KEY_FOLLOW + uid);
@@ -222,7 +213,7 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
                 } 
 
                 //删除粉丝
-                if (fansService.deleteFans(unfollowId, uid) > 0) {
+                if (fansDao.deleteFans(unfollowId, uid) > 0) {
                     fansCache.removeFans(unfollowId, uid);
                     counterService.reduce(ConstRedis.COUNTER_KEY_FANS + uid);
                 } else {
@@ -246,7 +237,7 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
         try {
             fansList = fansCache.getAllFansList(uid);
         } catch (Exception e) {
-            fansList = fansService.getFansList(uid, FANS_CACHE_MAX_COUNT);
+            fansList = fansDao.getFansList(uid, FANS_CACHE_MAX_COUNT);
             fansCache.setFansList(uid, fansList);
         }
         return fansList;
@@ -342,8 +333,8 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        Assert.notNull(fansService, "fansService must not null");
-        Assert.notNull(followService, "followService must not null");
+        Assert.notNull(fansDao, "fansDao must not null");
+        Assert.notNull(followDao, "followDao must not null");
 //        Assert.notNull(friendCache, "countService must not null");
         Assert.notNull(followCache, "countService must not null");
         Assert.notNull(fansCache, "countService must not null");

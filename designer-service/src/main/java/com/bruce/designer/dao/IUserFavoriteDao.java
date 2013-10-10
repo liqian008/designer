@@ -1,10 +1,10 @@
-package com.bruce.designer.service;
+package com.bruce.designer.dao;
 
 import java.util.List;
 
 import com.bruce.designer.model.UserFavorite;
 
-public interface IUserFavoriteService extends IBaseService<UserFavorite, Long>{ 
+public interface IUserFavoriteDao extends IBaseDao<UserFavorite, Long>{ 
     
     public List<UserFavorite> getFavoriteList(int userId, int maxCount);
 

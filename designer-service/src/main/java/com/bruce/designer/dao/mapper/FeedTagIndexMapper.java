@@ -1,4 +1,4 @@
-package com.bruce.designer.dao;
+package com.bruce.designer.dao.mapper;
 
 
 public interface FeedTagIndexMapper extends FeedIndexMapper {

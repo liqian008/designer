@@ -24,16 +24,16 @@
 			targetProject="designer-model"/>
 		<sqlMapGenerator targetPackage="com.bruce.designer.model.mapper"
 			targetProject="designer-model" />
-		<javaClientGenerator targetPackage="com.bruce.designer.dao"
+		<javaClientGenerator targetPackage="com.bruce.designer.dao.mapper"
 			targetProject="designer-service" type="XMLMAPPER">
 			<property name="enableSubPackages" value="false"/>
 		</javaClientGenerator>
 
-		<table schema="designer" tableName="tb_user_favorite" domainObjectName="UserFavorite"/>
+		<table schema="designer" tableName="tb_album" domainObjectName="Album"/>
 		<!-- 
+		<table schema="designer" tableName="tb_user_favorite" domainObjectName="UserFavorite"/>
 		<table schema="designer" tableName="tb_user_fans" domainObjectName="UserFans"/>
 		<table schema="designer" tableName="tb_user_follow" domainObjectName="UserFollow"/>		
-		<table schema="designer" tableName="tb_album" domainObjectName="Album"/>
 		<table schema="designer" tableName="tb_album_slide" domainObjectName="AlbumSlide"/>
 		<table schema="designer" tableName="tb_message" domainObjectName="Message"/>
 		<table schema="designer" tableName="tb_comment" domainObjectName="Comment"/>

@@ -1,23 +1,24 @@
-package com.bruce.designer.service.impl;
+package com.bruce.designer.dao.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
-import com.bruce.designer.dao.UserFollowMapper;
+import com.bruce.designer.dao.IUserFollowDao;
+import com.bruce.designer.dao.mapper.UserFollowMapper;
 import com.bruce.designer.model.UserFollow;
 import com.bruce.designer.model.UserFollowCriteria;
-import com.bruce.designer.service.IUserFollowService;
 
-@Service
-public class UserFollowServiceImpl implements IUserFollowService{ 
+@Repository
+public class UserFollowDaoImpl implements IUserFollowDao, InitializingBean { 
     
     @Autowired
     private UserFollowMapper userFollowMapper;
     
     public int save(UserFollow t) {
-        return userFollowMapper.insert(t);
+        return userFollowMapper.insertSelective(t);
     }
 
     public List<UserFollow> queryAll() {
@@ -49,6 +50,12 @@ public class UserFollowServiceImpl implements IUserFollowService{
         UserFollowCriteria criteria = new UserFollowCriteria();
         criteria.createCriteria().andUserIdEqualTo(uid).andFollowIdEqualTo(unfollowId);
         return userFollowMapper.deleteByExample(criteria);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        // TODO Auto-generated method stub
+        
     }
 
 } 

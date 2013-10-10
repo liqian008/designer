@@ -1,10 +1,10 @@
-package com.bruce.designer.service;
+package com.bruce.designer.dao;
 
 import java.util.List;
 
 import com.bruce.designer.model.UserFans;
 
-public interface IUserFansService extends IBaseService<UserFans, Long>{ 
+public interface IUserFansDao extends IBaseDao<UserFans, Long>{ 
     
     public List<UserFans> getFansList(int userId, int maxCount); 
 

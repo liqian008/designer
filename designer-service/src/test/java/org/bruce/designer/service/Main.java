@@ -11,9 +11,9 @@ import com.bruce.designer.model.Feed;
 import com.bruce.designer.model.FeedDTO;
 import com.bruce.designer.model.Tag;
 import com.bruce.designer.model.upload.UploadFileInfo;
-import com.bruce.designer.dao.FeedDTOMapper;
-import com.bruce.designer.dao.FeedIndexMapper;
-import com.bruce.designer.dao.FeedLiveIndexMapper;
+import com.bruce.designer.dao.mapper.FeedDTOMapper;
+import com.bruce.designer.dao.mapper.FeedIndexMapper;
+import com.bruce.designer.dao.mapper.FeedLiveIndexMapper;
 import com.bruce.designer.service.IFeedService;
 
 

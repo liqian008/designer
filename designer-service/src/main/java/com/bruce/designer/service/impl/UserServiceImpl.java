@@ -9,10 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bruce.designer.model.AccessTokenInfo;
 import com.bruce.designer.model.User;
-import com.bruce.designer.model.UserCriteria;
 import com.bruce.designer.cache.user.UserCache;
 import com.bruce.designer.constants.ConstService;
-import com.bruce.designer.dao.UserMapper;
+import com.bruce.designer.dao.IUserDao;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;
 
@@ -20,32 +19,32 @@ import com.bruce.designer.service.oauth.IAccessTokenService;
 public class UserServiceImpl implements IUserService {
 
 	@Autowired
-	private UserMapper userMapper;
+	private IUserDao userDao;
 	@Autowired
 	private IAccessTokenService accessTokenService;
 	@Autowired
     private UserCache userCache;
 
 	public int save(User t) {
-		return userMapper.insert(t);
+		return userDao.save(t);
 	}
 
 	public List<User> queryAll() {
-		return userMapper.selectByExample(null);
+		return userDao.queryAll();
 	}
 
 	public int updateById(User t) {
-		return userMapper.updateByPrimaryKeySelective(t);
+		return userDao.updateById(t);
 	}
 
 	public int deleteById(Integer id) {
-		return userMapper.deleteByPrimaryKey(id);
+		return 0;
 	}
 
 	public User loadById(Integer id) {
 	    User user = userCache.getUser(id);
         if (user == null) {
-            user = userMapper.selectByPrimaryKey(id);
+            user = userDao.loadById(id);
             if (user != null) {
                 user.setPassword(null);
                 completeUser(user);
@@ -59,16 +58,9 @@ public class UserServiceImpl implements IUserService {
 	 * 用户认证
 	 */
 	public User authUser(String username, String password) {
-		UserCriteria criteria = new UserCriteria();
-		criteria.createCriteria().andUsernameEqualTo(username).andPasswordEqualTo(password);
-		List<User> userList = userMapper.selectByExample(criteria);
-		if(userList!=null&&userList.size()==1){
-		    User user = userList.get(0);
-		    //加载并设置第三方绑定信息
-		    List<AccessTokenInfo> accessTokenList = accessTokenService.queryByUserId(user.getId());
-		    //user.setAccessTokenList(accessTokenList);
-		    user.refreshTokenMap(accessTokenList);
-		    //返回
+		User user = userDao.loadByNamePassword(username, password);
+		if(user!=null){
+		    completeUser(user);
 		    return user;
 		}
 		return null;
@@ -100,10 +92,7 @@ public class UserServiceImpl implements IUserService {
             }
         }
         if (leftIdList.size() > 0) {
-            //批量获取不在cache中的user
-            UserCriteria userCriteria = new UserCriteria();
-            userCriteria.createCriteria().andIdIn(leftIdList);
-            List<User> userList = userMapper.selectByExample(userCriteria);
+            List<User> userList = userDao.queryUsers(userIds);
             for (User user : userList) {
                 if (user != null) {
                     completeUser(user);  //补全信息
@@ -125,34 +114,20 @@ public class UserServiceImpl implements IUserService {
 	 */
 	@Override
     public boolean userExists(String username){
-        UserCriteria criteria = new UserCriteria();
-        criteria.createCriteria().andUsernameEqualTo(username);
-        List<User> userList = userMapper.selectByExample(criteria);
-        if(userList!=null&&userList.size()>0){
-            return true;
-        }
-        return false;
+        return userDao.userExists(username);
     }
 	
 	@Override
     public int changePassword(int userId, String password) {
-	    UserCriteria criteria = new UserCriteria();
-        criteria.createCriteria().andIdEqualTo(userId);
-        User user = new User();
-        user.setPassword(password);
-        return userMapper.updateByExampleSelective(user, criteria);
+	    return userDao.changePassword(userId, password);
     }
 
 	public List<User> queryUsersByStatus(short status) {
-		UserCriteria criteria = new UserCriteria();
-		criteria.createCriteria().andStatusEqualTo(status);
-		return userMapper.selectByExample(criteria);
+	    return userDao.queryUsersByStatus(status);
 	}
 	
 	public List<User> queryDesignersByStatus(short status) {
-		UserCriteria criteria = new UserCriteria();
-		criteria.createCriteria().andStatusEqualTo(status).andDesignerStatusEqualTo(ConstService.DESIGNER_APPLY_PASSED);
-		return userMapper.selectByExample(criteria);
+	    return userDao.queryDesignersByStatus(status);
 	}
 	
 	/**
@@ -183,13 +158,13 @@ public class UserServiceImpl implements IUserService {
 	 * @return
 	 */
 	private int designerApplyOp(int userId, short operationType) {
-        UserCriteria criteria = new UserCriteria();
-        criteria.createCriteria().andIdEqualTo(userId);
-        User user = new User();
-        user.setDesignerStatus(operationType);
-        return userMapper.updateByExampleSelective(user, criteria);
+        return userDao.designerApplyOp(userId, operationType);
     }
-
+	
+	/**
+	 * 完善并设置第三方绑定信息 
+	 * @param user
+	 */
 	private void completeUser(User user) {
 	    List<AccessTokenInfo> accessTokenList = accessTokenService.queryByUserId(user.getId());
 	    user.refreshTokenMap(accessTokenList);

@@ -1,23 +1,24 @@
-package com.bruce.designer.service.impl;
+package com.bruce.designer.dao.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
-import com.bruce.designer.dao.UserFavoriteMapper;
+import com.bruce.designer.dao.IUserFavoriteDao;
+import com.bruce.designer.dao.mapper.UserFavoriteMapper;
 import com.bruce.designer.model.UserFavorite;
 import com.bruce.designer.model.UserFavoriteCriteria;
-import com.bruce.designer.service.IUserFavoriteService;
 
-@Service
-public class UserFavoriteServiceImpl implements IUserFavoriteService{ 
+@Repository
+public class UserFavoriteDaoImpl implements IUserFavoriteDao, InitializingBean { 
     
     @Autowired
     private UserFavoriteMapper userFavoriteMapper;
     
     public int save(UserFavorite t) {
-        return userFavoriteMapper.insert(t);
+        return userFavoriteMapper.insertSelective(t);
     }
 
     public List<UserFavorite> queryAll() {
@@ -50,5 +51,11 @@ public class UserFavoriteServiceImpl implements IUserFavoriteService{
         UserFavoriteCriteria criteria = new UserFavoriteCriteria();
         criteria.createCriteria().andUserIdEqualTo(userId).andFavoriteAlbumIdEqualTo(albumId);
         return userFavoriteMapper.deleteByExample(criteria);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        // TODO Auto-generated method stub
+        
     }
 } 

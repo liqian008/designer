@@ -1,26 +1,24 @@
-package com.bruce.designer.service.impl;
+package com.bruce.designer.dao.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
-import com.bruce.designer.dao.UserFansMapper;
-import com.bruce.designer.model.UserFans;
-import com.bruce.designer.model.UserCriteria;
-import com.bruce.designer.model.UserFansCriteria;
+import com.bruce.designer.dao.IUserFansDao;
+import com.bruce.designer.dao.mapper.UserFansMapper;
 import com.bruce.designer.model.UserFans;
 import com.bruce.designer.model.UserFansCriteria;
-import com.bruce.designer.service.IUserFansService;
 
-@Service
-public class UserFansServiceImpl implements IUserFansService{ 
+@Repository
+public class UserFansDaoImpl implements IUserFansDao, InitializingBean {
     
     @Autowired
     private UserFansMapper userFansMapper;
     
     public int save(UserFans t) {
-        return userFansMapper.insert(t);
+        return userFansMapper.insertSelective(t);
     }
 
     public List<UserFans> queryAll() {
@@ -53,5 +51,11 @@ public class UserFansServiceImpl implements IUserFansService{
         UserFansCriteria criteria = new UserFansCriteria();
         criteria.createCriteria().andUserIdEqualTo(unfollowId).andFansIdEqualTo(uid);
         return userFansMapper.deleteByExample(criteria);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        // TODO Auto-generated method stub
+        
     }
 } 

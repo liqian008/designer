@@ -5,57 +5,47 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bruce.designer.dao.IAccessTokenDao;
 import com.bruce.designer.model.AccessTokenInfo;
 import com.bruce.designer.model.AccessTokenInfoCriteria;
-import com.bruce.designer.dao.AccessTokenInfoMapper;
 
 @Service
 public class AccessTokenServiceImpl implements IAccessTokenService {
 
 	@Autowired
-	private AccessTokenInfoMapper accessTokenInfoMapper;
+	private IAccessTokenDao accessTokenDao;
 
 	public int save(AccessTokenInfo t) {
-		return accessTokenInfoMapper.insert(t);
+		return accessTokenDao.save(t);
 	}
 
 	public List<AccessTokenInfo> queryAll() {
-		return accessTokenInfoMapper.selectByExample(null);
+		return accessTokenDao.queryAll();
 	}
 
 	public int updateById(AccessTokenInfo t) {
-		return accessTokenInfoMapper.updateByPrimaryKeySelective(t);
+		return accessTokenDao.updateById(t);
 	}
 
 	public int deleteById(Integer id) {
-		return accessTokenInfoMapper.deleteByPrimaryKey(id);
+		return accessTokenDao.deleteById(id);
 	}
 
 	public AccessTokenInfo loadById(Integer id) {
-		return accessTokenInfoMapper.selectByPrimaryKey(id);
+		return accessTokenDao.loadById(id);
 	}
 	
     @Override
     public AccessTokenInfo load(String thirdpartyUid, Short thirdpartyType) {
-        AccessTokenInfoCriteria criteria = new AccessTokenInfoCriteria();
-        criteria.createCriteria().andThirdpartyUidEqualTo(thirdpartyUid).andThirdpartyTypeEqualTo(thirdpartyType);
-        
-        List<AccessTokenInfo> tokenList = accessTokenInfoMapper.selectByExample(criteria);
-        if(tokenList!=null&&tokenList.size()==1){
-            return tokenList.get(0);
-        }
-        return null;
+        return accessTokenDao.load(thirdpartyUid, thirdpartyType);
     }
-    
     
     /**
      * 查询用户已绑定的第三方账户
      */
     @Override
     public List<AccessTokenInfo> queryByUserId(Integer userId){
-        AccessTokenInfoCriteria criteria = new AccessTokenInfoCriteria();
-        criteria.createCriteria().andUserIdEqualTo(userId);
-        return accessTokenInfoMapper.selectByExample(criteria);
+        return accessTokenDao.queryByUserId(userId);
     }
     
     /**
@@ -63,9 +53,7 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
      */
     @Override
     public int delete(Integer userId, Short thirdpartyType) {
-        AccessTokenInfoCriteria criteria = new AccessTokenInfoCriteria();
-        criteria.createCriteria().andUserIdEqualTo(userId).andThirdpartyTypeEqualTo(thirdpartyType);
-        return accessTokenInfoMapper.deleteByExample(criteria);
+        return accessTokenDao.delete(userId, thirdpartyType);
     }
     
 }
