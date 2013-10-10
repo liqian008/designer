@@ -38,6 +38,17 @@ public class AlbumDaoImpl implements IAlbumDao {
 		return albumMapper.selectByExample(null);
 	}
 	
+	public List<Album> queryList(int start, int limit){
+	    AlbumCriteria criteria = new AlbumCriteria();
+        criteria.createCriteria();
+        criteria.setStart(start);
+        criteria.setLimit(start);
+        criteria.setOrderByClause("id desc");
+        List<Album> albumList = albumMapper.selectByExample(criteria);
+        return albumList;
+	}
+	
+	
 //	public PagingData<Album> pagingQuery(short status, int pageNo, int pageSize){
 //		if(pageNo<0) pageNo = 1;
 //		int offset = (pageNo-1) * pageSize;
@@ -51,6 +62,7 @@ public class AlbumDaoImpl implements IAlbumDao {
 //		PagingData<Album> pagingData = new PagingData<Album>(albumList, totalCount, pageNo, pageSize);
 //		return pagingData;
 //	}
+	
 	
 	public List<Album> queryAlbumByStatus(short status) {
 		AlbumCriteria criteria = new AlbumCriteria();

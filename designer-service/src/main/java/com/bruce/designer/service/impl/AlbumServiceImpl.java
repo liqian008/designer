@@ -46,18 +46,11 @@ public class AlbumServiceImpl implements IAlbumService {
 	}
 	
 	public PagingData<Album> pagingQuery(short status, int pageNo, int pageSize){
-//		if(pageNo<0) pageNo = 1;
-//		int offset = (pageNo-1) * pageSize;
-//		AlbumCriteria criteria = new AlbumCriteria();
-//		criteria.createCriteria().andStatusEqualTo(status);
-//		criteria.setOffset(offset);
-//		criteria.setLimit(pageSize);
-//		criteria.setOrderByClause("id desc");
-//		List<Album> albumList = albumDao.selectByExample(criteria);
-//		int totalCount = albumDao.countByExample(criteria);//总条数
-//		PagingData<Album> pagingData = new PagingData<Album>(albumList, totalCount, pageNo, pageSize);
-//		return pagingData;
-	    return null;
+	    pageNo = pageNo<1?1:pageNo;
+        List<Album> albumList = albumDao.queryList((pageNo-1)*pageSize, pageSize);
+        int totalCount = -1;//
+        PagingData<Album> pagingData = new PagingData<Album>(albumList, totalCount, pageNo, pageSize);
+        return pagingData;
 	}
 	
 	public List<Album> queryAlbumByStatus(short status) {

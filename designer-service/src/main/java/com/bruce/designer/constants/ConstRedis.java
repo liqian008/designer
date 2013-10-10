@@ -13,7 +13,8 @@ public interface ConstRedis{
     public static final String COUNTER_KEY_FANS = "fans_count_";
     /*用户关注数量*/
     public static final String COUNTER_KEY_FOLLOW = "follow_count_";
-    
+    /*用户收藏数量*/
+    public static final String COUNTER_KEY_FAVORITE = "favorite_count_";
     
     /*单个作品浏览数的key*/
     public static final String COUNTER_KEY_ALBUMSLIDE_BROWSE = "albumslide_browse_";

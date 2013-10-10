@@ -39,6 +39,11 @@ public class UserFansDaoImpl implements IUserFansDao, InitializingBean {
 
     
     @Override
+    public List<UserFans> getFansList(int userId) {
+        return getFansList(userId, -1);
+    }
+    
+    @Override
     public List<UserFans> getFansList(int userId, int maxCount) {
         UserFansCriteria criteria = new UserFansCriteria();
         criteria.createCriteria().andUserIdEqualTo(userId);
