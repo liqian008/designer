@@ -42,7 +42,7 @@ public class UserCache implements InitializingBean {
     @Autowired
     private DesignerShardedJedisPool cacheShardedJedisPool;
 
-    public User getUser(long userId) {
+    public User getUser(int userId) {
         DesignerShardedJedis shardedJedis = null;
         try {
             shardedJedis = cacheShardedJedisPool.getResource();
@@ -93,7 +93,7 @@ public class UserCache implements InitializingBean {
         return false;
     }
 
-    public boolean deleteUser(long userId) {
+    public boolean deleteUser(int userId) {
         DesignerShardedJedis shardedJedis = null;
         try {
             shardedJedis = cacheShardedJedisPool.getResource();
@@ -109,7 +109,7 @@ public class UserCache implements InitializingBean {
         return false;
     }
 
-    private String getKey(long userId) {
+    private String getKey(int userId) {
         return ConstRedis.REDIS_NAMESPACE + "_" + KEY_PREFIX + "_" + userId;
     }
     

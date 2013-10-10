@@ -1,4 +1,4 @@
-package com.bruce.designer.dao;
+package com.bruce.designer.dao.mapper;
 
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumCriteria;

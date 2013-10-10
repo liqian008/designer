@@ -1,6 +1,6 @@
 package com.bruce.designer.service.impl;
 
-import com.bruce.designer.dao.FeedIndexMapper;
+import com.bruce.designer.dao.mapper.FeedIndexMapper;
 import com.bruce.designer.service.IFeedDispatcher;
 
 

@@ -1,4 +1,4 @@
-package com.bruce.designer.dao;
+package com.bruce.designer.dao.mapper;
 
 import com.bruce.designer.model.UserFans;
 import com.bruce.designer.model.UserFansCriteria;
