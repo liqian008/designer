@@ -79,11 +79,12 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
 
     @Override
     public List<UserFollow> getFollowList(int uid, int page, int pageSize) {
+        page = page<1?1:page;
         List<UserFollow> followList = getFollowList(uid);
         if (followList != null && followList.size() > 0) {
             int size = followList.size();
-            int fromIndex = page * pageSize;
-            int toIndex = (page + 1) * pageSize;
+            int fromIndex = (page - 1) * pageSize;
+            int toIndex = (page) * pageSize;
             if (size > fromIndex) {
                 toIndex = toIndex > size ? size : toIndex;
                 return followList.subList(fromIndex, toIndex);
@@ -245,11 +246,12 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
 
     @Override
     public List<UserFans> getFansList(int uid, int page, int pageSize) {
+        page = page<1?1:page;
         List<UserFans> fansList = getFansList(uid);
         if (fansList != null && fansList.size() > 0) {
             int size = fansList.size();
-            int fromIndex = page * pageSize;
-            int toIndex = (page + 1) * pageSize;
+            int fromIndex = (page-1) * pageSize;
+            int toIndex = (page) * pageSize;
             if (size > fromIndex) {
                 toIndex = toIndex > size ? size : toIndex;
                 return fansList.subList(fromIndex, toIndex);

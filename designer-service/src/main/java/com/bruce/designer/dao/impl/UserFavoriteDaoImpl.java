@@ -17,6 +17,8 @@ public class UserFavoriteDaoImpl implements IUserFavoriteDao, InitializingBean {
     @Autowired
     private UserFavoriteMapper userFavoriteMapper;
     
+    
+    
     public int save(UserFavorite t) {
         return userFavoriteMapper.insertSelective(t);
     }
