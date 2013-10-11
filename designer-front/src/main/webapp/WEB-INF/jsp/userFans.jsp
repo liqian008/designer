@@ -134,7 +134,7 @@ User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE)
 		                                                <a href="#"><h5><%=fan.getFansId()%></h5></a>
 		                                            </div>
 		                                            <div class="blogpost-date">
-		                                                <p><a href="#"><%=fan%></a></p>
+		                                            	<a href="javascript:void(0)" class="button button-small button-green">关注</a>
 		                                            </div>
 		                                        </div>
 		                                    </li>

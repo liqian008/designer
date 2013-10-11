@@ -2557,7 +2557,7 @@ blockquote {
 	margin: 0 0 10px 0;
 }
 
-.shortcode-tabs ul li a { margin: 0 5px 5px 0; }
+.shortcode-tabs ul.tabs-nav li a { margin: 0 5px 5px 0; }
 
 .shortcode-tabs .shortcode-tabs .tab-content { margin: 5px 0 0 0; }
 

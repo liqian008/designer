@@ -1,5 +1,6 @@
 package com.bruce.designer.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
@@ -16,8 +17,6 @@ public class UserFavoriteDaoImpl implements IUserFavoriteDao, InitializingBean {
     
     @Autowired
     private UserFavoriteMapper userFavoriteMapper;
-    
-    
     
     public int save(UserFavorite t) {
         return userFavoriteMapper.insertSelective(t);
@@ -47,12 +46,31 @@ public class UserFavoriteDaoImpl implements IUserFavoriteDao, InitializingBean {
         List<UserFavorite> fansList = userFavoriteMapper.selectByExample(criteria);
         return fansList;
     }
+    
+    @Override
+    public int favorite(int userId, int albumId) {
+        Date currentTime = new Date(System.currentTimeMillis());
+        //添加关注
+        UserFavorite favorite = new UserFavorite();
+        favorite.setUserId(userId);
+        favorite.setFavoriteAlbumId(albumId);
+        favorite.setCreateTime(currentTime);
+        return save(favorite);
+    }
 
     @Override
     public int deleteFavorite(int userId, int albumId) {
         UserFavoriteCriteria criteria = new UserFavoriteCriteria();
         criteria.createCriteria().andUserIdEqualTo(userId).andFavoriteAlbumIdEqualTo(albumId);
         return userFavoriteMapper.deleteByExample(criteria);
+    }
+    
+    @Override
+    public boolean isFavorite(int userId, int albumId) {
+        UserFavoriteCriteria criteria = new UserFavoriteCriteria();
+        criteria.createCriteria().andUserIdEqualTo(userId).andFavoriteAlbumIdEqualTo(albumId);
+        List<UserFavorite> favoriteList = userFavoriteMapper.selectByExample(criteria);
+        return favoriteList!=null&&favoriteList.size()>0;
     }
 
     @Override

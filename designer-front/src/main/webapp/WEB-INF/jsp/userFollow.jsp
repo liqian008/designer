@@ -116,7 +116,7 @@ User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE)
                                     	 <div class="content-title">
 											<h4>关注的设计师</h4> 
 										</div>
-                                    	<div class="shortcode-blogpost-thumb shortcode-blogpost-medium span12">
+                                    	<div class="shortcode-blogpost-thumb shortcode-blogpost-small span12">
 		                                <ul>
 		                                    <%
 		                                	List<UserFollow> followList = (List<UserFollow>)request.getAttribute("followList");
@@ -131,10 +131,10 @@ User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE)
 		                                        </div>
 		                                        <div class="blogpost-content">
 		                                            <div class="blogpost-title ">
-		                                                <a href="#"><h5><%=follow.getFollowId()%></h5></a>
+		                                                <a href="#"><h6><%=follow.getFollowId()%></h6></a>
 		                                            </div>
 		                                            <div class="blogpost-date">
-		                                                <p><a href="#"><%=follow%></a></p>
+		                                            	<a href="javascript:void(0)" class="button button-small button-green">关注</a>
 		                                            </div>
 		                                        </div>
 		                                    </li>

@@ -9,7 +9,6 @@ public interface IUserFavoriteService{
     
     public List<UserFavorite> getFavoriteList(int userId);
 
-    public int deleteFavorite(int userId, int albumId);
 
     public List<UserFavorite> getFavoriteList(int userId, int page, int pageSize);
 
@@ -20,5 +19,7 @@ public interface IUserFavoriteService{
     boolean favorite(int uid, int albumId);
 
     boolean unfavorite(int uid, int albumId);  
+    
+//    public int deleteFavorite(int userId, int albumId);
     
 } 

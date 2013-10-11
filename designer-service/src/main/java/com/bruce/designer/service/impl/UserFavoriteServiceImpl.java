@@ -25,92 +25,64 @@ public class UserFavoriteServiceImpl implements IUserFavoriteService{
     @Autowired
     private ICounterService counterService;
 
-    private FavoriteCache favoriteCache;
+//    private FavoriteCache favoriteCache;
     
     @Override
-    public boolean favorite(int uid, int albumId) {
+    public boolean favorite(int userId, int albumId) {
         //检测是否favorite
-        boolean isFavorite = isFavorite(uid, albumId);
+        boolean isFavorite = isFavorite(userId, albumId);
         if (isFavorite) {
             return false;
         } else {
-            Date currentTime = new Date(System.currentTimeMillis());
-            //添加关注
-            UserFavorite favorite = new UserFavorite();
-            favorite.setUserId(uid);
-            favorite.setFavoriteAlbumId(albumId);
-            favorite.setCreateTime(currentTime);
-
-            if (userFavoriteDao.save(favorite) > 0) {
-                try {
-                    favoriteCache.addFavorite(favorite);
-                } catch (RedisKeyNotExistException e) {
-                    List<UserFavorite> favoriteList = userFavoriteDao.getFavoriteList(uid, FAVORITE_CACHE_MAX_COUNT);
-                    favoriteCache.setFavoriteList(uid, favoriteList);
-                }
+            if (userFavoriteDao.favorite(userId, albumId) > 0) {
                 //增加favorite计数
-                counterService.increase(ConstRedis.COUNTER_KEY_FAVORITE + uid);
+                counterService.increase(ConstRedis.COUNTER_KEY_FAVORITE + userId);
             } else {
-                //TODO 添加失败队列修复
+                
             }
-
             return true;
         }
     }
     
     @Override
-    public boolean unfavorite(int uid, int albumId) {
-        boolean isFavorite = isFavorite(uid, albumId);
-        if (isFavorite) {
-            try {
-                //删除关注
-                if (userFavoriteDao.deleteFavorite(uid, albumId) >= 0) {
-                    //删cache减少计数
-                    favoriteCache.removeFavorite(uid, albumId);
-                    counterService.reduce(ConstRedis.COUNTER_KEY_FAVORITE + uid);
-                } else {
-                    //TODO 队列修复
-                } 
+    public boolean unfavorite(int userId, int albumId) {
+        try {
+            //删除关注
+            if (userFavoriteDao.deleteFavorite(userId, albumId) >= 0) {
+                //删cache减少计数
+//                favoriteCache.removeFavorite(userId, albumId);
+                counterService.reduce(ConstRedis.COUNTER_KEY_FAVORITE + userId);
                 return true;
-            } catch (Exception e) {
-                
             }
-
-        } else {
-            return false;
+        } catch (Exception e) {
         }
         return false;
     }
     
     @Override
-    public boolean isFavorite(int uid, int albumId) {
-        boolean isFavorite = false;
-        try {
-            isFavorite = favoriteCache.isFavorite(uid, albumId);
-        } catch (Exception e) {
-            List<UserFavorite> favoriteList = getFavoriteList(uid);
-            favoriteCache.setFavoriteList(uid, favoriteList);
-            if (favoriteList != null) {
-                for (UserFavorite favorite : favoriteList) {
-                    if (favorite.getFavoriteAlbumId() == albumId) {
-                        isFavorite = true;
-                        break;
-                    }
-                }
-            }
-        }
-        return isFavorite;
+    public boolean isFavorite(int userId, int albumId) {
+//        boolean isFavorite = false;
+//        try {
+//            isFavorite = favoriteCache.isFavorite(userId, albumId);
+//        } catch (Exception e) {
+//            List<UserFavorite> favoriteList = getFavoriteList(userId);
+//            favoriteCache.setFavoriteList(userId, favoriteList);
+//            if (favoriteList != null) {
+//                for (UserFavorite favorite : favoriteList) {
+//                    if (favorite.getFavoriteAlbumId() == albumId) {
+//                        isFavorite = true;
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//        return isFavorite;
+        return userFavoriteDao.isFavorite(userId, albumId);
     }
     
     @Override
     public List<UserFavorite> getFavoriteList(int userId) {
-        List<UserFavorite> favoriteList;
-        try {
-            favoriteList = favoriteCache.getAllFavoriteList(userId);
-        } catch (Exception e) {
-            favoriteList = userFavoriteDao.getFavoriteList(userId, FAVORITE_CACHE_MAX_COUNT);
-            favoriteCache.setFavoriteList(userId, favoriteList);
-        }
+        List<UserFavorite> favoriteList = userFavoriteDao.getFavoriteList(userId, FAVORITE_CACHE_MAX_COUNT);
         return favoriteList;
     }
     
@@ -127,11 +99,6 @@ public class UserFavoriteServiceImpl implements IUserFavoriteService{
             }
         }
         return new ArrayList<UserFavorite>();
-    }
-
-    @Override
-    public int deleteFavorite(int userId, int albumId) {
-        return userFavoriteDao.deleteFavorite(userId, albumId);
     }
     
     @Override
