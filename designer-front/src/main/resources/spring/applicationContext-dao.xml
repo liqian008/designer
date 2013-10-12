@@ -31,8 +31,8 @@
 		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.UserMapper" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
-	<bean id="userFansMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.UserFansMapper" />
+	<bean id="userFanMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.UserFanMapper" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 	<bean id="userFollowMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">

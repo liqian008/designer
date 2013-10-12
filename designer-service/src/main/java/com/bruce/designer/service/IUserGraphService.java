@@ -3,7 +3,7 @@ package com.bruce.designer.service;
 import java.util.List;
 
 import com.bruce.designer.model.User;
-import com.bruce.designer.model.UserFans;
+import com.bruce.designer.model.UserFan;
 import com.bruce.designer.model.UserFollow;
 
 public interface IUserGraphService{
@@ -64,7 +64,7 @@ public interface IUserGraphService{
      * @param id
      * @return
      */
-    public List<UserFans> getFansList(int uid);
+    public List<UserFan> getFanList(int uid);
 
     /**
      * 获取粉丝列表
@@ -72,7 +72,7 @@ public interface IUserGraphService{
      * @param id
      * @return
      */
-    public List<UserFans> getFansList(int uid, int page, int pageSize);
+    public List<UserFan> getFanList(int uid, int page, int pageSize);
 
     /**
      * 获取粉丝列表
@@ -80,7 +80,7 @@ public interface IUserGraphService{
      * @param id
      * @return
      */
-    public List<UserFans> getFansListWithUser(int uid, int page, int pageSize);
+    public List<UserFan> getFanListWithUser(int uid, int page, int pageSize);
 
     /**
      * 获取共同关注
@@ -175,6 +175,6 @@ public interface IUserGraphService{
      * @param uid
      * @return
      */
-    public long getFansCount(int uid);
+    public long getFanCount(int uid);
 
 }

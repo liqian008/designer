@@ -119,9 +119,9 @@ User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE)
                                     	<div class="shortcode-blogpost-thumb shortcode-blogpost-medium span12">
 		                                <ul>
 		                                	<%
-		                                	List<UserFans> fansList = (List<UserFans>)request.getAttribute("fansList");
+		                                	List<UserFan> fansList = (List<UserFan>)request.getAttribute("fansList");
 		                                	if(fansList!=null&&fansList.size()>0){
-		                                	for(UserFans fan: fansList){
+		                                	for(UserFan fan: fansList){
 		                                	%>
 		                                    <li class="clearfix">
 		                                        <div class="blogpost-avatar">
@@ -131,7 +131,7 @@ User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE)
 		                                        </div>
 		                                        <div class="blogpost-content">
 		                                            <div class="blogpost-title ">
-		                                                <a href="#"><h5><%=fan.getFansId()%></h5></a>
+		                                                <a href="#"><h5><%=fan.getFanId()%></h5></a>
 		                                            </div>
 		                                            <div class="blogpost-date">
 		                                            	<a href="javascript:void(0)" class="button button-small button-green">关注</a>

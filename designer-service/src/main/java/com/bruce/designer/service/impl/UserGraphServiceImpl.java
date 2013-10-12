@@ -23,14 +23,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.bruce.designer.cache.user.FansCache;
+import com.bruce.designer.cache.user.FanCache;
 import com.bruce.designer.cache.user.FollowCache;
 import com.bruce.designer.constants.ConstRedis;
-import com.bruce.designer.dao.IUserFansDao;
+import com.bruce.designer.dao.IUserFanDao;
 import com.bruce.designer.dao.IUserFollowDao;
 import com.bruce.designer.exception.RedisKeyNotExistException;
 import com.bruce.designer.model.User;
-import com.bruce.designer.model.UserFans;
+import com.bruce.designer.model.UserFan;
 import com.bruce.designer.model.UserFollow;
 import com.bruce.designer.service.ICounterService;
 import com.bruce.designer.service.IUserGraphService;
@@ -51,11 +51,11 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
     @Autowired
     private IUserFollowDao followDao;
     @Autowired
-    private IUserFansDao fansDao;
+    private IUserFanDao fanDao;
     @Autowired
     private FollowCache followCache;
     @Autowired
-    private FansCache fansCache;
+    private FanCache fanCache;
     @Autowired
     private ICounterService counterService;
     @Autowired
@@ -96,19 +96,19 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
     @Override
     public List<UserFollow> getFollowListWithUser(int uid, int page, int pageSize) {
         List<UserFollow> followList = getFollowList(uid, page, pageSize);
-//        List<Integer> userIdList = new ArrayList<Integer>();
-//        userIdList.add(uid);
-//        for (UserFollow follow : followList) {
-//            userIdList.add(follow.getFollowId());
-//        }
-//
-//        Map<Integer, User> userMap = userService.getUserMap(userIdList);
-//        User user = userMap.get(uid);
-//
-//        for (UserFollow follow : followList) {
-//            follow.setUser(user);
-//            follow.setFollowUser(userMap.get(follow.getFollowId()));
-//        }
+        List<Integer> userIdList = new ArrayList<Integer>();
+        userIdList.add(uid);
+        for (UserFollow follow : followList) {
+            userIdList.add(follow.getFollowId());
+        }
+
+        Map<Integer, User> userMap = userService.getUserMap(userIdList);
+        User followUser = userMap.get(uid);
+
+        for (UserFollow follow : followList) {
+            follow.setFollowUser(followUser);
+            follow.setFollowUser(userMap.get(follow.getFollowId()));
+        }
 
         return followList;
     }
@@ -174,20 +174,20 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
             }
 
             //添加粉丝
-            UserFans fans = new UserFans();
-            fans.setUserId(followId);
-            fans.setFansId(uid);
-            fans.setCreateTime(currentTime);
+            UserFan fan = new UserFan();
+            fan.setUserId(followId);
+            fan.setFanId(uid);
+            fan.setCreateTime(currentTime);
             
-            if (fansDao.save(fans) > 0) {
+            if (fanDao.save(fan) > 0) {
                 try {
-                    fansCache.addFans(fans);
+                    fanCache.addFan(fan);
                 } catch (Exception e) {
-                    List<UserFans> fansList = fansDao.getFansList(followId, FANS_CACHE_MAX_COUNT);
-                    fansCache.setFansList(followId, fansList);
+                    List<UserFan> fanList = fanDao.getFanList(followId, FANS_CACHE_MAX_COUNT);
+                    fanCache.setFanList(followId, fanList);
                 }
                 //增加粉丝计数
-                counterService.increase(ConstRedis.COUNTER_KEY_FANS + followId);
+                counterService.increase(ConstRedis.COUNTER_KEY_FAN + followId);
             } else {
                 //TODO 添加失败队列修复
             }
@@ -214,9 +214,9 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
                 } 
 
                 //删除粉丝
-                if (fansDao.deleteFans(unfollowId, uid) > 0) {
-                    fansCache.removeFans(unfollowId, uid);
-                    counterService.reduce(ConstRedis.COUNTER_KEY_FANS + uid);
+                if (fanDao.deleteFan(unfollowId, uid) > 0) {
+                    fanCache.removeFan(unfollowId, uid);
+                    counterService.reduce(ConstRedis.COUNTER_KEY_FAN + uid);
                 } else {
                     //TODO 队列修复
                 }
@@ -233,51 +233,51 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
     }
 
     @Override
-    public List<UserFans> getFansList(int uid) {
-        List<UserFans> fansList;
+    public List<UserFan> getFanList(int uid) {
+        List<UserFan> fanList;
         try {
-            fansList = fansCache.getAllFansList(uid);
+            fanList = fanCache.getAllFanList(uid);
         } catch (Exception e) {
-            fansList = fansDao.getFansList(uid, FANS_CACHE_MAX_COUNT);
-            fansCache.setFansList(uid, fansList);
+            fanList = fanDao.getFanList(uid, FANS_CACHE_MAX_COUNT);
+            fanCache.setFanList(uid, fanList);
         }
-        return fansList;
+        return fanList;
     }
 
     @Override
-    public List<UserFans> getFansList(int uid, int page, int pageSize) {
+    public List<UserFan> getFanList(int uid, int page, int pageSize) {
         page = page<1?1:page;
-        List<UserFans> fansList = getFansList(uid);
-        if (fansList != null && fansList.size() > 0) {
-            int size = fansList.size();
+        List<UserFan> fanList = getFanList(uid);
+        if (fanList != null && fanList.size() > 0) {
+            int size = fanList.size();
             int fromIndex = (page-1) * pageSize;
             int toIndex = (page) * pageSize;
             if (size > fromIndex) {
                 toIndex = toIndex > size ? size : toIndex;
-                return fansList.subList(fromIndex, toIndex);
+                return fanList.subList(fromIndex, toIndex);
             }
         }
-        return new ArrayList<UserFans>();
+        return new ArrayList<UserFan>();
     }
 
     @Override
-    public List<UserFans> getFansListWithUser(int uid, int page, int pageSize) {
-        List<UserFans> fansList = getFansList(uid, page, pageSize);
-//        List<Integer> userIdList = new ArrayList<Integer>();
-//        userIdList.add(uid);
-//        for (UserFans fans : fansList) {
-//            userIdList.add(fans.getFansId());
-//        }
-//
-//        Map<Integer, User> userMap = userService.getUserMap(userIdList);
-//        User user = userMap.get(uid);
-//
-//        for (UserFans fans : fansList) {
-//            fans.setUser(user);
-//            fans.setFansUser(userMap.get(fans.getFansId()));
-//        }
+    public List<UserFan> getFanListWithUser(int uid, int page, int pageSize) {
+        List<UserFan> fanList = getFanList(uid, page, pageSize);
+        List<Integer> userIdList = new ArrayList<Integer>();
+        userIdList.add(uid);
+        for (UserFan fan : fanList) {
+            userIdList.add(fan.getFanId());
+        }
 
-        return fansList;
+        Map<Integer, User> userMap = userService.getUserMap(userIdList);
+        User fanUser = userMap.get(uid);
+
+        for (UserFan fan : fanList) {
+            fan.setFanUser(fanUser);
+            fan.setFanUser(userMap.get(fan.getFanId()));
+        }
+
+        return fanList;
     }
 
     @Override
@@ -335,11 +335,11 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        Assert.notNull(fansDao, "fansDao must not null");
+        Assert.notNull(fanDao, "fanDao must not null");
         Assert.notNull(followDao, "followDao must not null");
 //        Assert.notNull(friendCache, "countService must not null");
         Assert.notNull(followCache, "countService must not null");
-        Assert.notNull(fansCache, "countService must not null");
+        Assert.notNull(fanCache, "countService must not null");
         Assert.notNull(counterService, "countService must not null");
         Assert.notNull(userService, "userService must not null");
     }
@@ -350,8 +350,8 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
     }
 
     @Override
-    public long getFansCount(int uid) {
-        return (int) counterService.getCount(ConstRedis.COUNTER_KEY_FANS + uid);
+    public long getFanCount(int uid) {
+        return (int) counterService.getCount(ConstRedis.COUNTER_KEY_FAN + uid);
     }
 
 }

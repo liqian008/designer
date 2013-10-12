@@ -208,11 +208,11 @@ CREATE TABLE `tb_feed_index_tag` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `tb_user_fans`;
-CREATE TABLE `tb_user_fans` (
+DROP TABLE IF EXISTS `tb_user_fan`;
+CREATE TABLE `tb_user_fan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `fans_id` int(11) NOT NULL,
+  `fan_id` int(11) NOT NULL,
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
