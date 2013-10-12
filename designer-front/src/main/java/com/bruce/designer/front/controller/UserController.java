@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.User;
-import com.bruce.designer.model.UserFans;
+import com.bruce.designer.model.UserFan;
 import com.bruce.designer.model.UserFollow;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.ICounterService;
@@ -123,15 +123,15 @@ public class UserController {
      * @param userId
      * @return 
      */
-    @RequestMapping(value = "/{userId}/fans")
-    public String userFans(Model model, HttpServletRequest request, @PathVariable("userId") int queryUserId) {
+    @RequestMapping(value = "/{userId}/fan")
+    public String userFan(Model model, HttpServletRequest request, @PathVariable("userId") int queryUserId) {
         
         User queryUser = userService.loadById(queryUserId);
         if(queryUser!=null){
             model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
             
             //TODO 获取粉丝列表
-            List<UserFans> fansList = userGraphService.getFansListWithUser(queryUserId, 1, 20);
+            List<UserFan> fansList = userGraphService.getFanListWithUser(queryUserId, 1, 20);
             model.addAttribute("fansList", fansList);
             
             User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
@@ -141,7 +141,7 @@ public class UserController {
                 model.addAttribute("hasFollowed", hasFollowed);
             }
         }
-        return "userFans";
+        return "userFan";
     }
     
     @RequestMapping(value = "/follow")

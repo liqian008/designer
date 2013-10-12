@@ -104,7 +104,7 @@ public class DesignerShardedJedis extends ShardedJedis {
                 try {
                     success = countDownLatch.await(500, TimeUnit.MILLISECONDS);
                 } catch (InterruptedException e) {
-                    logger.error("mget(ShardedJedis, List<byte[]>)", e);
+                    logger.error("mget(ShardedJedis, List<String>)", e);
                 }
                 long number = 0;
                 for (Future<Long> future : futureList) {
@@ -112,9 +112,9 @@ public class DesignerShardedJedis extends ShardedJedis {
                         try {
                             number += future.get();
                         } catch (InterruptedException e) {
-                            logger.error("mget(ShardedJedis, List<byte[]>)", e);
+                            logger.error("mget(ShardedJedis, List<String>)", e);
                         } catch (ExecutionException e) {
-                            logger.error("mget(ShardedJedis, List<byte[]>)", e);
+                            logger.error("mget(ShardedJedis, List<String>)", e);
                         }
                     } else {
                         future.cancel(true);
@@ -127,32 +127,32 @@ public class DesignerShardedJedis extends ShardedJedis {
         return 0l;
     }    
 
-    public List<byte[]> mget(List<byte[]> byteKeyList) {
-        List<byte[]> resultList = new ArrayList<byte[]>();
-        if (byteKeyList != null && byteKeyList.size() > 0) {
-            Map<String, byte[]> resultMap = mgetMap(byteKeyList);
-            for (byte[] key : byteKeyList) {
+    public List<String> mget(List<String> keyList) {
+        List<String> resultList = new ArrayList<String>();
+        if (keyList != null && keyList.size() > 0) {
+            Map<String, String> resultMap = mgetMap(keyList);
+            for (String key : keyList) {
                 resultList.add(resultMap.get(new String(key)));
             }
         }
         return resultList;
     }
 
-    public Map<String, byte[]> mgetMap(List<byte[]> byteKeyList) {
-        Map<String, byte[]> resultMap = new HashMap<String, byte[]>();
-        if (byteKeyList != null && byteKeyList.size() > 0) {
-            if (byteKeyList.size() == 1) {
-                get(byteKeyList.get(0));
+    public Map<String, String> mgetMap(List<String> keyLIst) {
+        Map<String, String> resultMap = new HashMap<String, String>();
+        if (keyLIst != null && keyLIst.size() > 0) {
+            if (keyLIst.size() == 1) {
+                get(keyLIst.get(0));
             } else {
                 //多个分桶异步调用
                 //根据id分桶
-                Map<Jedis, List<byte[]>> bucketMap = new HashMap<Jedis, List<byte[]>>();
-                for (byte[] key : byteKeyList) {
+                Map<Jedis, List<String>> bucketMap = new HashMap<Jedis, List<String>>();
+                for (String key : keyLIst) {
                     Jedis jedis = getShard(key);
 
-                    List<byte[]> bucketKeyList = bucketMap.get(jedis);
+                    List<String> bucketKeyList = bucketMap.get(jedis);
                     if (bucketKeyList == null) {
-                        bucketKeyList = new ArrayList<byte[]>();
+                        bucketKeyList = new ArrayList<String>();
                         bucketMap.put(jedis, bucketKeyList);
                     }
                     bucketKeyList.add(key);
@@ -160,16 +160,16 @@ public class DesignerShardedJedis extends ShardedJedis {
                 //对桶做异步调用
                 int bucketSize = bucketMap.size();
                 final CountDownLatch countDownLatch = new CountDownLatch(bucketSize);
-                Map<byte[][], Future<List<byte[]>>> futureMap = new HashMap<byte[][], Future<List<byte[]>>>();
-                for (Entry<Jedis, List<byte[]>> bucketEntry : bucketMap.entrySet()) {
+                Map<String[], Future<List<String>>> futureMap = new HashMap<String[], Future<List<String>>>();
+                for (Entry<Jedis, List<String>> bucketEntry : bucketMap.entrySet()) {
                     final Jedis jedis = bucketEntry.getKey();
-                    final byte[][] keys = bucketEntry.getValue().toArray(new byte[bucketSize][]);
-                    Future<List<byte[]>> future = executorService
-                            .submit(new Callable<List<byte[]>>() {
+                    final String[] keys = bucketEntry.getValue().toArray(new String[bucketSize]);
+                    Future<List<String>> future = executorService
+                            .submit(new Callable<List<String>>() {
 
                                 @Override
-                                public List<byte[]> call() throws Exception {
-                                    List<byte[]> value = jedis.mget(keys);
+                                public List<String> call() throws Exception {
+                                    List<String> value = jedis.mget(keys);
                                     countDownLatch.countDown();
                                     return value;
                                 }
@@ -182,20 +182,20 @@ public class DesignerShardedJedis extends ShardedJedis {
                 try {
                     success = countDownLatch.await(500, TimeUnit.MILLISECONDS);
                 } catch (InterruptedException e) {
-                    logger.error("mget(ShardedJedis, List<byte[]>)", e);
+                    logger.error("mget(ShardedJedis, List<String>)", e);
                 }
 
-                for (Entry<byte[][], Future<List<byte[]>>> futureEntry : futureMap.entrySet()) {
-                    Future<List<byte[]>> future = futureEntry.getValue();
-                    List<byte[]> dataList = null;
-                    byte[][] keys = futureEntry.getKey();
+                for (Entry<String[], Future<List<String>>> futureEntry : futureMap.entrySet()) {
+                    Future<List<String>> future = futureEntry.getValue();
+                    List<String> dataList = null;
+                    String[] keys = futureEntry.getKey();
                     if (success || future.isDone()) {
                         try {
                             dataList = future.get();
                         } catch (InterruptedException e) {
-                            logger.error("mget(ShardedJedis, List<byte[]>)", e);
+                            logger.error("mget(ShardedJedis, List<String>)", e);
                         } catch (ExecutionException e) {
-                            logger.error("mget(ShardedJedis, List<byte[]>)", e);
+                            logger.error("mget(ShardedJedis, List<String>)", e);
                         }
                     } else {
                         future.cancel(true);

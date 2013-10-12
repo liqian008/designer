@@ -92,7 +92,7 @@ public class UserServiceImpl implements IUserService {
             }
         }
         if (leftIdList.size() > 0) {
-            List<User> userList = userDao.queryUsers(userIds);
+            List<User> userList = userDao.queryUsers(leftIdList);
             for (User user : userList) {
                 if (user != null) {
                     completeUser(user);  //补全信息
