@@ -59,13 +59,16 @@ User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE)
 
                     <div class="page-title">
                         <div class="container">
-                            <%if(requestUser!=null&&requestUser.getId()!=null){%>
+                            <%
+                            Map<Integer, Boolean> followMap = (Map<Integer, Boolean>)request.getAttribute("followMap");
+                            if(requestUser!=null&&requestUser.getId()!=null){
+                            %>
                             <div class="page-title-avatar">
                                 <img src="<%=requestUser.getHeadImg()%>" alt="Page Title" width="80" height="80"/>
                             </div>
                             <div class="page-title-content">
                             	<%
-                                boolean isDesigner = true;//requestUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_PASSED;
+                            	boolean isDesigner = true;//requestUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_PASSED;
                             	%>
                                 <h3><%=requestUser.getNickname()%><%=isDesigner?"【设计师】":""%></h3>
                                 <p class="page-description">
@@ -73,8 +76,8 @@ User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE)
                                 </p>
                                <%
                                if(isDesigner){
-									Boolean hasFollowed = (Boolean)request.getAttribute("hasFollowed");
-									if(hasFollowed!=null&&hasFollowed){%>
+									boolean hasFollowed = (followMap.get(requestUser.getId())!=null&&followMap.get(requestUser.getId()));
+									if(hasFollowed){%>
                                 <a href="/designer-front/unfollow.art?uid=<%=requestUser.getId()%>" class="button button-small button-white">取消关注</a>
                                 	<%}else{%>
                                 <a href="/designer-front/follow.art?uid=<%=requestUser.getId()%>" class="button button-small button-green">关注</a>
@@ -117,32 +120,39 @@ User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE)
 											<h4>关注的设计师</h4> 
 										</div>
                                     	<div class="shortcode-blogpost-thumb shortcode-blogpost-small span12">
-		                                <ul>
-		                                    <%
-		                                	List<UserFollow> followList = (List<UserFollow>)request.getAttribute("followList");
-		                                	if(followList!=null&&followList.size()>0){
-		                                	for(UserFollow follow: followList){
-		                                	%>
-		                                    <li class="clearfix">
-		                                        <div class="blogpost-avatar">
-		                                            <a href="#">
-		                                                <img src="../img/demo/happy-caller-80x80.jpg" alt="Blogpost-1">
-		                                            </a>
-		                                        </div>
-		                                        <div class="blogpost-content">
-		                                            <div class="blogpost-title ">
-		                                                <a href="#"><h6><%=follow.getFollowId()%></h6></a>
-		                                            </div>
-		                                            <div class="blogpost-date">
-		                                            	<a href="javascript:void(0)" class="button button-small button-green">关注</a>
-		                                            </div>
-		                                        </div>
-		                                    </li>
-		                                    <%}
-		                                	} %>
-		                                    
-		                                </ul>
-		                            </div>
+			                                <ul>
+			                                    <%
+			                                	List<UserFollow> followList = (List<UserFollow>)request.getAttribute("followList");
+			                                	if(followList!=null&&followList.size()>0){
+			                                	for(UserFollow follow: followList){
+			                                	%>
+			                                    <li class="clearfix">
+			                                        <div class="blogpost-avatar">
+			                                            <a href="#">
+			                                                <img src="../img/demo/happy-caller-80x80.jpg" alt="Blogpost-1">
+			                                            </a>
+			                                        </div>
+			                                        <div class="blogpost-content">
+			                                            <div class="blogpost-title ">
+			                                                <a href="#"><h6><%=follow.getFollowUser().getNickname()%></h6></a>
+			                                            </div>
+			                                            <div class="blogpost-date">
+			                                            	<%
+			                                            	boolean hasFollowed = followMap.get(follow.getFollowId())!=null&&followMap.get(follow.getFollowId());
+			            									if(hasFollowed){
+			            									%>
+			                                            	<a href="/designer-front/unfollow.art?uid=<%=follow.getFollowId()%>" class="button button-small button-white">取消关注</a>
+			                                            	<%}else{%> 
+			                                            	<a href="/designer-front/follow.art?uid=<%=follow.getFollowId()%>" class="button button-small button-green">关注</a>
+			                                            	<%}%>
+			                                            </div>
+			                                        </div>
+			                                    </li>
+			                                    <%}
+			                                	} %>
+			                                    
+			                                </ul>
+			                            </div>
                                     </div>
                                 </div>
                             </div>

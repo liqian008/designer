@@ -59,9 +59,52 @@ public class UserCache implements InitializingBean {
         }
         return null;
     }
-
+    
+    /**
+     * 批量获取用户
+     * @param userIdList
+     * @return
+     */
     public Map<Integer, User> multiGetUser(List<Integer> userIdList) {
-        return null;
+        Map<Integer, User> userMap = new HashMap<Integer, User>();
+        if (userIdList != null && userIdList.size() > 0) {
+            List<String> keyList = new ArrayList<String>();
+            for (Integer id : userIdList) {
+                keyList.add(getKey(id));
+            }
+        DesignerShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = cacheShardedJedisPool.getResource();
+            Map<String, String> resultMap = shardedJedis.mgetMap(keyList);
+            cacheShardedJedisPool.returnResource(shardedJedis);
+            for (Integer id : userIdList) {
+                String userJsonStr = resultMap.get(getKey(id));
+                User user = null;
+                try{
+                    user = gson.fromJson(userJsonStr, User.class);
+                }catch(Exception e){
+                    logger.error("multiGetUser(List<Integer>)", e);
+                }
+                
+//                if (byteArray != null) {
+//                    UserPB userPB;
+//                    try {
+//                        userPB = UserPB.parseFrom(byteArray);
+//                        user = UserPBUtils.convert2User(userPB);
+//                    } catch (InvalidProtocolBufferException e) {
+//                        logger.error("multiGetFeed(List<Integer>)", e);
+//                    }
+//                }
+                userMap.put(id, user);
+            }
+        } catch (Throwable t) {
+            logger.error("getUser", t);
+            if (shardedJedis != null) {
+                cacheShardedJedisPool.returnBrokenResource(shardedJedis);
+            }
+        }
+        }
+        return userMap;
     }
 
     public boolean setUser(User user) {

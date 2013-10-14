@@ -82,6 +82,7 @@ User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE)
                                 <a href="javascript:void(0)" class="button button-small">作品辑</a>
                                 <%}%>
                                 <a href="/designer-front/3/info.art" class="button button-small button-white">个人资料</a>
+                                <a href="/designer-front/3/info.art" class="button button-small button-white">个人设置</a>
                             </div>
                             <%}%>
                         </div>
