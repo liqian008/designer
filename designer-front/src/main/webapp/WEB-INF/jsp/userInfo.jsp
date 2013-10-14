@@ -110,24 +110,26 @@ User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE)
                                 	<jsp:include page="./settings/settingsTabInc.jsp"></jsp:include>
                                 </ul>
                                 <div class="tab-content span9">
-                                    <div class="tab-pane widgets-light active" id="inbox">
-			                            <div class="content-title">
-											<h4>消息中心</h4> 
+		                            <div class="tab-pane widgets-light active" id="info">
+                                        <div class="widget-box widget-contact-form">
+											<div class="content-title">
+												<h4>个人资料</h4> 
+											</div>
+											<form id="contact-form-widget" method="post" class="clearfix"
+												action="/designer-front/settings.art">
+												<!-- 
+												<div class="input-container">
+													用户名: 
+													<input type="text" class="contact-form-name" name="username" readonly="readonly"/>
+												</div>
+												 -->
+												<div class="row-container">
+													<label class="row-left">昵称：</label>
+													<label class="row-right">李乾</label>
+												</div>
+												 
+											</form>
 										</div>
-                                    	<%
-                                    	List<Message> messageList = (List<Message>)request.getAttribute("messageList");
-                                    	if(messageList!=null&&messageList.size()>0){
-                                    		for(Message message: messageList){
-                                    	%> 
-                                        <div class="infobox info-info clearfix">
-			                                <span>i</span>
-			                                <div class="infobox-wrap"> 
-			                                    
-			                                </div>
-			                                
-			                            </div>
-			                            <%}
-			                            }%>
 			                            
                                     </div>
                                 </div>

@@ -11,6 +11,8 @@ public interface IAlbumDao extends IBaseDao<Album, Integer> {
 	public List<Album> queryAlbumByUserId(int userId);
 	
 	public List<Album> queryList(int start, int limit);
+
+    public int deleteUserAlbum(int userId, int albumId);
 	
 //	public PagingData<Album> pagingQuery(short status, int pageNo, int pageSize);
 	

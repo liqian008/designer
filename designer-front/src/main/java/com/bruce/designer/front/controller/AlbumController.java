@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -157,7 +158,7 @@ public class AlbumController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/publishAlbum", method = RequestMethod.POST)
-	public String publishAlbum(Model model,  HttpServletRequest request, String title, int coverId, int[] albumNums) {
+	public String publishAlbum(Model model, HttpServletRequest request, String title, int coverId, int[] albumNums) {
         //检查用户登录
         User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
         int userId = user.getId();
@@ -194,5 +195,47 @@ public class AlbumController {
         return "forward:/redirect.art";
     }
 	
+	/**
+	 * 更新专辑（未确定是否开放该功能）
+	 * @param model
+	 * @param request
+	 * @param album
+	 * @return
+	 */
+	@Deprecated
+	@RequestMapping(value = "/updateAlbum")
+    public String updateAlbum(Model model, HttpServletRequest request, Album album) {
+	    //检查用户登录
+        User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+        int userId = user.getId();
+        
+        if(album!=null&&album.getId()>0){
+            if(album.getUserId()==userId){
+                int result = albumService.updateById(album);
+                //修改各作品描述
+            }else{
+              //操作有误，不能操作别人的作品
+            }
+        }
+        request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的作品已成功修改，现在将转入首页，请稍候…");
+        return "forward:/redirect.art";
+    }
+	
+	
+    @RequestMapping(value = "/deleteAlbum")
+    public String deleteAlbum(Model model, HttpServletRequest request, int ownerId, int albumId) {
+        //检查用户登录
+        User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+        int userId = user.getId();
+        
+        if(ownerId==userId){
+            int result = albumService.deleteUserAlbum(userId, albumId); 
+        }else{
+            //操作有误，不能删除别人的作品
+        }
+        request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的作品已删除，现在将转入首页，请稍候…");
+        return "forward:/redirect.art";
+    }
+    
 	
 }

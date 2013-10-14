@@ -40,6 +40,10 @@ public class AlbumServiceImpl implements IAlbumService {
 	    }
 	    return album;
 	}
+	
+	public int deleteUserAlbum(int userId, int albumId) {
+        return albumDao.deleteUserAlbum(userId, albumId);
+    }
 
 	public List<Album> queryAll() {
 		return albumDao.queryAll();

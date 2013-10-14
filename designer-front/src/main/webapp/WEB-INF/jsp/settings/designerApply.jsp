@@ -149,6 +149,12 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													作品主题: <input type="text" class="contact-form-name" name="title" value=""/>
 												</div>
 												<div class="input-container">
+													参考价格: <input type="text" class="contact-form-name" name="price" value=""/>
+												</div>
+												<div class="input-container">
+													购买链接: <input type="text" class="contact-form-name" name="link" value=""/>
+												</div>
+												<div class="input-container">
 													<input id="fileUploader" name="image" type="file" multiple="true">
 												</div>
 												<div id="queue"></div>
