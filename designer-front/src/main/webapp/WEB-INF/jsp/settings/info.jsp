@@ -100,12 +100,33 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                 </ul>
                                 <div class="tab-content span9">
                                     <div class="tab-pane widgets-light active" id="info">
-                                        <div class="widget-box widget-contact-form">
+                                        <div class="widget-box widget-edit-form">
 											<div class="content-title">
 												<h4>个人资料</h4> 
 											</div>
+											
+											<form class="form-horizontal">
+											  <div class="control-group">
+											    <label class="control-label" for="inputEmail">Email</label>
+											    <div class="controls">
+											     liqian
+											    </div>
+											  </div>
+											  <div class="control-group">
+											    <label class="control-label" for="inputPassword">Password</label>
+											    <div class="controls">
+											      <input type="password" id="inputPassword" placeholder="Password">
+											    </div>
+											  </div>
+											</form>
+											
 											<form id="contact-form-widget" method="post" class="clearfix"
 												action="/designer-front/settings.art">
+												<div class="input-container">
+													<input type="text" class="contact-form-name" name="username"
+														value="<%=user.getUsername()%>" readonly="readonly"/>
+												</div>
+												
 												<div class="input-container">
 													用户名: 
 													<input type="text" class="contact-form-name" name="username"

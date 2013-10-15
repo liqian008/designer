@@ -4959,8 +4959,8 @@ input.contact-form-error {
 		margin:0 0 10px;
 	}
 
-		.widget-contact-form input, .widget-contact-form textarea {
-			background-color: #4a4a4a;
+		.widget-edit-form input, .widget-contact-form input, .widget-contact-form textarea {
+			background-color: #4a4a4a	
 			color: #797979;
 			font-size: 12px;
 			border: none;
@@ -4990,6 +4990,11 @@ input.contact-form-error {
 			height: 30px;
 			width: 100%;
 		}
+		
+		.widget-edit-form input {
+			height: 30px;
+		}
+		
 
 			.widget-contact-form input:hover, .widget-contact-form textarea:hover {
 				background-color: #343434;

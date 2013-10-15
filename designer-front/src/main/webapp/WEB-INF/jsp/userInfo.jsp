@@ -114,21 +114,52 @@ User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE)
 			                            <div class="content-title">
 											<h4>消息中心</h4> 
 										</div>
-                                    	<%
-                                    	List<Message> messageList = (List<Message>)request.getAttribute("messageList");
-                                    	if(messageList!=null&&messageList.size()>0){
-                                    		for(Message message: messageList){
-                                    	%> 
-                                        <div class="infobox info-info clearfix">
-			                                <span>i</span>
-			                                <div class="infobox-wrap"> 
-			                                    
-			                                </div>
-			                                
-			                            </div>
-			                            <%}
-			                            }%>
-			                            
+										
+										<form id="contact-form-widget" method="post" class="clearfix"
+												action="/designer-front/settings.art">
+												<div class="input-container">
+													用户名: 
+													<input type="text" class="contact-form-name" name="username"
+														readonly="readonly"/>
+												</div>
+												<div class="input-container">
+													昵 称: 
+													<input type="text" class="contact-form-name" name="nickname"
+														 readonly="readonly"/>
+												</div>
+												<div class="input-container">
+													E-Mail: 
+													<input type="text" class="contact-form-name" name="email"
+														/>
+												</div>
+												<div class="input-container">
+													性 别: 
+													<input type="radio" name="gender" value="1"/>男
+													<input type="radio" name="gender" value="2"/>女
+												</div>
+												
+												
+												<div class="content-title">
+													<h4>第三方账户绑定</h4> 
+												</div>
+												
+												<div class="infobox info-info info-info-alt clearfix">
+					                                <span>i</span>
+					                                <div class="infobox-wrap">
+					                                    <h4>小贴士：</h4>
+					                                    <p>绑定微博或QQ后，您在本站发布的作品会自动发布到微博或QQ空间上。</p>
+					                                </div>
+					                                <a href="#" class="info-hide"></a>
+					                            </div>
+												
+												<input type="hidden" name="op" value="info" readonly="readonly"/>
+												<input class="contact-submit button" type="submit" value="完 成">
+												<input class="contact-submit button" type="button" value="取 消">
+											</form>
+										
+										
+										
+                                    	
                                     </div>
                                 </div>
                             </div>
