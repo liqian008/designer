@@ -38,6 +38,12 @@ public class AlbumDaoImpl implements IAlbumDao {
 		return albumMapper.selectByExample(null);
 	}
 	
+	public int deleteUserAlbum(int userId, int albumId) {
+	    AlbumCriteria criteria = new AlbumCriteria();
+        criteria.createCriteria().andUserIdEqualTo(userId).andIdEqualTo(albumId);
+        return albumMapper.deleteByExample(criteria);
+    }
+	
 	public List<Album> queryList(int start, int limit){
 	    AlbumCriteria criteria = new AlbumCriteria();
         criteria.createCriteria();

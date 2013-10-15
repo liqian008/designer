@@ -59,13 +59,15 @@ User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE)
 
                     <div class="page-title">
                         <div class="container">
-                            <%if(requestUser!=null&&requestUser.getId()!=null){%>
+                            <%
+                            Map<Integer, Boolean> followMap = (Map<Integer, Boolean>)request.getAttribute("followMap");
+                            if(requestUser!=null&&requestUser.getId()!=null){%>
                             <div class="page-title-avatar">
                                 <img src="<%=requestUser.getHeadImg()%>" alt="Page Title" width="80" height="80"/>
                             </div>
                             <div class="page-title-content">
                             	<%
-                                boolean isDesigner = requestUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_PASSED;
+                                boolean isDesigner = true;//requestUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_PASSED;
                             	%>
                                 <h3><%=requestUser.getNickname()%><%=isDesigner?"【设计师】":""%></h3>
                                 <p class="page-description">
@@ -73,8 +75,8 @@ User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE)
                                 </p>
                                <%
                                if(isDesigner){
-                                   Boolean hasFollowed = (Boolean)request.getAttribute("hasFollowed");
-                               	if(hasFollowed!=null&&hasFollowed){%>
+                                   boolean hasFollowed = (followMap.get(requestUser.getId())!=null&&followMap.get(requestUser.getId()));
+                               	if(hasFollowed){%>
                                 <a href="/designer-front/unfollow.art?uid=<%=requestUser.getId()%>" class="button button-small button-white">取消关注</a>
                                 <%}else{%>
                                 <a href="/designer-front/follow.art?uid=<%=requestUser.getId()%>" class="button button-small button-green">关注</a>
@@ -119,9 +121,9 @@ User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE)
                                     	<div class="shortcode-blogpost-thumb shortcode-blogpost-medium span12">
 		                                <ul>
 		                                	<%
-		                                	List<UserFan> fansList = (List<UserFan>)request.getAttribute("fansList");
-		                                	if(fansList!=null&&fansList.size()>0){
-		                                	for(UserFan fan: fansList){
+		                                	List<UserFan> fanList = (List<UserFan>)request.getAttribute("fanList");
+		                                	if(fanList!=null&&fanList.size()>0){
+		                                	for(UserFan fan: fanList){
 		                                	%>
 		                                    <li class="clearfix">
 		                                        <div class="blogpost-avatar">
@@ -131,11 +133,18 @@ User requestUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE)
 		                                        </div>
 		                                        <div class="blogpost-content">
 		                                            <div class="blogpost-title ">
-		                                                <a href="#"><h5><%=fan.getFanId()%></h5></a>
+		                                                <a href="#"><h5><%=fan.getFanUser().getNickname()%></h5></a>
 		                                            </div>
 		                                            <div class="blogpost-date">
-		                                            	<a href="javascript:void(0)" class="button button-small button-green">关注</a>
-		                                            </div>
+		                                            <%
+	                                            	boolean hasFollowed = followMap.get(fan.getFanId())!=null&&followMap.get(fan.getFanId());
+	            									if(hasFollowed){
+	            									%>
+	                                            	<a href="/designer-front/unfollow.art?uid=<%=fan.getFanId()%>" class="button button-small button-white">取消关注</a>
+	                                            	<%}else{ %>
+	                                            	<a href="/designer-front/follow.art?uid=<%=fan.getFanId()%>" class="button button-small button-green">关注</a>
+	                                            	<%}%>
+			                                        </div>
 		                                        </div>
 		                                    </li>
 		                                    <%}

@@ -1,6 +1,10 @@
 package com.bruce.designer.front.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -96,12 +100,14 @@ public class UserController {
      * @param userId
      * @return
      */
-    @RequestMapping(value = "/{userId}/follow")
+    @RequestMapping(value = "/{userId}/follow") 
     public String userFollow(Model model, HttpServletRequest request, @PathVariable("userId") int queryUserId) {
-        
         User queryUser = userService.loadById(queryUserId);
         if(queryUser!=null){
             model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
+            
+            Map<Integer, Boolean> followMap = new HashMap<Integer, Boolean>();
+            followMap.put(queryUserId, false);
 
             //TODO 获取关注列表
             List<UserFollow> followList = userGraphService.getFollowListWithUser(queryUserId, 1, 20);
@@ -110,9 +116,24 @@ public class UserController {
             User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
             if(user!=null&&user.getId()>0){
                 int userId = user.getId();
-                boolean hasFollowed = userGraphService.isFollow(userId, queryUserId);
-                model.addAttribute("hasFollowed", hasFollowed);
+                //根据关注人员的名单，抽取关注人员Id以查询关注状态
+                if(followList!=null&&followList.size()>0){
+                    for(UserFollow userFollow: followList){
+                        int followId = userFollow.getFollowId();
+                        followMap.put(followId, false);
+                    }
+                }
+                
+                if(followMap!=null&&followMap.size()>0){
+                    for(Entry<Integer, Boolean> entry: followMap.entrySet()){
+                        int keyId = entry.getKey();
+                        entry.setValue(userGraphService.isFollow(userId, keyId));
+                    }
+                }
+            }else{
+                //无需处理
             }
+            model.addAttribute("followMap", followMap);
         }
         return "userFollow";
     }
@@ -130,16 +151,34 @@ public class UserController {
         if(queryUser!=null){
             model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
             
+            Map<Integer, Boolean> followMap = new HashMap<Integer, Boolean>();
+            followMap.put(queryUserId, false);
+            
             //TODO 获取粉丝列表
-            List<UserFan> fansList = userGraphService.getFanListWithUser(queryUserId, 1, 20);
-            model.addAttribute("fansList", fansList);
+            List<UserFan> fanList = userGraphService.getFanListWithUser(queryUserId, 1, 20);
+            model.addAttribute("fanList", fanList);
             
             User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
             if(user!=null&&user.getId()>0){
                 int userId = user.getId();
-                boolean hasFollowed = userGraphService.isFollow(userId, queryUserId);
-                model.addAttribute("hasFollowed", hasFollowed);
+                //根据粉丝人员的名单，抽取粉丝人员Id以查询关注状态
+                if(fanList!=null&&fanList.size()>0){
+                    for(UserFan userFan: fanList){
+                        int fanId = userFan.getFanId();
+                        followMap.put(fanId, false);
+                    }
+                }
+                
+                if(followMap!=null&&followMap.size()>0){
+                    for(Entry<Integer, Boolean> entry: followMap.entrySet()){
+                        int keyId = entry.getKey();
+                        entry.setValue(userGraphService.isFollow(userId, keyId));
+                    }
+                }
+            }else{
+              //无需处理
             }
+            model.addAttribute("followMap", followMap);
         }
         return "userFan";
     }
