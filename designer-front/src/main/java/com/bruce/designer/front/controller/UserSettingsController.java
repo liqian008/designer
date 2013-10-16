@@ -28,6 +28,7 @@ import com.bruce.designer.model.Comment;
 import com.bruce.designer.model.Message;
 import com.bruce.designer.model.User;
 import com.bruce.designer.model.upload.UploadImageResult;
+import com.bruce.designer.annotation.NeedAuthorize;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.data.PagingData;
 import com.bruce.designer.front.constants.ConstFront;
@@ -42,6 +43,7 @@ import com.bruce.designer.util.PropertiesUtil;
 /**
  * Handles requests for the application home page.
  */
+@NeedAuthorize
 @Controller
 @RequestMapping(value = "/settings")
 public class UserSettingsController {
@@ -60,6 +62,11 @@ public class UserSettingsController {
     private static final Logger logger = LoggerFactory.getLogger(UserSettingsController.class);
 
     @RequestMapping(method = RequestMethod.GET)
+    public String settings(Model model) {
+        return info(model);
+    }
+    
+    @RequestMapping(params="op=info", method = RequestMethod.GET)
     public String info(Model model) {
         return "settings/info";
     }

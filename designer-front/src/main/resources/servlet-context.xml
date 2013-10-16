@@ -52,5 +52,10 @@
 
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
-
+	
+	<mvc:interceptors>
+		<bean class="com.bruce.designer.front.interceptor.LoginInteceptor"/>  
+	</mvc:interceptors>
+	
+	
 </beans>
