@@ -7,7 +7,9 @@ import com.bruce.designer.model.User;
 
 public interface IUserService extends IBaseService<User, Integer>{
     
-
+	
+	public List<User> queryUsersByIds(List<Integer> idList);
+	
     public List<User> queryUsersByStatus(short status);
     
     public List<User> queryDesignersByStatus(short status);
@@ -34,7 +36,7 @@ public interface IUserService extends IBaseService<User, Integer>{
      * @param userId
      * @return
      */
-    public int designerApproval(int userId);
+    public int designerApprove(int userId);
     
     /**
      * 拒绝申请
@@ -44,5 +46,13 @@ public interface IUserService extends IBaseService<User, Integer>{
     public int designerDenied(int userId);
 //    public User loadUserById(int userId) throws SQLException;
 //    public int saveUser(User user) throws SQLException;
+    
+    /**
+     * 瀑布流方式加载设计师
+     * @param approvelTailTime
+     * @param limit
+     * @return
+     */
+	List<User> fallLoadDesignerList(long approvelTailTime, int limit);
 
 }

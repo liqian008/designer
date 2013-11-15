@@ -13,11 +13,14 @@ public interface IUserDao extends IBaseDao<User, Integer>{
     
     public int changePassword(int userId, String password);
         
-    public List<User> queryUsers(List<Integer> userIds);
+    public List<User> queryUsersByIds(List<Integer> idList);
     
     public List<User> queryUsersByStatus(short status);
     
     public List<User> queryDesignersByStatus(short status);
     
     public int designerApplyOp(int userId, short operationType);
+
+    public List<User> fallLoadDesignerList(long approvelTailTime, int limit);
+
 }

@@ -11,10 +11,19 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NeedAuthorize {
     
-    public AccessType type() default AccessType.WEB_PAGE;
+	/**
+	 * 认证类型，分为普通用户与设计师
+	 * @return
+	 */
+    public AuthorizeType authorizeType() default AuthorizeType.USER;
     
-    public enum AccessType{
-        WEB_PAGE, JSON
+    public enum AuthorizeType{
+    	USER, DESIGNER
     }
 
+//    public AccessType autype() default AccessType.WEB_PAGE;
+//    
+//    public enum AccessType{
+//        WEB_PAGE, JSON
+//    }
 }

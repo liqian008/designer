@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bruce.designer.dao.mapper.TagMapper">
+
+	<!-- 最热Tag -->
+	<select id="calcHotTags" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select id, name, status, create_time, update_time,
+		tag_hot.hot_num from tb_tag tag, (select tag_id, count(tag_id) hot_num
+		from tb_tag_album group by tag_id order by hot_num) tag_hot where
+		tag.id = tag_hot.tag_id limit #{limit,jdbcType=INTEGER};
+	</select>
+
+</mapper>

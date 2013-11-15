@@ -16,26 +16,26 @@ public interface ConstService{
 	/*设计师申请已发送*/
 	public static final short DESIGNER_APPLY_SENT = 1;
 	/*设计师审核通过*/
-	public static final short DESIGNER_APPLY_PASSED = 2;
+	public static final short DESIGNER_APPLY_APPROVED = 2;
 	/*设计师审核拒绝*/
 	public static final short DESIGNER_APPLY_DENIED = 3;
 	
 	//////////////////////消息常量////////////////////////////////
 	
 	/*系统类型消息*/
-	public static final short MESSAGE_TYPE_SYSTEM = 1;
+	public static final int MESSAGE_TYPE_SYSTEM = 1;
 	/*评论类型消息*/
-	public static final short MESSAGE_TYPE_COMMENT = 2;
+	public static final int MESSAGE_TYPE_COMMENT = 2;
 	/*关注类型消息*/
-	public static final short MESSAGE_TYPE_FLOWER = 3;
+	public static final int MESSAGE_TYPE_FLOWER = 3;
 	/*like类型消息*/
-	public static final short MESSAGE_TYPE_LIKE = 4;
+	public static final int MESSAGE_TYPE_LIKE = 4;
 	/*收藏类型消息*/
-	public static final short MESSAGE_TYPE_FAVORITIES = 5;
+	public static final int MESSAGE_TYPE_FAVORITIES = 5;
 	/*@类型消息*/
-    public static final short MESSAGE_TYPE_AT = 6;
+    public static final int MESSAGE_TYPE_AT = 6;
     /*聊天类型消息*/
-    public static final short MESSAGE_TYPE_CHAT = 100;
+//    public static final short MESSAGE_TYPE_CHAT = 100;
     
     /*系统广播专用的fromId*/
 	public static final int MESSAGE_DELIVER_ID_BROADCAST = MESSAGE_TYPE_SYSTEM;

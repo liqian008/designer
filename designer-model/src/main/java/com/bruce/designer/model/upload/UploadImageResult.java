@@ -26,6 +26,7 @@ public class UploadImageResult{
 //		this.uploadFileMap = uploadFileMap;
 //	}
 	
+	private UploadImageInfo originalImage;;
 	
 	private UploadImageInfo largeImage;
 	
@@ -65,6 +66,14 @@ public class UploadImageResult{
 
 	public void setSmallImage(UploadImageInfo smallImage) {
 		this.smallImage = smallImage;
+	}
+
+	public UploadImageInfo getOriginalImage() {
+		return originalImage;
+	}
+
+	public void setOriginalImage(UploadImageInfo originalImage) {
+		this.originalImage = originalImage;
 	}
 	
 	

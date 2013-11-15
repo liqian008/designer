@@ -37,10 +37,21 @@ public class AlbumSlideDaoImpl implements IAlbumSlideDao , InitializingBean {
 		return albumSlideMapper.selectByPrimaryKey(id);
 	}
 
-
-	public List<AlbumSlide> querySlidesByAlbumId(int albumId) {
+	@Override
+	public AlbumSlide queryCoverSlide(int albumId) {
 		AlbumSlideCriteria criteria = new AlbumSlideCriteria();
 		criteria.setOrderByClause("id desc");
+		criteria.createCriteria().andAlbumIdEqualTo(albumId).andIsCoverEqualTo((short)1);
+		List<AlbumSlide> slideList =  albumSlideMapper.selectByExample(criteria);
+		if(slideList!=null&&slideList.size()>0){
+			return slideList.get(0);
+		}
+		return null;
+	}
+	
+	public List<AlbumSlide> querySlidesByAlbumId(int albumId) {
+		AlbumSlideCriteria criteria = new AlbumSlideCriteria();
+		criteria.setOrderByClause("is_cover desc, id desc");
 		criteria.createCriteria().andAlbumIdEqualTo(albumId);
 		return albumSlideMapper.selectByExample(criteria);
 	}
@@ -50,6 +61,14 @@ public class AlbumSlideDaoImpl implements IAlbumSlideDao , InitializingBean {
         // TODO Auto-generated method stub
         
     }
+
+	@Override
+	public List<AlbumSlide> fallLoadList(Integer tailId, int limit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 
 	
 

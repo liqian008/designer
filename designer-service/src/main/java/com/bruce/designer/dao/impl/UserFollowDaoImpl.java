@@ -58,4 +58,10 @@ public class UserFollowDaoImpl implements IUserFollowDao, InitializingBean {
         
     }
 
+	@Override
+	public List<UserFollow> fallLoadList(Long tailId, int limit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 } 

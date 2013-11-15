@@ -49,13 +49,13 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
     /*线程池*/
     private static ExecutorService executorService = Executors.newCachedThreadPool();
     
-    public AccessTokenInfo loadTokenByCallback(HttpServletRequest request, short thirdpartyType) throws OAuthException {
-        if(thirdpartyType<=0){
-            String errorMessage = "参数thirdpartyType非法，无法处理";
+    public AccessTokenInfo loadTokenByCallback(HttpServletRequest request, short thirdpartyType){
+    	IOAuthProcessor oauthProcessor = processorMap.get(thirdpartyType);
+    	if(thirdpartyType<=0 || oauthProcessor==null){
+//            String errorMessage = "参数thirdpartyType非法，无法处理";
             //log this
-            throw new OAuthException(ErrorCode.OAUTH_ERROR, errorMessage);
+            throw new OAuthException(ErrorCode.OAUTH_ERROR);
         }else {
-            IOAuthProcessor oauthProcessor = processorMap.get(thirdpartyType);
             // 根据code获取token
         	AccessTokenInfo tokenInfo = oauthProcessor.loadToken(request);
             //直接第三方账户id

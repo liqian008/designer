@@ -39,7 +39,7 @@ public class FanCache {
      */
     private static final Logger logger = Logger.getLogger(FanCache.class);
 
-    private static final String KEY_PREFIX = "fans";
+    private static final String KEY_PREFIX = "fan";
     @Autowired
     private DesignerShardedJedisPool cacheShardedJedisPool;
 
@@ -152,7 +152,7 @@ public class FanCache {
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 throw new RedisKeyNotExistException();
             } else {
-                Set<Tuple> tupleSet = shardedJedis.zrangeWithScores(key, 0, -1);
+                Set<Tuple> tupleSet = shardedJedis.zrevrangeWithScores(key, 0, -1);
                 List<UserFan> fansList = new ArrayList<UserFan>();
                 for (Tuple tuple : tupleSet) {
                     UserFan fans = new UserFan();
@@ -191,7 +191,7 @@ public class FanCache {
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 throw new RedisKeyNotExistException();
             } else {
-                Set<Tuple> tupleSet = shardedJedis.zrangeWithScores(key, start, end);
+                Set<Tuple> tupleSet = shardedJedis.zrevrangeWithScores(key, start, end);
                 List<UserFan> fansList = new ArrayList<UserFan>();
                 for (Tuple tuple : tupleSet) {
                     UserFan fans = new UserFan();

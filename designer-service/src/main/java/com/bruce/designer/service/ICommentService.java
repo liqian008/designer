@@ -5,8 +5,14 @@ import com.bruce.designer.model.Comment;
 
 public interface ICommentService extends IBaseService<Comment, Long> {
 
-	public List<Comment> queryCommentsByAlbumId(int albumId);
-	
+//	public List<Comment> queryCommentsByAlbumSlideId(int albumSlideId);
+//	public List<Comment> queryCommentsByAlbumId(int albumId);
+
+	public List<Comment> fallLoadComments(int albumSlideId, Long commentsTailId, int limit);
+
+
+	public int like(int designerId, int albumId, int albumSlideId);
+
 	/**
 	 * 
 	 * @param title
@@ -18,11 +24,11 @@ public interface ICommentService extends IBaseService<Comment, Long> {
 	 * @param designerId
 	 * @return
 	 */
-	public int comment(String title, String content, int albumId, int albumSlideId, int fromId, int toId, int designerId);
-	
-	
+	public Comment comment(String title, String content, int albumId, int albumSlideId, int fromId, int toId, int designerId);
+
 	/**
 	 * 发表评论
+	 * 
 	 * @param albumId
 	 * @param albumSlideId
 	 * @param fromId
@@ -30,5 +36,5 @@ public interface ICommentService extends IBaseService<Comment, Long> {
 	 * @param content
 	 * @return
 	 */
-	public int comment(String title, String content, int albumId, int albumSlideId, int fromId, int toId);
+	public Comment comment(String title, String content, int albumId, int albumSlideId, int fromId, int toId);
 }

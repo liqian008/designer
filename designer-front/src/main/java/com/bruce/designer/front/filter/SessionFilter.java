@@ -29,9 +29,9 @@ public class SessionFilter implements Filter{
 			StringTokenizer st = new StringTokenizer(userAuthUrls, ",");
 			while(st.hasMoreElements()){
 				userUrlList.add(st.nextToken());
-			}
+			} 
 		}
-	}
+	} 
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
@@ -45,7 +45,7 @@ public class SessionFilter implements Filter{
 		if(userUrlList.contains(requestUri)||designerUrlList.contains(requestUri)){
 			User user = (User) req.getSession().getAttribute(ConstFront.CURRENT_USER);
 			if(user==null){
-				res.sendRedirect("./login.art");
+				res.sendRedirect("./login");
 			}
 		}
 		chain.doFilter(request, response);

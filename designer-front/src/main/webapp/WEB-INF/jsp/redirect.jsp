@@ -10,7 +10,7 @@ if(prompt==null||"".equals(prompt)){
 	prompt = "操作成功，现在将转入后续页面，请稍候…";
 }
 if(redirectUrl==null||"".equals(redirectUrl)){
-	redirectUrl = "/designer-front/index.art";
+	redirectUrl = "/designer-front/index";
 }
 %>
 
@@ -61,19 +61,8 @@ if(redirectUrl==null||"".equals(redirectUrl)){
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
                     <jsp:include page="./inc/headerNav.jsp"></jsp:include>
 
-                    <div class="page-title">
-                        <div class="container">
-                            <!-- <div class="page-title-avatar">
-                                <img src="./img/demo/portraits/portrait-21.png" alt="Page Title" width="80" height="80"/>
-                            </div> -->
-                            <div class="page-title-content">
-                                <h1>Gallery Post Format</h1>
-                                <p class="page-description">
-                                    With this gallery you can create a blogpost with multiple images. With the FlexSlider or Twitter Bootstrap Carousel you can rotate between these images.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    <jsp:include page="./inc/ad.jsp"></jsp:include>
+
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
         <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
@@ -81,10 +70,9 @@ if(redirectUrl==null||"".equals(redirectUrl)){
         <div class="page"> <!-- Page -->
             <div class="breadscrumbs">
                 <div class="container">
-                    <ul class="clearfix">
-                        <li><a href="post-gallery.html#">Home</a>/</li>
-                        <li><a href="post-gallery.html#">Blog</a>/</li>
-                        <li><a href="post-gallery.html#">Gallery Post Format</a></li>
+                     <ul class="clearfix">
+                        <li><a href="/">首页</a>/</li>
+                        <li><a href="javascript:void(0)">跳转页</a></li>
                     </ul>
                 </div>
             </div>

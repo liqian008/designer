@@ -9,7 +9,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 %>
 
 <!DOCTYPE html> 
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]--> 
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -26,7 +26,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
         <link rel="stylesheet" href="./css/font-awesome.css">
         <link rel="stylesheet" href="./css/animate.css">
         <link rel="stylesheet" href="./css/layerslider.css">
-        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="./css/style.css"> 
         <!--[if IE 8]>
         <link rel="stylesheet" type="text/css" media="all" href="./css/ie8.css" />    
         <![endif]-->
@@ -82,8 +82,15 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
         <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
 
         <div class="page"> <!-- Page -->
-            <jsp:include page="./inc/breadcrumb.jsp"></jsp:include>
-            
+			<div class="breadscrumbs">
+			    <div class="container">
+			        <ul class="clearfix">
+			            <li><a href="/designer-front/index">首页</a>/</li> 
+			            <li><a href="#">精品推荐</a></li>
+			        </ul> 
+			    </div>
+			</div>
+			            
             <div class="main fullwidth">
             	<section class="content"> <!-- Content -->
                     <div class="container">
@@ -101,26 +108,26 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                         <%}%>
                             <article class="blog-item span3">
                                 <div class="blog-post-image-wrap">
-                                    <a class="blog-single-link" href="/designer-front/album.art?id=<%=album.getId()%>">
-                                        <img src="<%=album.getCoverLargeImg()%>" alt="Portfolio Image">
+                                    <a class="blog-single-link" href="/designer-front/album/<%=album.getId()%>">
+                                        <img src="<%=album.getCoverLargeImg()%>">
                                     </a>
                                 </div>
                                	<div class="content-wrap span9">
                                    	<a href="#"><h5><%=album.getTitle()%></h5></a>
                                     <ul>
                                         <li><span>标 签:&nbsp;</span>翡翠, 珠宝, 玉石</li>
-                                        <li><span>价 格:</span>1w~2w</li>
+                                        <li><span>价 格:</span><%=album.getPrice()%></li>
                                         <li>
-                                        	<%=album.getBrowseCount()%>&nbsp;浏览&nbsp;/&nbsp;
-                                        	<%=album.getCommentCount()%>&nbsp;评论&nbsp;/&nbsp;
-                                        	<%=album.getFavoriteCount()%>&nbsp;收藏&nbsp;
+                                        	<a href="/designer-front/album/<%=album.getId()%>"><%=album.getBrowseCount()%>&nbsp;浏览</a>&nbsp;/&nbsp;
+                                        	<a href="/designer-front/album/<%=album.getId()%>"><%=album.getCommentCount()%>&nbsp;评论</a>&nbsp;/&nbsp;
+                                        	<a href="/designer-front/album/<%=album.getId()%>"><%=album.getFavoriteCount()%>&nbsp;收藏</a>&nbsp;
                                         </li> 
                                     </ul>
                                 </div>
                                 <div class="content-avatar">
                                      <div class="content-author vcard">
-                                     	<a href="/designer-front/<%=album.getUserId()%>/home.art" title="xxx">
-	                                     	<img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Blogpost Comment">
+                                     	<a href="/designer-front/<%=album.getUserId()%>/home">
+	                                     	<img src="/designer-front/img/demo/portraits/avatar_middle.jpg">
                                      	</a>
                                       </div>
                                  </div>
@@ -131,14 +138,41 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                         }
 	                    }%>
 	                    
-                    	<div class="shortcode-blogpost row-fluid">
+                    	<!-- <div class="shortcode-blogpost row-fluid">
                     		<div class="span2 offset5">
-                    			<input class="button-small button button-white btn-block" type="button" value="查看更多" onclick="location.href='/designer-front/timeline.art'"/>
+                    			<input class="button-small button button-white btn-block" type="button" value="查看更多" onclick="location.href='/designer-front/albums'"/>
                     		</div>
-                    	</div>
+                    	</div> -->
                     </div>
                 </section> <!-- Close Content -->
 			</div> <!-- Close Main -->
+			
+			<div class="breadscrumbs">
+			    <div class="container">
+			        <ul class="clearfix">
+			            <li><a href="/designer-front/index">首页</a>/</li> 
+			            <li><a href="/designer-front/albums">最新发布</a></li>
+			        </ul> 
+			    </div>
+			</div>
+			
+			<div class="main fullwidth">
+				<section class="content">
+					<!-- Content -->
+					<div class="container" id="albumContainer">
+					</div>
+					<input type="hidden" id="albumsTailId" name="albumsTailId" value="0" />
+					<div class="shortcode-blogpost row-fluid" id="moreAlbumsContainer">
+						<div class="span2 offset5">
+							<input id="moreAlbumsBtn"
+								class="button-small button button-white btn-block" type="button"
+								value="加载更多..." />
+						</div>
+					</div>
+				</section>
+				<!-- Close Content -->
+			</div>
+			<!-- Close Main -->
 
 			<jsp:include page="./inc/footer.jsp"></jsp:include>
            
@@ -158,6 +192,36 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
     <script src="./js/retina.js"></script>
 
     <script src="./js/custom.js"></script>
-
+	<script>
+		fallLoad();
+	
+    	$('#moreAlbumsBtn').click(function(){
+    		fallLoad();
+    	});
+    	
+    	function fallLoad(){
+    		//置为数据加载状态
+    		$('#moreAlbumsBtn').val("努力加载中...");
+    		$('#moreAlbumsBtn').attr("disabled","disabled");
+    		var jsonData = {'albumsTailId' : $("#albumsTailId").val(), 'numberPerLine':'4'};
+    		$.post('/designer-front/moreAlbums.json', jsonData, function(data) {
+    			var result = data.result;
+	    		if(result==1){
+	    			$("#albumContainer").append(data.data.html);
+	   				var nextTailId = data.data.tailId;
+	    			$("#albumsTailId").val(nextTailId);
+	    			if(nextTailId<=0){//无更多数据，则隐藏按钮
+	   					$('#moreAlbumsContainer').attr("style","display:none");
+	   				}else{//还有更多数据，启用加载按钮
+	   					$('#moreAlbumsBtn').removeAttr("disabled");
+	   					$('#moreAlbumsBtn').val("加载更多...");
+	   				}
+	    		}else{
+	    			$('#moreAlbumsContainer').attr("style","display:none");
+	    			alert("请求失败");
+	    		}
+   			});
+    	}
+    </script>
     </body>
 </html>

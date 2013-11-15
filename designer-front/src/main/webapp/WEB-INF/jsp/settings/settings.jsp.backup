@@ -131,7 +131,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<h4>设计师资料</h4>
 											</div>
 											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/oauthRegister.art">
+												action="/designer-front/oauthRegister">
 												<div class="input-container">
 													姓 名: <input type="text" class="contact-form-name" name="username"
 														value="姓 名"/>
@@ -164,7 +164,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<h4>个人资料</h4>
 											</div>
 											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/oauthRegister.art">
+												action="/designer-front/oauthRegister">
 												<div class="input-container">
 													用户名: 
 													<input type="text" class="contact-form-name" name="username"
@@ -191,7 +191,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<h4>修改密码</h4>
 											</div>
 											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/changePasswdGo.art">
+												action="/designer-front/changePasswdGo">
 												<div class="input-container">
 													旧密码: <input type="password" class="contact-form-email" name="oldPassword"
 														value=""/> 
@@ -216,7 +216,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<h4>申请设计师</h4>
 											</div>
 											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/oauthRegister.art">
+												action="/designer-front/oauthRegister">
 												<div class="input-container">
 													姓 名: <input type="text" class="contact-form-name" name="username"
 														value="姓 名"/>
@@ -248,7 +248,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<h4>修改密码</h4>
 											</div>
 											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/oauthRegister.art">
+												action="/designer-front/oauthRegister">
 												<div class="input-container">
 													旧密码: <input type="password" class="contact-form-email" name="oldPassword"
 														value=""/> 

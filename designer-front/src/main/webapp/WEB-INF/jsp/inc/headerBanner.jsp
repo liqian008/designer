@@ -9,7 +9,6 @@
 User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 %>
 
-
 <div id="header-container" class="clearfix">  <!-- Header Container, contains logo and contact button -->
     <header class="clearfix">
         <div class="container">
@@ -22,12 +21,12 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 				
 				<div class="header-contact">
 					<%if(user==null){%>
-                    <a href="/designer-front/login.art">登 录</a> | <a href="/designer-front/register.art">注 册</a>
+                    <a href="/designer-front/login">登 录</a> | <a href="/designer-front/register">注 册</a>
                     <%}else{ %>
-                    欢迎您，<%=user.getNickname() %>&nbsp;|&nbsp;
-                    <a href="/designer-front/settings.art">设置</a>&nbsp;|&nbsp;
-                    <a href="/designer-front/settings.art?op=inbox&messageType=0">消息</a>&nbsp;|&nbsp;
-                    <a href="/designer-front/logout.art">注销</a>
+                    欢迎您, <%=user.getNickname() %>&nbsp;|&nbsp;
+                    <a href="/designer-front/settings">设置</a>&nbsp;|&nbsp;
+                    <a href="/designer-front/settings?op=inbox">消息</a>&nbsp;|&nbsp;
+                    <a href="/designer-front/logout">注销</a>
                     <%}%>
                 </div>
 				

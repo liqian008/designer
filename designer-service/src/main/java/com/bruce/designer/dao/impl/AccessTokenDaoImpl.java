@@ -68,5 +68,10 @@ public class AccessTokenDaoImpl implements IAccessTokenDao {
         criteria.createCriteria().andUserIdEqualTo(userId).andThirdpartyTypeEqualTo(thirdpartyType);
         return accessTokenInfoMapper.deleteByExample(criteria);
     }
+
+	@Override
+	public List<AccessTokenInfo> fallLoadList(Integer tailId, int limit) {
+		return null;
+	}
     
 }

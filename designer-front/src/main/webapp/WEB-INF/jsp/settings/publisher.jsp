@@ -62,19 +62,8 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
                     <jsp:include page="../inc/headerNav.jsp"></jsp:include>
 
-                    <div class="page-title">
-                        <div class="container">
-                            <!-- <div class="page-title-avatar">
-                                <img src="./img/demo/portraits/portrait-21.png" alt="Page Title" width="80" height="80"/>
-                            </div> -->
-                            <div class="page-title-content">
-                                <h1>Gallery Post Format</h1>
-                                <p class="page-description">
-                                    With this gallery you can create a blogpost with multiple images. With the FlexSlider or Twitter Bootstrap Carousel you can rotate between these images.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    <jsp:include page="../inc/ad.jsp"></jsp:include>
+
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
         <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
@@ -103,12 +92,13 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                 </ul>
                                 <div class="tab-content span9">
                                     <div class="tab-pane widgets-light active" id="apply4Designer">
-                                        <div class="widget-box widget-contact-form">
-                                        	<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/publishAlbum.art">
+                                         <div class="widget-box widget-wrapper-form">
+                                        	<form  class="widget-form" method="post" class="clearfix"
+												action="/designer-front/publishAlbum">
 												<div class="content-title">
 													<h4>发布作品集【上限6张】</h4>
 												</div>
+												
 												<div class="infobox info-info info-info-alt clearfix">
 					                                <span>i</span>
 					                                <div class="infobox-wrap">
@@ -117,24 +107,47 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					                                </div>
 					                                <a href="#" class="info-hide"></a>
 					                            </div>
-												<div class="input-container">
-													作品主题: <input type="text" class="contact-form-name" name="title" value=""/>
+												
+												<div class="row-container clearfix">
+													<div class="row-left">作品主题: </div>
+													<div class="row-right">
+														<input type="text" class="span6" name="title" value=""/> 
+													</div>
 												</div>
-												<div class="input-container">
-													参考价格: <input type="text" class="contact-form-name" name="price" value=""/>
+												
+												<div class="row-container clearfix">
+													<div class="row-left">标签: </div>
+													<div class="row-right">
+														<input type="text" class="span10" name="tags" value=""/> 
+													</div>
 												</div>
-												<div class="input-container">
-													购买链接: <input type="text" class="contact-form-name" name="link" value=""/>
+												
+												<div class="row-container clearfix">
+													<div class="row-left">参考价格: </div>
+													<div class="row-right">
+														<input type="text" class="span2" name="price" value=""/> 元
+													</div>
 												</div>
-												<div class="input-container">
-													<input id="fileUploader" name="image" type="file" multiple="true">
+												
+												<div class="row-container clearfix">
+													<div class="row-left">购买链接: </div>
+													<div class="row-right">
+														<input type="text" class="span10" name="link" value=""/> 
+													</div>
+												</div>
+												
+												<div class="row-container clearfix">
+													<div class="row-left">上传作品: </div>
+													<div class="row-right" id="previewContainer">
+														<input id="fileUploader" name="image" type="file" multiple="true">
+													</div>
 												</div>
 												<div id="queue"></div>
 												
-												<div>
+												<!-- <div>
 													<ul id="imgPreview" class="clearfix">
 													</ul>
-												</div>
+												</div> -->
 												
 												<script type="text/javascript">
 													$(function() {
@@ -142,7 +155,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 														$('#fileUploader').uploadify({
 															'swf' : '/designer-front//uploadify/uploadify.swf',
 															//'uploader' : '/designer-front/uploadify/response.json',
-															'uploader' : '/designer-front/ajax/uploadImage.art;jsessionid=<%=session.getId()%>',
+															'uploader' : '/designer-front/uploadImage.json;jsessionid=<%=session.getId()%>',
 															//'cancelImg' : "uploadify-cancel.png",
 															'fileObjName' : 'image',
 															'debug' : false,
@@ -156,23 +169,24 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 															'simUploadLimit' : 1,
 															'fileSizeLimit' : 2048,
 															'onUploadSuccess' : function(file, data, response) {
-													            //alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
-													            //alert(data);
+																
+													            alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
+													            alert(data);
 													            counter = counter + 1;
 													            var response = jQuery.parseJSON(data);
 													            
-													        	$("<li><img id='img1' src='"+response.data.mediumImage.url+"' width='200'/>设置为封面详细描述<input type='radio' name='coverId' value='"+counter+"'/><textarea class='contact-form-name' name='remark"+counter+"' rows='3'></textarea></li>").appendTo($("#imgPreview"));
-													        	$("<input type='hidden' name='albumNums' value='"+counter+"'/>").appendTo($("#imgPreview"));
-													        	$("<input type='hidden' name='largeImage"+counter+"' value='"+response.data.largeImage.url+"'/>").appendTo($("#imgPreview"));
-													        	$("<input type='hidden' name='mediumImage"+counter+"' value='"+response.data.mediumImage.url+"'/>").appendTo($("#imgPreview"));
-													        	$("<input type='hidden' name='smallImage"+counter+"' value='"+response.data.smallImage.url+"'/>").appendTo($("#imgPreview"));
+													        	$("<li><img id='img1' src='"+response.data.mediumImage.url+"' width='200'/>设置为封面详细描述<input type='radio' name='coverId' value='"+counter+"'/><textarea class='contact-form-name' name='remark"+counter+"' rows='3'></textarea></li>").appendTo($("#previewContainer"));
+													        	$("<input type='hidden' name='albumNums' value='"+counter+"'/>").appendTo($("#previewContainer"));
+													        	$("<input type='hidden' name='largeImage"+counter+"' value='"+response.data.largeImage.url+"'/>").appendTo($("#previewContainer"));
+													        	$("<input type='hidden' name='mediumImage"+counter+"' value='"+response.data.mediumImage.url+"'/>").appendTo($("#previewContainer"));
+													        	$("<input type='hidden' name='smallImage"+counter+"' value='"+response.data.smallImage.url+"'/>").appendTo($("#previewContainer"));
 															},
 														});
 													});
 												</script>
 												
-												<input class="contact-submit button" type="submit" value="提 交">
-												<input class="contact-submit button" type="button" value="返回个人信息">
+												<input class="common-submit button" type="submit" value="提 交">
+												<input class="common-submit button" type="button" value="返回个人信息">
 											</form>
 										</div>
                                     </div>
@@ -180,8 +194,10 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                             </div>
                         </section> 
                         
-                        <jsp:include page="../inc/rightSidebar.jsp"></jsp:include>
-                    	
+                        <!-- right slidebar -->
+						<aside class="sidebar widgets-light span3">
+                       		<jsp:include page="../inc/right/sidebar_settings.jsp"></jsp:include> 
+                    	</aside>
                     </div>                        
                 </div> <!-- Close Main -->
             </div> 

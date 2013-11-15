@@ -43,7 +43,7 @@ public class LoginInteceptor extends HandlerInterceptorAdapter {
             // 取得session中的用户信息, 以便判断是否登录了系统
             User currentUser = (User) session.getAttribute(ConstFront.CURRENT_USER);
             if(currentUser==null){
-                response.sendRedirect("./login.art");
+                response.sendRedirect("./login");
                 return false;
             }
         }

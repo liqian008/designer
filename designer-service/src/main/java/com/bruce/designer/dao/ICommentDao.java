@@ -5,8 +5,19 @@ import com.bruce.designer.model.Comment;
 
 public interface ICommentDao extends IBaseDao<Comment, Long> {
 
-	public List<Comment> queryCommentsByAlbumId(int albumId);
+//	public List<Comment> queryCommentsByAlbumId(int albumId);
+//
+//	public List<Comment> queryCommentsByAlbumSlideId(int albumSlideId);
 	
+	
+	/**
+     * 瀑布流数据加载dao
+     * @param offsetId
+     * @param limit
+     * @return
+     */
+    public List<Comment> fallLoadComments(int albumSlideId, Long tailId, int limit);
+    
 	/**
 	 * 
 	 * @param title
@@ -31,4 +42,5 @@ public interface ICommentDao extends IBaseDao<Comment, Long> {
 	 * @return
 	 */
 	public int comment(String title, String content, int albumId, int albumSlideId, int fromId, int toId);
+
 }

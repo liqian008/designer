@@ -1,7 +1,7 @@
 package com.bruce.designer.util;
 
 import com.bruce.designer.model.User;
-import com.bruce.designer.data.JsonResultObject;
+import com.bruce.designer.data.JsonResultBean;
 import com.bruce.designer.exception.DesignerException;
 
 
@@ -17,8 +17,8 @@ public class JsonResultUtil{
      * @param obj
      * @return
      */
-    public static JsonResultObject generateSucceedResult(Object obj){
-        JsonResultObject jsonResult = new JsonResultObject();
+    public static JsonResultBean generateSucceedResult(Object obj){
+        JsonResultBean jsonResult = new JsonResultBean();
         jsonResult.setData(obj);
         return jsonResult;
     }
@@ -28,8 +28,8 @@ public class JsonResultUtil{
      * @param e
      * @return
      */
-    public static JsonResultObject generateExceptionResult(DesignerException e){
-        JsonResultObject jsonResult = new JsonResultObject();
+    public static JsonResultBean generateExceptionResult(DesignerException e){
+        JsonResultBean jsonResult = new JsonResultBean();
         jsonResult.setResult(e.getErrorCode());
         jsonResult.setMessage(e.getMessage());
         return jsonResult;
@@ -41,8 +41,8 @@ public class JsonResultUtil{
      * @param message
      * @return
      */
-    public static JsonResultObject generateExceptionResult(int errorCode, String message){
-        JsonResultObject jsonResult = new JsonResultObject();
+    public static JsonResultBean generateExceptionResult(int errorCode, String message){
+        JsonResultBean jsonResult = new JsonResultBean();
         jsonResult.setResult(errorCode);
         jsonResult.setMessage(message);
         return jsonResult;
@@ -56,7 +56,7 @@ public class JsonResultUtil{
         user.setUsername("liqian");
         user.setNickname("nick_liqian");
         
-        JsonResultObject jsonSucceedResult = generateSucceedResult(user);
+        JsonResultBean jsonSucceedResult = generateSucceedResult(user);
         System.out.println(jsonSucceedResult);
         
     }

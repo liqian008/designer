@@ -13,5 +13,5 @@ public interface IBaseService<T, Id>{
 	public T loadById(Id id);
 	
 	public List<T> queryAll();
-	
+
 }

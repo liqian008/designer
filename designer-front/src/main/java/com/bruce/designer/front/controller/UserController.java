@@ -13,8 +13,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.bruce.designer.annotation.NeedAuthorize;
+import com.bruce.designer.constants.ConstRedis;
+import com.bruce.designer.exception.DesignerException;
+import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
+import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.User;
 import com.bruce.designer.model.UserFan;
@@ -50,25 +56,16 @@ public class UserController {
         User queryUser = userService.loadById(queryUserId);
         if(queryUser!=null){
             model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
-            List<Album> albumList = albumService.queryAlbumByUserId(queryUserId);
-            
             User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
             if(user!=null&&user.getId()>0){
                 int userId = user.getId();
                 boolean hasFollowed = userGraphService.isFollow(userId, queryUserId);
                 model.addAttribute("hasFollowed", hasFollowed);
             }
-            
-            if(albumList!=null&&albumList.size()>0){
-//                for(Album loopAlbum: albumList){
-//                    int albumId = loopAlbum.getId();
-////                  List<Comment> commentList = commentService.queryCommentsByAlbumId(albumId);
-////                  loopAlbum.setCommentList(commentList);
-//                }
-                model.addAttribute("albumList", albumList);
-            }
+        }else{
+        	throw new DesignerException(ErrorCode.USER_NOT_EXIST);
         }
-        return "userHome";
+        return "home/userHome";
     }
     
     /**
@@ -79,10 +76,14 @@ public class UserController {
      */
     @RequestMapping(value = "/{userId}/info")
     public String userInfo(Model model,  HttpServletRequest request, @PathVariable("userId") int queryUserId) {
-        
         User queryUser = userService.loadById(queryUserId);
         if(queryUser!=null){
-            model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
+        	model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
+            
+        	long hisFansCount = counterService.getCount(ConstRedis.COUNTER_KEY_FOLLOW + queryUser.getId());
+            long hisFollowesCount = counterService.getCount(ConstRedis.COUNTER_KEY_FAN + queryUser.getId());
+            model.addAttribute("fansNumber", hisFansCount);
+            model.addAttribute("followsNumber", hisFollowesCount);
             
             User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
             if(user!=null&&user.getId()>0){
@@ -90,8 +91,10 @@ public class UserController {
                 boolean hasFollowed = userGraphService.isFollow(userId, queryUserId);
                 model.addAttribute("hasFollowed", hasFollowed);
             }
+            return "home/userInfo";
+        }else{
+        	throw new DesignerException(ErrorCode.USER_NOT_EXIST);
         }
-        return "userInfo";
     }
     
     /**
@@ -100,7 +103,7 @@ public class UserController {
      * @param userId
      * @return
      */
-    @RequestMapping(value = "/{userId}/follow") 
+    @RequestMapping(value = "/{userId}/follows") 
     public String userFollow(Model model, HttpServletRequest request, @PathVariable("userId") int queryUserId) {
         User queryUser = userService.loadById(queryUserId);
         if(queryUser!=null){
@@ -134,8 +137,10 @@ public class UserController {
                 //无需处理
             }
             model.addAttribute("followMap", followMap);
+        }else{
+        	throw new DesignerException(ErrorCode.USER_NOT_EXIST);
         }
-        return "userFollow";
+        return "home/userFollows";
     }
     
     /**
@@ -144,7 +149,7 @@ public class UserController {
      * @param userId
      * @return 
      */
-    @RequestMapping(value = "/{userId}/fan")
+    @RequestMapping(value = "/{userId}/fans")
     public String userFan(Model model, HttpServletRequest request, @PathVariable("userId") int queryUserId) {
         
         User queryUser = userService.loadById(queryUserId);
@@ -179,24 +184,43 @@ public class UserController {
               //无需处理
             }
             model.addAttribute("followMap", followMap);
+        }else{
+        	throw new DesignerException(ErrorCode.USER_NOT_EXIST);
         }
-        return "userFan";
+        return "home/userFans";
     }
     
-    @RequestMapping(value = "/follow")
-    public String follow(Model model,  HttpServletRequest request, int uid) {
+    
+    /**
+     * 最好改为ajax请求
+     */
+    @NeedAuthorize
+    @RequestMapping(value = "/follows")
+    public ModelAndView follow(Model model,  HttpServletRequest request, int uid) {
         User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
         int userId = user.getId();
         boolean result = userGraphService.follow(userId, uid);
-        return "redirect:/index.art";
+        if(result){
+        	return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
+        }else{
+        	return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
+        }
     }
     
+    /**
+     * 最好改为ajax请求
+     */
+    @NeedAuthorize
     @RequestMapping(value = "/unfollow")
-    public String unflower(Model model, HttpServletRequest request, int uid) {
+    public ModelAndView unflower(Model model, HttpServletRequest request, int uid) {
         User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
         int userId = user.getId();
         boolean result = userGraphService.unfollow(userId, uid);
-        return "redirect:/index.art";
+        if(result){
+        	return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
+        }else{
+        	return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
+        }
     }
     
 }

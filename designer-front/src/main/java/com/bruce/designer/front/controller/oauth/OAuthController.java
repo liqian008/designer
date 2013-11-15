@@ -59,10 +59,10 @@ public class OAuthController {
      * @throws Exception
      */
     @RequestMapping(value = "/wbCallback")
-    public String wbCallback(Model model, HttpServletRequest request)throws Exception {
+    public String wbCallback(Model model, HttpServletRequest request){
         String code = request.getParameter("code");
         if(StringUtils.isEmpty(code)){//用户取消授权，直接返回
-            return "redirect:/index.art";
+            return "redirect:/index";
         }
         return unifiedCallback(request, IOAuthService.OAUTH_WEIBO_TYPE);
     }
@@ -75,7 +75,7 @@ public class OAuthController {
      * @throws Exception
      */
     @RequestMapping(value = "/tencentCallback")
-    public String tencentCallback(Model model, HttpServletRequest request)throws Exception {
+    public String tencentCallback(Model model, HttpServletRequest request){
         return unifiedCallback(request, IOAuthService.OAUTH_TENCENT_TYPE);
     }
     
@@ -98,7 +98,7 @@ public class OAuthController {
      * @return
      * @throws OAuthException
      */
-    private String unifiedCallback(HttpServletRequest request, short thirdpartyType) throws OAuthException {
+    private String unifiedCallback(HttpServletRequest request, short thirdpartyType) {
         AccessTokenInfo tokenInfo = oAuthService.loadTokenByCallback(request, thirdpartyType);
         if (tokenInfo != null) {
             // 缓存accessToken，便于后续绑定的时候使用
@@ -114,7 +114,7 @@ public class OAuthController {
                     request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
                     //oauth验证成功，返回首页
                     request.setAttribute(ConstFront.REDIRECT_PROMPT, "欢迎您回来，"+user.getNickname()+"，现在将转入首页，请稍候…");
-                    return "forward:/redirect.art";
+                    return "forward:/redirect";
                 } else {// 新用户，需绑定
                         // 进入注册、绑定已有账户流程
                     return "registerThirdparty";
@@ -129,7 +129,7 @@ public class OAuthController {
                     user.getAccessTokenMap().put(tokenInfo.getThirdpartyType(), tokenInfo);
                     
                     request.setAttribute(ConstFront.REDIRECT_PROMPT, "您已成功绑定"+thirdpartyType+"账户，现在将转入个人主页，请稍候…");
-                    return "forward:/redirect.art";
+                    return "forward:/redirect";
                 }else{
                     // 已经绑定，需判定登录用户的uid与token中的uid是否一致
                     boolean match = accessToken.getUserId()==user.getId();
@@ -157,7 +157,7 @@ public class OAuthController {
             sessionToken = checkOAuthTokenStatus(request);
         } catch (OAuthException e) {
             //出错，返回登录页
-            return "redirect:/login.art";
+            return "redirect:/login";
         }
         // 检查用户是否存在
         boolean userExists = false;
@@ -184,13 +184,13 @@ public class OAuthController {
             }
             promptMessage = "注册成功, "+user.getNickname()+"，现在将转入首页，请稍候…";
             request.setAttribute(ConstFront.REDIRECT_PROMPT, promptMessage);
-            return "forward:/redirect.art";
+            return "forward:/redirect";
         }else{
             //用户被占用，无法使用oauth注册
             promptMessage = "用户已存在，注册失败!";
         }
         request.setAttribute(ConstFront.REDIRECT_PROMPT, promptMessage);
-        return "forward:/redirect.art";
+        return "forward:/redirect";
     }
     
     /**
@@ -210,7 +210,7 @@ public class OAuthController {
             sessionToken = checkOAuthTokenStatus(request);
         } catch (OAuthException e) {
             //出错，返回登录页
-            return "redirect:/index.art";
+            return "redirect:/index";
         }
         
         // 加载用户
@@ -230,7 +230,7 @@ public class OAuthController {
                 request.getSession().removeAttribute(ConstFront.TEMPLATE_ACCESS_TOKEN);
                 
                 request.setAttribute(ConstFront.REDIRECT_PROMPT, "欢迎您，"+user.getNickname()+"，现在将转入首页，请稍候…");
-                return "forward:/redirect.art";
+                return "forward:/redirect";
             } else {// 账户之前已经绑定过本token，不能重复绑定
                 promptMessage = "用户已绑定过该第三方账户，不能重复绑定!";
             }
@@ -239,7 +239,7 @@ public class OAuthController {
             promptMessage = "用户名密码不匹配，无法进行绑定操作";
         }
         request.setAttribute(ConstFront.REDIRECT_PROMPT, promptMessage);
-        return "forward:/redirect.art";
+        return "forward:/redirect";
     }
 
     /**
@@ -259,7 +259,7 @@ public class OAuthController {
         	accessTokenMap.remove(thirdpartyType);
         }
         request.setAttribute(ConstFront.REDIRECT_PROMPT, "您已成功解绑"+thirdpartyType+"账户，现在将转入个人主页，请稍候…");
-        return "forward:/redirect.art";
+        return "forward:/redirect";
     }
 
     /**
@@ -302,7 +302,7 @@ public class OAuthController {
 	    	sharedContent.setAccessToken(user.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE).getAccessToken());
 	        oAuthService.shareout(sharedContent);
     	}
-        return "redirect:index.art";
+        return "redirect:index";
     }
 
     
@@ -311,12 +311,14 @@ public class OAuthController {
      * @param request
      * @return
      */
-    private AccessTokenInfo checkOAuthTokenStatus(HttpServletRequest request) throws OAuthException {
+    private AccessTokenInfo checkOAuthTokenStatus(HttpServletRequest request) {
         AccessTokenInfo sessionToken = (AccessTokenInfo) request.getSession().getAttribute(ConstFront.TEMPLATE_ACCESS_TOKEN);
         if (sessionToken == null) {//session中token不存在，无效请求
-            throw new OAuthException(ErrorCode.OAUTH_SESSIONTOKEN_ERROR, "第三方登录信息不存在，请稍后重试!");
+        	//, "第三方登录信息不存在，请稍后重试!"
+            throw new OAuthException(ErrorCode.OAUTH_SESSIONTOKEN_ERROR);
         }else if (sessionToken.getUserId()!=null && sessionToken.getUserId()>0) {//该sessionToken已被绑定到其他用户账户，无法使用其进行注册
-            throw new OAuthException(ErrorCode.OAUTH_ALREADY_BIND, "用户已绑定过该第三方账户，不能重复绑定!");
+        	//, "用户已绑定过该第三方账户，不能重复绑定!"
+        	throw new OAuthException(ErrorCode.OAUTH_ALREADY_BIND);
         }
         return sessionToken; 
     }

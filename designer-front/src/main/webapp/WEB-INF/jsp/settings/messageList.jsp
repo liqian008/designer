@@ -11,6 +11,8 @@
 <%
 SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
+
+User toUser = (User)request.getAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUTE);
 %>
 
 <!DOCTYPE html>
@@ -60,19 +62,8 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
                     <jsp:include page="../inc/headerNav.jsp"></jsp:include>
 
-                    <div class="page-title">
-                        <div class="container">
-                            <!-- <div class="page-title-avatar">
-                                <img src="./img/demo/portraits/portrait-21.png" alt="Page Title" width="80" height="80"/>
-                            </div> -->
-                            <div class="page-title-content">
-                                <h1>Gallery Post Format</h1>
-                                <p class="page-description">
-                                    With this gallery you can create a blogpost with multiple images. With the FlexSlider or Twitter Bootstrap Carousel you can rotate between these images.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    <jsp:include page="../inc/ad.jsp"></jsp:include>
+
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
         <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
@@ -104,36 +95,20 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			                            <div class="content-title">
 											<h4>消息列表</h4> 
 										</div>
-										
                                     	<%
                                     	List<Message> messageList = (List<Message>)request.getAttribute("messageList");
                                     	if(messageList!=null&&messageList.size()>0){
                                     		for(Message message: messageList){
                                     	%> 
-                                        <div class="comment-container" id="comment-1">
-                                            <div class="comment-avatar">
-                                                <div class="comment-author vcard">
-                                                    <img src="img/demo/portraits/portrait-6.png" alt="Blogpost Comment">                 
-                                                </div>
-                                            </div>                          
-                                            <div class="comment-body">
-                                                <div class="comment-meta commentmetadata">
-                                                    <h4 class="comment-author">
-                                                        <a href="http://www.somnia-themes.com" rel="external nofollow" class="url">
-															<%=MessageUtil.getMessageTypeName(message.getMessageType())%>
-														</a>
-                                                    </h4>                                   
-                                                </div>                              
-                                                <div class="comment-content">
-                                                    <p>
-                                                        <%=message.getMessage()%>
-                                                    </p>
-                                                </div>
-                                                <div class="comment-date">
-                                                    <p><%=message.getCreateTime()%></p>                 
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <div class="infobox info-info clearfix">
+			                                <span>i</span>
+			                                <div class="infobox-wrap"> 
+			                                    <h5>系统消息
+			                                    </h5>
+			                                    <p><%=message.getMessage()%> 发送时间: <%=message.getCreateTime()%></p>
+			                                </div>
+			                                
+			                            </div>
 			                                
 			                            <%}
 			                            }%>
@@ -165,6 +140,20 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
     <script src="./js/retina.js"></script>
 
     <script src="./js/custom.js"></script>
-
+	<script>
+	$("#sendMessageBtn").click(function(){
+		//disable submitBtn
+		$("#sendMessageBtn").attr("disabled", "disabled");
+		var messageJsonData = {"content": $("#content").val(), 'toId':$("#toId").val()};
+		$.post("/designer-front/settings/sendMsg.json", messageJsonData, function(data) {
+			$("#sendMessageBtn").removeAttr("disabled");
+			alert("result: " + data.result);
+			alert("message: " + data.data);
+			$("#commentListContainer").prepend(data.data);
+			//enable submitBtn
+		 }, "json"); 
+	});
+		
+	</script>
     </body>
 </html>

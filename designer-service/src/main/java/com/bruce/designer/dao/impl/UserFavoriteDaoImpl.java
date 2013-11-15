@@ -78,4 +78,10 @@ public class UserFavoriteDaoImpl implements IUserFavoriteDao, InitializingBean {
         // TODO Auto-generated method stub
         
     }
+
+	@Override
+	public List<UserFavorite> fallLoadList(Long tailId, int limit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 } 

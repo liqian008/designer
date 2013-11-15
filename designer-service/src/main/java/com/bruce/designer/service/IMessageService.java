@@ -20,7 +20,17 @@ public interface IMessageService extends IBaseService<Message, Long>{
      * @param type
      * @return
      */
-    public List<Message> queryMessagesByType(int userId, short type);
+    public List<Message> queryMessagesByType(int userId, int type);
+    
+    /**
+     * 
+     * @param userId
+     * @param messageType
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    public PagingData<Message> pagingQuery(int userId, int messageType, int pageNo, int pageSize);
     
     /**
      * 分页查询用户的对话消息
@@ -29,7 +39,7 @@ public interface IMessageService extends IBaseService<Message, Long>{
      * @param limit
      * @return
      */
-    public PagingData<Message> pagingQuery(int userId, int deliverId, int pageNo, int pageSize);
+//    public PagingData<Message> pagingQuery(int userId, int pageNo, int pageSize);
     
 //    public int sendFLowerMessage(int fromId, int toId, String message);
 //    
@@ -43,24 +53,29 @@ public interface IMessageService extends IBaseService<Message, Long>{
     /**
      * 发送单条消息
      */
-    public int sendMessage(int fromId, int toId, int deliverId, String content, short messageType);
+    public int sendMessage(int fromId, int toId, String content, int messageType);
     	
     /**
      * 发送多条消息
      */
-    public int sendMessage(int fromId, int[] toIds, int deliverId, String message, short messageType);
+    public int sendMessage(int fromId, List<Integer> toIdList, String content, int messageType);
+    
+    /**
+     * 发送多条消息
+     */
+    public int sendChatMessage(int fromId, int toId, String content);
     
     /**
      * 广播至所有用户
      * @return
      */
-    public int broadcast2All(String message);
+    public int broadcast2All(String content);
     
     /**
      * 广播至所有设计师
      * @return
      */
-    public int broadcase2Designers(String message);
+    public int broadcase2Designers(String content);
 
     /**
      * 将用户所有消息都标记为已读
@@ -70,10 +85,12 @@ public interface IMessageService extends IBaseService<Message, Long>{
     /**
      * 批量标记为已读
      */
-    public int markRead(int userId, short messageType);
+    public int markRead(int userId, int messageType);
     
     /**
-     * 标记为已读
+     * 批量标记为已读
      */
-    public int markRead(int userId, long messageId);
+	public int markRead(int userId, List<Long> messageIdList);
+
+
 }

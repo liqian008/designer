@@ -46,35 +46,63 @@ public class MessageDaoImpl implements IMessageDao, InitializingBean {
 	
 	/**
 	 * 发送消息
+	 * @param fromId
+	 * @param content
+	 * @param messageType
+	 * @param toId
+	 * @return
 	 */
 	@Override
-	public int sendMessage(int fromId, int toId, int dialogId, String content, short messageType){
+	public int sendMessage(int fromId, int toId, String content, int messageType) {
+		return sendMessage(fromId, toId, content, messageType, ConstService.MESSAGE_UNREAD);
+	}
+	
+	private int sendMessage(int fromId, int toId, String content, int messageType, short unreadStatus) {
 		//保存消息实体
-	    Message message = new Message();
-		message.setMessage(content);
-		message.setMessageType(messageType);
+		Message message = new Message();
 		message.setFromId(fromId);
 		message.setToId(toId);
-		message.setDialogId(dialogId);
+		message.setMessage(content);
+		message.setMessageType(messageType);
+		message.setUnread(unreadStatus);
 		Date currentTime = new Date(System.currentTimeMillis());
 		message.setCreateTime(currentTime);
 		int result = save(message);
 		return result;
-		//保存user_message关系
 	}
 	
 	/**
 	 * 批量发送消息
 	 */
 	@Override
-	public int sendMessage(int fromId, int[] toIds, int deliverId, String message, short messageType) {
-		if(toIds!=null&&toIds.length>0){
-			for(int toId: toIds){
-				sendMessage(fromId, toId, deliverId, message, messageType);
+	public int sendMessage(int fromId, List<Integer> toIdList, String content, int messageType) {
+		if(toIdList!=null&&toIdList.size()>0){
+			for(int toId: toIdList){
+				sendMessage(fromId, toId, content, messageType);
 			}
-			return toIds.length;
+			return toIdList.size();
 		}
 		return 0;
+	}
+
+	
+	/**
+	 * 发送聊天消息（对话类型的消息列表需保存两份，对方收件箱&自己的发件箱）
+	 * @param fromId
+	 * @param toId
+	 * @param content
+	 * @return
+	 */
+	@Override
+	public int sendChatMessage(int fromId, int toId, String content) {
+		int result = 0;
+		//写入对方的收件箱
+		int messageType = fromId;
+		sendMessage(fromId, toId, content, messageType);
+		//写入自己的发件箱（置为已读状态，不会增加未读消息数）
+		messageType = toId;
+		result = sendMessage(fromId, fromId, content, messageType, ConstService.MESSAGE_READ);
+		return result;
 	}
 	
 	/**
@@ -90,7 +118,7 @@ public class MessageDaoImpl implements IMessageDao, InitializingBean {
 	 * 根据消息类型查询
 	 */
 	@Override
-	public List<Message> queryMessagesByType(int userId, short messageType) {
+	public List<Message> queryMessagesByType(int userId, int messageType) {
 		MessageCriteria criteria = new MessageCriteria();
 		criteria.createCriteria().andToIdEqualTo(userId).andMessageTypeEqualTo(messageType);
 		return messageMapper.selectByExample(criteria);
@@ -100,11 +128,11 @@ public class MessageDaoImpl implements IMessageDao, InitializingBean {
 	 * 分页展示消息列表
 	 */
     @Override
-    public PagingData<Message> pagingQuery(int userId, int dialogId, int pageNo, int pageSize){
+    public PagingData<Message> pagingQuery(int userId, int messageType, int pageNo, int pageSize){
         if(pageNo<0) pageNo = 1;
         int offset = (pageNo-1) * pageSize;
         MessageCriteria criteria = new MessageCriteria();
-        criteria.createCriteria().andToIdEqualTo(userId).andDialogIdEqualTo(dialogId);
+        criteria.createCriteria().andToIdEqualTo(userId).andMessageTypeEqualTo(messageType);
         criteria.setOffset(offset);
         criteria.setLimit(pageSize);
         criteria.setOrderByClause("id desc");
@@ -133,7 +161,7 @@ public class MessageDaoImpl implements IMessageDao, InitializingBean {
      * 批量标记为已读
      */
     @Override
-    public int markRead(int userId, short messageType) {
+    public int markRead(int userId, int messageType) {
         Message message = new Message();
         message.setUnread(ConstService.MESSAGE_READ);
         //查询条件
@@ -144,24 +172,30 @@ public class MessageDaoImpl implements IMessageDao, InitializingBean {
     }
     
     /**
-     * 标记为已读
+     * 批量标记为已读
      */
     @Override
-    public int markRead(int userId, long messageId) {
+    public int markRead(int userId, List<Long> messageIdList) {
         Message message = new Message();
         message.setUnread(ConstService.MESSAGE_READ);
         //查询条件
         MessageCriteria criteria = new MessageCriteria();
-        criteria.createCriteria().andToIdEqualTo(userId).andIdEqualTo(messageId);
+        criteria.createCriteria().andToIdEqualTo(userId).andIdIn(messageIdList);
         int result = messageMapper.updateByExampleSelective(message, criteria);
         return result;
     }
+    
 
     @Override
     public void afterPropertiesSet() throws Exception {
         Assert.notNull(messageMapper, "messageMapper can't be null");
-//        Assert.notNull(userMessageMapper, "userMessageMapper can't be null");
         Assert.notNull(userService, "userService can't be null");
     }
+
+	@Override
+	public List<Message> fallLoadList(Long tailId, int limit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

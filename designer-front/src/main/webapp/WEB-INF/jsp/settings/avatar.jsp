@@ -62,19 +62,8 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
                     <jsp:include page="../inc/headerNav.jsp"></jsp:include>
 
-                    <div class="page-title">
-                        <div class="container">
-                            <!-- <div class="page-title-avatar">
-                                <img src="./img/demo/portraits/portrait-21.png" alt="Page Title" width="80" height="80"/>
-                            </div> -->
-                            <div class="page-title-content">
-                                <h1>Gallery Post Format</h1>
-                                <p class="page-description">
-                                    With this gallery you can create a blogpost with multiple images. With the FlexSlider or Twitter Bootstrap Carousel you can rotate between these images.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    <jsp:include page="../inc/ad.jsp"></jsp:include>
+
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
         <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
@@ -103,48 +92,65 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                 </ul>
                                 <div class="tab-content span9">
                                 	<div class="tab-pane widgets-light active" id="avatar">
-                                        <div class="widget-box widget-contact-form">
+                                        <div class="widget-box widget-wrapper-form">
 											<div class="content-title">
 												<h4>修改头像</h4>
 											</div>
 
-											我当前的头像
-
-											<img src="<%=user.getHeadImg()%>" width="200px"/>
+												
+											
+											<div class="row-container clearfix">
+												<div class="row-left">当前头像:</div>
+												<div class="row-right">
+													<img src="<%=user.getHeadImg()%>" width="150px"/>
+												</div>
+											</div>
+											
 											<%
 											String originAvatarUrl = (String)request.getAttribute("originAvatarUrl");
 											if(originAvatarUrl==null){
 											%>
-
-											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/settings.art" enctype="MULTIPART/FORM-DATA">
-												<div class="input-container">
-													头 像: <input type="file" class="contact-form-name" name="avatarImage"
-														value="头 像"/>
+											<form method="post" class="clearfix"
+												action="/designer-front/settings" enctype="MULTIPART/FORM-DATA">
+											<div class="row-container clearfix">
+												<div class="row-left">上传新头像:</div>
+												<div class="row-right">
+													<input type="file" name="avatarImage" value="头 像"/>
 												</div>
-												<input type="hidden" name="op" value="uploadAvatar">
-												<input class="contact-submit button" type="submit" value="上 传">
+											</div>
+											
+											<div class="row-container clearfix">
+												<div class="row-left"> </div>
+												<div class="row-right">
+													<input type="hidden" name="op" value="uploadAvatar">
+													<input class="common-submit button" type="submit" value="上 传">
+												</div>
+											</div>
 											</form>
+
 											<%}else{ %>
-												设置我的新头像
-												<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/settings.art">
-
-												<table>
-												<tr>              
-									              <td id="imgTd" style="width:<%=request.getAttribute("imgSrcWidth")%>px;height:<%=request.getAttribute("imgSrcHeight")%>px;" align="center" style="padding-top:5px;">    
-									            	<img src="<%=originAvatarUrl%>" id="imgCrop" name="imgCrop"/>
-									            </td>               
-									           </tr> 
-											</table>
-
+											<form method="post" class="clearfix" action="/designer-front/settings">
+											<div class="row-container clearfix">
+												<div class="row-left">选取新头像</div>
+												<div class="row-right">
+													<table>
+														<tr>              
+											              <td id="imgTd" style="width:<%=request.getAttribute("imgSrcWidth")%>px;height:<%=request.getAttribute("imgSrcHeight")%>px;" align="center" style="padding-top:5px;">    
+											            	<img src="<%=originAvatarUrl%>" id="imgCrop" name="imgCrop"/>
+											            </td>               
+											           </tr> 
+													</table>
+												</div>
+											</div>
+											<div class="row-container clearfix">
 												<input type="hidden"  id="x" name="x" />  
 											    <input type="hidden"  id="y" name="y" />  
 											    <input type="hidden"  id="w" name="w" />  
 											    <input type="hidden"  id="h" name="h" />    
 												<input type="hidden" name="op" value="avatar">
-												<input class="contact-submit button" type="submit" value="修 改"/>
-												</form>
+												<input class="common-submit button" type="submit" value="修 改"/>
+											</div>
+											</form>
 											<%} %>
 										</div>
                                     </div>

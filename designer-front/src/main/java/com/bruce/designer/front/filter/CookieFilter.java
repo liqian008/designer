@@ -80,7 +80,7 @@ public class CookieFilter implements Filter {
             User user = userService.authUser(username, password);
 
             if (user == null) {
-                res.sendRedirect("./login.art");
+                res.sendRedirect("./login");
             }
         }
         chain.doFilter(request, response);

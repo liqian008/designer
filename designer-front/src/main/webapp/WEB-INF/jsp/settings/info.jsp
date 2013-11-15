@@ -9,7 +9,7 @@
 
 <%
 SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
-User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
+User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 %>
 
 <!DOCTYPE html>
@@ -58,20 +58,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
                     <jsp:include page="../inc/headerNav.jsp"></jsp:include>
-
-                    <div class="page-title">
-                        <div class="container">
-                            <!-- <div class="page-title-avatar">
-                                <img src="./img/demo/portraits/portrait-21.png" alt="Page Title" width="80" height="80"/>
-                            </div> -->
-                            <div class="page-title-content">
-                                <h1>Gallery Post Format</h1>
-                                <p class="page-description">
-                                    With this gallery you can create a blogpost with multiple images. With the FlexSlider or Twitter Bootstrap Carousel you can rotate between these images.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+					<jsp:include page="../inc/ad.jsp"></jsp:include>
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
         <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
@@ -100,54 +87,46 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                 </ul>
                                 <div class="tab-content span9">
                                     <div class="tab-pane widgets-light active" id="info">
-                                        <div class="widget-box widget-edit-form">
+                                        <div class="widget-box widget-wrapper-form">
 											<div class="content-title">
 												<h4>个人资料</h4> 
 											</div>
 											
-											<form class="form-horizontal">
-											  <div class="control-group">
-											    <label class="control-label" for="inputEmail">Email</label>
-											    <div class="controls">
-											     liqian
-											    </div>
-											  </div>
-											  <div class="control-group">
-											    <label class="control-label" for="inputPassword">Password</label>
-											    <div class="controls">
-											      <input type="password" id="inputPassword" placeholder="Password">
-											    </div>
-											  </div>
-											</form>
-											
-											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/settings.art">
-												<div class="input-container">
-													<input type="text" class="contact-form-name" name="username"
-														value="<%=user.getUsername()%>" readonly="readonly"/>
+											<form class="widget-form" method="post" class="clearfix"
+												action="/designer-front/settings">
+												
+												<div class="row-container clearfix">
+													<div class="row-left">用户类型：</div>
+													<div class="row-right">设计师</div>
+												</div>
+												<div class="row-container clearfix">
+													<div class="row-left">登录名：</div>
+													<div class="row-right">
+														<!-- <input type="text" name="username" value="liqian2"> -->
+														<%=currentUser.getUsername()%>
+													</div>
+												</div>
+												<div class="row-container clearfix">
+													<div class="row-left">昵称：</div>
+													<div class="row-right">
+														<!-- <input type="text" name="username" value="liqian2"> -->
+														<%=currentUser.getNickname()%>
+													</div>
 												</div>
 												
-												<div class="input-container">
-													用户名: 
-													<input type="text" class="contact-form-name" name="username"
-														value="<%=user.getUsername()%>" readonly="readonly"/>
-												</div>
-												<div class="input-container">
-													昵 称: 
-													<input type="text" class="contact-form-name" name="nickname"
-														value="<%=user.getNickname()%>"  readonly="readonly"/>
-												</div>
-												<div class="input-container">
-													E-Mail: 
-													<input type="text" class="contact-form-name" name="email"
-														value="<%=user.getEmail()%>"/>
-												</div>
-												<div class="input-container">
-													性 别: 
-													<input type="radio" name="gender" value="1"/>男
-													<input type="radio" name="gender" value="2"/>女
+												<div class="row-container clearfix">
+													<div class="row-left">性别：</div>
+													<div class="row-right">
+														<input type="radio" name="gender" value="1"/>男
+														<input type="radio" name="gender" value="2"/>女
+													</div>
 												</div>
 												
+												<div class="row-container clearfix">
+													<input type="hidden" name="op" value="info" readonly="readonly"/>
+													<input class="common-submit button" type="submit" value="修 改">
+													<input class="common-submit button" type="reset" value="重 置">
+												</div>
 												
 												<div class="content-title">
 													<h4>第三方账户绑定</h4> 
@@ -162,35 +141,37 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					                                <a href="#" class="info-hide"></a>
 					                            </div>
 												
-												<div class="input-container">
-													<%
-													AccessTokenInfo wbToken = user.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE);
-													boolean wbBound = wbToken!=null;
-													%>
-													Sina微博: 
-													<%=wbBound?"已绑定":"未绑定"%>，<%=wbToken!=null?wbToken.getThirdpartyUname():""%>
-													<%if(wbBound){%>
-													<a href="/designer-front/unbindOauth.art?thirdpartyType=1" class="button button-small button-white">解绑新浪微博账户</a>
-													<%}else{%>
-													<a href="/designer-front/connectWeibo.art" class="button button-small button-green">现在就去绑定</a>
-													<%}%>
+												<div class="row-container clearfix">
+													<div class="row-left">Sina微博: </div>
+													<div class="row-right">
+														<%
+														AccessTokenInfo wbToken = currentUser.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE);
+														boolean wbBound = wbToken!=null;
+														%>
+														<%=wbBound?"已绑定":"未绑定"%>，<%=wbToken!=null?wbToken.getThirdpartyUname():""%>
+														<%if(wbBound){%>
+														<a href="/designer-front/unbindOauth?thirdpartyType=1" class="button button-small button-white">解绑新浪微博账户</a>
+														<%}else{%>
+														<a href="/designer-front/connectWeibo" class="button button-small button-green">现在就去绑定</a>
+														<%}%>
+													</div>
 												</div>
-												<div class="input-container">
-													<%
-													AccessTokenInfo tencentToken = user.getAccessTokenMap().get(IOAuthService.OAUTH_TENCENT_TYPE);
-													boolean tencentBound = tencentToken!=null;
-													%>
-													腾讯微博: 
-													<%=tencentBound?"已绑定":"未绑定"%>，<%=tencentToken!=null?tencentToken.getThirdpartyUname():""%>
-													<%if(tencentBound){%>
-													<a href="/designer-front/unbindOauth.art?thirdpartyType=2" class="button button-small button-white">解绑QQ账户</a>
-													<%}else{%>
-													<a href="/designer-front/connectTencent.art" class="button button-small button-green">现在就去绑定</a>
-													<%}%>
+												<div class="row-container clearfix">
+													<div class="row-left">QQ: </div>
+													<div class="row-right">
+														<%
+														AccessTokenInfo tencentToken = currentUser.getAccessTokenMap().get(IOAuthService.OAUTH_TENCENT_TYPE);
+														boolean tencentBound = tencentToken!=null;
+														%>
+														<%=tencentBound?"已绑定":"未绑定"%>，<%=tencentToken!=null?tencentToken.getThirdpartyUname():""%>
+														<%if(tencentBound){%>
+														<a href="/designer-front/unbindOauth?thirdpartyType=2" class="button button-small button-white">解绑QQ账户</a>
+														<%}else{%>
+														<a href="/designer-front/connectTencent" class="button button-small button-green">现在就去绑定</a>
+														<%}%>
+													</div>
 												</div>
-												<input type="hidden" name="op" value="info" readonly="readonly"/>
-												<input class="contact-submit button" type="submit" value="完 成">
-												<input class="contact-submit button" type="button" value="取 消">
+												
 											</form>
 										</div>
                                     </div>
@@ -199,7 +180,10 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                             </div>
                         </section> 
                         
-                        <jsp:include page="../inc/rightSidebar.jsp"></jsp:include>
+                        <!-- right slidebar -->
+						<aside class="sidebar widgets-light span3">
+                       		<jsp:include page="../inc/right/sidebar_settings.jsp"></jsp:include> 
+                    	</aside>
                     	
                     </div>                        
                 </div> <!-- Close Main -->

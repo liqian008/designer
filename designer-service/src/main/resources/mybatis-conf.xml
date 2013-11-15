@@ -13,6 +13,9 @@
 		<mapper resource="com/bruce/designer/model/mapper/MessageExtendMapper.xml" />
 		<mapper resource="com/bruce/designer/model/mapper/CommentMapper.xml" />
 		<mapper resource="com/bruce/designer/model/mapper/AccessTokenInfoMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/TagMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/TagExtendMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/TagAlbumMapper.xml" />
 		<!-- 
 		<mapper resource="com/bruce/designer/model/mapper/UserMessageMapper.xml"/>
 		<mapper resource="com/bruce/designer/model/mapper/FeedDTOMapper.xml" />

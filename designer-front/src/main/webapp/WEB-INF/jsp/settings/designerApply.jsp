@@ -9,7 +9,7 @@
 
 <%
 SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
-User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
+User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 %>
 
 <!DOCTYPE html>
@@ -62,19 +62,8 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
                     <jsp:include page="../inc/headerNav.jsp"></jsp:include>
 
-                    <div class="page-title">
-                        <div class="container">
-                            <!-- <div class="page-title-avatar">
-                                <img src="./img/demo/portraits/portrait-21.png" alt="Page Title" width="80" height="80"/>
-                            </div> -->
-                            <div class="page-title-content">
-                                <h1>Gallery Post Format</h1>
-                                <p class="page-description">
-                                    With this gallery you can create a blogpost with multiple images. With the FlexSlider or Twitter Bootstrap Carousel you can rotate between these images.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    <jsp:include page="../inc/ad.jsp"></jsp:include>
+
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
         <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
@@ -83,9 +72,9 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
             <div class="breadscrumbs">
                 <div class="container">
                     <ul class="clearfix">
-                        <li><a href="post-gallery.html#">Home</a>/</li>
-                        <li><a href="post-gallery.html#">Blog</a>/</li>
-                        <li><a href="post-gallery.html#">Gallery Post Format</a></li>
+                        <li><a href="post-gallery.html#">首页</a>/</li>
+                        <li><a href="post-gallery.html#">设置</a>/</li>
+                        <li><a href="post-gallery.html#">申请设计师</a></li>
                     </ul>
                 </div>
             </div>
@@ -103,36 +92,84 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                 </ul>
                                 <div class="tab-content span9">
                                     <div class="tab-pane widgets-light active" id="apply4Designer">
-                                        <div class="widget-box widget-contact-form">
-                                        	<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/settings/designerApply.art">
+                                        <div class="widget-box widget-wrapper-form">
+                                        	<form  class="widget-form" method="post" class="clearfix"
+												action="/designer-front/settings/designerApply">
 												<div class="content-title">
-													<h4>请填写设计师申请资料（您的申请已提交，请耐心等待审核结果）</h4>
+													<h4>申请设计师</h4>
+												</div>
+												<div class="infobox info-info info-info-alt clearfix">
+					                                <span>i</span>
+					                                <div class="infobox-wrap">
+					                                    <h4>设计师状态：</h4>
+					                                    <p>
+														<%if(currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_NONE){%>
+														申请设计师需请完整填写以下资料，审核通过后即可发布作品!
+														<%}else if(currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_SENT){%>
+														您的设计师申请已提交，请耐心等待审核结果!
+														<%}else if(currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED){%>
+														您的设计师申请已经审核通过，可以发布作品了!
+														<%}%>
+														</p>
+					                                </div>
+					                            </div>
+					                            
+					                            <div class="row-container clearfix">
+													<div class="row-left">身份证号: </div>
+													<div class="row-right">
+													 <%if(currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_NONE){%>
+														<input type="text" class="span6" name="idNum" value=""/> 
+													<%}else{%>
+														<%=currentUser.getDesignerIdentifer()%>
+													<%} %>
+													</div>
 												</div>
 												
-												<div class="input-container">
-													身份证号: <input type="text" class="contact-form-name" name="idNum"
-														value="身份证号"/>
-												</div>
-												<div class="input-container">
-													真实姓名: <input type="text" class="contact-form-name" name="realname"
-														value="真实姓名"/>
-												</div>
-												<div class="input-container">
-													手机号: <input type="text" class="contact-form-name" name="mobile"
-														value="手机号"/>
+												<div class="row-container clearfix">
+													<div class="row-left">真实姓名: </div>
+													<div class="row-right">
+													<%if(currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_NONE){%>
+														<input type="text" class="span6" name="realname" value=""/> 
+													<%}else{%>
+														<%=currentUser.getDesignerRealname()%>
+													<%} %>
+													</div>
 												</div>
 												
-												<div class="input-container">
-													公 司: <input type="text" class="contact-form-name" name="company"
-														value="公 司"/>
-												</div>
-												<div class="input-container">
-													淘宝店铺主页: <input type="text" class="contact-form-name" name="taobaoHomepage"
-														value="淘宝店铺店铺"/>
+												<div class="row-container clearfix">
+													<div class="row-left">手机号: </div>
+													<div class="row-right">
+													<%if(currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_NONE){%>
+														<input type="text" class="span6" name="mobile" value=""/> 
+													<%}else{%>
+														<%=currentUser.getDesignerMobile()%>
+													<%} %>
+													</div>
 												</div>
 												
+												<div class="row-container clearfix">
+													<div class="row-left">公 司: </div>
+													<div class="row-right">
+													<%if(currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_NONE){%>
+														<input type="text" class="span6" name="company" value=""/> 
+													<%}else{%>
+														<%=currentUser.getDesignerCompany()%>
+													<%} %>
+													</div>
+												</div>
 												
+												<div class="row-container clearfix">
+													<div class="row-left">淘宝店铺主页: </div>
+													<div class="row-right">
+													<%if(currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_NONE){%>
+														<input type="text" class="span6" name="taobaoHomepage" value=""/> 
+													<%}else{%>
+														<%=currentUser.getDesignerTaobaoHomepage()%>
+													<%} %>
+													</div>
+												</div>
+												
+												<%if(currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_NONE){%>
 												<div class="content-title">
 													<h4>并附带一组作品集【上限6张】</h4>
 												</div>
@@ -145,17 +182,31 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					                                </div>
 					                                <a href="#" class="info-hide"></a>
 					                            </div>
-					                            <div class="input-container">
-													作品主题: <input type="text" class="contact-form-name" name="title" value=""/>
+					                            
+					                            <div class="row-container clearfix">
+													<div class="row-left">作品主题: </div>
+													<div class="row-right">
+														<input type="text" class="span6"  name="title" value=""/> 
+													</div>
 												</div>
-												<div class="input-container">
-													参考价格: <input type="text" class="contact-form-name" name="price" value=""/>
+												<div class="row-container clearfix">
+													<div class="row-left">参考价格: </div>
+													<div class="row-right">
+														<input type="text" class="span6"  name="price" value=""/> 
+													</div>
 												</div>
-												<div class="input-container">
-													购买链接: <input type="text" class="contact-form-name" name="link" value=""/>
+												<div class="row-container clearfix">
+													<div class="row-left">购买链接: </div>
+													<div class="row-right">
+														<input type="text" class="span6"  name="link" value=""/> 
+													</div>
 												</div>
-												<div class="input-container">
-													<input id="fileUploader" name="image" type="file" multiple="true">
+					                            
+												<div class="row-container clearfix">
+													<div class="row-left">上传作品: </div>
+													<div class="row-right">
+														<input id="fileUploader" name="image" type="file" multiple="true">
+													</div>
 												</div>
 												<div id="queue"></div>
 												
@@ -170,7 +221,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 														$('#fileUploader').uploadify({
 															'swf' : '/designer-front//uploadify/uploadify.swf',
 															//'uploader' : '/designer-front/uploadify/response.json',
-															'uploader' : '/designer-front/ajax/uploadImage.art;jsessionid=<%=session.getId()%>',
+															'uploader' : '/designer-front/uploadImage.json;jsessionid=<%=session.getId()%>',
 															//'cancelImg' : "uploadify-cancel.png",
 															'fileObjName' : 'image',
 															'debug' : false,
@@ -199,8 +250,9 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													});
 												</script>
 												
-												<input class="contact-submit button" type="submit" value="提 交">
-												<input class="contact-submit button" type="button" value="返回个人信息">
+												<input class="common-submit button" type="submit" value="修 改">
+												<input class="common-submit button" type="button" value="返回个人信息">
+												<%}%>
 											</form>
 										</div>
                                     </div>

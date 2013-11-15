@@ -7,7 +7,6 @@ package com.bruce.designer.service;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * 计数服务
  * 
@@ -16,60 +15,74 @@ import java.util.Map;
  */
 public interface ICounterService {
 
-    /**
-     * 获取计数
-     * 
-     * @param key
-     * @return
-     */
-    public long getCount(String key);
-    
-    /**
-     * 批量获取计数
-     * @param keyList
-     * @return
-     */
-    public Map<String, Long> mGetCounter(List<String> keyList);
-    
-    
-    /**
-     * 计数加一
-     * 
-     * @param key
-     * @return
-     */
-    public long increase(String key);
+	/**
+	 * 获取计数
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public long getCount(String key);
 
-    
-    /**
-     * 计数加num
-     * 
-     * @param key
-     * @param num
-     * @return
-     */
-    public long increaseNum(String key, int num);
+	/**
+	 * 批量获取计数
+	 * 
+	 * @param keyList
+	 * @return
+	 */
+	public Map<String, Long> mGetCounter(List<String> keyList);
 
-    
+	/**
+	 * 计数加一
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public long increase(String key);
 
-    /**
-     * 计数减一
-     * 
-     * @param key
-     * @return
-     */
-    public long reduce(String key);
+	/**
+	 * 计数加num
+	 * 
+	 * @param key
+	 * @param num
+	 * @return
+	 */
+	public long increaseNum(String key, int num);
 
-   
+	/**
+	 * 计数减一
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public long reduce(String key);
 
-    /**
-     * 计数减num
-     * 
-     * @param namespace
-     * @param key
-     * @param num
-     * @return
-     */
-    public long reduceNum(String key, int num);
+	/**
+	 * 计数减num
+	 * 
+	 * @param namespace
+	 * @param key
+	 * @param num
+	 * @return
+	 */
+	public long reduceNum(String key, int num);
 
+	public long incrBrowser(int designerId, int albumId, int albumSlideId);
+
+	public long incrBrowser(int designerId, int albumId, int albumSlideId, int number);
+
+	public long incrComment(int designerId, int albumId, int albumSlideId);
+
+	public long incrComment(int designerId, int albumId, int albumSlideId, int number);
+
+	public long incrLike(int designerId, int albumId, int albumSlideId);
+
+	public long incrLike(int designerId, int albumId, int albumSlideId, int number);
+
+	/**
+	 * 收藏计数
+	 * 
+	 * @param designerId
+	 * @param albumId
+	 */
+	// public long favorite(int designerId, int albumId);
 }

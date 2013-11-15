@@ -68,11 +68,11 @@ public class FrontController {
 	public String index( Model model) {
 		List<Album> albumList = albumService.queryAlbumByStatus(ConstService.ALBUM_OPEN_STATUS);
 		if(albumList!=null&&albumList.size()>0){
-			for(Album loopAlbum: albumList){
-				int albumId = loopAlbum.getId(); 
-				List<Comment> commentList = commentService.queryCommentsByAlbumId(albumId);
-				loopAlbum.setCommentList(commentList);
-			}
+//			for(Album loopAlbum: albumList){
+//				int albumId = loopAlbum.getId(); 
+//				List<Comment> commentList = commentService.queryCommentsByAlbumId(albumId);
+//				loopAlbum.setCommentList(commentList);
+//			}
 			model.addAttribute("albumList", albumList);
 		}
 		return "index";
@@ -88,11 +88,11 @@ public class FrontController {
 	public String timeline( Model model) {
 		List<Album> albumList = albumService.queryAlbumByStatus(ConstService.ALBUM_OPEN_STATUS);
 		if(albumList!=null&&albumList.size()>0){
-			for(Album loopAlbum: albumList){
-				int albumId = loopAlbum.getId(); 
-				List<Comment> commentList = commentService.queryCommentsByAlbumId(albumId);
-				loopAlbum.setCommentList(commentList);
-			}
+//			for(Album loopAlbum: albumList){
+//				int albumId = loopAlbum.getId(); 
+//				List<Comment> commentList = commentService.queryCommentsByAlbumId(albumId);
+//				loopAlbum.setCommentList(commentList);
+//			}
 			model.addAttribute("albumList", albumList); 
 		}
 		return "timeline";
@@ -118,8 +118,8 @@ public class FrontController {
 		Album albumInfo = albumService.loadById(id);
 		if(albumInfo!=null){
 			//读取评论
-			List<Comment> commentList = commentService.queryCommentsByAlbumId(id);
-			albumInfo.setCommentList(commentList);
+//			List<Comment> commentList = commentService.queryCommentsByAlbumId(id);
+//			albumInfo.setCommentList(commentList);
 			
 			//读取幻灯片列表
 			List<AlbumSlide> slideList = albumSlideService.querySlidesByAlbumId(id);
@@ -163,7 +163,7 @@ public class FrontController {
 			}
 			//System.out.println(result);
 		}
-		return "redirect:index.art";
+		return "redirect:index";
 	}
 	
 	@RequestMapping(value = "/settings", method = RequestMethod.GET)
@@ -185,8 +185,8 @@ public class FrontController {
 			if(albumList!=null&&albumList.size()>0){
 				for(Album loopAlbum: albumList){
 					int albumId = loopAlbum.getId(); 
-					List<Comment> commentList = commentService.queryCommentsByAlbumId(albumId);
-					loopAlbum.setCommentList(commentList);
+//					List<Comment> commentList = commentService.queryCommentsByAlbumId(albumId);
+//					loopAlbum.setCommentList(commentList);
 				}
 				model.addAttribute("albumList", albumList);
 			}

@@ -14,8 +14,8 @@ public interface IOAuthService {
 	
 	public static final Short OAUTH_RENREN_TYPE = 3; //"RENREN";
 	
-    public AccessTokenInfo loadTokenByCallback(HttpServletRequest request, short thirdpartyType) throws OAuthException;
+    public AccessTokenInfo loadTokenByCallback(HttpServletRequest request, short thirdpartyType) ;
    
-    public void shareout(SharedContent sharedContent) throws OAuthException;
+    public void shareout(SharedContent sharedContent);
     
 }

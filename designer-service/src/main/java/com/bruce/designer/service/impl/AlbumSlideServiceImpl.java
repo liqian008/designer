@@ -36,6 +36,10 @@ public class AlbumSlideServiceImpl implements IAlbumSlideService {
 		return albumSlideDao.loadById(id);
 	}
 
+	public AlbumSlide queryCoverSlide(int albumId){
+		return albumSlideDao.queryCoverSlide(albumId);
+	}
+	
 	public List<AlbumSlide> querySlidesByAlbumId(int albumId) {
 		return albumSlideDao.querySlidesByAlbumId(albumId);
 	}

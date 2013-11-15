@@ -1,5 +1,6 @@
 package com.bruce.designer.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IUserDao;
 import com.bruce.designer.dao.mapper.UserMapper;
+import com.bruce.designer.model.Album;
+import com.bruce.designer.model.AlbumCriteria;
 import com.bruce.designer.model.User;
 import com.bruce.designer.model.UserCriteria;
 
@@ -80,8 +83,8 @@ public class UserDaoImpl implements IUserDao , InitializingBean {
         return userMapper.updateByExampleSelective(user, criteria);
     }
 	
-	
-	public List<User> queryUsers(List<Integer> userIds) {
+	 
+	public List<User> queryUsersByIds(List<Integer> userIds) {
 	    UserCriteria userCriteria = new UserCriteria();
 	    userCriteria.createCriteria().andIdIn(userIds);
         return userMapper.selectByExample(userCriteria);
@@ -96,7 +99,7 @@ public class UserDaoImpl implements IUserDao , InitializingBean {
 	
 	public List<User> queryDesignersByStatus(short status) {
 		UserCriteria criteria = new UserCriteria();
-		criteria.createCriteria().andStatusEqualTo(status).andDesignerStatusEqualTo(ConstService.DESIGNER_APPLY_PASSED);
+		criteria.createCriteria().andStatusEqualTo(status).andDesignerStatusEqualTo(ConstService.DESIGNER_APPLY_APPROVED);
 		return userMapper.selectByExample(criteria);
 	}
 	
@@ -113,6 +116,21 @@ public class UserDaoImpl implements IUserDao , InitializingBean {
         user.setDesignerStatus(operationType);
         return userMapper.updateByExampleSelective(user, criteria);
     }
+    
+
+	@Override
+	public List<User> fallLoadDesignerList(long approvelTailTime, int limit) {
+		UserCriteria criteria = new UserCriteria();
+		UserCriteria.Criteria subCriteria = criteria.createCriteria();
+		subCriteria.andStatusEqualTo(ConstService.USER_STATUS_OPEN).andDesignerStatusEqualTo(ConstService.DESIGNER_APPLY_APPROVED);
+		if(approvelTailTime>0){
+			subCriteria.andDesignerApplyTimeLessThan(new Date(approvelTailTime));
+		}
+		criteria.setLimit(limit);
+	    criteria.setOrderByClause("designer_pass_time desc");
+        List<User> designerList = userMapper.selectByExample(criteria);
+        return designerList;
+	}
 	
 
     @Override
@@ -120,4 +138,11 @@ public class UserDaoImpl implements IUserDao , InitializingBean {
         // TODO Auto-generated method stub
         
     }
+
+	@Override
+	public List<User> fallLoadList(Integer tailId, int limit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

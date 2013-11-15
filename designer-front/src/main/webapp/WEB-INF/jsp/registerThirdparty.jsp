@@ -56,19 +56,8 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
                     <jsp:include page="./inc/headerNav.jsp"></jsp:include>
 
-                    <div class="page-title">
-                        <div class="container">
-                            <!-- <div class="page-title-avatar">
-                                <img src="./img/demo/portraits/portrait-21.png" alt="Page Title" width="80" height="80"/>
-                            </div> -->
-                            <div class="page-title-content">
-                                <h1>Gallery Post Format</h1>
-                                <p class="page-description">
-                                    With this gallery you can create a blogpost with multiple images. With the FlexSlider or Twitter Bootstrap Carousel you can rotate between these images.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    <jsp:include page="./inc/ad.jsp"></jsp:include>
+
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
         <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
@@ -105,7 +94,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 											%>
 											
 											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/oauthRegister.art">
+												action="/designer-front/oauthRegister">
 												<div class="input-container">
 													<input type="text" class="contact-form-name" name="username"
 														value="<%=tempToken.getThirdpartyUname()%>"
@@ -141,7 +130,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 												<h4>设计师绑定已有账户可分享作品至多个平台</h4>
 											</div>
 											<form id="contact-form-widget" method="post" class="clearfix"
-												action="/designer-front/oauthBind.art">
+												action="/designer-front/oauthBind">
 												<div class="input-container">
 													<input type="text" class="contact-form-name" name="username"
 														value="用户名"

@@ -37,14 +37,21 @@ public class CommentDaoImpl implements ICommentDao , InitializingBean {
 		return commentMapper.selectByPrimaryKey(id);
 	}
 
-
-	public List<Comment> queryCommentsByAlbumId(int albumId) {
-		CommentCriteria criteria = new CommentCriteria();
-		criteria.setOrderByClause("id desc");
-		criteria.setOrderByClause("create_time desc");
-		criteria.createCriteria().andAlbumIdEqualTo(albumId);
-		return commentMapper.selectByExample(criteria);
-	}
+//	@Override
+//	public List<Comment> queryCommentsByAlbumId(int albumId) {
+//		CommentCriteria criteria = new CommentCriteria();
+//		criteria.setOrderByClause("create_time desc");
+//		criteria.createCriteria().andAlbumIdEqualTo(albumId);
+//		return commentMapper.selectByExample(criteria);
+//	}
+//	
+//	@Override
+//	public List<Comment> queryCommentsByAlbumSlideId(int albumSlideId) {
+//		CommentCriteria criteria = new CommentCriteria();
+//		criteria.setOrderByClause("create_time desc");
+//		criteria.createCriteria().andAlbumSlideIdEqualTo(albumSlideId);
+//		return commentMapper.selectByExample(criteria);
+//	}
 
 	@Override
 	public int comment(String title, String content, int albumId,
@@ -69,7 +76,24 @@ public class CommentDaoImpl implements ICommentDao , InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         // TODO Auto-generated method stub
-        
     }
+
+    @Override
+	public List<Comment> fallLoadList(Long tailId, int limit) {
+		return null;
+	}
+    
+	@Override
+	public List<Comment> fallLoadComments(int albumSlideId, Long tailId, int limit) {
+		CommentCriteria commentCriteria = new CommentCriteria();
+		CommentCriteria.Criteria queryCriteria = commentCriteria.createCriteria().andAlbumSlideIdEqualTo(albumSlideId);
+		if(tailId!=null&&tailId>0){
+			queryCriteria.andIdLessThan(tailId);
+		}
+		commentCriteria.setLimit(limit);
+		commentCriteria.setOrderByClause("id desc");
+        List<Comment> commentList = commentMapper.selectByExample(commentCriteria);
+        return commentList;
+	}
 
 }

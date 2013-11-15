@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bruce.designer.model.AccessTokenInfo;
+import com.bruce.designer.model.Album;
 import com.bruce.designer.model.User;
 import com.bruce.designer.cache.user.UserCache;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IUserDao;
+import com.bruce.designer.service.ICounterService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;
 
@@ -24,7 +26,9 @@ public class UserServiceImpl implements IUserService {
 	private IAccessTokenService accessTokenService;
 	@Autowired
     private UserCache userCache;
-
+	@Autowired
+	private ICounterService counterService;
+	
 	public int save(User t) {
 		return userDao.save(t);
 	}
@@ -92,7 +96,7 @@ public class UserServiceImpl implements IUserService {
             }
         }
         if (leftIdList.size() > 0) {
-            List<User> userList = userDao.queryUsers(leftIdList);
+            List<User> userList = userDao.queryUsersByIds(leftIdList);
             for (User user : userList) {
                 if (user != null) {
                     completeUser(user);  //补全信息
@@ -122,8 +126,20 @@ public class UserServiceImpl implements IUserService {
 	    return userDao.changePassword(userId, password);
     }
 
+	@Override
+	public List<User> queryUsersByIds(List<Integer> idList) {
+		List<User> userList = userDao.queryUsersByIds(idList);
+		return userList;
+	}
+	
 	public List<User> queryUsersByStatus(short status) {
 	    return userDao.queryUsersByStatus(status);
+	}
+	
+	@Override
+	public List<User> fallLoadDesignerList(long approvelTailTime, int limit) {
+		List<User> userList =userDao.fallLoadDesignerList(approvelTailTime, limit);
+		return userList;
 	}
 	
 	public List<User> queryDesignersByStatus(short status) {
@@ -147,8 +163,8 @@ public class UserServiceImpl implements IUserService {
 	 * 审核通过
 	 */
 	@Override
-	public int designerApproval(int userId) {
-        return designerApplyOp(userId, ConstService.DESIGNER_APPLY_PASSED);
+	public int designerApprove(int userId) {
+        return designerApplyOp(userId, ConstService.DESIGNER_APPLY_APPROVED);
     }
 	
 	/**

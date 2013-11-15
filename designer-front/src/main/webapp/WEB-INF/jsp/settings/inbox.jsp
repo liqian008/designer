@@ -60,19 +60,8 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
                     <jsp:include page="../inc/headerNav.jsp"></jsp:include>
 
-                    <div class="page-title">
-                        <div class="container">
-                            <!-- <div class="page-title-avatar">
-                                <img src="./img/demo/portraits/portrait-21.png" alt="Page Title" width="80" height="80"/>
-                            </div> -->
-                            <div class="page-title-content">
-                                <h1>Gallery Post Format</h1>
-                                <p class="page-description">
-                                    With this gallery you can create a blogpost with multiple images. With the FlexSlider or Twitter Bootstrap Carousel you can rotate between these images.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                     <jsp:include page="../inc/ad.jsp"></jsp:include>
+
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
         <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
@@ -113,14 +102,14 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			                                <span>i</span>
 			                                <div class="infobox-wrap"> 
 			                                    <h5>
-			                                    <a href='/designer-front/settings.art?op=inbox&messageType=<%=message.getMessageType()%>'>
+			                                    <a href='/designer-front/settings?op=inbox&messageType=<%=message.getMessageType()%>'>
 			                                    	<%
-			                                    	//系统消息
-			                                    	if(message.getMessageType()!=ConstService.MESSAGE_TYPE_CHAT){%>
+			                                    	//系统消息 
+			                                    	if(message.getMessageType()<100){%>
 			                                    		<%=MessageUtil.getMessageTypeName(message.getMessageType())%> ( <%=message.getUnread()%> 条未读）
 			                                    	<%}else{%>
-			                                    		私信消息：用户<%=message.getFromId()%> ( <%=message.getUnread()%> 条未读）
-			                                    	<%}%> 
+			                                    		私信消息：用户<%=message.getFromId()%> ( <%=message.getUnread()%> 条未读） 
+			                                    	<%}%>
 			                                    </a>
 			                                    </h5>
 			                                    <p><%=message.getMessage()%></p>
@@ -135,8 +124,10 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                             </div>
                         </section> 
                         
-                        <jsp:include page="../inc/rightSidebar.jsp"></jsp:include>
-                    	
+                        <!-- right slidebar -->
+						<aside class="sidebar widgets-light span3">
+                       		<jsp:include page="../inc/right/sidebar_settings.jsp"></jsp:include> 
+                    	</aside>
                     </div>                        
                 </div> <!-- Close Main -->
             </div> 

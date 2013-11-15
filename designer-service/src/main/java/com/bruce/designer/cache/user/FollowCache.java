@@ -209,7 +209,7 @@ public class FollowCache {
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 throw new RedisKeyNotExistException();
             } else {
-                Set<Tuple> tupleSet = shardedJedis.zrangeWithScores(key, 0, -1);
+                Set<Tuple> tupleSet = shardedJedis.zrevrangeWithScores(key, 0, -1);
 
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 List<UserFollow> followList = new ArrayList<UserFollow>();
@@ -249,7 +249,7 @@ public class FollowCache {
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 throw new RedisKeyNotExistException();
             } else {
-                Set<Tuple> tupleSet = shardedJedis.zrangeWithScores(key, start, end);
+                Set<Tuple> tupleSet = shardedJedis.zrevrangeWithScores(key, start, end);
 
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 List<UserFollow> followList = new ArrayList<UserFollow>();

@@ -2,61 +2,58 @@ package com.bruce.designer.model;
 
 import java.util.List;
 
-public class AlbumBase{
-	
-    private long browseCount;
-    
-    private long commentCount;
-    
-    private long likeCount;
-    
-    private long favoriteCount;
-    
-    private List<Comment> commentList;
-    
-    private List<AlbumSlide> slideList;
+public class AlbumBase {
 
-    
-    public long getBrowseCount() {
-        return browseCount;
-    }
+	private long browseCount;
 
-    public void setBrowseCount(long browseCount) {
-        this.browseCount = browseCount;
-    }
+	private long commentCount;
 
-    public long getCommentCount() {
-        return commentCount;
-    }
+	private long likeCount;
 
-    public void setCommentCount(long commentCount) {
-        this.commentCount = commentCount;
-    }
+	private long favoriteCount;
 
-    public long getLikeCount() {
-        return likeCount;
-    }
+	private List<String> tagList;
 
-    public void setLikeCount(long likeCount) {
-        this.likeCount = likeCount;
-    }
+	private List<AlbumSlide> slideList;
 
-    public long getFavoriteCount() {
-        return favoriteCount;
-    }
-
-    public void setFavoriteCount(long favoriteCount) {
-        this.favoriteCount = favoriteCount;
-    }
-
-   
-
-	public List<Comment> getCommentList() {
-		return commentList;
+	public long getBrowseCount() {
+		return browseCount;
 	}
 
-	public void setCommentList(List<Comment> commentList) {
-		this.commentList = commentList;
+	public void setBrowseCount(long browseCount) {
+		this.browseCount = browseCount;
+	}
+
+	public long getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(long commentCount) {
+		this.commentCount = commentCount;
+	}
+
+	public long getLikeCount() {
+		return likeCount;
+	}
+
+	public void setLikeCount(long likeCount) {
+		this.likeCount = likeCount;
+	}
+
+	public long getFavoriteCount() {
+		return favoriteCount;
+	}
+
+	public void setFavoriteCount(long favoriteCount) {
+		this.favoriteCount = favoriteCount;
+	}
+
+	public List<String> getTagList() {
+		return tagList;
+	}
+
+	public void setTagList(List<String> tagList) {
+		this.tagList = tagList;
 	}
 
 	public List<AlbumSlide> getSlideList() {
@@ -66,6 +63,5 @@ public class AlbumBase{
 	public void setSlideList(List<AlbumSlide> slideList) {
 		this.slideList = slideList;
 	}
-	
-	
+
 }

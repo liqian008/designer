@@ -20,26 +20,48 @@ public interface IMessageDao extends IBaseDao<Message, Long>{
      * @param type
      * @return
      */
-    public List<Message> queryMessagesByType(int userId, short type);
+    public List<Message> queryMessagesByType(int userId, int messageType);
     
     /**
      * 分页查询用户的对话消息
-     * @param status
-     * @param offset
-     * @param limit
+     * @param userId
+     * @param messageType
+     * @param pageNo
+     * @param pageSize
      * @return
      */
-    public PagingData<Message> pagingQuery(int userId, int deliverId, int pageNo, int pageSize);
+    public PagingData<Message> pagingQuery(int userId, int messageType, int pageNo, int pageSize);
+    
     
     /**
      * 发送单条消息
+     * @param fromId
+     * @param toId
+     * @param content
+     * @param messageType
+     * @return
      */
-    public int sendMessage(int fromId, int toId, int deliverId, String content, short messageType);
-    	
+    public int sendMessage(int fromId, int toId, String content, int messageType);
+    
     /**
-     * 发送多条消息
+     *  批量发送多条消息
+     * @param fromId
+     * @param toIdList
+     * @param message
+     * @param messageType
+     * @return
      */
-    public int sendMessage(int fromId, int[] toIds, int deliverId, String message, short messageType);
+    public int sendMessage(int fromId, List<Integer> toIdList, String message, int messageType);
+    
+    /**
+     * 发送聊天消息，需特别处理
+     * @param fromId
+     * @param toId
+     * @param content
+     * @return
+     */
+    public int sendChatMessage(int fromId, int toId, String content);
+    
     
     /**
      * 将用户所有消息都标记为已读
@@ -49,10 +71,14 @@ public interface IMessageDao extends IBaseDao<Message, Long>{
     /**
      * 批量标记为已读
      */
-    public int markRead(int userId, short messageType);
+    public int markRead(int userId, int messageType);
     
     /**
-     * 标记为已读
+     * 批量标记为已读
      */
-    public int markRead(int userId, long messageId);
+    public int markRead(int userId, List<Long>messageIdList);
+
+
+
+	
 }

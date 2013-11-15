@@ -5,13 +5,13 @@
 	<!-- 消息摘要 -->
 	<select id="queryMessageSummary" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
-		select id, message, message_type, source_id, from_id, to_id, dialog_id, status,
+		select id, message, message_type, source_id, from_id, to_id, status,
 		create_time,
 		update_time, sum(unread) unread from
 		(select
 		<include refid="Base_Column_List" />
 		from tb_message ORDER BY id desc ) aliasMessage
-		where to_id= #{id,jdbcType=INTEGER} group by dialog_id;
-	</select>
+		where to_id= #{id,jdbcType=INTEGER} group by message_type;
+	</select> 
 
 </mapper>

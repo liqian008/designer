@@ -63,4 +63,10 @@ public class UserFanDaoImpl implements IUserFanDao, InitializingBean {
         // TODO Auto-generated method stub
         
     }
+
+	@Override
+	public List<UserFan> fallLoadList(Long tailId, int limit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 } 

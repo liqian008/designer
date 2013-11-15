@@ -1042,23 +1042,23 @@ public class AlbumCriteria {
         }
     }
 
-    protected int start;
+    protected Integer start;
     
-    protected int limit;
+    protected Integer limit;
 
-    public int getStart() {
+    public Integer getStart() {
         return start;
     }
 
-    public void setStart(int start) {
+    public void setStart(Integer start) {
         this.start = start;
     }
 
-    public int getLimit() {
+    public Integer getLimit() {
         return limit;
     }
 
-    public void setLimit(int limit) {
+    public void setLimit(Integer limit) {
         this.limit = limit;
     }
 

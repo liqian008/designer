@@ -10,16 +10,16 @@ public class OAuthException extends DesignerException {
         super(errorCode);
     }
 
-    public OAuthException(int errorCode, String message) {
-        super(errorCode, message);
-    }
-
-    public OAuthException(int errorCode, Throwable cause) {
-        super(errorCode, cause);
-    }
-
-    public OAuthException(int errorCode, String message, Throwable cause) {
-        super(errorCode, message, cause);
-    }
+//    public OAuthException(int errorCode, String message) {
+//        super(errorCode, message);
+//    }
+//
+//    public OAuthException(int errorCode, Throwable cause) {
+//        super(errorCode, cause);
+//    }
+//
+//    public OAuthException(int errorCode, String message, Throwable cause) {
+//        super(errorCode, message, cause);
+//    }
 
 }

@@ -38,14 +38,41 @@
 	<mvc:resources mapping="/fonts/**" location="/fonts/" />
 	<mvc:resources mapping="/upload/**" location="/upload/" />
 	<mvc:resources mapping="/headupload/**" location="/headupload/" />
+	<mvc:resources mapping="/staticFile/**" location="/staticFile" />
 
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
+		
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+	<property name="order" value="0"/>
+	</bean>
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="order" value="0"/>
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+		<property name="encoding">
+			<value type="org.codehaus.jackson.JsonEncoding">UTF8</value>
+		</property>
+		<property name="extractValueFromSingleKeyModel" value="true" />
+		<property name="objectMapper">
+			<bean class="org.codehaus.jackson.map.ObjectMapper">
+				<property name="serializationInclusion"> 
+					<value type="org.codehaus.jackson.map.annotate.JsonSerialize$Inclusion">NON_NULL</value>
+				</property>
+			</bean>
+		</property>
+		<property name="contentType" value="application/json;charset=UTF-8" />
+	</bean>
+	
+	<!-- Default ExceptionHandler -->
+	<bean id="defaultExceptionHandler" class="com.bruce.designer.front.exception.DesignerExceptionResolver">
+		<property name="defaultErrorView" value="error" />
+		<property name="defaultStatusCode" value="500" />
 	</bean>
 
 	<context:component-scan base-package="com.bruce.designer" />
@@ -54,7 +81,7 @@
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 	
 	<mvc:interceptors>
-		<bean class="com.bruce.designer.front.interceptor.LoginInteceptor"/>  
+		<bean class="com.bruce.designer.front.interceptor.AuthorizeInterceptor"/>  
 	</mvc:interceptors>
 	
 	

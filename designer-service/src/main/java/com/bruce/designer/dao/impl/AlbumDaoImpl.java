@@ -12,7 +12,7 @@ import com.bruce.designer.dao.IAlbumDao;
 import com.bruce.designer.dao.mapper.AlbumMapper;
 
 @Repository
-public class AlbumDaoImpl implements IAlbumDao {
+public class AlbumDaoImpl implements IAlbumDao{
 
 	@Autowired
 	private AlbumMapper albumMapper;
@@ -48,11 +48,13 @@ public class AlbumDaoImpl implements IAlbumDao {
 	    AlbumCriteria criteria = new AlbumCriteria();
         criteria.createCriteria();
         criteria.setStart(start);
-        criteria.setLimit(start);
+        criteria.setLimit(limit);
         criteria.setOrderByClause("id desc");
         List<Album> albumList = albumMapper.selectByExample(criteria);
         return albumList;
 	}
+	
+	
 	
 	
 //	public PagingData<Album> pagingQuery(short status, int pageNo, int pageSize){
@@ -69,6 +71,13 @@ public class AlbumDaoImpl implements IAlbumDao {
 //		return pagingData;
 //	}
 	
+	@Override
+	public java.util.List<Album> queryAlbumByIds(java.util.List<Integer> idList) {
+		AlbumCriteria criteria = new AlbumCriteria();
+		criteria.createCriteria().andStatusEqualTo(ConstService.ALBUM_OPEN_STATUS).andIdIn(idList);
+		//criteria.setOrderByClause("id desc");
+		return albumMapper.selectByExample(criteria);
+	}
 	
 	public List<Album> queryAlbumByStatus(short status) {
 		AlbumCriteria criteria = new AlbumCriteria();
@@ -83,5 +92,34 @@ public class AlbumDaoImpl implements IAlbumDao {
 		criteria.setOrderByClause("id desc");
 		return albumMapper.selectByExample(criteria);
 	}
+	
+	/**
+	 * 瀑布流方式加载更多数据
+	 */
+	@Override
+	public List<Album> fallLoadList(Integer tailId, int limit) {
+		return fallLoadDesignerAlbums(null, tailId, limit);
+	}
+	
+	
+	/**
+	 * 瀑布流方式加载更多更多关注作品
+	 */
+	@Override
+	public List<Album> fallLoadDesignerAlbums(List<Integer> designerIdList, int albumsTailId, int limit) {
+		AlbumCriteria criteria = new AlbumCriteria();
+		AlbumCriteria.Criteria subCriteria = criteria.createCriteria();
+		if(designerIdList!=null&&designerIdList.size()>0){
+			subCriteria.andUserIdIn(designerIdList);
+		}
+		if(albumsTailId>0){
+			subCriteria.andIdLessThan(albumsTailId);
+		}
+		criteria.setLimit(limit);
+	    criteria.setOrderByClause("id desc");
+        List<Album> albumList = albumMapper.selectByExample(criteria);
+        return albumList;
+	}
+
 
 }

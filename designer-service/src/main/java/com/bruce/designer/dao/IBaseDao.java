@@ -14,4 +14,12 @@ public interface IBaseDao<T, Id>{
     
     public List<T> queryAll();
     
+    /**
+     * 瀑布流数据加载dao
+     * @param offsetId
+     * @param limit
+     * @return
+     */
+    public List<T> fallLoadList(Id tailId, int limit);
+    
 }

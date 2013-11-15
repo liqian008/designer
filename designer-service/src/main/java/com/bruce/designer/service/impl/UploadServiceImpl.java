@@ -23,10 +23,19 @@ import com.bruce.designer.util.ImageUtil;
 
 @Service
 public class UploadServiceImpl implements IUploadService {
-	
+	//文件存储的绝对路径
+	public static final String basePath = FileUtil.getBasePath();
+	//头像保存的相对路径
+	public static final String avatarPath = FileUtil.getAvatarPath();
+	//文件的baseUrl
+	public static final String baseUrl = FileUtil.getBaseUrl();
+	//头像保存的相对Url
+		
 	public static Map<String, Integer> imageSizeMap = new HashMap<String, Integer>();
 	public static Map<String, Integer> avatarSizeMap = new HashMap<String, Integer>();
-
+	
+	
+	    
 	static{
 		imageSizeMap.put(ConstService.UPLOAD_IMAGE_SPEC_LARGE, 1024);
 		imageSizeMap.put(ConstService.UPLOAD_IMAGE_SPEC_MEDIUM, 400);
@@ -55,14 +64,11 @@ public class UploadServiceImpl implements IUploadService {
 	 */
 	@Override
 	public UploadImageResult uploadImage(byte[] data, int userId, String filename) throws IOException {
-		// 获取图片的保存路径
-	    String basePath = FileUtil.getBasePath();
 		long time = System.currentTimeMillis();
 		//获取图片存储的绝对、相对路径及文件名
 		String imageDirPath = FileUtil.getImagePath(time);
 		String absoultImagePath = basePath + imageDirPath;
 		String sourceImageName = FileUtil.getFileNameWithPlaceHolder(userId, filename, null, time);
-		String baseUrl = FileUtil.getBaseUrl();
 		
 		//保存原文件(自动创建目录)
 		FileUtil.saveFile(data, basePath, imageDirPath, sourceImageName);
@@ -97,23 +103,25 @@ public class UploadServiceImpl implements IUploadService {
 	 */
 	@Override
 	public UploadImageResult uploadAvatar(byte[] bytes, int userId, String filename) throws IOException {
-		// 获取头像保存路径
-		String avatarPath = FileUtil.getAvatarPath();
+		
+		String absoultAvatarPath =  basePath + avatarPath;
 		// 确定原始图片名
 		String avatarFilename = String.valueOf(userId) + "_original.jpg";
 		// 构造图片File
-		File originAvatar = new File(avatarPath, avatarFilename);
+		File originAvatar = new File(absoultAvatarPath, avatarFilename);
 		FileCopyUtils.copy(bytes, originAvatar);
 		
 		BufferedImage src = ImageIO.read(originAvatar); // 读入文件
         int imgWidth = src.getWidth(); // 得到源图宽
         int imgHeight = src.getHeight(); // 得到源图长
-        String originAvatarUrl = "avatar/"+avatarFilename;
+//        String originAvatarUrl = avatarPath + avatarFilename;
+        String originAvatarUrl = baseUrl + avatarPath + avatarFilename;
         
-        HashMap<String, UploadFileInfo> uploadFileMap = new HashMap<String, UploadFileInfo>();
         UploadImageInfo imageInfo = new UploadImageInfo(avatarFilename, ConstService.UPLOAD_FILE_TYPE_IMAGE, ConstService.UPLOAD_IMAGE_SPEC_ORIGINAL, originAvatarUrl, -1, imgWidth, imgHeight);
-  		uploadFileMap.put(ConstService.UPLOAD_IMAGE_SPEC_ORIGINAL, imageInfo);
-  		UploadImageResult uploadResult = null;//new UploadImageResult(uploadFileMap); 
+  		UploadImageResult uploadResult = new UploadImageResult();
+  		uploadResult.setOriginalImage(imageInfo);
+  		
+  		
   		return uploadResult;
 	}
 	
