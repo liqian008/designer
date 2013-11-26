@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,8 @@ import com.bruce.designer.service.IUserService;
  */
 @Controller
 public class UploadController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
 
 	@Autowired
 	private IUserService userService;
@@ -35,7 +39,7 @@ public class UploadController {
 	@NeedAuthorize
 	@RequestMapping(value = "uploadImage.json", method = RequestMethod.POST)
 	public ModelAndView upload(@RequestParam("image") MultipartFile image, HttpServletRequest request) {
-		if (image.getSize() > 1024 * 1024) {// 图片超大
+		if (image.getSize() > 1024 * 1024 * 2) {// 图片超大
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.UPLOAD_IMAGE_OVERSIZE));
 		}
 		User user = getSessionUser(request);
@@ -46,6 +50,7 @@ public class UploadController {
 				return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(imageResult));
 			}
 		} catch (IOException e) {
+			logger.error("upload(MultipartFile)", e);
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.UPLOAD_ERROR));
 			
 		}

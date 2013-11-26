@@ -3,8 +3,10 @@ package com.bruce.designer.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,6 +85,8 @@ public class TagServiceImpl implements ITagService, InitializingBean {
 	 */
 	@Override
 	public int tagAlbum(int albumId, List<String> tagNameList) {
+		//删除作品的原tag关联
+		tagAlbumService.deleteByAlbumId(albumId);
 		// 根据tagNameList获取对应的ids
 		List<Integer> tagIdList = getTagIdsByNames(tagNameList);
 		return tagAlbumService.batchSave(albumId, tagIdList);
@@ -130,7 +134,9 @@ public class TagServiceImpl implements ITagService, InitializingBean {
 			for (String tagName : tagNameList) {
 				// 根据tagname查询tagId
 				int tagId = getTagIdByName(tagName, true);
-				tagIdList.add(tagId);
+				if(tagId>0){
+					tagIdList.add(tagId);
+				}
 			}
 			return tagIdList;
 		} else {
@@ -138,18 +144,27 @@ public class TagServiceImpl implements ITagService, InitializingBean {
 		}
 	}
 
+	/**
+	 * 根据tagName查找tagId
+	 */
 	@Override
 	public int getTagIdByName(String tagName, boolean createNew) {
-		// 检查tagName是否存在
+		
 		int tagId = 0;
+		if(StringUtils.isBlank(tagName)){
+			//tagName为空，直接返回0
+			return tagId;
+		}
+		// 检查tagName是否存在
 		try {
-			tagId = tagDao.getTagIdByName(tagName);
+			tagId = tagDao.getTagIdByName(tagName.trim());
 		} catch (DesignerException e) {
 			// TODO log this
 				if(createNew){
 				// tagName不存在，需新建
 				Tag tag = new Tag();
 				tag.setName(tagName);
+				tag.setCreateTime(new Date(System.currentTimeMillis()));
 				int result = tagDao.save(tag);
 				if (result > 0) {
 					tagId = tag.getId();

@@ -4,7 +4,6 @@ package com.bruce.designer.service.oauth;
 import javax.servlet.http.HttpServletRequest;
 
 import com.bruce.designer.model.AccessTokenInfo;
-import com.bruce.designer.exception.oauth.OAuthException;
 
 public interface IOAuthService {
 	

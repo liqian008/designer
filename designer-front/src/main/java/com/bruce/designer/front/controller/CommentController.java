@@ -20,10 +20,14 @@ import com.bruce.designer.model.Comment;
 import com.bruce.designer.model.User;
 import com.bruce.designer.annotation.NeedAuthorize;
 import com.bruce.designer.constants.ConstDateFormat;
+import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.service.ICommentService;
+import com.bruce.designer.service.IMessageService;
+import com.bruce.designer.service.IUserService;
+import com.bruce.designer.util.UploadUtil;
 
 /**
  * Handles requests for the application home page.
@@ -33,6 +37,8 @@ public class CommentController {
 
 	@Autowired
 	private ICommentService commentService;
+	@Autowired
+	private IUserService userService;
 
 	private static final Logger logger = LoggerFactory.getLogger(CommentController.class);
 
@@ -57,9 +63,9 @@ public class CommentController {
 	// }
 
 	@RequestMapping(value = "moreComments.json")
-	public ModelAndView moreComments(HttpServletRequest request, int albumSlideId, @RequestParam("commentsTailId") long tailId) {
+	public ModelAndView moreComments(HttpServletRequest request, int albumId, @RequestParam("commentsTailId") long tailId) {
 		int limit = 5;
-		List<Comment> commentList = commentService.fallLoadComments(albumSlideId, tailId, limit + 1);
+		List<Comment> commentList = commentService.fallLoadComments(albumId, tailId, limit + 1);
 
 		long nextTailId = 0;
 		if (commentList != null) {
@@ -69,25 +75,36 @@ public class CommentController {
 				nextTailId = commentList.get(limit - 1).getId();
 			}
 		}
-
-		String responseHtml = buildFallLoadHtml(commentList);
+		
+		Integer userId = null;
+		User currentUser = getSessionUser(request);
+		if(currentUser!=null){
+			userId = currentUser.getId();
+		}
+		String responseHtml = buildFallLoadHtml(commentList, userId);
 		Map<String, String> dataMap = new HashMap<String, String>();
 		dataMap.put("html", responseHtml);
 		dataMap.put("tailId", String.valueOf(nextTailId));
 		return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap));
 	}
 
-	private String buildFallLoadHtml(List<Comment> commentList) {
+	private String buildFallLoadHtml(List<Comment> commentList, Integer userId) {
 		// TODO freemarker template
 		if (commentList != null && commentList.size() > 0) {
 			StringBuilder sb = new StringBuilder();
 			for (Comment comment : commentList) {
 				sb.append("<li class='comment depth-1' id='li-comment-1'>" + "<div class='comment-container' id='comment-1'><div class='comment-avatar'>"
-						+ "<div class='comment-author vcard'>" + "<img src='" + comment.getUserHeadImg() + "'/>" + "</div></div>"
+						+ "<div class='comment-author vcard'>" + "<img src='"+UploadUtil.getAvatarUrl(comment.getFromId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"'/>" + "</div></div>"
 						+ "<div class='comment-body'><div class='comment-meta commentmetadata'>" + "<h6 class='comment-author'>"
 						+ "<a href='#' rel='external nofollow' class='url'>" + comment.getNickname() + "</a> 发表于 "
 						+ DateFormatUtils.format(comment.getCreateTime(), ConstDateFormat.YYYYMMDD_HHMM_FORMAT) + "</h6></div>"
-						+ "<div class='comment-content'>" + comment.getComment() + "</div> </div></div></li>");
+						+ "<div class='comment-content'>");
+				sb.append(comment.getComment());
+				boolean displayReplyBtn = userId!=null&&!userId.equals(comment.getFromId());
+				if(displayReplyBtn){
+					sb.append("&nbsp;&nbsp;<a href=\"javascript:reply("+comment.getFromId()+",'"+comment.getNickname()+"')\">回复</a>");
+				}
+				sb.append("</div> </div></div></li>");
 			}
 			return sb.toString();
 		}
@@ -97,9 +114,11 @@ public class CommentController {
 	
 	@NeedAuthorize
 	@RequestMapping(value = "comment.json", method = RequestMethod.POST)
-	public ModelAndView comment(HttpServletRequest request, String comment, int albumId, int albumSlideId, int toId, int designerId) {
+	public ModelAndView comment(HttpServletRequest request, String comment, int albumId, int toId, int designerId) {
 		User user = getSessionUser(request);
-		Comment commentResult = commentService.comment("", comment, albumId, albumSlideId, user.getId(), toId, designerId);
+		int fromId = user.getId();
+		Comment commentResult = commentService.comment(null, comment, albumId, fromId, toId, designerId);
+		
 		if (commentResult != null) {// 成功响应
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(buildCommentHtml(commentResult)));
 		} else {
@@ -111,7 +130,7 @@ public class CommentController {
 	
 	@RequestMapping(value = "like.json", method = RequestMethod.POST)
 	public ModelAndView like(HttpServletRequest request, int designerId, int albumId, int albumSlideId) {
-		int result = commentService.like(designerId, albumId, albumSlideId);
+		int result = commentService.like(designerId, albumId); 
 		if(result>0){
 			return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
 		}else{
@@ -136,8 +155,8 @@ public class CommentController {
 		StringBuilder sb = new StringBuilder("<li class='comment depth-1' id='li-comment-1'>" +
 				"<div class='comment-container' id='comment-1'><div class='comment-avatar'>" +
 				"<div class='comment-author vcard'>" +
-				"<img src='"+commentResult.getUserHeadImg()+"'/>" +
-				"</div></div>" +
+				"<img src='"+UploadUtil.getAvatarUrl(commentResult.getFromId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"/>" +
+				"</div></div>" + 
 				"<div class='comment-body'><div class='comment-meta commentmetadata'>" +
 				"<h6 class='comment-author'>" +
 				"<a href='#' rel='external nofollow' class='url'>" +
@@ -147,19 +166,19 @@ public class CommentController {
 	}
 	
 	
-	private static String buildCommentHtml(List<Comment> commentList, boolean hasMore){
-		if(commentList!=null&&commentList.size()>0){
-			StringBuilder sb = new StringBuilder();
-			for(Comment comment: commentList){
-				sb.append(buildCommentHtml(comment));
-			}
-			if(hasMore){
-				sb.append("");
-			}
-			return sb.toString();
-		}
-		return "";
-	}
+//	private static String buildCommentHtml(List<Comment> commentList, boolean hasMore){
+//		if(commentList!=null&&commentList.size()>0){
+//			StringBuilder sb = new StringBuilder();
+//			for(Comment comment: commentList){
+//				sb.append(buildCommentHtml(comment));
+//			}
+//			if(hasMore){
+//				sb.append("");
+//			}
+//			return sb.toString();
+//		}
+//		return "";
+//	}
 	
 //	private static String buildMoreHtml(Comment commentResult){
 //		//TODO 需freemarker优化此方法

@@ -146,7 +146,7 @@ public class UrlUtil {
 	}
 
 	public static String getFullUrl(String path) {
-		return "/designer-front/" + path;
+		return "/designer-front" + path;
 	}
 
 }

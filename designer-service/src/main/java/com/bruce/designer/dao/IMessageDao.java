@@ -41,7 +41,7 @@ public interface IMessageDao extends IBaseDao<Message, Long>{
      * @param messageType
      * @return
      */
-    public int sendMessage(int fromId, int toId, String content, int messageType);
+    public int sendMessage(long sourceId, int fromId, int toId, String content, int messageType);
     
     /**
      *  批量发送多条消息
@@ -51,7 +51,7 @@ public interface IMessageDao extends IBaseDao<Message, Long>{
      * @param messageType
      * @return
      */
-    public int sendMessage(int fromId, List<Integer> toIdList, String message, int messageType);
+    public int sendMessage(long sourceId, int fromId, List<Integer> toIdList, String message, int messageType);
     
     /**
      * 发送聊天消息，需特别处理

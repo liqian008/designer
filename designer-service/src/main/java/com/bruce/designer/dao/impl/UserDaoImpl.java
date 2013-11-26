@@ -57,16 +57,30 @@ public class UserDaoImpl implements IUserDao , InitializingBean {
     }
 	
 	/**
-	 * 检查用户exists
+	 * 检查username是否存在
 	 * @param username
-	 * @param nickname
-	 * @param email
 	 * @return
 	 */
 	@Override
-    public boolean userExists(String username){
+    public boolean usernameExists(String username){
         UserCriteria criteria = new UserCriteria();
         criteria.createCriteria().andUsernameEqualTo(username);
+        List<User> userList = userMapper.selectByExample(criteria);
+        if(userList!=null&&userList.size()>0){
+            return true;
+        }
+        return false;
+    }
+	
+	/**
+	 * 检查nickname是否存在
+	 * @param nickname
+	 * @return
+	 */
+	@Override
+    public boolean nicknameExists(String nickname){
+        UserCriteria criteria = new UserCriteria();
+        criteria.createCriteria().andNicknameEqualTo(nickname);
         List<User> userList = userMapper.selectByExample(criteria);
         if(userList!=null&&userList.size()>0){
             return true;

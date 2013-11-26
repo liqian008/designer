@@ -8,25 +8,25 @@ package com.bruce.designer.front.util;
  */
 public class ResponseUtil {
 
-    /**
-     * 获取跳转字符串
-     * */
-    public static String getRedirectString(String url) {
-        return "redirect:" + url;
-    }
-    
-    /**
-     * 跳转首页
-     * */
-    public static String getRedirectHomeString() {
-        return "redirect:/";
-    }
-    
-    public static String getForwardString(String url) {
-        return "forward:/";
-    }
-    
-    public static String getForwardReirect() {
-        return "forward:/redirect";
-    }
+	/**
+	 * 跳转首页
+	 * */
+	public static String getRedirectHomeString() {
+		return "redirect:/";
+	}
+
+	/**
+	 * 获取跳转字符串
+	 * */
+	public static String getRedirectString(String url) {
+		return "redirect:" + url;
+	}
+
+	public static String getForwardString(String url) {
+		return "forward:" + url;
+	}
+
+	public static String getForwardReirect() {
+		return "forward:/redirect";
+	}
 }

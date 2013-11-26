@@ -44,7 +44,9 @@ public class UserServiceImpl implements IUserService {
 	public int deleteById(Integer id) {
 		return 0;
 	}
-
+	
+	
+	
 	public User loadById(Integer id) {
 	    User user = userCache.getUser(id);
         if (user == null) {
@@ -112,13 +114,21 @@ public class UserServiceImpl implements IUserService {
 	/**
 	 * 检查用户exists
 	 * @param username
-	 * @param nickname
-	 * @param email
 	 * @return
 	 */
 	@Override
-    public boolean userExists(String username){
-        return userDao.userExists(username);
+    public boolean usernameExists(String username){
+        return userDao.usernameExists(username);
+    }
+	
+	/**
+	 * 检查用户exists
+	 * @param nickname
+	 * @return
+	 */
+	@Override
+    public boolean nicknameExists(String nickname){
+        return userDao.nicknameExists(nickname);
     }
 	
 	@Override
@@ -128,8 +138,23 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public List<User> queryUsersByIds(List<Integer> idList) {
-		List<User> userList = userDao.queryUsersByIds(idList);
-		return userList;
+		if(idList!=null&&idList.size()>0){
+			List<User> userList = userDao.queryUsersByIds(idList);
+			if(userList!=null&&userList.size()>0){
+				//按idList排序
+				List<User> sortedUserList = new ArrayList<User>();
+				for(int userId: idList){
+					for(User user: userList){
+						if(userId == user.getId()){
+							sortedUserList.add(user);
+							break;
+						}
+					}
+				}
+				return sortedUserList;
+			}
+		}
+		return null;
 	}
 	
 	public List<User> queryUsersByStatus(short status) {

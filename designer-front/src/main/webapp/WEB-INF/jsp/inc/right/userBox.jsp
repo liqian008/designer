@@ -2,6 +2,7 @@
 <%@ page import="com.bruce.designer.model.*"%>
 <%@ page import="com.bruce.designer.front.constants.*"%>
 <%@ page import="com.bruce.designer.constants.*"%>
+<%@ page import="com.bruce.designer.util.*"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.text.*"%>
 
@@ -28,8 +29,8 @@ if (queryUser != null) {
 		<ul>
 			<li class="clearfix">
 				<div class="widget-blogpost-avatar">
-					<a href="/designer-front/<%=queryUser.getId()%>/home"> <img
-						src="<%=queryUser.getHeadImg()%>">
+					<a href="/designer-front/<%=queryUser.getId()%>/home"><img
+						src="<%=UploadUtil.getAvatarUrl(queryUser.getId(), ConstService.UPLOAD_IMAGE_SPEC_LARGE)%>">
 					</a>
 				</div>
 				<div class="widget-blogpost-content">
@@ -61,21 +62,20 @@ if (queryUser != null) {
 		%>
 		<input class="common-submit button" type="button" value="关注"
 			onclick="location.href='/designer-front/<%=queryUser.getId()%>/home'" />
-		<%
-			}
-		%>
-		<input class="common-submit button" type="button" value="私信"
-			onclick="location.href='/designer-front/settings?op=inbox&messageType=<%=queryUser.getId()%>'" />
-		<%} %>
+		<%}
+		}%>
+
 		<input class="common-submit button" type="button" value="作品辑"
 			onclick="location.href='/designer-front/<%=queryUser.getId()%>/home'" />
 		<%}%>
 
+		<%if (!isMe) {%>
+		<input class="common-submit button" type="button" value="私信"
+			onclick="location.href='/designer-front/settings/inbox?messageType=<%=queryUser.getId()%>'" />
+		<%}%>
 		<input class="common-submit button" type="button" value="个人资料"
-			onclick="location.href='/designer-front/<%=queryUser.getId()%>/info'" />
-		<%
-			if (isMe) {
-		%>
+			onclick="location.href='/designer-front/<%=queryUser.getId()%>/info'" />	
+		<%if (isMe) {%>
 		<input class="common-submit button" type="button" value="个人设置"
 			onclick="location.href='/designer-front/settings'" />
 		<%}%>

@@ -53,12 +53,12 @@ public interface IMessageService extends IBaseService<Message, Long>{
     /**
      * 发送单条消息
      */
-    public int sendMessage(int fromId, int toId, String content, int messageType);
+    public int sendMessage(long sourceId, int fromId, int toId, String content, int messageType);
     	
     /**
      * 发送多条消息
      */
-    public int sendMessage(int fromId, List<Integer> toIdList, String content, int messageType);
+    public int sendMessage(long sourceId, int fromId, List<Integer> toIdList, String content, int messageType);
     
     /**
      * 发送多条消息

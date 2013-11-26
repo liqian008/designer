@@ -58,6 +58,10 @@ public class TagAlbumServiceImpl implements ITagAlbumService, InitializingBean {
 		Assert.notNull(tagAlbumDao, "tagAlbumDao can't be null");
 		Assert.notNull(userService, "userService can't be null");
 	}
+	@Override
+	public int deleteByAlbumId(int albumId) {
+		return tagAlbumDao.deleteByAlbumId(albumId);
+	}
 	
 	/**
 	 * 查询专辑对应的tagIds
@@ -94,8 +98,10 @@ public class TagAlbumServiceImpl implements ITagAlbumService, InitializingBean {
 		return 0;
 	}
 
+	
 	@Override
 	public int batchSave(int albumId, List<Integer> tagIdList) {
+		//创建新tag关联
 		if(tagIdList!=null&&tagIdList.size()>0){
 			for(Integer tagId: tagIdList){
 				TagAlbum tagAlbum = new TagAlbum();
@@ -114,6 +120,6 @@ public class TagAlbumServiceImpl implements ITagAlbumService, InitializingBean {
 	public int batchSave(List<TagAlbum> tagAlbumList) {
 		return 0;
 	}
-
+	
 	
 }

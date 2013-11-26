@@ -14,6 +14,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.bruce.designer.annotation.NeedAuthorize;
 import com.bruce.designer.annotation.NeedAuthorize.AuthorizeType;
 import com.bruce.designer.constants.ConstService;
+import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.RequestUtil;
@@ -31,6 +32,8 @@ import com.google.gson.Gson;
 public class AuthorizeInterceptor extends HandlerInterceptorAdapter implements InitializingBean {
 
 	private static final String LOGIN_URL = "/login";
+	
+//	private static final String ACCESS_DENIED_URL = "/denied";
 
 	/**
 	 * 用户操作拦截检查，需区别登陆用户与设计师
@@ -52,10 +55,10 @@ public class AuthorizeInterceptor extends HandlerInterceptorAdapter implements I
 				} else {// webpage
 					String loginUrl = UrlUtil.getFullUrl(LOGIN_URL);
 					if (RequestUtil.isGet(request)) {
-						// Get跳回请求地址
+						// Get跳回请求地址，增加redirectUrl
 						loginUrl = UrlUtil.addParameter(loginUrl, ConstFront.REDIRECT_URL, UrlUtil.getRequestUrl(request));
 					} else {
-						// 其他方法取referer
+						// 其他方法取referer，增加redirectUrl
 						loginUrl = UrlUtil.addParameter(loginUrl, ConstFront.REDIRECT_URL, UrlUtil.getRefererUrl(request));
 					}
 					response.sendRedirect(loginUrl);
@@ -64,12 +67,12 @@ public class AuthorizeInterceptor extends HandlerInterceptorAdapter implements I
 			}
 			if (authorizeType == AuthorizeType.DESIGNER) {//需要设计师的权限才能访问
 				// System.out.println("检查设计师角色");
-				if (currentUser.getDesignerStatus() == null && currentUser.getDesignerStatus() != ConstService.DESIGNER_APPLY_APPROVED) {
+				if (currentUser.getDesignerStatus() == null || currentUser.getDesignerStatus() != ConstService.DESIGNER_APPLY_APPROVED) {
 					if (RequestUtil.isJsonRequest(request)) {// json类型
 						writeJson(response, ErrorCode.AUTHORIZE_NEED_DESIGNER);
 					} else {
-						System.out.println("需要跳转到提示页面，提示登录到设计师角色");
-						return false;
+						//权限限制，无法使用
+						throw new DesignerException(ErrorCode.AUTHORIZE_NEED_DESIGNER);
 					}
 				}
 			}
@@ -108,22 +111,21 @@ public class AuthorizeInterceptor extends HandlerInterceptorAdapter implements I
 		writer.close();
 	}
 
-	private boolean checkNeedAuthorize(HttpServletRequest request, HandlerMethod handlerMethod) {
-		NeedAuthorize authorizeOnMethod = handlerMethod.getMethodAnnotation(NeedAuthorize.class);
-		NeedAuthorize annotationOnClass = handlerMethod.getBean().getClass().getAnnotation(NeedAuthorize.class);
-		boolean needAuthorize = annotationOnClass != null || authorizeOnMethod != null;
-		if (needAuthorize) {
-			HttpSession session = request.getSession();
-			// 取得session中的用户信息, 以便判断是否登录了系统
-			User currentUser = (User) session.getAttribute(ConstFront.CURRENT_USER);
-			return currentUser == null;
-		}
-		return false;
-	}
+//	private boolean checkNeedAuthorize(HttpServletRequest request, HandlerMethod handlerMethod) {
+//		NeedAuthorize authorizeOnMethod = handlerMethod.getMethodAnnotation(NeedAuthorize.class);
+//		NeedAuthorize annotationOnClass = handlerMethod.getBean().getClass().getAnnotation(NeedAuthorize.class);
+//		boolean needAuthorize = annotationOnClass != null || authorizeOnMethod != null;
+//		if (needAuthorize) {
+//			HttpSession session = request.getSession();
+//			// 取得session中的用户信息, 以便判断是否登录了系统
+//			User currentUser = (User) session.getAttribute(ConstFront.CURRENT_USER);
+//			return currentUser == null;
+//		}
+//		return false;
+//	}
 
 	/**
 	 * 需区分普通用户与设计师权限
-	 * 
 	 * @param request
 	 * @param handlerMethod
 	 * @return

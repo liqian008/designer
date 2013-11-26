@@ -1,153 +1,189 @@
 <%@page import="com.bruce.designer.front.controller.FrontController"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
-<%@ page import="com.bruce.designer.model.*" %>
-<%@ page import="com.bruce.designer.service.oauth.*" %>
-<%@ page import="com.bruce.designer.front.constants.*" %>
-<%@ page import="com.bruce.designer.constants.*" %>
-<%@ page import="com.bruce.designer.util.*" %> 
-<%@ page import="java.util.*" %>
-<%@ page import="java.text.*" %> 
+<%@ page import="com.bruce.designer.model.*"%>
+<%@ page import="com.bruce.designer.service.oauth.*"%>
+<%@ page import="com.bruce.designer.front.constants.*"%>
+<%@ page import="com.bruce.designer.constants.*"%>
+<%@ page import="com.bruce.designer.util.*"%>
+<%@ page import="java.util.*"%>
+<%@ page import="java.text.*"%>
 
 <%
-SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
-User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
+	SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_HH_MM_FORMAT);
+	User user = (User) session.getAttribute(ConstFront.CURRENT_USER);
 %>
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-        <title>Verendus - Multipurpose Business Template</title>
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
+<title>Verendus - Multipurpose Business Template</title>
 
-        <meta name="description" content="Verendus - A HTML5 / CSS3 Multipurpose Business Template">
-        <meta name="keywords" content="Bootstrap, Verendus, HTML5, CSS3, Business, Multipurpose, Template">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description"
+	content="Verendus - A HTML5 / CSS3 Multipurpose Business Template">
+<meta name="keywords"
+	content="Bootstrap, Verendus, HTML5, CSS3, Business, Multipurpose, Template">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="./css/bootstrap.min.css">
-        <link rel="stylesheet" href="./css/font-awesome.css">
-        <link rel="stylesheet" href="./css/animate.css">
-        <link rel="stylesheet" href="./css/flexslider.css">
-        <link rel="stylesheet" href="./css/style.css">
-                                <!--[if IE 8]>
-        <link rel="stylesheet" type="text/css" media="all" href="./css/ie8.css" />    
+<link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
+<link rel="stylesheet" href="/designer-front/css/font-awesome.css">
+<link rel="stylesheet" href="/designer-front/css/animate.css">
+<link rel="stylesheet" href="/designer-front/css/flexslider.css">
+<link rel="stylesheet" href="/designer-front/css/style.css">
+<!--[if IE 8]>
+        <link rel="stylesheet" type="text/css" media="all" href="/designer-front/css/ie8.css" />    
         <![endif]-->
-                
 
-        <script src="./js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-        <script src="./js/vendor/jquery-1.8.3.min.js"></script>
 
-        <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
-    </head>
-    <body class="body-background" style="background-image: url(./img/backgrounds/bg3.jpg); ">
+<script
+	src="/designer-front/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+<script src="/designer-front/js/vendor/jquery-1.8.3.min.js"></script>
 
-        <!--[if lt IE 8]>
+<link href='http://fonts.googleapis.com/css?family=Lato'
+	rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Lato:700'
+	rel='stylesheet' type='text/css'>
+</head>
+<body class="body-background"
+	style="background-image: url(/designer-front/img/backgrounds/bg3.jpg);">
+
+	<!--[if lt IE 8]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
         <![endif]-->
-        
-        <jsp:include page="../inc/topBar.jsp"></jsp:include>
-           
 
-        <div id="wrapper" class="boxed"> <!-- Page Wrapper: Boxed class for boxed layout - Fullwidth class for fullwidth page --> 
-            
-            <div class="header-background"> <!-- Header Background -->
-                <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
+	<jsp:include page="../inc/topBar.jsp"></jsp:include>
 
-                <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="../inc/headerNav.jsp"></jsp:include>
 
-                     <jsp:include page="../inc/ad.jsp"></jsp:include>
+	<div id="wrapper" class="boxed">
+		<!-- Page Wrapper: Boxed class for boxed layout - Fullwidth class for fullwidth page -->
 
-                </div> <!-- Close Header Menu -->
-            </div> <!-- Close Header Wrapper -->
-        <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
+		<div class="header-background">
+			<!-- Header Background -->
+			<jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 
-        <div class="page"> <!-- Page -->
-            <div class="breadscrumbs">
-                <div class="container">
-                    <ul class="clearfix">
-                        <li><a href="post-gallery.html#">Home</a>/</li>
-                        <li><a href="post-gallery.html#">Blog</a>/</li>
-                        <li><a href="post-gallery.html#">Gallery Post Format</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="main fullwidth">
-                <div class="container">
-                    <div class="row-fluid">
-                        <section class="content span9">
+			<div class="header-wrap">
+				<!-- Header Wrapper, contains Mene and Slider -->
+				<jsp:include page="../inc/headerNav.jsp?menuFlag=settings"></jsp:include>
+
+				<jsp:include page="../inc/ad.jsp"></jsp:include>
+
+			</div>
+			<!-- Close Header Menu -->
+		</div>
+		<!-- Close Header Wrapper -->
+		<div class="page-top-stripes"></div>
+		<!-- Page Background Stripes -->
+
+		<div class="page">
+			<!-- Page -->
+			<div class="breadscrumbs">
+				<div class="container">
+					<ul class="clearfix">
+						<li><a href="/designer-front">首页</a>/</li>
+						<li><a href="/designer-front/settings">设置</a>/</li>
+						<li><a href="javascript:void(0)">我的消息</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="main fullwidth">
+				<div class="container">
+					<div class="row-fluid">
+						<section class="content span9">
 							<div class="content-title">
-                                <h2>管理中心</h2>
-                            </div>
-	
-                            <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
-                                <ul class="tabs-nav tabs clearfix span3">
-                                	<jsp:include page="./settingsTabInc.jsp"></jsp:include>
-                                </ul>
-                                <div class="tab-content span9">
-                                    <div class="tab-pane widgets-light active" id="inbox">
-			                            <div class="content-title">
-											<h4>消息中心</h4> 
+								<h2>个人设置</h2>
+							</div>
+
+							<div class="shortcode-tabs shortcode-tabs-vertical clearfix">
+								<ul class="tabs-nav tabs clearfix span3">
+									<jsp:include page="./settingsTabInc.jsp?settingsMenuFlag=inbox"></jsp:include>
+								</ul>
+								<div class="tab-content span9">
+									<div class="tab-pane widgets-light active" id="inbox">
+										<div class="content-title">
+											<h4>消息中心</h4>
 										</div>
-                                    	<%
-                                    	List<Message> messageList = (List<Message>)request.getAttribute("messageList");
-                                    	if(messageList!=null&&messageList.size()>0){
-                                    		for(Message message: messageList){
-                                    	%> 
-                                        <div class="infobox info-info clearfix">
-			                                <span>i</span>
-			                                <div class="infobox-wrap"> 
-			                                    <h5>
-			                                    <a href='/designer-front/settings?op=inbox&messageType=<%=message.getMessageType()%>'>
-			                                    	<%
-			                                    	//系统消息 
-			                                    	if(message.getMessageType()<100){%>
-			                                    		<%=MessageUtil.getMessageTypeName(message.getMessageType())%> ( <%=message.getUnread()%> 条未读）
-			                                    	<%}else{%>
-			                                    		私信消息：用户<%=message.getFromId()%> ( <%=message.getUnread()%> 条未读） 
-			                                    	<%}%>
-			                                    </a>
-			                                    </h5>
-			                                    <p><%=message.getMessage()%></p>
-			                                </div>
-			                                
-			                            </div>
-			                            <%}
-			                            }%>
-			                            
-                                    </div>
-                                </div>
-                            </div>
-                        </section> 
-                        
-                        <!-- right slidebar -->
+
+										<%
+											List<Message> messageList = (List<Message>) request.getAttribute("messageList");
+											if (messageList != null && messageList.size() > 0) {
+												for (Message message : messageList) {
+										%>
+										
+										<div id="messages">
+											<ol id="messageListContainer" class="messagelist">
+												<li class="message" id="li-message-1"><div
+														class="message-container" id="message-1">
+														<div class="message-avatar">
+															<div class="message-author vcard">
+																<%if(MessageUtil.isChatMessage(message.getMessageType())){ %>
+																<a href="/designer-front/<%=message.getFromId()%>/home" target="_blank">
+																<img
+																	src="/designer-front/staticFile/avatar/<%=message.getFromId()%>_medium.jpg"/>
+																</a>
+																<%}else{ %>
+																<img
+																	src="/designer-front/img/icon/icon_<%=message.getMessageType()%>.png"/>
+																<%} %>
+															</div>
+														</div>
+														<div class="message-body">
+															<div class="message-meta messagemetadata">
+																<h5 class="message-author">
+																	<a href="/designer-front/settings/inbox?messageType=<%=message.getMessageType()%>">
+																	<%=MessageUtil.getMessageTypeName(message.getMessageType())%> (<%=message.getUnread()%> 条未读)
+																	</a>
+																</h5>
+															</div>
+															<div class="message-content">
+																<%=!MessageUtil.isBroadcastMessage(message.getMessageType())?"<a href='/designer-front/"+message.getFromId()+"/home' target='_blank'>"+message.getFromUser().getNickname()+"</a>: ":""%>
+																<%=message.getMessage()%> 发送于: <%=ymdSdf.format(message.getCreateTime())%>
+															</div>
+														</div>
+													</div></li>
+											</ol>
+										</div>
+										
+										<%}
+										}%>
+
+									</div>
+								</div>
+							</div>
+						</section>
+
+						<!-- right slidebar -->
 						<aside class="sidebar widgets-light span3">
-                       		<jsp:include page="../inc/right/sidebar_settings.jsp"></jsp:include> 
-                    	</aside>
-                    </div>                        
-                </div> <!-- Close Main -->
-            </div> 
-           
-           <jsp:include page="../inc/footer.jsp"></jsp:include>
-           
-        </div> <!-- Close Page -->
-   </div> <!-- Close wrapper -->
+							<jsp:include page="../inc/right/sidebar_settings.jsp"></jsp:include>
+						</aside>
+					</div>
+				</div>
+				<!-- Close Main -->
+			</div>
 
-        
-    <!-- Load all Javascript Files -->
-    <script src="./js/vendor/bootstrap.min.js"></script>
-    <script src="./js/jquery.hoverdir.js"></script>
-    <script src="./js/superfish.js"></script>
-    <!-- <script src="./js/supersubs.js"></script> -->
-   <!--  <script src="./js/jquery.tweet.js"></script>  -->
-    <script src="./js/jquery.flexslider.js"></script> 
-    <script src="./js/retina.js"></script>
+			<jsp:include page="../inc/footer.jsp"></jsp:include>
 
-    <script src="./js/custom.js"></script>
+		</div>
+		<!-- Close Page -->
+	</div>
+	<!-- Close wrapper -->
 
-    </body>
+
+	<!-- Load all Javascript Files -->
+	<script src="/designer-front/js/vendor/bootstrap.min.js"></script>
+	<script src="/designer-front/js/jquery.hoverdir.js"></script>
+	<script src="/designer-front/js/superfish.js"></script>
+	<!-- <script src="/designer-front/js/supersubs.js"></script> -->
+	<!--  <script src="/designer-front/js/jquery.tweet.js"></script>  -->
+	<script src="/designer-front/js/jquery.flexslider.js"></script>
+	<script src="/designer-front/js/retina.js"></script>
+
+	<script src="/designer-front/js/custom.js"></script>
+
+</body>
 </html>

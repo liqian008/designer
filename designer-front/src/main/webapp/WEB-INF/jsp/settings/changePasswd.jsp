@@ -23,23 +23,23 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
         <meta name="keywords" content="Bootstrap, Verendus, HTML5, CSS3, Business, Multipurpose, Template">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="./css/bootstrap.min.css">
-        <link rel="stylesheet" href="./css/font-awesome.css">
-        <link rel="stylesheet" href="./css/animate.css">
-        <link rel="stylesheet" href="./css/flexslider.css">
-        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/designer-front/css/font-awesome.css">
+        <link rel="stylesheet" href="/designer-front/css/animate.css">
+        <link rel="stylesheet" href="/designer-front/css/flexslider.css">
+        <link rel="stylesheet" href="/designer-front/css/style.css">
                                 <!--[if IE 8]>
-        <link rel="stylesheet" type="text/css" media="all" href="./css/ie8.css" />    
+        <link rel="stylesheet" type="text/css" media="all" href="/designer-front/css/ie8.css" />    
         <![endif]-->
                 
 
-        <script src="./js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-        <script src="./js/vendor/jquery-1.8.3.min.js"></script>
+        <script src="/designer-front/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+        <script src="/designer-front/js/vendor/jquery-1.8.3.min.js"></script>
 
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
     </head>
-    <body class="body-background" style="background-image: url(./img/backgrounds/bg3.jpg); ">
+    <body class="body-background" style="background-image: url(/designer-front/img/backgrounds/bg3.jpg); ">
 
         <!--[if lt IE 8]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
@@ -54,7 +54,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                 <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="../inc/headerNav.jsp"></jsp:include>
+                    <jsp:include page="../inc/headerNav.jsp?menuFlag=settings"></jsp:include>
 
                     <jsp:include page="../inc/ad.jsp"></jsp:include>
 
@@ -66,9 +66,9 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
             <div class="breadscrumbs">
                 <div class="container">
                     <ul class="clearfix">
-                        <li><a href="post-gallery.html#">首页</a>/</li>
-                        <li><a href="post-gallery.html#">设置</a>/</li>
-                        <li><a href="post-gallery.html#">修改密码</a></li>
+                        <li><a href="/designer-front">首页</a>/</li>
+                        <li><a href="/designer-front/settings">设置</a>/</li>
+                        <li><a href="javascript:void(0)">修改密码</a></li>
                     </ul>
                 </div>
             </div>
@@ -77,12 +77,12 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                     <div class="row-fluid">
                         <section class="content span9">
 							<div class="content-title">
-                                <h2>管理中心</h2>
+                                <h2>个人设置</h2>
                             </div>
 
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
                                 <ul class="tabs-nav tabs clearfix span3">
-                                	<jsp:include page="./settingsTabInc.jsp"></jsp:include>
+                                	<jsp:include page="./settingsTabInc.jsp?settingsMenuFlag=changePasswd"></jsp:include>
                                 </ul> 
                                 <div class="tab-content span9">
                                     <div class="tab-pane widgets-light active" id="changePwd">
@@ -92,31 +92,54 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<h4>修改密码</h4> 
 											</div>
 											<form class="widget-form" method="post"	action="/designer-front/settings/changePasswd">
-											
+												
+												<div id="change-password-succeed" class="infobox info-succes info-succes-alt clearfix" style="display:none">
+					                                <span></span>
+					                                <div class="infobox-wrap">
+					                                    <h4>提示:</h4>
+					                                    <p>密码重置成功！</p>
+					                                </div>
+					                            </div>
+					                            
+					                            <div id="change-password-failed" class="infobox info-error info-error-alt clearfix" style="display:none">
+					                                <span>!</span>
+					                                <div class="infobox-wrap">
+					                                    <h4>提示:</h4>
+					                                    <p id="change-password-failed-message">
+					                                   	密码重置失败！
+					                                    </p>
+					                                </div>
+					                            </div>
+					                            
 												<div class="row-container clearfix">
 													<div class="row-left">旧密码: </div>
 													<div class="row-right">
-														<input type="password" class="span6" name="oldPassword" value=""/> 
+														<input type="password" class="span5" id="oldPassword" name="oldPassword" value=""/>
+														<span id="old-password-required" class="required">*</span>
+														<span id="old-password-prompt" class="text-prompt">旧密码不能为空</span>
 													</div>
 												</div>
 												
 												<div class="row-container clearfix">
 													<div class="row-left">新密码: </div>
 													<div class="row-right">
-														<input type="password" class="span6"  name="password" value=""/> 
+														<input type="password" class="span5" id="password"  name="password" value=""/>
+														<span id="password-required" class="required">*</span>
+														<span id="password-prompt" class="text-prompt">新密码不能为空</span>
 													</div>
 												</div>
 												
 												<div class="row-container clearfix">
 													<div class="row-left">确认密码: </div>
 													<div class="row-right">
-														<input type="password" class="span6"  name="rePassword" value="" size="50%"/> 
+														<input type="password" class="span5" id="rePassword" name="rePassword" value=""/>
+														<span id="re-password-required" class="required">*</span>
+														<span id="re-password-prompt" class="text-prompt">确认密码不能为空</span>
 													</div>
 												</div>
 												
 												<div class="row-container clearfix">
-													<input type="hidden" name="op" value="info" readonly="readonly">
-													<input class="common-submit button" type="submit" value="修 改">
+													<input id="submit-button" class="common-submit button" type="button" value="修 改">
 													<input class="common-submit button" type="reset" value="重 置">
 												</div>
 											</form>
@@ -127,8 +150,10 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                             </div>
                         </section> 
                         
-                        <jsp:include page="../inc/rightSidebar.jsp"></jsp:include>
-                    	
+                        <!-- right slidebar -->
+						<aside class="sidebar widgets-light span3">
+                       		<jsp:include page="../inc/right/sidebar_settings.jsp"></jsp:include> 
+                    	</aside>
                     </div>                        
                 </div> <!-- Close Main -->
             </div> 
@@ -140,15 +165,63 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
         
     <!-- Load all Javascript Files -->
-    <script src="./js/vendor/bootstrap.min.js"></script>
-    <script src="./js/jquery.hoverdir.js"></script>
-    <script src="./js/superfish.js"></script>
-    <!-- <script src="./js/supersubs.js"></script> -->
-   <!--  <script src="./js/jquery.tweet.js"></script>  -->
-    <script src="./js/jquery.flexslider.js"></script> 
-    <script src="./js/retina.js"></script>
+    <script src="/designer-front/js/vendor/bootstrap.min.js"></script>
+    <script src="/designer-front/js/jquery.hoverdir.js"></script>
+    <script src="/designer-front/js/superfish.js"></script>
+    <!-- <script src="/designer-front/js/supersubs.js"></script> -->
+   <!--  <script src="/designer-front/js/jquery.tweet.js"></script>  -->
+    <script src="/designer-front/js/jquery.flexslider.js"></script> 
+    <script src="/designer-front/js/retina.js"></script>
 
-    <script src="./js/custom.js"></script>
+    <script src="/designer-front/js/custom.js"></script>
+    <script>
+    	$(document).ready(function(){
+    		$('#change-password-succeed').hide();
+    		$('#change-password-failed').hide();
+    		//密码格式
+    	});
+    	
+    	$('#submit-button').click(function(){
+    		$('#old-password-prompt').text('').hide();
+    		$('#password-prompt').text('').hide();
+    		$('#re-password-prompt').text('').hide();
+    		$('#change-password-succeed').hide();
+    		$('#change-password-failed').hide();
+    		
+    		var oldPasswordVal = $('#oldPassword').val();
+    		var passwordVal = $('#password').val();
+    		var rePasswordVal = $('#rePassword').val();
+    		if(oldPasswordVal==''){
+    			$('#oldPassword').focus();
+    			$('#old-password-prompt').text('旧密码不能为空').show();
+    		}else if(passwordVal==''){
+    			$('#password').focus();
+    			$('#password-prompt').text('新密码不能为空').show();
+    		}else if(rePasswordVal==''){
+    			$('#rePassword').focus();
+    			$('#re-password-prompt').text('确认密码不能为空').show();
+    		}else if(passwordVal!=rePasswordVal){
+    			$('#password').focus();
+    			$('#password-prompt').text('新密码与确认密码不匹配').show();
+    		}else{//验证通过
+    			var jsonData = {'oldPassword':oldPasswordVal,'password':passwordVal,'rePassword':rePasswordVal };
+        		$.post('/designer-front/settings/changePasswd.json', jsonData, function(data) {
+       				var result = data.result;
+       				if(result==1){
+       					$('#oldPassword').val('');
+       					$('#password').val('');
+       					$('#rePassword').val('');
+       					$('#change-password-succeed').show().fadeOut(3000);
+       				}else{
+       					$('#change-password-failed-message').text(data.message);
+       					$('#change-password-failed').show();
+       				}
+       			});
+    			
+    		}
+    	});
+    
+    </script>
 
     </body>
 </html>

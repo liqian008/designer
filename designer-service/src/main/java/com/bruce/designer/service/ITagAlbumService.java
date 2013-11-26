@@ -46,5 +46,13 @@ public interface ITagAlbumService extends IBaseService<TagAlbum, Long>{
      */
     @Deprecated
     public int batchSave(List<TagAlbum> tagAlbumList);
+    
+    /**
+     * 删除作品关联的tag
+     * @param albumId
+     * @return
+     */
+	int deleteByAlbumId(int albumId);
+    
 
 } 

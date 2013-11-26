@@ -58,7 +58,7 @@ if(errorMessage==null){
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
                     <jsp:include page="./inc/headerNav.jsp"></jsp:include>
 
-                    <jsp:include page="../inc/ad.jsp"></jsp:include>
+                    <jsp:include page="./inc/ad.jsp"></jsp:include>
 
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->

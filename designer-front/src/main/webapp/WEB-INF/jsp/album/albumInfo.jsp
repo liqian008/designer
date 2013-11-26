@@ -103,7 +103,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 								
 							%>
 
-							<article class="post format-image clearfix">
+							<article class="format-blogpost blogpost-single clearfix">
 								<div class="divider-text divider-mid">
 									<span><%=album.getTitle()%>【<%=slideIndex+1%> / <%=slideList.size()%>张】</span>
 								</div>
@@ -120,11 +120,14 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 									<%}%>
 								</div>
 								<%}%>
-								<div class="post-thumb preload">
+								
+                                <img src="<%=albumSlide.getSlideLargeImg()%>">
+								
+								<%-- <div class="post-thumb preload">
 									<span class="preload-done"><img
 										src="<%=albumSlide.getSlideLargeImg()%>" alt=""
 										style="display: block; visibility: visible; opacity: 1;"></span>
-								</div>
+								</div> --%>
 
 								<div class="row-fluid clearfix">
 
@@ -150,25 +153,22 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 											</ul>
 										</div>
 										
-										
-										
-
 										<div class="meta-categories">
 											<ul>
 												<li><a href="single.html#">举报</a></li>
 											</ul>
 											<ul>
-												<li><a href="javascript:void(0)">浏览(<%=albumSlide.getBrowseCount()%>)</a></li>
+												<li><a href="javascript:void(0)">浏览(<%=album.getBrowseCount()%>)</a></li>
 											</ul>
 											<ul>
-												<li><a href="javascript:void(0)" id="likeLink">喜欢(<%=albumSlide.getLikeCount()%>)</a></li>
+												<li><a href="javascript:void(0)" id="likeLink">喜欢(<%=album.getLikeCount()%>)</a></li>
 											</ul>
 											<ul>
-												<li><a href="javascript:void(0)">收藏(<%=albumSlide.getFavoriteCount()%>)</a></li>
+												<li><a href="javascript:void(0)">收藏(<%=album.getFavoriteCount()%>)</a></li>
 											</ul>
 
 											<ul>
-												<li><a href="javascript:void(0)" id="commentLink">评论(<%=albumSlide.getCommentCount()%>)</a>
+												<li><a href="javascript:void(0)" id="commentLink">评论(<%=album.getCommentCount()%>)</a>
 												</li>
 											</ul>
 										</div>
@@ -177,7 +177,6 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 									
 									<input type="hidden" id="commentsTailId" name="commentsTailId" value="0">
 									<input type="hidden" id="albumId" name="albumId" value="<%=album.getId()%>" />
-									<input type="hidden" id="albumSlideId" name="albumSlideId" value="<%=albumSlide.getId()%>" />
 									<input type="hidden" id="toId" name="toId" value="<%=album.getUserId()%>" />
 									<input type="hidden" id="designerId" name="designerId" value="<%=album.getUserId()%>" />
 									
@@ -192,6 +191,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			                            </div> -->
 										<ol id="commentListContainer" class="commentlist">
 										</ol>
+										
 										<ol class="commentlist">
 											<li class="comment depth-1" id="li-comment-1">
 												<div class="comment-container-wrapper" id="comment-1">
@@ -231,7 +231,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<div class="span9">
 													<p>
 														<textarea class="comment_textarea" name="comment"
-															id="comment" cols="50" rows="2" tabindex="4">我要评论...</textarea>
+															id="comment" cols="50" rows="2" tabindex="4"></textarea>
 													</p>
 												</div>
 												<div class="span3">
@@ -280,7 +280,13 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 	<script src="/designer-front/js/custom.js"></script>
 
 	<script>
-		fallLoad();
+		var emptyCommentVal = "我要评论...";
+		
+		$(document).ready(function(){
+			$('#comment').val(emptyCommentVal);
+			fallLoad();
+		});
+		
 		
 		$('#moreCommentsBtn').click(function(){
 			fallLoad();
@@ -290,7 +296,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			//置为数据加载状态
 			$(".comment-operation-container").toggle();
 			
-			var jsonData = {'commentsTailId' : $("#commentsTailId").val(), "albumSlideId": <%=albumSlide.getId()%> };
+			var jsonData = {'commentsTailId' : $("#commentsTailId").val(), "albumId": <%=album.getId()%> };
 			$.post('/designer-front/moreComments.json', jsonData, function(data) {
 				$(".comment-operation-container").toggle();
 				$("#commentListContainer").append(data.data.html);
@@ -302,14 +308,27 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
    				}
 			});
 		}
-	
+		
     	$("#commentLink").click(function(){
     		 $("#comment").focus();
-    		 $("#comment").val("");
     	});
     	
+    	$("#comment").focus(function(){
+    		var commentVal = $("#comment").val();
+    		if(commentVal==emptyCommentVal){
+	   			$("#comment").val("");
+    		}
+   		});
+
+    	$("#comment").blur(function(){
+    		var commentVal = $("#comment").val();
+    		if(commentVal==""){
+   				$("#comment").val(emptyCommentVal);
+    		}
+   		});
+    	
     	$("#likeLink").click(function(){
-    		var likeJsonData = {'albumId': $("#albumId").val(), 'albumSlideId':$("#albumSlideId").val()};
+    		var likeJsonData = {'albumId': $("#albumId").val()};
 	    	$.post("/designer-front/like.json", likeJsonData, function(data) {
 	  			  alert("result: " + data.result);
 	  		 }, "json");
@@ -318,11 +337,10 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
     	$("#publishBtn").click(function(){
     		//disable submitBtn
     		$("#publishBtn").attr("disabled", "disabled");
-    		var commentJsonData = {"comment": $("#comment").val(),'albumId': $("#albumId").val(), 'albumSlideId':$("#albumSlideId").val(), 'toId':$("#toId").val(), 'designerId':$("#designerId").val()};
+    		var commentJsonData = {"comment": $("#comment").val(),'albumId': $("#albumId").val(), 'toId':$("#toId").val(), 'designerId':$("#designerId").val()};
     		$.post("/designer-front/comment.json", commentJsonData, function(data) {
+    			$("#comment").val("");
     			$("#publishBtn").removeAttr("disabled");
-    			alert("result: " + data.result);
-    			alert("message: " + data.data);
     			$("#commentListContainer").prepend(data.data);
     			//enable submitBtn
     		 }, "json"); 
@@ -334,6 +352,11 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
     	$("#regBtn").click(function(){
 			location.href="/designer-front/register";
     	});
+    	
+    	function reply(fromId, fromName){
+    		$("#toId").val(fromId);
+    		$("#comment").val("回复"+fromName+": ");
+    	}
     	
     </script>
 

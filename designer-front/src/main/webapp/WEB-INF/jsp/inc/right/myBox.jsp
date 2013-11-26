@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.model.*"%>
 <%@ page import="com.bruce.designer.front.constants.*"%>
+<%@ page import="com.bruce.designer.util.*"%>
 <%@ page import="com.bruce.designer.constants.*"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.text.*"%>
@@ -21,8 +22,8 @@ if (currentUser != null) {
 		<ul>
 			<li class="clearfix">
 				<div class="widget-blogpost-avatar">
-					<a href="/designer-front/<%=currentUser.getId()%>/home"> <img
-						src="<%=currentUser.getHeadImg()%>">
+					<a href="/designer-front/settings/avatar"> <img
+							src="<%=UploadUtil.getAvatarUrl(currentUser.getId(), ConstService.UPLOAD_IMAGE_SPEC_LARGE)%>" alt="点击可修改头像">
 					</a> 
 				</div>
 				<div class="widget-blogpost-content">
@@ -43,11 +44,14 @@ if (currentUser != null) {
 		%>
 		<%if(isDesigner){%>
 			<input class="common-submit button" type="button" value="发布作品"
-			onclick="location.href='/designer-front/<%=currentUser.getId()%>/info'" />
+			onclick="location.href='/designer-front/settings/newAlbum'" />
 		<%} %>
 		<input class="common-submit button" type="button" value="个人主页"
 			onclick="location.href='/designer-front/<%=currentUser.getId()%>/home'" />
-
+			
+		<input class="common-submit button" type="button" value="修改密码"
+			onclick="location.href='/designer-front/settings/changePasswd'" />
+		
 		
 	</form>
 </div>

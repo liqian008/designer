@@ -84,9 +84,9 @@ public class CommentDaoImpl implements ICommentDao , InitializingBean {
 	}
     
 	@Override
-	public List<Comment> fallLoadComments(int albumSlideId, Long tailId, int limit) {
+	public List<Comment> fallLoadComments(int albumId, Long tailId, int limit) {
 		CommentCriteria commentCriteria = new CommentCriteria();
-		CommentCriteria.Criteria queryCriteria = commentCriteria.createCriteria().andAlbumSlideIdEqualTo(albumSlideId);
+		CommentCriteria.Criteria queryCriteria = commentCriteria.createCriteria().andAlbumIdEqualTo(albumId);
 		if(tailId!=null&&tailId>0){
 			queryCriteria.andIdLessThan(tailId);
 		}

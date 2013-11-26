@@ -53,13 +53,14 @@ public class MessageDaoImpl implements IMessageDao, InitializingBean {
 	 * @return
 	 */
 	@Override
-	public int sendMessage(int fromId, int toId, String content, int messageType) {
-		return sendMessage(fromId, toId, content, messageType, ConstService.MESSAGE_UNREAD);
+	public int sendMessage(long sourceId, int fromId, int toId, String content, int messageType) { 
+		return sendMessage(sourceId, fromId, toId, content, messageType, ConstService.MESSAGE_UNREAD);
 	}
 	
-	private int sendMessage(int fromId, int toId, String content, int messageType, short unreadStatus) {
+	private int sendMessage(long sourceId, int fromId, int toId, String content, int messageType, short unreadStatus) {
 		//保存消息实体
 		Message message = new Message();
+		message.setSourceId(sourceId);
 		message.setFromId(fromId);
 		message.setToId(toId);
 		message.setMessage(content);
@@ -75,10 +76,10 @@ public class MessageDaoImpl implements IMessageDao, InitializingBean {
 	 * 批量发送消息
 	 */
 	@Override
-	public int sendMessage(int fromId, List<Integer> toIdList, String content, int messageType) {
+	public int sendMessage(long sourceId, int fromId, List<Integer> toIdList, String content, int messageType) {
 		if(toIdList!=null&&toIdList.size()>0){
 			for(int toId: toIdList){
-				sendMessage(fromId, toId, content, messageType);
+				sendMessage(sourceId, fromId, toId, content, messageType);
 			}
 			return toIdList.size();
 		}
@@ -98,10 +99,11 @@ public class MessageDaoImpl implements IMessageDao, InitializingBean {
 		int result = 0;
 		//写入对方的收件箱
 		int messageType = fromId;
-		sendMessage(fromId, toId, content, messageType);
+		int sourceId = 0;
+		sendMessage(sourceId, fromId, toId, content, messageType, ConstService.MESSAGE_UNREAD);
 		//写入自己的发件箱（置为已读状态，不会增加未读消息数）
 		messageType = toId;
-		result = sendMessage(fromId, fromId, content, messageType, ConstService.MESSAGE_READ);
+		result = sendMessage(sourceId, fromId, fromId, content, messageType, ConstService.MESSAGE_READ);
 		return result;
 	}
 	

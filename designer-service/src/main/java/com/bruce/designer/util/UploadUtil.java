@@ -12,16 +12,18 @@ import java.util.Date;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.FileCopyUtils;
 
+import com.bruce.designer.constants.ConstService;
+
 /**
  * 
  * @author liqian
  *
  */
-public class FileUtil {
+public class UploadUtil {
 
     public static final String FILE_SEPARTOR = System.getProperty("file.separator");
     
-    private static final String prefixUrl = "http://localhost:8080/designer-front/staticFile/";
+    private static final String prefixUrl = "http://localhost:8080/designer-front/staticFile";
 
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
     
@@ -84,7 +86,7 @@ public class FileUtil {
      * @return
      */
     public static String getFilePath() {
-        String filePath = PropertiesUtil.getString("upload_path_file") + FileUtil.FILE_SEPARTOR + getDictionary() + FileUtil.FILE_SEPARTOR;;
+        String filePath = PropertiesUtil.getString("upload_path_file") + UploadUtil.FILE_SEPARTOR + getDictionary() + UploadUtil.FILE_SEPARTOR;;
         return filePath;
     }
     
@@ -94,7 +96,7 @@ public class FileUtil {
 	 * @return
 	 */
 	public static String getAvatarPath() {
-		String avatarPath = PropertiesUtil.getString("upload_path_avatar") + FileUtil.FILE_SEPARTOR;
+		String avatarPath = PropertiesUtil.getString("upload_path_avatar") ;
 		return avatarPath;
 	}
 	
@@ -104,7 +106,7 @@ public class FileUtil {
 	 * @return
 	 */
 	public static String getImagePath(long time) {
-		String imagePath = PropertiesUtil.getString("upload_path_image") + FileUtil.FILE_SEPARTOR + getDictionary(time) + FileUtil.FILE_SEPARTOR;
+		String imagePath = PropertiesUtil.getString("upload_path_image") + UploadUtil.FILE_SEPARTOR + getDictionary(time) ;
 		return imagePath;
 	}
 	
@@ -129,13 +131,28 @@ public class FileUtil {
 	 */
     public static String saveFile(byte[] data, String basePath, String dictionary, String filename) throws IOException{
     	
-        File dir = new File(basePath + FileUtil.FILE_SEPARTOR + dictionary);
+        File dir = new File(basePath + UploadUtil.FILE_SEPARTOR + dictionary);
         if(!dir.exists()){
             dir.mkdirs();
         }
         File file = new File(dir, filename);
     	FileCopyUtils.copy(data, file);
-		return prefixUrl  + FileUtil.FILE_SEPARTOR + dictionary + FileUtil.FILE_SEPARTOR + filename;
+		return prefixUrl  + UploadUtil.FILE_SEPARTOR + dictionary + UploadUtil.FILE_SEPARTOR + filename;
     }
     
+    /**
+     * 获取头像链接
+     * @param userId
+     * @param avatarType
+     * @return
+     */
+    public static String getAvatarUrl(int userId, String avatarType){
+    	int width = 200;
+    	if(ConstService.UPLOAD_IMAGE_SPEC_MEDIUM.equals(avatarType)){//中头像
+    		width = 100;
+    	}else if(ConstService.UPLOAD_IMAGE_SPEC_SMALL.equals(avatarType)){//小头像
+    		width = 50;
+    	}
+    	return prefixUrl  + getAvatarPath() + UploadUtil.FILE_SEPARTOR + width + UploadUtil.FILE_SEPARTOR + userId +".jpg";
+    }
 }

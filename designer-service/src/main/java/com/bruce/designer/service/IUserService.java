@@ -20,7 +20,9 @@ public interface IUserService extends IBaseService<User, Integer>{
     
 //    public User reloadUser(Integer userId);
     
-    public boolean userExists(String username);
+    public boolean usernameExists(String username);
+    
+    public boolean nicknameExists(String nickname);
     
     public int changePassword(int userId, String password);
     
@@ -53,6 +55,8 @@ public interface IUserService extends IBaseService<User, Integer>{
      * @param limit
      * @return
      */
-	List<User> fallLoadDesignerList(long approvelTailTime, int limit);
+	public List<User> fallLoadDesignerList(long approvelTailTime, int limit);
+
+	
 
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.model.Album;
@@ -23,6 +24,7 @@ import com.bruce.designer.model.User;
 import com.bruce.designer.service.IHotService;
 import com.bruce.designer.service.ITagService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.util.UploadUtil;
 
 /**
  * Handles requests for the application home page.
@@ -85,7 +87,7 @@ public class DesignerController {
 		if (designerList != null && designerList.size() > 0) {
 			StringBuilder sb = new StringBuilder();
 			for (User designer : designerList) {
-				sb.append("<li class='social-icons-facebook-icon'><a href='/designer-front/"+designer.getId()+"/home'><img src='"+designer.getHeadImg()+"' alt='"+designer.getNickname()+"' /></a></li>");
+				sb.append("<li class='social-icons-facebook-icon'><a href='/designer-front/"+designer.getId()+"/home'><img src='"+UploadUtil.getAvatarUrl(designer.getId(), ConstService.UPLOAD_IMAGE_SPEC_LARGE)+"' alt='"+designer.getNickname()+"' /></a></li>");
 			}
 			return sb.toString();
 		}

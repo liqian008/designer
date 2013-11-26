@@ -55,7 +55,8 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
                 <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="../inc/headerNav.jsp"></jsp:include>
+                    <jsp:include page="../inc/headerNav.jsp?menuFlag=albums"></jsp:include>
+                    
 					<jsp:include page="../inc/ad.jsp"></jsp:include>
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->

@@ -45,17 +45,19 @@ public class ErrorCode {
 	public static final int USER_NICKNAME_EXISTS = 203;
 	/* Email已存在 */
 	public static final int USER_EMAIL_EXISTS = 204;
-	/* 账户密码不匹配 */
+	/* 账户密码不匹配，通常用于登录验证 */
 	public static final int USER_PASSWORD_NOT_MATCH = 205;
+	/* 旧密码输入错误，通常用与改密码情况 */
+	public static final int USER_OLD_PASSWORD_NOT_MATCH = 206;
 	/* 修改密码失败 */
-	public static final int USER_CHANGE_PASSWORD_FAILED = 206;
+	public static final int USER_CHANGE_PASSWORD_FAILED = 207;
 	/* 用户不存在 */
-	public static final int USER_NOT_EXIST = 207;
+	public static final int USER_NOT_EXIST = 208;
 
 	/* OAuth未知错误 */
 	public static final int OAUTH_ERROR = 220;
 	/* Session不存在OAuth Token，无法进行绑定 */
-	public static final int OAUTH_SESSIONTOKEN_ERROR = 220;
+	public static final int OAUTH_SESSIONTOKEN_NOT_EXISTS = 221;
 	/* 已经绑定同类型token，无法再次绑定 */
 	public static final int OAUTH_ALREADY_BIND = 222;
 	
@@ -77,25 +79,39 @@ public class ErrorCode {
 	public static final int MESSAGE_TO_SELF = 402;
 	
 
+	/* 作品分配500-600的错误码 */
+	/* 未知错误 */
+	public static final int ALBUM_ERROR = 500;
+	/* 作品不存在 */
+	public static final int ALBUM_NOT_EXIST = 501;
+	/* 作品页不存在 */
+	public static final int ALBUMSLIDE_NOT_EXIST = 502;
+	/* 作者不匹配 */
+	public static final int ALBUM_AUTHOR_NOT_MATCH = 503;
+	/* 作品更新失败 */
+	public static final int ALBUM_UPDATE_FAILED = 504;
+	/* 作品删除失败 */
+	public static final int ALBUM_DELETE_FAILED = 505;
+	
 	/* 上传分配x00-x00的错误码 */
 	/* 未知错误 */
-	public static final int UPLOAD_ERROR = 500;
+	public static final int UPLOAD_ERROR = 600;
 	/* 文件格式不支持 */
-	public static final int UPLOAD_FORMAT_NOT_SUPPORT = 501;
+	public static final int UPLOAD_FORMAT_NOT_SUPPORT = 601;
 	/* 图片上传未知错误 */
-	public static final int UPLOAD_IMAGE_ERROR = 502;
+	public static final int UPLOAD_IMAGE_ERROR = 602;
 	/* 头像上传未知错误 */
-	public static final int UPLOAD_AVATAR_ERROR = 503;
+	public static final int UPLOAD_AVATAR_ERROR = 603;
 	/* 图片尺寸过大 */
-	public static final int UPLOAD_IMAGE_OVERSIZE = 504;
+	public static final int UPLOAD_IMAGE_OVERSIZE = 604;
 	
 	/* tag相关分配x00-x00的错误码 */
 	/* 未知错误 */
-	public static final int TAG_ERROR = 600;
+	public static final int TAG_ERROR = 700;
 	/* 未选择tag */
-	public static final int TAG_EMPTY = 601;
+	public static final int TAG_EMPTY = 701;
 	/* 选择的tag不存在 */
-	public static final int TAG_NOT_EXISTS = 602;
+	public static final int TAG_NOT_EXISTS = 702;
 	
 
 	/* WEB AJAX请求分配10000-19999的错误码 */

@@ -63,7 +63,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 
 			<div class="header-wrap">
 				<!-- Header Wrapper, contains Mene and Slider -->
-				<jsp:include page="../inc/headerNav.jsp"></jsp:include>
+				<jsp:include page="../inc/headerNav.jsp?menuFlag=albums"></jsp:include>
 
 				<jsp:include page="../inc/ad.jsp"></jsp:include>
 
@@ -150,7 +150,10 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
    					$('#moreAlbumsBtn').removeAttr("disabled");
    					$('#moreAlbumsBtn').val("加载更多...");
    				}
-   			});
+   			})
+   			/* .success(function() { alert("second success"); })
+   		    .error(function() { alert("error"); })
+   		    .complete(function() { alert("complete"); }); */
     	}
     </script>
 </body>

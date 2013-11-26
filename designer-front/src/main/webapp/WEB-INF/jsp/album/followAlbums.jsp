@@ -50,7 +50,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
         <![endif]-->
 
-	<jsp:include page="./inc/topBar.jsp"></jsp:include>
+	<jsp:include page="../inc/topBar.jsp"></jsp:include>
 
 
 	<div id="wrapper" class="boxed">
@@ -59,13 +59,13 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 		<div class="header-background">
 			<!-- Header Background -->
 
-			<jsp:include page="./inc/headerBanner.jsp"></jsp:include>
+			<jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 
 			<div class="header-wrap">
 				<!-- Header Wrapper, contains Mene and Slider -->
-				<jsp:include page="./inc/headerNav.jsp"></jsp:include> 
+				<jsp:include page="../inc/headerNav.jsp?menuFlag=myFollow"></jsp:include>
 
-				<jsp:include page="./inc/ad.jsp"></jsp:include>
+				<jsp:include page="../inc/ad.jsp"></jsp:include>
 			</div>
 			<!-- Close Header Menu -->
 		</div>
@@ -132,14 +132,14 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                        	
                        	<!-- right slidebar -->
 						<aside class="sidebar widgets-light span3">
-                       		<jsp:include page="./inc/right/sidebar.jsp"></jsp:include> 
+                       		<jsp:include page="../inc/right/sidebar.jsp"></jsp:include> 
                     	</aside>
                     </div>
                 </div> <!-- Close Main -->
             </div> 
 			
 			
-			<jsp:include page="./inc/footer.jsp"></jsp:include>
+			<jsp:include page="../inc/footer.jsp"></jsp:include>
 
 		</div>
 		<!-- Close Page -->

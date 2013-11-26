@@ -6,6 +6,8 @@
 
 <%
 String redirectUrl = (String)request.getAttribute(ConstFront.REDIRECT_URL);
+String loginErrorMessage = (String)request.getAttribute(ConstFront.LOGIN_ERROR_MESSAGE);
+String regErrorMessage = (String)request.getAttribute(ConstFront.REG_ERROR_MESSAGE);
 boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGISTER_ACTIVE));
 %>
 
@@ -67,7 +69,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
                 <div class="container">
                     <ul class="clearfix">
                         <li><a href="/">首页</a>/</li>
-                        <li><a href="javascript:void(0)">登陆注册</a></li>
+                        <li><a href="javascript:void(0)">登录注册</a></li>
                     </ul>
                 </div>
             </div>
@@ -89,47 +91,56 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 												<h4>请填写注册信息</h4>
 											</div>
 											
-											<div id="regErrorContainer" class="infobox info-error info-error-alt clearfix">
+											<%if(regErrorMessage!=null){%>
+											<div id="reg-failed" class="infobox info-error info-error-alt clearfix">
 				                                <span></span>
 				                                <div class="infobox-wrap">
-				                                    <h4>出错了！</h4>
-				                                    <p id="regErrorMessage">您的输入有误，请重新输入！</p>
+				                                    <h4 id="regErrorTitle">提示</h4>
+				                                    <p id="regErrorMessage"><%=regErrorMessage%></p>
 				                                </div>
-				                                <a href="#" class="info-hide"></a>
 				                            </div>
+											<%}%>
 				                            
-											<form id="widget-form" method="post" class="clearfix"
+											<form id="reg-widget-form" method="post" class="clearfix"
 												action="/designer-front/register">
 												<div class="row-container clearfix">
 													<div class="row-left">用户名: </div>
 													<div class="row-right">
-														<input type="text" class="span6" name="username"/>
+														<input type="text" class="span5" id="reg-username" name="username"/>
+														<span id="reg-username-required" class="required">*</span>
+														<span id="reg-username-prompt" class="text-prompt">字符,数字及下划线，4-20位</span>
 													</div> 
 												</div>
 												
 												<div class="row-container clearfix">
 													<div class="row-left">昵 称: </div>
 													<div class="row-right">
-														<input type="text" class="span6" name="nickname"/>
+														<input type="text" class="span5" id="reg-nickname" name="nickname"/>
+														<span id="reg-nickname-required" class="required">*</span>
+														<span id="reg-nickname-prompt" class="text-prompt">字符,数字及下划线，4-20位</span>
 													</div>
 												</div>
 												
 												<div class="row-container clearfix">
 													<div class="row-left">密 码: </div>
 													<div class="row-right">
-														<input type="password" class="span6" name="password"/>
+														<input type="password" class="span5" id="reg-password" name="password"/>
+														<span id="reg-password-required" class="required">*</span>
+														<span id="reg-password-prompt" class="text-prompt">6-20位</span>
 													</div>
 												</div>
 												
 												<div class="row-container clearfix">
-													<div class="row-left">密码: </div>
+													<div class="row-left">确认密码: </div>
 													<div class="row-right">
-														<input type="password" class="span6" name="repassword"/>
+														<input type="password" class="span5" id="reg-rePassword" name="rePassword"/>
+														<span id="reg-rePassword-required" class="required">*</span>
+														<span id="reg-rePassword-prompt" class="text-prompt"></span>
 													</div>
 												</div>
 												
-												<input class="common-submit button" type="submit" value="注 册">
-												<input class="common-submit button" type="button" value="取 消">
+												<input id="reg-button" class="common-submit button" type="button" value="注 册">
+												<input class="common-submit button" type="reset" value="取 消">
 											</form>
 										</div>
 							        </div>
@@ -139,43 +150,41 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 												<h4>请填写账户密码进行登录</h4>
 											</div>
 											
-				                            <div id="loginErrorContainer" class="infobox info-error info-error-alt clearfix">
+											<%if(loginErrorMessage!=null){%>
+											<div id="login-failed" class="infobox info-error info-error-alt clearfix">
 				                                <span></span>
 				                                <div class="infobox-wrap">
-				                                    <h4 id="loginErrorTitle">很抱歉</h4>
-				                                    <p id="loginErrorMessage">您的输入有误，请重新输入！</p>
+				                                    <h4 id="loginErrorTitle">提示</h4>
+				                                    <p id="loginErrorMessage"><%=loginErrorMessage%></p>
 				                                </div>
-				                                <a href="#" class="info-hide"></a>
 				                            </div>
-				                            <div id="loginErrorContainer" class="infobox info-succes info-succes-alt clearfix">
-				                                <span></span>
-				                                <div class="infobox-wrap">
-				                                    <h4 id="loginErrorTitle">身份通过验证</h4>
-				                                    <p id="loginErrorMessage">用户验证通过，正在为您跳转...</p>
-				                                </div>
-				                                <a href="#" class="info-hide"></a>
-				                            </div>
+											<%}%>
 				                            
-											<form id="widget-form" method="post" class="clearfix"
+											<form id="login-widget-form" method="post" class="clearfix"
 												action="/designer-front/login">
 												<%if(redirectUrl!=null){%>
 													<input type="hidden" name="<%=ConstFront.REDIRECT_URL%>" value="<%=redirectUrl%>"/>
 												<%}%>
+												
 												<div class="row-container clearfix">
-													<div class="row-left">昵 称：</div>
+													<div class="row-left">用户名：</div>
 													<div class="row-right">
-														<input type="text" name="username" class="span6" value="liqian">
+														<input type="text" id="login-username" name="username" class="span5" value="liqian">
+														<span id="login-username-required" class="required">*</span>
+														<span id="login-username-prompt" class="text-prompt">昵称不能为空</span>
 													</div>
 												</div>
 												
 												<div class="row-container clearfix">
-													<div class="row-left">密码：</div>
+													<div class="row-left">密 码：</div>
 													<div class="row-right">
-														<input type="password" name="password"  class="span6" value="liqian">
+														<input type="password" id="login-password" name="password"  class="span5" value="liqian">
+														<span id="login-password-required" class="required">*</span>
+														<span id="login-password-prompt" class="text-prompt">密码不能为空</span>
 													</div>
 												</div>
 												
-												<input class="common-submit button" type="submit" value="登 录">
+												<input id="login-button" class="common-submit button" type="button" value="登 录">
 												<input class="common-submit button" type="button" value="微博登录" onclick="location.href='/designer-front/connectWeibo'"/>
 												<input class="common-submit button" type="button" value="QQ登录" onclick="location.href='/designer-front/connectTencent'"/>
 				
@@ -207,6 +216,122 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
     <script src="./js/retina.js"></script>
 
     <script src="./js/custom.js"></script>
+	<script>
+    	$(document).ready(function(){
+    		//$('#login-failed').hide();
+    	});
+    	
+    	$('#login-button').click(function(){
+    		$('#login-username-prompt').text('').hide();
+    		$('#login-password-prompt').text('').hide();
+    		//$('#login-failed').hide();
+    		
+    		var usernameVal = $('#login-username').val();
+    		var passwordVal = $('#login-password').val();
+    		if(usernameVal==''){
+    			$('#login-username').focus();
+    			$('#login-username-prompt').text('用户名不能为空').show();
+    		}else if(passwordVal==''){
+    			$('#login-password').focus();
+    			$('#login-password-prompt').text('密码不能为空').show();
+    		}else{//验证通过
+    			//提交请求
+    			$('#login-widget-form').submit();
+    		}
+    	});
+    	
+    	$('#reg-button').click(function(){
+    		if(checkRegUsername()&&checkRegNickname()&&checkRegPassword()){
+	    		$('#reg-widget-form').submit();
+	    	}
+    	});
+    	
+    	//检查用户名是否合法
+    	function checkRegUsername(){
+    		var usernameVal = $('#reg-username').val();
+    		//中文、英文字符 4-6位
+    		var usernameRegex =  /^[\u4E00-\u9FA5\uf900-\ufa2d\w]{4,16}$/;
+    		if(usernameVal==''){
+    			$('#reg-username-prompt').text('用户名不能为空').show();
+    			$('#reg-username').focus();
+        		return false;
+    		}else if(!usernameRegex.test(usernameVal)){//检查正则匹配
+    			$('#reg-username-prompt').text('用户名不符合规范').show();
+    			$('#reg-username').focus();
+        		return false;
+    		}else{//ajax检查是否可用
+    			var jsonData = {'username':usernameVal};
+    			$.post('/designer-front/usernameExists.json', jsonData, function(data) {
+       				var result = data.result;
+       				if(result==1){
+       					$('#reg-username-prompt').hide();
+       					//设置username available的标识
+       				}else{
+       					$('#reg-username-prompt').text(data.message).show();
+       					//设置username unabailable的标识
+       				}
+       			});
+    		}
+    		return true;
+    	}
+    	
+    	//检查昵称是否合法
+    	function checkRegNickname(){
+    		var nicknameVal = $('#reg-nickname').val();
+    		var nicknameRegex =  /^[\u4E00-\u9FA5\uf900-\ufa2d\w]{4,16}$/;
+    		if(nicknameVal==''){
+    			$('#reg-nickname-prompt').text('昵称不能为空').show();
+    			$('#reg-nickname').focus();
+        		return false;
+    		}else if(!nicknameRegex.test(nicknameVal)){//监察正则匹配
+    			$('#reg-nickname-prompt').text('昵称不符合规范').show();
+    			$('#reg-nickname').focus();
+        		return false;
+    		}else{//ajax检查昵称是否可用
+    			var jsonData = {'nickname':nicknameVal};
+    			$.post('/designer-front/nicknameExists.json', jsonData, function(data) {
+       				var result = data.result;
+       				if(result==1){
+       					$('#reg-nickname-prompt').text('').hide();
+       					//设置nickname available的标识
+       				}else{
+       	    			$('#reg-nickname-prompt').text(data.message).show();
+       	    			//设置nickname unavailable的标识
+       				}
+       			});
+    		}
+    		return true;
+    	}
 
+    	//检查密码是否合法
+    	function checkRegPassword(){
+    		var passwordVal = $('#reg-password').val();
+    		var rePasswordVal = $('#reg-rePassword').val();
+    		var passwordRegex = /^(\w){6,20}$/;
+    		if(passwordVal==''){
+    			$('#reg-password-prompt').text('密码不能为空').show();
+    		}else if(!passwordRegex.test(passwordVal)){ 
+    			$('#reg-password').focus();
+    			$('#reg-password-prompt').text('密码不符合规范').show();
+    		}else{
+    			//密码验证完成，开始验证确认密码
+    			$('#reg-password-prompt').text('').hide();
+    			if(rePasswordVal==''){
+	    			$('#reg-rePassword').focus();
+	    			$('#reg-rePassword-prompt').text('确认密码不能为空').show();
+	    			return false;
+	    		}else if(passwordVal!=rePasswordVal){
+	    			$('#reg-rePassword').focus();
+	    			$('#reg-rePassword-prompt').text('密码与确认密码不匹配').show();
+	    			return false;
+	    		}else{
+	        		$('#reg-rePassword-prompt').text('').hide();
+	    			return true;
+	    		}
+    		}
+    		$('#reg-password').focus();
+    		return false;
+    	}
+    </script>
     </body>
 </html>

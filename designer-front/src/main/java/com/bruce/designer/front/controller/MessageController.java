@@ -28,6 +28,7 @@ import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.ICommentService;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.service.impl.UserGraphServiceImpl;
 import com.bruce.designer.util.MessageUtil;
 
 /**
@@ -53,7 +54,7 @@ public class MessageController {
 	 * @return
 	 */
 	
-	@RequestMapping(params = "op=inbox")
+	@RequestMapping(value="inbox")
 	public String inbox(Model model, HttpServletRequest request) {
 		String jsp = "/settings/messageList";
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
@@ -64,11 +65,30 @@ public class MessageController {
 		if (messageType <= 0) {// 消息中心
 			messageList = messageService.queryMessageSummary(userId);
 			model.addAttribute("messageList", messageList);
+			//加载fromId的详细资料
+			if(messageList!=null&&messageList.size()>0){
+				for(Message message: messageList){
+					if(!MessageUtil.isBroadcastMessage(message.getMessageType())){
+						int fromId = message.getFromId();
+						User fromUser = userService.loadById(fromId);
+						message.setFromUser(fromUser);
+					}
+				}
+			}
 			return "/settings/inbox";
 		} else {// 进入消息列表页
 			PagingData<Message> messagePagingData = messageService.pagingQuery(userId, messageType, 1, 16);
 			if (messagePagingData != null && messagePagingData.getPageData() != null) {
 				messageList = messagePagingData.getPageData();
+				//加载fromId的详细资料
+				if(messageList!=null&&messageList.size()>0){
+					for(Message message: messageList){
+						int fromId = message.getFromId();
+						User fromUser = userService.loadById(fromId);
+						message.setFromUser(fromUser);
+					}
+				}
+				
 				model.addAttribute("messagePagingData", messagePagingData);
 				if (MessageUtil.isChatMessage(messageType)) {
 					// 检查toUser是否存在

@@ -63,7 +63,7 @@ if(currentUser!=null&&currentUser.getId()==queryUser.getId()){
                 <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="../inc/headerNav.jsp"></jsp:include>
+                    <jsp:include page="../inc/headerNav.jsp?menuFlag=myHome"></jsp:include>
 					<jsp:include page="../inc/ad.jsp"></jsp:include>
 					
                 </div> <!-- Close Header Menu -->

@@ -80,6 +80,16 @@ body {
 	font-size: 0.750em;
 }
 
+.required{
+	margin-left: 0px;
+	color: red;
+}
+
+.text-prompt{
+	margin-left: 2px;
+	color: red;
+}
+
 	/* Add this class to the body if you want a solid fixed background */
 	.body-background { 
 		/* Background Image Goes Here */ 
@@ -1831,7 +1841,7 @@ blockquote {
 
 	/* Comments */
 	#comments {
-		margin: 20px 0 0 15px;
+		margin: 15px 0 0 15px;
 	}
 
 	.commentlist {
@@ -1905,7 +1915,7 @@ blockquote {
 
 	.comment-avatar {
 		float: left;
-		margin: 0 20px 0 0;
+		margin: 0 16px 0 0;
 		width: 46px;
 		height: 46px;
 	}
@@ -1935,6 +1945,128 @@ blockquote {
 		padding: 4px 9px;
 		margin: 10px 0 0 0;
 	}
+	
+	
+	/* messages */
+	#messages {
+		margin: 0px 0 0 0px;
+	}
+
+	.messagelist {
+		border-bottom: 1px solid #e2e2e2;
+		margin: 0 0 10px 0px;
+	}
+
+	.messagelist li.message {
+		/* line-height: 18px; */
+		position: relative;
+		padding: 0 0 0 65px;
+	}
+			
+	.messagelist > li {
+		padding: 10px 15px!important;
+		list-style-type: none;
+	}
+
+	.messagelist .children {
+		list-style-type: none;
+	}
+
+	.message-container {
+		margin-bottom: 0px;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		box-sizing: border-box;
+		padding: 0px;
+		background-color: #fff;
+	}
+
+	.message-content ul, .message-content ol {
+		margin-bottom: 20px;
+	}
+
+	.message-content ol ol, .message-content ul ul, .message-content ul ol, .message-content ol ul {
+		margin: 0;
+	}
+
+	.message-content ul {
+		list-style-type: circle;
+		margin-left: 20px;
+	}
+
+	.message-content ul ul, .message-content ol ol{
+		margin-left: 30px;
+	}
+
+	.message-content ol {
+		list-style-type: decimal;
+		margin-left: 20px;
+	}
+
+	.message-content ul, .message-content ol {
+		margin-bottom: 20px;
+	}
+
+	.message-content ol ol {
+		list-style-type: upper-alpha;
+	}
+
+	.message-content ol ol ol {
+		list-style-type: lower-roman;
+	}
+
+	.message-container:after {
+		content: "";
+		display: table;
+		line-height: 0;
+	}	
+
+	.message-avatar {
+		float: left;
+		margin: 0 16px 0 0;
+		width: 46px;
+		height: 46px;
+	}
+	
+	.message-avatar-right {
+		float: right;
+		margin: 0 0px 0 16px;
+		width: 46px;
+		height: 46px;
+	}
+
+	.message-body {
+		overflow: hidden;
+	}
+	
+	.message-body-right {
+		overflow: hidden;
+		text-align:right;
+	}
+
+	.message-body h4 {
+		margin: 0 0 10px 0;
+	}
+
+	.message-body h4 a {
+		color: #444444;
+	}
+
+	.message-date {
+		float: right;
+		color: #999;
+	}
+
+	.message-date p {
+		margin: 0;
+	}
+
+	.message-reply-link {
+		padding: 4px 9px;
+		margin: 10px 0 0 0;
+	}
+	
 
 	/* Respond */
 	.respond p {
@@ -2929,8 +3061,8 @@ blockquote {
 	position: relative;
 	overflow: hidden;
 	float: left;
-	height:320px;
-	margin:4px 0px 8px;
+	height:300px;
+	margin:4px 0px 10px;
 }
 
 .blog-item .content-wrap span {
@@ -2963,7 +3095,7 @@ blockquote {
 		position: relative;
 		overflow: hidden;
 		margin: 0 0 5px 0;
-		height:70%;
+		height: 202px;
 	}
 	
 	.blog-item .blog-post-image-wrap img{
@@ -4883,7 +5015,7 @@ input.contact-form-error {
 
 /* Footer Meta */
 .footer-meta {
-	background-color: #343434;
+	
 }
 
 	.copyright p {
@@ -4991,7 +5123,7 @@ input.contact-form-error {
 			-moz-box-sizing: border-box;
 			-ms-box-sizing: border-box;
 			box-sizing: border-box;
-			margin-bottom: 10px;
+			margin-bottom: 0px;
 			border-radius: 0;
 			outline: none;
 		}
@@ -5018,12 +5150,12 @@ input.contact-form-error {
 			width: 60%;
 		}
 		
-		.widget-wrapper-form .widget-form input[type=radio] {
+		.widget-wrapper-form .widget-form input[type=radio], .widget-wrapper-form .widget-form input[type=checkbox]{
 			width: 5%;
 		}
 		
 		.row-container {
-			margin:10px 0 5px;
+			margin:15px 0 12px;
 			clear:both;
 		}
 		
@@ -5048,7 +5180,7 @@ input.contact-form-error {
 			}
 
 		.widget-wrapper-form textarea {
-			height: 100px;
+			height: auto;
 			width: 100%;
 		}
 
@@ -5559,8 +5691,9 @@ input.contact-form-error {
 
 	.flickr-wrap div {
 		width: 70px;
-		height: 70px;
+		height: 50px;
 		margin: 0 6.5% 2% 0;
+		overflow:hidden;
 	}
 
 		.flickr-overlay {

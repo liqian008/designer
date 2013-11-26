@@ -11,13 +11,13 @@ boolean isDesigner = queryUser!=null&&queryUser.getDesignerStatus()==ConstServic
 %>
 
 <%
-	if (queryUser != null) {
+if (queryUser != null) {
 	%>
-<jsp:include page="./userBox.jsp"></jsp:include> 
+<jsp:include page="./userBox.jsp"></jsp:include>
 <%if(isDesigner){%>
 <jsp:include page="./latestDesignerAlbums.jsp"></jsp:include>
 <%}
-	}%>
+}%>
 <jsp:include page="./hotTags.jsp"></jsp:include>
 
 <jsp:include page="./latestAlbums.jsp"></jsp:include>

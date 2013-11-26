@@ -66,17 +66,17 @@ public interface ICounterService {
 	 */
 	public long reduceNum(String key, int num);
 
-	public long incrBrowser(int designerId, int albumId, int albumSlideId);
+	public long incrBrowser(int designerId, int albumId);
 
-	public long incrBrowser(int designerId, int albumId, int albumSlideId, int number);
+	public long incrBrowser(int designerId, int albumId, int number);
 
-	public long incrComment(int designerId, int albumId, int albumSlideId);
+	public long incrComment(int designerId, int albumId);
 
-	public long incrComment(int designerId, int albumId, int albumSlideId, int number);
+	public long incrComment(int designerId, int albumId, int number);
 
-	public long incrLike(int designerId, int albumId, int albumSlideId);
+	public long incrLike(int designerId, int albumId);
 
-	public long incrLike(int designerId, int albumId, int albumSlideId, int number);
+	public long incrLike(int designerId, int albumId, int number);
 
 	/**
 	 * 收藏计数

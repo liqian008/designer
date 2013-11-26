@@ -24,7 +24,7 @@ User queryUser = (User) request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE);
 				<li class="clearfix">
 					<div class="widget-blogpost-avatar">
 						<a href="/designer-front/<%=queryUser.getId()%>/home"> <img
-							src="<%=queryUser.getHeadImg()%>">
+							src="/designer-front/staticFile/avatar/<%=queryUser.getId()%>_medium.jpg">
 						</a>
 					</div>
 					<div class="widget-blogpost-content">
@@ -65,7 +65,7 @@ User queryUser = (User) request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE);
 				}
 			%>
 			<input class="common-submit button" type="button" value="私信"
-				onclick="location.href='/designer-front/settings?op=inbox&messageType=<%=queryUser.getId()%>'" />
+				onclick="location.href='/designer-front/settings/inbox?messageType=<%=queryUser.getId()%>'" />
 			<%
 				}
 			%>

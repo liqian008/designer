@@ -35,12 +35,12 @@ public interface ConstRedis{
     /*整个作品辑收藏数的key*/
     public static final String COUNTER_KEY_ALBUM_FAVORITE = "album_favorite_";
     
-    /*单个作品浏览数的key*/
-    public static final String COUNTER_KEY_ALBUMSLIDE_BROWSE = "albumslide_browse_";
-    /*单个作品评论数的key*/
-    public static final String COUNTER_KEY_ALBUMSLIDE_COMMENT = "albumslide_comment_";
-    /*单个作品喜欢数的key*/
-    public static final String COUNTER_KEY_ALBUMSLIDE_LIKE = "albumslide_like_";
+//    /*单个作品浏览数的key*/
+//    public static final String COUNTER_KEY_ALBUMSLIDE_BROWSE = "albumslide_browse_";
+//    /*单个作品评论数的key*/
+//    public static final String COUNTER_KEY_ALBUMSLIDE_COMMENT = "albumslide_comment_";
+//    /*单个作品喜欢数的key*/
+//    public static final String COUNTER_KEY_ALBUMSLIDE_LIKE = "albumslide_like_";
     
 	
 }

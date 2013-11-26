@@ -24,8 +24,11 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                     <a href="/designer-front/login">登 录</a> | <a href="/designer-front/register">注 册</a>
                     <%}else{ %>
                     欢迎您, <%=user.getNickname() %>&nbsp;|&nbsp;
-                    <a href="/designer-front/settings">设置</a>&nbsp;|&nbsp;
-                    <a href="/designer-front/settings?op=inbox">消息</a>&nbsp;|&nbsp;
+                    <%if(user.getDesignerStatus()!=null&&user.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED){%>
+                    <a href="/designer-front/settings/newAlbum">发布新作品</a>&nbsp;|&nbsp;
+                    <%}%>
+                    <a href="/designer-front/settings">个人设置</a>&nbsp;|&nbsp;
+                    <a href="/designer-front/settings/inbox">消息</a>&nbsp;|&nbsp;
                     <a href="/designer-front/logout">注销</a>
                     <%}%>
                 </div>

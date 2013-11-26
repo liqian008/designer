@@ -108,7 +108,6 @@ String tagName = (String)request.getAttribute("tagName");
                        		<jsp:include page="./inc/right/sidebar.jsp"></jsp:include> 
                     	</aside>
                     </div>
-                    </div>
                 </div> <!-- Close Main -->
             </div> 
            

@@ -66,7 +66,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
 			<div class="header-wrap">
 				<!-- Header Wrapper, contains Mene and Slider -->
-				<jsp:include page="../inc/headerNav.jsp"></jsp:include>
+				<jsp:include page="../inc/headerNav.jsp?menuFlag=designers"></jsp:include>
 				<jsp:include page="../inc/ad.jsp"></jsp:include>
 			</div>
 			<!-- Close Header Menu -->
@@ -100,7 +100,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 										<%for(User designer: designerList){%>
 										<div class="designer_badge_image" id="designer_badge_image<%=designer.getId()%>">
 											<a href="/designer-front/<%=designer.getId()%>/home"><img
-												src="<%=designer.getHeadImg()%>"
+												src="/designer-front/staticFile/avatar/<%=designer.getId()%>_medium.jpg"
 												height="100%" width="100%"></a>
 										</div>
 										<%} %>

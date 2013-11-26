@@ -10,7 +10,7 @@ public interface ITagService extends IBaseService<Tag, Integer> {
 	public List<String> getTagNamesByAlbumId(int albumId);
 	
 	//创建tag及文章关联
-	public int tagAlbum(int albumId, List<String> tagName);
+	public int tagAlbum(int albumId, List<String> tagNameList);
 	
 	//获取tag
 //	public List<Tag> getHotTags(int limit);

@@ -2,6 +2,7 @@ package com.bruce.designer.util;
 
 import java.io.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 import java.awt.Graphics;
 import java.awt.color.ColorSpace;
@@ -177,6 +178,53 @@ public class ImageUtil {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * 缩放图片
+	 * @param data
+	 * @param width
+	 * @param height
+	 * @return
+	 */
+	public static byte[] zoom(byte[] data, int width, int height) {
+        try {
+            BufferedImage source = ImageIO.read(new ByteArrayInputStream(data));
+            // targetW，targetH分别表示目标长和宽  
+            int type = source.getType();
+            BufferedImage target = null;
+            double sx = (double) width / source.getWidth();
+            double sy = (double) height / source.getHeight();
+            //这里想实现在targetW，targetH范围内实现等比缩放。如果不需要等比缩放  
+            //则将下面的if else语句注释即可  
+            if (sx > sy) {
+                sx = sy;
+                width = (int) (sx * source.getWidth());
+            } else {
+                sy = sx;
+                height = (int) (sy * source.getHeight());
+            }
+            if (type == BufferedImage.TYPE_CUSTOM) {//handmade  
+                ColorModel cm = source.getColorModel();
+                WritableRaster raster = cm.createCompatibleWritableRaster(width, height);
+                boolean alphaPremultiplied = cm.isAlphaPremultiplied();
+                target = new BufferedImage(cm, raster, alphaPremultiplied, null);
+            } else {
+                target = new BufferedImage(width, height, type);
+            }
+            Graphics2D g = target.createGraphics();
+            //smoother than exlax:  
+            g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            g.drawRenderedImage(source, AffineTransform.getScaleInstance(sx, sy));
+            g.dispose();
+            
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ImageIO.write(target, "jpg", bos);
+            return bos.toByteArray();
+        } catch (Exception e) {
+            //logger.error(e);
+            return null;
+        }
+    }
 
 	/**
 	 * @param args

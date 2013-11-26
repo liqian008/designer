@@ -25,23 +25,23 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
         <meta name="keywords" content="Bootstrap, Verendus, HTML5, CSS3, Business, Multipurpose, Template">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="./css/bootstrap.min.css">
-        <link rel="stylesheet" href="./css/font-awesome.css">
-        <link rel="stylesheet" href="./css/animate.css">
-        <link rel="stylesheet" href="./css/flexslider.css">
-        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/designer-front/css/font-awesome.css">
+        <link rel="stylesheet" href="/designer-front/css/animate.css">
+        <link rel="stylesheet" href="/designer-front/css/flexslider.css">
+        <link rel="stylesheet" href="/designer-front/css/style.css">
                                 <!--[if IE 8]>
-        <link rel="stylesheet" type="text/css" media="all" href="./css/ie8.css" />    
+        <link rel="stylesheet" type="text/css" media="all" href="/designer-front/css/ie8.css" />    
         <![endif]-->
                 
 
-        <script src="./js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-        <script src="./js/vendor/jquery-1.8.3.min.js"></script>
+        <script src="/designer-front/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+        <script src="/designer-front/js/vendor/jquery-1.8.3.min.js"></script>
 
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
     </head>
-    <body class="body-background" style="background-image: url(./img/backgrounds/bg3.jpg); ">
+    <body class="body-background" style="background-image: url(/designer-front/img/backgrounds/bg3.jpg); ">
 
         <!--[if lt IE 8]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
@@ -68,9 +68,9 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
             <div class="breadscrumbs">
                 <div class="container">
                     <ul class="clearfix">
-                        <li><a href="post-gallery.html#">Home</a>/</li>
-                        <li><a href="post-gallery.html#">Blog</a>/</li>
-                        <li><a href="post-gallery.html#">Gallery Post Format</a></li>
+                        <li><a href="/designer-front">首页</a>/</li>
+                        <li><a href="/designer-front/settings">设置</a>/</li>
+                        <li><a href="javascript:void(0)">我的收藏</a></li>
                     </ul>
                 </div>
             </div>
@@ -79,7 +79,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                     <div class="row-fluid">
                         <section class="content span9">
 							<div class="content-title">
-                                <h2>管理中心</h2>
+                                <h2>个人设置</h2>
                             </div>
 
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
@@ -129,15 +129,15 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
         
     <!-- Load all Javascript Files -->
-    <script src="./js/vendor/bootstrap.min.js"></script>
-    <script src="./js/jquery.hoverdir.js"></script>
-    <script src="./js/superfish.js"></script>
-    <!-- <script src="./js/supersubs.js"></script> -->
-   <!--  <script src="./js/jquery.tweet.js"></script>  -->
-    <script src="./js/jquery.flexslider.js"></script> 
-    <script src="./js/retina.js"></script>
+    <script src="/designer-front/js/vendor/bootstrap.min.js"></script>
+    <script src="/designer-front/js/jquery.hoverdir.js"></script>
+    <script src="/designer-front/js/superfish.js"></script>
+    <!-- <script src="/designer-front/js/supersubs.js"></script> -->
+   <!--  <script src="/designer-front/js/jquery.tweet.js"></script>  -->
+    <script src="/designer-front/js/jquery.flexslider.js"></script> 
+    <script src="/designer-front/js/retina.js"></script>
 
-    <script src="./js/custom.js"></script>
+    <script src="/designer-front/js/custom.js"></script>
 
     </body>
 </html>

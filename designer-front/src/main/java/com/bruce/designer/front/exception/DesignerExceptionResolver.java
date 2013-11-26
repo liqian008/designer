@@ -41,10 +41,13 @@ public class DesignerExceptionResolver extends AbstractHandlerExceptionResolver 
 	 */
 	@Override
 	protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object object, Exception exception) {
-		exception.printStackTrace();
+		
 		int errorCode = ErrorCode.SYSTEM_ERROR;
 		if (exception instanceof DesignerException) {
 			errorCode =((DesignerException)exception).getErrorCode();
+		}
+		if(logger.isErrorEnabled()){
+			logger.error(ErrorCode.getMessage(errorCode), exception);
 		}
 		String requestURI = request.getRequestURI();
 		//json格式

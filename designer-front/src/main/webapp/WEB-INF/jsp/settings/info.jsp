@@ -26,23 +26,23 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
         <meta name="keywords" content="Bootstrap, Verendus, HTML5, CSS3, Business, Multipurpose, Template">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="./css/bootstrap.min.css">
-        <link rel="stylesheet" href="./css/font-awesome.css">
-        <link rel="stylesheet" href="./css/animate.css">
-        <link rel="stylesheet" href="./css/flexslider.css">
-        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/designer-front/css/font-awesome.css">
+        <link rel="stylesheet" href="/designer-front/css/animate.css">
+        <link rel="stylesheet" href="/designer-front/css/flexslider.css">
+        <link rel="stylesheet" href="/designer-front/css/style.css">
                                 <!--[if IE 8]>
-        <link rel="stylesheet" type="text/css" media="all" href="./css/ie8.css" />    
+        <link rel="stylesheet" type="text/css" media="all" href="/designer-front/css/ie8.css" />    
         <![endif]-->
                 
 
-        <script src="./js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-        <script src="./js/vendor/jquery-1.8.3.min.js"></script>
+        <script src="/designer-front/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+        <script src="/designer-front/js/vendor/jquery-1.8.3.min.js"></script>
 
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
     </head>
-    <body class="body-background" style="background-image: url(./img/backgrounds/bg3.jpg); ">
+    <body class="body-background" style="background-image: url(/designer-front/img/backgrounds/bg3.jpg); ">
 
         <!--[if lt IE 8]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
@@ -57,7 +57,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
                 <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="../inc/headerNav.jsp"></jsp:include>
+                    <jsp:include page="../inc/headerNav.jsp?menuFlag=settings"></jsp:include>
 					<jsp:include page="../inc/ad.jsp"></jsp:include>
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
@@ -67,9 +67,9 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
             <div class="breadscrumbs">
                 <div class="container">
                     <ul class="clearfix">
-                        <li><a href="post-gallery.html#">Home</a>/</li>
-                        <li><a href="post-gallery.html#">Blog</a>/</li>
-                        <li><a href="post-gallery.html#">Gallery Post Format</a></li>
+                        <li><a href="/designer-front">首页</a>/</li>
+                        <li><a href="/designer-front/settings">设置</a>/</li>
+                        <li><a href="javascript:void(0)">个人资料</a></li>
                     </ul>
                 </div>
             </div>
@@ -78,7 +78,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
                     <div class="row-fluid">
                         <section class="content span9">
 							<div class="content-title">
-                                <h2>管理中心</h2>
+                                <h2>个人设置</h2>
                             </div>
 
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
@@ -93,7 +93,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 											</div>
 											
 											<form class="widget-form" method="post" class="clearfix"
-												action="/designer-front/settings">
+												action="/designer-front/settings/info">
 												
 												<div class="row-container clearfix">
 													<div class="row-left">用户类型：</div>
@@ -114,7 +114,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													</div>
 												</div>
 												
-												<div class="row-container clearfix">
+												<!-- <div class="row-container clearfix">
 													<div class="row-left">性别：</div>
 													<div class="row-right">
 														<input type="radio" name="gender" value="1"/>男
@@ -123,54 +123,9 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												</div>
 												
 												<div class="row-container clearfix">
-													<input type="hidden" name="op" value="info" readonly="readonly"/>
 													<input class="common-submit button" type="submit" value="修 改">
 													<input class="common-submit button" type="reset" value="重 置">
-												</div>
-												
-												<div class="content-title">
-													<h4>第三方账户绑定</h4> 
-												</div>
-												
-												<div class="infobox info-info info-info-alt clearfix">
-					                                <span>i</span>
-					                                <div class="infobox-wrap">
-					                                    <h4>小贴士：</h4>
-					                                    <p>绑定微博或QQ后，您在本站发布的作品会自动发布到微博或QQ空间上。</p>
-					                                </div>
-					                                <a href="#" class="info-hide"></a>
-					                            </div>
-												
-												<div class="row-container clearfix">
-													<div class="row-left">Sina微博: </div>
-													<div class="row-right">
-														<%
-														AccessTokenInfo wbToken = currentUser.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE);
-														boolean wbBound = wbToken!=null;
-														%>
-														<%=wbBound?"已绑定":"未绑定"%>，<%=wbToken!=null?wbToken.getThirdpartyUname():""%>
-														<%if(wbBound){%>
-														<a href="/designer-front/unbindOauth?thirdpartyType=1" class="button button-small button-white">解绑新浪微博账户</a>
-														<%}else{%>
-														<a href="/designer-front/connectWeibo" class="button button-small button-green">现在就去绑定</a>
-														<%}%>
-													</div>
-												</div>
-												<div class="row-container clearfix">
-													<div class="row-left">QQ: </div>
-													<div class="row-right">
-														<%
-														AccessTokenInfo tencentToken = currentUser.getAccessTokenMap().get(IOAuthService.OAUTH_TENCENT_TYPE);
-														boolean tencentBound = tencentToken!=null;
-														%>
-														<%=tencentBound?"已绑定":"未绑定"%>，<%=tencentToken!=null?tencentToken.getThirdpartyUname():""%>
-														<%if(tencentBound){%>
-														<a href="/designer-front/unbindOauth?thirdpartyType=2" class="button button-small button-white">解绑QQ账户</a>
-														<%}else{%>
-														<a href="/designer-front/connectTencent" class="button button-small button-green">现在就去绑定</a>
-														<%}%>
-													</div>
-												</div>
+												</div> -->
 												
 											</form>
 										</div>
@@ -196,15 +151,15 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
         
     <!-- Load all Javascript Files -->
-    <script src="./js/vendor/bootstrap.min.js"></script>
-    <script src="./js/jquery.hoverdir.js"></script>
-    <script src="./js/superfish.js"></script>
-    <!-- <script src="./js/supersubs.js"></script> -->
-   <!--  <script src="./js/jquery.tweet.js"></script>  -->
-    <script src="./js/jquery.flexslider.js"></script> 
-    <script src="./js/retina.js"></script>
+    <script src="/designer-front/js/vendor/bootstrap.min.js"></script>
+    <script src="/designer-front/js/jquery.hoverdir.js"></script>
+    <script src="/designer-front/js/superfish.js"></script>
+    <!-- <script src="/designer-front/js/supersubs.js"></script> -->
+   <!--  <script src="/designer-front/js/jquery.tweet.js"></script>  -->
+    <script src="/designer-front/js/jquery.flexslider.js"></script> 
+    <script src="/designer-front/js/retina.js"></script>
 
-    <script src="./js/custom.js"></script>
+    <script src="/designer-front/js/custom.js"></script>
 
     </body>
 </html>

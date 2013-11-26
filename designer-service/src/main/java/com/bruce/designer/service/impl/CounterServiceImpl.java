@@ -77,55 +77,55 @@ public class CounterServiceImpl implements ICounterService, InitializingBean {
 	}
 
 	@Override
-	public long incrBrowser(int designerId, int albumId, int albumSlideId, int number) {
+	public long incrBrowser(int designerId, int albumId, int number) {
 		// 专辑浏览计数
-		increaseNum(ConstRedis.COUNTER_KEY_ALBUM_BROWSE + albumId, number);
+		long albumLikeCount = increaseNum(ConstRedis.COUNTER_KEY_ALBUM_BROWSE + albumId, number);
 		//单品浏览计数
-		long albumSlideLikeCount = increaseNum(ConstRedis.COUNTER_KEY_ALBUMSLIDE_BROWSE + albumSlideId, number);
+//		long albumSlideLikeCount = increaseNum(ConstRedis.COUNTER_KEY_ALBUMSLIDE_BROWSE + albumSlideId, number);
 		//热门排行计分
 		hotAlbumCache.incrScore(albumId, ConstScoreWeight.SCORE_ALBUM_BROWSE);
 		hotDesignerCache.incrScore(designerId, ConstScoreWeight.SCORE_USER_BROWSE);
-		return albumSlideLikeCount;
+		return albumLikeCount;
 	}
 
 	@Override
-	public long incrComment(int designerId, int albumId, int albumSlideId, int number) {
+	public long incrComment(int designerId, int albumId, int number) {
 		// 专辑评论计数
-		increaseNum(ConstRedis.COUNTER_KEY_ALBUM_COMMENT + albumId, number);
+		long albumCommentCount = increaseNum(ConstRedis.COUNTER_KEY_ALBUM_COMMENT + albumId, number);
 		//单品评论计数
-		long albumSlideCommentCount = increaseNum(ConstRedis.COUNTER_KEY_ALBUMSLIDE_COMMENT + albumSlideId, number);
+//		long albumSlideCommentCount = increaseNum(ConstRedis.COUNTER_KEY_ALBUMSLIDE_COMMENT + albumSlideId, number);
 		//热门排行计分
 		hotAlbumCache.incrScore(albumId, ConstScoreWeight.SCORE_ALBUM_COMMENT);
 		hotDesignerCache.incrScore(designerId, ConstScoreWeight.SCORE_USER_COMMENT);
 		
-		return albumSlideCommentCount;
+		return albumCommentCount;
 	}
 
 	@Override
-	public long incrLike(int designerId, int albumId, int albumSlideId, int number) {
+	public long incrLike(int designerId, int albumId, int number) {
 		// 专辑like计数
-		increaseNum(ConstRedis.COUNTER_KEY_ALBUM_LIKE + albumId, number);
+		long albumLikeCount = increaseNum(ConstRedis.COUNTER_KEY_ALBUM_LIKE + albumId, number);
 		//单品like计数
-		long albumSlideLikeCount = increaseNum(ConstRedis.COUNTER_KEY_ALBUMSLIDE_LIKE + albumSlideId, number);
+//		long albumSlideLikeCount = increaseNum(ConstRedis.COUNTER_KEY_ALBUMSLIDE_LIKE + albumSlideId, number);
 		//热门排行计分
 		hotAlbumCache.incrScore(albumId, ConstScoreWeight.SCORE_ALBUM_LIKE);
 		hotDesignerCache.incrScore(designerId, ConstScoreWeight.SCORE_USER_LIKE);
-		return albumSlideLikeCount;
+		return albumLikeCount;
 	}
 	
 	@Override
-	public long incrBrowser(int designerId, int albumId, int albumSlideId) {
-		return incrBrowser(designerId,  albumId, albumSlideId, 1);
+	public long incrBrowser(int designerId, int albumId) {
+		return incrBrowser(designerId,  albumId, 1);
 	}
 
 	@Override
-	public long incrComment(int designerId, int albumId, int albumSlideId) {
-		return incrComment(designerId,  albumId, albumSlideId, 1);
+	public long incrComment(int designerId, int albumId) {
+		return incrComment(designerId,  albumId, 1);
 	}
 
 	@Override
-	public long incrLike(int designerId, int albumId, int albumSlideId) {
-		return incrLike(designerId,  albumId, albumSlideId, 1);
+	public long incrLike(int designerId, int albumId) {
+		return incrLike(designerId,  albumId, 1);
 	}
 	
 }

@@ -28,18 +28,18 @@ boolean isDesigner = queryUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_
         <meta name="keywords" content="Bootstrap, Verendus, HTML5, CSS3, Business, Multipurpose, Template">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="../css/bootstrap.min.css">
-        <link rel="stylesheet" href="../css/font-awesome.css">
-        <link rel="stylesheet" href="../css/animate.css">
-        <link rel="stylesheet" href="../css/flexslider.css">
-        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/designer-front/css/font-awesome.css">
+        <link rel="stylesheet" href="/designer-front/css/animate.css">
+        <link rel="stylesheet" href="/designer-front/css/flexslider.css">
+        <link rel="stylesheet" href="/designer-front/css/style.css">
                                 <!--[if IE 8]>
-        <link rel="stylesheet" type="text/css" media="all" href="../css/ie8.css" />    
+        <link rel="stylesheet" type="text/css" media="all" href="/designer-front/css/ie8.css" />    
         <![endif]-->
                 
 
-        <script src="../js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-        <script src="../js/vendor/jquery-1.8.3.min.js"></script>
+        <script src="/designer-front/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+        <script src="/designer-front/js/vendor/jquery-1.8.3.min.js"></script>
 
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
@@ -59,19 +59,19 @@ boolean isDesigner = queryUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_
                 <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="../inc/headerNav.jsp"></jsp:include>
+                    <jsp:include page="../inc/headerNav.jsp?menuFlag=myHome"></jsp:include>
 					<jsp:include page="../inc/ad.jsp"></jsp:include>
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
         <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
 
-        <div class="page"> <!-- Page -->
+        <div class="page"> <!-- Page --> 
             <div class="breadscrumbs">
                 <div class="container">
                     <ul class="clearfix">
                         <li><a href="./">首页</a>/</li>
                         <li><a href="javascript:void(0)"><%=queryUser.getNickname()%></a>/</li>
-                        <li><a href="javascript:void(0)">个人作品</a></li>
+                        <li><a href="javascript:void(0)">作品辑</a></li>
                     </ul>
                 </div>
             </div>
@@ -131,15 +131,15 @@ boolean isDesigner = queryUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_
 
         
     <!-- Load all Javascript Files -->
-    <script src="../js/vendor/bootstrap.min.js"></script>
-    <script src="../js/jquery.hoverdir.js"></script>
-    <script src="../js/superfish.js"></script>
-    <!-- <script src="../js/supersubs.js"></script> -->
-   <!--  <script src="../js/jquery.tweet.js"></script>  -->
-    <script src="../js/jquery.flexslider.js"></script> 
-    <script src="../js/retina.js"></script>
+    <script src="/designer-front/js/vendor/bootstrap.min.js"></script>
+    <script src="/designer-front/js/jquery.hoverdir.js"></script>
+    <script src="/designer-front/js/superfish.js"></script>
+    <!-- <script src="/designer-front/js/supersubs.js"></script> -->
+   <!--  <script src="/designer-front/js/jquery.tweet.js"></script>  -->
+    <script src="/designer-front/js/jquery.flexslider.js"></script> 
+    <script src="/designer-front/js/retina.js"></script>
 
-    <script src="../js/custom.js"></script>
+    <script src="/designer-front/js/custom.js"></script>
 	<script>
 		fallLoad();
 		

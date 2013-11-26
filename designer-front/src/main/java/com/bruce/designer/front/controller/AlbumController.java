@@ -1,5 +1,6 @@
 package com.bruce.designer.front.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,16 +27,20 @@ import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
+import com.bruce.designer.front.util.ResponseUtil;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumSlide;
+import com.bruce.designer.model.TagAlbum;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
 import com.bruce.designer.service.ICommentService;
 import com.bruce.designer.service.ICounterService;
 import com.bruce.designer.service.IHotService;
+import com.bruce.designer.service.ITagAlbumService;
 import com.bruce.designer.service.ITagService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.util.UploadUtil;
 
 /**
  * Handles requests for the application home page.
@@ -56,13 +61,13 @@ public class AlbumController {
 	@Autowired
 	private ITagService tagService;
 	@Autowired
+	private ITagAlbumService tagAlbumService;
+	@Autowired
 	private IHotService hotService;
 
 	public static final int HOME_LIMIT = 3;
 	public static final int FULL_LIMIT = 4;
-	public static final int SIDE_LIMIT = 6*2;
-	
-	
+	public static final int SIDE_LIMIT = 3*2;
 
 	private static final Logger logger = LoggerFactory.getLogger(AlbumController.class);
 
@@ -134,9 +139,9 @@ public class AlbumController {
 	}
 
 	@NeedAuthorize
-	@RequestMapping(value = "/followView", method = RequestMethod.GET)
-	public String followView(Model model) {
-		return "followView";
+	@RequestMapping(value = "/followAlbums", method = RequestMethod.GET)
+	public String followAlbums(Model model) {
+		return "album/followAlbums";
 	}
 
 	/**
@@ -177,8 +182,8 @@ public class AlbumController {
 					// 设置slide的index，用以判断是否有上一张、下一张
 					model.addAttribute("slideIndex", slideIndex);
 					// 增加浏览计数
-					counterService.incrBrowser(albumInfo.getUserId(), albumId, albumSlideId, 1);
-					initAlbumSlideDataCount(albumSlide);
+					counterService.incrBrowser(albumInfo.getUserId(), albumId, 1);
+					initAlbumDataCount(albumInfo);
 					break;
 				}
 			}
@@ -187,8 +192,10 @@ public class AlbumController {
 			model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
 
 			model.addAttribute("albumInfo", albumInfo);
+			return "album/albumInfo";
+		}else{
+			throw new DesignerException(ErrorCode.ALBUM_NOT_EXIST);
 		}
-		return "album/albumInfo";
 	}
 
 	/**
@@ -199,17 +206,25 @@ public class AlbumController {
 	 */
 	@NeedAuthorize(authorizeType = AuthorizeType.DESIGNER)
 	@RequestMapping(value = "/editAlbum")
-	public String editAlbum(Model model, HttpServletRequest request, Integer albumId) {
+	public String editAlbum(Model model, HttpServletRequest request, int albumId) {
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
-		if (albumId != null && albumId > 0) {
+		if (albumId > 0) {
 			Album album = albumService.loadById(albumId);
-			if (album != null && userId == album.getUserId()) {
-				model.addAttribute("album", album);
-				return "album/albumEdit";
+			if (album == null) {//加载失败
+				throw new DesignerException(ErrorCode.ALBUM_NOT_EXIST);
+			}else if(userId != album.getUserId()){//作者不匹配，无法编辑
+				throw new DesignerException(ErrorCode.ALBUM_AUTHOR_NOT_MATCH);
 			}
+			// 读取作品列表
+			List<AlbumSlide> albumSlideList = albumSlideService.querySlidesByAlbumId(albumId);
+			model.addAttribute("albumSlideList", albumSlideList);
+			List<String> tagNameList = tagService.getTagNamesByAlbumId(albumId);
+			
+			model.addAttribute("album", album);
+			return "settings/albumEdit";
 		}
-		throw new DesignerException(ErrorCode.SYSTEM_ERROR);
+		throw new DesignerException(ErrorCode.ALBUM_ERROR);
 	}
 
 	/**
@@ -221,41 +236,70 @@ public class AlbumController {
 	 * @param albumNums
 	 * @return
 	 */
+	@NeedAuthorize(authorizeType=AuthorizeType.DESIGNER)
 	@RequestMapping(value = "/publishAlbum", method = RequestMethod.POST)
-	public String publishAlbum(Model model, HttpServletRequest request, String title, int coverId, int[] albumNums) {
+	public String publishAlbum(Model model, HttpServletRequest request, String title, long price, int coverId, int[] albumSlideNums, String tags) {
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
 
-		if (albumNums != null && albumNums.length > 0) {
+		if (albumSlideNums != null && albumSlideNums.length > 0) {
+			String link = request.getParameter("link");
+			
 			Album album = new Album();
 			album.setUserId(userId);
 			album.setTitle(title);
 			album.setStatus(ConstService.ALBUM_OPEN_STATUS);
 			album.setCoverSmallImg(request.getParameter("smallImage" + coverId));
-			album.setCoverMediumImg(request.getParameter("largeImage" + coverId));
+			album.setCoverMediumImg(request.getParameter("mediumImage" + coverId));
 			album.setCoverLargeImg(request.getParameter("largeImage" + coverId));
-
+			album.setPrice(price);
+			album.setLink(link);
+			
 			// 提交作品专辑，建议使用外部主键生成器
 			int result = albumService.save(album);
 			if (result > 0) {
-				for (int loopId : albumNums) {
-					String remark = request.getParameter("remark" + loopId);
+				int albumId = album.getId();
+				//保存albumSlide
+				for (int tempSlideId : albumSlideNums) {
+					String remark = request.getParameter("remark" + tempSlideId);
 
 					AlbumSlide slide = new AlbumSlide();
-					slide.setAlbumId(album.getId());
-					slide.setSlideSmallImg(request.getParameter("smallImage" + loopId));
-					slide.setSlideMediumImg(request.getParameter("largeImage" + loopId));
-					slide.setSlideLargeImg(request.getParameter("largeImage" + loopId));
+					slide.setAlbumId(albumId);
+					slide.setSlideSmallImg(request.getParameter("smallImage" + tempSlideId));
+					slide.setSlideMediumImg(request.getParameter("mediumImage" + tempSlideId));
+					slide.setSlideLargeImg(request.getParameter("largeImage" + tempSlideId));
 					slide.setRemark(remark);
 					slide.setUserId(userId);
 					slide.setStatus(ConstService.ALBUM_OPEN_STATUS);
 					albumSlideService.save(slide);
 				}
+				//关联作品与tag
+				List<String> tagNameList = parseTagNameList(tags);
+				tagService.tagAlbum(albumId, tagNameList);
 			}
-			// 增加计数
+			//TODO 增加计数
 		}
 		request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的作品已成功发布，现在将转入个人主页，请稍候…");
-		return "forward:/redirect";
+		return ResponseUtil.getForwardReirect();
+	}
+	
+	/**
+	 * 将用逗号分割的tagsName转为tagNameList
+	 * @param tagsName
+	 * @return
+	 */
+	private List<String> parseTagNameList(String tagsName){
+		List<String> tagNameList = new ArrayList<String>();
+		String[] tagNames = null;
+		if(tagsName!=null){
+			tagNames = tagsName.split(",");
+			if(tagNames!=null&&tagNames.length>0){
+				for(String tagName: tagNames){
+					tagNameList.add(tagName);
+				}
+			}
+		}
+		return tagNameList;
 	}
 
 	/**
@@ -266,24 +310,36 @@ public class AlbumController {
 	 * @param album
 	 * @return
 	 */
-	@Deprecated
 	@NeedAuthorize(authorizeType = AuthorizeType.DESIGNER)
 	@RequestMapping(value = "/updateAlbum")
-	public String updateAlbum(Model model, HttpServletRequest request, Album album) {
+	public String updateAlbum(Model model, HttpServletRequest request, int albumId, String title, long price, int coverId, int[] albumNums, boolean tagsChange, String tags, String link) {
 		// 检查用户登录
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
-		int userId = user.getId();
-
-		if (album != null && album.getId() > 0) {
-			if (album.getUserId() == userId) {
-				int result = albumService.updateById(album);
-				// 修改各作品描述
-			} else {
-				// 操作有误，不能操作别人的作品
+		
+		Album album = albumService.loadById(albumId);
+		if(album!=null && user.getId().equals(album.getId())){//是否是自己发布的作品
+			album = new Album();
+			album.setId(albumId);
+			album.setTitle(title);
+			album.setCoverSmallImg(request.getParameter("smallImage" + coverId));
+			album.setCoverMediumImg(request.getParameter("mediumImage" + coverId));
+			album.setCoverLargeImg(request.getParameter("largeImage" + coverId));
+			album.setPrice(price);
+			album.setLink(link);
+			
+			int result = albumService.updateById(album);
+			if(result>0){
+				if(tagsChange){//tag发生变化，需重新关联作品与tag
+					List<String> tagNameList = parseTagNameList(tags);
+					tagService.tagAlbum(albumId, tagNameList);
+				}
+				request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的作品已成功修改，现在将转入首页，请稍候…");
+				return ResponseUtil.getForwardReirect();
 			}
+		}else{
+			throw new DesignerException(ErrorCode.ALBUM_AUTHOR_NOT_MATCH);
 		}
-		request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的作品已成功修改，现在将转入首页，请稍候…");
-		return "forward:/redirect";
+		throw new DesignerException(ErrorCode.ALBUM_ERROR);
 	}
 
 	@RequestMapping(value = "/deleteAlbum")
@@ -294,11 +350,15 @@ public class AlbumController {
 
 		if (ownerId == userId) {
 			int result = albumService.deleteUserAlbum(userId, albumId);
+			if(result>0){
+				request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的作品已删除，现在将转入首页，请稍候…");
+				return ResponseUtil.getForwardReirect();
+			}
 		} else {
 			// 操作有误，不能删除别人的作品
+			throw new DesignerException(ErrorCode.ALBUM_AUTHOR_NOT_MATCH);
 		}
-		request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的作品已删除，现在将转入首页，请稍候…");
-		return "forward:/redirect";
+		throw new DesignerException(ErrorCode.ALBUM_ERROR);
 	}
 
 	@RequestMapping(value = "moreAlbums.json")
@@ -426,7 +486,7 @@ public class AlbumController {
 		if (albumList == null || albumList.size() == 0) {
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {
-			String responseHtml = buildSidebartml(albumList);
+			String responseHtml = buildSidebarHtml(albumList);
 			Map<String, String> dataMap = new HashMap<String, String>();
 			dataMap.put("html", responseHtml);
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap));
@@ -457,7 +517,7 @@ public class AlbumController {
 		if (albumList == null || albumList.size() == 0) {
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {
-			String responseHtml = buildSidebartml(albumList);
+			String responseHtml = buildSidebarHtml(albumList);
 			Map<String, String> dataMap = new HashMap<String, String>();
 			dataMap.put("html", responseHtml);
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap));
@@ -522,7 +582,7 @@ public class AlbumController {
 				sb.append("</div>");
 				sb.append("<div class='content-avatar'>");
 				sb.append("<a href='/designer-front/" + album.getUserId() + "/home'>");
-				sb.append("<img src='/designer-front/img/demo/portraits/avatar_middle.jpg' alt='Blogpost Comment'>");
+				sb.append("<img src='"+UploadUtil.getAvatarUrl(album.getUserId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"'/>");
 				sb.append("</a>");
 				sb.append("</div>");
 				sb.append("</article>");
@@ -542,7 +602,7 @@ public class AlbumController {
 	 * @param albumList
 	 * @return
 	 */
-	private String buildSidebartml(List<Album> albumList) {
+	private String buildSidebarHtml(List<Album> albumList) {
 		// TODO freemarker template
 		if (albumList != null && albumList.size() > 0) {
 			StringBuilder sb = new StringBuilder();
@@ -582,19 +642,19 @@ public class AlbumController {
 		}
 	}
 
-	/**
-	 * 初始化作品计数
-	 * 
-	 * @param album
-	 */
-	private void initAlbumSlideDataCount(AlbumSlide albumSlide) {
-		if (albumSlide != null) {
-			int albumSlideId = albumSlide.getId();
-			albumSlide.setBrowseCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUMSLIDE_BROWSE + albumSlideId));
-			albumSlide.setCommentCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUMSLIDE_COMMENT + albumSlideId));
-			albumSlide.setLikeCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUMSLIDE_LIKE + albumSlideId));
-			albumSlide.setFavoriteCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUM_FAVORITE + albumSlideId));
-		}
-	}
+//	/**
+//	 * 初始化作品计数
+//	 * 
+//	 * @param album
+//	 */
+//	private void initAlbumSlideDataCount(AlbumSlide albumSlide) {
+//		if (albumSlide != null) {
+//			int albumSlideId = albumSlide.getId();
+//			albumSlide.setBrowseCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUMSLIDE_BROWSE + albumSlideId));
+//			albumSlide.setCommentCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUMSLIDE_COMMENT + albumSlideId));
+//			albumSlide.setLikeCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUMSLIDE_LIKE + albumSlideId));
+//			albumSlide.setFavoriteCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUM_FAVORITE + albumSlideId));
+//		}
+//	}
 
 }

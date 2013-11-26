@@ -11,11 +11,9 @@ import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IMessageDao;
 import com.bruce.designer.data.PagingData;
 import com.bruce.designer.model.Message;
-import com.bruce.designer.model.MessageCriteria;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
-import com.bruce.designer.util.MessageUtil;
 
 @Service
 public class MessageServiceImpl implements IMessageService, InitializingBean {
@@ -49,18 +47,18 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	 * 发送消息
 	 */
 	@Override
-	public int sendMessage(int fromId, int toId, String content, int messageType){
-		return messageDao.sendMessage(fromId, toId, content, messageType);
+	public int sendMessage(long sourceId, int fromId, int toId, String content, int messageType){
+		return messageDao.sendMessage(sourceId, fromId, toId, content, messageType);
 	}
 	
 	/**
 	 * 批量发送消息
 	 */
 	@Override
-	public int sendMessage(int fromId, List<Integer> toIdList, String content, int messageType) {
+	public int sendMessage(long sourceId, int fromId, List<Integer> toIdList, String content, int messageType) {
 		if(toIdList!=null&&toIdList.size()>0){
 			for(int toId: toIdList){
-				sendMessage(fromId, toId, content, messageType);
+				sendMessage(sourceId, fromId, toId, content, messageType);
 			}
 			return toIdList.size();
 		}
@@ -68,7 +66,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	}
 	
 	/**
-	 * 批量发送消息
+	 * 发送聊天消息
 	 */
 	@Override
 	public int sendChatMessage(int fromId, int toId, String content) {
@@ -81,7 +79,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
     @Override
     public List<Message> queryMessageSummary(int userId){
         //Sql：select id, message, message_type, source_id, from_id, to_id, dialog_id, status, create_time, update_time, sum(unread) unread from (select * from tb_message ORDER BY id desc ) aliasMessage where to_id= #{id,jdbcType=INTEGER} group by dialog_id 
-      return messageDao.queryMessageSummary(userId);
+    	return messageDao.queryMessageSummary(userId);
     }
     
 	/**
@@ -140,12 +138,13 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	 */
 	@Override
 	public int broadcast2All(String content) {
-		//此api需要重构只获取userId即可
+		//TODO 此api需要重构只获取userId即可
 		List<User> userList = userService.queryUsersByStatus(ConstService.USER_STATUS_OPEN);
 		if(userList!=null&&userList.size()>0){
 		    //需使用批处理
+			long sourceId = 0;
 			for(User user: userList){
-			    sendMessage(ConstService.MESSAGE_DELIVER_ID_BROADCAST, user.getId(),  content, ConstService.MESSAGE_TYPE_SYSTEM);
+			    sendMessage(sourceId, ConstService.MESSAGE_DELIVER_ID_BROADCAST, user.getId(),  content, ConstService.MESSAGE_TYPE_SYSTEM);
 			}
 			return userList.size();
 		}
@@ -157,14 +156,15 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	 */
 	@Override
 	public int broadcase2Designers(String content) {
-		//此api需要重构只获取designerId即可
+		//TODO 此api需要重构只获取designerId即可
 		List<User> desiangerList = userService.queryDesignersByStatus(ConstService.USER_STATUS_OPEN);
 		if(desiangerList!=null&&desiangerList.size()>0){
 			//需使用批处理
+			long sourceId = 0;
 			for(User user: desiangerList){
-			    sendMessage(ConstService.MESSAGE_DELIVER_ID_BROADCAST, user.getId(), content, ConstService.MESSAGE_TYPE_SYSTEM);
+			    sendMessage(sourceId, ConstService.MESSAGE_DELIVER_ID_BROADCAST, user.getId(), content, ConstService.MESSAGE_TYPE_SYSTEM);
 			}
-			return desiangerList.size();
+			return desiangerList.size(); 
 		}
 		return 0;
 	}

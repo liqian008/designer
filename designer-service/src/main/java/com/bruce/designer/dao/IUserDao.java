@@ -7,7 +7,9 @@ import com.bruce.designer.model.User;
 public interface IUserDao extends IBaseDao<User, Integer>{
     
 
-    public boolean userExists(String username);
+    public boolean usernameExists(String username);
+    
+    public boolean nicknameExists(String nickname);
     
     public User loadByNamePassword(String username, String password);
     
@@ -22,5 +24,6 @@ public interface IUserDao extends IBaseDao<User, Integer>{
     public int designerApplyOp(int userId, short operationType);
 
     public List<User> fallLoadDesignerList(long approvelTailTime, int limit);
+
 
 }

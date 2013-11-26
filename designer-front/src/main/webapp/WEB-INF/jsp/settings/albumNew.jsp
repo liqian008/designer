@@ -26,26 +26,26 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
         <meta name="keywords" content="Bootstrap, Verendus, HTML5, CSS3, Business, Multipurpose, Template">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="./css/bootstrap.min.css">
-        <link rel="stylesheet" href="./css/font-awesome.css">
-        <link rel="stylesheet" href="./css/animate.css">
-        <link rel="stylesheet" href="./css/flexslider.css">
-        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/designer-front/css/font-awesome.css">
+        <link rel="stylesheet" href="/designer-front/css/animate.css">
+        <link rel="stylesheet" href="/designer-front/css/flexslider.css">
+        <link rel="stylesheet" href="/designer-front/css/style.css">
         
-        <link rel="stylesheet"href="./uploadify/uploadify.css">
+        <link rel="stylesheet"href="/designer-front/uploadify/uploadify.css">
                                 <!--[if IE 8]>
-        <link rel="stylesheet" type="text/css" media="all" href="./css/ie8.css" />    
+        <link rel="stylesheet" type="text/css" media="all" href="/designer-front/css/ie8.css" />    
         <![endif]-->
                 
 
-        <script src="./js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-        <script src="./js/vendor/jquery-1.8.3.min.js"></script>
-        <script src="./uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
+        <script src="/designer-front/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+        <script src="/designer-front/js/vendor/jquery-1.8.3.min.js"></script>
+        <script src="/designer-front/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
 
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
     </head>
-    <body class="body-background" style="background-image: url(./img/backgrounds/bg3.jpg); ">
+    <body class="body-background" style="background-image: url(/designer-front/img/backgrounds/bg3.jpg); ">
 
         <!--[if lt IE 8]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
@@ -60,7 +60,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                 <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="../inc/headerNav.jsp"></jsp:include>
+                    <jsp:include page="../inc/headerNav.jsp?menuFlag=settings"></jsp:include>
 
                     <jsp:include page="../inc/ad.jsp"></jsp:include>
 
@@ -72,9 +72,9 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
             <div class="breadscrumbs">
                 <div class="container">
                     <ul class="clearfix">
-                        <li><a href="post-gallery.html#">Home</a>/</li>
-                        <li><a href="post-gallery.html#">Blog</a>/</li>
-                        <li><a href="post-gallery.html#">Gallery Post Format</a></li>
+                        <li><a href="/designer-front">首页</a>/</li>
+                        <li><a href="/designer-front/settings">设置</a>/</li>
+                        <li><a href="javascript:void(0)">新发布</a></li>
                     </ul>
                 </div>
             </div>
@@ -83,17 +83,17 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                     <div class="row-fluid">
                         <section class="content span9">
 							<div class="content-title">
-                                <h2>管理中心</h2>
+                                <h2>个人设置</h2>
                             </div>
 
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
                                 <ul class="tabs-nav tabs clearfix span3">
-                                	<jsp:include page="./settingsTabInc.jsp"></jsp:include>
+                                	<jsp:include page="./settingsTabInc.jsp?settingsMenuFlag=publisher"></jsp:include>
                                 </ul>
                                 <div class="tab-content span9">
                                     <div class="tab-pane widgets-light active" id="apply4Designer">
-                                         <div class="widget-box widget-wrapper-form">
-                                        	<form  class="widget-form" method="post" class="clearfix"
+                                         <div class="widget-box widget-wrapper-form clearfix">
+                                        	<form id='album-widget-form' class="widget-form" method="post" class="clearfix"
 												action="/designer-front/publishAlbum">
 												<div class="content-title">
 													<h4>发布作品集【上限6张】</h4>
@@ -111,28 +111,36 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<div class="row-container clearfix">
 													<div class="row-left">作品主题: </div>
 													<div class="row-right">
-														<input type="text" class="span6" name="title" value=""/> 
+														<input type="text" class="span6" id="title"  name="title" value=""/>
+														<span id="album-title-required" class="required">*</span>
+														<span id="album-title-prompt" class="text-prompt">作品主题不能为空</span>
 													</div>
 												</div>
 												
 												<div class="row-container clearfix">
 													<div class="row-left">标签: </div>
 													<div class="row-right">
-														<input type="text" class="span10" name="tags" value=""/> 
+														<input type="text" class="span5" id="tags" name="tags" value=""/>
+														<span id="album-tags-required" class="required">*</span>
+														<span id="album-tags-prompt" class="text-prompt">作品标签不能为空</span>
 													</div>
 												</div>
 												
 												<div class="row-container clearfix">
 													<div class="row-left">参考价格: </div>
 													<div class="row-right">
-														<input type="text" class="span2" name="price" value=""/> 元
+														<input type="text" class="span3" id="price" name="price" value=""/> 元
+														<span id="album-price-required" class="required">*</span>
+														<span id="album-price-prompt" class="text-prompt">参考价格不能为空</span>
 													</div>
 												</div>
 												
 												<div class="row-container clearfix">
 													<div class="row-left">购买链接: </div>
 													<div class="row-right">
-														<input type="text" class="span10" name="link" value=""/> 
+														<input type="text" class="span8" id="link" name="link" value=""/>
+														<span id="album-link-required" class="required">*</span>
+														<span id="album-link-prompt" class="text-prompt">购买链接不能为空</span>
 													</div>
 												</div>
 												
@@ -144,6 +152,12 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												</div>
 												<div id="queue"></div>
 												
+												<div class="row-container clearfix">
+													<div class="row-left">作品描述: </div>
+													<div class="row-right">
+														<textarea class='album-slide-remark' name='remark' rows='2'></textarea>
+													</div>
+												</div>
 												<!-- <div>
 													<ul id="imgPreview" class="clearfix">
 													</ul>
@@ -153,7 +167,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													$(function() {
 														var counter = 0;
 														$('#fileUploader').uploadify({
-															'swf' : '/designer-front//uploadify/uploadify.swf',
+															'swf' : '/designer-front/uploadify/uploadify.swf',
 															//'uploader' : '/designer-front/uploadify/response.json',
 															'uploader' : '/designer-front/uploadImage.json;jsessionid=<%=session.getId()%>',
 															//'cancelImg' : "uploadify-cancel.png",
@@ -169,14 +183,13 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 															'simUploadLimit' : 1,
 															'fileSizeLimit' : 2048,
 															'onUploadSuccess' : function(file, data, response) {
-																
-													            alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
-													            alert(data);
+													            //alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
+													            //alert(data);
 													            counter = counter + 1;
 													            var response = jQuery.parseJSON(data);
 													            
-													        	$("<li><img id='img1' src='"+response.data.mediumImage.url+"' width='200'/>设置为封面详细描述<input type='radio' name='coverId' value='"+counter+"'/><textarea class='contact-form-name' name='remark"+counter+"' rows='3'></textarea></li>").appendTo($("#previewContainer"));
-													        	$("<input type='hidden' name='albumNums' value='"+counter+"'/>").appendTo($("#previewContainer"));
+													        	$("<div  style='margin:10px 0; outline:1px solid #ECECEC'><img id='img1' src='"+response.data.mediumImage.url+"' width='100%'/><br/><input type='radio' name='coverId' value='"+counter+"'/>设置为封面<br/></div>").appendTo($("#previewContainer"));
+													        	$("<input type='hidden' name='albumSlideNums' value='"+counter+"'/>").appendTo($("#previewContainer"));
 													        	$("<input type='hidden' name='largeImage"+counter+"' value='"+response.data.largeImage.url+"'/>").appendTo($("#previewContainer"));
 													        	$("<input type='hidden' name='mediumImage"+counter+"' value='"+response.data.mediumImage.url+"'/>").appendTo($("#previewContainer"));
 													        	$("<input type='hidden' name='smallImage"+counter+"' value='"+response.data.smallImage.url+"'/>").appendTo($("#previewContainer"));
@@ -185,8 +198,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													});
 												</script>
 												
-												<input class="common-submit button" type="submit" value="提 交">
-												<input class="common-submit button" type="button" value="返回个人信息">
+												<input class="common-submit button" id="submit-button" type="button" value="提 交">
 											</form>
 										</div>
                                     </div>
@@ -209,17 +221,44 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
         
     <!-- Load all Javascript Files -->
-    <script src="./js/vendor/bootstrap.min.js"></script>
-    <script src="./js/jquery.hoverdir.js"></script>
-    <script src="./js/superfish.js"></script>
-    <!-- <script src="./js/supersubs.js"></script> -->
-   <!--  <script src="./js/jquery.tweet.js"></script>  -->
-    <script src="./js/jquery.flexslider.js"></script> 
-    <script src="./js/retina.js"></script>
-    <script src="./js/custom.js"></script>
-    
-    
-    
-
+    <script src="/designer-front/js/vendor/bootstrap.min.js"></script>
+    <script src="/designer-front/js/jquery.hoverdir.js"></script>
+    <script src="/designer-front/js/superfish.js"></script>
+    <!-- <script src="/designer-front/js/supersubs.js"></script> -->
+   <!--  <script src="/designer-front/js/jquery.tweet.js"></script>  -->
+    <script src="/designer-front/js/jquery.flexslider.js"></script> 
+    <script src="/designer-front/js/retina.js"></script>
+    <script src="/designer-front/js/custom.js"></script>
+    <script>
+    $('#submit-button').click(function(){
+		$('#album-title-prompt').text('').hide();
+		$('#album-tags-prompt').text('').hide();
+		$('#album-price-prompt').text('').hide();
+		$('#album-link-prompt').text('').hide();
+		
+		var titleVal = $('#title').val();
+		var tagsVal = $('#tags').val();
+		var priceVal = $('#price').val();
+		var linkVal = $('#link').val();
+		if(titleVal==''){
+			$('#title').focus();
+			$('#album-title-prompt').text('作品标题不能为空').show();
+		}else if(tagsVal==''){
+			$('#tags').focus();
+			$('#album-tags-prompt').text('标签不能为空').show();
+		}else if(priceVal==''){
+			$('#price').focus();
+			$('#album-price-prompt').text('作品价格不能为空').show();
+		}else if(linkVal==''){//检查链接是否正确
+			$('#link').focus();
+			$('#album-link-prompt').text('购买链接不能为空').show();
+		}else if(false){//检查作品完整性
+			//alert('作品不完整');
+		}else{//验证通过，可以发布
+			alert('publish');
+			$("#album-widget-form").submit();
+		}
+	});
+    </script>
     </body>
 </html>

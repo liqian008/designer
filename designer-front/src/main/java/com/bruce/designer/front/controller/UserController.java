@@ -1,6 +1,5 @@
 package com.bruce.designer.front.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,6 +96,28 @@ public class UserController {
         }
     }
     
+    @RequestMapping(value = "usernameExists.json")
+	public ModelAndView usernameExists(String username) {
+		boolean usernameExists = false;
+		usernameExists = userService.usernameExists(username);
+		if (usernameExists) {
+			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.USER_USERNAME_EXISTS));
+		} else {
+			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson());
+		}
+	}
+    
+    @RequestMapping(value = "nicknameExists.json")
+	public ModelAndView nicknameExists(String nickname) {
+		boolean nicknameExists = false;
+		nicknameExists = userService.nicknameExists(nickname);
+		if (nicknameExists) {
+			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.USER_NICKNAME_EXISTS));
+		} else {
+			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson());
+		}
+	}
+    
     /**
      * 个人主页【关注列表】
      * @param model
@@ -191,9 +212,6 @@ public class UserController {
     }
     
     
-    /**
-     * 最好改为ajax请求
-     */
     @NeedAuthorize
     @RequestMapping(value = "/follows")
     public ModelAndView follow(Model model,  HttpServletRequest request, int uid) {
@@ -207,9 +225,6 @@ public class UserController {
         }
     }
     
-    /**
-     * 最好改为ajax请求
-     */
     @NeedAuthorize
     @RequestMapping(value = "/unfollow")
     public ModelAndView unflower(Model model, HttpServletRequest request, int uid) {

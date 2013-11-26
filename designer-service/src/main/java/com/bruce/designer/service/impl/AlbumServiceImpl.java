@@ -50,11 +50,29 @@ public class AlbumServiceImpl implements IAlbumService {
 		initAlbumWithTags(album);
 		return album;
 	}
-
+	
+	/**
+	 * 返回根据idList排序的List<Album>
+	 */
 	@Override
 	public List<Album> queryAlbumByIds(List<Integer> idList) {
-		List<Album> albumList = albumDao.queryAlbumByIds(idList);
-		return albumList;
+		if(idList!=null&&idList.size()>0){
+			List<Album> albumList = albumDao.queryAlbumByIds(idList);
+			if(albumList!=null&&albumList.size()>0){
+				//按idList排序
+				List<Album> sortedAlbumList = new ArrayList<Album>();
+				for(int albumId: idList){
+					for(Album album: albumList){
+						if(albumId == album.getId()){
+							sortedAlbumList.add(album);
+							break;
+						}
+					}
+				}
+				return sortedAlbumList;
+			}
+		}
+		return null;
 	}
 
 	public int deleteUserAlbum(int userId, int albumId) {
@@ -112,15 +130,15 @@ public class AlbumServiceImpl implements IAlbumService {
 			List<Album> albumList = albumDao.fallLoadDesignerAlbums(designerIdList, albumsTailId, limit);
 			initAlbumsWithTags(albumList);
 			return albumList;
-		} else {
-			throw new DesignerException(ErrorCode.GRAPH_HAS_NOT_FOLLOW);
 		}
+		return null;
 	}
 	
 	/**
 	 * 瀑布流方式加载标签作品
 	 */
 	@Override
+	//TODO 修改接口，去掉tagName，改为tagId
 	public List<Album> fallLoadAlbumsByTagName(String tagName, int albumsTailId, int limit) {
 		int tagId = tagService.getTagIdByName(tagName, false);
 		if(tagId>0){

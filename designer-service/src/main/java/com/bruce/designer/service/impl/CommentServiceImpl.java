@@ -1,5 +1,6 @@
 package com.bruce.designer.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,9 +11,11 @@ import com.bruce.designer.model.Comment;
 import com.bruce.designer.model.CommentCriteria;
 import com.bruce.designer.model.User;
 import com.bruce.designer.constants.ConstRedis;
+import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.ICommentDao;
 import com.bruce.designer.service.ICommentService;
 import com.bruce.designer.service.ICounterService;
+import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
 
 @Service
@@ -22,6 +25,8 @@ public class CommentServiceImpl implements ICommentService {
 	IUserService userService;
 	@Autowired
 	private ICounterService counterService;
+	@Autowired
+	private IMessageService messageService;
 
 	@Autowired
 	private ICommentDao commentDao;
@@ -55,8 +60,8 @@ public class CommentServiceImpl implements ICommentService {
 //	}
 	
 	@Override
-	public List<Comment> fallLoadComments(int albumSlideId, Long commentsTailId, int limit){
-		return commentDao.fallLoadComments(albumSlideId, commentsTailId, limit);
+	public List<Comment> fallLoadComments(int albumId, long commentsTailId, int limit){
+		return commentDao.fallLoadComments(albumId, commentsTailId, limit);
 	}
 
 
@@ -64,17 +69,33 @@ public class CommentServiceImpl implements ICommentService {
 	 * 评论作品
 	 */
 	@Override
-	public Comment comment(String title, String content, int albumId, int albumSlideId, int fromId, int toId, int designerId) {
+	public Comment comment(String title, String content, int albumId, int fromId, int toId, int designerId) {
 
 		User fromUser = userService.loadById(fromId);
 		String fromUserAvatar = fromUser.getHeadImg();
 		String fromNickname = fromUser.getNickname();
-
+		
+		//校验toId是否正确，如不正确，则使用designerId
+		User replyUser = userService.loadById(toId);
+		String prefix = "回复"+replyUser.getNickname()+":";
+		
+		List<Integer> toIdList = new ArrayList<Integer>();
+		if(fromId!=designerId && fromId!=toId){//自己回复评论情况下，不额外发送评论消息
+			toIdList.add(designerId);
+		}
+		if(replyUser!=null&&content.startsWith(prefix)){//判断toId是否有效
+			if(replyUser.getId()!=designerId){
+				//判断和designerId是否是同一个人，避免重复发送消息
+				toIdList.add(replyUser.getId());
+			}
+		}else{
+			toId = designerId;
+		}
+		
 		Comment comment = new Comment();
 		comment.setTitle(title);
 		comment.setComment(content);
 		comment.setAlbumId(albumId);
-		comment.setAlbumSlideId(albumSlideId);
 		comment.setFromId(fromId);
 		comment.setNickname(fromNickname);
 		comment.setUserHeadImg(fromUserAvatar);
@@ -86,12 +107,16 @@ public class CommentServiceImpl implements ICommentService {
 		int result = save(comment);
 
 		if (result > 0) {
-			// 评论计量
-//			counterService.increase(ConstRedis.COUNTER_KEY_ALBUM_COMMENT + albumId);
-//			counterService.increase(ConstRedis.COUNTER_KEY_ALBUMSLIDE_COMMENT + albumSlideId);
-			counterService.incrComment(designerId, albumId, albumSlideId);
+			// 评论计数
+			counterService.incrComment(designerId, albumId);
 
 			// 同时发送消息
+			if(toIdList!=null&&toIdList.size()>0){
+				content = content.replace(prefix, "").trim();
+//				String messageContent = fromNickname+": " + content;
+				messageService.sendMessage(albumId, fromId, toIdList, content, ConstService.MESSAGE_TYPE_COMMENT);
+			}
+			
 			return comment;
 		}
 		return null;
@@ -101,17 +126,17 @@ public class CommentServiceImpl implements ICommentService {
 	 * 评论作品
 	 */
 	@Override
-	public Comment comment(String title, String content, int albumId, int albumSlideId, int fromId, int toId) {
-		return comment(title, content, albumId, albumSlideId, fromId, toId, toId);
+	public Comment comment(String title, String content, int albumId, int fromId, int toId) {
+		return comment(title, content, albumId, fromId, toId, toId);
 	}
 
 	/**
 	 * 赞作品
 	 */
 	@Override
-	public int like(int designerId, int albumId, int albumSlideId){
+	public int like(int designerId, int albumId){
 		// 评论计量
-		long albumSlideLikeCount = counterService.incrLike(designerId, albumId, albumSlideId);
+		long albumSlideLikeCount = counterService.incrLike(designerId, albumId);
 		
 		// 同时发送消息
 		// TODO 同时发送消息

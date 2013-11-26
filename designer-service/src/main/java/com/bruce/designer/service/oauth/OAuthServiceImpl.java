@@ -17,7 +17,7 @@ import org.springframework.util.Assert;
 
 import com.bruce.designer.model.AccessTokenInfo;
 import com.bruce.designer.exception.ErrorCode;
-import com.bruce.designer.exception.oauth.OAuthException;
+import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.processor.IOAuthProcessor;
 import com.bruce.designer.service.oauth.processor.OAuthTencentWbProcessor;
@@ -54,7 +54,7 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
     	if(thirdpartyType<=0 || oauthProcessor==null){
 //            String errorMessage = "参数thirdpartyType非法，无法处理";
             //log this
-            throw new OAuthException(ErrorCode.OAUTH_ERROR);
+            throw new DesignerException(ErrorCode.OAUTH_ERROR);
         }else {
             // 根据code获取token
         	AccessTokenInfo tokenInfo = oauthProcessor.loadToken(request);
@@ -117,7 +117,7 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
         	//发布至第三方
         	try {
         		oauthProcessor.shareout(content);
-            } catch (OAuthException e) {
+            } catch (DesignerException e) {
                 e.printStackTrace();
                 //log this
             }

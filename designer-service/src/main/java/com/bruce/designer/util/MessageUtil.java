@@ -31,6 +31,10 @@ public class MessageUtil {
 	}
 	
 	public static boolean isChatMessage(int messageType){
-		return messageType>=100; 
+		return messageType>=10000; 
+	}
+	
+	public static boolean isBroadcastMessage(int messageType){
+		return messageType == ConstService.MESSAGE_TYPE_SYSTEM; 
 	}
 }

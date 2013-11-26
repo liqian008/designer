@@ -27,9 +27,9 @@ public interface IUploadService{
 	 * @return
 	 * @throws IOException 
 	 */
-	public UploadImageResult uploadAvatar(byte[] bytes, int userId, String filename) throws IOException;
+	public UploadImageResult uploadAvatar(byte[] bytes, int userId) throws IOException;
 
-	public UploadImageResult updateAvatar(int userId, int x, int y, int w, int h) throws IOException;
+//	public UploadImageResult updateAvatar(int userId, int x, int y, int w, int h) throws IOException;
 	
 	
 }
