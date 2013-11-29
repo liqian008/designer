@@ -46,8 +46,20 @@ public class AlbumServiceImpl implements IAlbumService {
 	}
 
 	public Album loadById(Integer id) {
+		return loadById(id, false, false); 
+	}
+	
+	
+	public Album loadById(Integer id, boolean loadCount, boolean loadTags) {
 		Album album = albumDao.loadById(id);
-		initAlbumWithTags(album);
+		if(loadCount){
+			//加载作品访问量
+			initAlbumWithCount(album);
+		}
+		if(loadTags){
+			//加载tag标签
+			initAlbumWithTags(album);
+		}
 		return album;
 	}
 	
@@ -76,23 +88,45 @@ public class AlbumServiceImpl implements IAlbumService {
 	}
 
 	public int deleteUserAlbum(int userId, int albumId) {
-		return albumDao.deleteUserAlbum(userId, albumId);
+		int result = albumDao.deleteUserAlbum(userId, albumId);
+		if(result>0){
+			//删除tag关联
+			tagAlbumService.deleteByAlbumId(albumId);
+			// TODO 删除相关计数(作品计数)，可能影响热门排行
+			counterService.removeAlbum(userId, albumId);
+			
+			return result;
+		}
+		return 0;
 	}
 
 	public List<Album> queryAll() {
 		return albumDao.queryAll();
 	}
 
-	public PagingData<Album> pagingQuery(short status, int pageNo, int pageSize) {
+	@Override
+	public PagingData<Album> pagingQuery(int userId, short albumStatus, int pageNo, int pageSize) {
 		pageNo = pageNo < 1 ? 1 : pageNo;
-		List<Album> albumList = albumDao.queryList((pageNo - 1) * pageSize, pageSize);
-		int totalCount = -1;//
-		PagingData<Album> pagingData = new PagingData<Album>(albumList, totalCount, pageNo, pageSize);
+//		List<Album> albumList = albumDao.queryList((pageNo - 1) * pageSize, pageSize);
+//		PagingData<Album> pagingData = new PagingData<Album>(albumList, totalCount, pageNo, pageSize);
+		PagingData<Album> pagingData = albumDao.pagingQuery(userId, albumStatus, pageNo, pageSize);
+		if(pagingData!=null){
+			List<Album> albumList = pagingData.getPagingData();
+			initAlbumsWithCount(albumList);
+			initAlbumsWithTags(albumList);
+		}
 		return pagingData;
 	}
-
-	public List<Album> fallLoadAlbums(int albumsTailId, int limit, boolean isLoadTags) {
+	
+	@Override
+	public List<Album> fallLoadAlbums(int albumsTailId, int limit, boolean isLoadCount, boolean isLoadTags) {
 		List<Album> albumList = albumDao.fallLoadList(albumsTailId, limit);
+		//加载访问计数
+		//加载访问计数
+		if(isLoadCount){
+			initAlbumsWithCount(albumList);
+		}
+		//加载作品tags
 		if (isLoadTags) {
 			initAlbumsWithTags(albumList);
 		}
@@ -100,13 +134,17 @@ public class AlbumServiceImpl implements IAlbumService {
 	}
 
 	@Override
-	public List<Album> fallLoadDesignerAlbums(int designerId, int albumsTailId, int limit, boolean isLoadTags) {
+	public List<Album> fallLoadDesignerAlbums(int designerId, int albumsTailId, int limit, boolean isLoadCount, boolean isLoadTags) {
 		List<Integer> designerIdList = new ArrayList<Integer>();
 		designerIdList.add(designerId);
 		List<Album> albumList = albumDao.fallLoadDesignerAlbums(designerIdList, albumsTailId, limit);
+		//加载访问计数
+		if(isLoadCount){
+			initAlbumsWithCount(albumList);
+		}
+		//加载作品tags
 		if (isLoadTags) {
 			initAlbumsWithTags(albumList);
-
 		}
 		return albumList;
 	}
@@ -128,6 +166,7 @@ public class AlbumServiceImpl implements IAlbumService {
 				designerIdList.add(userFollow.getFollowId());
 			}
 			List<Album> albumList = albumDao.fallLoadDesignerAlbums(designerIdList, albumsTailId, limit);
+			initAlbumsWithCount(albumList);
 			initAlbumsWithTags(albumList);
 			return albumList;
 		}
@@ -138,7 +177,7 @@ public class AlbumServiceImpl implements IAlbumService {
 	 * 瀑布流方式加载标签作品
 	 */
 	@Override
-	//TODO 修改接口，去掉tagName，改为tagId
+	// TODO 修改接口，去掉tagName，改为tagId
 	public List<Album> fallLoadAlbumsByTagName(String tagName, int albumsTailId, int limit) {
 		int tagId = tagService.getTagIdByName(tagName, false);
 		if(tagId>0){
@@ -162,33 +201,13 @@ public class AlbumServiceImpl implements IAlbumService {
 		return albumDao.queryAlbumByUserId(userId);
 	}
 
-//	public long increceBroswer(int albumId, int albumSlideId) {
-//		// 浏览计数
-//		counterService.increase(ConstRedis.COUNTER_KEY_ALBUM_BROWSE + albumId);
-//		long albumSlideLikeCount = counterService.increase(ConstRedis.COUNTER_KEY_ALBUMSLIDE_BROWSE + albumSlideId);
-//		return albumSlideLikeCount;
-//	}
-//
-//	public long increceComment(int albumId, int albumSlideId) {
-//		// 评论计数
-//		counterService.increase(ConstRedis.COUNTER_KEY_ALBUM_COMMENT + albumId);
-//		long albumSlideCommentCount = counterService.increase(ConstRedis.COUNTER_KEY_ALBUMSLIDE_COMMENT + albumSlideId);
-//		return albumSlideCommentCount;
-//	}
-//
-//	public long increceLike(int albumId, int albumSlideId) {
-//		// like计数
-//		counterService.increase(ConstRedis.COUNTER_KEY_ALBUM_LIKE + albumId);
-//		long albumSlideLikeCount = counterService.increase(ConstRedis.COUNTER_KEY_ALBUMSLIDE_LIKE + albumSlideId);
-//		return albumSlideLikeCount;
-//	}
-
 	/**
 	 * 加载专辑的tag标签
 	 * 
 	 * @param album
 	 */
-	private void initAlbumsWithTags(List<Album> albumList) {
+	@Override
+	public void initAlbumsWithTags(List<Album> albumList) {
 		if (albumList != null && albumList.size() > 0) {
 			for (Album album : albumList) {
 				initAlbumWithTags(album);
@@ -201,10 +220,42 @@ public class AlbumServiceImpl implements IAlbumService {
 	 * 
 	 * @param album
 	 */
-	private void initAlbumWithTags(Album album) {
+	@Override
+	public void initAlbumWithTags(Album album) {
 		if (album != null) {
 			// 获取tag
 			album.setTagList(tagService.getTagNamesByAlbumId(album.getId()));
+		}
+	}
+	
+	
+	/**
+	 * 批量初始化专辑计数
+	 * 
+	 * @param albumList
+	 */
+	@Override
+	public void initAlbumsWithCount(List<Album> albumList) {
+		if(albumList!=null&&albumList.size()>0){
+			for (Album loopAlbum : albumList) {
+				initAlbumWithCount(loopAlbum);
+			}
+		}
+	}
+
+	/**
+	 * 初始化专辑计数
+	 * 
+	 * @param album
+	 */
+	@Override
+	public void initAlbumWithCount(Album album) {
+		if (album != null) {
+			int albumId = album.getId();
+			album.setBrowseCount(counterService.getBrowseCount(albumId));
+			album.setCommentCount(counterService.getCommentCount(albumId));
+			album.setLikeCount(counterService.getLikeCount(albumId));
+			album.setFavoriteCount(counterService.getFavoriteCount(albumId));
 		}
 	}
 

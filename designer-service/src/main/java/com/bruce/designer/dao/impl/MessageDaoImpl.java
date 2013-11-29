@@ -132,10 +132,10 @@ public class MessageDaoImpl implements IMessageDao, InitializingBean {
     @Override
     public PagingData<Message> pagingQuery(int userId, int messageType, int pageNo, int pageSize){
         if(pageNo<0) pageNo = 1;
-        int offset = (pageNo-1) * pageSize;
+        int start = (pageNo-1) * pageSize;
         MessageCriteria criteria = new MessageCriteria();
         criteria.createCriteria().andToIdEqualTo(userId).andMessageTypeEqualTo(messageType);
-        criteria.setOffset(offset);
+        criteria.setStart(start);
         criteria.setLimit(pageSize);
         criteria.setOrderByClause("id desc");
         List<Message> messageList = messageMapper.selectByExample(criteria); 

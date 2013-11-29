@@ -37,13 +37,14 @@ public class TagController {
 	@RequestMapping(value = "/tag/{tagName}")
 	public String tagAlbums(Model model, HttpServletRequest request, @PathVariable("tagName") String tagName) {
 		model.addAttribute("tagName", tagName);
-		return "tag";
+		return "album/tagAlbums";
 	}
 
 	@RequestMapping(value = "/tag/hotTags.json")
 	public ModelAndView hotTags(Model model, HttpServletRequest request) {
-		int limit = 20;
+		int limit = 40;
 		List<Tag> tagList = hotService.getHotTags(limit);
+		System.err.println("side hotService:"+ hotService);
 		tagList = randomList(tagList);
 		if (tagList != null && tagList.size() > 0) {
 			String responseHtml = buildHotTagHtml(tagList);
@@ -67,7 +68,7 @@ public class TagController {
 	 * @param tagList
 	 * @return
 	 */
-	public static List<Tag> randomList(List<Tag> tagList) {
+	private static List<Tag> randomList(List<Tag> tagList) {
 		Collections.sort(tagList, new Comparator<Tag>() {
 			private final int[] vs = { -1, 0, 1 };
 			private final Random random = new Random();

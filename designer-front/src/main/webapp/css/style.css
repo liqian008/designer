@@ -1431,18 +1431,18 @@ blockquote {
 
 
 /* Blog Navigation */
-.blog-navigation ul li a {
+.paging-navigation ul li a {
 	text-align: center;
-	width: 28px;
-	padding: 3px 0;
+	/* width: 28px; */
+	padding: 3px 6px;
 	margin: 0;
 	text-shadow: none;
 	font-family: "Arial";
 }
 
-.blog-navigation li {
-	float: left;
-	margin: 0 5px 0 0;
+.paging-navigation li{
+	float: left!important;
+	margin: 0 5px 5px 0!important;
 }
 
 	/* Normal blogposts */
@@ -1954,7 +1954,7 @@ blockquote {
 
 	.messagelist {
 		border-bottom: 1px solid #e2e2e2;
-		margin: 0 0 10px 0px;
+		margin: 0 0 6px 0px; 
 	}
 
 	.messagelist li.message {
@@ -2696,7 +2696,7 @@ blockquote {
 .shortcode-tabs .shortcode-tabs .tab-content { margin: 5px 0 0 0; }
 
 .shortcode-tabs .tab-content .tab-pane {
-	border: 5px solid #f7f7f7;
+	border: 3px solid #f7f7f7;
 	outline: 1px solid #e2e2e2;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;

@@ -50,6 +50,7 @@ public class DesignerController {
 	
 	@RequestMapping(value = "/hot/designers")
 	public String hotDesigner(Model model, HttpServletRequest request) {
+		System.err.println("DesignerController: "+hotService);
 		List<User> designerList = hotService.fallLoadHotDesigners(0, FULL_LIMIT);
 		model.addAttribute("designerList", designerList);
 		return "designer/hotDesigners";

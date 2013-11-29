@@ -34,7 +34,7 @@ public class SystemController {
 		if (StringUtils.isNotEmpty(redirectUrl)) {
 			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
 		}
-		return "loginAndReg";
+		return "login/loginAndReg";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -48,11 +48,11 @@ public class SystemController {
 		User user = userService.authUser(username.trim(), password);
 		if (user != null) {
 			request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
-			model.addAttribute(ConstFront.REDIRECT_PROMPT, "您好,&nbsp;" + user.getNickname() + ",&nbsp;您已成功登录，现在将转后续页面，请稍候…");
+			model.addAttribute(ConstFront.REDIRECT_PROMPT, "您好，" + user.getNickname() + "，您已成功登录，现在将转后续页面，请稍候…");
 			return ResponseUtil.getForwardReirect();
 		} else {// 用户身份验证失败
 			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.USER_PASSWORD_NOT_MATCH));
-			return "loginAndReg";
+			return "login/loginAndReg";
 		}
 	}
 
@@ -63,7 +63,7 @@ public class SystemController {
 			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
 		}
 		model.addAttribute(ConstFront.REGISTER_ACTIVE, "REGISTER_ACTIVE");
-		return "loginAndReg";
+		return "login/loginAndReg";
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -84,12 +84,12 @@ public class SystemController {
 		if (result == 1) {
 			user = userService.authUser(username, password);
 			request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
-			model.addAttribute(ConstFront.REDIRECT_PROMPT, "您好,&nbsp;" + nickname + ",&nbsp;您已成功注册，现在将转入首页，请稍候…");
+			model.addAttribute(ConstFront.REDIRECT_PROMPT, "您好，" + nickname + "，您已成功注册，现在将转入首页，请稍候…");
 			return ResponseUtil.getForwardReirect();
 		} else {
 			model.addAttribute(ConstFront.REG_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.USER_PASSWORD_NOT_MATCH));
 			model.addAttribute(ConstFront.REGISTER_ACTIVE, "REGISTER_ACTIVE");
-			return "loginAndReg";
+			return "login/loginAndReg";
 		}
 	}
 
@@ -123,7 +123,7 @@ public class SystemController {
 	@NeedAuthorize
 	@RequestMapping(value = "/loginBack", method = RequestMethod.POST)
 	public String loginBack(Model model) {
-		return "loginAndReg";
+		return "login/loginAndReg";
 	}
 
 }

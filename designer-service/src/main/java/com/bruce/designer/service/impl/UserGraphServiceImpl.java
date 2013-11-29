@@ -158,10 +158,10 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
                     followCache.setFollowList(uid, followList);
 //                    friendCache.setFriendList(uid, followList);
                 }
-                //增加follow计数
-                counterService.increase(ConstRedis.COUNTER_KEY_FOLLOW + uid);
+                // TODO 增加follow计数
+//                counterService.increase(ConstRedis.COUNTER_KEY_FOLLOW + uid);
             } else {
-                //TODO 添加失败队列修复
+                // TODO 添加失败队列修复
             }
 
             //添加粉丝
@@ -177,10 +177,10 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
                     List<UserFan> fanList = fanDao.getFanList(followId, FANS_CACHE_MAX_COUNT);
                     fanCache.setFanList(followId, fanList);
                 }
-                //增加粉丝计数
-                counterService.increase(ConstRedis.COUNTER_KEY_FAN + followId);
+                // TODO 增加粉丝计数
+//                counterService.increase(ConstRedis.COUNTER_KEY_FAN + followId);
             } else {
-                //TODO 添加失败队列修复
+                // TODO 添加失败队列修复
             }
             return true;
         }
@@ -197,19 +197,20 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
             try {
                 //删除关注
                 if (followDao.deleteFollow(uid, unfollowId) > 0) {
-                    //删cache减少计数
                     followCache.removeFollow(uid, unfollowId);
-                    counterService.reduce(ConstRedis.COUNTER_KEY_FOLLOW + uid);
+                    // TODO 删cache减少计数
+//                    counterService.reduce(ConstRedis.COUNTER_KEY_FOLLOW + uid);
                 } else {
-                    //TODO 队列修复
+                    // TODO 队列修复
                 } 
 
                 //删除粉丝
-                if (fanDao.deleteFan(unfollowId, uid) > 0) {
+                if (fanDao.deleteFan(unfollowId, uid) > 0) { 
                     fanCache.removeFan(unfollowId, uid);
-                    counterService.reduce(ConstRedis.COUNTER_KEY_FAN + uid);
+                    // TODO 删cache减少计数
+//                    counterService.reduce(ConstRedis.COUNTER_KEY_FAN + uid);
                 } else {
-                    //TODO 队列修复
+                    // TODO 队列修复
                 }
 
                 return true;
@@ -328,21 +329,24 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
     public void afterPropertiesSet() throws Exception {
         Assert.notNull(fanDao, "fanDao must not null");
         Assert.notNull(followDao, "followDao must not null");
-//        Assert.notNull(friendCache, "countService must not null");
-        Assert.notNull(followCache, "countService must not null");
-        Assert.notNull(fanCache, "countService must not null");
+        Assert.notNull(followCache, "followCache must not null");
+        Assert.notNull(fanCache, "fanCache must not null");
         Assert.notNull(counterService, "countService must not null");
         Assert.notNull(userService, "userService must not null");
     }
 
     @Override
     public long getFollowCount(int uid) {
-        return (int) counterService.getCount(ConstRedis.COUNTER_KEY_FOLLOW + uid);
+        // TODO 关注数
+//    	return (int) counterService.getCount(ConstRedis.COUNTER_KEY_FOLLOW + uid);
+    	return 0;
     }
 
     @Override
     public long getFanCount(int uid) {
-        return (int) counterService.getCount(ConstRedis.COUNTER_KEY_FAN + uid);
+//        return (int) counterService.getCount(ConstRedis.COUNTER_KEY_FAN + uid);
+    	// TODO 关注数
+    	return 0;
     }
 
 }

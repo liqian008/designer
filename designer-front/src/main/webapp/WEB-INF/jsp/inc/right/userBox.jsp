@@ -55,24 +55,25 @@ if (queryUser != null) {
 							.getAttribute("hasFollowed");
 					if (hasFollowed != null && hasFollowed) {
 		%>
-		<input class="common-submit button" type="button" value="取消关注"
-			onclick="location.href='/designer-front/<%=queryUser.getId()%>/home'" />
+		<%-- <input class="common-submit button" type="button" value="取消关注"
+			onclick="location.href='/designer-front/<%=queryUser.getId()%>/home'" /> --%>
 		<%
 			} else {
 		%>
-		<input class="common-submit button" type="button" value="关注"
-			onclick="location.href='/designer-front/<%=queryUser.getId()%>/home'" />
+		<%-- <input class="common-submit button" type="button" value="关注"
+			onclick="location.href='/designer-front/<%=queryUser.getId()%>/home'" /> --%>
 		<%}
 		}%>
 
+		<%if (!isMe) {%>
+		<input class="common-submit button" type="button" value="私信"
+			onclick="location.href='/designer-front/settings/chat?toId=<%=queryUser.getId()%>'" />
+		<%}%>
+		
 		<input class="common-submit button" type="button" value="作品辑"
 			onclick="location.href='/designer-front/<%=queryUser.getId()%>/home'" />
 		<%}%>
-
-		<%if (!isMe) {%>
-		<input class="common-submit button" type="button" value="私信"
-			onclick="location.href='/designer-front/settings/inbox?messageType=<%=queryUser.getId()%>'" />
-		<%}%>
+		
 		<input class="common-submit button" type="button" value="个人资料"
 			onclick="location.href='/designer-front/<%=queryUser.getId()%>/info'" />	
 		<%if (isMe) {%>

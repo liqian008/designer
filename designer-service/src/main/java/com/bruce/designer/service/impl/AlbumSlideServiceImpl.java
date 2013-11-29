@@ -12,7 +12,7 @@ import com.bruce.designer.service.IAlbumSlideService;
 
 @Service
 public class AlbumSlideServiceImpl implements IAlbumSlideService {
-	
+
 	@Autowired
 	private IAlbumSlideDao albumSlideDao;
 
@@ -36,12 +36,23 @@ public class AlbumSlideServiceImpl implements IAlbumSlideService {
 		return albumSlideDao.loadById(id);
 	}
 
-	public AlbumSlide queryCoverSlide(int albumId){
-		return albumSlideDao.queryCoverSlide(albumId);
-	}
-	
+	// public AlbumSlide queryCoverSlide(int albumId){
+	// return albumSlideDao.queryCoverSlide(albumId);
+	// }
+
 	public List<AlbumSlide> querySlidesByAlbumId(int albumId) {
 		return albumSlideDao.querySlidesByAlbumId(albumId);
+	}
+
+//	public int clearCover(int userId, int albumId) {
+//		return albumSlideDao.clearCover(userId, albumId);
+//	}
+
+	public int setCover(int userId, int albumId, int albumSlideId) {
+		//清除cover标志
+		albumSlideDao.clearCover(userId, albumId);
+		//重新设置cover
+		return albumSlideDao.setCover(userId, albumId, albumSlideId);
 	}
 
 }

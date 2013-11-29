@@ -107,7 +107,7 @@ public class OAuthController {
 					request.setAttribute(ConstFront.REDIRECT_PROMPT, "欢迎您回来，" + user.getNickname() + "，现在将转入首页，请稍候…");
 					return ResponseUtil.getForwardReirect();
 				} else {//新的accessToken，说明之前未绑定过，则进入注册、绑定已有账户流程
-					return "loginAndReg4Thirdparty";
+					return "login/loginAndReg4Thirdparty";
 				}
 			} else {// 已登录状态（进入账户绑定流程）
 				// 绑定现有账户流程，需检查已登录用户是否已存在该oauth类型的绑定
@@ -159,14 +159,14 @@ public class OAuthController {
 				promptMessage = "注册成功, " + user.getNickname() + "，现在将转入首页，请稍候…";
 				request.setAttribute(ConstFront.REDIRECT_PROMPT, promptMessage);
 				// return "forward:/redirect";
-				return ResponseUtil.getRedirectHomeString();
+				return ResponseUtil.getForwardReirect();
 			}
 		} catch (Exception e) {
 //			throw new DesignerException(ErrorCode.USER_ERROR);
 			logger.error("oauthRegister()", e);
 			model.addAttribute(ConstFront.REG_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.OAUTH_ERROR));
 			model.addAttribute(ConstFront.REGISTER_ACTIVE, "REGISTER_ACTIVE");
-			return "loginAndReg4Thirdparty";
+			return "login/loginAndReg4Thirdparty";
 		}
 		throw new DesignerException(ErrorCode.OAUTH_ERROR);
 	}
@@ -206,12 +206,12 @@ public class OAuthController {
 			} else {// 账户之前已经绑定过本token，不能重复绑定
 				//promptMessage = "用户已绑定过该第三方账户，不能重复绑定!";
 				model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.OAUTH_ALREADY_BIND));
-				return "loginAndReg4Thirdparty";
+				return "login/loginAndReg4Thirdparty";
 			}
 		} else { // 登录检查失败
 //			throw new DesignerException(ErrorCode.USER_PASSWORD_NOT_MATCH);
 			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.USER_PASSWORD_NOT_MATCH));
-			return "loginAndReg4Thirdparty";
+			return "login/loginAndReg4Thirdparty";
 		}
 	}
 
@@ -232,7 +232,8 @@ public class OAuthController {
 			accessTokenMap.remove(thirdpartyType);
 		}
 		request.setAttribute(ConstFront.REDIRECT_PROMPT, "您已成功解绑" + thirdpartyType + "账户，现在将转入个人主页，请稍候…");
-		return "forward:/redirect";
+//		return "forward:/redirect";
+		return ResponseUtil.getForwardReirect();
 	}
 
 	/**
@@ -243,7 +244,7 @@ public class OAuthController {
 	 */
 	@RequestMapping(value = "/oauthLogin")
 	public String oauthLogin() throws Exception {
-		return "loginAndReg4Thirdparty";
+		return "login/loginAndReg4Thirdparty";
 	}
 
 	/**

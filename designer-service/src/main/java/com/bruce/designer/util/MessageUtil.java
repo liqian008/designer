@@ -30,6 +30,32 @@ public class MessageUtil {
 		}
 	}
 	
+	public static String getMessageTypeFlag(int messageType) {
+		switch (messageType) {
+			case ConstService.MESSAGE_TYPE_SYSTEM: {
+				return "sys";
+			}
+			case ConstService.MESSAGE_TYPE_FLOWER: {
+				return "flowers";
+			}
+			case ConstService.MESSAGE_TYPE_COMMENT: {
+				return "comments";
+			}
+			case ConstService.MESSAGE_TYPE_LIKE: {
+				return "like";
+			}
+			case ConstService.MESSAGE_TYPE_FAVORITIES: {
+				return "favorites";
+			}
+			case ConstService.MESSAGE_TYPE_AT: {
+				return "ats";
+			}
+			default: {
+				return "chat?toId="+messageType;
+			}
+		}
+	}
+	
 	public static boolean isChatMessage(int messageType){
 		return messageType>=10000; 
 	}

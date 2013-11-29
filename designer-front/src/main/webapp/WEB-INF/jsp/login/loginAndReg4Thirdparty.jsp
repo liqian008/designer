@@ -25,40 +25,40 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
         <meta name="keywords" content="Bootstrap, Verendus, HTML5, CSS3, Business, Multipurpose, Template">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="./css/bootstrap.min.css">
-        <link rel="stylesheet" href="./css/font-awesome.css">
-        <link rel="stylesheet" href="./css/animate.css">
-        <link rel="stylesheet" href="./css/flexslider.css">
-        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/designer-front/css/font-awesome.css">
+        <link rel="stylesheet" href="/designer-front/css/animate.css">
+        <link rel="stylesheet" href="/designer-front/css/flexslider.css">
+        <link rel="stylesheet" href="/designer-front/css/style.css">
                                 <!--[if IE 8]>
-        <link rel="stylesheet" type="text/css" media="all" href="./css/ie8.css" />    
+        <link rel="stylesheet" type="text/css" media="all" href="/designer-front/css/ie8.css" />    
         <![endif]-->
                 
 
-        <script src="./js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-        <script src="./js/vendor/jquery-1.8.3.min.js"></script>
+        <script src="/designer-front/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+        <script src="/designer-front/js/vendor/jquery-1.8.3.min.js"></script>
 
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
     </head>
-    <body class="body-background" style="background-image: url(./img/backgrounds/bg3.jpg); ">
+    <body class="body-background" style="background-image: url(/designer-front/img/backgrounds/bg3.jpg); ">
 
         <!--[if lt IE 8]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
         <![endif]-->
         
-        <jsp:include page="./inc/topBar.jsp"></jsp:include>
+        <jsp:include page="../inc/topBar.jsp"></jsp:include>
            
 
         <div id="wrapper" class="boxed"> <!-- Page Wrapper: Boxed class for boxed layout - Fullwidth class for fullwidth page --> 
             
             <div class="header-background"> <!-- Header Background -->
-                <jsp:include page="./inc/headerBanner.jsp"></jsp:include>
+                <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="./inc/headerNav.jsp"></jsp:include>
+                    <jsp:include page="../inc/headerNav.jsp"></jsp:include>
 
-                    <jsp:include page="./inc/ad.jsp"></jsp:include>
+                    <jsp:include page="../inc/ad.jsp"></jsp:include>
 
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
@@ -108,7 +108,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 													<div class="row-right">
 														<input type="text" class="span5" id="reg-username" name="username"/>
 														<span id="reg-username-required" class="required">*</span>
-														<span id="reg-username-prompt" class="text-prompt">用户名不能为空</span>
+														<span id="reg-username-prompt" class="text-prompt"></span>
 													</div>
 												</div>
 												
@@ -117,7 +117,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 													<div class="row-right">
 														<input type="text" class="span5" id="reg-nickname" name="nickname"/>
 														<span id="reg-nickname-required" class="required">*</span>
-														<span id="reg-nickname-prompt" class="text-prompt">昵称不能为空</span>
+														<span id="reg-nickname-prompt" class="text-prompt"></span>
 													</div>
 												</div>
 												
@@ -126,7 +126,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 													<div class="row-right">
 														<input type="password" class="span5" id="reg-password" name="password"/>
 														<span id="reg-password-required" class="required">*</span>
-														<span id="reg-password-prompt" class="text-prompt">密码不能为空</span>
+														<span id="reg-password-prompt" class="text-prompt"></span>
 													</div>
 												</div>
 												
@@ -135,7 +135,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 													<div class="row-right">
 														<input type="password" class="span5" id="reg-rePassword" name="rePassword"/>
 														<span id="reg-rePassword-required" class="required">*</span>
-														<span id="reg-rePassword-prompt" class="text-prompt">确认密码不能为空</span>
+														<span id="reg-rePassword-prompt" class="text-prompt"></span>
 													</div>
 												</div>
 												
@@ -168,7 +168,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 													<div class="row-right">
 														<input type="text" id="login-username" name="username" class="span5" value="liqian">
 														<span id="login-username-required" class="required">*</span>
-														<span id="login-username-prompt" class="text-prompt">昵称不能为空</span>
+														<span id="login-username-prompt" class="text-prompt"></span>
 													</div>
 												</div>
 												
@@ -177,7 +177,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 													<div class="row-right">
 														<input type="password" id="login-password" name="password"  class="span5" value="liqian">
 														<span id="login-password-required" class="required">*</span>
-														<span id="login-password-prompt" class="text-prompt">密码不能为空</span>
+														<span id="login-password-prompt" class="text-prompt"></span>
 													</div>
 												</div>
 												
@@ -196,25 +196,29 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
                 </div> <!-- Close Main -->
             </div> 
            
-           <jsp:include page="./inc/footer.jsp"></jsp:include>
+           <jsp:include page="../inc/footer.jsp"></jsp:include>
            
         </div> <!-- Close Page -->
    </div> <!-- Close wrapper -->
 
         
     <!-- Load all Javascript Files -->
-    <script src="./js/vendor/bootstrap.min.js"></script>
-    <script src="./js/jquery.hoverdir.js"></script>
-    <script src="./js/superfish.js"></script>
-    <!-- <script src="./js/supersubs.js"></script> -->
-   <!--  <script src="./js/jquery.tweet.js"></script>  -->
-    <script src="./js/jquery.flexslider.js"></script> 
-    <script src="./js/retina.js"></script>
+    <script src="/designer-front/js/vendor/bootstrap.min.js"></script>
+    <script src="/designer-front/js/jquery.hoverdir.js"></script>
+    <script src="/designer-front/js/superfish.js"></script>
+    <!-- <script src="/designer-front/js/supersubs.js"></script> -->
+   <!--  <script src="/designer-front/js/jquery.tweet.js"></script>  -->
+    <script src="/designer-front/js/jquery.flexslider.js"></script> 
+    <script src="/designer-front/js/retina.js"></script>
 
-    <script src="./js/custom.js"></script>
+    <script src="/designer-front/js/custom.js"></script>
 	<script>
     	$(document).ready(function(){
-    		//$('#login-failed').hide();
+    		<%if(registerActive){%>
+				$('#reg-username').focus();
+			<%}else{%>
+				$('#login-username').focus();
+			<%}%>
     	});
     	
     	$('#oauth-reg-cancel').click(function(){
@@ -244,36 +248,115 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
     		}
     	});
     	
+    	//校验注册账户的数据完整性
+    	
+    	$('#reg-username').blur(function(){
+    		checkRegUsername();
+    	});
+    	$('#reg-nickname').blur(function(){
+    		checkRegNickname();
+    	});
+    	$('#reg-password').blur(function(){
+    		checkRegPassword();
+    	});
+    	$('#reg-rePassword').blur(function(){
+    		checkRegPassword();
+    	});
+    	
+    	var usernameAvailable = false;
+    	var nicknameAvailable = false;
+    	var passwordAvailable = false;
+    	
+    	
     	$('#oauth-reg').click(function(){
-    		$('#reg-username-prompt').text('').hide();
-    		$('#reg-nickname-prompt').text('').hide();
-    		$('#reg-password-prompt').text('').hide();
-    		$('#reg-rePassword-prompt').text('').hide();
-    		
-    		var nicknameVal = $('#reg-nickname').val();
-    		var usernameVal = $('#reg-username').val();
-    		var passwordVal = $('#reg-password').val();
-    		var rePasswordVal = $('#reg-rePassword').val();
-    		if(usernameVal==''){
-    			$('#reg-username').focus();
-    			$('#reg-username-prompt').text('用户名不能为空').show();
-    		}else if(nicknameVal==''){
-    			$('#reg-nickname').focus();
-    			$('#reg-nickname-prompt').text('昵称不能为空').show();
-    		}else if(passwordVal==''){
-    			$('#reg-password').focus();
-    			$('#reg-password-prompt').text('密码不能为空').show();
-    		}else if(rePasswordVal==''){
-    			$('#reg-rePassword').focus();
-    			$('#reg-rePassword-prompt').text('确认密码不能为空').show();
-    		}else if(passwordVal!=rePasswordVal){
-    			$('#reg-password').focus();
-    			$('#reg-password-prompt').text('密码与确认密码不匹配').show();
-    		}else{//验证通过
-    			//提交请求
-    			$('#reg-widget-form').submit();
+    		alert(usernameAvailable);
+        	alert(nicknameAvailable);
+        	alert(passwordAvailable);
+        	
+    		if(usernameAvailable && nicknameAvailable && passwordAvailable){
+    			//所有数据项均可用
+	    		$('#reg-widget-form').submit();
     		}
     	});
+    	
+    	//检查用户名是否合法
+    	function checkRegUsername(){
+    		usernameAvailable = false;
+    		var usernameVal = $('#reg-username').val();
+    		//中文、英文字符 4-6位
+    		var usernameRegex =  /^[\u4E00-\u9FA5\uf900-\ufa2d\w]{4,16}$/;
+    		if(usernameVal==''){
+    			$('#reg-username-prompt').text('用户名不能为空').show();
+        		return false;
+    		}else if(!usernameRegex.test(usernameVal)){//检查正则匹配
+    			$('#reg-username-prompt').text('用户名不符合规范').show();
+        		return false;
+    		}else{//ajax检查是否可用
+    			var jsonData = {'username':usernameVal};
+    			$.post('/designer-front/usernameExists.json', jsonData, function(data) {
+       				var result = data.result;
+       				if(result==1){
+       					//设置username available的标识
+       					usernameAvailable = true;
+       					$('#reg-username-prompt').hide();
+       				}else{
+       					//设置username unabailable的标识
+       					usernameAvailable = false;
+       					$('#reg-username-prompt').text(data.message).show();
+       				}
+       			});
+    		}
+    	}
+    	
+    	//检查昵称是否合法
+    	function checkRegNickname(){
+    		nicknameAvailable = false;
+    		var nicknameVal = $('#reg-nickname').val();
+    		var nicknameRegex =  /^[\u4E00-\u9FA5\uf900-\ufa2d\w]{4,16}$/;
+    		if(nicknameVal==''){
+    			$('#reg-nickname-prompt').text('昵称不能为空').show();
+    		}else if(!nicknameRegex.test(nicknameVal)){//监察正则匹配
+    			$('#reg-nickname-prompt').text('昵称不符合规范').show();
+    		}else{//ajax检查昵称是否可用
+    			var jsonData = {'nickname':nicknameVal};
+    			$.post('/designer-front/nicknameExists.json', jsonData, function(data) {
+       				var result = data.result;
+       				if(result==1){
+       					//设置nickname available的标识
+       					nicknameAvailable = true;
+       					$('#reg-nickname-prompt').text('').hide();
+       				}else{
+       	    			//设置nickname unavailable的标识
+       	    			nicknameAvailable = false;
+       	    			$('#reg-nickname-prompt').text(data.message).show();
+       				}
+       			});
+    		}
+    	}
+
+    	//检查密码是否合法
+    	function checkRegPassword(){
+    		passwordAvailable = false;
+    		var passwordVal = $('#reg-password').val();
+    		var rePasswordVal = $('#reg-rePassword').val();
+    		var passwordRegex = /^(\w){6,20}$/;
+    		if(passwordVal==''){
+    			$('#reg-password-prompt').text('密码不能为空').show();
+    		}else if(!passwordRegex.test(passwordVal)){ 
+    			$('#reg-password-prompt').text('密码不符合规范').show();
+    		}else{
+    			//密码验证完成，开始验证确认密码
+    			$('#reg-password-prompt').text('').hide();
+    			if(rePasswordVal==''){
+	    			$('#reg-rePassword-prompt').text('确认密码不能为空').show();
+	    		}else if(passwordVal!=rePasswordVal){
+	    			$('#reg-rePassword-prompt').text('密码与确认密码不匹配').show();
+	    		}else{
+	    			passwordAvailable = true;
+	        		$('#reg-rePassword-prompt').text('').hide();
+	    		}
+    		}
+    	}
     </script>
     </body>
 </html>

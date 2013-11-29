@@ -11,7 +11,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 User queryUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE);
 
 boolean isDesigner = queryUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED;
-
+boolean isMe =  currentUser!=null&&queryUser!=null&&currentUser.getId().equals(queryUser.getId());
 %> 
 
 <!DOCTYPE html>
@@ -59,7 +59,14 @@ boolean isDesigner = queryUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_
                 <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="../inc/headerNav.jsp?menuFlag=myHome"></jsp:include>
+                	
+                	<%
+                	String menuFlag = "";
+                	if(isMe){
+                		menuFlag = "myHome";
+                	}
+                	%>
+                    <jsp:include page="../inc/headerNav.jsp?menuFlag=<%=menuFlag%>"></jsp:include>
 					<jsp:include page="../inc/ad.jsp"></jsp:include>
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
@@ -96,7 +103,7 @@ boolean isDesigner = queryUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_
                                 <div class="infobox-wrap">
                                     <h4>提示</h4>
                                     <p id="infoboxMessage">
-                                   	暂无作品!
+                                   	无更多数据!
                                     </p>
                                 </div>
                             </div>

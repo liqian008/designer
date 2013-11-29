@@ -35,11 +35,12 @@ public class UserFavoriteServiceImpl implements IUserFavoriteService{
             return false;
         } else {
             if (userFavoriteDao.favorite(userId, albumId) > 0) {
-                //增加favorite计数
-                counterService.increase(ConstRedis.COUNTER_KEY_FAVORITE + userId);
+            	
             } else {
                 
             }
+            // TODO 增加favorite计数
+            counterService.incrFavorite(userId, albumId);
             return true;
         }
     }
@@ -51,7 +52,9 @@ public class UserFavoriteServiceImpl implements IUserFavoriteService{
             if (userFavoriteDao.deleteFavorite(userId, albumId) >= 0) {
                 //删cache减少计数
 //                favoriteCache.removeFavorite(userId, albumId);
-                counterService.reduce(ConstRedis.COUNTER_KEY_FAVORITE + userId);
+//                counterService.reduce(ConstRedis.COUNTER_KEY_FAVORITE + userId);
+            	// TODO 优化
+//            	counterService.reduceFavorite(userId, albumId);
                 return true;
             }
         } catch (Exception e) {
@@ -103,7 +106,10 @@ public class UserFavoriteServiceImpl implements IUserFavoriteService{
     
     @Override
     public int getFavoriteCount(int userId) {
-        return (int)counterService.getCount(ConstRedis.COUNTER_KEY_FAVORITE + userId);
+    	// TODO 收藏数
+//        return (int)counterService.getCount(ConstRedis.COUNTER_KEY_FAVORITE + userId);
+//    	return counterService.getFavoriteCount(albumId)
+    	return 0;
     }
     
 } 

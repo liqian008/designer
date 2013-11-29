@@ -78,11 +78,11 @@ public class UserController {
         User queryUser = userService.loadById(queryUserId);
         if(queryUser!=null){
         	model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
-            
-        	long hisFansCount = counterService.getCount(ConstRedis.COUNTER_KEY_FOLLOW + queryUser.getId());
-            long hisFollowesCount = counterService.getCount(ConstRedis.COUNTER_KEY_FAN + queryUser.getId());
-            model.addAttribute("fansNumber", hisFansCount);
-            model.addAttribute("followsNumber", hisFollowesCount);
+            // TODO 重构redis的key
+//        	long hisFansCount = counterService.getCount(ConstRedis.COUNTER_KEY_FOLLOW + queryUser.getId());
+//            long hisFollowesCount = counterService.getCount(ConstRedis.COUNTER_KEY_FAN + queryUser.getId());
+//            model.addAttribute("fansNumber", hisFansCount);
+//            model.addAttribute("followsNumber", hisFollowesCount);
             
             User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
             if(user!=null&&user.getId()>0){
@@ -133,7 +133,7 @@ public class UserController {
             Map<Integer, Boolean> followMap = new HashMap<Integer, Boolean>();
             followMap.put(queryUserId, false);
 
-            //TODO 获取关注列表
+            // TODO 获取关注列表
             List<UserFollow> followList = userGraphService.getFollowListWithUser(queryUserId, 1, 20);
             model.addAttribute("followList", followList);
             
@@ -180,7 +180,7 @@ public class UserController {
             Map<Integer, Boolean> followMap = new HashMap<Integer, Boolean>();
             followMap.put(queryUserId, false);
             
-            //TODO 获取粉丝列表
+            // TODO 获取粉丝列表
             List<UserFan> fanList = userGraphService.getFanListWithUser(queryUserId, 1, 20);
             model.addAttribute("fanList", fanList);
             

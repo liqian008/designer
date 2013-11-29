@@ -92,6 +92,8 @@ public class ErrorCode {
 	public static final int ALBUM_UPDATE_FAILED = 504;
 	/* 作品删除失败 */
 	public static final int ALBUM_DELETE_FAILED = 505;
+//	/* 选定封面图与作品不匹配 */
+//	public static final int ALBUMSLIDE_COVER_NOT_MATCH = 504;
 	
 	/* 上传分配x00-x00的错误码 */
 	/* 未知错误 */

@@ -19,7 +19,8 @@ public class TaskJob {
 			log.info("计算热门Hot任务开始>........");
 			// 业务逻辑代码调用
 //			System.out.println("时间[" + new java.util.Date().toLocaleString() + "]----->计算热门tag！");
-			hotService.calcHotTags(20);
+			System.err.println("task hotService: "+hotService);
+			hotService.calcHotTags(40);
 			log.info("计算热门Hot任务结束!");
 		} catch (Exception e) {
 			log.error("计算热门Hot任务出现异常", e);

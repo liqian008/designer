@@ -92,7 +92,7 @@ public class TagServiceImpl implements ITagService, InitializingBean {
 		return tagAlbumService.batchSave(albumId, tagIdList);
 	}
 	
-//	//TODO 同步处理&优化
+//	// TODO 同步处理&优化
 //	@Override
 //	public List<Tag> getHotTags(int limit) {
 //		if(hotTagList==null||hotTagList.size()<=0){
@@ -102,7 +102,7 @@ public class TagServiceImpl implements ITagService, InitializingBean {
 //		return hotTagList;
 //	}
 //	
-//	//TODO 同步处理&优化
+//	// TODO 同步处理&优化
 //	@Override
 //	public List<Tag> calcHotTags(int limit) {
 //		List<Tag> calcTagList = tagDao.calcHotTags(limit);

@@ -138,7 +138,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	 */
 	@Override
 	public int broadcast2All(String content) {
-		//TODO 此api需要重构只获取userId即可
+		// TODO 此api需要重构只获取userId即可
 		List<User> userList = userService.queryUsersByStatus(ConstService.USER_STATUS_OPEN);
 		if(userList!=null&&userList.size()>0){
 		    //需使用批处理
@@ -156,7 +156,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	 */
 	@Override
 	public int broadcase2Designers(String content) {
-		//TODO 此api需要重构只获取designerId即可
+		// TODO 此api需要重构只获取designerId即可
 		List<User> desiangerList = userService.queryDesignersByStatus(ConstService.USER_STATUS_OPEN);
 		if(desiangerList!=null&&desiangerList.size()>0){
 			//需使用批处理

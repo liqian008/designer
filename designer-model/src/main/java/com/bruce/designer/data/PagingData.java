@@ -13,9 +13,9 @@ public class PagingData<T> {
 	/*总条数*/
 	private int totalCount;
 	/*分页起始条*/
-	private int offset;
+//	private int offset;
 	
-	private List<T> pageData;
+	private List<T> pagingData;
 	
 	
 //	public PagingData(int currentPage, int pageSize){
@@ -23,8 +23,8 @@ public class PagingData<T> {
 //		this.pageSize = pageSize;
 //	}
 	
-	public PagingData(List<T> pageData, int totalCount, int currentPage, int pageSize) {
-		this.pageData = pageData;
+	public PagingData(List<T> pagingData, int totalCount, int currentPage, int pageSize) {
+		this.pagingData = pagingData;
 		this.totalCount = totalCount;
 		this.currentPage = currentPage;
 		this.pageSize = pageSize;
@@ -54,22 +54,21 @@ public class PagingData<T> {
 		this.totalCount = totalCount;
 	}
 
-	public int getOffset() {
-		offset = (currentPage-1) * pageSize;
-		return offset;
-	}
+//	public int getOffset() {
+//		offset = (currentPage-1) * pageSize;
+//		return offset;
+//	}
 
 	public int getTotalPage() {
 		totalPage = (int) Math.ceil(totalCount/Double.parseDouble(String.valueOf(pageSize)));
 		return totalPage;
 	}
-	
-	public List<T> getPageData() {
-		return pageData;
+
+	public List<T> getPagingData() {
+		return pagingData;
 	}
 
-	public void setPageData(List<T> pageData) {
-		this.pageData = pageData;
+	public void setPagingData(List<T> pagingData) {
+		this.pagingData = pagingData;
 	}
-	
 }

@@ -9,6 +9,9 @@ public interface ConstRedis{
     /*Redis全局命名空间*/
     public static final String REDIS_NAMESPACE = "designer";
     
+    /*Redis的key的计数类型*/
+    public static final String REDIS_KEY_TYPE_COUNT = "count";
+    
     /*用户粉丝数量*/
     public static final String COUNTER_KEY_FAN = "fan_count_";
     /*用户关注数量*/
@@ -26,14 +29,14 @@ public interface ConstRedis{
     /*用户总计被收藏数的key*/
     public static final String COUNTER_KEY_USER_TOTAL_FAVORITE = "user_total_favorite_";
     
-    /*整个作品辑浏览数的key*/
-    public static final String COUNTER_KEY_ALBUM_BROWSE = "album_browse_";
-    /*整个作品辑评论数的key*/
-    public static final String COUNTER_KEY_ALBUM_COMMENT = "album_comment_";
-    /*整个作品辑喜欢数的key*/
-    public static final String COUNTER_KEY_ALBUM_LIKE = "album_like_";
-    /*整个作品辑收藏数的key*/
-    public static final String COUNTER_KEY_ALBUM_FAVORITE = "album_favorite_";
+//    /*整个作品辑浏览数的key*/
+//    public static final String COUNTER_KEY_ALBUM_BROWSE = "album_browse_";
+//    /*整个作品辑评论数的key*/
+//    public static final String COUNTER_KEY_ALBUM_COMMENT = "album_comment_";
+//    /*整个作品辑喜欢数的key*/
+//    public static final String COUNTER_KEY_ALBUM_LIKE = "album_like_";
+//    /*整个作品辑收藏数的key*/
+//    public static final String COUNTER_KEY_ALBUM_FAVORITE = "album_favorite_";
     
 //    /*单个作品浏览数的key*/
 //    public static final String COUNTER_KEY_ALBUMSLIDE_BROWSE = "albumslide_browse_";

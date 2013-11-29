@@ -141,14 +141,17 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
     		$('#moreAlbumsBtn').attr("disabled","disabled");
     		var jsonData = {'albumsTailId' : $("#albumsTailId").val(), 'numberPerLine':'4'};
     		$.post('/designer-front/moreAlbums.json', jsonData, function(data) {
-   				$("#albumContainer").append(data.data.html);
-   				var nextTailId = data.data.tailId;
-    			$("#albumsTailId").val(nextTailId);
-    			if(nextTailId<=0){//无更多数据，则隐藏按钮
-   					$('#moreAlbumsContainer').attr("style","display:none");
-   				}else{//还有更多数据，启用加载按钮
-   					$('#moreAlbumsBtn').removeAttr("disabled");
-   					$('#moreAlbumsBtn').val("加载更多...");
+    			var result = data.result;
+   				if(result==1){
+   					$("#albumContainer").append(data.data.html);
+	   				var nextTailId = data.data.tailId;
+	    			$("#albumsTailId").val(nextTailId);
+	    			if(nextTailId<=0){//无更多数据，则隐藏按钮
+	   					$('#moreAlbumsContainer').attr("style","display:none");
+	   				}else{//还有更多数据，启用加载按钮
+	   					$('#moreAlbumsBtn').removeAttr("disabled");
+	   					$('#moreAlbumsBtn').val("加载更多...");
+	   				}
    				}
    			})
    			/* .success(function() { alert("second success"); })

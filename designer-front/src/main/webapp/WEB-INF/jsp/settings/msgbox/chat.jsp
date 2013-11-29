@@ -1,18 +1,21 @@
-<%@page import="com.bruce.designer.front.controller.FrontController"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.model.*" %>
+<%@ page import="com.bruce.designer.data.*" %>
 <%@ page import="com.bruce.designer.service.oauth.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
+<%@ page import="com.bruce.designer.front.util.*" %> 
 <%@ page import="com.bruce.designer.constants.*" %>
 <%@ page import="com.bruce.designer.util.*" %> 
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.*" %> 
 
 <%
-SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
+SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_HH_MM_FORMAT);
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
 User toUser = (User)request.getAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUTE);
+
+String locationHref= "/designer-front/settings/msgbox/chat?toId="+toUser.getId();
 %>
 
 <!DOCTYPE html>
@@ -51,18 +54,18 @@ User toUser = (User)request.getAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUT
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
         <![endif]-->
         
-        <jsp:include page="../inc/topBar.jsp"></jsp:include>
+        <jsp:include page="../../inc/topBar.jsp"></jsp:include>
            
 
         <div id="wrapper" class="boxed"> <!-- Page Wrapper: Boxed class for boxed layout - Fullwidth class for fullwidth page --> 
             
             <div class="header-background"> <!-- Header Background -->
-                <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
+                <jsp:include page="../../inc/headerBanner.jsp"></jsp:include>
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="../inc/headerNav.jsp?menuFlag=settings"></jsp:include>
+                    <jsp:include page="../../inc/headerNav.jsp?menuFlag=settings"></jsp:include>
 
-                    <jsp:include page="../inc/ad.jsp"></jsp:include>
+                    <jsp:include page="../../inc/ad.jsp"></jsp:include>
 
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
@@ -74,7 +77,7 @@ User toUser = (User)request.getAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUT
                     <ul class="clearfix">
                         <li><a href="/designer-front">首页</a>/</li>
                         <li><a href="/designer-front/settings">设置</a>/</li>
-                        <li><a href="javascript:void(0)">我的消息</a></li>
+                        <li><a href="javascript:void(0)">私信消息</a></li>
                     </ul>
                 </div>
             </div>
@@ -88,53 +91,69 @@ User toUser = (User)request.getAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUT
 	
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
                                 <ul class="tabs-nav tabs clearfix span3">
-                                	<jsp:include page="./settingsTabInc.jsp?settingsMenuFlag=inbox"></jsp:include>
+                                	<jsp:include page="../settingsTabInc.jsp?settingsMenuFlag=message"></jsp:include>
                                 </ul>
                                 <div class="tab-content span9">
                                     <div class="tab-pane widgets-light active" id="inbox">
 			                            <div class="content-title">
-											<h4>消息列表</h4> 
+											<h4>私信消息</h4> 
 										</div>
+										<input type="hidden" id="toId" name="toId" value="<%=toUser.getId()%>">
+                                        <form action="#" method="post" id="commentform" class="form clearfix">
+                                           	<div class="span9">
+												<p>
+													<textarea class="comment_textarea" name="content"
+														id="content" cols="50" rows="2" tabindex="4"></textarea>
+												</p>
+											</div>
+											<div class="span3">
+												<input class="button button-small button-orange"
+													type="button" name="sendMessageBtn" id="sendMessageBtn"
+													tabindex="5" value="发 送"/>
+											</div>
+										</form>
+										
                                     	<%
-                                    	List<Message> messageList = (List<Message>)request.getAttribute("messageList");
+                                    	PagingData<Message> messagePagingData = (PagingData<Message>)request.getAttribute("messagePagingData");
+                                    	List<Message> messageList = messagePagingData.getPagingData();
                                     	if(messageList!=null&&messageList.size()>0){
+                                    		int i=0;
                                     		for(Message message: messageList){
+                                    			i++;
+                                    			boolean selfMessage = message.getFromId().equals(currentUser.getId());
                                     	%> 
-			                            
-			                            <div id="messages">
+                                    	
+                                    	<div id="messages">
 											<ol id="messageListContainer" class="messagelist">
-												<li class="message" id="li-message-1"><div
-														class="message-container" id="message-1">
-														<div class="message-avatar">
+												<li class="message" id="li-message-<%=i%>"><div
+														class="message-container" id="message--<%=i%>">
+														<div class="message-avatar<%=selfMessage?"-right":""%>">
 															<div class="message-author vcard">
-																<%if(MessageUtil.isBroadcastMessage(message.getMessageType())){ %>
-																<img
-																	src="/designer-front/img/icon/icon_<%=message.getMessageType()%>.png">
-																<%}else{ %>
-																<img
+																<a href='/designer-front/<%=message.getFromId()%>/home' target="_blank">
+																	<img
 																	src="/designer-front/staticFile/avatar/<%=message.getFromId()%>_medium.jpg">
-																<%} %>
+																</a>
 															</div>
 														</div>
-														<div class="message-body">
+														<div class="message-body<%=selfMessage?"-right":""%>">
 															<div class="message-meta messagemetadata">
 																<h5 class="message-author">
-																	<%=MessageUtil.getMessageTypeName(message.getMessageType())%>
+																	<a href='/designer-front/<%=message.getFromId()%>/home' target="_blank">
+																	<%=selfMessage?"我":toUser.getNickname()%>
+																	</a>
 																</h5>
 															</div>
 															<div class="message-content">
-																<%=!MessageUtil.isBroadcastMessage(message.getMessageType())?"<a href='/designer-front/"+message.getFromId()+"/home' target='_blank'>"+message.getFromUser().getNickname()+"</a>: ":""%>
-																<%=message.getMessage()%>
-																<%=!MessageUtil.isBroadcastMessage(message.getMessageType())&&!MessageUtil.isChatMessage(message.getMessageType())?"&nbsp;<a href='/designer-front/album/"+message.getSourceId()+"' target='_blank'>点击查看</a>":""%>
+																<%=message.getMessage()%> 发送于: <%=ymdSdf.format(message.getCreateTime())%>&nbsp;
 															</div>
 														</div>
 													</div></li>
 											</ol>
 										</div>
-			                            
-			                                
 			                            <%}
 			                            }%>
+			                            
+			                           	<%=PagingUtil.getPagingHtml(messagePagingData, locationHref)%>
 			                            
                                     </div>
                                 </div>
@@ -143,13 +162,13 @@ User toUser = (User)request.getAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUT
                         
                         <!-- right slidebar -->
 						<aside class="sidebar widgets-light span3">
-                       		<jsp:include page="../inc/right/sidebar_settings.jsp"></jsp:include> 
+                       		<jsp:include page="../../inc/right/sidebar_settings.jsp"></jsp:include> 
                     	</aside>
                     </div>                        
                 </div> <!-- Close Main -->
             </div> 
            
-           <jsp:include page="../inc/footer.jsp"></jsp:include>
+           <jsp:include page="../../inc/footer.jsp"></jsp:include>
            
         </div> <!-- Close Page -->
    </div> <!-- Close wrapper -->
@@ -171,11 +190,12 @@ User toUser = (User)request.getAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUT
 		$("#sendMessageBtn").attr("disabled", "disabled");
 		var messageJsonData = {"content": $("#content").val(), 'toId':$("#toId").val()};
 		$.post("/designer-front/settings/sendMsg.json", messageJsonData, function(data) {
-			$("#sendMessageBtn").removeAttr("disabled");
-			alert("result: " + data.result);
-			alert("message: " + data.data);
-			$("#commentListContainer").prepend(data.data);
-			//enable submitBtn
+			var result = data.result;
+			if(result==1){
+				$("#content").val("");
+				$("#sendMessageBtn").removeAttr("disabled");
+				location.href = '<%=locationHref%>';
+			}
 		 }, "json"); 
 	});
 		

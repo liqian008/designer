@@ -43,7 +43,7 @@ public class HotServiceImpl implements IHotService, InitializingBean {
 	private List<Tag> hotTagList = null; 
 
 	
-	//TODO 同步处理&优化
+	// TODO 同步处理&优化
 	@Override
 	public List<Tag> getHotTags(int limit) {
 		if(hotTagList==null||hotTagList.size()<=0){
@@ -53,7 +53,7 @@ public class HotServiceImpl implements IHotService, InitializingBean {
 		return hotTagList;
 	}
 	
-	//TODO 同步处理&优化
+	// TODO 同步处理&优化
 	@Override
 	public List<Tag> calcHotTags(int limit) {
 		List<Tag> calcTagList = tagDao.calcHotTags(limit);
@@ -75,7 +75,10 @@ public class HotServiceImpl implements IHotService, InitializingBean {
 		try {
 			albumIdList = hotAlbumCache.getHotList(start, limit);
 			if(albumIdList!=null&&albumIdList.size()>0){
-				return albumService.queryAlbumByIds(albumIdList);
+				List<Album> albumList = albumService.queryAlbumByIds(albumIdList);
+				albumService.initAlbumsWithCount(albumList);
+				albumService.initAlbumsWithTags(albumList);
+				return albumList;
 			}
 		} catch (RedisKeyNotExistException e) {
 			logger.error("hot album key not found!", e);

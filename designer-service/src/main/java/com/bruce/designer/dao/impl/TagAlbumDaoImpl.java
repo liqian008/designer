@@ -66,10 +66,18 @@ public class TagAlbumDaoImpl implements ITagAlbumDao, InitializingBean {
 	@Override
 	public List<TagAlbum> queryTagIdsByAlbumId(int albumId) {
 		TagAlbumCriteria criteria = new TagAlbumCriteria();
-		TagAlbumCriteria.Criteria subCriteria = criteria.createCriteria().andAlbumIdEqualTo(albumId);
+		criteria.createCriteria().andAlbumIdEqualTo(albumId);
 	    criteria.setOrderByClause("id desc");
         List<TagAlbum> albumList = tagAlbumMapper.selectByExample(criteria);
         return albumList;
+	}
+
+	@Override
+	public int deleteByAlbumId(int albumId) {
+		TagAlbumCriteria criteria = new TagAlbumCriteria();
+		criteria.createCriteria().andAlbumIdEqualTo(albumId);
+        int result = tagAlbumMapper.deleteByExample(criteria);
+        return result;
 	}
 
 } 

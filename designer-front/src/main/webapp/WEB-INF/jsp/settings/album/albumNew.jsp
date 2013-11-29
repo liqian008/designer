@@ -1,4 +1,3 @@
-<%@page import="com.bruce.designer.front.controller.FrontController"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.model.*" %>
 <%@ page import="com.bruce.designer.service.oauth.*" %>
@@ -51,18 +50,18 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
         <![endif]-->
         
-        <jsp:include page="../inc/topBar.jsp"></jsp:include>
+        <jsp:include page="../../inc/topBar.jsp"></jsp:include>
            
 
         <div id="wrapper" class="boxed"> <!-- Page Wrapper: Boxed class for boxed layout - Fullwidth class for fullwidth page --> 
             
             <div class="header-background"> <!-- Header Background -->
-                <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
+                <jsp:include page="../../inc/headerBanner.jsp"></jsp:include>
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="../inc/headerNav.jsp?menuFlag=settings"></jsp:include>
+                    <jsp:include page="../../inc/headerNav.jsp?menuFlag=settings"></jsp:include>
 
-                    <jsp:include page="../inc/ad.jsp"></jsp:include>
+                    <jsp:include page="../../inc/ad.jsp"></jsp:include>
 
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
@@ -88,13 +87,13 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
                                 <ul class="tabs-nav tabs clearfix span3">
-                                	<jsp:include page="./settingsTabInc.jsp?settingsMenuFlag=publisher"></jsp:include>
+                                	<jsp:include page="../settingsTabInc.jsp?settingsMenuFlag=publisher"></jsp:include>
                                 </ul>
                                 <div class="tab-content span9">
                                     <div class="tab-pane widgets-light active" id="apply4Designer">
                                          <div class="widget-box widget-wrapper-form clearfix">
                                         	<form id='album-widget-form' class="widget-form" method="post" class="clearfix"
-												action="/designer-front/publishAlbum">
+												action="/designer-front/settings/publishAlbum">
 												<div class="content-title">
 													<h4>发布作品集【上限6张】</h4>
 												</div>
@@ -113,7 +112,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													<div class="row-right">
 														<input type="text" class="span6" id="title"  name="title" value=""/>
 														<span id="album-title-required" class="required">*</span>
-														<span id="album-title-prompt" class="text-prompt">作品主题不能为空</span>
+														<span id="album-title-prompt" class="text-prompt"></span>
 													</div>
 												</div>
 												
@@ -122,7 +121,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													<div class="row-right">
 														<input type="text" class="span5" id="tags" name="tags" value=""/>
 														<span id="album-tags-required" class="required">*</span>
-														<span id="album-tags-prompt" class="text-prompt">作品标签不能为空</span>
+														<span id="album-tags-prompt" class="text-prompt">多个标签间请用空格分隔</span>
 													</div>
 												</div>
 												
@@ -131,7 +130,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													<div class="row-right">
 														<input type="text" class="span3" id="price" name="price" value=""/> 元
 														<span id="album-price-required" class="required">*</span>
-														<span id="album-price-prompt" class="text-prompt">参考价格不能为空</span>
+														<span id="album-price-prompt" class="text-prompt"></span>
 													</div>
 												</div>
 												
@@ -140,7 +139,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													<div class="row-right">
 														<input type="text" class="span8" id="link" name="link" value=""/>
 														<span id="album-link-required" class="required">*</span>
-														<span id="album-link-prompt" class="text-prompt">购买链接不能为空</span>
+														<span id="album-link-prompt" class="text-prompt"></span>
 													</div>
 												</div>
 												
@@ -148,6 +147,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													<div class="row-left">上传作品: </div>
 													<div class="row-right" id="previewContainer">
 														<input id="fileUploader" name="image" type="file" multiple="true">
+														<span id="album-upload-prompt" class="text-prompt" style="display:none"></span>
 													</div>
 												</div>
 												<div id="queue"></div>
@@ -188,7 +188,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													            counter = counter + 1;
 													            var response = jQuery.parseJSON(data);
 													            
-													        	$("<div  style='margin:10px 0; outline:1px solid #ECECEC'><img id='img1' src='"+response.data.mediumImage.url+"' width='100%'/><br/><input type='radio' name='coverId' value='"+counter+"'/>设置为封面<br/></div>").appendTo($("#previewContainer"));
+													        	$("<div  style='margin:10px 0; outline:1px solid #ECECEC'><img id='img1' src='"+response.data.mediumImage.url+"' width='100%'/><br/><input type='radio' id='coverId' name='coverId' value='"+counter+"'/>设置为封面<br/></div>").appendTo($("#previewContainer"));
 													        	$("<input type='hidden' name='albumSlideNums' value='"+counter+"'/>").appendTo($("#previewContainer"));
 													        	$("<input type='hidden' name='largeImage"+counter+"' value='"+response.data.largeImage.url+"'/>").appendTo($("#previewContainer"));
 													        	$("<input type='hidden' name='mediumImage"+counter+"' value='"+response.data.mediumImage.url+"'/>").appendTo($("#previewContainer"));
@@ -208,13 +208,13 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                         
                         <!-- right slidebar -->
 						<aside class="sidebar widgets-light span3">
-                       		<jsp:include page="../inc/right/sidebar_settings.jsp"></jsp:include> 
+                       		<jsp:include page="../../inc/right/sidebar_settings.jsp"></jsp:include> 
                     	</aside>
                     </div>                        
                 </div> <!-- Close Main -->
             </div> 
            
-           <jsp:include page="../inc/footer.jsp"></jsp:include>
+           <jsp:include page="../../inc/footer.jsp"></jsp:include>
            
         </div> <!-- Close Page -->
    </div> <!-- Close wrapper -->
@@ -230,35 +230,95 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
     <script src="/designer-front/js/retina.js"></script>
     <script src="/designer-front/js/custom.js"></script>
     <script>
-    $('#submit-button').click(function(){
-		$('#album-title-prompt').text('').hide();
-		$('#album-tags-prompt').text('').hide();
-		$('#album-price-prompt').text('').hide();
-		$('#album-link-prompt').text('').hide();
-		
-		var titleVal = $('#title').val();
-		var tagsVal = $('#tags').val();
-		var priceVal = $('#price').val();
-		var linkVal = $('#link').val();
-		if(titleVal==''){
-			$('#title').focus();
-			$('#album-title-prompt').text('作品标题不能为空').show();
-		}else if(tagsVal==''){
-			$('#tags').focus();
-			$('#album-tags-prompt').text('标签不能为空').show();
-		}else if(priceVal==''){
-			$('#price').focus();
-			$('#album-price-prompt').text('作品价格不能为空').show();
-		}else if(linkVal==''){//检查链接是否正确
-			$('#link').focus();
-			$('#album-link-prompt').text('购买链接不能为空').show();
-		}else if(false){//检查作品完整性
-			//alert('作品不完整');
-		}else{//验证通过，可以发布
-			alert('publish');
-			$("#album-widget-form").submit();
-		}
+    var titleAvailable = false;
+    var tagsAvailable = false;
+	var priceAvailable = false;
+	var linkAvailable = false;
+	var albumAvailable = false;
+    
+	$('#title').blur(function(){
+		checkTitle();
 	});
+	
+	$("#tags").blur(function(){
+		checkTags();
+	});
+	
+	$('#price').blur(function(){
+		checkPrice();
+	});
+	
+	$('#link').blur(function(){
+		checkLink();
+	});
+	
+    $('#submit-button').click(function(){
+		checkAlbumSlides();
+		if(titleAvailable && tagsAvailable && priceAvailable && linkAvailable && albumAvailable){
+			$("#album-widget-form").submit();
+    	}
+	});
+    
+    //检查标题&正则
+    function checkTitle(){
+    	var titleVal = $('#title').val();
+    	if(titleVal==''){
+			$('#album-title-prompt').text('作品标题不能为空').show();
+		}else{
+			titleAvailable = true;
+			$('#album-title-prompt').hide();
+		}
+    }
+    
+	//检查标签&正则
+    function checkTags(){
+    	var tagsVal = $('#tags').val();
+		if(tagsVal==''){
+ 			$('#album-tags-prompt').text('标签不能为空').show();
+ 		}else{
+ 			tagsAvailable = true;
+ 			$('#album-tags-prompt').hide();
+ 		}
+    }
+    
+	//检查价格&正则
+    function checkPrice(){
+    	var priceVal = $('#price').val();
+    	if(priceVal==''){
+			$('#album-price-prompt').text('作品价格不能为空').show();
+		}else{
+			priceAvailable = true;
+			$('#album-price-prompt').hide();
+		}
+	}
+	
+	//检查标题&正则
+    function checkLink(){
+    	var linkVal = $('#link').val();
+    	if(linkVal==''){//检查链接是否正确
+			$('#album-link-prompt').text('购买链接不能为空').show();
+		}else{
+			linkAvailable = true;
+			$('#album-link-prompt').hide();
+		}
+	}
+	
+  //检查标题&正则
+    function checkAlbumSlides(){
+		if($('#coverId').length<=0){
+			$('#album-upload-prompt').text('请上传作品内容图').show();
+		}else if($('#coverId').length>6){
+			$('#album-upload-prompt').text('上传作品内容图超限').show();
+		}else{
+			var coverIdVal = $('input:radio[name="coverId"]:checked').val();
+			if(coverIdVal == null){
+				$('#album-upload-prompt').text('请设置封面图片').show();
+			}else{
+				alert("选中！");
+				albumAvailable = true;
+			}
+		}
+	}
     </script>
     </body>
 </html>

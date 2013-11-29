@@ -36,7 +36,7 @@ public class FeedServiceImpl implements IFeedService, InitializingBean {
     public long insert(Feed feed) {
         int id = feedDTOMapper.insert(feed);
         if (id > 0) {
-            //TODO get followers
+            // TODO get followers
             List<Integer> followers = new ArrayList<Integer>();
             followers.add(56789);
             for (int follower : followers) {

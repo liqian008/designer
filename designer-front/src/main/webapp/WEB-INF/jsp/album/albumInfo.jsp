@@ -339,9 +339,12 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
     		$("#publishBtn").attr("disabled", "disabled");
     		var commentJsonData = {"comment": $("#comment").val(),'albumId': $("#albumId").val(), 'toId':$("#toId").val(), 'designerId':$("#designerId").val()};
     		$.post("/designer-front/comment.json", commentJsonData, function(data) {
-    			$("#comment").val("");
-    			$("#publishBtn").removeAttr("disabled");
-    			$("#commentListContainer").prepend(data.data);
+    			var result = data.result;
+   				if(result==1){
+   					$("#comment").val("");
+	    			$("#publishBtn").removeAttr("disabled");
+	    			$("#commentListContainer").prepend(data.data);
+   				}
     			//enable submitBtn
     		 }, "json"); 
     	});

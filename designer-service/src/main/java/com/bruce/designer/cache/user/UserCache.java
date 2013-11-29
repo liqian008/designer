@@ -127,7 +127,7 @@ public class UserCache implements InitializingBean {
     
     public boolean setUserList(List<User> userList) {
         if(userList!=null) {
-            //TODO 优化
+            // TODO 优化
             for(User user: userList) {
                 setUser(user);
             }

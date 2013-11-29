@@ -30,17 +30,60 @@ public abstract class AbstractHotCache {
 
 	@Autowired
 	private DesignerShardedJedisPool cacheShardedJedisPool;
-
-	public boolean incrScore(int id, int score){
+	
+	abstract protected String getKey();
+	
+	abstract protected long incrBrowseScore(int id);
+	
+	abstract protected long incrLikeScore(int id);
+	
+	abstract protected long incrCommentScore(int id);
+	
+	abstract protected long incrFavoriteScore(int id);
+	
+	abstract protected long reduceBrowseScore(int id);
+	
+	abstract protected long reduceLikeScore(int id);
+	
+	abstract protected long reduceCommentScore(int id);
+	
+	abstract protected long reduceFavoriteScore(int id);
+	
+	
+	public long incrScore(int id, int score){
 		String key = getKey();
 		DesignerShardedJedis shardedJedis = null;
 		try {
 			shardedJedis = cacheShardedJedisPool.getResource();
-			boolean result = shardedJedis.zincrby(key, score, String.valueOf(id)) > 0;
+			long result = new Double(shardedJedis.zincrby(key, score, String.valueOf(id))).longValue();
 			cacheShardedJedisPool.returnResource(shardedJedis);
 			return result;
 		} catch (JedisException t) {
 			logger.error("addScore", t);
+			if (shardedJedis != null) {
+				cacheShardedJedisPool.returnBrokenResource(shardedJedis);
+			}
+		}
+		return 0;
+	}
+	
+	/**
+	 * 移除选定元素，通常用于删除作品或用户时使用
+	 * @param id
+	 * @return
+	 */
+	public boolean remove(int id){
+		String key = getKey();
+		DesignerShardedJedis shardedJedis = null;
+		try {
+			shardedJedis = cacheShardedJedisPool.getResource();
+			long resultNum = shardedJedis.zrem(key, String.valueOf(id));
+			cacheShardedJedisPool.returnResource(shardedJedis);
+			if(resultNum==1){
+				return true;
+			}
+		} catch (JedisException t) {
+			logger.error("remove", t);
 			if (shardedJedis != null) {
 				cacheShardedJedisPool.returnBrokenResource(shardedJedis);
 			}
@@ -81,7 +124,5 @@ public abstract class AbstractHotCache {
 		}
 		return null;
 	}
-
-	abstract protected String getKey();
 
 }

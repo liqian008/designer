@@ -151,11 +151,11 @@ public class CommentController {
 	}
 
 	private static String buildCommentHtml(Comment commentResult){
-		//TODO 需freemarker优化此方法
+		// TODO 需freemarker优化此方法
 		StringBuilder sb = new StringBuilder("<li class='comment depth-1' id='li-comment-1'>" +
 				"<div class='comment-container' id='comment-1'><div class='comment-avatar'>" +
 				"<div class='comment-author vcard'>" +
-				"<img src='"+UploadUtil.getAvatarUrl(commentResult.getFromId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"/>" +
+				"<img src='"+UploadUtil.getAvatarUrl(commentResult.getFromId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"'/>" +
 				"</div></div>" + 
 				"<div class='comment-body'><div class='comment-meta commentmetadata'>" +
 				"<h6 class='comment-author'>" +
@@ -181,7 +181,7 @@ public class CommentController {
 //	}
 	
 //	private static String buildMoreHtml(Comment commentResult){
-//		//TODO 需freemarker优化此方法
+//		// TODO 需freemarker优化此方法
 //		StringBuilder sb = new StringBuilder("<li class='comment depth-1' id='li-comment-1'>" +
 //			"<div class='comment-container' id='comment-1'>"+
 //			"<div class='comment-body'>" +

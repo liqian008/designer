@@ -85,8 +85,8 @@ public class UploadServiceImpl implements IUploadService {
 			int width = imageSizeMap.get(imageSpec);// 获取指定的尺寸
 			// zoom
 			String targetImageName = UploadUtil.getFileNameWithPlaceHolder(userId, filename, imageSpec, time);
-			ImageUtil.scaleByWidth(absoultImagePath + sourceImageName, absoultImagePath + targetImageName, width);
-			String imageUrl = baseUrl + imageDirPath + targetImageName;
+			ImageUtil.scaleByWidth(absoultImagePath +"/"+ sourceImageName, absoultImagePath +"/"+ targetImageName, width);
+			String imageUrl = baseUrl + imageDirPath +"/"+ targetImageName;
 			UploadImageInfo imageInfo = new UploadImageInfo(targetImageName, ConstService.UPLOAD_FILE_TYPE_IMAGE, imageSpec, imageUrl, -1);
 
 			// 组装uploadResult

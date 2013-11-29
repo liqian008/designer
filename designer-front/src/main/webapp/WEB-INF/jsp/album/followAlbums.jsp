@@ -112,7 +112,6 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                                 <div class="infobox-wrap">
                                     <h4>提示</h4>
                                     <p id="infoboxMessage">
-                                   	暂无作品!
                                     </p>
                                 </div>
                             </div>
@@ -179,7 +178,9 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 	   				}
 	    		}else{
 	    			$('#moreAlbumsContainer').attr("style","display:none");
-	    			alert(data.message);
+	    			//alert(data.message);
+	    			$('#infoboxMessage').text(data.message);
+	    			$('#infoboxContainer').show();
 	    		}
    			});
     	}

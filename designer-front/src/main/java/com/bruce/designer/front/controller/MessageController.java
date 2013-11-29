@@ -54,113 +54,154 @@ public class MessageController {
 	 * @return
 	 */
 	
-	@RequestMapping(value="inbox")
-	public String inbox(Model model, HttpServletRequest request) {
-		String jsp = "/settings/messageList";
+//	@RequestMapping(value="inbox")
+//	public String inbox(Model model, HttpServletRequest request) {
+//		String jsp = "/settings/msgboxList";
+//		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+//		int userId = user.getId();
+//
+//		int messageType = NumberUtils.toInt(request.getParameter("messageType"), 0);
+//		List<Message> messageList = null;
+//		if (messageType <= 0) {// 消息中心
+//			messageList = messageService.queryMessageSummary(userId);
+//			model.addAttribute("messageList", messageList);
+//			//加载fromId的详细资料
+//			if(messageList!=null&&messageList.size()>0){
+//				for(Message message: messageList){
+//					if(!MessageUtil.isBroadcastMessage(message.getMessageType())){
+//						int fromId = message.getFromId();
+//						User fromUser = userService.loadById(fromId);
+//						message.setFromUser(fromUser);
+//					}
+//				}
+//			}
+//			return "/settings/inbox";
+//		} else {// 进入消息列表页
+//
+//			int pageNo = NumberUtils.toInt(request.getParameter("pageNo"), 1);
+//			int pageSize = NumberUtils.toInt(request.getParameter("pageSize"), 10);
+//			
+//			PagingData<Message> messagePagingData = messageService.pagingQuery(userId, messageType, pageNo, pageSize);
+//			if (messagePagingData != null && messagePagingData.getPagingData() != null) {
+//				messageList = messagePagingData.getPagingData();
+//				//加载fromId的详细资料
+//				if(messageList!=null&&messageList.size()>0){
+//					for(Message message: messageList){
+//						int fromId = message.getFromId();
+//						User fromUser = userService.loadById(fromId);
+//						message.setFromUser(fromUser);
+//					}
+//				}
+//				
+//				model.addAttribute("messagePagingData", messagePagingData);
+//				if (MessageUtil.isChatMessage(messageType)) {
+//					// 检查toUser是否存在
+//					int toId = messageType;
+//					if (toId == userId) {//不能给自己发消息
+//						throw new DesignerException(ErrorCode.MESSAGE_TO_SELF);
+//					} else {
+//						User toUser = userService.loadById(toId);
+//						if (toUser == null || toUser.getId() == null) {
+//							throw new DesignerException(ErrorCode.USER_NOT_EXIST);
+//						} else {
+//							model.addAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUTE, toUser);
+//						}
+//					}
+//					jsp = "/settings/msgboxChatList";
+//				}
+//			}
+//			// 同时将消息标记为已读
+//			// int readNum = messageService.markRead(userId, messageType);
+//			model.addAttribute("messageList", messageList);
+//			return jsp;
+//		}
+//	}
+	
+	/**
+	 * 消息中心
+	 * @param model
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="msgbox")
+	public String msgbox(Model model, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
-
-		int messageType = NumberUtils.toInt(request.getParameter("messageType"), 0);
-		List<Message> messageList = null;
-		if (messageType <= 0) {// 消息中心
-			messageList = messageService.queryMessageSummary(userId);
-			model.addAttribute("messageList", messageList);
-			//加载fromId的详细资料
-			if(messageList!=null&&messageList.size()>0){
-				for(Message message: messageList){
-					if(!MessageUtil.isBroadcastMessage(message.getMessageType())){
-						int fromId = message.getFromId();
-						User fromUser = userService.loadById(fromId);
-						message.setFromUser(fromUser);
-					}
+		// 消息中心
+//		int messageType = NumberUtils.toInt(request.getParameter("messageType"), 0);
+		List<Message> messageList = messageService.queryMessageSummary(userId);
+		model.addAttribute("messageList", messageList);
+		//加载fromId的详细资料
+		if(messageList!=null&&messageList.size()>0){
+			for(Message message: messageList){
+				if(!MessageUtil.isBroadcastMessage(message.getMessageType())){
+					int fromId = message.getFromId();
+					User fromUser = userService.loadById(fromId);
+					message.setFromUser(fromUser);
 				}
 			}
-			return "/settings/inbox";
-		} else {// 进入消息列表页
-			PagingData<Message> messagePagingData = messageService.pagingQuery(userId, messageType, 1, 16);
-			if (messagePagingData != null && messagePagingData.getPageData() != null) {
-				messageList = messagePagingData.getPageData();
-				//加载fromId的详细资料
-				if(messageList!=null&&messageList.size()>0){
-					for(Message message: messageList){
-						int fromId = message.getFromId();
-						User fromUser = userService.loadById(fromId);
-						message.setFromUser(fromUser);
-					}
-				}
-				
-				model.addAttribute("messagePagingData", messagePagingData);
-				if (MessageUtil.isChatMessage(messageType)) {
-					// 检查toUser是否存在
-					int toId = messageType;
-					if (toId == userId) {//不能给自己发消息
-						throw new DesignerException(ErrorCode.MESSAGE_TO_SELF);
-					} else {
-						User toUser = userService.loadById(toId);
-						if (toUser == null || toUser.getId() == null) {
-							throw new DesignerException(ErrorCode.USER_NOT_EXIST);
-						} else {
-							model.addAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUTE, toUser);
-						}
-					}
-					jsp = "/settings/messageChatList";
-				}
-			}
-			// 同时将消息标记为已读
-			// int readNum = messageService.markRead(userId, messageType);
-			model.addAttribute("messageList", messageList);
-			return jsp;
 		}
+		return "/settings/msgbox/msgbox";
 	}
 
-	@RequestMapping(value = "/inbox/comments")
-	public String inboxComments(Model model, HttpServletRequest request) {
+	@RequestMapping(value = "/msgbox/sys")
+	public String sys(Model model, HttpServletRequest request) {
+		PagingData<Message> messagePagingData = getPagingDataByMessageType(request, ConstService.MESSAGE_TYPE_SYSTEM);
+		model.addAttribute("messagePagingData", messagePagingData);
+		return "/settings/msgbox/sys";
+	}
+	
+	@RequestMapping(value = "/msgbox/comments")
+	public String comments(Model model, HttpServletRequest request) {
+		PagingData<Message> messagePagingData = getPagingDataByMessageType(request, ConstService.MESSAGE_TYPE_COMMENT);
+		model.addAttribute("messagePagingData", messagePagingData);
+		return "/settings/msgbox/comments";
+	}
+
+	@RequestMapping(value = "/msgbox/likes")
+	public String likes(Model model, HttpServletRequest request) {
+		PagingData<Message> messagePagingData = getPagingDataByMessageType(request, ConstService.MESSAGE_TYPE_LIKE);
+		model.addAttribute("messagePagingData", messagePagingData);
+		return "/settings/msgbox/likes";
+	}
+	
+	@RequestMapping(value = "/msgbox/chat")
+	public String chats(Model model, HttpServletRequest request, int toId) {
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
-		List<Message> messageList = messageService.queryMessagesByType(userId, ConstService.MESSAGE_TYPE_COMMENT);
-		model.addAttribute("messageList", messageList);
-		return "inbox";
+		// 检查toUser是否存在
+		if (toId == userId) {//不能给自己发消息
+			throw new DesignerException(ErrorCode.MESSAGE_TO_SELF);
+		} else {
+			User toUser = userService.loadById(toId);
+			if (toUser == null || toUser.getId() == null) {
+				throw new DesignerException(ErrorCode.USER_NOT_EXIST);
+			} else {
+				model.addAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUTE, toUser);
+			}
+		}
+		
+		int messageType = toId;
+		PagingData<Message> messagePagingData = getPagingDataByMessageType(request, messageType);
+		model.addAttribute("messagePagingData", messagePagingData);
+		return "/settings/msgbox/chat";
 	}
-
-	@RequestMapping(value = "/inbox/likes")
-	public String inboxLikes(Model model, HttpServletRequest request) {
-		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
-		int userId = user.getId();
-		List<Message> messageList = messageService.queryMessagesByType(userId, ConstService.MESSAGE_TYPE_LIKE);
-		model.addAttribute("messageList", messageList);
-		return "inbox";
-	}
-
-	@RequestMapping(value = "/inbox/favorites")
-	public String inboxFavorites(Model model, HttpServletRequest request) {
+	
+	@RequestMapping(value = "/msgbox/favorites")
+	public String favorites(Model model, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
 		List<Message> messageList = messageService.queryMessagesByType(userId, ConstService.MESSAGE_TYPE_FAVORITIES);
 		model.addAttribute("messageList", messageList);
-		return "inbox";
+		return "/settings/msgbox/favorites";
 	}
 
-	@RequestMapping(value = "/inbox/flowers")
+	@RequestMapping(value = "/msgs/flowers")
 	public String flowers(Model model, HttpServletRequest request) {
-		return "inbox";
+		return "/settings/msgbox/flowers";
 	}
 
-	@RequestMapping(value = "/markRead")
-	public String markRead(Model model, HttpServletRequest request) {
-		// int result = messageService.markRead(userId, );
-		return "markRead";
-	}
-
-	@RequestMapping(value = "/markReadAll")
-	public String markReadAll(Model model, int userId) {
-		int result = messageService.markReadAll(userId);
-		return "markRead";
-	}
-
-	@RequestMapping(value = "/outbox")
-	public String outbox(Model model, HttpServletRequest request) {
-		return "outbox";
-	}
+	
 
 	@NeedAuthorize
 	@RequestMapping(value = "/sendMsg.json", method = RequestMethod.POST)
@@ -179,13 +220,41 @@ public class MessageController {
 			return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
 		}
 	}
+	
+	private PagingData<Message> getPagingDataByMessageType(HttpServletRequest request, int messageType) {
+		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+		int userId = user.getId();
+		int pageNo = NumberUtils.toInt(request.getParameter("pageNo"), 1);
+		int pageSize = NumberUtils.toInt(request.getParameter("pageSize"), 10);
+		PagingData<Message> messagePagingData = messageService.pagingQuery(userId, messageType, pageNo, pageSize);
+		List<Message> messageList = messagePagingData.getPagingData();
+		if(messageList!=null&&messageList.size()>0){
+			//加载message的fromUser用户信息
+			// TODO for循环优化，改为map方式，避免重复取用户数据
+			for(Message message: messageList){
+				int fromId = message.getFromId();
+				User fromUser = userService.loadById(fromId);
+				message.setFromUser(fromUser);
+			}
+		}
+		return messagePagingData;
+	}
+	
+	@RequestMapping(value = "/outbox")
+	public String outbox(Model model, HttpServletRequest request) {
+		return "outbox";
+	}
+	
+	@RequestMapping(value = "/markRead")
+	public String markRead(Model model, HttpServletRequest request) {
+		// int result = messageService.markRead(userId, );
+		return "markRead";
+	}
 
-	@ResponseBody
-	@RequestMapping(value = "/broadcastMsg")
-	public String broadcastMsg() {
-		String message = "这是一条系统广播";
-		messageService.broadcast2All(message);
-		return message;
+	@RequestMapping(value = "/markReadAll")
+	public String markReadAll(Model model, int userId) {
+		int result = messageService.markReadAll(userId);
+		return "markRead";
 	}
 
 }

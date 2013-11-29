@@ -116,7 +116,13 @@
       order by ${orderByClause}
     </if>
     <if test="limit != null">
-      limit ${limit}
+    	limit 
+     </if>
+    <if test="start != null">
+		${start}, 
+     </if>
+    <if test="limit != null">
+    	${limit}
      </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
