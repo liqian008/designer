@@ -16,16 +16,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bruce.designer.model.User;
 import com.bruce.designer.annotation.NeedAuthorize;
+import com.bruce.designer.constants.ConstService;
+import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.ResponseUtil;
+import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.util.ConfigUtil;
 
 @Controller
 public class SystemController {
 
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private IMessageService messageService;
 
 	private static final Logger logger = LoggerFactory.getLogger(SystemController.class);
 
@@ -83,14 +89,22 @@ public class SystemController {
 		int result = userService.save(user);
 		if (result == 1) {
 			user = userService.authUser(username, password);
-			request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
-			model.addAttribute(ConstFront.REDIRECT_PROMPT, "您好，" + nickname + "，您已成功注册，现在将转入首页，请稍候…");
-			return ResponseUtil.getForwardReirect();
+			if(user!=null){
+				request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
+				model.addAttribute(ConstFront.REDIRECT_PROMPT, "您好，" + nickname + "，您已成功注册，现在将转入首页，请稍候…");
+				//系统发送欢迎消息
+				long sourceId = 0;
+				String welcomeMessage = ConfigUtil.getString("welcome_message");
+				messageService.sendMessage(sourceId, ConstService.MESSAGE_DELIVER_ID_BROADCAST, user.getId(),  welcomeMessage, ConstService.MESSAGE_TYPE_SYSTEM);
+				
+				return ResponseUtil.getForwardReirect();
+			}
 		} else {
 			model.addAttribute(ConstFront.REG_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.USER_PASSWORD_NOT_MATCH));
 			model.addAttribute(ConstFront.REGISTER_ACTIVE, "REGISTER_ACTIVE");
 			return "login/loginAndReg";
 		}
+		throw new DesignerException(ErrorCode.ALBUM_CREATE_FAILED);
 	}
 
 	/**

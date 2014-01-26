@@ -71,23 +71,33 @@ public class UploadServiceImpl implements IUploadService {
 		// 获取图片存储的绝对、相对路径及文件名
 		String imageDirPath = UploadUtil.getImagePath(time);
 		String absoultImagePath = basePath + imageDirPath;
-		String sourceImageName = UploadUtil.getFileNameWithPlaceHolder(userId, filename, null, time);
+		String imageName = UploadUtil.getFileNameWithPlaceHolder(userId, filename, null, time);
 
 		// 保存原文件(自动创建目录)
-		UploadUtil.saveFile(data, basePath, imageDirPath, sourceImageName);
+//		UploadUtil.saveFile(data, basePath, imageDirPath, sourceImageName);
+		
+		String originalImageSpec = "original";
+		String originalUrl = UploadUtil.saveFile(data, basePath, imageDirPath+ "/"+originalImageSpec,  imageName);
 
 		// 构造uploadResult
 		UploadImageResult uploadResult = new UploadImageResult();
-
+		UploadImageInfo originalImage = new UploadImageInfo(imageName, ConstService.UPLOAD_FILE_TYPE_IMAGE, originalImageSpec, originalUrl, -1);
+		uploadResult.setOriginalImage(originalImage);
+		
 		Set<String> keys = imageSizeMap.keySet();
 		// 根据需要的尺寸进行zoom
 		for (String imageSpec : keys) {
 			int width = imageSizeMap.get(imageSpec);// 获取指定的尺寸
-			// zoom
-			String targetImageName = UploadUtil.getFileNameWithPlaceHolder(userId, filename, imageSpec, time);
-			ImageUtil.scaleByWidth(absoultImagePath +"/"+ sourceImageName, absoultImagePath +"/"+ targetImageName, width);
-			String imageUrl = baseUrl + imageDirPath +"/"+ targetImageName;
-			UploadImageInfo imageInfo = new UploadImageInfo(targetImageName, ConstService.UPLOAD_FILE_TYPE_IMAGE, imageSpec, imageUrl, -1);
+			String scaleImagePath = absoultImagePath+"/"+imageSpec;
+			File scaleImageFile = new File(scaleImagePath);
+			scaleImageFile.mkdirs();
+			
+			//图片缩放
+//			String targetImageName = UploadUtil.getFileNameWithPlaceHolder(userId, filename, null, time);
+			ImageUtil.scaleByWidth(absoultImagePath +"/"+originalImageSpec+"/"+ imageName, scaleImagePath+"/"+imageName, width);
+			//水印处理
+			String imageUrl = baseUrl + imageDirPath +"/"+imageSpec+"/"+ imageName;
+			UploadImageInfo imageInfo = new UploadImageInfo(imageName, ConstService.UPLOAD_FILE_TYPE_IMAGE, imageSpec, imageUrl, -1);
 
 			// 组装uploadResult
 			if (ConstService.UPLOAD_IMAGE_SPEC_LARGE.equals(imageSpec)) {
@@ -114,7 +124,7 @@ public class UploadServiceImpl implements IUploadService {
 			byte[] resizeData = ImageUtil.zoom(data, widthSpec, widthSpec);
 			String avatarFileName = userId +".jpg";
 			//保存文件
-			String avatarUrl = UploadUtil.saveFile(resizeData, basePath, avatarPath +"/"+ widthSpec , avatarFileName);
+			String avatarUrl = UploadUtil.saveFile(resizeData, basePath, avatarPath +"/"+ avatarSpec , avatarFileName);
 			UploadImageInfo imageInfo = new UploadImageInfo(avatarFileName, ConstService.UPLOAD_FILE_TYPE_AVATAR, avatarSpec, avatarUrl, -1);
 			// 组装uploadResult
 			if (ConstService.UPLOAD_IMAGE_SPEC_LARGE.equals(avatarSpec)) {

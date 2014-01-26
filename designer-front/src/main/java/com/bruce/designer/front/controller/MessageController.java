@@ -1,6 +1,8 @@
 package com.bruce.designer.front.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,6 +31,7 @@ import com.bruce.designer.service.ICommentService;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.impl.UserGraphServiceImpl;
+import com.bruce.designer.util.ConfigUtil;
 import com.bruce.designer.util.MessageUtil;
 
 /**
@@ -39,12 +42,14 @@ import com.bruce.designer.util.MessageUtil;
 @RequestMapping(value = "settings")
 public class MessageController {
 
+	private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
+
 	@Autowired
 	private IUserService userService;
 	@Autowired
 	private IMessageService messageService;
-
-	private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
+	
+	public static final int MESSAGE_LIMIT = NumberUtils.toInt(ConfigUtil.getString("message_limit"), 20);
 
 	/**
 	 * 我的消息
@@ -133,11 +138,22 @@ public class MessageController {
 		model.addAttribute("messageList", messageList);
 		//加载fromId的详细资料
 		if(messageList!=null&&messageList.size()>0){
+			List<Integer> fromIdList = new ArrayList<Integer>();
 			for(Message message: messageList){
+				//非系统广播，先构造fromId列表
 				if(!MessageUtil.isBroadcastMessage(message.getMessageType())){
 					int fromId = message.getFromId();
-					User fromUser = userService.loadById(fromId);
-					message.setFromUser(fromUser);
+					fromIdList.add(fromId);
+				}
+			}
+			//获取用户map
+			Map<Integer, User> fromUserMap = userService.getUserMap(fromIdList);
+			
+			for(Message message: messageList){
+				//非系统广播，加载fromId对应的用户信息
+				if(!MessageUtil.isBroadcastMessage(message.getMessageType())){
+					int fromId = message.getFromId();
+					message.setFromUser(fromUserMap.get(fromId));
 				}
 			}
 		}
@@ -201,7 +217,26 @@ public class MessageController {
 		return "/settings/msgbox/flowers";
 	}
 
-	
+	/**
+	 * 查询未读消息数，供首页headerBar上展示
+	 * @param model
+	 * @param request
+	 * @param toId
+	 * @return
+	 */
+	@NeedAuthorize
+	@RequestMapping(value = "/unreadMessageCount.json")
+	public ModelAndView unreadMessageCount(Model model, HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+		if(user!=null){
+			int userId = user.getId();
+			int result = messageService.queryUnreadMessageCount(userId);
+			if (result > 0) {
+				return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(result));
+			}
+		}
+		return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
+	}
 
 	@NeedAuthorize
 	@RequestMapping(value = "/sendMsg.json", method = RequestMethod.POST)
@@ -221,40 +256,71 @@ public class MessageController {
 		}
 	}
 	
+	/**
+	 * 分页获取消息数据
+	 * @param request
+	 * @param messageType
+	 * @return
+	 */
 	private PagingData<Message> getPagingDataByMessageType(HttpServletRequest request, int messageType) {
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
 		int pageNo = NumberUtils.toInt(request.getParameter("pageNo"), 1);
-		int pageSize = NumberUtils.toInt(request.getParameter("pageSize"), 10);
+		int pageSize = NumberUtils.toInt(request.getParameter("pageSize"), MESSAGE_LIMIT);
 		PagingData<Message> messagePagingData = messageService.pagingQuery(userId, messageType, pageNo, pageSize);
 		List<Message> messageList = messagePagingData.getPagingData();
 		if(messageList!=null&&messageList.size()>0){
+			
+			List<Integer> fromIdList = new ArrayList<Integer>();
+			for(Message message: messageList){
+				//非系统广播，先构造fromId列表
+				if(!MessageUtil.isBroadcastMessage(message.getMessageType())){
+					int fromId = message.getFromId();
+					fromIdList.add(fromId);
+				}
+			}
+			//获取用户map
+			Map<Integer, User> fromUserMap = userService.getUserMap(fromIdList);
+			
+			for(Message message: messageList){
+				//非系统广播，加载fromId对应的用户信息
+				if(!MessageUtil.isBroadcastMessage(message.getMessageType())){
+					int fromId = message.getFromId();
+					message.setFromUser(fromUserMap.get(fromId));
+				}
+			}
+			
 			//加载message的fromUser用户信息
 			// TODO for循环优化，改为map方式，避免重复取用户数据
-			for(Message message: messageList){
-				int fromId = message.getFromId();
-				User fromUser = userService.loadById(fromId);
-				message.setFromUser(fromUser);
-			}
+			
+			
+//			for(Message message: messageList){
+//				int fromId = message.getFromId();
+//				User fromUser = userService.loadById(fromId);
+//				message.setFromUser(fromUser);
+//			}
+			
+			//读取消息后标记为已读
+			messageService.markRead(userId, messageType);
 		}
 		return messagePagingData;
 	}
 	
-	@RequestMapping(value = "/outbox")
-	public String outbox(Model model, HttpServletRequest request) {
-		return "outbox";
-	}
+//	@RequestMapping(value = "/outbox")
+//	public String outbox(Model model, HttpServletRequest request) {
+//		return "outbox";
+//	}
 	
-	@RequestMapping(value = "/markRead")
-	public String markRead(Model model, HttpServletRequest request) {
-		// int result = messageService.markRead(userId, );
-		return "markRead";
-	}
-
-	@RequestMapping(value = "/markReadAll")
-	public String markReadAll(Model model, int userId) {
-		int result = messageService.markReadAll(userId);
-		return "markRead";
-	}
+//	@RequestMapping(value = "/markRead")
+//	public String markRead(Model model, HttpServletRequest request) {
+//		// int result = messageService.markRead(userId, );
+//		return "markRead";
+//	}
+//
+//	@RequestMapping(value = "/markReadAll")
+//	public String markReadAll(Model model, int userId) {
+//		int result = messageService.markReadAll(userId);
+//		return "markRead";
+//	}
 
 }

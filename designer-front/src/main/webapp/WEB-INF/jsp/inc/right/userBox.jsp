@@ -67,7 +67,7 @@ if (queryUser != null) {
 
 		<%if (!isMe) {%>
 		<input class="common-submit button" type="button" value="私信"
-			onclick="location.href='/designer-front/settings/chat?toId=<%=queryUser.getId()%>'" />
+			onclick="location.href='/designer-front/settings/msgbox/chat?toId=<%=queryUser.getId()%>'" />
 		<%}%>
 		
 		<input class="common-submit button" type="button" value="作品辑"

@@ -11,13 +11,13 @@ public interface IAlbumService extends IBaseService<Album, Integer> {
 
 	public List<Album> queryAlbumByIds(List<Integer> idList);
 
-	public List<Album> queryAlbumByStatus(short status);
+//	public List<Album> queryAlbumByStatus(short status);
 
 	public List<Album> queryAlbumByUserId(int userId);
 
 	public int deleteUserAlbum(int userId, int albumId);
 
-	public PagingData<Album> pagingQuery(int userId, short status, int pageNo, int pageSize);
+	public PagingData<Album> pagingQuery(int userId, short albumStatus, int pageNo, int pageSize);
 
 //	public long increceBroswer(int albumId, int albumSlideId);
 //

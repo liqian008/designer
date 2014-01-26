@@ -34,7 +34,7 @@ public class UploadImageResult{
 	
 	private UploadImageInfo smallImage;
 	
-	private UploadImageInfo tinyImage;
+//	private UploadImageInfo tinyImage;
 	
 	public UploadImageInfo getLargeImage() {
 		return largeImage;
@@ -51,14 +51,14 @@ public class UploadImageResult{
 	public void setMediumImage(UploadImageInfo mediumImage) {
 		this.mediumImage = mediumImage;
 	}
-
-	public UploadImageInfo getTinyImage() {
-		return tinyImage;
-	}
-
-	public void setTinyImage(UploadImageInfo tinyImage) {
-		this.tinyImage = tinyImage;
-	}
+//
+//	public UploadImageInfo getTinyImage() {
+//		return tinyImage;
+//	}
+//
+//	public void setTinyImage(UploadImageInfo tinyImage) {
+//		this.tinyImage = tinyImage;
+//	}
 
 	public UploadImageInfo getSmallImage() {
 		return smallImage;

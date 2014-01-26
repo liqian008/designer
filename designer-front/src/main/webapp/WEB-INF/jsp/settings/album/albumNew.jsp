@@ -93,7 +93,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                     <div class="tab-pane widgets-light active" id="apply4Designer">
                                          <div class="widget-box widget-wrapper-form clearfix">
                                         	<form id='album-widget-form' class="widget-form" method="post" class="clearfix"
-												action="/designer-front/settings/publishAlbum">
+												action="/designer-front/settings/postAlbum">
 												<div class="content-title">
 													<h4>发布作品集【上限6张】</h4>
 												</div>
@@ -156,6 +156,13 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													<div class="row-left">作品描述: </div>
 													<div class="row-right">
 														<textarea class='album-slide-remark' name='remark' rows='2'></textarea>
+													</div>
+												</div>
+												<div class="row-container clearfix">
+													<div class="row-left">分享选项: </div>
+													<div class="row-right">
+														<input type="checkbox" name="" value="1"/>同时分享到Sina微博 &nbsp;<a href="/designer-front/settings/thirdparty">修改分享设置</a><br/>
+														<input type="checkbox" name="" value="1"/>同时分享到QQ空间&nbsp;<a href="/designer-front/settings/thirdparty">修改分享设置</a>
 													</div>
 												</div>
 												<!-- <div>

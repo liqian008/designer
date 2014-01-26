@@ -37,7 +37,7 @@
 					$("#tagcloud").append(data.data.html);
 					$('#tagcloud a').tagcloud();
 				}else{
-					alert('failed');
+					/* alert('failed'); */
 				}
 			});
 		}

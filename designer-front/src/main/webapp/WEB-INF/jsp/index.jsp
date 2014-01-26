@@ -22,23 +22,23 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
         <meta name="keywords" content="Bootstrap, Verendus, HTML5, CSS3, Business, Multipurpose, Template">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="./css/bootstrap.min.css">
-        <link rel="stylesheet" href="./css/font-awesome.css">
-        <link rel="stylesheet" href="./css/animate.css">
-        <link rel="stylesheet" href="./css/layerslider.css">
-        <link rel="stylesheet" href="./css/style.css"> 
+        <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/designer-front/css/font-awesome.css">
+        <link rel="stylesheet" href="/designer-front/css/animate.css">
+        <link rel="stylesheet" href="/designer-front/css/layerslider.css">
+        <link rel="stylesheet" href="/designer-front/css/style.css"> 
         <!--[if IE 8]>
-        <link rel="stylesheet" type="text/css" media="all" href="./css/ie8.css" />    
+        <link rel="stylesheet" type="text/css" media="all" href="/designer-front/css/ie8.css" />    
         <![endif]-->
                 
 
-        <script src="./js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-        <script src="./js/vendor/jquery-1.8.3.min.js"></script>
+        <script src="/designer-front/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+        <script src="/designer-front/js/vendor/jquery-1.8.3.min.js"></script>
 
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
     </head>
-    <body class="body-background" style="background-image: url(./img/backgrounds/bg3.jpg); ">
+    <body class="body-background" style="background-image: url(/designer-front/img/backgrounds/bg3.jpg); ">
 
         <!--[if lt IE 8]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
@@ -63,7 +63,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                             <div style="slidedirection: right;" class="ls-layer"> 
                                 
                                 <!--LayerSlider background-->
-                                <img src="./img/slides/slide-1/background.png" class="ls-bg" alt="Slide Background"/>
+                                <img src="/designer-front/img/slides/slide-1/background.png" class="ls-bg" alt="Slide Background"/>
                                 <!--LayerSlider sublayers-->                                
                                 <img style="top: 20px; left: 220px; slidedirection: left; slideoutdirection: top; durationin: 2400; delayin: 500; delayout: 100; easingin: easeOutBack;" src="img/slides/slide-1/ipad.png" class="ls-s2"  alt="" />
                                 <img style="top: 100px; left: 80px; slidedirection: bottom; slideoutdirection: bottom; durationin: 2100; delayin: 500; delayout: 200 easingin: easeOutBack;" src="img/slides/slide-1/iphone.png" class="ls-s3"  alt="" />
@@ -93,8 +93,8 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 			            
             <div class="main fullwidth">
             	<section class="content"> <!-- Content -->
-                    <div class="container">
-                    	<%
+                    <div class="container" id="proAlbumContainer">
+                    	<%-- <%
 						List<Album> albumList = (List<Album>)request.getAttribute("albumList");
 						if(albumList!=null){
 							int count =0;
@@ -136,7 +136,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
                     	</div>
                         <%}
                         }
-	                    }%>
+	                    }%> --%>
 	                    
                     	<!-- <div class="shortcode-blogpost row-fluid">
                     		<div class="span2 offset5">
@@ -159,7 +159,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 			<div class="main fullwidth">
 				<section class="content">
 					<!-- Content -->
-					<div class="container" id="albumContainer">
+					<div class="container" id="latestAlbumContainer">
 					</div>
 					<input type="hidden" id="albumsTailId" name="albumsTailId" value="0" />
 					<div class="shortcode-blogpost row-fluid" id="moreAlbumsContainer">
@@ -181,17 +181,17 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 
         
     <!-- Load all Javascript Files -->
-    <script src="./js/jquery-easing-1.3.js"></script>
-    <script src="./js/vendor/bootstrap.min.js"></script>
-    <script src="./js/superfish.js"></script>
-    <!-- <script src="./js/supersubs.js"></script> -->
-   <!--  <script src="./js/jquery.tweet.js"></script>  -->
-    <script src="./js/layerslider.kreaturamedia.jquery.js"></script>
-<!--     <script src="./js/jquery.flexslider.js"></script>   -->
-	<script src="./js/jquery.jcarousel.min.js"></script>
-    <script src="./js/retina.js"></script>
+    <script src="/designer-front/js/jquery-easing-1.3.js"></script>
+    <script src="/designer-front/js/vendor/bootstrap.min.js"></script>
+    <script src="/designer-front/js/superfish.js"></script>
+    <!-- <script src="/designer-front/js/supersubs.js"></script> -->
+   <!--  <script src="/designer-front/js/jquery.tweet.js"></script>  -->
+    <script src="/designer-front/js/layerslider.kreaturamedia.jquery.js"></script>
+<!--     <script src="/designer-front/js/jquery.flexslider.js"></script>   -->
+	<script src="/designer-front/js/jquery.jcarousel.min.js"></script>
+    <script src="/designer-front/js/retina.js"></script>
 
-    <script src="./js/custom.js"></script>
+    <script src="/designer-front/js/custom.js"></script>
 	<script>
 		fallLoad();
 	
@@ -207,7 +207,8 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
     		$.post('/designer-front/moreAlbums.json', jsonData, function(data) {
     			var result = data.result;
 	    		if(result==1){
-	    			$("#albumContainer").append(data.data.html);
+	    			$("#latestAlbumContainer").append(data.data.html);
+	    			$("#proAlbumContainer").append(data.data.html);
 	   				var nextTailId = data.data.tailId;
 	    			$("#albumsTailId").val(nextTailId);
 	    			if(nextTailId<=0){//无更多数据，则隐藏按钮
@@ -218,7 +219,6 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 	   				}
 	    		}else{
 	    			$('#moreAlbumsContainer').attr("style","display:none");
-	    			alert("请求失败");
 	    		}
    			});
     	}

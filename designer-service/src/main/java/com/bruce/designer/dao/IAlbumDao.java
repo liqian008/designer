@@ -9,7 +9,7 @@ public interface IAlbumDao extends IBaseDao<Album, Integer> {
 
 	public List<Album> queryAlbumByIds(List<Integer> idList);
 
-	public List<Album> queryAlbumByStatus(short status);
+//	public List<Album> queryAlbumByStatus(short status);
 	
 	public List<Album> queryAlbumByUserId(int userId);
 	

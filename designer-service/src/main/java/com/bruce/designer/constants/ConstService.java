@@ -9,8 +9,11 @@ public interface ConstService {
 	public static final short ALBUM_PRIVATE_STATUS = 2;
 
 	// ////////////////////用户状态常量////////////////////////////////
-	/* 正常用户状态 */
+	/* 用户正常状态 */
 	public static final short USER_STATUS_OPEN = 1;
+	/* 用户被封禁状态 */
+	public static final short USER_STATUS_FORBIDDEN = 2;
+	
 	/* 设计师原始状态 */
 	public static final short DESIGNER_APPLY_NONE = 0;
 	/* 设计师申请已发送 */

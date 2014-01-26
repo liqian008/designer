@@ -59,7 +59,7 @@ public abstract class AbstractHotCache {
 			cacheShardedJedisPool.returnResource(shardedJedis);
 			return result;
 		} catch (JedisException t) {
-			logger.error("addScore", t);
+			logger.error("incrScore", t);
 			if (shardedJedis != null) {
 				cacheShardedJedisPool.returnBrokenResource(shardedJedis);
 			}
@@ -117,7 +117,7 @@ public abstract class AbstractHotCache {
 				return albumIdList;
 			}
 		} catch (JedisException t) {
-			logger.error("getUserFollowList", t);
+			logger.error("getHotList", t);
 			if (shardedJedis != null) {
 				cacheShardedJedisPool.returnBrokenResource(shardedJedis);
 			}

@@ -117,6 +117,12 @@ User toUser = (User)request.getAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUT
 														<div class="message-meta messagemetadata">
 															<h5 class="message-author">
 																<%=MessageUtil.getMessageTypeName(message.getMessageType())%>
+																
+																<%if(message.getUnread()==ConstService.MESSAGE_UNREAD){%>
+																<a href="javascript:void(0)">
+																(未读)
+																</a>
+																<%}%>
 															</h5>
 														</div>
 														<div class="message-content">

@@ -44,6 +44,28 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	}
 	
 	/**
+	 * 发送系统广播
+	 */
+	@Override
+	public int sendSystemMessage(int toId, String content){
+		return messageDao.sendMessage(0, ConstService.MESSAGE_DELIVER_ID_BROADCAST, toId, content, ConstService.MESSAGE_TYPE_SYSTEM);
+	}
+	
+	/**
+	 * 批量发送系统广播
+	 */
+	public int sendSystemMessage(List<Integer> toIdList, String content){
+		if(toIdList!=null&&toIdList.size()>0){
+			for(int toId: toIdList){
+				sendSystemMessage(toId, content);
+			}
+			return toIdList.size();
+		}
+		return 0;
+	}
+    
+	
+	/**
 	 * 发送消息
 	 */
 	@Override
@@ -71,6 +93,11 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	@Override
 	public int sendChatMessage(int fromId, int toId, String content) {
 		return messageDao.sendChatMessage(fromId, toId, content);
+	}
+	
+	@Override
+	public int queryUnreadMessageCount(int userId){
+		return messageDao.queryUnreadMessageCount(userId);
 	}
 	
 	/**
@@ -139,7 +166,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	@Override
 	public int broadcast2All(String content) {
 		// TODO 此api需要重构只获取userId即可
-		List<User> userList = userService.queryUsersByStatus(ConstService.USER_STATUS_OPEN);
+		List<User> userList = null;//userService.queryUsersByStatus(ConstService.USER_STATUS_OPEN);
 		if(userList!=null&&userList.size()>0){
 		    //需使用批处理
 			long sourceId = 0;
@@ -157,7 +184,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	@Override
 	public int broadcase2Designers(String content) {
 		// TODO 此api需要重构只获取designerId即可
-		List<User> desiangerList = userService.queryDesignersByStatus(ConstService.USER_STATUS_OPEN);
+		List<User> desiangerList = null;//userService.queryDesignersByStatus(ConstService.USER_STATUS_OPEN);
 		if(desiangerList!=null&&desiangerList.size()>0){
 			//需使用批处理
 			long sourceId = 0;

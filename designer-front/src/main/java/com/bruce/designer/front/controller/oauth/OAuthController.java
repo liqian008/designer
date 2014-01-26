@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,14 +111,15 @@ public class OAuthController {
 			} else {// 已登录状态（进入账户绑定流程）
 				// 绑定现有账户流程，需检查已登录用户是否已存在该oauth类型的绑定
 				AccessTokenInfo accessToken = user.getAccessTokenMap().get(thirdpartyType);
-				boolean bindAvailable = accessToken!=null && accessToken.getUserId()!=null;
-				boolean isMyToken = user.getId().equals(tokenInfo.getUserId());
-				if (bindAvailable && isMyToken) {//当前登录用户未绑定的第三方账户为空
+//				boolean bindAvailable = accessToken!=null && accessToken.getUserId()!=null;
+//				boolean isMyToken = user.getId().equals(tokenInfo.getUserId());
+//				if (bindAvailable && isMyToken) {//当前登录用户未绑定的第三方账户为空，可以进行绑定
+				if (accessToken==null) {//当前登录用户未绑定的第三方账户为空，可以进行绑定
 					tokenInfo.setUserId(user.getId());
 					accessTokenService.save(tokenInfo);
 					user.getAccessTokenMap().put(tokenInfo.getThirdpartyType(), tokenInfo);
-
-					request.setAttribute(ConstFront.REDIRECT_PROMPT, "您已成功绑定" + thirdpartyType + "账户，现在将转入个人主页，请稍候…");
+					
+					request.setAttribute(ConstFront.REDIRECT_PROMPT, "您已成功绑定[" + getThirdpartyName(thirdpartyType) + "]账户，现在将转入个人主页，请稍候…");
 					return ResponseUtil.getForwardReirect();
 				} else {// 该uid已经被绑定过，无法同时绑定多个同类型账户
 					throw new DesignerException(ErrorCode.OAUTH_ALREADY_BIND);
@@ -182,7 +182,7 @@ public class OAuthController {
 	 */
 	@RequestMapping(value = "/oauthBind", method = RequestMethod.POST)
 	public String oauthBind(Model model, HttpServletRequest request, String username, String password) {
-		String promptMessage = null;
+//		String promptMessage = null;
 		// 检查session中是否存在accessToken
 		AccessTokenInfo sessionToken = checkOAuthTokenStatus(request);
 		// 加载用户
@@ -231,7 +231,7 @@ public class OAuthController {
 			Map<Short, AccessTokenInfo> accessTokenMap = user.getAccessTokenMap();
 			accessTokenMap.remove(thirdpartyType);
 		}
-		request.setAttribute(ConstFront.REDIRECT_PROMPT, "您已成功解绑" + thirdpartyType + "账户，现在将转入个人主页，请稍候…");
+		request.setAttribute(ConstFront.REDIRECT_PROMPT, "您已成功解绑[" + getThirdpartyName(thirdpartyType) + "]账户，现在将转入个人主页，请稍候…");
 //		return "forward:/redirect";
 		return ResponseUtil.getForwardReirect();
 	}
@@ -293,6 +293,17 @@ public class OAuthController {
 			throw new DesignerException(ErrorCode.OAUTH_ALREADY_BIND);
 		}
 		return sessionToken;
+	}
+	
+	
+	private String getThirdpartyName(Short thirdpartyType){
+		if(thirdpartyType.equals(IOAuthService.OAUTH_WEIBO_TYPE)) {
+			return "新浪微博";
+		}else if(thirdpartyType.equals(IOAuthService.OAUTH_WEIBO_TYPE)) {
+			return "腾讯QQ";
+		}else{
+			return "未知第三方平台";
+		}
 	}
 
 }

@@ -131,7 +131,7 @@ String locationHref= "/designer-front/settings/msgbox/chat?toId="+toUser.getId()
 															<div class="message-author vcard">
 																<a href='/designer-front/<%=message.getFromId()%>/home' target="_blank">
 																	<img
-																	src="/designer-front/staticFile/avatar/<%=message.getFromId()%>_medium.jpg">
+																	src="/designer-front/staticFile/avatar/100/<%=message.getFromId()%>.jpg">
 																</a>
 															</div>
 														</div>

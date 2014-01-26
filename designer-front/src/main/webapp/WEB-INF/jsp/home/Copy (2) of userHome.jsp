@@ -1,15 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.model.*" %>
-<%@ page import="com.bruce.designer.service.oauth.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
 <%@ page import="com.bruce.designer.constants.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.text.*" %> 
+<%@ page import="java.text.*" %>
 
 <%
 SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
-%>
+User queryUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE);
+
+boolean isDesigner = queryUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED;
+boolean isMe =  currentUser!=null&&queryUser!=null&&currentUser.getId().equals(queryUser.getId());
+%> 
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -41,7 +44,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
     </head>
-    <body class="body-background" style="background-image: url(/designer-front/img/backgrounds/bg3.jpg); ">
+    <body class="body-background" style="background-image: url(../img/backgrounds/bg3.jpg); ">
 
         <!--[if lt IE 8]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
@@ -56,90 +59,75 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
                 <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="../inc/headerNav.jsp?menuFlag=settings"></jsp:include>
+                	
+                	<%
+                	String menuFlag = "";
+                	if(isMe){
+                		menuFlag = "myHome";
+                	}
+                	%>
+                    <jsp:include page="../inc/headerNav.jsp?menuFlag=<%=menuFlag%>"></jsp:include>
 					<jsp:include page="../inc/ad.jsp"></jsp:include>
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
         <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
 
-        <div class="page"> <!-- Page -->
+        <div class="page"> <!-- Page --> 
             <div class="breadscrumbs">
                 <div class="container">
                     <ul class="clearfix">
-                        <li><a href="/designer-front">首页</a>/</li>
-                        <li><a href="/designer-front/settings">设置</a>/</li>
-                        <li><a href="javascript:void(0)">个人资料</a></li>
+                        <li><a href="./">首页</a>/</li>
+                        <li><a href="javascript:void(0)"><%=queryUser.getNickname()%></a>/</li>
+                        <li><a href="javascript:void(0)">作品辑</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="main fullwidth">
+            <div class="main fullwidth">            
                 <div class="container">
                     <div class="row-fluid">
                         <section class="content span9">
-							<div class="content-title">
-                                <h2>个人设置</h2>
-                            </div>
-
-                            <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
-                                <ul class="tabs-nav tabs clearfix span3">
-                                	<jsp:include page="./settingsTabInc.jsp"></jsp:include>
-                                </ul>
-                                <div class="tab-content span9">
-                                    <div class="tab-pane widgets-light active" id="info">
-                                        <div class="widget-box widget-wrapper-form">
-											<div class="content-title">
-												<h4>个人资料</h4> 
-											</div>
-											
-											<form class="widget-form" method="post" class="clearfix"
-												action="/designer-front/settings/info">
-												
-												<div class="row-container clearfix">
-													<div class="row-left">用户类型：</div>
-													<div class="row-right">设计师</div>
-												</div>
-												<div class="row-container clearfix">
-													<div class="row-left">登录名：</div>
-													<div class="row-right">
-														<!-- <input type="text" name="username" value="liqian2"> -->
-														<%=currentUser.getUsername()%>
-													</div>
-												</div>
-												<div class="row-container clearfix">
-													<div class="row-left">昵称：</div>
-													<div class="row-right">
-														<!-- <input type="text" name="username" value="liqian2"> -->
-														<%=currentUser.getNickname()%>
-													</div>
-												</div>
-												
-												<!-- <div class="row-container clearfix">
-													<div class="row-left">性别：</div>
-													<div class="row-right">
-														<input type="radio" name="gender" value="1"/>男
-														<input type="radio" name="gender" value="2"/>女
-													</div>
-												</div>
-												
-												<div class="row-container clearfix">
-													<input class="common-submit button" type="submit" value="修 改">
-													<input class="common-submit button" type="reset" value="重 置">
-												</div> -->
-												
-											</form>
-										</div>
-                                    </div>
-                                    
+                        	
+                        	<%if(!isDesigner){%>
+                        	<div class="infobox info-warning info-warning-alt clearfix">
+                                <span>!</span>
+                                <div class="infobox-wrap">
+                                    <h4>提示</h4>
+                                    <p>
+                                    非设计师身份，暂无作品展示! 
+                                    </p>
                                 </div>
                             </div>
-                        </section> 
-                        
-                        <!-- right slidebar -->
-						<aside class="sidebar widgets-light span3">
-                       		<jsp:include page="../inc/right/sidebar_settings.jsp"></jsp:include> 
+                        	<%}else{%>
+                        	<div id="infoboxContainer" class="infobox info-warning info-warning-alt clearfix" style="display:none">
+                                <span>!</span>
+                                <div class="infobox-wrap">
+                                    <h4>提示</h4>
+                                    <p id="infoboxMessage">
+                                   	无更多数据!
+                                    </p>
+                                </div>
+                            </div>
+	                    	<div id="albumContainer">
+	                    	</div>
+	                    	<div>
+	                    		<input type="hidden" id="albumsTailId" name="albumsTailId" value="0" />
+								<input type="hidden" id="designerId" name="designerId" value="<%=queryUser.getId()%>" />
+								<div class="shortcode-blogpost row-fluid" id="moreAlbumsContainer">
+									<div class="span2 offset5">
+										<input id="moreAlbumsBtn"
+											class="button-small button button-white btn-block" type="button"
+											value="加载更多..." />
+									</div>
+								</div>
+	                    	</div>
+							<%}%>
+                        </section>
+                       	
+                       	<!-- right slidebar -->
+						<aside class="sidebar widgets-light span3"> 
+                       		<jsp:include page="../inc/right/sidebar.jsp"></jsp:include> 
                     	</aside>
-                    	
-                    </div>                        
+                    </div>
                 </div> <!-- Close Main -->
             </div> 
            
@@ -159,6 +147,37 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
     <script src="/designer-front/js/retina.js"></script>
 
     <script src="/designer-front/js/custom.js"></script>
-
+	<script>
+		fallLoad();
+		
+		$('#moreAlbumsBtn').click(function(){
+			fallLoad();
+		});
+	
+		function fallLoad(){
+			//置为数据加载状态 
+			$('#moreAlbumsBtn').val("努力加载中...");
+			$('#moreAlbumsBtn').attr("disabled","disabled");
+			var jsonData = {'designerId':$("#designerId").val(), 'albumsTailId' : $("#albumsTailId").val(), 'numberPerLine':'3'};
+			$.post('/designer-front/moreAlbums.json', jsonData, function(data) {
+				var result = data.result;
+				if(result==1){
+					$("#albumContainer").append(data.data.html);
+					var nextTailId = data.data.tailId;
+					$("#albumsTailId").val(nextTailId);
+					if(nextTailId<=0){//无更多数据，则隐藏按钮
+						$('#moreAlbumsContainer').attr("style","display:none");
+					}else{//还有更多数据，启用加载按钮
+						$('#moreAlbumsBtn').removeAttr("disabled");
+						$('#moreAlbumsBtn').val("加载更多...");
+					}
+				}else{
+					$('#moreAlbumsContainer').hide();
+					$('#infoboxMessage').text(data.message);
+					$('#infoboxContainer').show();
+				}
+			});
+		}
+	</script>
     </body>
 </html>

@@ -152,7 +152,7 @@ if(currentUser!=null&&currentUser.getId()==queryUser.getId()){
 										<div class="row-container clearfix">
 											<div class="row-left">设计师简介: </div>
 											<div class="row-right">
-												<%=queryUser.getDesignerCompany()%>
+												
 											</div>
 										</div>
 										

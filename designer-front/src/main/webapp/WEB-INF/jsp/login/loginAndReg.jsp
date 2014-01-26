@@ -95,7 +95,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 											<div id="reg-failed" class="infobox info-error info-error-alt clearfix">
 				                                <span></span>
 				                                <div class="infobox-wrap">
-				                                    <h4 id="regErrorTitle">提示</h4>
+				                                    <h4 id="regErrorTitle">错误提示</h4>
 				                                    <p id="regErrorMessage"><%=regErrorMessage%></p>
 				                                </div>
 				                            </div>
@@ -108,7 +108,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 													<div class="row-right">
 														<input type="text" class="span5" id="reg-username" name="username"/>
 														<span id="reg-username-required" class="required">*</span>
-														<span id="reg-username-prompt" class="text-prompt">字符,数字及下划线，4-20位</span>
+														<span id="reg-username-prompt" class="text-prompt">字符、数字及下划线，4-20位</span>
 													</div> 
 												</div>
 												
@@ -117,7 +117,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 													<div class="row-right">
 														<input type="text" class="span5" id="reg-nickname" name="nickname"/>
 														<span id="reg-nickname-required" class="required">*</span>
-														<span id="reg-nickname-prompt" class="text-prompt">字符,数字及下划线，4-20位</span>
+														<span id="reg-nickname-prompt" class="text-prompt">字符、数字及下划线，2-20位</span>
 													</div>
 												</div>
 												
@@ -126,7 +126,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 													<div class="row-right">
 														<input type="password" class="span5" id="reg-password" name="password"/>
 														<span id="reg-password-required" class="required">*</span>
-														<span id="reg-password-prompt" class="text-prompt">6-20位</span>
+														<span id="reg-password-prompt" class="text-prompt">字符、数字，6-20位</span>
 													</div>
 												</div>
 												
@@ -154,7 +154,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 											<div id="login-failed" class="infobox info-error info-error-alt clearfix">
 				                                <span></span>
 				                                <div class="infobox-wrap">
-				                                    <h4 id="loginErrorTitle">提示</h4>
+				                                    <h4 id="loginErrorTitle">错误提示</h4>
 				                                    <p id="loginErrorMessage"><%=loginErrorMessage%></p>
 				                                </div>
 				                            </div>
@@ -272,8 +272,8 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
     	//检查用户名是否合法
     	function checkRegUsername(){
     		var usernameVal = $('#reg-username').val();
-    		//中文、英文字符 4-6位
-    		var usernameRegex =  /^[\u4E00-\u9FA5\uf900-\ufa2d\w]{4,16}$/;
+    		//中文、英文字符 4-20位
+    		var usernameRegex =  /^[\u4E00-\u9FA5\uf900-\ufa2d\w]{4,20}$/;
     		if(usernameVal==''){
     			$('#reg-username-prompt').text('用户名不能为空').show();
         		return false;
@@ -300,7 +300,8 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
     	//检查昵称是否合法
     	function checkRegNickname(){
     		var nicknameVal = $('#reg-nickname').val();
-    		var nicknameRegex =  /^[\u4E00-\u9FA5\uf900-\ufa2d\w]{4,16}$/;
+    		//中文、英文字符 2-20位
+    		var nicknameRegex =  /^[\u4E00-\u9FA5\uf900-\ufa2d\w]{2,20}$/;
     		if(nicknameVal==''){
     			$('#reg-nickname-prompt').text('昵称不能为空').show();
     		}else if(!nicknameRegex.test(nicknameVal)){//监察正则匹配

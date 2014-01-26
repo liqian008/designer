@@ -17,11 +17,72 @@
 		</div>
 	</div>
 
+	<div class="footer-widgets"> <!-- Footer Widgets Area --> 
+	    <div class="container">
+	        <div class="row-fluid">
+	            <div class="sitemap-holder span6">
+	            	<div class="widget-box widget-menu list-links span3">
+		                <ul style="text-align:center">
+		                    <li><a href="post-left.html#">卫东翡翠网</a></li>
+		                </ul>
+		            </div>
+		            <div class="widget-box widget-menu list-links span3">
+		                <ul style="text-align:center">
+		                    <li><a href="post-left.html#">卫东翡翠网</a></li>
+		                </ul>
+		            </div>
+		            <div class="widget-box widget-menu list-links span3">
+		                <ul style="text-align:center">
+		                    <li><a href="post-left.html#">卫东翡翠网</a></li>
+		                </ul>
+		            </div>
+		            <div class="widget-box widget-menu list-links span3">
+		                <ul style="text-align:center">
+		                    <li><a href="post-left.html#">卫东翡翠网</a></li>
+		                </ul>
+		            </div>
+	            </div>
+	            
+	            <div class="sitemap-holder span6">
+	            	<div class="widget-box widget-menu list-links span3">
+		                <ul style="text-align:center">
+		                    <li><a href="post-left.html#">卫东翡翠网</a></li>
+		                </ul>
+		            </div>
+	            	<div class="widget-box widget-menu list-links span3">
+		                <ul style="text-align:center">
+		                    <li><a href="post-left.html#">卫东翡翠网</a></li>
+		                </ul>
+		            </div>
+		            <div class="widget-box widget-menu list-links span3">
+		                <ul style="text-align:center">
+		                    <li><a href="post-left.html#">卫东翡翠网</a></li>
+		                </ul>
+		            </div>
+		            <div class="widget-box widget-menu list-links span3">
+		                <ul style="text-align:center">
+		                    <li><a href="post-left.html#">卫东翡翠网</a></li>
+		                </ul>
+		            </div>
+	            </div>
+	            
+	        </div>
+	    </div>
+	</div>
+
 	<div class="footer-meta">
 		<!-- Footer meta -->
 		<div class="container">
 			<div class="row-fluid">
-				<div class="sitemap-holder span7"></div>
+				<div class="sitemap-holder span7">
+					<ul class="sitemap-menu clearfix">
+                    <li>
+                        <!-- 
+                        技术支持：<a href="#">即可为</a>
+                         -->
+                    </li>
+                </ul>
+				</div>
 				<div class="copyright span5">
 					<p>
 						<a href="javascript:void(0)">爱-即刻&nbsp;&nbsp;(京ICP备13008813号)</a>&nbsp;&nbsp;By&nbsp;&nbsp;<a

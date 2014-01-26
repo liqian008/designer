@@ -1,4 +1,3 @@
-<%@page import="com.bruce.designer.front.controller.FrontController"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.model.*"%>
 <%@ page import="com.bruce.designer.service.oauth.*"%>

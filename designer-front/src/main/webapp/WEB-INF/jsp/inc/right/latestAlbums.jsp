@@ -32,7 +32,7 @@ function fallLoad(){
 		if(result==1){
 			$("#slideLatestAlbumsContainer").append(data.data.html);
 		}else{
-			alert("error");
+			/* alert("error"); */
 		}
 	});
 }

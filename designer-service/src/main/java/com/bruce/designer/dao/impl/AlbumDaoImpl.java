@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumCriteria;
-import com.bruce.designer.model.Message;
-import com.bruce.designer.model.MessageCriteria;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IAlbumDao;
 import com.bruce.designer.dao.mapper.AlbumMapper;
@@ -76,8 +74,6 @@ public class AlbumDaoImpl implements IAlbumDao{
     }
 	
 	
-	
-	
 //	public PagingData<Album> pagingQuery(short status, int pageNo, int pageSize){
 //		if(pageNo<0) pageNo = 1;
 //		int offset = (pageNo-1) * pageSize;
@@ -100,12 +96,12 @@ public class AlbumDaoImpl implements IAlbumDao{
 		return albumMapper.selectByExample(criteria);
 	}
 	
-	public List<Album> queryAlbumByStatus(short status) {
-		AlbumCriteria criteria = new AlbumCriteria();
-		criteria.createCriteria().andStatusEqualTo(status);
-		criteria.setOrderByClause("id desc");
-		return albumMapper.selectByExample(criteria);
-	}
+//	public List<Album> queryAlbumByStatus(short status) {
+//		AlbumCriteria criteria = new AlbumCriteria();
+//		criteria.createCriteria().andStatusEqualTo(status);
+//		criteria.setOrderByClause("id desc");
+//		return albumMapper.selectByExample(criteria);
+//	}
 
 	public List<Album> queryAlbumByUserId(int userId) {
 		AlbumCriteria criteria = new AlbumCriteria();
@@ -122,7 +118,6 @@ public class AlbumDaoImpl implements IAlbumDao{
 		return fallLoadDesignerAlbums(null, tailId, limit);
 	}
 	
-	
 	/**
 	 * 瀑布流方式加载更多更多关注作品
 	 */
@@ -130,6 +125,7 @@ public class AlbumDaoImpl implements IAlbumDao{
 	public List<Album> fallLoadDesignerAlbums(List<Integer> designerIdList, int albumsTailId, int limit) {
 		AlbumCriteria criteria = new AlbumCriteria();
 		AlbumCriteria.Criteria subCriteria = criteria.createCriteria();
+		subCriteria.andStatusEqualTo(ConstService.ALBUM_OPEN_STATUS);
 		if(designerIdList!=null&&designerIdList.size()>0){
 			subCriteria.andUserIdIn(designerIdList);
 		}
@@ -141,6 +137,5 @@ public class AlbumDaoImpl implements IAlbumDao{
         List<Album> albumList = albumMapper.selectByExample(criteria);
         return albumList;
 	}
-
 
 }

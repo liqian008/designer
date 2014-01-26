@@ -1,4 +1,3 @@
-<%@page import="com.bruce.designer.front.controller.FrontController"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.model.*" %>
 <%@ page import="com.bruce.designer.service.oauth.*" %>
@@ -126,7 +125,7 @@ User toUser = (User)request.getAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUT
 														<div class="message-avatar<%=selfMessage?"-right":""%>">
 															<div class="message-author vcard">
 																<img
-																	src="/designer-front/staticFile/avatar/<%=message.getFromId()%>_medium.jpg">
+																	src="/designer-front/staticFile/avatar/100/<%=message.getFromId()%>.jpg">
 															</div>
 														</div>
 														<div class="message-body<%=selfMessage?"-right":""%>">

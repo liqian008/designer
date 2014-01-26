@@ -40,6 +40,7 @@ import com.bruce.designer.service.IHotService;
 import com.bruce.designer.service.ITagAlbumService;
 import com.bruce.designer.service.ITagService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.util.ConfigUtil;
 import com.bruce.designer.util.UploadUtil;
 
 /**
@@ -61,9 +62,9 @@ public class AlbumController {
 	@Autowired
 	private IHotService hotService;
 
-	public static final int HOME_LIMIT = 3;
-	public static final int FULL_LIMIT = 4;
-	public static final int SIDE_LIMIT = 3*2;
+	public static final int HOME_LIMIT = NumberUtils.toInt(ConfigUtil.getString("main_home_album_limit"), 3);
+	public static final int FULL_LIMIT = NumberUtils.toInt(ConfigUtil.getString("main_latest_album_limit"), 4);
+	public static final int SIDE_LIMIT = NumberUtils.toInt(ConfigUtil.getString("slide_latest_album_limit"), 3*2);
 
 	private static final Logger logger = LoggerFactory.getLogger(AlbumController.class);
 

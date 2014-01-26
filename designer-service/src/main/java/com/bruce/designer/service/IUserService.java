@@ -10,9 +10,9 @@ public interface IUserService extends IBaseService<User, Integer>{
 	
 	public List<User> queryUsersByIds(List<Integer> idList);
 	
-    public List<User> queryUsersByStatus(short status);
-    
-    public List<User> queryDesignersByStatus(short status);
+//    public List<User> queryUsersByStatus(short status);
+//    
+//    public List<User> queryDesignersByStatus(short status);
     
     public Map<Integer, User> getUserMap(List<Integer> userIds);
     
@@ -31,7 +31,9 @@ public interface IUserService extends IBaseService<User, Integer>{
      * @param userId
      * @return
      */
-    public int apply4Designer(int userId);
+	public int apply4Designer(int userId, String realname, String idNum, String mobile, String company, String taobaoHomepage);
+//    public int apply4Designer(int userId);
+
     
     /**
      * 批准申请

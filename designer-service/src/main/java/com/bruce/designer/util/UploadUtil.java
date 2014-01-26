@@ -23,9 +23,9 @@ public class UploadUtil {
 
     public static final String FILE_SEPARTOR = System.getProperty("file.separator");
     
-    private static final String prefixUrl = "http://localhost:8080/designer-front/staticFile";
+//    private static final String prefixUrl = ConfigUtil.getString("upload_url_base");//"http://localhost:8080/designer-front/staticFile";
 
-    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+    private final static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
     
     /**
      * 返回系统生成的文件名
@@ -62,13 +62,13 @@ public class UploadUtil {
    	 * @return
    	 */
    	public static String getBasePath() {
-   		String basePath = PropertiesUtil.getString("upload_path_base");
+   		String basePath = ConfigUtil.getString("upload_path_base");
    		return basePath;
    	}
    	
    	
     public static String getBaseUrl() {
-        String basePath = PropertiesUtil.getString("upload_url_base");
+        String basePath = ConfigUtil.getString("upload_url_base");
         return basePath;
     }
    	
@@ -86,7 +86,7 @@ public class UploadUtil {
      * @return
      */
     public static String getFilePath() {
-        String filePath = PropertiesUtil.getString("upload_path_file") + UploadUtil.FILE_SEPARTOR + getDictionary() + UploadUtil.FILE_SEPARTOR;;
+        String filePath = ConfigUtil.getString("upload_path_file") + UploadUtil.FILE_SEPARTOR + getDictionary() + UploadUtil.FILE_SEPARTOR;;
         return filePath;
     }
     
@@ -96,7 +96,7 @@ public class UploadUtil {
 	 * @return
 	 */
 	public static String getAvatarPath() {
-		String avatarPath = PropertiesUtil.getString("upload_path_avatar") ;
+		String avatarPath = ConfigUtil.getString("upload_path_avatar") ;
 		return avatarPath;
 	}
 	
@@ -106,7 +106,7 @@ public class UploadUtil {
 	 * @return
 	 */
 	public static String getImagePath(long time) {
-		String imagePath = PropertiesUtil.getString("upload_path_image") + UploadUtil.FILE_SEPARTOR + getDictionary(time) ;
+		String imagePath = ConfigUtil.getString("upload_path_image") + UploadUtil.FILE_SEPARTOR + getDictionary(time) ;
 		return imagePath;
 	}
 	
@@ -130,14 +130,13 @@ public class UploadUtil {
 	 * @throws IOException
 	 */
     public static String saveFile(byte[] data, String basePath, String dictionary, String filename) throws IOException{
-    	
         File dir = new File(basePath + UploadUtil.FILE_SEPARTOR + dictionary);
         if(!dir.exists()){
             dir.mkdirs();
         }
         File file = new File(dir, filename);
     	FileCopyUtils.copy(data, file);
-		return prefixUrl  + UploadUtil.FILE_SEPARTOR + dictionary + UploadUtil.FILE_SEPARTOR + filename;
+		return getBaseUrl()  + UploadUtil.FILE_SEPARTOR + dictionary + UploadUtil.FILE_SEPARTOR + filename;
     }
     
     /**
@@ -153,6 +152,6 @@ public class UploadUtil {
     	}else if(ConstService.UPLOAD_IMAGE_SPEC_SMALL.equals(avatarType)){//小头像
     		width = 50;
     	}
-    	return prefixUrl  + getAvatarPath() + UploadUtil.FILE_SEPARTOR + width + UploadUtil.FILE_SEPARTOR + userId +".jpg";
+    	return getBaseUrl()  + getAvatarPath() + UploadUtil.FILE_SEPARTOR + width + UploadUtil.FILE_SEPARTOR + userId +".jpg";
     }
 }

@@ -1,4 +1,3 @@
-<%@page import="com.bruce.designer.front.controller.FrontController"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.model.*" %>
 <%@ page import="com.bruce.designer.service.oauth.*" %>
@@ -113,11 +112,16 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 														%>
 														<%=wbBound?"已绑定":"未绑定"%>，<%=wbToken!=null?wbToken.getThirdpartyUname():""%>
 														<%if(wbBound){%>
-														<a href="/designer-front/unbindOauth?thirdpartyType=1" class="button button-small button-white">解绑Sina微博账户</a>
+														<!-- <a href="/designer-front/unbindOauth?thirdpartyType=1" class="button button-small button-white">解绑Sina微博账户</a> -->
+														<input type="button" class="button button-white" value="解绑Sina微博账户" onclick="location.href='/designer-front/unbindOauth?thirdpartyType=1'"/>
 														<input type="checkbox" name="shareOut" value="1"/>发布作品时同步到Sina微博
 														
 														<%}else{%>
+														
+														<input type="button" class="button button-green" value="现在就去绑定" onclick="location.href='/designer-front/connectWeibo'"/>
+														<!-- 
 														<a href="/designer-front/connectWeibo" class="button button-small button-green">现在就去绑定</a>
+														 -->
 														<%}%>
 													</div>
 												</div>
@@ -130,10 +134,13 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 														%>
 														<%=tencentBound?"已绑定":"未绑定"%>，<%=tencentToken!=null?tencentToken.getThirdpartyUname():""%>
 														<%if(tencentBound){%>
-														<a href="/designer-front/unbindOauth?thirdpartyType=2" class="button button-small button-white">解绑QQ账户</a>
+														<!-- <a href="/designer-front/unbindOauth?thirdpartyType=2" class="button button-small button-white">解绑QQ账户</a> -->
+														<input type="button" class="button button-white" value="解绑QQ账户" onclick="location.href='/designer-front/unbindOauth?thirdpartyType=2'"/>
+														
 														<input type="checkbox" name="shareOut" value="1"/>发布作品时同步到QQ空间
 														<%}else{%>
-														<a href="/designer-front/connectTencent" class="button button-small button-green">现在就去绑定</a>
+														<input type="button" class="button button-green" value="现在就去绑定" onclick="location.href='/designer-front/connectTencent'"/>
+														<!--<a href="/designer-front/connectTencent" class="button button-small button-green">现在就去绑定</a> -->
 														<%}%>
 													</div>
 												</div>

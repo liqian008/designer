@@ -7,6 +7,7 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +39,7 @@ import com.bruce.designer.service.ITagAlbumService;
 import com.bruce.designer.service.ITagService;
 import com.bruce.designer.service.IUploadService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.util.ConfigUtil;
 
 /**
  * Handles requests for the application home page.
@@ -61,8 +63,10 @@ public class UserSettingsController {
 	private ITagService tagService;
 	@Autowired
 	private ITagAlbumService tagAlbumService;
-
+	
 	private static final Logger logger = LoggerFactory.getLogger(UserSettingsController.class);
+
+	public static final int MY_ALBUMS_LIMIT = NumberUtils.toInt(ConfigUtil.getString("my_album_limit"), 10);
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String settings(Model model) {
@@ -145,10 +149,9 @@ public class UserSettingsController {
 //		return "forward:/redirect";
 //	}
 
-	@NeedAuthorize(authorizeType = AuthorizeType.DESIGNER)
 	@RequestMapping(value= "/designerInfo", method = RequestMethod.GET)
 	public String designerInfo(Model model,HttpServletRequest request) {
-		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+//		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 //		int userId = user.getId();
 //		if (user != null) {
 //			model.addAttribute("", user);
@@ -159,55 +162,72 @@ public class UserSettingsController {
 	
 	
 	@RequestMapping(value = "/designerApply", method = RequestMethod.POST)
-	public String designerApply(Model model, HttpServletRequest request, String title, int coverId, int[] albumNums) {
+	public String designerApply(Model model, HttpServletRequest request, String title, long price, int coverId, int[] albumSlideNums, String tags) {
 		// 检查用户登录
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
 
-		if (albumNums != null && albumNums.length > 0) {
+		if (albumSlideNums != null && albumSlideNums.length > 0) {
+			String link = request.getParameter("link");
+			String remark = request.getParameter("remark");
+			
 			Album album = new Album();
 			album.setUserId(userId);
 			album.setTitle(title);
 			album.setStatus(ConstService.ALBUM_OPEN_STATUS);
-
 			album.setCoverSmallImg(request.getParameter("smallImage" + coverId));
-			album.setCoverMediumImg(request.getParameter("largeImage" + coverId));
+			album.setCoverMediumImg(request.getParameter("mediumImage" + coverId));
 			album.setCoverLargeImg(request.getParameter("largeImage" + coverId));
+			album.setPrice(price);
+			album.setLink(link);
+			album.setRemark(remark);
 
 			// 提交作品专辑，建议使用外部主键生成器
 			int result = albumService.save(album);
 			if (result > 0) {
-				for (int loopId : albumNums) {
-					String remark = request.getParameter("remark" + loopId);
-
+				int albumId = album.getId();
+				for (int tempSlideId : albumSlideNums) {
 					AlbumSlide slide = new AlbumSlide();
 					slide.setAlbumId(album.getId());
 
-					slide.setSlideSmallImg(request.getParameter("smallImage" + loopId));
-					slide.setSlideMediumImg(request.getParameter("largeImage" + loopId));
-					slide.setSlideLargeImg(request.getParameter("largeImage" + loopId));
+					slide.setSlideSmallImg(request.getParameter("smallImage" + tempSlideId));
+					slide.setSlideMediumImg(request.getParameter("largeImage" + tempSlideId));
+					slide.setSlideLargeImg(request.getParameter("largeImage" + tempSlideId));
 
 					slide.setRemark(remark);
 					slide.setUserId(userId);
+					if(coverId==tempSlideId){
+						slide.setIsCover(ConstService.ALBUM_SLIDE_IS_COVER);
+					}else{
+						slide.setIsCover(ConstService.ALBUM_SLIDE_ISNOT_COVER);
+					}
 					slide.setStatus(ConstService.ALBUM_OPEN_STATUS);
 					albumSlideService.save(slide);
 				}
+				//关联作品与tag
+				List<String> tagNameList = parseTagNameList(tags);
+				tagService.tagAlbum(albumId, tagNameList);
+			}
+			
+			String idNum = StringUtils.defaultString(request.getParameter("idNum"), "");
+			String realname = StringUtils.defaultString(request.getParameter("realname"), "");
+			String mobile = StringUtils.defaultString(request.getParameter("mobile"), "");
+			String company = StringUtils.defaultString(request.getParameter("company"), "");
+			String taobaoHomepage = StringUtils.defaultString(request.getParameter("taobaoHomepage"), "");
+			int applyResult = userService.apply4Designer(userId, realname, idNum, mobile, company, taobaoHomepage);
+			
+			request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的申请资料已成功提交，请耐心等待审批。现在将转入首页，请稍候…");
+
+			// 验证通过（修改用户状态、修改作品状态）
+			int approvalResult = userService.designerApprove(user.getId());
+			if (approvalResult > 0) {
+				User designerUser = userService.loadById(userId);
+				if (designerUser != null) {
+					request.getSession().setAttribute(ConstFront.CURRENT_USER, designerUser);
+				}
 			}
 		}
-
-		int applyResult = userService.apply4Designer(user.getId());
-		request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的申请资料已成功提交，请耐心等待审批。现在将转入首页，请稍候…");
-
-		// 验证通过（修改用户状态、修改作品状态）
-		int approvalResult = userService.designerApprove(user.getId());
-		if (approvalResult > 0) {
-			User designerUser = userService.loadById(userId);
-			if (designerUser != null) {
-				request.getSession().setAttribute(ConstFront.CURRENT_USER, designerUser);
-			}
-			messageService.sendMessage(0, ConstService.MESSAGE_DELIVER_ID_BROADCAST, userId, "恭喜您，您的设计师申请已经通过！",
-					ConstService.MESSAGE_TYPE_SYSTEM);
-		}
+		
 		return ResponseUtil.getForwardReirect();
 	}
 
@@ -219,7 +239,7 @@ public class UserSettingsController {
 		int userId = user.getId();
 		
 		int pageNo = NumberUtils.toInt(request.getParameter("pageNo"), 1);
-		int pageSize = NumberUtils.toInt(request.getParameter("pageSize"), 10);
+		int pageSize = NumberUtils.toInt(request.getParameter("pageSize"), MY_ALBUMS_LIMIT);
 		
 //		List<Album> albumList = albumService.queryAlbumByUserId(userId);
 		PagingData<Album> albumPagingData = albumService.pagingQuery(userId, ConstService.ALBUM_OPEN_STATUS, pageNo, pageSize);
@@ -291,6 +311,7 @@ public class UserSettingsController {
 
 		if (albumSlideNums != null && albumSlideNums.length > 0) {
 			String link = request.getParameter("link");
+			String remark = request.getParameter("remark");
 			
 			Album album = new Album();
 			album.setUserId(userId);
@@ -301,6 +322,7 @@ public class UserSettingsController {
 			album.setCoverLargeImg(request.getParameter("largeImage" + coverId));
 			album.setPrice(price);
 			album.setLink(link);
+			album.setRemark(remark);
 			
 			// 提交作品专辑，建议使用外部主键生成器
 			int result = albumService.save(album);
@@ -308,7 +330,7 @@ public class UserSettingsController {
 				int albumId = album.getId();
 				//保存albumSlide
 				for (int tempSlideId : albumSlideNums) {
-					String remark = request.getParameter("remark" + tempSlideId);
+//					String remark = request.getParameter("remark" + tempSlideId);
 
 					AlbumSlide slide = new AlbumSlide();
 					slide.setAlbumId(albumId);

@@ -13,9 +13,13 @@ import com.bruce.designer.model.User;
 import com.bruce.designer.cache.user.UserCache;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IUserDao;
+import com.bruce.designer.exception.DesignerException;
+import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.service.ICounterService;
+import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;
+import com.bruce.designer.util.ConfigUtil;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -28,6 +32,8 @@ public class UserServiceImpl implements IUserService {
     private UserCache userCache;
 	@Autowired
 	private ICounterService counterService;
+	@Autowired
+	private IMessageService messageService;
 	
 	public int save(User t) {
 		return userDao.save(t);
@@ -45,17 +51,19 @@ public class UserServiceImpl implements IUserService {
 		return 0;
 	}
 	
-	
-	
 	public User loadById(Integer id) {
 	    User user = userCache.getUser(id);
-        if (user == null) {
+	    if (user == null) {
             user = userDao.loadById(id);
             if (user != null) {
+//            	checkUserStatus(user);
                 user.setPassword(null);
                 completeUser(user);
                 userCache.setUser(user);
             }
+//          else{
+//            throw new DesignerException(ErrorCode.USER_NOT_EXIST);
+//          }
         }
         return user;
 	}
@@ -66,7 +74,8 @@ public class UserServiceImpl implements IUserService {
 	public User authUser(String username, String password) {
 		User user = userDao.loadByNamePassword(username, password);
 		if(user!=null){
-		    completeUser(user);
+			checkUserStatus(user);
+			completeUser(user);
 		    return user;
 		}
 		return null;
@@ -98,10 +107,9 @@ public class UserServiceImpl implements IUserService {
             }
         }
         if (leftIdList.size() > 0) {
-            List<User> userList = userDao.queryUsersByIds(leftIdList);
+            List<User> userList = userDao.queryUsersByIds(leftIdList);//封禁用户处理
             for (User user : userList) {
                 if (user != null) {
-                    completeUser(user);  //补全信息
                     userMap.put(user.getId(), user);
                 }
             }
@@ -109,7 +117,6 @@ public class UserServiceImpl implements IUserService {
         }
         return userMap;
     }
-    
 	
 	/**
 	 * 检查用户exists
@@ -135,10 +142,14 @@ public class UserServiceImpl implements IUserService {
     public int changePassword(int userId, String password) {
 	    return userDao.changePassword(userId, password);
     }
-
+	
+	/**
+	 * 查询指定idList的用户数据
+	 */
 	@Override
 	public List<User> queryUsersByIds(List<Integer> idList) {
 		if(idList!=null&&idList.size()>0){
+			//取正常状态的用户列表
 			List<User> userList = userDao.queryUsersByIds(idList);
 			if(userList!=null&&userList.size()>0){
 				//按idList排序
@@ -157,31 +168,45 @@ public class UserServiceImpl implements IUserService {
 		return null;
 	}
 	
-	public List<User> queryUsersByStatus(short status) {
-	    return userDao.queryUsersByStatus(status);
-	}
+//	public List<User> queryUsersByStatus(short status) {
+//	    return userDao.queryUsersByStatus(status);
+//	}
 	
 	@Override
 	public List<User> fallLoadDesignerList(long approvelTailTime, int limit) {
+		//取正常状态的用户列表
 		List<User> userList =userDao.fallLoadDesignerList(approvelTailTime, limit);
 		return userList;
 	}
 	
-	public List<User> queryDesignersByStatus(short status) {
-	    return userDao.queryDesignersByStatus(status);
-	}
+//	public List<User> queryDesignersByStatus(short status) {
+//		//取正常状态的用户列表
+//	    return userDao.queryDesignersByStatus(status);
+//	}
 	
 	/**
      * 提交审核
      */
 	@Override
-	public int apply4Designer(int userId) {
-	    return designerApplyOp(userId, ConstService.DESIGNER_APPLY_SENT);
+	public int apply4Designer(int userId, String realname, String idNum, String mobile, String company, String taobaoHomepage) {
+		int result = userDao.applyDesigner(userId, idNum, realname, mobile, company, taobaoHomepage);
+	    if(result>0){
+	    	userCache.deleteUser(userId);
+			String message = ConfigUtil.getString("designer_apply_message");
+			messageService.sendSystemMessage(userId, message);
+		}
+	    return result;
     }
 	
 	@Override
 	public int designerDenied(int userId) {
-        return designerApplyOp(userId, ConstService.DESIGNER_APPLY_DENIED);
+		//系统发送拒绝消息
+		int result = designerApplyOp(userId, ConstService.DESIGNER_APPLY_DENIED);
+		if(result>0){
+			String message = ConfigUtil.getString("designer_denied_message");
+			messageService.sendSystemMessage(userId, message);
+		}
+		return result;
     }
 	
 	/**
@@ -189,7 +214,13 @@ public class UserServiceImpl implements IUserService {
 	 */
 	@Override
 	public int designerApprove(int userId) {
-        return designerApplyOp(userId, ConstService.DESIGNER_APPLY_APPROVED);
+		//系统发送审核通过消息
+		int result = designerApplyOp(userId, ConstService.DESIGNER_APPLY_APPROVED);
+		if(result>0){
+			String message = ConfigUtil.getString("designer_approved_message");
+			messageService.sendSystemMessage(userId, message);
+		}
+		return result;
     }
 	
 	/**
@@ -199,8 +230,18 @@ public class UserServiceImpl implements IUserService {
 	 * @return
 	 */
 	private int designerApplyOp(int userId, short operationType) {
-        return userDao.designerApplyOp(userId, operationType);
+        return userDao.operateDesigner(userId, operationType);
     }
+	
+	/**
+	 * 检查用户状态
+	 * @param user
+	 */
+	private void checkUserStatus(User user){
+		if(user.getStatus()==ConstService.USER_STATUS_FORBIDDEN){
+	    	throw new DesignerException(ErrorCode.USER_FORBIDDEN);
+	    }
+	}
 	
 	/**
 	 * 完善并设置第三方绑定信息 

@@ -1,4 +1,3 @@
-<%@page import="com.bruce.designer.front.controller.FrontController"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.model.*" %>
 <%@ page import="com.bruce.designer.service.oauth.*" %>
@@ -32,7 +31,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
         <link rel="stylesheet" href="/designer-front/css/flexslider.css">
         <link rel="stylesheet" href="/designer-front/css/style.css">
         
-        <link rel="stylesheet"href="./uploadify/uploadify.css">
+        <link rel="stylesheet"href="/designer-front/uploadify/uploadify.css">
                                 <!--[if IE 8]>
         <link rel="stylesheet" type="text/css" media="all" href="/designer-front/css/ie8.css" />    
         <![endif]-->
@@ -40,7 +39,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
         <script src="/designer-front/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
         <script src="/designer-front/js/vendor/jquery-1.8.3.min.js"></script>
-        <script src="./uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
+        <script src="/designer-front/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
 
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
@@ -93,7 +92,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                 <div class="tab-content span9">
                                     <div class="tab-pane widgets-light active" id="apply4Designer">
                                         <div class="widget-box widget-wrapper-form">
-                                        	<form  class="widget-form clearfix" method="post" 
+                                        	<form id='album-widget-form' class="widget-form clearfix" method="post" 
 												action="/designer-front/settings/designerApply">
 												<div class="content-title">
 													<h4>设计师资料</h4>
@@ -114,24 +113,28 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					                                </div>
 					                            </div>
 					                            
-					                            <div class="row-container clearfix">
-													<div class="row-left">身份证号: </div>
+												<div class="row-container clearfix">
+													<div class="row-left">真实姓名: </div>
 													<div class="row-right">
-													 <%if(currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_NONE){%>
-														<input type="text" class="span6" name="idNum" value=""/> 
+													<%if(currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_NONE){%>
+														<input type="text" class="span4" id="realname" name="realname" value=""/>
+														<span id="designer-realname-required" class="required">*</span>
+														<span id="designer-realname-prompt" class="text-prompt"></span>
 													<%}else{%>
-														<%=currentUser.getDesignerIdentifer()%>
+														<%=currentUser.getDesignerRealname()%>
 													<%} %>
 													</div>
 												</div>
 												
 												<div class="row-container clearfix">
-													<div class="row-left">真实姓名: </div>
+													<div class="row-left">身份证号: </div>
 													<div class="row-right">
-													<%if(currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_NONE){%>
-														<input type="text" class="span6" name="realname" value=""/> 
+													 <%if(currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_NONE){%>
+														<input type="text" class="span6" id="idNum"  name="idNum" value=""/>
+														<span id="designer-idNum-required" class="required">*</span>
+														<span id="designer-idNum-prompt" class="text-prompt"></span>
 													<%}else{%>
-														<%=currentUser.getDesignerRealname()%>
+														<%=currentUser.getDesignerIdentifer()%>
 													<%} %>
 													</div>
 												</div>
@@ -140,7 +143,9 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													<div class="row-left">手机号: </div>
 													<div class="row-right">
 													<%if(currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_NONE){%>
-														<input type="text" class="span6" name="mobile" value=""/> 
+														<input type="text" class="span4" id="mobile" name="mobile" value=""/>
+														<span id="designer-mobile-required" class="required">*</span>
+														<span id="designer-mobile-prompt" class="text-prompt"></span>
 													<%}else{%>
 														<%=currentUser.getDesignerMobile()%>
 													<%} %>
@@ -151,7 +156,9 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													<div class="row-left">公 司: </div>
 													<div class="row-right">
 													<%if(currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_NONE){%>
-														<input type="text" class="span6" name="company" value=""/> 
+														<input type="text" class="span6" id="company" name="company" value=""/>
+														<span id="designer-company-required" class="required"></span>
+														<span id="designer-company-prompt" class="text-prompt"></span>
 													<%}else{%>
 														<%=currentUser.getDesignerCompany()%>
 													<%} %>
@@ -163,6 +170,8 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													<div class="row-right">
 													<%if(currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_NONE){%>
 														<input type="text" class="span6" name="taobaoHomepage" value=""/> 
+														<span id="designer-taobaoHomepage-required" class="required"></span>
+														<span id="designer-taobaoHomepage-prompt" class="text-prompt"></span>
 													<%}else{%>
 														<%=currentUser.getDesignerTaobaoHomepage()%>
 													<%} %>
@@ -186,40 +195,64 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					                            <div class="row-container clearfix">
 													<div class="row-left">作品主题: </div>
 													<div class="row-right">
-														<input type="text" class="span6"  name="title" value=""/> 
+														<input type="text" class="span6" id="title"  name="title" value=""/>
+														<span id="album-title-required" class="required">*</span>
+														<span id="album-title-prompt" class="text-prompt"></span>
 													</div>
 												</div>
+												
+												<div class="row-container clearfix">
+													<div class="row-left">标签: </div>
+													<div class="row-right">
+														<input type="text" class="span5" id="tags" name="tags" value=""/>
+														<span id="album-tags-required" class="required">*</span>
+														<span id="album-tags-prompt" class="text-prompt">多个标签间请用空格分隔</span>
+													</div>
+												</div>
+												
 												<div class="row-container clearfix">
 													<div class="row-left">参考价格: </div>
 													<div class="row-right">
-														<input type="text" class="span6"  name="price" value=""/> 
+														<input type="text" class="span3" id="price" name="price" value=""/> 元
+														<span id="album-price-required" class="required">*</span>
+														<span id="album-price-prompt" class="text-prompt"></span>
 													</div>
 												</div>
+												
 												<div class="row-container clearfix">
 													<div class="row-left">购买链接: </div>
 													<div class="row-right">
-														<input type="text" class="span6"  name="link" value=""/> 
+														<input type="text" class="span8" id="link" name="link" value=""/>
+														<span id="album-link-required" class="required">*</span>
+														<span id="album-link-prompt" class="text-prompt"></span>
 													</div>
 												</div>
-					                            
-												<div class="row-container clearfix">
+												
+					                            <div class="row-container clearfix">
 													<div class="row-left">上传作品: </div>
-													<div class="row-right">
+													<div class="row-right" id="previewContainer">
 														<input id="fileUploader" name="image" type="file" multiple="true">
+														<span id="album-upload-prompt" class="text-prompt" style="display:none"></span>
 													</div>
 												</div>
 												<div id="queue"></div>
 												
-												<div>
+												<div class="row-container clearfix">
+													<div class="row-left">作品描述: </div>
+													<div class="row-right">
+														<textarea class='album-slide-remark' name='remark' rows='2'></textarea>
+													</div>
+												</div>
+												<!-- <div>
 													<ul id="imgPreview" class="clearfix">
 													</ul>
-												</div>
+												</div> -->
 												
 												<script type="text/javascript">
 													$(function() {
 														var counter = 0;
 														$('#fileUploader').uploadify({
-															'swf' : '/designer-front//uploadify/uploadify.swf',
+															'swf' : '/designer-front/uploadify/uploadify.swf',
 															//'uploader' : '/designer-front/uploadify/response.json',
 															'uploader' : '/designer-front/uploadImage.json;jsessionid=<%=session.getId()%>',
 															//'cancelImg' : "uploadify-cancel.png",
@@ -240,18 +273,17 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													            counter = counter + 1;
 													            var response = jQuery.parseJSON(data);
 													            
-													        	$("<li><img id='img1' src='"+response.data.mediumImage.url+"' width='200'/>设置为封面详细描述<input type='radio' name='coverId' value='"+counter+"'/><textarea class='contact-form-name' name='remark"+counter+"' rows='3'></textarea></li>").appendTo($("#imgPreview"));
-													        	$("<input type='hidden' name='albumNums' value='"+counter+"'/>").appendTo($("#imgPreview"));
-													        	$("<input type='hidden' name='largeImage"+counter+"' value='"+response.data.largeImage.url+"'/>").appendTo($("#imgPreview"));
-													        	$("<input type='hidden' name='mediumImage"+counter+"' value='"+response.data.mediumImage.url+"'/>").appendTo($("#imgPreview"));
-													        	$("<input type='hidden' name='smallImage"+counter+"' value='"+response.data.smallImage.url+"'/>").appendTo($("#imgPreview"));
+													        	$("<div  style='margin:10px 0; outline:1px solid #ECECEC'><img id='img1' src='"+response.data.mediumImage.url+"' width='100%'/><br/><input type='radio' id='coverId' name='coverId' value='"+counter+"'/>设置为封面<br/></div>").appendTo($("#previewContainer"));
+													        	$("<input type='hidden' name='albumSlideNums' value='"+counter+"'/>").appendTo($("#previewContainer"));
+													        	$("<input type='hidden' name='largeImage"+counter+"' value='"+response.data.largeImage.url+"'/>").appendTo($("#previewContainer"));
+													        	$("<input type='hidden' name='mediumImage"+counter+"' value='"+response.data.mediumImage.url+"'/>").appendTo($("#previewContainer"));
+													        	$("<input type='hidden' name='smallImage"+counter+"' value='"+response.data.smallImage.url+"'/>").appendTo($("#previewContainer"));
 															},
 														});
 													});
 												</script>
 												
-												<input class="common-submit button" type="submit" value="修 改">
-												<input class="common-submit button" type="button" value="返回个人信息">
+												<input id="submit-button" class="common-submit button" type="button" value="申请设计师">
 												<%}%>
 											</form>
 										</div>
@@ -283,6 +315,160 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
     <script src="/designer-front/js/jquery.flexslider.js"></script> 
     <script src="/designer-front/js/retina.js"></script>
     <script src="/designer-front/js/custom.js"></script>
+    <script>
+    var idNumAvailable = false;
+    var realnameAvailable = false;
+    var mobileAvailable = false;
     
+    var idNumAvailable = false;
+    var titleAvailable = false;
+    var tagsAvailable = false;
+	var priceAvailable = false;
+	var linkAvailable = false;
+	var albumAvailable = false;
+    
+	$('#idNum').blur(function(){
+		checkIdNum();
+	});
+	
+	$('#realname').blur(function(){
+		checkRealname();
+	});
+	
+	$('#mobile').blur(function(){
+		checkMobile();
+	});
+	
+	
+	$('#title').blur(function(){
+		checkTitle();
+	});
+	
+	$("#tags").blur(function(){
+		checkTags();
+	});
+	
+	$('#price').blur(function(){
+		checkPrice();
+	});
+	
+	$('#link').blur(function(){
+		checkLink();
+	});
+	
+    $('#submit-button').click(function(){
+		checkAlbumSlides();
+		if(titleAvailable && tagsAvailable && priceAvailable && linkAvailable && albumAvailable && idNumAvailable && realnameAvailable && mobileAvailable){
+			$("#album-widget-form").submit();
+    	}
+	});
+    
+	//检查身份证
+    function checkIdNum(){
+    	var idNumVal = $('#idNum').val();
+    	if(idNumVal==''){
+			$('#album-title-prompt').text('身份证号码不能为空').show();
+		}else{
+			idNumAvailable = true;
+			$('#album-idNum-prompt').hide();
+		}
+    }
+  //检查身份证
+    function checkIdNum(){
+    	var idNumVal = $('#idNum').val();
+    	if(idNumVal==''){
+			$('#designer-idNum-prompt').text('身份证号码不能为空').show();
+		}else{
+			idNumAvailable = true;
+			$('#designer-idNum-prompt').hide();
+		}
+    }
+	//检查身份证
+	function checkRealname(){
+		var realnameVal = $('#realname').val();
+		if(realnameVal==''){
+			$('#designer-realname-prompt').text('真实姓名不能为空').show();
+		}else{
+			realnameAvailable = true;
+			$('#designer-realname-prompt').hide();
+		}
+	}
+	
+	//检查手机号
+	function checkMobile(){
+		var mobileVal = $('#mobile').val();
+		var mobileRegex = /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/;
+		if(mobileVal==''){
+			$('#designer-mobile-prompt').text('手机号不能为空').show();
+		}else if(!mobileRegex.test(mobileVal)){//手机号正则检查
+			
+			$('#designer-mobile-prompt').text('手机号格式有误').show();
+		}else{
+			mobileAvailable = true;
+			$('#designer-mobile-prompt').hide();
+		}
+	}
+  
+    //检查标题&正则
+    function checkTitle(){
+    	var titleVal = $('#title').val();
+    	if(titleVal==''){
+			$('#album-title-prompt').text('作品标题不能为空').show();
+		}else{
+			titleAvailable = true;
+			$('#album-title-prompt').hide();
+		}
+    }
+    
+	//检查标签&正则
+    function checkTags(){
+    	var tagsVal = $('#tags').val();
+		if(tagsVal==''){
+ 			$('#album-tags-prompt').text('标签不能为空').show();
+ 		}else{
+ 			tagsAvailable = true;
+ 			$('#album-tags-prompt').hide();
+ 		}
+    }
+    
+	//检查价格&正则
+    function checkPrice(){
+    	var priceVal = $('#price').val();
+    	if(priceVal==''){
+			$('#album-price-prompt').text('作品价格不能为空').show();
+		}else{
+			priceAvailable = true;
+			$('#album-price-prompt').hide();
+		}
+	}
+	
+	//检查标题&正则
+    function checkLink(){
+    	var linkVal = $('#link').val();
+    	if(linkVal==''){//检查链接是否正确
+			$('#album-link-prompt').text('购买链接不能为空').show();
+		}else{
+			linkAvailable = true;
+			$('#album-link-prompt').hide();
+		}
+	}
+	
+  //检查标题&正则
+    function checkAlbumSlides(){
+		if($('#coverId').length<=0){
+			$('#album-upload-prompt').text('请上传作品内容图').show();
+		}else if($('#coverId').length>6){
+			$('#album-upload-prompt').text('上传作品内容图超限').show();
+		}else{
+			var coverIdVal = $('input:radio[name="coverId"]:checked').val();
+			if(coverIdVal == null){
+				$('#album-upload-prompt').text('请设置封面图片').show();
+			}else{
+				//alert("选中！");
+				albumAvailable = true;
+			}
+		}
+	}
+	</script>
     </body>
 </html>

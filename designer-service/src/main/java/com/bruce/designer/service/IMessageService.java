@@ -7,6 +7,13 @@ import com.bruce.designer.data.PagingData;
 
 public interface IMessageService extends IBaseService<Message, Long>{
     
+	/**
+	 * 查询用户的未读消息数
+	 * @param userId
+	 * @return
+	 */
+	public int queryUnreadMessageCount(int userId);
+	
     /**
      * 查询用户的收信箱
      * @param userId
@@ -49,6 +56,21 @@ public interface IMessageService extends IBaseService<Message, Long>{
 //    
 //    public int sendFavoriteMessage(int fromId, int toId, int sourceId, String message);
     
+    /**
+     * 系统广播
+     * @param toId
+     * @param content
+     * @return
+     */
+    public int sendSystemMessage(int toId, String content);
+    
+    /**
+     * 批量发送系统广播
+     * @param toIdList
+     * @param content
+     * @return
+     */
+    public int sendSystemMessage(List<Integer> toIdList, String content);
     
     /**
      * 发送单条消息

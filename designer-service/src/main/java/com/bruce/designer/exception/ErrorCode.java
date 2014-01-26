@@ -53,13 +53,17 @@ public class ErrorCode {
 	public static final int USER_CHANGE_PASSWORD_FAILED = 207;
 	/* 用户不存在 */
 	public static final int USER_NOT_EXIST = 208;
+	/* 用户注册失败 */
+	public static final int USER_REGISTER_ERROR = 209;
+	/* 用户登录失败 */
+	public static final int USER_LOGIN_ERROR = 210;
 
 	/* OAuth未知错误 */
-	public static final int OAUTH_ERROR = 220;
+	public static final int OAUTH_ERROR = 230;
 	/* Session不存在OAuth Token，无法进行绑定 */
-	public static final int OAUTH_SESSIONTOKEN_NOT_EXISTS = 221;
+	public static final int OAUTH_SESSIONTOKEN_NOT_EXISTS = 231;
 	/* 已经绑定同类型token，无法再次绑定 */
-	public static final int OAUTH_ALREADY_BIND = 222;
+	public static final int OAUTH_ALREADY_BIND = 232;
 	
 	
 	/* 关系图谱分配300-400的错误码 */
@@ -82,18 +86,21 @@ public class ErrorCode {
 	/* 作品分配500-600的错误码 */
 	/* 未知错误 */
 	public static final int ALBUM_ERROR = 500;
+	/* 作品已经被封禁 */
+	public static final int ALBUM_FORBIDDEN = 501;
 	/* 作品不存在 */
-	public static final int ALBUM_NOT_EXIST = 501;
+	public static final int ALBUM_NOT_EXIST = 502;
 	/* 作品页不存在 */
-	public static final int ALBUMSLIDE_NOT_EXIST = 502;
+	public static final int ALBUMSLIDE_NOT_EXIST = 503;
 	/* 作者不匹配 */
-	public static final int ALBUM_AUTHOR_NOT_MATCH = 503;
+	public static final int ALBUM_AUTHOR_NOT_MATCH = 504;
 	/* 作品更新失败 */
-	public static final int ALBUM_UPDATE_FAILED = 504;
+	public static final int ALBUM_UPDATE_FAILED = 505;
 	/* 作品删除失败 */
-	public static final int ALBUM_DELETE_FAILED = 505;
-//	/* 选定封面图与作品不匹配 */
-//	public static final int ALBUMSLIDE_COVER_NOT_MATCH = 504;
+	public static final int ALBUM_DELETE_FAILED = 506;
+	/* 作品创建失败 */
+	public static final int ALBUM_CREATE_FAILED = 507;
+	
 	
 	/* 上传分配x00-x00的错误码 */
 	/* 未知错误 */
@@ -155,7 +162,7 @@ public class ErrorCode {
 
 	static class Messages {
 
-		private static final String BUNDLE_NAME = "error_code_messages"; //$NON-NLS-1$
+		private static final String BUNDLE_NAME = "conf/error_code_messages"; //$NON-NLS-1$
 
 		static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 

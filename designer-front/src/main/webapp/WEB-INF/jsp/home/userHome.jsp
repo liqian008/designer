@@ -44,7 +44,7 @@ boolean isMe =  currentUser!=null&&queryUser!=null&&currentUser.getId().equals(q
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
     </head>
-    <body class="body-background" style="background-image: url(../img/backgrounds/bg3.jpg); ">
+    <body class="body-background" style="background-image: url(/designer-front/img/backgrounds/bg3.jpg); ">
 
         <!--[if lt IE 8]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
@@ -86,7 +86,9 @@ boolean isMe =  currentUser!=null&&queryUser!=null&&currentUser.getId().equals(q
                 <div class="container">
                     <div class="row-fluid">
                         <section class="content span9">
-                        	
+							<%-- <a href="/designer-front/<%=queryUser.getId()%>/home" class="button button-blue">作品辑</a>
+							<a href="/designer-front/<%=queryUser.getId()%>/info" class="button button-white">个人资料</a> --%>
+											
                         	<%if(!isDesigner){%>
                         	<div class="infobox info-warning info-warning-alt clearfix">
                                 <span>!</span>
@@ -98,6 +100,7 @@ boolean isMe =  currentUser!=null&&queryUser!=null&&currentUser.getId().equals(q
                                 </div>
                             </div>
                         	<%}else{%>
+                        	
                         	<div id="infoboxContainer" class="infobox info-warning info-warning-alt clearfix" style="display:none">
                                 <span>!</span>
                                 <div class="infobox-wrap">

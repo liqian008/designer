@@ -116,15 +116,21 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 															src="<%=album.getCoverMediumImg()%>"></a>
 													</div>
 													<div class="content-wrap span9">
-														<h5><a href="#"><%=album.getTitle()%></a></h5>
+														<a href="#">
+															<h5><%=album.getTitle()%></h5>
+														</a>
 														<ul>
-															<li><span>标 签:&nbsp;</span><a
-																href="/designer-front/tag/素组">素组</a>,&nbsp;<a
-																href="/designer-front/tag/moto">moto</a></li>
+															<li>
+																<span>标 签:&nbsp;</span>
+																<a href="/designer-front/tag/素组">素组</a>,&nbsp;
+																<a href="/designer-front/tag/moto">moto</a>
+															</li>
 															<li><span>价 格:</span><%=album.getPrice()%>&nbsp;元</li>
-															<li><a href="/designer-front/album/<%=album.getId()%>"><%=album.getBrowseCount()%>&nbsp;浏览&nbsp;</a>/&nbsp;<a
-																href="/designer-front/album/<%=album.getId()%>"><%=album.getCommentCount()%>&nbsp;评论&nbsp;</a>/&nbsp;<a
-																href="/designer-front/album/<%=album.getId()%>"><%=album.getFavoriteCount()%>&nbsp;收藏&nbsp;</a></li>
+															<li>
+															<a href="javascript:void(0)"><%=album.getBrowseCount()%>&nbsp;浏览&nbsp;</a>/&nbsp;
+															<a href="javascript:void(0)"><%=album.getCommentCount()%>&nbsp;评论&nbsp;</a>/&nbsp;
+															<a href="javascript:void(0)"><%=album.getFavoriteCount()%>&nbsp;收藏&nbsp;</a>
+															</li>
 														</ul>
 													</div>
 													<div class="content-avatar">

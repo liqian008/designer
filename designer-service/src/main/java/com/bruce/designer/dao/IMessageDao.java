@@ -7,6 +7,14 @@ import com.bruce.designer.data.PagingData;
 
 public interface IMessageDao extends IBaseDao<Message, Long>{
     
+	
+	/**
+     * 查询用户的收信箱
+     * @param userId
+     * @return
+     */
+    public int queryUnreadMessageCount(int userId);
+    
     /**
      * 查询用户的收信箱
      * @param userId

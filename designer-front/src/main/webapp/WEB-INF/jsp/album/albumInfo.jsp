@@ -8,6 +8,8 @@
 
 <%
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
+
+Album album = (Album)request.getAttribute("albumInfo");
 %>
 
 <!DOCTYPE html>
@@ -83,7 +85,9 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 				<div class="container">
 					<ul class="clearfix">
 						<li><a href="/designer-front/">首页</a>/</li>
-						<li><a href="javascript:void(0)">作品</a></li>
+						<li><a href="javascript:void(0)">作品展示</a>/</li>
+						<li><a href="javascript:void(0)"><%=album.getTitle()%></a></li>
+					
 					</ul>
 				</div>
 			</div>
@@ -91,16 +95,13 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 				<div class="container">
 					<div class="row-fluid">
 
-
 						<section class="content span9">
 							<%
-							Album album = (Album)request.getAttribute("albumInfo");
 							Integer slideIndex = (Integer)request.getAttribute("slideIndex");
 							AlbumSlide albumSlide = null;
 							if(album!=null){
 								List<AlbumSlide> slideList = album.getSlideList();
 								albumSlide = slideList.get(slideIndex);
-								
 							%>
 
 							<article class="format-blogpost blogpost-single clearfix">
@@ -108,8 +109,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 									<span><%=album.getTitle()%>【<%=slideIndex+1%> / <%=slideList.size()%>张】</span>
 								</div>
 								<%
-								
-									if(slideIndex!=null){
+								if(slideIndex!=null){
 								%>
 								<div class="single-navigation navigation clearfix">
 									<%if(slideIndex>0){%>
@@ -121,14 +121,18 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 								</div>
 								<%}%>
 								
+								<blockquote class="normal blockquote-left blockquote-bg">
+                                    <p>
+                                    <span class="blockquote-author"><a href='javascript:void(0)'>作品描述</a>:&nbsp;&nbsp;<%=album.getRemark()%></span>
+                                    <span class="blockquote-author"><a href='javascript:void(0)'>价格</a>:&nbsp;&nbsp;<%=album.getPrice()%>&nbsp;元</span>
+                                    <%if(album.getLink()!=null){%>
+                                    <span class="blockquote-author"><a href='javascript:void(0)'>购买链接</a>:&nbsp;&nbsp;<%=album.getLink()%>&nbsp;&nbsp;<a href="<%=album.getLink()%>" target="_blank">查看</a></span>
+                                    <%} %>
+                                    </p>
+                                </blockquote>
+								
                                 <img src="<%=albumSlide.getSlideLargeImg()%>">
 								
-								<%-- <div class="post-thumb preload">
-									<span class="preload-done"><img
-										src="<%=albumSlide.getSlideLargeImg()%>" alt=""
-										style="display: block; visibility: visible; opacity: 1;"></span>
-								</div> --%>
-
 								<div class="row-fluid clearfix">
 
 									<div class="meta-container-single clearfix">
@@ -142,11 +146,8 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													for(String tagName: tagNameList){
 														tagIndex++;
 												%>
-													<a href="../tag/<%=tagName%>"><%=tagName%></a>
-													<%if(tagIndex<tagNameList.size()){
-													%>
-													,&nbsp;
-													<%}%>
+													<a href="/designer-front/tag/<%=tagName%>"><%=tagName%></a>
+													<%=tagIndex<tagNameList.size()?",&nbsp;":""%>
 												<%}
 												}%>
 												</li>
@@ -158,22 +159,61 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<li><a href="single.html#">举报</a></li>
 											</ul>
 											<ul>
-												<li><a href="javascript:void(0)">浏览(<%=album.getBrowseCount()%>)</a></li>
+												<li><a href="javascript:void(0)" id="browseLink">浏览(<span id="album-browse-counter"><%=album.getBrowseCount()%></span>)</a></li>
 											</ul>
 											<ul>
-												<li><a href="javascript:void(0)" id="likeLink">喜欢(<%=album.getLikeCount()%>)</a></li>
+												<li><a href="javascript:void(0)" id="likeLink">喜欢(<span id="album-like-counter"><%=album.getLikeCount()%></span>)</a></li>
 											</ul>
 											<ul>
 												<li><a href="javascript:void(0)">收藏(<%=album.getFavoriteCount()%>)</a></li>
 											</ul>
 
 											<ul>
-												<li><a href="javascript:void(0)" id="commentLink">评论(<%=album.getCommentCount()%>)</a>
+												<li><a href="javascript:void(0)" id="commentLink">评论(<span id="album-comment-counter"><%=album.getCommentCount()%></span>)</a>
 												</li>
 											</ul>
 										</div>
 									</div>
 									
+									<!-- 百度分享控件 -->
+									<div class="share-out clearfix">
+										<div class="bdsharebuttonbox">
+											<a href="#" class="bds_more" data-cmd="more"></a><a href="#"
+												class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a
+												href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a
+												href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+										</div>
+										<script>
+											window._bd_share_config = {
+												"common" : {
+													"bdSnsKey" : {},
+													"bdText" : "",
+													"bdMini" : "2",
+													"bdMiniList" : false,
+													"bdPic" : "",
+													"bdStyle" : "0",
+													"bdSize" : "32"
+												},
+												"share" : {},
+												"image" : {
+													"viewList" : [ "tsina",
+															"qzone", "tqq" ],
+													"viewText" : "分享到：",
+													"viewSize" : "16"
+												},
+												"selectShare" : {
+													"bdContainerClass" : null,
+													"bdSelectMiniList" : [
+															"tsina", "qzone",
+															"tqq" ]
+												}
+											};
+											with (document)
+												0[(getElementsByTagName('head')[0] || body)
+														.appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=86835285.js?cdnversion='
+														+ ~(-new Date() / 36e5)];
+										</script>
+									</div>
 									
 									<input type="hidden" id="commentsTailId" name="commentsTailId" value="0">
 									<input type="hidden" id="albumId" name="albumId" value="<%=album.getId()%>" />
@@ -330,7 +370,10 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
     	$("#likeLink").click(function(){
     		var likeJsonData = {'albumId': $("#albumId").val()};
 	    	$.post("/designer-front/like.json", likeJsonData, function(data) {
-	  			  alert("result: " + data.result);
+	    		var result = data.result;
+   				if(result==1){
+   					
+   				}
 	  		 }, "json");
 	   	});
     	
@@ -344,6 +387,8 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
    					$("#comment").val("");
 	    			$("#publishBtn").removeAttr("disabled");
 	    			$("#commentListContainer").prepend(data.data);
+	    			var commentCount = $('#album-comment-counter').text()+1
+	    			$('#album-comment-counter').text(commentCount);
    				}
     			//enable submitBtn
     		 }, "json"); 

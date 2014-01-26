@@ -25,7 +25,7 @@ function fallLoad(){
 		if(result==1){
 			$("#recentDesignerContainer").append(data.data.html);
 		}else{
-			alert("error");
+			/* alert("error"); */
 		}
 	});
 }

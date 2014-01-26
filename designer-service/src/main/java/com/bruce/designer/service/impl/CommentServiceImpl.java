@@ -17,6 +17,7 @@ import com.bruce.designer.service.ICommentService;
 import com.bruce.designer.service.ICounterService;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.util.ConfigUtil;
 
 @Service
 public class CommentServiceImpl implements ICommentService {
@@ -138,8 +139,12 @@ public class CommentServiceImpl implements ICommentService {
 		// 评论计量
 		long albumSlideLikeCount = counterService.incrLike(designerId, albumId);
 		
-		// 同时发送消息
 		// TODO 同时发送消息
+		long sourceId = albumId;
+//		String likeMessage = ConfigUtil.getString("album_like_message");
+		String likeMessage = "xxx 喜欢了您的作品";
+		messageService.sendMessage(sourceId, ConstService.MESSAGE_DELIVER_ID_LIKE, designerId,  likeMessage, ConstService.MESSAGE_TYPE_LIKE);
+		
 
 		if (albumSlideLikeCount > 0) {
 			return 1;

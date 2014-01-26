@@ -1285,7 +1285,7 @@ code {
 
 /* Blockquote */
 blockquote { 
-	margin: 0 0 20px 0;
+	margin: 0 0 10px 0;
 	padding: 0 0 0 30px;
 	border: none;
 	background: transparent url('../img/blockquote-bg.png') no-repeat left 50%;
@@ -1306,7 +1306,7 @@ blockquote {
 		font-weight: bold;
 		width: 100%;
 		display: block;
-		padding: 10px 0 0 0;
+		padding: 5px 0 0 0;
 	}
 
 	blockquote.normal p {
@@ -1319,16 +1319,16 @@ blockquote {
 
 	blockquote.blockquote-bg p {
 		background-color: #f5f5f5;
-		padding: 20px 20px 20px 20px ;
+		padding: 15px 20px 15px 20px ;
 	}
 
 	blockquote.blockquote-left {
-		background: transparent url('../img/blockquote-bg.png') no-repeat right 50%;
-		padding: 0 30px 0 0;
+		/* background: transparent url('../img/blockquote-bg.png') no-repeat right 50%; */
+		padding: 0 0px 0 0;
 	}
 
 	blockquote.blockquote-left p {
-		border-width: 0 3px 0 0;
+		border-width: 0 0 0 3px;
 		border-style: solid;
 	}
 
@@ -1683,7 +1683,7 @@ blockquote {
 
 	.meta-container-single{ 
 		margin: 0px 0 10px 0;
-		border: 1px solid #e2e2e2;
+		/* border: 1px solid #e2e2e2; */
 		border-width: 0 0 1px 0;
 		padding: 0 10px;
 	}
@@ -1691,7 +1691,10 @@ blockquote {
 	.meta-container-single span, .meta-container-single div {
 		position: relative;
 		padding: 0  0 0 20px;
-		line-height: 28px;
+		/* line-height: 28px; */
+	}
+	.meta-container-single span{
+		padding: 0 0 0 0px;
 	}
 
 	.meta-container-single span:before, .meta-container-single div:before {
@@ -1712,7 +1715,6 @@ blockquote {
 	}
 
 	.meta-container-single .meta-comments a, 
-	.meta-container-single .meta-tags a, 
 	.meta-container-single .meta-categories a {
 		color: #444;
 		font-weight: bold;
@@ -1737,11 +1739,11 @@ blockquote {
 	.meta-container-single ul li { padding-top: 6px; }
 
 	/* Author Information and Share options */
-	.post-footer {
-		border: 5px solid #f7f7f7;
-		padding: 20px 20px 0 20px;
+	.share-out {
+		border: 3px solid #f7f7f7;
+		padding: 10px 20px;
 		outline: 1px solid #e2e2e2;
-		margin: 20px 0 10px 0;
+		margin: 10px 15px;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		-ms-box-sizing: border-box;
@@ -1841,7 +1843,7 @@ blockquote {
 
 	/* Comments */
 	#comments {
-		margin: 15px 0 0 15px;
+		margin: 15px 15px 0 15px;
 	}
 
 	.commentlist {
@@ -3461,7 +3463,7 @@ blockquote {
 }
 
 .widgets-light a, .widgets-light .tweet_text a, .widgets-light .tweet_time a, .widgets-light .widget-blogpost-date a {
-	color: #444444;
+	/* color: #444444; */
 }
 
 .widgets-light .widget-google-maps .company-name i, .widgets-light .widget-category ul li a::before, 
@@ -5029,12 +5031,12 @@ input.contact-form-error {
 /* Footer Widgets */	
 .footer-widgets {
 	background-color: #444444;
-	padding: 20px 0;
+	padding: 8px 0 8px;
 }
 
 	.widget-box {
 		min-height: 0px;
-		margin-bottom: 10px;
+		margin-bottom: 0px;
 	}
 
 	.widget-title {
@@ -5045,7 +5047,7 @@ input.contact-form-error {
 
 	/* Widget: Categories, parts of widget list and widget menu */
 	.widget-category ul li, .widget-menu ul li {
-		border-bottom: 1px solid #363636;
+		/* border-bottom: 1px solid #363636; */
 	}	
 
 		.widget-category ul li a:before, .widget-tags ul li a:before {
@@ -5071,7 +5073,7 @@ input.contact-form-error {
 
 		.list-links li a:before {
 			font-family: 'FontAwesome';
-			content: "\f068";
+			/* content: "\f068"; */
 			color: #363636;
 			padding: 0 15px 0 0;
 		}
@@ -5140,18 +5142,18 @@ input.contact-form-error {
 				font-size: 14px;
 			}
 
-		.widget-wrapper-form input {
+		.widget-wrapper-form input{
 			height: 30px;
-			width: 80%;
 		}
 		
-		.widget-form input {
+		/* .widget-form input[type=text], .widget-form input[type=password]{ */
+		.widget-form input[type=text], .widget-form input[type=password]{
 			height: 30px;
-			width: 60%;
 		}
 		
 		.widget-wrapper-form .widget-form input[type=radio], .widget-wrapper-form .widget-form input[type=checkbox]{
-			width: 5%;
+			width: auto;
+			margin: 0px 2px;
 		}
 		
 		.row-container {
@@ -5175,9 +5177,9 @@ input.contact-form-error {
 		}
 		
 
-			.widget-wrapper-form input:hover, .widget-wrapper-form textarea:hover {
-				background-color: #343434;
-			}
+		.widget-wrapper-form input:hover, .widget-wrapper-form textarea:hover {
+			background-color: #343434;
+		}
 
 		.widget-wrapper-form textarea {
 			height: auto;

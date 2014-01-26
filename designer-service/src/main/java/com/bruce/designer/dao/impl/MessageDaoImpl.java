@@ -45,6 +45,16 @@ public class MessageDaoImpl implements IMessageDao, InitializingBean {
 	}
 	
 	/**
+     * 消息摘要
+     */
+    @Override
+    public int queryUnreadMessageCount(int userId){
+    	MessageCriteria criteria = new MessageCriteria();
+		criteria.createCriteria().andToIdEqualTo(userId).andUnreadEqualTo(ConstService.MESSAGE_UNREAD);
+		return messageMapper.countByExample(criteria);
+    }
+	
+	/**
 	 * 发送消息
 	 * @param fromId
 	 * @param content

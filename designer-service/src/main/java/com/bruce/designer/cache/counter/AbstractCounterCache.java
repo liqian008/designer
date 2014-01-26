@@ -112,19 +112,24 @@ public abstract class AbstractCounterCache {
 	}
 	
 	public long getCount(String key, int id) {
-        DesignerShardedJedis shardedJedis = null;
+		long value = 0;
+		DesignerShardedJedis shardedJedis = null;
         try {
             shardedJedis = cacheShardedJedisPool.getResource();
-            long value = new Double(shardedJedis.zscore(key, String.valueOf(id))).longValue();
+            Double countNum = shardedJedis.zscore(key, String.valueOf(id));
+            if(countNum!=null){
+            	value = countNum.longValue();
+            }else{
+            	incrByKey(key, id, 0);
+            }
             cacheShardedJedisPool.returnResource(shardedJedis);
-            return value;
         } catch (Throwable t) {
-            logger.error("getFavorCount", t);
+            logger.error("getCount", t);
             if (shardedJedis != null) {
                 cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
         }
-        return 0;
+        return value;
     }
 	
 	private long incrByKey(String key, int id, int score){
@@ -135,7 +140,7 @@ public abstract class AbstractCounterCache {
 			cacheShardedJedisPool.returnResource(shardedJedis);
 			return result;
 		} catch (JedisException t) {
-			logger.error("addScore", t);
+			logger.error("incrByKey", t);
 			if (shardedJedis != null) {
 				cacheShardedJedisPool.returnBrokenResource(shardedJedis);
 			}
@@ -159,7 +164,7 @@ public abstract class AbstractCounterCache {
 				return true;
 			}
 		} catch (JedisException t) {
-			logger.error("remove", t);
+			logger.error("removeByKey", t);
 			if (shardedJedis != null) {
 				cacheShardedJedisPool.returnBrokenResource(shardedJedis);
 			}

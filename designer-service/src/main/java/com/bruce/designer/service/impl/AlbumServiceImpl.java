@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bruce.designer.constants.ConstRedis;
+import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IAlbumDao;
 import com.bruce.designer.data.PagingData;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.model.Album;
+import com.bruce.designer.model.User;
 import com.bruce.designer.model.UserFollow;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.ICounterService;
@@ -52,13 +54,16 @@ public class AlbumServiceImpl implements IAlbumService {
 	
 	public Album loadById(Integer id, boolean loadCount, boolean loadTags) {
 		Album album = albumDao.loadById(id);
-		if(loadCount){
-			//加载作品访问量
-			initAlbumWithCount(album);
-		}
-		if(loadTags){
-			//加载tag标签
-			initAlbumWithTags(album);
+		if(album!=null){
+			checkAlbumStatus(album);//检查封禁状态
+			if(loadCount){
+				//加载作品访问量
+				initAlbumWithCount(album);
+			}
+			if(loadTags){
+				//加载tag标签
+				initAlbumWithTags(album);
+			}
 		}
 		return album;
 	}
@@ -104,6 +109,9 @@ public class AlbumServiceImpl implements IAlbumService {
 		return albumDao.queryAll();
 	}
 
+	/**
+	 * 分页查询作品集
+	 */
 	@Override
 	public PagingData<Album> pagingQuery(int userId, short albumStatus, int pageNo, int pageSize) {
 		pageNo = pageNo < 1 ? 1 : pageNo;
@@ -121,7 +129,6 @@ public class AlbumServiceImpl implements IAlbumService {
 	@Override
 	public List<Album> fallLoadAlbums(int albumsTailId, int limit, boolean isLoadCount, boolean isLoadTags) {
 		List<Album> albumList = albumDao.fallLoadList(albumsTailId, limit);
-		//加载访问计数
 		//加载访问计数
 		if(isLoadCount){
 			initAlbumsWithCount(albumList);
@@ -193,9 +200,9 @@ public class AlbumServiceImpl implements IAlbumService {
 		return null;
 	}
 
-	public List<Album> queryAlbumByStatus(short status) {
-		return albumDao.queryAlbumByStatus(status);
-	}
+//	public List<Album> queryAlbumByStatus(short status) {
+//		return albumDao.queryAlbumByStatus(status);
+//	}
 
 	public List<Album> queryAlbumByUserId(int userId) {
 		return albumDao.queryAlbumByUserId(userId);
@@ -257,6 +264,12 @@ public class AlbumServiceImpl implements IAlbumService {
 			album.setLikeCount(counterService.getLikeCount(albumId));
 			album.setFavoriteCount(counterService.getFavoriteCount(albumId));
 		}
+	}
+	
+	private void checkAlbumStatus(Album album){
+		if(album.getStatus()==ConstService.ALBUM_DELETE_STATUS){
+	    	throw new DesignerException(ErrorCode.ALBUM_FORBIDDEN);
+	    }
 	}
 
 }

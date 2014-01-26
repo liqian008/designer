@@ -10,8 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IUserDao;
 import com.bruce.designer.dao.mapper.UserMapper;
-import com.bruce.designer.model.Album;
-import com.bruce.designer.model.AlbumCriteria;
 import com.bruce.designer.model.User;
 import com.bruce.designer.model.UserCriteria;
 
@@ -54,7 +52,7 @@ public class UserDaoImpl implements IUserDao , InitializingBean {
             return user;
         }
         return null;
-    }
+    } 
 	
 	/**
 	 * 检查username是否存在
@@ -97,33 +95,59 @@ public class UserDaoImpl implements IUserDao , InitializingBean {
         return userMapper.updateByExampleSelective(user, criteria);
     }
 	
-	 
+	/**
+	 * 加载用户数据列表，取去正常用户
+	 */
 	public List<User> queryUsersByIds(List<Integer> userIds) {
 	    UserCriteria userCriteria = new UserCriteria();
-	    userCriteria.createCriteria().andIdIn(userIds);
+	    userCriteria.createCriteria().andIdIn(userIds).andStatusEqualTo(ConstService.USER_STATUS_OPEN);
         return userMapper.selectByExample(userCriteria);
     }
 	
 
-	public List<User> queryUsersByStatus(short status) {
-		UserCriteria criteria = new UserCriteria();
-		criteria.createCriteria().andStatusEqualTo(status);
-		return userMapper.selectByExample(criteria);
-	}
+//	public List<User> queryUsersByStatus(short status) {
+//		UserCriteria criteria = new UserCriteria();
+//		criteria.createCriteria().andStatusEqualTo(status);
+//		return userMapper.selectByExample(criteria);
+//	}
+//	
+//	public List<User> queryDesignersByStatus(short status) {
+//		UserCriteria criteria = new UserCriteria();
+//		criteria.createCriteria().andStatusEqualTo(status).andDesignerStatusEqualTo(ConstService.DESIGNER_APPLY_APPROVED);
+//		return userMapper.selectByExample(criteria);
+//	}
 	
-	public List<User> queryDesignersByStatus(short status) {
-		UserCriteria criteria = new UserCriteria();
-		criteria.createCriteria().andStatusEqualTo(status).andDesignerStatusEqualTo(ConstService.DESIGNER_APPLY_APPROVED);
-		return userMapper.selectByExample(criteria);
-	}
 	
 	/**
-     * 处理设计师申请操作
+	 * 申请设计师
+	 * @param userId
+	 * @param idNum
+	 * @param realname
+	 * @param mobile
+	 * @param company
+	 * @param taobaoHomepage
+	 * @return
+	 */
+    public int applyDesigner(int userId, String idNum, String realname, String mobile, String company, String taobaoHomepage) {
+        UserCriteria criteria = new UserCriteria();
+        criteria.createCriteria().andIdEqualTo(userId);
+        User user = new User();
+        user.setDesignerIdentifer(idNum);
+        user.setDesignerRealname(realname);
+        user.setDesignerMobile(mobile);
+        user.setDesignerCompany(company);
+        user.setDesignerTaobaoHomepage(taobaoHomepage);
+        user.setDesignerStatus(ConstService.DESIGNER_APPLY_SENT);
+        return userMapper.updateByExampleSelective(user, criteria);
+    }
+    
+	/**
+     * 处理设计师操作
      * @param userId
      * @param operationType
      * @return
      */
-    public int designerApplyOp(int userId, short operationType) {
+    public int operateDesigner(int userId, short operationType) {
         UserCriteria criteria = new UserCriteria();
         criteria.createCriteria().andIdEqualTo(userId);
         User user = new User();
