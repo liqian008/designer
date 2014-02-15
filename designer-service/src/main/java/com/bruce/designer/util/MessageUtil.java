@@ -16,7 +16,7 @@ public class MessageUtil {
 				return "评论消息";
 			}
 			case ConstService.MESSAGE_TYPE_LIKE: {
-				return "喜欢消息";
+				return "赞消息";
 			}
 			case ConstService.MESSAGE_TYPE_FAVORITIES: {
 				return "收藏消息";
@@ -42,7 +42,7 @@ public class MessageUtil {
 				return "comments";
 			}
 			case ConstService.MESSAGE_TYPE_LIKE: {
-				return "like";
+				return "likes";
 			}
 			case ConstService.MESSAGE_TYPE_FAVORITIES: {
 				return "favorites";

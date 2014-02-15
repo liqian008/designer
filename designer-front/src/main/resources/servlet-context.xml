@@ -40,7 +40,6 @@
 	<mvc:resources mapping="/headupload/**" location="/headupload/" />
 	<mvc:resources mapping="/staticFile/**" location="/staticFile" />
 
-
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
 		

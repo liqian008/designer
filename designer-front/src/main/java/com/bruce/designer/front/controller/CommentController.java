@@ -126,11 +126,9 @@ public class CommentController {
 		}
 	}
 	
-	
-	
 	@RequestMapping(value = "like.json", method = RequestMethod.POST)
-	public ModelAndView like(HttpServletRequest request, int designerId, int albumId, int albumSlideId) {
-		int result = commentService.like(designerId, albumId); 
+	public ModelAndView like(HttpServletRequest request, int fromId, int albumId, int designerId) {
+		int result = commentService.like(fromId, designerId, albumId); 
 		if(result>0){
 			return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
 		}else{

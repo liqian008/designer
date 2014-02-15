@@ -2,11 +2,12 @@
 <%@ page import="com.bruce.designer.model.*"%>
 <%@ page import="com.bruce.designer.front.constants.*"%>
 <%@ page import="com.bruce.designer.constants.*"%>
+<%@ page import="com.bruce.designer.util.*"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.text.*"%>
 
 <%
-	SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
+SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 %>
 
@@ -20,12 +21,12 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 <head>
 <meta charset="utf-8">
 <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-<title>Verendus - Multipurpose Business Template</title>
+<title>新晋设计师 - 金玩儿网</title>
 
 <meta name="description"
-	content="Verendus - A HTML5 / CSS3 Multipurpose Business Template">
+	content="金玩儿网-最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。">
 <meta name="keywords"
-	content="Bootstrap, Verendus, HTML5, CSS3, Business, Multipurpose, Template">
+	content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
@@ -101,9 +102,8 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 										<%for(User designer: designerList){%>
 										<div class="designer_badge_image" id="designer_badge_image<%=designer.getId()%>">
 											<a href="/designer-front/<%=designer.getId()%>/home">
-											<img
-												src="/designer-front/staticFile/avatar/<%=designer.getId()%>_medium.jpg"
-												height="100" width="100"></a>
+											<img src="<%=UploadUtil.getAvatarUrl(designer.getId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)%>">
+											</a>
 										</div>
 										<%} %>
 									</div>

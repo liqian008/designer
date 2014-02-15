@@ -26,8 +26,8 @@ import com.bruce.designer.constants.ConstRedis;
 import com.bruce.designer.exception.RedisKeyNotExistException;
 
 /**
- * Comments for UserFanCache.java
- * 
+ * Comments for FanCache.java
+ * redis数据结构为Sorted set
  * @author <a href="mailto:liujun4@staff.sina.com.cn">刘军</a>
  * @createTime 2013-9-11 下午06:46:09
  */
@@ -43,6 +43,30 @@ public class FanCache {
     @Autowired
     private DesignerShardedJedisPool cacheShardedJedisPool;
 
+    
+    /**
+     * 获取指定uid的关注数
+     */
+    public long getFanCount(int userId) throws RedisKeyNotExistException{
+    	String key = getKey(userId);
+        DesignerShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = cacheShardedJedisPool.getResource();
+            boolean exists = shardedJedis.exists(key);
+            if (exists == false) {
+                cacheShardedJedisPool.returnResource(shardedJedis);
+                throw new RedisKeyNotExistException();
+            } else {
+            	return shardedJedis.zcard(key);
+            }
+        } catch (JedisException t) {
+            logger.error("getFanCount", t);
+            if (shardedJedis != null) {
+                cacheShardedJedisPool.returnBrokenResource(shardedJedis);
+            }
+        }
+        return 0;
+    }
     /**
      * 添加粉丝至缓存
      * 

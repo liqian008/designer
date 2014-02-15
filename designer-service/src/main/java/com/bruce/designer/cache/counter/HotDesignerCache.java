@@ -14,7 +14,7 @@ import com.bruce.designer.constants.ConstScoreWeight;
 @Repository
 public class HotDesignerCache extends AbstractHotCache{
 
-    private static final String KEY_PREFIX = "hot_designer";
+    private static final String KEY_PREFIX = "hotDesigner";
     
     protected String getKey() {
     	return ConstRedis.REDIS_NAMESPACE + "_" + ConstRedis.REDIS_KEY_TYPE_COUNT + "_" + KEY_PREFIX;

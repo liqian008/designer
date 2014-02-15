@@ -54,36 +54,10 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
 
 //    private ExecutorService executorService = new ThreadPoolExecutor(24, 24, 5, TimeUnit.MINUTES,
 //            new LinkedBlockingQueue<Runnable>(1000));
-
-    @Override
-    public List<UserFollow> getFollowList(int uid) {
-        List<UserFollow> followList;
-        try {
-            followList = followCache.getAllFollowList(uid);
-        } catch (Exception e) {
-            followList = followDao.getFollowList(uid);
-            followCache.setFollowList(uid, followList);
-//            friendCache.setFriendList(uid, followList);
-        }
-        return followList;
-    }
-
-    @Override
-    public List<UserFollow> getFollowList(int uid, int page, int pageSize) {
-        page = page<1?1:page;
-        List<UserFollow> followList = getFollowList(uid);
-        if (followList != null && followList.size() > 0) {
-            int size = followList.size();
-            int fromIndex = (page - 1) * pageSize;
-            int toIndex = (page) * pageSize;
-            if (size > fromIndex) {
-                toIndex = toIndex > size ? size : toIndex;
-                return followList.subList(fromIndex, toIndex);
-            }
-        }
-        return new ArrayList<UserFollow>();
-    }
-
+    
+    /**
+     * 获取指定uid的关注列表，分页查询
+     */
     @Override
     public List<UserFollow> getFollowListWithUser(int uid, int page, int pageSize) {
         List<UserFollow> followList = getFollowList(uid, page, pageSize);
@@ -100,10 +74,40 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
             follow.setFollowUser(followUser);
             follow.setFollowUser(userMap.get(follow.getFollowId()));
         }
-
+        return followList;
+    }
+    
+    @Override
+    public List<UserFollow> getFollowList(int uid, int page, int pageSize) {
+        page = page<1?1:page;
+        List<UserFollow> followList = getFollowList(uid);
+        if (followList != null && followList.size() > 0) {
+            int size = followList.size();
+            int fromIndex = (page - 1) * pageSize;
+            int toIndex = (page) * pageSize;
+            if (size > fromIndex) {
+                toIndex = toIndex > size ? size : toIndex;
+                return followList.subList(fromIndex, toIndex);
+            }
+        }
+        return new ArrayList<UserFollow>();
+    }
+    
+    @Override
+    public List<UserFollow> getFollowList(int uid) {
+        List<UserFollow> followList;
+        try {
+            followList = followCache.getAllFollowList(uid);
+        } catch (Exception e) {
+            followList = followDao.getFollowList(uid);
+            followCache.setFollowList(uid, followList);
+        }
         return followList;
     }
 
+    /**
+     * 检查是否关注
+     */
     @Override
     public boolean isFollow(int uid, int followId) {
         if (uid == followId) {
@@ -127,7 +131,10 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
         }
         return isFollow;
     }
-
+    
+    /**
+     * 关注某人
+     */
     @Override
     public boolean follow(int uid, int followId) {
         if (uid == followId) {
@@ -334,19 +341,39 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
         Assert.notNull(counterService, "countService must not null");
         Assert.notNull(userService, "userService must not null");
     }
-
+    
+    
+    /**
+     * 获取关注数
+     */
     @Override
-    public long getFollowCount(int uid) {
-        // TODO 关注数
+    public long getFollowCount(int userId) {
+        //关注数
 //    	return (int) counterService.getCount(ConstRedis.COUNTER_KEY_FOLLOW + uid);
-    	return 0;
+//    	return 0;
+    	try {
+			return followCache.getFollowCount(userId);
+		} catch (RedisKeyNotExistException e) {
+//			List<UserFollow> followList = followDao.getFollowList(userId);
+//            followCache.setFollowList(userId, followList);
+            return 0;
+		}
     }
 
+    /**
+     *获取粉丝数
+     */
     @Override
-    public long getFanCount(int uid) {
+    public long getFanCount(int userId) {
 //        return (int) counterService.getCount(ConstRedis.COUNTER_KEY_FAN + uid);
-    	// TODO 关注数
-    	return 0;
+    	//粉丝数
+    	try {
+			return fanCache.getFanCount(userId);
+		} catch (RedisKeyNotExistException e) {
+//			List<UserFan> fansList = fanDao.getFanList(userId);
+//            fanCache.setFanList(userId, fansList);
+			return 0;
+		}
     }
 
 }

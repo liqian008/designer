@@ -24,7 +24,7 @@ import com.google.gson.GsonBuilder;
 
 /**
  * Comments for UserCache.java
- * 
+ * redis数据结构为String
  * @author <a href="mailto:jun.liu@opi-corp.com">刘军</a>
  * @createTime 2013-9-24 下午09:34:49
  */

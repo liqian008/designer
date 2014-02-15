@@ -9,6 +9,8 @@
 <%
 SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
+boolean isDesigner = currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED;
+
 %>
 
 <!DOCTYPE html>
@@ -19,10 +21,10 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
     <head>
         <meta charset="utf-8">
         <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-        <title>Verendus - Multipurpose Business Template</title>
+        <title>第三方账户绑定 - 金玩儿网</title>
 
-        <meta name="description" content="Verendus - A HTML5 / CSS3 Multipurpose Business Template">
-        <meta name="keywords" content="Bootstrap, Verendus, HTML5, CSS3, Business, Multipurpose, Template">
+        <meta name="description" content="金玩儿网-最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。">
+        <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
@@ -94,13 +96,18 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													<h4>第三方账户绑定</h4> 
 												</div>
 												
-												<div class="infobox info-info info-info-alt clearfix">
+												<div class="infobox info-warning info-warning-alt clearfix">
 					                                <span>i</span>
 					                                <div class="infobox-wrap">
 					                                    <h4>小贴士：</h4>
-					                                    <p>绑定微博或QQ后，即可以使用相应账户登录本站。</p>
+					                                    <p>
+					                                    <%if(isDesigner){%>
+					                                    绑定微博或QQ账户，有助于发布的作品在相应平台的自动传播，强烈建议设计师均进行绑定！
+					                                    <%}else{ %>
+					                                    绑定微博或QQ后，即可以使用相应账户登录本站。
+					                                    <%} %>
+					                                    </p>
 					                                </div>
-					                                <a href="#" class="info-hide"></a>
 					                            </div>
 														
 												<div class="row-container clearfix">
@@ -110,14 +117,12 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 														AccessTokenInfo wbToken = currentUser.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE);
 														boolean wbBound = wbToken!=null;
 														%>
-														<%=wbBound?"已绑定":"未绑定"%>，<%=wbToken!=null?wbToken.getThirdpartyUname():""%>
+														<%=wbBound?"已绑定":"未绑定"%><%=wbToken!=null?"【"+wbToken.getThirdpartyUname()+"】":""%>
 														<%if(wbBound){%>
 														<!-- <a href="/designer-front/unbindOauth?thirdpartyType=1" class="button button-small button-white">解绑Sina微博账户</a> -->
-														<input type="button" class="button button-white" value="解绑Sina微博账户" onclick="location.href='/designer-front/unbindOauth?thirdpartyType=1'"/>
-														<input type="checkbox" name="shareOut" value="1"/>发布作品时同步到Sina微博
-														
+														<input type="button" class="button button-white" value="解 绑" onclick="location.href='/designer-front/unbindOauth?thirdpartyType=1'"/>
+														<input type="checkbox" name="sync2Weibo" value="1" <%=wbToken.getSyncAlbum()==1?"checked='checked'":""%>/>发布作品时同步到Sina微博
 														<%}else{%>
-														
 														<input type="button" class="button button-green" value="现在就去绑定" onclick="location.href='/designer-front/connectWeibo'"/>
 														<!-- 
 														<a href="/designer-front/connectWeibo" class="button button-small button-green">现在就去绑定</a>
@@ -132,12 +137,11 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 														AccessTokenInfo tencentToken = currentUser.getAccessTokenMap().get(IOAuthService.OAUTH_TENCENT_TYPE);
 														boolean tencentBound = tencentToken!=null;
 														%>
-														<%=tencentBound?"已绑定":"未绑定"%>，<%=tencentToken!=null?tencentToken.getThirdpartyUname():""%>
+														<%=tencentBound?"已绑定":"未绑定"%><%=tencentToken!=null?"【"+tencentToken.getThirdpartyUname()+"】":""%>
 														<%if(tencentBound){%>
 														<!-- <a href="/designer-front/unbindOauth?thirdpartyType=2" class="button button-small button-white">解绑QQ账户</a> -->
-														<input type="button" class="button button-white" value="解绑QQ账户" onclick="location.href='/designer-front/unbindOauth?thirdpartyType=2'"/>
-														
-														<input type="checkbox" name="shareOut" value="1"/>发布作品时同步到QQ空间
+														<input type="button" class="button button-white" value="解 绑" onclick="location.href='/designer-front/unbindOauth?thirdpartyType=2'"/>
+														<input type="checkbox" name="sync2Tencent" value="1" <%=wbToken.getSyncAlbum()==1?"checked='checked'":""%>/>发布作品时同步到QQ空间
 														<%}else{%>
 														<input type="button" class="button button-green" value="现在就去绑定" onclick="location.href='/designer-front/connectTencent'"/>
 														<!--<a href="/designer-front/connectTencent" class="button button-small button-green">现在就去绑定</a> -->

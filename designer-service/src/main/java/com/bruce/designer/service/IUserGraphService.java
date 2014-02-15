@@ -167,7 +167,7 @@ public interface IUserGraphService{
      * @param uid
      * @return
      */
-    public long getFollowCount(int uid);
+    public long getFollowCount(int userId);
 
     /**
      * 获取粉丝数
@@ -175,6 +175,6 @@ public interface IUserGraphService{
      * @param uid
      * @return
      */
-    public long getFanCount(int uid);
+    public long getFanCount(int userId);
 
 }

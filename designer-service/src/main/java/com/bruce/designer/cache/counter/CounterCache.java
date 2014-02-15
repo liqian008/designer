@@ -29,6 +29,7 @@ import com.bruce.designer.service.ICounterService;
  * @createTime 2013-8-11 下午12:08:09
  */
 @Repository
+@Deprecated
 public class CounterCache implements InitializingBean {
 
     /**
@@ -116,7 +117,6 @@ public class CounterCache implements InitializingBean {
         }
         return 0;
     }
-
 
     public long reduceNum(String key, int num) {
         DesignerShardedJedis shardedJedis = null;

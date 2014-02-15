@@ -73,6 +73,12 @@ public class ErrorCode {
 	public static final int GRAPH_HAS_NOT_FOLLOW = 301;
 	/* 已经关注过了 */
 	public static final int GRAPH_ALREADY_FOLLOW = 302;
+	/* 自己不能关注自己 */
+	public static final int GRAPH_FOLLOW_SELF_DENIED = 303;
+	/* 不能关注一般用户（只能关注设计师） */
+	public static final int GRAPH_FOLLOW_COMMONUSER_DENIED = 304;
+	/* 取消关注失败 */
+	public static final int GRAPH_UNFOLLOW_FAILED = 305;
 	
 	/* 消息分配400-500的错误码 */
 	/* 消息未知错误 */

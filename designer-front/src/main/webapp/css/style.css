@@ -170,7 +170,7 @@ h6 { font-size: 12px; line-height: 18px; }
 	zoom: 1;
 	text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
 	color: #fff;
-	margin: 0 20px 20px 0;
+	margin: 0 2px 0px 0px; 
 }
 
 	.button:focus {
@@ -2031,6 +2031,13 @@ blockquote {
 		height: 46px;
 	}
 	
+	.message-avatar-medium {
+		float: left;
+		margin: 0 16px 0 0;
+		width: 60px;
+		height: 60px;
+	}
+	
 	.message-avatar-right {
 		float: right;
 		margin: 0 0px 0 16px;
@@ -2510,7 +2517,8 @@ blockquote {
 	.info-error span { background-color: #eca199; border: 1px solid #c67971; }
 	.info-warning span { background-color: #e8981d; border: 1px solid #9f6a18; }
 	.info-info span { background-color: #99d4ec; border: 1px solid #6ca3b8; }
-
+	
+	/*
 	.info-succes span:before {
 		content: "\f00c";
 	}
@@ -2518,6 +2526,7 @@ blockquote {
 	.info-error span:before, .infobox .info-hide:before {
 		content: "\f00d";
 	}
+	*/
 
 	.info-warning span, .info-info span {
 		color: #fff;
@@ -5186,7 +5195,7 @@ input.contact-form-error {
 			width: 100%;
 		}
 
-		.widget-wrapper-form .common-submit {
+		.widget-wrapper-form .common-submit, .widget-wrapper-form .common-button {
 			font-family: 'Arial';
 			font-size: 12px;
 			color: #fff;

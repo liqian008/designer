@@ -19,10 +19,10 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
     <head>
         <meta charset="utf-8">
         <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-        <title>Verendus - Multipurpose Business Template</title>
+        <title>第三方用户登录|注册 - 金玩儿网</title>
 
-        <meta name="description" content="Verendus - A HTML5 / CSS3 Multipurpose Business Template">
-        <meta name="keywords" content="Bootstrap, Verendus, HTML5, CSS3, Business, Multipurpose, Template">
+        <meta name="description" content="金玩儿网-最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。">
+        <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
@@ -108,7 +108,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 													<div class="row-right">
 														<input type="text" class="span5" id="reg-username" name="username"/>
 														<span id="reg-username-required" class="required">*</span>
-														<span id="reg-username-prompt" class="text-prompt"></span>
+														<span id="reg-username-prompt" class="text-prompt">字符、数字及下划线，4-20位</span>
 													</div>
 												</div>
 												
@@ -117,7 +117,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 													<div class="row-right">
 														<input type="text" class="span5" id="reg-nickname" name="nickname"/>
 														<span id="reg-nickname-required" class="required">*</span>
-														<span id="reg-nickname-prompt" class="text-prompt"></span>
+														<span id="reg-nickname-prompt" class="text-prompt">字符、数字及下划线，2-20位</span>
 													</div>
 												</div>
 												
@@ -126,7 +126,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 													<div class="row-right">
 														<input type="password" class="span5" id="reg-password" name="password"/>
 														<span id="reg-password-required" class="required">*</span>
-														<span id="reg-password-prompt" class="text-prompt"></span>
+														<span id="reg-password-prompt" class="text-prompt">字符、数字，6-20位</span>
 													</div>
 												</div>
 												
@@ -284,7 +284,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
     		usernameAvailable = false;
     		var usernameVal = $('#reg-username').val();
     		//中文、英文字符 4-6位
-    		var usernameRegex =  /^[\u4E00-\u9FA5\uf900-\ufa2d\w]{4,16}$/;
+    		var usernameRegex =  /^[\u4E00-\u9FA5\uf900-\ufa2d\w]{4,20}$/;
     		if(usernameVal==''){
     			$('#reg-username-prompt').text('用户名不能为空').show();
         		return false;
@@ -312,7 +312,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
     	function checkRegNickname(){
     		nicknameAvailable = false;
     		var nicknameVal = $('#reg-nickname').val();
-    		var nicknameRegex =  /^[\u4E00-\u9FA5\uf900-\ufa2d\w]{4,16}$/;
+    		var nicknameRegex =  /^[\u4E00-\u9FA5\uf900-\ufa2d\w]{2,20}$/;
     		if(nicknameVal==''){
     			$('#reg-nickname-prompt').text('昵称不能为空').show();
     		}else if(!nicknameRegex.test(nicknameVal)){//监察正则匹配

@@ -35,6 +35,13 @@
 			<type>jar</type>
 		</dependency>
 		
+		<!-- designer -->
+		<dependency>
+			<groupId>com.bruce</groupId>
+			<artifactId>designer-service</artifactId>
+			<version>1.0.0-BUILD-SNAPSHOT</version>
+		</dependency>
+		
 		<!-- spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>

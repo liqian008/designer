@@ -52,6 +52,7 @@ public class AuthorizeInterceptor extends HandlerInterceptorAdapter implements I
 				// System.out.println("需要跳转到登陆页");
 				if (RequestUtil.isJsonRequest(request)) {// json类型
 					writeJson(response, ErrorCode.AUTHORIZE_NEED_LOGIN);
+					return false;
 				} else {// webpage
 					String loginUrl = UrlUtil.getFullUrl(LOGIN_URL);
 					if (RequestUtil.isGet(request)) {

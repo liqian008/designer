@@ -62,8 +62,11 @@ public class AlbumController {
 	@Autowired
 	private IHotService hotService;
 
-	public static final int HOME_LIMIT = NumberUtils.toInt(ConfigUtil.getString("main_home_album_limit"), 3);
+	/*非全屏情况下item的数量*/
+	public static final int HOME_LIMIT = NumberUtils.toInt(ConfigUtil.getString("main_home_album_limit"), 2);
+	/*全屏情况下item的数量*/
 	public static final int FULL_LIMIT = NumberUtils.toInt(ConfigUtil.getString("main_latest_album_limit"), 4);
+	/*侧栏item的数量*/
 	public static final int SIDE_LIMIT = NumberUtils.toInt(ConfigUtil.getString("slide_latest_album_limit"), 3*2);
 
 	private static final Logger logger = LoggerFactory.getLogger(AlbumController.class);
@@ -245,8 +248,8 @@ public class AlbumController {
 		int userId = user.getId();
 
 		int limit = FULL_LIMIT;
-		List<Album> albumList = null;
-		albumList = albumService.fallLoadUserFollowAlbums(userId, albumsTailId, limit + 1);
+		//获取关注列表
+		List<Album> albumList = albumService.fallLoadUserFollowAlbums(userId, albumsTailId, limit + 1);
 		int nextTailId = 0;
 
 		if (albumList == null || albumList.size() == 0) {

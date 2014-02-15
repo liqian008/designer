@@ -12,6 +12,10 @@ User queryUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE);
 
 boolean isDesigner = queryUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED;
 boolean isMe =  currentUser!=null&&queryUser!=null&&currentUser.getId().equals(queryUser.getId());
+String who = "Ta";
+if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
+	 who = "我";
+}
 %> 
 
 <!DOCTYPE html>
@@ -22,10 +26,10 @@ boolean isMe =  currentUser!=null&&queryUser!=null&&currentUser.getId().equals(q
     <head>
         <meta charset="utf-8">
         <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-        <title>Verendus - Multipurpose Business Template</title>
+        <title><%=who%>的主页 - 金玩儿网</title>
 
-        <meta name="description" content="Verendus - A HTML5 / CSS3 Multipurpose Business Template">
-        <meta name="keywords" content="Bootstrap, Verendus, HTML5, CSS3, Business, Multipurpose, Template">
+        <meta name="description" content="金玩儿网-最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。">
+        <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
@@ -59,14 +63,12 @@ boolean isMe =  currentUser!=null&&queryUser!=null&&currentUser.getId().equals(q
                 <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                	
                 	<%
-                	String menuFlag = "";
-                	if(isMe){
-                		menuFlag = "myHome";
-                	}
-                	%>
-                    <jsp:include page="../inc/headerNav.jsp?menuFlag=<%=menuFlag%>"></jsp:include>
+                	if(isMe){%>
+	                    <jsp:include page="../inc/headerNav.jsp?menuFlag=myHome"></jsp:include>
+                	<%}else{%>
+                		<jsp:include page="../inc/headerNav.jsp?menuFlag="></jsp:include>
+                	<%} %>
 					<jsp:include page="../inc/ad.jsp"></jsp:include>
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
@@ -76,7 +78,7 @@ boolean isMe =  currentUser!=null&&queryUser!=null&&currentUser.getId().equals(q
             <div class="breadscrumbs">
                 <div class="container">
                     <ul class="clearfix">
-                        <li><a href="./">首页</a>/</li>
+                        <li><a href="/designer-front/">首页</a>/</li>
                         <li><a href="javascript:void(0)"><%=queryUser.getNickname()%></a>/</li>
                         <li><a href="javascript:void(0)">作品辑</a></li>
                     </ul>
@@ -88,42 +90,64 @@ boolean isMe =  currentUser!=null&&queryUser!=null&&currentUser.getId().equals(q
                         <section class="content span9">
 							<%-- <a href="/designer-front/<%=queryUser.getId()%>/home" class="button button-blue">作品辑</a>
 							<a href="/designer-front/<%=queryUser.getId()%>/info" class="button button-white">个人资料</a> --%>
+							
+							<div class="shortcode-tabs shortcode-tabs-vertical clearfix">
+                                <ul class="tabs-nav tabs clearfix span3">
+                                	<li class="active"><a class="button button-white" href="./home"><%=who%>的作品辑</a></li>
+                                	<li><a class="button button-white" href="./info"><%=who%>的资料</a></li>
+                                	<li><a class="button button-white" href="./follows"><%=who%>的关注</a></li>
+                                	<%if(isDesigner){%>
+                                	<li><a class="button button-white" href="./fans"><%=who%>的粉丝</a></li>
+                                	<%} %>
+                                </ul>
+                                <div class="tab-content span9">
+                                    <div class="tab-pane active clearfix">
+                                    	 <div class="content-title">
+											<h4><%=who%>的作品辑</h4>
+										</div>
+							
 											
-                        	<%if(!isDesigner){%>
-                        	<div class="infobox info-warning info-warning-alt clearfix">
-                                <span>!</span>
-                                <div class="infobox-wrap">
-                                    <h4>提示</h4>
-                                    <p>
-                                    非设计师身份，暂无作品展示! 
-                                    </p>
-                                </div>
-                            </div>
-                        	<%}else{%>
-                        	
-                        	<div id="infoboxContainer" class="infobox info-warning info-warning-alt clearfix" style="display:none">
-                                <span>!</span>
-                                <div class="infobox-wrap">
-                                    <h4>提示</h4>
-                                    <p id="infoboxMessage">
-                                   	无更多数据!
-                                    </p>
-                                </div>
-                            </div>
-	                    	<div id="albumContainer">
-	                    	</div>
-	                    	<div>
-	                    		<input type="hidden" id="albumsTailId" name="albumsTailId" value="0" />
-								<input type="hidden" id="designerId" name="designerId" value="<%=queryUser.getId()%>" />
-								<div class="shortcode-blogpost row-fluid" id="moreAlbumsContainer">
-									<div class="span2 offset5">
-										<input id="moreAlbumsBtn"
-											class="button-small button button-white btn-block" type="button"
-											value="加载更多..." />
+		                        	<%if(!isDesigner){%>
+		                        	<div class="infobox info-warning info-warning-alt clearfix">
+		                                <span>!</span>
+		                                <div class="infobox-wrap">
+		                                    <h4>提示</h4>
+		                                    <p>
+		                                    非设计师身份，暂无作品展示！  
+		                                    <%if(isMe){%>
+		                                    <a class="button button-green button-small" href="/designer-front/settings/designerInfo">立刻申请设计师</a>
+		                                    <%}%>
+		                                    </p>
+		                                </div>
+		                            </div>
+		                        	<%}else{%>
+		                        	
+		                        	<div id="infoboxContainer" class="infobox info-warning info-warning-alt clearfix" style="display:none">
+		                                <span>!</span>
+		                                <div class="infobox-wrap">
+		                                    <h4>提示</h4>
+		                                    <p id="infoboxMessage">
+		                                   	无更多数据!
+		                                    </p>
+		                                </div>
+		                            </div>
+			                    	<div id="albumContainer">
+			                    	</div>
+			                    	<div>
+			                    		<input type="hidden" id="albumsTailId" name="albumsTailId" value="0" />
+										<input type="hidden" id="designerId" name="designerId" value="<%=queryUser.getId()%>" />
+										<div class="shortcode-blogpost row-fluid" id="moreAlbumsContainer">
+											<div class="span2 offset5">
+												<input id="moreAlbumsBtn"
+													class="button-small button button-white btn-block" type="button"
+													value="加载更多..." />
+											</div>
+										</div>
+			                    	</div>
+									<%}%>
 									</div>
 								</div>
-	                    	</div>
-							<%}%>
+							</div>
                         </section>
                        	
                        	<!-- right slidebar -->
@@ -161,7 +185,7 @@ boolean isMe =  currentUser!=null&&queryUser!=null&&currentUser.getId().equals(q
 			//置为数据加载状态 
 			$('#moreAlbumsBtn').val("努力加载中...");
 			$('#moreAlbumsBtn').attr("disabled","disabled");
-			var jsonData = {'designerId':$("#designerId").val(), 'albumsTailId' : $("#albumsTailId").val(), 'numberPerLine':'3'};
+			var jsonData = {'designerId':$("#designerId").val(), 'albumsTailId' : $("#albumsTailId").val(), 'numberPerLine':'2'};
 			$.post('/designer-front/moreAlbums.json', jsonData, function(data) {
 				var result = data.result;
 				if(result==1){

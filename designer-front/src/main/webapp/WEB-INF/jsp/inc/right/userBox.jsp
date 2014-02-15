@@ -30,7 +30,7 @@ if (queryUser != null) {
 			<li class="clearfix">
 				<div class="widget-blogpost-avatar">
 					<a href="/designer-front/<%=queryUser.getId()%>/home"><img
-						src="<%=UploadUtil.getAvatarUrl(queryUser.getId(), ConstService.UPLOAD_IMAGE_SPEC_LARGE)%>">
+						src="<%=UploadUtil.getAvatarUrl(queryUser.getId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)%>">
 					</a>
 				</div>
 				<div class="widget-blogpost-content">
@@ -39,47 +39,108 @@ if (queryUser != null) {
 							昵 称:&nbsp;<%=queryUser.getNickname()%>
 						</p>
 						<%if(isDesigner){ %>
-						<p>作品数量:&nbsp;xx个</p>
-						<p>粉 丝:&nbsp;10个</p>
+						<p>专辑数:&nbsp;x个</p>
+						<p>粉丝数:&nbsp;<span class="fansCount">0</span>个</p>
 						<%}%>
-						<p>关 注:&nbsp;10个</p>
+						<p>关注数:&nbsp;<span class="followsCount">0</span>个</p>
 					</div>
 				</div>
 			</li>
 		</ul>
 
 		<%if(isDesigner){%>
-		<%if(!isMe){%>
-		<%
-			Boolean hasFollowed = (Boolean) request
-							.getAttribute("hasFollowed");
-					if (hasFollowed != null && hasFollowed) {
-		%>
-		<%-- <input class="common-submit button" type="button" value="取消关注"
-			onclick="location.href='/designer-front/<%=queryUser.getId()%>/home'" /> --%>
-		<%
-			} else {
-		%>
-		<%-- <input class="common-submit button" type="button" value="关注"
-			onclick="location.href='/designer-front/<%=queryUser.getId()%>/home'" /> --%>
-		<%}
-		}%>
-
+			<%if(!isMe){%>
+			<%
+				Boolean hasFollowed = (Boolean) request.getAttribute("hasFollowed");
+				String hideStr = "style='display:none'";
+			%>
+			<input type="button" id="followBtn" class="followBtn common-button button button-green" value="关 注" <%=hideStr%>/>
+			<input type="button" id="unfollowBtn" class="unfollowBtn common-button button button-white" value="取消关注" <%=hideStr%>/>
+			
+			<%}%>
+			
+			<script>
+			//初始化加载用户资料&状态
+			var queryJsonData = {"queryUserId": <%=queryUser.getId()%>};
+			$.post("/designer-front/userboxInfo.json", queryJsonData, function(responseData) {
+				if(responseData.result==1){
+					$('.fansCount').each(function(){
+						$(this).text(responseData.data.fansCount);
+					});
+					$('.followsCount').each(function(){
+						$(this).text(responseData.data.followsCount);
+					});
+					if(responseData.data.hasFollowed==true){//已关注
+						$('.followBtn').hide();
+						$('.unfollowBtn').show();
+					}else{
+						$('.unfollowBtn').hide();
+						$('.followBtn').show();
+					}
+				}else{
+					alert(responseData.message);
+				}
+			 }, "json");
+			
+			//触发关注操作
+			$(".followBtn").click(function(){
+				$(".followBtn").attr("disabled", "disabled");
+				var followJsonData = {"uid": <%=queryUser.getId()%>};
+				$.post("/designer-front/follow.json", followJsonData, function(data) {
+					$(".followBtn").removeAttr("disabled");
+					if(data.result==1){
+						$(".unfollowBtn").show();
+						$(".followBtn").hide();
+						//更新粉丝数的显示
+						$('.fansCount').each(function(){
+							var fansCount = parseInt($(this).text())+1;
+							$(this).text(fansCount);
+						});
+					}else{
+						alert(data.message);
+					}
+				 }, "json");
+			});
+			
+			//触发取消关注操作
+			$(".unfollowBtn").click(function(){
+				$(".unfollowBtn").attr("disabled", "disabled");
+				var unfollowJsonData = {"uid": <%=queryUser.getId()%>};
+				$.post("/designer-front/unfollow.json", unfollowJsonData, function(data) {
+					$(".unfollowBtn").removeAttr("disabled");
+					if(data.result==1){
+						$(".followBtn").show();
+						$(".unfollowBtn").hide();
+						//更新粉丝数的显示
+						$('.fansCount').each(function(){
+							var fansCount = parseInt($(this).text())-1;
+							if(fansCount<0){//确保不会出现负数
+								fansCount = 0;
+							}
+							$(this).text(fansCount);
+						});
+					}else{
+						alert(data.message);
+					}
+				 }, "json");
+			});
+			
+			</script>
+			
+		<%}%>
+		
 		<%if (!isMe) {%>
-		<input class="common-submit button" type="button" value="私信"
+			<input type="button" class="common-button button" value="私信"
 			onclick="location.href='/designer-front/settings/msgbox/chat?toId=<%=queryUser.getId()%>'" />
 		<%}%>
 		
-		<input class="common-submit button" type="button" value="作品辑"
-			onclick="location.href='/designer-front/<%=queryUser.getId()%>/home'" />
-		<%}%>
-		
-		<input class="common-submit button" type="button" value="个人资料"
-			onclick="location.href='/designer-front/<%=queryUser.getId()%>/info'" />	
+		<input type="button" class="common-button button button-blue" value="个人主页"
+			onclick="location.href='/designer-front/<%=queryUser.getId()%>/home'" />	
 		<%if (isMe) {%>
-		<input class="common-submit button" type="button" value="个人设置"
+		<input type="button" class="common-button button" value="个人设置"
 			onclick="location.href='/designer-front/settings'" />
 		<%}%>
 	</form>
+	
 </div>
 <%}%>

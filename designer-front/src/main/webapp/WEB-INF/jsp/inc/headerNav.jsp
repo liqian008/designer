@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.model.*"%>
 <%@ page import="com.bruce.designer.front.constants.*"%>
+<%@ page import="com.bruce.designer.constants.*"%>
 
 <%
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER); 
@@ -55,9 +56,23 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 							<li><a href="/designer-front/designers">新晋设计师</a></li>
 							<li><a href="/designer-front/hot/designers">热门设计师</a></li>
 						</ul></li> 
-					<li <%=menuIndex==3?"class='active current-menu-item'":"" %>><a href="/designer-front/followAlbums">我的关注</a></li>  
+					<li <%=menuIndex==3?"class='active current-menu-item'":"" %>><a href="/designer-front/followAlbums">我的关注</a>
+					</li>
+					
 					<%if(currentUser!=null){%>
-					<li <%=menuIndex==4?"class='active current-menu-item'":"" %>><a href="/designer-front/<%=currentUser.getId()%>/home">我的主页</a></li> 
+					<li <%=menuIndex==4?"class='active current-menu-item'":"" %>><a href="/designer-front/<%=currentUser.getId()%>/home">我的主页</a>
+						<ul class="sub-menu">
+							<%
+							boolean isDesigner = currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED;
+							%>
+								<li><a href="/designer-front/<%=currentUser.getId()%>/home">我的作品辑</a></li>
+								<li><a href="/designer-front/<%=currentUser.getId()%>/info">我的资料</a></li>
+								<li><a href="/designer-front/<%=currentUser.getId()%>/follows">我的关注</a></li>
+							<%if(isDesigner){%>
+								<li><a href="/designer-front/<%=currentUser.getId()%>/fans">我的粉丝</a></li>
+							<%}%>
+						</ul>
+					</li> 
 					<li <%=menuIndex==5?"class='active current-menu-item'":"" %>><a href="/designer-front/settings">我的设置</a></li> 
 					
 					<%}%>

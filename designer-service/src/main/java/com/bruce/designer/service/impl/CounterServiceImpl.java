@@ -76,7 +76,7 @@ public class CounterServiceImpl implements ICounterService, InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(counterCache, "counterCache must not null!");
+//		Assert.notNull(counterCache, "counterCache must not null!");
 	}
 
 	@Override

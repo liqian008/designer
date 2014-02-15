@@ -11,9 +11,10 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 User queryUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE);
 
+boolean isMe =  currentUser!=null&&queryUser!=null&&currentUser.getId().equals(queryUser.getId());
 boolean isDesigner = queryUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED;
 String who = "Ta";
-if(currentUser!=null&&currentUser.getId()==queryUser.getId()){
+if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 	 who = "我";
 }
 %>
@@ -26,10 +27,10 @@ if(currentUser!=null&&currentUser.getId()==queryUser.getId()){
     <head>
         <meta charset="utf-8">
         <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-        <title>Verendus - Multipurpose Business Template</title>
+        <title><%=who%>的资料 - 金玩儿网</title>
 
-        <meta name="description" content="Verendus - A HTML5 / CSS3 Multipurpose Business Template">
-        <meta name="keywords" content="Bootstrap, Verendus, HTML5, CSS3, Business, Multipurpose, Template">
+        <meta name="description" content="金玩儿网-最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。">
+        <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="stylesheet" href="../css/bootstrap.min.css">
@@ -63,7 +64,12 @@ if(currentUser!=null&&currentUser.getId()==queryUser.getId()){
                 <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="../inc/headerNav.jsp?menuFlag=myHome"></jsp:include>
+                    <%
+                	if(isMe){%>
+	                    <jsp:include page="../inc/headerNav.jsp?menuFlag=myHome"></jsp:include>
+                	<%}else{%>
+                		<jsp:include page="../inc/headerNav.jsp?menuFlag="></jsp:include>
+                	<%} %>
 					<jsp:include page="../inc/ad.jsp"></jsp:include>
 					
                 </div> <!-- Close Header Menu -->
@@ -75,7 +81,7 @@ if(currentUser!=null&&currentUser.getId()==queryUser.getId()){
                 <div class="container">
                     <ul class="clearfix">
                         <li><a href="/designer-front/">首页</a>/</li>
-                        <li><a href="./home"><%=queryUser.getNickname()%></a>/</li>
+                        <li><a href="/designer-front/home"><%=queryUser.getNickname()%></a>/</li>
                         <li><a href="javascript:void(0)">个人资料</a></li>
                     </ul>
                 </div>
@@ -87,6 +93,8 @@ if(currentUser!=null&&currentUser.getId()==queryUser.getId()){
 							
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
                                 <ul class="tabs-nav tabs clearfix span3">
+                                	<li><a class="button button-white" href="./home"><%=who%>的作品辑</a></li>
+                                	<%-- <li><a class="button button-white" href="./home"><%=who%>的主页</a></li> --%>
                                 	<li class="active"><a class="button button-white" href="javascript:void(0)"><%=who%>的资料</a></li>
                                 	<li><a class="button button-white" href="./follows"><%=who%>的关注</a></li>
                                 	<%if(isDesigner){%>
@@ -94,6 +102,7 @@ if(currentUser!=null&&currentUser.getId()==queryUser.getId()){
                                 	<%}%>
                                 </ul>
                                 <div class="tab-content span9">
+                                <div class="widget-box widget-wrapper-form">
 		                            <div class="tab-pane widgets-light active" id="info">
 										
 										<div class="content-title">
@@ -112,7 +121,9 @@ if(currentUser!=null&&currentUser.getId()==queryUser.getId()){
 										
 										<div class="row-container clearfix">
 											<div class="row-left">关注数:</div>
-											<div class="row-right"><a href='#'><%=request.getAttribute("followsNumber")%>人</a></div>
+											<div class="row-right">
+												<a href='/designer-front/<%=queryUser.getId()%>/follows'><span class="followsCount">0</span>人</a>
+											</div>
 										</div>
 			                            
 										<%
@@ -126,14 +137,37 @@ if(currentUser!=null&&currentUser.getId()==queryUser.getId()){
 			                            </div>
 			                            
 			                            <div class="row-container clearfix">
-											<div class="row-left">作品数量: </div>
-											<div class="row-right">xx</div>
+											<div class="row-left">专辑数: </div>
+											<div class="row-right">
+												<a href='/designer-front/<%=queryUser.getId()%>/home'><span class="albumsCount">x</span>个</a>
+											</div>
 										</div>
 										
 										<div class="row-container clearfix">
 											<div class="row-left">粉丝数: </div>
-											<div class="row-right"><a href='#'><%=request.getAttribute("fansNumber")%>人</a></div>
+											<div class="row-right">
+												<a href='/designer-front/<%=queryUser.getId()%>/fans'><span class="fansCount">0</span>人</a>
+												<%
+												if(!isMe){
+													/* Boolean hasFollowed = (Boolean) request.getAttribute("hasFollowed"); */
+	            									String hideStr = "style='display:none'";
+	            								%>
+													<input type="button" class="followBtn button button-small button-green" <%=hideStr%> value="关注">
+	                                            	<input type="button" class="unfollowBtn button button-small button-white" <%=hideStr%> value="取消关注">
+												<%}%>
+											</div>
 										</div>
+										
+										<%if(queryUser.getAccessTokenMap().containsKey(IOAuthService.OAUTH_WEIBO_TYPE)){%>
+											<div class="row-container clearfix">
+												<div class="row-left">微博账户: </div>
+												<div class="row-right">
+													<%=queryUser.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE).getThirdpartyUname()%>
+													&nbsp;&nbsp;<input type="button" class="button button-small button-blue" value="查看微博">
+												</div>
+											</div>
+											<%}%>
+										<%}%>
 										
 										<div class="row-container clearfix">
 											<div class="row-left">淘宝店铺主页: </div>
@@ -156,8 +190,8 @@ if(currentUser!=null&&currentUser.getId()==queryUser.getId()){
 											</div>
 										</div>
 										
-										<%}%>
-                                    	
+										
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +210,6 @@ if(currentUser!=null&&currentUser.getId()==queryUser.getId()){
         </div> <!-- Close Page -->
    </div> <!-- Close wrapper -->
 
-        
     <!-- Load all Javascript Files -->
     <script src="../js/vendor/bootstrap.min.js"></script>
     <script src="../js/jquery.hoverdir.js"></script>
@@ -187,6 +220,40 @@ if(currentUser!=null&&currentUser.getId()==queryUser.getId()){
     <script src="../js/retina.js"></script>
 
     <script src="../js/custom.js"></script>
-
+	
+	<script>
+	
+	/* $("body").delegate('input.followBtn', 'click', function(){
+		var followBtn = $(this);
+		var followId = followBtn.attr('dataItem');
+		followBtn.attr("disabled", "disabled");
+		var followJsonData = {"uid": followId};
+		$.post("/designer-front/follow.json", followJsonData, function(data) {
+			followBtn.removeAttr("disabled");
+			if(data.result==1){
+				followBtn.next().show();
+				followBtn.hide();
+			}else{
+				alert(data.message);
+			}
+		 }, "json");
+	});
+	
+	$("body").delegate('input.unfollowBtn', 'click', function(){
+		var unfollowBtn = $(this);
+		var unfollowId = unfollowBtn.attr('dataItem');
+		unfollowBtn.attr("disabled", "disabled");
+		var unfollowJsonData = {"uid": unfollowId};
+		$.post("/designer-front/unfollow.json", unfollowJsonData, function(data) {
+			unfollowBtn.removeAttr("disabled");
+			if(data.result==1){
+				unfollowBtn.prev().show();
+				unfollowBtn.hide();
+			}else{
+				alert(data.message);
+			}
+		 }, "json");
+	}); */
+	</script>
     </body>
 </html>

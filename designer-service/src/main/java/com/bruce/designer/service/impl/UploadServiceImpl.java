@@ -124,8 +124,8 @@ public class UploadServiceImpl implements IUploadService {
 			byte[] resizeData = ImageUtil.zoom(data, widthSpec, widthSpec);
 			String avatarFileName = userId +".jpg";
 			//保存文件
-			String avatarUrl = UploadUtil.saveFile(resizeData, basePath, avatarPath +"/"+ avatarSpec , avatarFileName);
-			UploadImageInfo imageInfo = new UploadImageInfo(avatarFileName, ConstService.UPLOAD_FILE_TYPE_AVATAR, avatarSpec, avatarUrl, -1);
+			String avatarUrl = UploadUtil.saveFile(resizeData, basePath, avatarPath +"/"+ widthSpec , avatarFileName);
+			UploadImageInfo imageInfo = new UploadImageInfo(avatarFileName, ConstService.UPLOAD_FILE_TYPE_AVATAR, avatarSpec, avatarUrl, -1, widthSpec, widthSpec);
 			// 组装uploadResult
 			if (ConstService.UPLOAD_IMAGE_SPEC_LARGE.equals(avatarSpec)) {
 				uploadResult.setLargeImage(imageInfo);

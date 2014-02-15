@@ -96,7 +96,7 @@ public class UserServiceImpl implements IUserService {
 //        }
 //        return null;
 //    }
-    
+	
     public Map<Integer, User> getUserMap(List<Integer> userIds) {
         Map<Integer, User> userMap = userCache.multiGetUser(userIds);
         List<Integer> leftIdList = new ArrayList<Integer>();
@@ -168,9 +168,6 @@ public class UserServiceImpl implements IUserService {
 		return null;
 	}
 	
-//	public List<User> queryUsersByStatus(short status) {
-//	    return userDao.queryUsersByStatus(status);
-//	}
 	
 	@Override
 	public List<User> fallLoadDesignerList(long approvelTailTime, int limit) {
@@ -179,10 +176,14 @@ public class UserServiceImpl implements IUserService {
 		return userList;
 	}
 	
-//	public List<User> queryDesignersByStatus(short status) {
-//		//取正常状态的用户列表
-//	    return userDao.queryDesignersByStatus(status);
-//	}
+	public List<User> queryUsersByStatus(short status) {
+	    return userDao.queryUsersByStatus(status);
+	}
+	
+	public List<User> queryDesignersByStatus(short status) {
+		//取正常状态的用户列表
+	    return userDao.queryDesignersByStatus(status);
+	}
 	
 	/**
      * 提交审核

@@ -18,12 +18,12 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 <head>
 <meta charset="utf-8">
 <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-<title>Verendus - Multipurpose Business Template</title>
+<title>新晋专辑作品 - 金玩儿网</title>
 
 <meta name="description"
-	content="Verendus - A HTML5 / CSS3 Multipurpose Business Template">
+	content="金玩儿网-最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。">
 <meta name="keywords"
-	content="Bootstrap, Verendus, HTML5, CSS3, Business, Multipurpose, Template">
+	content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
@@ -76,7 +76,14 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 
 		<div class="page">
 			<!-- Page -->
-			<jsp:include page="../inc/breadcrumb.jsp"></jsp:include>
+			<div class="breadscrumbs">
+                <div class="container">
+                    <ul class="clearfix">
+                        <li><a href="./">首页</a>/</li>
+                        <li><a href="javascript:void(0)">新晋专辑作品</a></li>
+                    </ul>
+                </div>
+            </div>
 
 			<div class="main fullwidth">
 				<section class="content">

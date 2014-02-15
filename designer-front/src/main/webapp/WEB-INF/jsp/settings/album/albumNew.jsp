@@ -8,7 +8,7 @@
 
 <%
 SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
-User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
+User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 %>
 
 <!DOCTYPE html>
@@ -19,10 +19,10 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
     <head>
         <meta charset="utf-8">
         <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-        <title>Verendus - Multipurpose Business Template</title>
+        <title>创建专辑作品 - 金玩儿网</title>
 
-        <meta name="description" content="Verendus - A HTML5 / CSS3 Multipurpose Business Template">
-        <meta name="keywords" content="Bootstrap, Verendus, HTML5, CSS3, Business, Multipurpose, Template">
+        <meta name="description" content="金玩儿网-最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。">
+        <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
@@ -95,7 +95,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                         	<form id='album-widget-form' class="widget-form" method="post" class="clearfix"
 												action="/designer-front/settings/postAlbum">
 												<div class="content-title">
-													<h4>发布作品集【上限6张】</h4>
+													<h4>发布专辑作品集【上限6张】</h4>
 												</div>
 												
 												<div class="infobox info-info info-info-alt clearfix">
@@ -108,7 +108,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					                            </div>
 												
 												<div class="row-container clearfix">
-													<div class="row-left">作品主题: </div>
+													<div class="row-left">专辑作品主题: </div>
 													<div class="row-right">
 														<input type="text" class="span6" id="title"  name="title" value=""/>
 														<span id="album-title-required" class="required">*</span>
@@ -161,8 +161,20 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<div class="row-container clearfix">
 													<div class="row-left">分享选项: </div>
 													<div class="row-right">
-														<input type="checkbox" name="" value="1"/>同时分享到Sina微博 &nbsp;<a href="/designer-front/settings/thirdparty">修改分享设置</a><br/>
-														<input type="checkbox" name="" value="1"/>同时分享到QQ空间&nbsp;<a href="/designer-front/settings/thirdparty">修改分享设置</a>
+														<%
+														short sync2Weibo = 0;
+														short sync2Tencent = 0;
+														if(currentUser.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE)!=null){
+															sync2Weibo = currentUser.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE).getSyncAlbum();
+														%>
+															<input type="checkbox" name="sync2Weibo" value="1" <%=sync2Weibo==1?"checked='checked'":""%>/>同时分享到Sina微博 &nbsp;<a href="/designer-front/settings/thirdparty">修改分享设置</a><br/>
+														<%}
+														
+														if(currentUser.getAccessTokenMap().get(IOAuthService.OAUTH_TENCENT_TYPE)!=null){
+															sync2Tencent = currentUser.getAccessTokenMap().get(IOAuthService.OAUTH_TENCENT_TYPE).getSyncAlbum();
+														%>
+														<input type="checkbox" name="sync2Tencent" value="1" <%=sync2Tencent==1?"checked='checked'":""%>/>同时分享到QQ空间&nbsp;<a href="/designer-front/settings/thirdparty">修改分享设置</a>
+														<%}%>
 													</div>
 												</div>
 												<!-- <div>
@@ -206,6 +218,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												</script>
 												
 												<input class="common-submit button" id="submit-button" type="button" value="提 交">
+												<input class="common-submit button" id="reset-button" type="reset" value="重 置">
 											</form>
 										</div>
                                     </div>

@@ -105,17 +105,17 @@ public class UserDaoImpl implements IUserDao , InitializingBean {
     }
 	
 
-//	public List<User> queryUsersByStatus(short status) {
-//		UserCriteria criteria = new UserCriteria();
-//		criteria.createCriteria().andStatusEqualTo(status);
-//		return userMapper.selectByExample(criteria);
-//	}
-//	
-//	public List<User> queryDesignersByStatus(short status) {
-//		UserCriteria criteria = new UserCriteria();
-//		criteria.createCriteria().andStatusEqualTo(status).andDesignerStatusEqualTo(ConstService.DESIGNER_APPLY_APPROVED);
-//		return userMapper.selectByExample(criteria);
-//	}
+	public List<User> queryUsersByStatus(short status) {
+		UserCriteria criteria = new UserCriteria();
+		criteria.createCriteria().andStatusEqualTo(status);
+		return userMapper.selectByExample(criteria);
+	}
+	
+	public List<User> queryDesignersByStatus(short status) {
+		UserCriteria criteria = new UserCriteria();
+		criteria.createCriteria().andDesignerStatusEqualTo(ConstService.DESIGNER_APPLY_APPROVED).andStatusEqualTo(status);
+		return userMapper.selectByExample(criteria);
+	}
 	
 	
 	/**

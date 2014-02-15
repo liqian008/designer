@@ -34,6 +34,7 @@ import com.google.gson.GsonBuilder;
  * @createTime 2013-9-25 上午11:06:03
  */
 @Repository
+@Deprecated
 public class AlbumCache implements InitializingBean {
 
     private static final Gson gson = new GsonBuilder().create();

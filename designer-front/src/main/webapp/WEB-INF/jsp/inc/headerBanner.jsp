@@ -14,7 +14,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
         <div class="container"> 
             <div class="row-fluid">
                 <div class="span3 logo">
-                    <a href="post-gallery.html#">
+                    <a href="/designer-front/">
                         <img src="/designer-front/img/verendus-logo.png" alt="Verendus Logo" title="Verendus Logo" />
                     </a>
                 </div>
@@ -23,13 +23,13 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					<%if(user==null){%>
                     <a href="/designer-front/login">登 录</a> | <a href="/designer-front/register">注 册</a>
                     <%}else{ %>
-                    欢迎您，<span><%=user.getNickname() %></span>&nbsp;|&nbsp;
+                    欢迎您，<a href="/designer-front/<%=user.getId()%>/info"><%=user.getNickname() %></a>&nbsp;|&nbsp;
                     <a href="/designer-front/settings/msgbox"><span id="messageCount">消息中心</span></a>&nbsp;|&nbsp;
                     <%if(user.getDesignerStatus()!=null&&user.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED){%>
                     <a href="/designer-front/settings/newAlbum">发布新作品</a>&nbsp;|&nbsp;
                     <a href="/designer-front/settings/albums">作品管理</a>&nbsp;|&nbsp; 
                     <%}%>
-                    <a href="/designer-front/settings">我的设置</a>&nbsp;|&nbsp;
+                    <a href="/designer-front/settings">设置</a>&nbsp;|&nbsp;
                     <a href="/designer-front/logout">退出</a>
                     
                     <script>

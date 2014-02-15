@@ -10,9 +10,9 @@ public interface IUserService extends IBaseService<User, Integer>{
 	
 	public List<User> queryUsersByIds(List<Integer> idList);
 	
-//    public List<User> queryUsersByStatus(short status);
-//    
-//    public List<User> queryDesignersByStatus(short status);
+    public List<User> queryUsersByStatus(short status);
+    
+    public List<User> queryDesignersByStatus(short status);
     
     public Map<Integer, User> getUserMap(List<Integer> userIds);
     

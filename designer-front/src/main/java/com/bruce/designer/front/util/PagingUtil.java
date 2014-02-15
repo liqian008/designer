@@ -6,6 +6,12 @@ import com.bruce.designer.data.PagingData;
 
 public class PagingUtil {
 
+	/**
+	 * 构造分页html
+	 * @param albumPagingData
+	 * @param baseUrl
+	 * @return
+	 */
 	public static String getPagingHtml(PagingData<?> albumPagingData, String baseUrl) {
 		if (albumPagingData != null) {
 			List<?> dataList = albumPagingData.getPagingData();
@@ -14,7 +20,7 @@ public class PagingUtil {
 				int totalPage = albumPagingData.getTotalPage();
 				int currentPage = albumPagingData.getCurrentPage();
 
-				if (totalPage > 1) {
+				if (totalPage >= 1) {
 					// 当前页两侧的分页偏移，避免因为页数过多导致内容过长
 					int pageOffset = 2;
 					int startPage = currentPage - pageOffset;

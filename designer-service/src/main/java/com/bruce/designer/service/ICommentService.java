@@ -10,8 +10,14 @@ public interface ICommentService extends IBaseService<Comment, Long> {
 
 	public List<Comment> fallLoadComments(int albumId, long commentsTailId, int limit);
 
-
-	public int like(int designerId, int albumId);
+	/**
+	 * 赞
+	 * @param fromId
+	 * @param designerId
+	 * @param albumId
+	 * @return
+	 */
+	public int like(int fromId, int designerId, int albumId);
 
 	/**
 	 * 

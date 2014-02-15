@@ -14,7 +14,7 @@ import com.bruce.designer.constants.ConstScoreWeight;
 @Repository
 public class HotAlbumCache extends AbstractHotCache {
 
-	private static final String KEY_PREFIX = "hot_album";
+	private static final String KEY_PREFIX = "hotAlbum";
 
 	protected String getKey() {
 		return ConstRedis.REDIS_NAMESPACE + "_" + ConstRedis.REDIS_KEY_TYPE_COUNT + "_" + KEY_PREFIX;

@@ -135,17 +135,14 @@ public class CommentServiceImpl implements ICommentService {
 	 * 赞作品
 	 */
 	@Override
-	public int like(int designerId, int albumId){
+	public int like(int fromId, int designerId, int albumId){
 		// 评论计量
 		long albumSlideLikeCount = counterService.incrLike(designerId, albumId);
 		
 		// TODO 同时发送消息
 		long sourceId = albumId;
-//		String likeMessage = ConfigUtil.getString("album_like_message");
-		String likeMessage = "xxx 喜欢了您的作品";
-		messageService.sendMessage(sourceId, ConstService.MESSAGE_DELIVER_ID_LIKE, designerId,  likeMessage, ConstService.MESSAGE_TYPE_LIKE);
-		
-
+		String likeMessage = "";//赞了您的作品
+		messageService.sendMessage(sourceId, ConstService.MESSAGE_DELIVER_ID_LIKE, designerId, likeMessage, ConstService.MESSAGE_TYPE_LIKE);
 		if (albumSlideLikeCount > 0) {
 			return 1;
 		}

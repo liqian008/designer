@@ -12,7 +12,7 @@ import com.bruce.designer.constants.ConstRedis;
  */
 @Repository
 public class AlbumCounterCache extends AbstractCounterCache {
-
+	
 	/* 整个作品辑浏览数的key */
 	public static final String COUNTER_KEY_ALBUM_BROWSE = "albumBrowse";
 	/* 整个作品辑评论数的key */
@@ -39,7 +39,7 @@ public class AlbumCounterCache extends AbstractCounterCache {
 
 	@Override
 	protected String getFavoriteKey() {
-		return ConstRedis.REDIS_NAMESPACE + "_" + ConstRedis.REDIS_KEY_TYPE_COUNT + "_" + COUNTER_KEY_ALBUM_LIKE;
+		return ConstRedis.REDIS_NAMESPACE + "_" + ConstRedis.REDIS_KEY_TYPE_COUNT + "_" + COUNTER_KEY_ALBUM_FAVORITE;
 	}
 
 }

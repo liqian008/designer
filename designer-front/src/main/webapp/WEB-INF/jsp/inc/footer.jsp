@@ -11,64 +11,12 @@
 						alt="Verendus" />
 				</div>
 				<div class="top-off-page span1 offset8">
-					<a href="post-gallery.html#"><i class="icon-arrow-up"></i></a>
+					<a href="javascript:void(0)"><i class="icon-arrow-up"></i></a>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="footer-widgets"> <!-- Footer Widgets Area --> 
-	    <div class="container">
-	        <div class="row-fluid">
-	            <div class="sitemap-holder span6">
-	            	<div class="widget-box widget-menu list-links span3">
-		                <ul style="text-align:center">
-		                    <li><a href="post-left.html#">卫东翡翠网</a></li>
-		                </ul>
-		            </div>
-		            <div class="widget-box widget-menu list-links span3">
-		                <ul style="text-align:center">
-		                    <li><a href="post-left.html#">卫东翡翠网</a></li>
-		                </ul>
-		            </div>
-		            <div class="widget-box widget-menu list-links span3">
-		                <ul style="text-align:center">
-		                    <li><a href="post-left.html#">卫东翡翠网</a></li>
-		                </ul>
-		            </div>
-		            <div class="widget-box widget-menu list-links span3">
-		                <ul style="text-align:center">
-		                    <li><a href="post-left.html#">卫东翡翠网</a></li>
-		                </ul>
-		            </div>
-	            </div>
-	            
-	            <div class="sitemap-holder span6">
-	            	<div class="widget-box widget-menu list-links span3">
-		                <ul style="text-align:center">
-		                    <li><a href="post-left.html#">卫东翡翠网</a></li>
-		                </ul>
-		            </div>
-	            	<div class="widget-box widget-menu list-links span3">
-		                <ul style="text-align:center">
-		                    <li><a href="post-left.html#">卫东翡翠网</a></li>
-		                </ul>
-		            </div>
-		            <div class="widget-box widget-menu list-links span3">
-		                <ul style="text-align:center">
-		                    <li><a href="post-left.html#">卫东翡翠网</a></li>
-		                </ul>
-		            </div>
-		            <div class="widget-box widget-menu list-links span3">
-		                <ul style="text-align:center">
-		                    <li><a href="post-left.html#">卫东翡翠网</a></li>
-		                </ul>
-		            </div>
-	            </div>
-	            
-	        </div>
-	    </div>
-	</div>
 
 	<div class="footer-meta">
 		<!-- Footer meta -->
@@ -77,19 +25,15 @@
 				<div class="sitemap-holder span7">
 					<ul class="sitemap-menu clearfix">
                     <li>
-                        <!-- 
-                        技术支持：<a href="#">即可为</a>
-                         -->
+                        技术支持：<a href="http://www.geekway.com.cn">Geekway Studio</a>
                     </li>
                 </ul>
 				</div>
 				<div class="copyright span5">
 					<p>
-						<a href="javascript:void(0)">爱-即刻&nbsp;&nbsp;(京ICP备13008813号)</a>&nbsp;&nbsp;By&nbsp;&nbsp;<a
-							href="http://www.bruce-lee.com.cn">Bruce-Lee</a>&nbsp;|&nbsp;<a
-							href="/designer-front/sitemap">网站地图</a>&nbsp;|&nbsp;<a
-							href="http://www.cnzz.com/stat/website.php?web_id=1941475"
-							target="_blank">站长统计</a>
+						<a href="javascript:void(0)">金玩儿网&nbsp;&nbsp;(京ICP备13008813号)</a>&nbsp;|&nbsp;
+						<a href="/designer-front/sitemap">网站地图</a>&nbsp;|&nbsp;
+						<a href="http://www.cnzz.com/stat/website.php?web_id=1941475" target="_blank">站长统计</a>
 					</p>
 				</div>
 			</div>

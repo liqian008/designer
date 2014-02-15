@@ -22,8 +22,8 @@ if (currentUser != null) {
 		<ul>
 			<li class="clearfix">
 				<div class="widget-blogpost-avatar">
-					<a href="/designer-front/settings/avatar"> <img
-							src="<%=UploadUtil.getAvatarUrl(currentUser.getId(), ConstService.UPLOAD_IMAGE_SPEC_LARGE)%>" alt="点击可修改头像">
+					<a href="/designer-front/settings/avatar" title="点击修改头像">
+						<img src="<%=UploadUtil.getAvatarUrl(currentUser.getId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)%>" alt="点击修改头像">
 					</a> 
 				</div>
 				<div class="widget-blogpost-content">
@@ -32,24 +32,51 @@ if (currentUser != null) {
 							昵 称:&nbsp;<%=currentUser.getNickname()%>
 						</p>
 						<%if(isDesigner){ %>
-						<p>作品数量:&nbsp;xx个</p>
-						<p>粉 丝:&nbsp;10个</p>
+						<p>专辑数:&nbsp;x个</p>
+						<p>粉丝数:&nbsp;<span class="fansCount">0</span>个</p>
+						
+						<script>
+						//初始化加载用户资料&状态
+						var queryJsonData = {"queryUserId": <%=currentUser.getId()%>};
+						$.post("/designer-front/userboxInfo.json", queryJsonData, function(responseData) {
+							if(responseData.result==1){
+								$('.fansCount').each(function(){
+									$(this).text(responseData.data.fansCount);
+								});
+								$('.followsCount').each(function(){
+									$(this).text(responseData.data.followsCount); 
+								});
+								if(responseData.data.hasFollowed==true){//已关注
+									$('.followBtn').hide();
+									$('.unfollowBtn').show();
+								}else{
+									$('.unfollowBtn').hide();
+									$('.followBtn').show();
+								}
+							}else{
+								alert(responseData.message);
+							}
+						 }, "json");
+						</script>
 						<%}%>
-						<p>关 注:&nbsp;10个</p>
+						<p>关注数:&nbsp;<span class="followsCount">0</span>个</p>
 					</div>
+					
+					
+					
 				</div>
 			</li>
 		</ul>
 		<%
 		%>
 		<%if(isDesigner){%>
-			<input class="common-submit button" type="button" value="发布作品"
+			<input class="common-button button button-green" type="button" value="发布作品"
 			onclick="location.href='/designer-front/settings/newAlbum'" />
 		<%} %>
-		<input class="common-submit button" type="button" value="个人主页"
+		<input class="common-button button button-blue" type="button" value="个人主页"
 			onclick="location.href='/designer-front/<%=currentUser.getId()%>/home'" />
 			
-		<input class="common-submit button" type="button" value="修改密码"
+		<input class="common-button button" type="button" value="修改密码"
 			onclick="location.href='/designer-front/settings/changePasswd'" />
 		
 		

@@ -8,7 +8,6 @@
 
 <%
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
-
 Album album = (Album)request.getAttribute("albumInfo");
 %>
 
@@ -22,12 +21,12 @@ Album album = (Album)request.getAttribute("albumInfo");
 <head>
 <meta charset="utf-8">
 <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-<title>Verendus - Multipurpose Business Template</title>
+<title>专辑作品详情 - 金玩儿网</title>
 
 <meta name="description"
-	content="Verendus - A HTML5 / CSS3 Multipurpose Business Template">
+	content="金玩儿网-最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。">
 <meta name="keywords"
-	content="Bootstrap, Verendus, HTML5, CSS3, Business, Multipurpose, Template">
+	content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
@@ -85,7 +84,7 @@ Album album = (Album)request.getAttribute("albumInfo");
 				<div class="container">
 					<ul class="clearfix">
 						<li><a href="/designer-front/">首页</a>/</li>
-						<li><a href="javascript:void(0)">作品展示</a>/</li>
+						<li><a href="javascript:void(0)">专辑展示</a>/</li>
 						<li><a href="javascript:void(0)"><%=album.getTitle()%></a></li>
 					
 					</ul>
@@ -368,11 +367,14 @@ Album album = (Album)request.getAttribute("albumInfo");
    		});
     	
     	$("#likeLink").click(function(){
-    		var likeJsonData = {'albumId': $("#albumId").val()};
-	    	$.post("/designer-front/like.json", likeJsonData, function(data) {
-	    		var result = data.result;
+    		var likeJsonData = {'albumId': $("#albumId").val(), 'designerId': $("#designerId").val()};
+	    	$.post("/designer-front/like.json", likeJsonData, function(responseData) {
+	    		var result = responseData.result;
    				if(result==1){
-   					
+   					var likeCount = parseInt($('#album-like-counter').text());
+   					$('#album-like-counter').text(likeCount+1);
+   				}else{
+   					alert(responseData.message);
    				}
 	  		 }, "json");
 	   	});

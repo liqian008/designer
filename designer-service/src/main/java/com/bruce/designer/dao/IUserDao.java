@@ -17,9 +17,9 @@ public interface IUserDao extends IBaseDao<User, Integer>{
         
     public List<User> queryUsersByIds(List<Integer> idList);
     
-//    public List<User> queryUsersByStatus(short status);
-//    
-//    public List<User> queryDesignersByStatus(short status);
+    public List<User> queryUsersByStatus(short status);
+    
+    public List<User> queryDesignersByStatus(short status);
     
     public int applyDesigner(int userId, String idNum, String realname, String mobile, String company, String taobaoHomepage);
     

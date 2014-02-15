@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
+<%@ page import="com.bruce.designer.data.*" %>
 <%@ page import="com.bruce.designer.model.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
 <%@ page import="com.bruce.designer.constants.*" %>
+<%@ page import="com.bruce.designer.front.util.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.*" %>
 
@@ -12,7 +14,7 @@ User queryUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE);
 
 boolean isDesigner = queryUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED;
 String who = "Ta";
-if(currentUser!=null&&currentUser.getId()==queryUser.getId()){
+if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 	 who = "我";
 }
 %>
@@ -25,10 +27,10 @@ if(currentUser!=null&&currentUser.getId()==queryUser.getId()){
     <head>
         <meta charset="utf-8">
         <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-        <title>Verendus - Multipurpose Business Template</title>
+        <title><%=who%>的粉丝 - 金玩儿网</title>
 
-        <meta name="description" content="Verendus - A HTML5 / CSS3 Multipurpose Business Template">
-        <meta name="keywords" content="Bootstrap, Verendus, HTML5, CSS3, Business, Multipurpose, Template">
+        <meta name="description" content="金玩儿网-最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。">
+        <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
@@ -62,7 +64,13 @@ if(currentUser!=null&&currentUser.getId()==queryUser.getId()){
                 <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="../inc/headerNav.jsp?menuFlag=myHome"></jsp:include>
+                    <%
+					boolean isMe =  currentUser!=null&&queryUser!=null&&currentUser.getId().equals(queryUser.getId());
+                	if(isMe){%>
+	                    <jsp:include page="../inc/headerNav.jsp?menuFlag=myHome"></jsp:include>
+                	<%}else{%>
+                		<jsp:include page="../inc/headerNav.jsp?menuFlag="></jsp:include>
+                	<%} %>
 					<jsp:include page="../inc/ad.jsp"></jsp:include>
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
@@ -73,7 +81,7 @@ if(currentUser!=null&&currentUser.getId()==queryUser.getId()){
                 <div class="container">
                      <ul class="clearfix">
                         <li><a href="/designer-front/">首页</a>/</li>
-                        <li><a href="./home"><%=queryUser.getNickname()%></a>/</li>
+                        <li><a href="/designer-front/home"><%=queryUser.getNickname()%></a>/</li>
                         <%if(isDesigner){%>
                         <li><a href="javascript:void(0)">粉丝列表</a></li>
                         <%}%>
@@ -87,51 +95,65 @@ if(currentUser!=null&&currentUser.getId()==queryUser.getId()){
 	
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
                                 <ul class="tabs-nav tabs clearfix span3">
+                                	<li><a class="button button-white" href="./home"><%=who%>的作品辑</a></li>
+                                	<%-- <li><a class="button button-white" href="./home"><%=who%>的主页</a></li> --%>
                                 	<li><a class="button button-white" href="./info"><%=who%>的资料</a></li>
                                 	<li><a class="button button-white" href="./follows"><%=who%>的关注</a></li>
+                                	<%if(isDesigner){%>
                                 	<li  class="active"><a class="button button-white" href="./fans"><%=who%>的粉丝</a></li>
+                                	<%} %>
                                 </ul>
                                 <div class="tab-content span9">
                                     <div class="tab-pane active clearfix">
                                     	 <div class="content-title">
 											<h4><%=who%>的粉丝</h4>
 										</div>
-                                    	<div class="shortcode-blogpost-thumb shortcode-blogpost-medium span12">
-		                                <ul>
-		                                	<%
-		                                	Map<Integer, Boolean> followMap = (Map<Integer, Boolean>)request.getAttribute("followMap");
-		                                	List<UserFan> fanList = (List<UserFan>)request.getAttribute("fanList");
-		                                	if(fanList!=null&&fanList.size()>0){
-		                                	for(UserFan fan: fanList){
-		                                	%>
-		                                    <li class="clearfix">
-		                                        <div class="blogpost-avatar">
-		                                            <a href="/designer-front/<%=fan.getFanUser().getId()%>/home">
-		                                                <img src="<%=fan.getFanUser().getHeadImg()%>" alt="Blogpost-1">
-		                                            </a>
-		                                        </div>
-		                                        <div class="blogpost-content">
-		                                            <div class="blogpost-title ">
-		                                                 <a href="/designer-front/<%=fan.getFanUser().getId()%>/home">
-		                                                 	<h5><%=fan.getFanUser().getNickname()%></h5>
-		                                                 </a>
-		                                            </div>
-		                                            <div class="blogpost-date">
-		                                            <%
-	                                            	boolean hasFollowed = followMap.get(fan.getFanId())!=null&&followMap.get(fan.getFanId());
-	            									if(hasFollowed){
-	            									%>
-	                                            	<a href="/designer-front/unfollow?uid=<%=fan.getFanId()%>" class="button button-small button-white">取消关注</a>
-	                                            	<%}else{ %>
-	                                            	<a href="/designer-front/follow?uid=<%=fan.getFanId()%>" class="button button-small button-green">关注</a>
-	                                            	<%}%>
-			                                        </div>
-		                                        </div>
-		                                    </li>
-		                                    <%}
-		                                	} %>
-		                                </ul>
-		                            </div>
+                                    	
+                                    	<%
+	                                    Map<Integer, Boolean> followMap = (Map<Integer, Boolean>)request.getAttribute("followMap");
+	                                    
+                                    	List<UserFan> fanList = (List<UserFan>)request.getAttribute("fanList");
+	                                	if(fanList!=null&&fanList.size()>0){
+	                                	for(UserFan fan: fanList){
+	                                	%>
+			                            <div id="messages">
+											<ol id="messageListContainer" class="messagelist">
+												<li class="message" id="li-message-1"><div class="message-container" id="message-1">
+													<div class="message-avatar-medium">
+														<div class="message-author vcard">
+															<!-- <img src="/designer-front/img/icon/icon_1.png"> -->
+															<a href="/designer-front/<%=fan.getUserId()%>/home">
+																<img
+																	src="/designer-front/staticFile/avatar/<%=fan.getUserId()%>_medium.jpg"/>
+															</a>
+														</div>
+													</div>
+													<div class="message-body">
+														<div class="message-meta messagemetadata">
+																<a href="/designer-front/<%=fan.getUserId()%>/home"><h5 class="message-author"><%=fan.getFanUser().getNickname()%></h5></a>
+														</div>
+														<div class="message-content">
+															<%-- <%
+			                                            	boolean hasFollowed = followMap.get(fan.getFanId())!=null&& followMap.get(fan.getFanId());
+			            									if(hasFollowed){
+			            									%>
+			                                            	<a href="/designer-front/unfollow?uid=<%=fan.getFanId()%>" class="button button-small button-white">取消关注</a>
+			                                            	<%}else{ %>
+			                                            	<a href="/designer-front/follow?uid=<%=fan.getFanId()%>" class="button button-small button-green">关注</a>
+			                                            	<%}%> --%>
+			                                            	<a href="/designer-front/<%=fan.getFanId()%>/info" class="button button-small button-white">个人资料</a>
+														</div>
+													</div>
+												</div></li>
+											</ol>
+										</div>
+										<%}
+	                                	}%>
+                                    	
+                                    	<%
+	                                	PagingData<UserFan> followsPagingData = (PagingData<UserFan>)request.getAttribute("fansPagingData");
+	                                	%>
+	                                    <%=PagingUtil.getPagingHtml(followsPagingData, "/designer-front/"+queryUser.getId()+"/fans")%>
                                     </div>
                                 </div>
                             </div>
@@ -139,9 +161,9 @@ if(currentUser!=null&&currentUser.getId()==queryUser.getId()){
                        	
 						<!-- right slidebar -->
 						<aside class="sidebar widgets-light span3">
-                       		<jsp:include page="../inc/right/sidebar.jsp"></jsp:include> 
-                    	</aside>                    	
-                    </div>                        
+                       		<jsp:include page="../inc/right/sidebar.jsp"></jsp:include>
+                    	</aside>
+                    </div> 
                 </div> <!-- Close Main -->
             </div> 
            

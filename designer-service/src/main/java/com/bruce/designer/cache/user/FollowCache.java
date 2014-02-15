@@ -22,8 +22,8 @@ import com.bruce.designer.constants.ConstRedis;
 import com.bruce.designer.exception.RedisKeyNotExistException;
 
 /**
- * Comments for UserFollowCache.java
- * 
+ * Comments for FollowCache.java
+ * redis数据结构为Sorted set
  * @author <a href="mailto:liujun4@staff.sina.com.cn">刘军</a>
  * @createTime 2013-9-11 下午06:46:02
  */
@@ -38,15 +38,13 @@ public class FollowCache {
     private static final String KEY_PREFIX = "follow";
     @Autowired
     private DesignerShardedJedisPool cacheShardedJedisPool;
-
+    
+    
     /**
-     * 添加关注至缓存
-     * 
-     * @param follow
-     * @return
+     * 获取指定uid的关注数
      */
-    public boolean addFollow(UserFollow follow) throws RedisKeyNotExistException {
-        String key = getKey(follow.getUserId());
+    public long getFollowCount(int userId) throws RedisKeyNotExistException{
+    	String key = getKey(userId);
         DesignerShardedJedis shardedJedis = null;
         try {
             shardedJedis = cacheShardedJedisPool.getResource();
@@ -55,12 +53,38 @@ public class FollowCache {
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 throw new RedisKeyNotExistException();
             } else {
-                boolean result = shardedJedis.zadd(key, (double) follow.getCreateTime().getTime(),
-                        String.valueOf(follow.getFollowId())) > 0;
+            	return shardedJedis.zcard(key);
+            }
+        } catch (JedisException t) {
+            logger.error("getFollowCount", t);
+            if (shardedJedis != null) {
+                cacheShardedJedisPool.returnBrokenResource(shardedJedis);
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * 添加关注至缓存
+     * 
+     * @param follow
+     * @return
+     */
+    public boolean addFollow(UserFollow userFollow) throws RedisKeyNotExistException {
+        String key = getKey(userFollow.getUserId());
+        DesignerShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = cacheShardedJedisPool.getResource();
+            boolean exists = shardedJedis.exists(key);
+            if (exists == false) {
+                cacheShardedJedisPool.returnResource(shardedJedis);
+                throw new RedisKeyNotExistException();
+            } else {
+                boolean result = shardedJedis.zadd(key, (double) userFollow.getCreateTime().getTime(),
+                        String.valueOf(userFollow.getFollowId())) > 0;
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 return result;
             }
-
         } catch (JedisException t) {
             logger.error("addUserFollow", t);
             if (shardedJedis != null) {
@@ -150,7 +174,6 @@ public class FollowCache {
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 return result;
             }
-
         } catch (JedisException t) {
             logger.error("isFans", t);
             if (shardedJedis != null) {
@@ -194,7 +217,7 @@ public class FollowCache {
     }
 
     /**
-     * 获取关注列表
+     * 获取指定用户的关注列表
      * 
      * @param uid
      * @return
