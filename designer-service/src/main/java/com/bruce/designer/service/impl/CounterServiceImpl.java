@@ -4,21 +4,22 @@
  */
 package com.bruce.designer.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import com.bruce.designer.cache.counter.AlbumCounterCache;
 import com.bruce.designer.cache.counter.CounterCache;
 import com.bruce.designer.cache.counter.HotAlbumCache;
 import com.bruce.designer.cache.counter.HotDesignerCache;
-import com.bruce.designer.constants.ConstRedis;
-import com.bruce.designer.constants.ConstScoreWeight;
+import com.bruce.designer.dao.IAlbumCounterDao;
+import com.bruce.designer.data.CountCacheBean;
+import com.bruce.designer.exception.RedisKeyNotExistException;
+import com.bruce.designer.model.AlbumCounter;
 import com.bruce.designer.service.ICounterService;
 
 /**
@@ -38,11 +39,16 @@ public class CounterServiceImpl implements ICounterService, InitializingBean {
 	@Autowired
 	private AlbumCounterCache albumCounterCache;
 	@Autowired
+	private IAlbumCounterDao albumCounterDao;
+	@Autowired
 	private CounterCache counterCache;
 	@Autowired
 	private HotAlbumCache hotAlbumCache;
 	@Autowired
 	private HotDesignerCache hotDesignerCache;
+	
+	
+	
 
 //	@Override
 //	public long getCount(String key) {
@@ -83,6 +89,9 @@ public class CounterServiceImpl implements ICounterService, InitializingBean {
 	public long incrBrowser(int designerId, int albumId) {
 		//修改专辑浏览计数
 		long albumBrowseCount = albumCounterCache.incrBrowse(albumId, 1);
+		//TODO 修改设计师的浏览计数
+		
+		
 		//修改热门排行计分
 //		hotAlbumCache.incrScore(albumId, ConstScoreWeight.SCORE_ALBUM_BROWSE);
 //		hotDesignerCache.incrScore(designerId, ConstScoreWeight.SCORE_USER_BROWSE);
@@ -95,6 +104,8 @@ public class CounterServiceImpl implements ICounterService, InitializingBean {
 	public long incrComment(int designerId, int albumId) {
 		//修改专辑评论计数
 		long albumCommentCount = albumCounterCache.incrComment(albumId, 1);
+		//TODO 修改设计师的计数
+		
 		//修改热门排行计分
 //		hotAlbumCache.incrScore(albumId, ConstScoreWeight.SCORE_ALBUM_COMMENT);
 //		hotDesignerCache.incrScore(designerId, ConstScoreWeight.SCORE_USER_COMMENT);
@@ -108,6 +119,8 @@ public class CounterServiceImpl implements ICounterService, InitializingBean {
 	public long incrLike(int designerId, int albumId) {
 		//修改专辑like计数
 		long albumLikeCount = albumCounterCache.incrLike(albumId, 1);
+		//TODO 修改设计师的计数
+		
 		//修改热门排行计分
 //		hotAlbumCache.incrScore(albumId, ConstScoreWeight.SCORE_ALBUM_LIKE);
 //		hotDesignerCache.incrScore(designerId, ConstScoreWeight.SCORE_USER_LIKE);
@@ -120,6 +133,9 @@ public class CounterServiceImpl implements ICounterService, InitializingBean {
 	public long incrFavorite(int designerId, int albumId) {
 		//修改专辑收藏计数
 		long albumLikeCount = albumCounterCache.incrFavorite(albumId, 1);
+		//TODO 修改设计师的计数
+		
+		
 		//修改热门排行计分
 //		hotAlbumCache.incrScore(albumId, ConstScoreWeight.SCORE_ALBUM_FAVORITE);
 //		hotDesignerCache.incrScore(designerId, ConstScoreWeight.SCORE_USER_FAVORITE);
@@ -132,6 +148,9 @@ public class CounterServiceImpl implements ICounterService, InitializingBean {
 	public long reduceBrowser(int designerId, int albumId) {
 		// 修改专辑浏览计数
 		long albumBrowseCount = albumCounterCache.incrBrowse(albumId, 0-1);
+		//TODO 修改设计师的计数
+		
+		
 		//修改热门排行计分
 //		hotAlbumCache.incrScore(albumId, 0-ConstScoreWeight.SCORE_ALBUM_BROWSE);
 //		hotDesignerCache.incrScore(designerId, 0-ConstScoreWeight.SCORE_USER_BROWSE);
@@ -144,6 +163,8 @@ public class CounterServiceImpl implements ICounterService, InitializingBean {
 	public long reduceComment(int designerId, int albumId) {
 		// 修改专辑评论计数
 		long albumCommentCount = albumCounterCache.incrComment(albumId, 0-1);
+		//TODO 修改设计师的计数
+		
 		//修改热门排行计分
 //		hotAlbumCache.incrScore(albumId, 0-ConstScoreWeight.SCORE_ALBUM_COMMENT);
 //		hotDesignerCache.incrScore(designerId, 0-ConstScoreWeight.SCORE_USER_COMMENT);
@@ -156,6 +177,8 @@ public class CounterServiceImpl implements ICounterService, InitializingBean {
 	public long reduceLike(int designerId, int albumId) {
 		// 修改专辑like计数
 		long albumLikeCount = albumCounterCache.incrLike(albumId, 0-1);
+		//TODO 修改设计师的计数
+		
 		//修改热门排行计分
 //		hotAlbumCache.incrScore(albumId, 0-ConstScoreWeight.SCORE_ALBUM_LIKE);
 //		hotDesignerCache.incrScore(designerId, 0-ConstScoreWeight.SCORE_USER_LIKE);
@@ -168,6 +191,8 @@ public class CounterServiceImpl implements ICounterService, InitializingBean {
 	public long reduceFavorite(int designerId, int albumId) {
 		// 修改专辑收藏计数
 		long albumLikeCount = albumCounterCache.incrFavorite(albumId, 0-1);
+		//TODO 修改设计师的计数
+		
 		//修改热门排行计分
 //		hotAlbumCache.incrScore(albumId, 0-ConstScoreWeight.SCORE_ALBUM_FAVORITE);
 //		hotDesignerCache.incrScore(designerId, 0-ConstScoreWeight.SCORE_USER_FAVORITE);
@@ -177,23 +202,23 @@ public class CounterServiceImpl implements ICounterService, InitializingBean {
 	}
 	
 	
-	@Override
-	public long incrFan(int userId, int fanId) {
-		// 专辑浏览计数
-		long userFanCount = 0;//albumCounterCache.incrBrowse(albumId, 1);
-		// TODO 修改热门排行计分
-		hotDesignerCache.incrScore(userId, ConstScoreWeight.SCORE_USER_FAN);
-		return userFanCount;
-	}
-	
-	@Override
-	public long reduceFan(int userId, int fanId) {
-		// 专辑浏览计数
-		long userFanCount = 0;//albumCounterCache.incrBrowse(albumId, 1);
-		// TODO 修改热门排行计分
-		hotDesignerCache.incrScore(userId, 0-ConstScoreWeight.SCORE_USER_FAN);
-		return userFanCount;
-	}
+//	@Override
+//	public long incrFan(int userId, int fanId) {
+//		// 专辑浏览计数
+//		long userFanCount = 0;//albumCounterCache.incrBrowse(albumId, 1);
+//		// TODO 修改热门排行计分
+//		hotDesignerCache.incrScore(userId, ConstScoreWeight.SCORE_USER_FAN);
+//		return userFanCount;
+//	}
+//	
+//	@Override
+//	public long reduceFan(int userId, int fanId) {
+//		// 专辑浏览计数
+//		long userFanCount = 0;//albumCounterCache.incrBrowse(albumId, 1);
+//		// TODO 修改热门排行计分
+//		hotDesignerCache.incrScore(userId, 0-ConstScoreWeight.SCORE_USER_FAN);
+//		return userFanCount;
+//	}
 	
 //	@Override
 //	public long incrBrowser(int designerId, int albumId) {
@@ -217,63 +242,128 @@ public class CounterServiceImpl implements ICounterService, InitializingBean {
 		albumCounterCache.clearComment(albumId);
 		albumCounterCache.clearLike(albumId);
 		albumCounterCache.clearFavorite(albumId);
+		
+		//TODO 删除设计师的浏览、评论、like数值
+		
 		//删除热门作品数值
 		return hotAlbumCache.remove(albumId);
 	}
 
 	@Override
 	public long getBrowseCount(int albumId) {
-		return albumCounterCache.getBrowseCount(albumId);
+		int result = 0;
+		try {
+			return albumCounterCache.getBrowseCount(albumId);
+		} catch (RedisKeyNotExistException e) {
+			//加载DB，重建缓存
+			List<AlbumCounter> dataList = albumCounterDao.queryAll();
+			if(dataList!=null&&dataList.size()>0){
+				List<CountCacheBean> countList = new ArrayList<CountCacheBean>();
+				for (AlbumCounter data : dataList) {
+					countList.add(new CountCacheBean(String.valueOf(data.getAlbumId()), data.getBrowseCount()));
+                	if(albumId ==data.getAlbumId()){
+                		result = data.getBrowseCount();
+                	}
+                }
+				albumCounterCache.setBrowseDataList(countList);
+			}
+		}
+		return result;
 	}
 
 	@Override
 	public long getCommentCount(int albumId) {
-		return albumCounterCache.getCommentCount(albumId);
+		int result = 0;
+		try {
+			return albumCounterCache.getCommentCount(albumId);
+		} catch (RedisKeyNotExistException e) {
+			//加载DB，重建缓存
+			List<AlbumCounter> dataList = albumCounterDao.queryAll();
+			if(dataList!=null&&dataList.size()>0){
+				List<CountCacheBean> countList = new ArrayList<CountCacheBean>();
+				for (AlbumCounter data : dataList) {
+					countList.add(new CountCacheBean(String.valueOf(data.getAlbumId()), data.getCommentCount()));
+                	if(albumId ==data.getAlbumId()){
+                		result = data.getCommentCount();
+                	}
+                }
+				albumCounterCache.setCommentDataList(countList); 
+			}
+		}
+		return result;
 	}
 
 	@Override
 	public long getLikeCount(int albumId) {
-		return albumCounterCache.getLikeCount(albumId);
+		int result = 0;
+		try {
+			return albumCounterCache.getLikeCount(albumId);
+		} catch (RedisKeyNotExistException e) {
+			//加载DB，重建缓存
+			List<AlbumCounter> dataList = albumCounterDao.queryAll();
+			if(dataList!=null&&dataList.size()>0){
+				List<CountCacheBean> countList = new ArrayList<CountCacheBean>();
+				for (AlbumCounter data : dataList) {
+					countList.add(new CountCacheBean(String.valueOf(data.getAlbumId()), data.getLikeCount()));
+                	if(albumId ==data.getAlbumId()){
+                		result = data.getLikeCount();
+                	}
+                }
+				albumCounterCache.setLikeDataList(countList);
+			}
+		}
+		return result;
 	}
 
 	@Override
 	public long getFavoriteCount(int albumId) {
-		return albumCounterCache.getFavoriteCount(albumId);
+		int result = 0;
+		try {
+			return albumCounterCache.getFavoriteCount(albumId);
+		} catch (RedisKeyNotExistException e) {
+			//加载DB，重建缓存
+			List<AlbumCounter> dataList = albumCounterDao.queryAll();
+			if(dataList!=null&&dataList.size()>0){
+				List<CountCacheBean> countList = new ArrayList<CountCacheBean>();
+				for (AlbumCounter data : dataList) {
+					countList.add(new CountCacheBean(String.valueOf(data.getAlbumId()), data.getFavoriteCount()));
+                	if(albumId ==data.getAlbumId()){
+                		result = data.getFavoriteCount();
+                	}
+                }
+				albumCounterCache.setFavoriteDataList(countList);
+			}
+		}
+		return result;
 	}
 
 	@Override
 	public long getTotalBrowseCount(int designerId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public long getTotalCommentCount(int designerId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public long getTotalLikeCount(int designerId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public long getTotalFavoriteCount(int designerId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public long getTotalFansCount(int designerId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public long getTotalFollowsCount(int designerId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	

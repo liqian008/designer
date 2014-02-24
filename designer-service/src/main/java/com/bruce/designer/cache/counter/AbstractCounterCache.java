@@ -1,5 +1,8 @@
 package com.bruce.designer.cache.counter;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -7,6 +10,8 @@ import redis.clients.jedis.exceptions.JedisException;
 
 import com.bruce.designer.cache.DesignerShardedJedis;
 import com.bruce.designer.cache.DesignerShardedJedisPool;
+import com.bruce.designer.data.CountCacheBean;
+import com.bruce.designer.exception.RedisKeyNotExistException;
 
 /**
  * Comments for UserFollowCache.java
@@ -16,6 +21,7 @@ import com.bruce.designer.cache.DesignerShardedJedisPool;
  */
 public abstract class AbstractCounterCache {
 
+	
 	/**
 	 * Logger for this class
 	 */
@@ -38,19 +44,19 @@ public abstract class AbstractCounterCache {
 	 * @param id
 	 * @return
 	 */
-	public long getBrowseCount(int id){
+	public long getBrowseCount(int id) throws RedisKeyNotExistException{
 		return getCount(getBrowseKey(), id);
 	}
 	
-	public long getCommentCount(int id){
+	public long getCommentCount(int id) throws RedisKeyNotExistException{
 		return getCount(getCommentKey(), id);
 	}
 	
-	public long getLikeCount(int id){
+	public long getLikeCount(int id) throws RedisKeyNotExistException{
 		return getCount(getLikeKey(), id);
 	}
 	
-	public long getFavoriteCount(int id){
+	public long getFavoriteCount(int id) throws RedisKeyNotExistException{
 		return getCount(getFavoriteKey(), id);
 	}
 	
@@ -111,19 +117,32 @@ public abstract class AbstractCounterCache {
 		return removeByKey(getFavoriteKey(), id);
 	}
 	
-	public long getCount(String key, int id) {
+	/**
+	 * 获取count
+	 * @param key
+	 * @param id
+	 * @return
+	 * @throws RedisKeyNotExistException 
+	 */
+	public long getCount(String key, int id) throws RedisKeyNotExistException {
 		long value = 0;
 		DesignerShardedJedis shardedJedis = null;
         try {
             shardedJedis = cacheShardedJedisPool.getResource();
-            Double countNum = shardedJedis.zscore(key, String.valueOf(id));
-            if(countNum!=null){
-            	value = countNum.longValue();
+            boolean keyExists = shardedJedis.exists(key);
+            if(!keyExists){//键值不存在，抛异常
+                cacheShardedJedisPool.returnResource(shardedJedis);
+                throw new RedisKeyNotExistException();
             }else{
-            	incrByKey(key, id, 0);
+	            Double countNum = shardedJedis.zscore(key, String.valueOf(id));
+	            cacheShardedJedisPool.returnResource(shardedJedis);
+	            if(countNum!=null){
+	            	value = countNum.longValue();
+	            }else{
+	            	incrByKey(key, id, 0);
+	            }
             }
-            cacheShardedJedisPool.returnResource(shardedJedis);
-        } catch (Throwable t) {
+        }catch (JedisException t) {
             logger.error("getCount", t);
             if (shardedJedis != null) {
                 cacheShardedJedisPool.returnBrokenResource(shardedJedis);
@@ -132,7 +151,27 @@ public abstract class AbstractCounterCache {
         return value;
     }
 	
-	private long incrByKey(String key, int id, int score){
+	
+	
+//	TODO 备份
+//	private long incrByKey(String key, int id, int score){
+//		DesignerShardedJedis shardedJedis = null;
+//		try {
+//			shardedJedis = cacheShardedJedisPool.getResource();
+//			long result = new Double(shardedJedis.zincrby(key, score, String.valueOf(id))).longValue();
+//			cacheShardedJedisPool.returnResource(shardedJedis);
+//			return result;
+//		} catch (JedisException t) {
+//			logger.error("incrByKey", t);
+//			if (shardedJedis != null) {
+//				cacheShardedJedisPool.returnBrokenResource(shardedJedis);
+//			}
+//		}
+//		return 0;
+//	}
+	
+	
+	private long incrByKey(String key, int id, int score) {
 		DesignerShardedJedis shardedJedis = null;
 		try {
 			shardedJedis = cacheShardedJedisPool.getResource();
@@ -171,4 +210,96 @@ public abstract class AbstractCounterCache {
 		}
 		return false;
 	}
+	
+	
+	
+	/**
+	 * 根据业务类型重建缓存
+	 * @param cacheType
+	 * @return
+	 */
+	private boolean setDataList(String key, List<CountCacheBean> countList) { 
+		boolean result = false;
+        DesignerShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = cacheShardedJedisPool.getResource();
+            if(countList!=null&&countList.size()>0){
+            	shardedJedis.del(key);
+//                result = shardedJedis.zadd(key, dataMap) > 0;
+            	
+            	for(CountCacheBean data: countList){
+            		shardedJedis.zadd(key, data.getScore(), data.getMember());
+            	}
+            }
+            cacheShardedJedisPool.returnResource(shardedJedis);
+            return result;
+        } catch (JedisException t) {
+        	t.printStackTrace(); 
+            if (shardedJedis != null) {
+                cacheShardedJedisPool.returnBrokenResource(shardedJedis);
+            }
+		}
+		return result;
+	}
+	
+	public boolean setBrowseDataList(List<CountCacheBean> countList) {
+		return setDataList(getBrowseKey(), countList);
+	}
+	
+	public boolean setCommentDataList(List<CountCacheBean> countList) {
+		return setDataList(getBrowseKey(), countList);
+	}
+	
+	public boolean setLikeDataList(List<CountCacheBean> countList) {
+		return setDataList(getBrowseKey(), countList);
+	}
+	
+	public boolean setFavoriteDataList(List<CountCacheBean> countList) {
+		return setDataList(getBrowseKey(), countList);
+	}
+	
+	
+//	/**
+//	 * 根据业务类型重建缓存
+//	 * @param cacheType
+//	 * @return
+//	 */
+//	private boolean setDataMap(String key, Map<Double, String> dataMap) { 
+//		boolean result = false;
+//        DesignerShardedJedis shardedJedis = null;
+//        try {
+//            shardedJedis = cacheShardedJedisPool.getResource();
+//            if(dataMap!=null&&dataMap.size()>0){
+//            	shardedJedis.del(key);
+//                result = shardedJedis.zadd(key, dataMap) > 0;
+//            }
+//            cacheShardedJedisPool.returnResource(shardedJedis);
+//            return result;
+//        } catch (JedisException t) {
+////          logger.error("setBrowseList", t);
+//        	t.printStackTrace(); 
+//            if (shardedJedis != null) {
+//                cacheShardedJedisPool.returnBrokenResource(shardedJedis);
+//            }
+//		}
+//		return result;
+//	}
+//	
+//	
+//	public boolean setBrowseDataMap(Map<Double, String> dataMap) {
+//		return setDataMap(getBrowseKey(), dataMap);
+//	}
+//	
+//	public boolean setCommentDataMap(Map<Double, String> dataMap) {
+//		return setDataMap(getBrowseKey(), dataMap);
+//	}
+//	
+//	public boolean setLikeDataMap(Map<Double, String> dataMap) {
+//		return setDataMap(getBrowseKey(), dataMap);
+//	}
+//	
+//	public boolean setFavoriteDataMap(Map<Double, String> dataMap) {
+//		return setDataMap(getBrowseKey(), dataMap);
+//	}
+		
 }

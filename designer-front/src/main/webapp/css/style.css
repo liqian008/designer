@@ -3063,7 +3063,7 @@ blockquote {
 }
 
 .modal .modal-body {
-	margin: 0;
+	margin: 30px 0;
 	padding: 0;
 }
 
@@ -5067,6 +5067,7 @@ input.contact-form-error {
 		}
 
 		.widget-category ul li a, .widget-menu ul li a, .widget-tags ul li a {
+			text-align:center;
 			display: block;
 			padding: 5px;
 		}

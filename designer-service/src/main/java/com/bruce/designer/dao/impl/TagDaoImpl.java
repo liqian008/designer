@@ -12,8 +12,6 @@ import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.model.Tag;
 import com.bruce.designer.model.TagCriteria;
-import com.bruce.designer.model.User;
-import com.bruce.designer.model.UserCriteria;
 
 @Repository
 public class TagDaoImpl implements ITagDao, InitializingBean {

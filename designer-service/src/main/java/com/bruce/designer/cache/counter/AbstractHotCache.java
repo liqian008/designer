@@ -91,12 +91,7 @@ public abstract class AbstractHotCache {
 		return false;
 	}
 
-	/**
-	 * 分页获取关注列表
-	 * 
-	 * @param uid
-	 * @return
-	 */
+	
 	public List<Integer> getHotList(int start, int end) throws RedisKeyNotExistException {
 		String key = getKey();
 		DesignerShardedJedis shardedJedis = null;

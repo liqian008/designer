@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import com.bruce.designer.dao.ITagAlbumDao;
 import com.bruce.designer.dao.mapper.TagAlbumMapper;
-import com.bruce.designer.model.Album;
-import com.bruce.designer.model.AlbumCriteria;
 import com.bruce.designer.model.TagAlbum;
 import com.bruce.designer.model.TagAlbumCriteria;
 

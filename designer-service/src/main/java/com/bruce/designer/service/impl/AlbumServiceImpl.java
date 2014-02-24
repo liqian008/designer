@@ -6,15 +6,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bruce.designer.constants.ConstRedis;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IAlbumDao;
 import com.bruce.designer.data.PagingData;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.model.Album;
-import com.bruce.designer.model.User;
+import com.bruce.designer.model.AlbumFavorite;
 import com.bruce.designer.model.UserFollow;
+import com.bruce.designer.service.IAlbumFavoriteService;
+import com.bruce.designer.service.IAlbumLikeService;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.ICounterService;
 import com.bruce.designer.service.ITagAlbumService;
@@ -28,6 +29,13 @@ public class AlbumServiceImpl implements IAlbumService {
 	private IAlbumDao albumDao;
 	@Autowired
 	private ICounterService counterService;
+	@Autowired
+	private IAlbumLikeService albumLikeService;
+	@Autowired
+	private IAlbumFavoriteService albumFavoriteService;
+//	@Autowired
+//	private ICounterService counterService;
+	
 	@Autowired
 	private IUserGraphService userGraphService;
 	@Autowired
@@ -51,7 +59,6 @@ public class AlbumServiceImpl implements IAlbumService {
 		return loadById(id, false, false); 
 	}
 	
-	
 	public Album loadById(Integer id, boolean loadCount, boolean loadTags) {
 		Album album = albumDao.loadById(id);
 		if(album!=null){
@@ -66,6 +73,10 @@ public class AlbumServiceImpl implements IAlbumService {
 			}
 		}
 		return album;
+	}
+	
+	public List<Album> queryAll() {
+		return albumDao.queryAll();
 	}
 	
 	/**
@@ -105,9 +116,7 @@ public class AlbumServiceImpl implements IAlbumService {
 		return 0;
 	}
 
-	public List<Album> queryAll() {
-		return albumDao.queryAll();
-	}
+	
 
 	/**
 	 * 分页查询作品集
@@ -166,18 +175,50 @@ public class AlbumServiceImpl implements IAlbumService {
 	 */
 	@Override
 	public List<Album> fallLoadUserFollowAlbums(int userId, int albumsTailId, int limit) {
+		//获取关注id列表
 		List<UserFollow> followList = userGraphService.getFollowList(userId);
 		if (followList != null && followList.size() > 0) {
 			List<Integer> designerIdList = new ArrayList<Integer>();
 			for (UserFollow userFollow : followList) {
 				designerIdList.add(userFollow.getFollowId());
 			}
+			//根据关注id列表瀑布流加载专辑
 			List<Album> albumList = albumDao.fallLoadDesignerAlbums(designerIdList, albumsTailId, limit);
 			initAlbumsWithCount(albumList);
 			initAlbumsWithTags(albumList);
 			return albumList;
 		}
 		return null;
+	}
+	
+	/**
+	 * 我的收藏
+	 */
+	@Override
+	public List<Album> fallLoadUserFavoriteAlbums(int userId, int favoriteTailId, int limit) {
+//		List<AlbumFavorite> favoriteList = albumFavoriteService.getFavoriteListByAlbumId(userId);
+		List<AlbumFavorite> favoriteList = albumFavoriteService.getFavoriteListByUserId(userId, favoriteTailId, limit);
+		if (favoriteList != null && favoriteList.size() > 0) {
+			List<Integer> albumIdList = new ArrayList<Integer>();
+			for (AlbumFavorite albumFavorite : favoriteList) {
+				albumIdList.add(albumFavorite.getAlbumId());
+			}
+			//根据albumId列表加载详情
+			List<Album> albumList = queryAlbumByIds(albumIdList); //albumDao.fallLoadDesignerAlbums(albumIdList, albumsTailId, limit);
+			initAlbumsWithCount(albumList);
+			initAlbumsWithTags(albumList);
+			return albumList;
+		}
+		return null;
+	}
+	
+	/**
+	 * 获取推荐专辑列表
+	 */
+	public List<Album> queryRecommendAlbums(int limit) {
+		List<Integer> albumIdList = null;
+		List<Album> albumList = queryAlbumByIds(albumIdList);
+		return albumList;
 	}
 	
 	/**
@@ -261,10 +302,41 @@ public class AlbumServiceImpl implements IAlbumService {
 			int albumId = album.getId();
 			album.setBrowseCount(counterService.getBrowseCount(albumId));
 			album.setCommentCount(counterService.getCommentCount(albumId));
-			album.setLikeCount(counterService.getLikeCount(albumId));
-			album.setFavoriteCount(counterService.getFavoriteCount(albumId));
+//			album.setLikeCount(counterService.getLikeCount(albumId));
+//			album.setFavoriteCount(counterService.getFavoriteCount(albumId));
+			album.setLikeCount(albumLikeService.getLikeCountByAlbumId(albumId));
+			album.setFavoriteCount(albumFavoriteService.getFavoriteCountByAlbumId(albumId));
 		}
 	}
+	
+	/**
+	 * 初始化专辑交互状态（是否赞，是否收藏）
+	 * @param album
+	 * @param userId
+	 */
+	@Override
+	public void initAlbumInteractionStatus(Album album, int userId) {
+		if (album != null) {
+			if(userId>0){
+				//初始化专辑交互状态（是否赞，是否收藏）
+				boolean isLike = albumLikeService.isLike(userId, album.getId());
+				album.setLike(isLike);
+				boolean isFavorite = albumFavoriteService.isFavorite(userId, album.getId());
+				album.setFavorite(isFavorite);
+			}
+		}
+	}
+	
+	
+//	/**
+//	 * 初始化专辑交互状态（是否赞，是否收藏）
+//	 * 
+//	 * @param album
+//	 */
+//	@Override
+//	public void initAlbumStatus(int userId, Album album) {
+//		
+//	}
 	
 	private void checkAlbumStatus(Album album){
 		if(album.getStatus()==ConstService.ALBUM_DELETE_STATUS){

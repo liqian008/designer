@@ -35,5 +35,5 @@ if("avatar".equals(tempFlag)){
 <li <%=settingsMenuIndex==1?"class=active":""%>><a class="button button-white" href="/designer-front/settings/avatar">修改头像</a></li>
 <li <%=settingsMenuIndex==2?"class=active":""%>><a class="button button-white" href="/designer-front/settings/changePasswd">修改密码</a></li>
 <li <%=settingsMenuIndex==3?"class=active":""%>><a class="button button-white" href="/designer-front/settings/msgbox">我的消息</a></li>
-<%-- <li <%=settingsMenuIndex==4?"class=active":""%>><a class="button button-white" href="/designer-front/settings/favorities">我的收藏</a></li> --%>
+<li <%=settingsMenuIndex==4?"class=active":""%>><a class="button button-white" href="/designer-front/settings/favorites">我的收藏</a></li>
 

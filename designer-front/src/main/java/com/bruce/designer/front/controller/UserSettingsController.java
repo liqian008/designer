@@ -2,7 +2,9 @@ package com.bruce.designer.front.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +29,7 @@ import com.bruce.designer.data.PagingData;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
+import com.bruce.designer.front.util.HtmlUtils;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.front.util.ResponseUtil;
 import com.bruce.designer.model.Album;
@@ -67,6 +70,8 @@ public class UserSettingsController {
 	private static final Logger logger = LoggerFactory.getLogger(UserSettingsController.class);
 
 	public static final int MY_ALBUMS_LIMIT = NumberUtils.toInt(ConfigUtil.getString("my_album_limit"), 10);
+	/*我的收藏item的数量*/
+	public static final int MY_FAVORITE_LIMIT = NumberUtils.toInt(ConfigUtil.getString("myfavorite_album_limit"), 2);
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String settings(Model model) {
@@ -78,20 +83,6 @@ public class UserSettingsController {
 		return "settings/info";
 	}
 
-//	@RequestMapping(value= "/info", method = RequestMethod.POST)
-//	public String updateInfo(Model model, HttpServletRequest request) {
-//		short gender = NumberUtils.toShort(request.getParameter("gender"), (short) 1);
-//		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
-//		User updateUser = new User();
-//		// 获取性别
-//		updateUser.setGender(gender);
-//		updateUser.setId(user.getId());
-//		userService.updateById(updateUser);
-//		request.setAttribute(ConstFront.REDIRECT_PROMPT, "个人资料更新成功，现在将转入后续页面，请稍候…");
-//		request.setAttribute(ConstFront.REDIRECT_URL, "./settings");
-//		return "forward:/redirect";
-//	}
-	
 	@RequestMapping(value="/thirdparty", method = RequestMethod.GET)
 	public String thirdparty(Model model) {
 		return "settings/thirdparty";
@@ -124,7 +115,6 @@ public class UserSettingsController {
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		boolean success = true; 
         try {
-//        	UploadImageResult uploadResult = 
         	uploadService.uploadAvatar(file.getBytes(), user.getId());
         } catch (IOException e) {
         	success = false;
@@ -250,6 +240,73 @@ public class UserSettingsController {
 		}
 		return "settings/album/albums";
 	}
+	
+	/**
+	 * 我的收藏
+	 * 
+	 * @param model
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping(value= "/favorites", method = RequestMethod.GET)
+	public String favorites(Model model, HttpServletRequest request) {
+//		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+//		int userId = user.getId();
+//		
+//		int pageNo = NumberUtils.toInt(request.getParameter("pageNo"), 1);
+//		int pageSize = NumberUtils.toInt(request.getParameter("pageSize"), MY_ALBUMS_LIMIT);
+//		
+//		PagingData<Album> albumPagingData = albumService.pagingQuery(userId, ConstService.ALBUM_OPEN_STATUS, pageNo, pageSize);
+//		if(albumPagingData!=null){
+//			model.addAttribute("albumPagingData", albumPagingData);
+//		}
+		return "settings/album/myFavorites";
+	}
+	
+	@NeedAuthorize
+	@RequestMapping(value = "moreFavoritesAlbums.json")
+	public ModelAndView moreFavoritesAlbums(HttpServletRequest request, int favoriteTailId, int numberPerLine) {
+		User currentUser = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+		int userId = currentUser.getId();
+
+		int limit = MY_FAVORITE_LIMIT;
+		//获取收藏列表
+		List<Album> albumList = albumService.fallLoadUserFavoriteAlbums(userId, favoriteTailId, limit + 1);
+		int nextTailId = 0;
+
+		if (albumList == null || albumList.size() == 0) {
+			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
+		} else {
+			if (albumList.size() > limit) {// 查询数据超过limit，含分页内容
+				// 移除最后一个元素
+				albumList.remove(limit);
+				nextTailId = albumList.get(limit - 1).getId();
+			}
+			String responseHtml = HtmlUtils.buildFallLoadHtml(albumList, numberPerLine);
+			Map<String, String> dataMap = new HashMap<String, String>();
+			dataMap.put("html", responseHtml);
+			dataMap.put("tailId", String.valueOf(nextTailId));
+			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap)); 
+		}
+	}
+	
+//	/**
+//	 * 我的收藏
+//	 * 
+//	 * @param model
+//	 * @param user
+//	 * @return
+//	 */
+//	@RequestMapping(value= "/favorities")
+//	public String favorities(Model model, User user) {
+//		List<Album> albumList = albumService.queryAlbumByUserId(3);
+//		if (albumList != null && albumList.size() > 0) {
+//			model.addAttribute("albumList", albumList);
+//		}
+//		return "settings/myFavorities";
+//	}
+	
+	
 	
 	/**
 	 * 新建作品辑
@@ -482,21 +539,6 @@ public class UserSettingsController {
 		return "settings/myFlowerings";
 	}
 
-	/**
-	 * 我的收藏
-	 * 
-	 * @param model
-	 * @param user
-	 * @return
-	 */
-	@RequestMapping(value= "/favorities")
-	public String favorities(Model model, User user) {
-		List<Album> albumList = albumService.queryAlbumByUserId(3);
-		if (albumList != null && albumList.size() > 0) {
-			model.addAttribute("albumList", albumList);
-		}
-		return "settings/myFavorities";
-	}
 	
 	/**
 	 * 将用空格分割的tagsName转为tagNameList

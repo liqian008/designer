@@ -2,12 +2,11 @@ package com.bruce.designer.service.impl;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.bruce.designer.dao.IAlbumSlideDao;
 import com.bruce.designer.model.AlbumSlide;
-import com.bruce.designer.model.AlbumSlideCriteria;
 import com.bruce.designer.service.IAlbumSlideService;
 
 @Service

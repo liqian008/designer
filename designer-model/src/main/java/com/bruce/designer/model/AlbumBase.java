@@ -11,6 +11,10 @@ public class AlbumBase {
 	private long likeCount;
 
 	private long favoriteCount;
+	
+	private boolean isLike;
+	
+	private boolean isFavorite;
 
 	private List<String> tagList;
 
@@ -46,6 +50,22 @@ public class AlbumBase {
 
 	public void setFavoriteCount(long favoriteCount) {
 		this.favoriteCount = favoriteCount;
+	}
+	
+	public boolean isLike() {
+		return isLike;
+	}
+
+	public void setLike(boolean isLike) {
+		this.isLike = isLike;
+	}
+
+	public boolean isFavorite() {
+		return isFavorite;
+	}
+
+	public void setFavorite(boolean isFavorite) {
+		this.isFavorite = isFavorite;
 	}
 
 	public List<String> getTagList() {

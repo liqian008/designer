@@ -1,13 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
+<%@ page import="com.bruce.designer.data.*" %>
 <%@ page import="com.bruce.designer.model.*" %>
-<%@ page import="com.bruce.designer.service.oauth.*" %> 
+<%@ page import="com.bruce.designer.service.oauth.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
+<%@ page import="com.bruce.designer.front.util.*" %>
+<%@ page import="com.bruce.designer.constants.*" %>
+<%@ page import="com.bruce.designer.util.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.text.*" %>
+<%@ page import="java.text.*" %> 
 
 <%
 SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
-User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
+User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 %>
 
 <!DOCTYPE html>
@@ -18,7 +22,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
     <head>
         <meta charset="utf-8">
         <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-        <title>我的收藏 - 金玩儿网</title>
+        <title>我的收藏 - 【金玩儿网】</title>
 
         <meta name="description" content="金玩儿网-最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。">
         <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
@@ -29,13 +33,15 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
         <link rel="stylesheet" href="/designer-front/css/animate.css">
         <link rel="stylesheet" href="/designer-front/css/flexslider.css">
         <link rel="stylesheet" href="/designer-front/css/style.css">
-                                <!--[if IE 8]>
+        
+        <!--[if IE 8]>
         <link rel="stylesheet" type="text/css" media="all" href="/designer-front/css/ie8.css" />    
         <![endif]-->
                 
 
         <script src="/designer-front/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
         <script src="/designer-front/js/vendor/jquery-1.8.3.min.js"></script>
+        <script src="/designer-front/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
 
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
@@ -46,18 +52,18 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
         <![endif]-->
         
-        <jsp:include page="../inc/topBar.jsp"></jsp:include>
+        <jsp:include page="../../inc/topBar.jsp"></jsp:include>
            
 
         <div id="wrapper" class="boxed"> <!-- Page Wrapper: Boxed class for boxed layout - Fullwidth class for fullwidth page --> 
             
             <div class="header-background"> <!-- Header Background -->
-                <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
+                <jsp:include page="../../inc/headerBanner.jsp"></jsp:include> 
 
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="../inc/headerNav.jsp"></jsp:include>
+                    <jsp:include page="../../inc/headerNav.jsp?menuFlag=settings"></jsp:include>
 
-                    <jsp:include page="../inc/ad.jsp"></jsp:include>
+                    <jsp:include page="../../inc/ad.jsp"></jsp:include>
 
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
@@ -82,46 +88,52 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                             </div>
 
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
-                            	<ul class="tabs-nav tabs clearfix span3">
-                                	<jsp:include page="./settingsTabInc.jsp"></jsp:include>
+                                <ul class="tabs-nav tabs clearfix span3">
+                                	<jsp:include page="../settingsTabInc.jsp?settingsMenuFlag=favorities"></jsp:include>
                                 </ul>
                                 <div class="tab-content span9">
-                                    <div class="tab-pane widgets-light active" id="myFavorities">
-                                    
-                                    	<%
-										List<Album> albumList = (List<Album>)request.getAttribute("albumList");
-										if(albumList!=null){
-					                        for(Album album: albumList){
-					                    %>
-                                        <article class="post format-blog-left clearfix">
-			                                <div class="post-thumb-wrap span3">
-			                                        <img src="<%=album.getCoverLargeImg()%>" alt="Blogpost Preview Image" />
-			                                </div>
-			                                    
-			                                <div class="post-content span9">
-			                                    <h2><%=album.getTitle()%></h2>
-			                                     <p>
-			                                       <%=album.getRemark()%>
-			                                    </p>
-			                                </div>
-										</article>
-										<%}
-										}%>
-			                            
-			                            
+                                    <div class="tab-pane widgets-light active" id="apply4Designer">
+                                         <div class="widget-box widget-wrapper-form clearfix">
+											<div class="content-title">
+												<h4>收藏管理</h4>
+											</div>
+											
+											<div id="infoboxContainer" class="infobox info-warning info-warning-alt clearfix" style="display:none">
+				                                <span>!</span>
+				                                <div class="infobox-wrap">
+				                                    <h4>提示</h4>
+				                                    <p id="infoboxMessage">
+				                                   	无更多数据!
+				                                    </p>
+				                                </div>
+				                            </div>
+					                    	<div id="albumContainer">
+					                    	</div>
+					                    	<div>
+					                    		<input type="hidden" id="favoriteTailId" name="favoriteTailId" value="0" />
+												<div class="shortcode-blogpost row-fluid" id="moreAlbumsContainer">
+													<div class="span2 offset5">
+														<input id="moreAlbumsBtn"
+															class="button-small button button-white btn-block" type="button"
+															value="加载更多..." />
+													</div>
+												</div>
+					                    	</div>
+										</div>
                                     </div>
-                                    
                                 </div>
                             </div>
                         </section> 
                         
-                        <jsp:include page="../inc/rightSidebar.jsp"></jsp:include>
-                    	
+                        <!-- right slidebar -->
+						<aside class="sidebar widgets-light span3">
+                       		<jsp:include page="../../inc/right/sidebar_settings.jsp"></jsp:include> 
+                    	</aside>
                     </div>                        
                 </div> <!-- Close Main -->
             </div> 
            
-           <jsp:include page="../inc/footer.jsp"></jsp:include>
+           <jsp:include page="../../inc/footer.jsp"></jsp:include>
            
         </div> <!-- Close Page -->
    </div> <!-- Close wrapper -->
@@ -135,8 +147,38 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
    <!--  <script src="/designer-front/js/jquery.tweet.js"></script>  -->
     <script src="/designer-front/js/jquery.flexslider.js"></script> 
     <script src="/designer-front/js/retina.js"></script>
-
     <script src="/designer-front/js/custom.js"></script>
-
+    <script>
+		fallLoad();
+		
+		$('#moreAlbumsBtn').click(function(){
+			fallLoad();
+		});
+	
+		function fallLoad(){
+			//置为数据加载状态 
+			$('#moreAlbumsBtn').val("努力加载中...");
+			$('#moreAlbumsBtn').attr("disabled","disabled");
+			var jsonData = {'favoriteTailId' : $("#favoriteTailId").val(), 'numberPerLine':'2'};
+			$.post('/designer-front/settings/moreFavoritesAlbums.json', jsonData, function(data) {
+				var result = data.result;
+				if(result==1){
+					$("#albumContainer").append(data.data.html);
+					var nextTailId = data.data.tailId;
+					$("#favoriteTailId").val(nextTailId);
+					if(nextTailId<=0){//无更多数据，则隐藏按钮
+						$('#moreAlbumsContainer').attr("style","display:none");
+					}else{//还有更多数据，启用加载按钮
+						$('#moreAlbumsBtn').removeAttr("disabled");
+						$('#moreAlbumsBtn').val("加载更多...");
+					}
+				}else{
+					$('#moreAlbumsContainer').hide();
+					$('#infoboxMessage').text(data.message);
+					$('#infoboxContainer').show();
+				}
+			});
+		}
+	</script>
     </body>
 </html>

@@ -1,8 +1,20 @@
 package com.bruce.designer.front.controller;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import nl.captcha.Captcha;
+import nl.captcha.backgrounds.TransparentBackgroundProducer;
+import nl.captcha.gimpy.DropShadowGimpyRenderer;
+import nl.captcha.servlet.CaptchaServletUtil;
+import nl.captcha.text.renderer.DefaultWordRenderer;
+import nl.captcha.text.renderer.WordRenderer;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -14,13 +26,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.bruce.designer.model.User;
 import com.bruce.designer.annotation.NeedAuthorize;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.ResponseUtil;
+import com.bruce.designer.model.User;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.ConfigUtil;
@@ -118,6 +130,29 @@ public class SystemController {
 		request.setAttribute(ConstFront.REDIRECT_PROMPT, "您已成功注销登录，现在将以游客身份转入首页，请稍候…");
 		return ResponseUtil.getRedirectHomeString();
 	}
+	
+//	@RequestMapping("/verifyCode")
+//	public void verifyCode(Model model,HttpServletRequest request,HttpServletResponse response) {
+//		List<Color> colors = new ArrayList<Color>();
+//		colors.add(Color.GREEN);
+//		colors.add(Color.BLUE);
+//		colors.add(Color.ORANGE);
+//		colors.add(Color.RED);
+//		
+//		List<Font> fonts = new ArrayList<Font>();
+//		fonts.add(new Font("Geneva", 2, 32));
+//		fonts.add(new Font("Courier", 3, 32));
+//		fonts.add(new Font("Arial", 1, 32));
+//	    
+//		//WordRenderer wordRenderer = new ColoredEdgesWordRenderer(colors, fonts);
+//		WordRenderer wordRenderer = new DefaultWordRenderer();
+//
+//		Captcha captcha = new Captcha.Builder(150, 50).addText(wordRenderer).gimp(new DropShadowGimpyRenderer())
+//				.addBackground(new TransparentBackgroundProducer()).build();
+//		request.getSession().setAttribute("verifyCode", captcha.getAnswer());
+//		CaptchaServletUtil.writeImage(response, captcha.getImage());
+//	}
+	
 	
 	/**
 	 * 跳转请求

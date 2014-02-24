@@ -21,7 +21,7 @@ Album album = (Album)request.getAttribute("albumInfo");
 <head>
 <meta charset="utf-8">
 <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-<title>专辑作品详情 - 金玩儿网</title>
+<title><%=album.getTitle()%> - 【金玩儿网】</title>
 
 <meta name="description"
 	content="金玩儿网-最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。">
@@ -154,19 +154,20 @@ Album album = (Album)request.getAttribute("albumInfo");
 										</div>
 										
 										<div class="meta-categories">
-											<ul>
-												<li><a href="single.html#">举报</a></li>
-											</ul>
+											<!-- <ul>
+												<li><a href="javascript:void(0)">举报</a></li>
+											</ul> -->
 											<ul>
 												<li><a href="javascript:void(0)" id="browseLink">浏览(<span id="album-browse-counter"><%=album.getBrowseCount()%></span>)</a></li>
 											</ul>
 											<ul>
-												<li><a href="javascript:void(0)" id="likeLink">喜欢(<span id="album-like-counter"><%=album.getLikeCount()%></span>)</a></li>
+												<li id="unlikeId"><a href="javascript:void(0)" id="unlikeLink">已赞(<span class="album-like-counter"><%=album.getLikeCount()%></span>)</a></li>
+												<li id="likeId"><a href="javascript:void(0)" id="likeLink">赞(<span class="album-like-counter"><%=album.getLikeCount()%></span>)</a></li>
 											</ul>
 											<ul>
-												<li><a href="javascript:void(0)">收藏(<%=album.getFavoriteCount()%>)</a></li>
+												<li id="unfavoriteId"><a href="javascript:void(0)" id="unfavoriteLink">已收藏(<span class="album-favorite-counter"><%=album.getFavoriteCount()%></span>)</a></li>
+												<li id="favoriteId"><a href="javascript:void(0)" id="favoriteLink">收藏(<span class="album-favorite-counter"><%=album.getFavoriteCount()%></span>)</a></li>
 											</ul>
-
 											<ul>
 												<li><a href="javascript:void(0)" id="commentLink">评论(<span id="album-comment-counter"><%=album.getCommentCount()%></span>)</a>
 												</li>
@@ -263,6 +264,13 @@ Album album = (Album)request.getAttribute("albumInfo");
 													<input class="button button-small button-blue"
 														type="button" name="regBtn" id="regBtn" tabindex="5"
 														value="注册新用户" />
+													
+													<input class="button button-small button-green"
+														type="button" name="weiboLoginBtn" id="weiboLoginBtn" tabindex="5"
+														value="微博登录"  onclick="location.href='/designer-front/connectWeibo'"/>
+													<input class="button button-small"
+														type="button" name="tencentLoginBtn" id="tencentLoginBtn" tabindex="5"
+														value="QQ登录" onclick="location.href='/designer-front/connectTencent'"/>
 												</div>
 											</form>
 											<%}else{%>
@@ -275,7 +283,7 @@ Album album = (Album)request.getAttribute("albumInfo");
 												</div>
 												<div class="span3">
 													<input class="button button-small button-orange"
-														type="button" name="publishBtn" id="publishBtn"
+														type="button" name="commentBtn" id="commentBtn"
 														tabindex="5" value="发表评论" />
 												</div>
 												
@@ -319,6 +327,17 @@ Album album = (Album)request.getAttribute("albumInfo");
 	<script src="/designer-front/js/custom.js"></script>
 
 	<script>
+		<%if(album.isLike()){%>
+			$('#likeId').hide();
+		<%}else{%>
+			$('#unlikeId').hide();
+		<%}%>
+		<%if(album.isFavorite()){%>
+			$('#favoriteId').hide();
+		<%}else{%>
+			$('#unfavoriteId').hide();
+		<%}%>
+	
 		var emptyCommentVal = "我要评论...";
 		
 		$(document).ready(function(){
@@ -367,27 +386,44 @@ Album album = (Album)request.getAttribute("albumInfo");
    		});
     	
     	$("#likeLink").click(function(){
-    		var likeJsonData = {'albumId': $("#albumId").val(), 'designerId': $("#designerId").val()};
+    		var likeJsonData = {'albumId': $("#albumId").val()};
 	    	$.post("/designer-front/like.json", likeJsonData, function(responseData) {
 	    		var result = responseData.result;
    				if(result==1){
-   					var likeCount = parseInt($('#album-like-counter').text());
-   					$('#album-like-counter').text(likeCount+1);
+   					var likeCount = parseInt($('.album-like-counter').text());
+   					$('.album-like-counter').text(likeCount+1);
+   					$("#likeId").hide();
+   					$("#unlikeId").show();
    				}else{
    					alert(responseData.message);
    				}
 	  		 }, "json");
 	   	});
     	
-    	$("#publishBtn").click(function(){
+    	$("#favoriteLink").click(function(){
+    		var favoriteJsonData = {'albumId': $("#albumId").val()};
+	    	$.post("/designer-front/favorite.json", favoriteJsonData, function(responseData) {
+	    		var result = responseData.result;
+   				if(result==1){
+   					var favoriteCount = parseInt($('.album-favorite-counter').text());
+   					$('.album-favorite-counter').text(favoriteCount+1);
+   					$("#favoriteId").hide();
+   					$("#unfavoriteId").show();
+   				}else{
+   					alert(responseData.message);
+   				}
+	  		 }, "json");
+	   	});
+    	
+    	$("#commentBtn").click(function(){
     		//disable submitBtn
-    		$("#publishBtn").attr("disabled", "disabled");
+    		$("#commentBtn").attr("disabled", "disabled");
     		var commentJsonData = {"comment": $("#comment").val(),'albumId': $("#albumId").val(), 'toId':$("#toId").val(), 'designerId':$("#designerId").val()};
     		$.post("/designer-front/comment.json", commentJsonData, function(data) {
     			var result = data.result;
    				if(result==1){
    					$("#comment").val("");
-	    			$("#publishBtn").removeAttr("disabled");
+	    			$("#commentBtn").removeAttr("disabled");
 	    			$("#commentListContainer").prepend(data.data);
 	    			var commentCount = $('#album-comment-counter').text()+1
 	    			$('#album-comment-counter').text(commentCount);

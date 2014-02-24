@@ -27,7 +27,7 @@ import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.service.IAlbumService;
-import com.bruce.designer.service.ICommentService;
+import com.bruce.designer.service.IAlbumCommentService;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.impl.UserGraphServiceImpl;
@@ -181,6 +181,17 @@ public class MessageController {
 		return "/settings/msgbox/likes";
 	}
 	
+	@RequestMapping(value = "/msgbox/favorites")
+	public String favorites(Model model, HttpServletRequest request) {
+//		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+//		int userId = user.getId();
+//		List<Message> messageList = messageService.queryMessagesByType(userId, ConstService.MESSAGE_TYPE_FAVORITIES);
+//		model.addAttribute("messageList", messageList);
+		PagingData<Message> messagePagingData = getPagingDataByMessageType(request, ConstService.MESSAGE_TYPE_FAVORITIES);
+		model.addAttribute("messagePagingData", messagePagingData);
+		return "/settings/msgbox/favorites";
+	}
+	
 	@RequestMapping(value = "/msgbox/chat")
 	public String chats(Model model, HttpServletRequest request, int toId) {
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
@@ -203,14 +214,6 @@ public class MessageController {
 		return "/settings/msgbox/chat";
 	}
 	
-	@RequestMapping(value = "/msgbox/favorites")
-	public String favorites(Model model, HttpServletRequest request) {
-		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
-		int userId = user.getId();
-		List<Message> messageList = messageService.queryMessagesByType(userId, ConstService.MESSAGE_TYPE_FAVORITIES);
-		model.addAttribute("messageList", messageList);
-		return "/settings/msgbox/favorites";
-	}
 
 	@RequestMapping(value = "/msgs/flowers")
 	public String flowers(Model model, HttpServletRequest request) {

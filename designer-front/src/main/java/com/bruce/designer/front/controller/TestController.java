@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
-import com.bruce.designer.service.ICommentService;
+import com.bruce.designer.service.IAlbumCommentService;
 import com.bruce.designer.service.IUserService;
 
 /**
@@ -24,7 +24,7 @@ public class TestController {
     @Autowired
     private IAlbumService albumService;
     @Autowired
-    private ICommentService commentService;
+    private IAlbumCommentService commentService;
     @Autowired
     private IAlbumSlideService albumSlideService;
     

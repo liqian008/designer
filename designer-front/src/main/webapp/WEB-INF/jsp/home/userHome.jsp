@@ -26,7 +26,7 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
     <head>
         <meta charset="utf-8">
         <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-        <title><%=who%>的主页 - 金玩儿网</title>
+        <title><%=queryUser.getNickname()%>的主页 - 【金玩儿网】</title>
 
         <meta name="description" content="金玩儿网-最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。">
         <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
@@ -108,42 +108,41 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 							
 											
 		                        	<%if(!isDesigner){%>
-		                        	<div class="infobox info-warning info-warning-alt clearfix">
-		                                <span>!</span>
-		                                <div class="infobox-wrap">
-		                                    <h4>提示</h4>
-		                                    <p>
-		                                    非设计师身份，暂无作品展示！  
-		                                    <%if(isMe){%>
-		                                    <a class="button button-green button-small" href="/designer-front/settings/designerInfo">立刻申请设计师</a>
-		                                    <%}%>
-		                                    </p>
-		                                </div>
-		                            </div>
+			                        	<div class="infobox info-warning info-warning-alt clearfix">
+			                                <span>!</span>
+			                                <div class="infobox-wrap">
+			                                    <h4>提示</h4>
+			                                    <p>
+			                                    非设计师身份，暂无作品展示！  
+			                                    <%if(isMe){%>
+			                                    <a class="button button-green button-small" href="/designer-front/settings/designerInfo">立刻申请设计师</a>
+			                                    <%}%>
+			                                    </p>
+			                                </div>
+			                            </div>
 		                        	<%}else{%>
-		                        	
-		                        	<div id="infoboxContainer" class="infobox info-warning info-warning-alt clearfix" style="display:none">
-		                                <span>!</span>
-		                                <div class="infobox-wrap">
-		                                    <h4>提示</h4>
-		                                    <p id="infoboxMessage">
-		                                   	无更多数据!
-		                                    </p>
-		                                </div>
-		                            </div>
-			                    	<div id="albumContainer">
-			                    	</div>
-			                    	<div>
-			                    		<input type="hidden" id="albumsTailId" name="albumsTailId" value="0" />
-										<input type="hidden" id="designerId" name="designerId" value="<%=queryUser.getId()%>" />
-										<div class="shortcode-blogpost row-fluid" id="moreAlbumsContainer">
-											<div class="span2 offset5">
-												<input id="moreAlbumsBtn"
-													class="button-small button button-white btn-block" type="button"
-													value="加载更多..." />
+			                        	<div id="infoboxContainer" class="infobox info-warning info-warning-alt clearfix" style="display:none">
+			                                <span>!</span>
+			                                <div class="infobox-wrap">
+			                                    <h4>提示</h4>
+			                                    <p id="infoboxMessage">
+			                                   	无更多数据!
+			                                    </p>
+			                                </div>
+			                            </div>
+				                    	<div id="albumContainer">
+				                    	</div>
+				                    	<div>
+				                    		<input type="hidden" id="albumsTailId" name="albumsTailId" value="0" />
+											<input type="hidden" id="designerId" name="designerId" value="<%=queryUser.getId()%>" />
+											<div class="shortcode-blogpost row-fluid" id="moreAlbumsContainer">
+												<div class="span2 offset5">
+													<input id="moreAlbumsBtn"
+														class="button-small button button-white btn-block" type="button"
+														value="加载更多..." />
+												</div>
 											</div>
-										</div>
-			                    	</div>
+				                    	</div>
 									<%}%>
 									</div>
 								</div>
