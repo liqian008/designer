@@ -6,12 +6,11 @@ import com.bruce.designer.model.AlbumLike;
 
 public interface IAlbumLikeService extends IBaseService<AlbumLike, Integer>{ 
     
-    public List<AlbumLike> getLikeListByAlbumId(int userId);
-
+    public List<AlbumLike> getLikeListByAlbumId(int albumId);
 
     public List<AlbumLike> getLikeListByAlbumId(int userId, int page, int pageSize);
 
-    public long getLikeCountByAlbumId(int userId);
+    public long getLikeCountByAlbumId(int albumId);
 
     boolean isLike(int uid, int albumId);
 

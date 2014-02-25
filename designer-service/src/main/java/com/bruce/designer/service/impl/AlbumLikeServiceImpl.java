@@ -60,7 +60,9 @@ public class AlbumLikeServiceImpl implements IAlbumLikeService {
 					albumLikeCache.like(userId, albumId);
 				} catch (RedisKeyNotExistException e) {
 					List<AlbumLike> likeList = getLikeListByAlbumId(albumId);//获取该album的like列表
-					albumLikeCache.setLikeList(albumId, likeList);
+					if(likeList!=null&&likeList.size()>0){
+					    albumLikeCache.setLikeList(albumId, likeList);
+					}
 				}
 				//发送赞消息
 				messageService.sendMessage(albumId, userId, designerId, "", ConstService.MESSAGE_TYPE_LIKE);
@@ -94,8 +96,10 @@ public class AlbumLikeServiceImpl implements IAlbumLikeService {
 			 isLike = albumLikeCache.isLike(userId, albumId);
 		 } catch (RedisKeyNotExistException e) {
 			 List<AlbumLike> likeList = getLikeListByAlbumId(albumId);
-            albumLikeCache.setLikeList(albumId, likeList);
-            if (likeList != null) {
+			 if(likeList!=null&&likeList.size()>0){
+			     albumLikeCache.setLikeList(albumId, likeList);
+			 }
+			 if (likeList != null) {
                 for (AlbumLike albumLike : likeList) {
                     if (albumLike.getUserId() == userId) {
                     	isLike = true;
@@ -135,7 +139,9 @@ public class AlbumLikeServiceImpl implements IAlbumLikeService {
 		} catch (RedisKeyNotExistException e) {
 			//DB加载数据，重建cache
 			List<AlbumLike> likeList = getLikeListByAlbumId(albumId);
-			albumLikeCache.setLikeList(albumId, likeList);
+			if(likeList!=null&&likeList.size()>0){
+			    albumLikeCache.setLikeList(albumId, likeList);
+			}
             return likeList.size();
 		}
 	}

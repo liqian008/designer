@@ -97,7 +97,9 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
             followList = followCache.getAllFollowList(uid);
         } catch (Exception e) {
             followList = followDao.getFollowList(uid);
-            followCache.setFollowList(uid, followList);
+            if(followList!=null&&followList.size()>0){
+                followCache.setFollowList(uid, followList);
+            }
         }
         return followList;
     }
@@ -115,9 +117,8 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
             isFollow = followCache.isFollowed(uid, followId);
         } catch (RedisKeyNotExistException e) {
             List<UserFollow> followList = getFollowList(uid);
-            followCache.setFollowList(uid, followList);
-//            friendCache.setFriendList(uid, followList);
-            if (followList != null) {
+            if(followList!=null&&followList.size()>0){
+                followCache.setFollowList(uid, followList);
                 for (UserFollow follow : followList) {
                     if (follow.getFollowId() == followId) {
                         isFollow = true;
@@ -125,6 +126,7 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
                     }
                 }
             }
+//            friendCache.setFriendList(uid, followList);
         }
         return isFollow;
     }
@@ -159,7 +161,9 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
 //                    }
                 } catch (RedisKeyNotExistException e) {
                     List<UserFollow> followList = followDao.getFollowList(uid);
-                    followCache.setFollowList(uid, followList);
+                    if(followList!=null&&followList.size()>0){
+                        followCache.setFollowList(uid, followList);
+                    }
 //                    friendCache.setFriendList(uid, followList);
                 }
                 // TODO 增加follow计数
@@ -178,8 +182,10 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
                 try {
                     fanCache.addFan(fan);
                 } catch (Exception e) {
-                    List<UserFan> fanList = fanDao.getFanList(followId, FANS_CACHE_MAX_COUNT);
-                    fanCache.setFanList(followId, fanList);
+                    List<UserFan> fansList = fanDao.getFanList(followId, FANS_CACHE_MAX_COUNT);
+                    if(fansList!=null&&fansList.size()>0){
+                        fanCache.setFanList(followId, fansList);
+                    }
                 }
                 // TODO 增加粉丝计数
 //                counterService.increase(ConstRedis.COUNTER_KEY_FAN + followId);
@@ -230,14 +236,16 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
 
     @Override
     public List<UserFan> getFanList(int uid) {
-        List<UserFan> fanList;
+        List<UserFan> fansList;
         try {
-            fanList = fanCache.getAllFanList(uid);
+            fansList = fanCache.getAllFanList(uid);
         } catch (Exception e) {
-            fanList = fanDao.getFanList(uid, FANS_CACHE_MAX_COUNT);
-            fanCache.setFanList(uid, fanList);
+            fansList = fanDao.getFanList(uid, FANS_CACHE_MAX_COUNT);
+            if(fansList!=null&&fansList.size()>0){
+                fanCache.setFanList(uid, fansList);
+            }
         }
-        return fanList;
+        return fansList;
     }
 
     @Override
@@ -351,8 +359,11 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
 		} catch (RedisKeyNotExistException e) {
 			//DB加载数据，重建cache
 			List<UserFollow> followList = followDao.getFollowList(userId);
-            followCache.setFollowList(userId, followList);
-            return followList.size();
+			if(followList!=null&&followList.size()>0){
+			    followCache.setFollowList(userId, followList);
+			    return followList.size();
+			}
+			return 0;
 		}
     }
 
@@ -367,8 +378,11 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
 		} catch (RedisKeyNotExistException e) {
 			//DB加载数据，重建cache
 			List<UserFan> fansList = fanDao.getFanList(userId, FANS_CACHE_MAX_COUNT);
-            fanCache.setFanList(userId, fansList);
-			return fansList.size();
+			if(fansList!=null&&fansList.size()>0){
+			    fanCache.setFanList(userId, fansList);
+			    return fansList.size();
+			}
+			return 0;
 		}
     }
 
