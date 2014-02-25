@@ -1,6 +1,9 @@
 package com.bruce.designer.dao;
 
 
+import java.util.List;
+
+import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.model.AlbumActionLog;
 
 public interface IAlbumActionLogDao extends IBaseDao<AlbumActionLog, Long> {
@@ -21,5 +24,13 @@ public interface IAlbumActionLogDao extends IBaseDao<AlbumActionLog, Long> {
 	public int logFavorite(int albumId, int designerId, int userId);
 
 	public int logComment(int albumId, int designerId, int userId);
+
+    public List<CountCacheBean> queryBrowseByAlbumId(int albumId);
+
+    public List<CountCacheBean> queryLikeByAlbumId(int albumId);
+
+    public List<CountCacheBean> queryFavoriteByAlbumId(int albumId);
+
+    public List<CountCacheBean> queryCommentByAlbumId(int albumId); 
 
 }

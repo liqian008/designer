@@ -12,7 +12,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bruce.designer.cache.counter.AlbumCounterCache;
+import com.bruce.designer.cache.counter.AlbumCounterCacheOld;
 import com.bruce.designer.cache.counter.CounterCache;
 import com.bruce.designer.cache.counter.HotAlbumCache;
 import com.bruce.designer.cache.counter.HotDesignerCache;
@@ -37,7 +37,7 @@ public class CounterServiceImpl implements ICounterService, InitializingBean {
 	private static final Logger logger = Logger.getLogger(CounterServiceImpl.class);
 
 	@Autowired
-	private AlbumCounterCache albumCounterCache;
+	private AlbumCounterCacheOld albumCounterCache;
 	@Autowired
 	private IAlbumCounterDao albumCounterDao;
 	@Autowired

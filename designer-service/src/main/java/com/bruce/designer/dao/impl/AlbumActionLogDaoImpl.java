@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bruce.designer.dao.IAlbumActionLogDao;
 import com.bruce.designer.dao.mapper.AlbumActionLogMapper;
+import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.model.AlbumActionLog;
 
 @Repository
@@ -109,5 +110,25 @@ public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBe
 	private AlbumActionLog initBlankLog(int albumId) {
 		return initBlankLog(albumId, 0);
 	}
+
+    @Override
+    public List<CountCacheBean> queryBrowseByAlbumId(int albumId) {
+        return null;
+    }
+
+    @Override
+    public List<CountCacheBean> queryLikeByAlbumId(int albumId) {
+        return null;
+    }
+
+    @Override
+    public List<CountCacheBean> queryFavoriteByAlbumId(int albumId) {
+        return null;
+    }
+
+    @Override
+    public List<CountCacheBean> queryCommentByAlbumId(int albumId) {
+        return null;
+    }
 
 }

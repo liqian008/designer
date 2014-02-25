@@ -61,7 +61,9 @@ public class AlbumFavoriteServiceImpl implements IAlbumFavoriteService {
 				} catch (RedisKeyNotExistException e) {
 					//TODO 
 					List<AlbumFavorite> favoriteList = getFavoriteListByAlbumId(albumId);////获取该album的like列表
-					albumFavoriteCache.setFavoriteList(albumId, favoriteList);
+					if(favoriteList!=null&&favoriteList.size()>0){
+					    albumFavoriteCache.setFavoriteList(albumId, favoriteList);
+					}
 				}
 				//发送赞消息
 				messageService.sendMessage(albumId, userId, designerId, "", ConstService.MESSAGE_TYPE_FAVORITIES);
@@ -94,7 +96,9 @@ public class AlbumFavoriteServiceImpl implements IAlbumFavoriteService {
 			isFavorite = albumFavoriteCache.isFavorite(userId, albumId);
 		 } catch (RedisKeyNotExistException e) {
 			List<AlbumFavorite> favoriteList = getFavoriteListByAlbumId(albumId);
-		 	albumFavoriteCache.setFavoriteList(albumId, favoriteList);
+			if(favoriteList!=null&&favoriteList.size()>0){
+			    albumFavoriteCache.setFavoriteList(albumId, favoriteList);
+			}
             if (favoriteList != null) {
                 for (AlbumFavorite albumFavorite : favoriteList) {
                     if (albumFavorite.getUserId() == userId) {
@@ -142,7 +146,9 @@ public class AlbumFavoriteServiceImpl implements IAlbumFavoriteService {
 		} catch (RedisKeyNotExistException e) {
 			//DB加载数据，重建cache
 			List<AlbumFavorite> favoriteList = getFavoriteListByAlbumId(albumId);
-			albumFavoriteCache.setFavoriteList(albumId, favoriteList);
+			if(favoriteList!=null&&favoriteList.size()>0){
+			    albumFavoriteCache.setFavoriteList(albumId, favoriteList);
+			}
             return favoriteList.size();
 		}
 	}
