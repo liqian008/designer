@@ -230,6 +230,12 @@ public class AlbumController {
 			model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
 			//加载计数信息
 			albumService.initAlbumWithCount(albumInfo);
+			
+			User currentUser = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+			if(currentUser!=null){
+			//加载交互状态（赞、收藏）
+				albumService.initAlbumInteractionStatus(albumInfo, currentUser.getId());
+			}
 			//加载标签
 			albumService.initAlbumWithTags(albumInfo);
 			//加载交互状态（赞、收藏）
