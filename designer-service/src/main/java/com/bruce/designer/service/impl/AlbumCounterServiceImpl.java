@@ -112,9 +112,11 @@ public class AlbumCounterServiceImpl implements IAlbumCounterService, Initializi
         return -1;
     }
 
+
     @Override
     public long reduceComment(int designerId, int albumId, int userId) {
         //TODO 删除评论计数
+        //评论记录不需要删除actionLog
         return -1;
     }
 
