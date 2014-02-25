@@ -4,9 +4,6 @@
  */
 package com.bruce.designer.service;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * 计数服务
  * 
@@ -92,13 +89,14 @@ public interface ICounterService {
 	
 	public long reduceFavorite(int designerId, int albumId);
 	
-	public long incrFan(int userId, int fanId);
-	
-	public long reduceFan(int userId, int fanId);
+//	public long incrFan(int userId, int fanId);
+//	
+//	public long reduceFan(int userId, int fanId);
 	
 	//删除作品时扣减热门计数
 	public boolean removeAlbum(int designer, int albumId);
 
+	//计算专辑的访问数据
 	public long getBrowseCount(int albumId);
 	
 	public long getCommentCount(int albumId);
@@ -107,6 +105,7 @@ public interface ICounterService {
 	
 	public long getFavoriteCount(int albumId);
 	
+	//计算设计师的访问数据
 	public long getTotalBrowseCount(int designerId);
 	
 	public long getTotalCommentCount(int designerId);

@@ -6,9 +6,7 @@ package com.bruce.designer.cache.user;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.math.NumberUtils;
@@ -19,11 +17,11 @@ import org.springframework.stereotype.Repository;
 import redis.clients.jedis.Tuple;
 import redis.clients.jedis.exceptions.JedisException;
 
-import com.bruce.designer.model.UserFan;
 import com.bruce.designer.cache.DesignerShardedJedis;
 import com.bruce.designer.cache.DesignerShardedJedisPool;
 import com.bruce.designer.constants.ConstRedis;
 import com.bruce.designer.exception.RedisKeyNotExistException;
+import com.bruce.designer.model.UserFan;
 
 /**
  * Comments for FanCache.java
@@ -118,7 +116,6 @@ public class FanCache {
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 return result;
             }
-
         } catch (JedisException t) {
             logger.error("removeUserFan", t);
             if (shardedJedis != null) {
@@ -140,16 +137,19 @@ public class FanCache {
             String key = getKey(uid);
             DesignerShardedJedis shardedJedis = null;
             try {
-                shardedJedis = cacheShardedJedisPool.getResource();
+            	shardedJedis = cacheShardedJedisPool.getResource();
                 shardedJedis.del(key);
-                Map<Double, String> fansMap = new HashMap<Double, String>();
-                for (UserFan fans : fansList) {
-                    fansMap.put((double) fans.getCreateTime().getTime(), String.valueOf(fans.getFanId()));
-                }
-                boolean result = shardedJedis.zadd(key, fansMap) > 0;
+            	boolean result = false;
+                if(fansList!=null&&fansList.size()>0){
+	                for (UserFan fan : fansList) {
+						shardedJedis.zadd(key, fan.getCreateTime().getTime(), String.valueOf(fan.getFanId()));
+					}
+					result =  true;
+				}else{
+					result = false;
+				}
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 return result;
-
             } catch (JedisException t) {
                 logger.error("setUserFanList", t);
                 if (shardedJedis != null) {

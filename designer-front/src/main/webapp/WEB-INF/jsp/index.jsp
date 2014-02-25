@@ -16,7 +16,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
     <head>
         <meta charset="utf-8">
         <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-        <title>原创首饰设计 - 金玩儿网</title>
+        <title>金玩儿网 - 最专业的原创首饰设计网</title>
 
         <meta name="description" content="金玩儿网-最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。">
         <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
@@ -25,7 +25,8 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
         <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
         <link rel="stylesheet" href="/designer-front/css/font-awesome.css">
         <link rel="stylesheet" href="/designer-front/css/animate.css">
-        <link rel="stylesheet" href="/designer-front/css/layerslider.css">
+        <!-- <link rel="stylesheet" href="/designer-front/css/layerslider.css"> -->
+        <link rel="stylesheet" href="/designer-front/css/jquery.onebyone.css">
         <link rel="stylesheet" href="/designer-front/css/style.css"> 
         <!--[if IE 8]>
         <link rel="stylesheet" type="text/css" media="all" href="/designer-front/css/ie8.css" />    
@@ -55,28 +56,9 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 				
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
                     <jsp:include page="./inc/headerNav.jsp"></jsp:include>
-					
-					<div id="homepage-slider"> <!-- Homepage Slider Container -->
-                        <!--LayerSlider begin-->
-                        <div id="layerslider" style="width: 1000px; height: 320px;">
-                            <!--LayerSlider layer-->
-                            <div style="slidedirection: right;" class="ls-layer"> 
-                                
-                                <!--LayerSlider background-->
-                                <img src="/designer-front/img/slides/slide-1/background.png" class="ls-bg" alt="Slide Background"/>
-                                <!--LayerSlider sublayers-->                                
-                                <img style="top: 20px; left: 220px; slidedirection: left; slideoutdirection: top; durationin: 2400; delayin: 500; delayout: 100; easingin: easeOutBack;" src="img/slides/slide-1/ipad.png" class="ls-s2"  alt="" />
-                                <img style="top: 100px; left: 80px; slidedirection: bottom; slideoutdirection: bottom; durationin: 2100; delayin: 500; delayout: 200 easingin: easeOutBack;" src="img/slides/slide-1/iphone.png" class="ls-s3"  alt="" />
-                                <img style="top: 40px; left: 590px; slidedirection: top; slideoutdirection: durationin: 100; top; delayout: 300" src="img/slides/slide-1/title.png" class="ls-s4"  alt="" />
-                                <img style="top: 120px; left: 590px; slidedirection: left; slideoutdirection: left; delayout: 400;" src="img/slides/slide-1/subtitle.png" class="ls-s5"  alt=""  />
-                                <img style="top: 180px; left: 590px; slidedirection: right; slideoutdirection: right; durationin: 1800;" src="img/slides/slide-1/description.png" class="ls-s6"  alt=""  />                                   
-                                <a href="index.html#" style="top: 240px; left: 590px; parallaxin: top; slidedirection: bottom; durationin: 2000; slideoutdirection: bottom;" class="ls-s7 button"><i class="icon-plane"></i>Take the tour</a>                                    
-                            
-                            </div>
-                            
-                        </div>
-                        <!--LayerSlider end-->
-                    </div> <!-- Close Homepage Slider Container -->
+                    
+                    <jsp:include page="./inc/indexSlide.jsp"></jsp:include>
+                     
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
         <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
@@ -183,13 +165,14 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
     <!-- Load all Javascript Files -->
     <script src="/designer-front/js/jquery-easing-1.3.js"></script>
     <script src="/designer-front/js/vendor/bootstrap.min.js"></script>
+    <script src="/designer-front/js/jquery.onebyone.min.js"></script>
     <script src="/designer-front/js/superfish.js"></script>
+    <script src="/designer-front/js/retina.js"></script>
+    <!-- <script src="/designer-front/js/layerslider.kreaturamedia.jquery.js"></script> -->
     <!-- <script src="/designer-front/js/supersubs.js"></script> -->
    <!--  <script src="/designer-front/js/jquery.tweet.js"></script>  -->
-    <script src="/designer-front/js/layerslider.kreaturamedia.jquery.js"></script>
-<!--     <script src="/designer-front/js/jquery.flexslider.js"></script>   -->
-	<script src="/designer-front/js/jquery.jcarousel.min.js"></script>
-    <script src="/designer-front/js/retina.js"></script>
+	<!-- <script src="/designer-front/js/jquery.flexslider.js"></script>
+	<script src="/designer-front/js/jquery.jcarousel.min.js"></script> -->
 
     <script src="/designer-front/js/custom.js"></script>
 	<script>

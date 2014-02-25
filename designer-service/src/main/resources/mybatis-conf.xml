@@ -16,6 +16,13 @@
 		<mapper resource="com/bruce/designer/model/mapper/TagMapper.xml" />
 		<mapper resource="com/bruce/designer/model/mapper/TagExtendMapper.xml" />
 		<mapper resource="com/bruce/designer/model/mapper/TagAlbumMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/IndexSlideMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/AlbumCounterMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/AlbumRecommendMapper.xml"/>
+		<mapper resource="com/bruce/designer/model/mapper/AlbumLikeMapper.xml"/>
+		<mapper resource="com/bruce/designer/model/mapper/AlbumFavoriteMapper.xml"/>
+		<mapper resource="com/bruce/designer/model/mapper/AlbumActionLogMapper.xml"/>
+		
 		<!-- 
 		<mapper resource="com/bruce/designer/model/mapper/UserMessageMapper.xml"/>
 		<mapper resource="com/bruce/designer/model/mapper/FeedDTOMapper.xml" />

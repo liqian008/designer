@@ -197,14 +197,16 @@ public class FollowCache {
             try {
                 shardedJedis = cacheShardedJedisPool.getResource();
                 shardedJedis.del(key);
-                Map<Double, String> followMap = new HashMap<Double, String>();
-                for (UserFollow follow : followList) {
-                    followMap.put((double) follow.getCreateTime().getTime(), String.valueOf(follow.getFollowId()));
+                boolean result = false;
+                if(followList!=null&&followList.size()>0){
+	                for (UserFollow follow : followList) {
+	                	shardedJedis.zadd(key, follow.getCreateTime().getTime(), String.valueOf(follow.getFollowId()));
+	                }
+	                result = true;
+                }else{
+                	result = false;
                 }
-
-                boolean result = shardedJedis.zadd(key, followMap) > 0;
                 cacheShardedJedisPool.returnResource(shardedJedis);
-
                 return result;
             } catch (JedisException t) {
                 logger.error("setUserFollowList", t);

@@ -93,8 +93,9 @@ public class DesignerAdminController {
 		Album albumInfo = albumService.loadById(albumId);
 		model.addAttribute("albumInfo", albumInfo);
 		
-		//加载计数
+		//加载计数（浏览、评论）
 		albumService.initAlbumWithCount(albumInfo);
+		
 		//加载标签
 		albumService.initAlbumWithTags(albumInfo);
 		

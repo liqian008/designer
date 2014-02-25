@@ -4,23 +4,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.bruce.designer.model.Comment;
-import com.bruce.designer.model.CommentCriteria;
-import com.bruce.designer.model.User;
-import com.bruce.designer.constants.ConstRedis;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.ICommentDao;
-import com.bruce.designer.service.ICommentService;
+import com.bruce.designer.model.Comment;
+import com.bruce.designer.model.User;
+import com.bruce.designer.service.IAlbumCommentService;
 import com.bruce.designer.service.ICounterService;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
-import com.bruce.designer.util.ConfigUtil;
 
 @Service
-public class CommentServiceImpl implements ICommentService {
+public class AlbumCommentServiceImpl implements IAlbumCommentService {
 
 	@Autowired
 	IUserService userService;
@@ -131,22 +128,57 @@ public class CommentServiceImpl implements ICommentService {
 		return comment(title, content, albumId, fromId, toId, toId);
 	}
 
-	/**
-	 * 赞作品
-	 */
-	@Override
-	public int like(int fromId, int designerId, int albumId){
-		// 评论计量
-		long albumSlideLikeCount = counterService.incrLike(designerId, albumId);
-		
-		// TODO 同时发送消息
-		long sourceId = albumId;
-		String likeMessage = "";//赞了您的作品
-		messageService.sendMessage(sourceId, ConstService.MESSAGE_DELIVER_ID_LIKE, designerId, likeMessage, ConstService.MESSAGE_TYPE_LIKE);
-		if (albumSlideLikeCount > 0) {
-			return 1;
-		}
-		return 0;
-	}
+//	/**
+//	 * 赞作品
+//	 */
+//	@Override
+//	public int like(int fromId, int designerId, int albumId){
+//		// 评论计量
+//		long albumSlideLikeCount = counterService.incrLike(designerId, albumId);
+//		
+//		// TODO 同时发送消息
+//		long sourceId = albumId;
+//		String likeMessage = "";//赞了您的作品
+//		messageService.sendMessage(sourceId, ConstService.MESSAGE_DELIVER_ID_LIKE, designerId, likeMessage, ConstService.MESSAGE_TYPE_LIKE);
+//		if (albumSlideLikeCount > 0) {
+//			return 1;
+//		}
+//		return 0;
+//	}
+//	
+//	/**
+//	 * 取消赞
+//	 */
+//	@Override
+//	public int unlike(int fromId, int designerId, int albumId){
+//		
+//		return 0;
+//	}
+//	/**
+//	 * 收藏作品
+//	 */
+//	@Override
+//	public int favorite(int fromId, int designerId, int albumId){
+//		// 评论计量
+//		long albumSlideLikeCount = counterService.incrLike(designerId, albumId);
+//		
+//		// TODO 同时发送消息
+//		long sourceId = albumId;
+//		String likeMessage = "";//赞了您的作品
+//		messageService.sendMessage(sourceId, ConstService.MESSAGE_DELIVER_ID_LIKE, designerId, likeMessage, ConstService.MESSAGE_TYPE_LIKE);
+//		if (albumSlideLikeCount > 0) {
+//			return 1;
+//		}
+//		return 0;
+//	}
+//	
+//	/**
+//	 * 取消收藏作品
+//	 */
+//	@Override
+//	public int unfavorite(int fromId, int designerId, int albumId){
+//		
+//		return 0;
+//	}
 
 }

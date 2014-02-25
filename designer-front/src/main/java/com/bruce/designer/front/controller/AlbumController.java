@@ -1,6 +1,5 @@
 package com.bruce.designer.front.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,26 +19,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bruce.designer.annotation.NeedAuthorize;
-import com.bruce.designer.annotation.NeedAuthorize.AuthorizeType;
-import com.bruce.designer.constants.ConstRedis;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
+import com.bruce.designer.front.util.HtmlUtils;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
-import com.bruce.designer.front.util.ResponseUtil;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumSlide;
-import com.bruce.designer.model.TagAlbum;
+import com.bruce.designer.model.IndexSlide;
 import com.bruce.designer.model.User;
+import com.bruce.designer.service.IAlbumRecommendService;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
-import com.bruce.designer.service.ICommentService;
+import com.bruce.designer.service.IAlbumCommentService;
 import com.bruce.designer.service.ICounterService;
 import com.bruce.designer.service.IHotService;
-import com.bruce.designer.service.ITagAlbumService;
-import com.bruce.designer.service.ITagService;
+import com.bruce.designer.service.IIndexSlideService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.service.impl.AlbumRecommendServiceImpl;
 import com.bruce.designer.util.ConfigUtil;
 import com.bruce.designer.util.UploadUtil;
 
@@ -48,13 +46,17 @@ import com.bruce.designer.util.UploadUtil;
  */
 @Controller
 public class AlbumController {
-
+	
 	@Autowired
 	private IUserService userService;
 	@Autowired
 	private IAlbumService albumService;
 	@Autowired
-	private ICommentService commentService;
+	private IAlbumRecommendService albumRecommendService;
+	@Autowired
+	private IIndexSlideService indexSlideService;
+	@Autowired
+	private IAlbumCommentService commentService;
 	@Autowired
 	private IAlbumSlideService albumSlideService;
 	@Autowired
@@ -68,6 +70,8 @@ public class AlbumController {
 	public static final int FULL_LIMIT = NumberUtils.toInt(ConfigUtil.getString("main_latest_album_limit"), 4);
 	/*侧栏item的数量*/
 	public static final int SIDE_LIMIT = NumberUtils.toInt(ConfigUtil.getString("slide_latest_album_limit"), 3*2);
+	/*首页专辑推荐的排序数量*/
+	public static final int INDEX_SLIDE_LIMIT = NumberUtils.toInt(ConfigUtil.getString("index_slide_limit"), 4);
 
 	private static final Logger logger = LoggerFactory.getLogger(AlbumController.class);
 
@@ -110,22 +114,47 @@ public class AlbumController {
 		// }
 		// model.addAttribute("albumPagingData", albumPagingData);
 		// }
-		int limit = FULL_LIMIT;
-		List<Album> albumList = albumService.fallLoadAlbums(0, limit + 1, true, true);
-		int tailId = 0;
-		if (albumList != null) {
-			if (albumList.size() > limit) {// 查询数据超过limit，含分页内容
-				// 移除最后一个元素
-				albumList.remove(limit);
-				tailId = albumList.get(limit - 1).getId();
-			}
-//			initAlbumDataCount(albumList);
-
-			model.addAttribute("albumList", albumList);
-			model.addAttribute("tailId", tailId);
-		}
+		
+		//系统轮播
+//		List<IndexSlide> indexSlideList = indexSlideService.queryIndexSlideList(0, INDEX_SLIDE_LIMIT);
+//		model.addAttribute("indexSlideList", indexSlideList);
+		
+		//推荐专辑
+		List<Album> recommendAlbumList = albumRecommendService.queryRecommendAlbums(INDEX_SLIDE_LIMIT);
+		model.addAttribute("recommendAlbumList", recommendAlbumList);
+		
+		//专辑列表
+//		int limit = FULL_LIMIT;
+//		List<Album> albumList = albumService.fallLoadAlbums(0, limit + 1, true, true);
+//		int tailId = 0;
+//		if (albumList != null) {
+//			if (albumList.size() > limit) {// 查询数据超过limit，含分页内容
+//				// 移除最后一个元素
+//				albumList.remove(limit);
+//				tailId = albumList.get(limit - 1).getId();
+//			}
+////			initAlbumDataCount(albumList);
+//
+//			model.addAttribute("albumList", albumList);
+//			model.addAttribute("tailId", tailId);
+//		}
 		return "index";
 	}
+	
+	/**
+	 * 首页请求
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/indexTest", method = RequestMethod.GET)
+	public String indexTest(Model model) {
+		//系统轮播
+		List<IndexSlide> indexSlideList = indexSlideService.queryIndexSlideList(0, INDEX_SLIDE_LIMIT);
+		model.addAttribute("indexSlideList", indexSlideList);
+		return "indexTest";
+	}
+	
 
 	/**
 	 * 时间轴作品列表
@@ -152,8 +181,8 @@ public class AlbumController {
 	 * @return
 	 */
 	@RequestMapping(value = "/album/{albumId}", method = RequestMethod.GET)
-	public String albumInfo(Model model, @PathVariable int albumId) {
-		return albumInfo(model, albumId, -1);
+	public String albumInfo(HttpServletRequest request, Model model, @PathVariable int albumId) {
+		return albumInfo(request, model, albumId, -1);
 	}
 
 	/**
@@ -165,7 +194,7 @@ public class AlbumController {
 	 * @return
 	 */
 	@RequestMapping(value = "/album/{albumId}/{albumSlideId}", method = RequestMethod.GET)
-	public String albumInfo(Model model, @PathVariable int albumId, @PathVariable int albumSlideId) {
+	public String albumInfo(HttpServletRequest request, Model model, @PathVariable int albumId, @PathVariable int albumSlideId) {
 		Album albumInfo = albumService.loadById(albumId);
 		if (albumInfo != null) {
 			// 读取作品列表
@@ -189,19 +218,25 @@ public class AlbumController {
 					model.addAttribute("albumSlide", albumSlide);
 					// 设置slide的index，用以判断是否有上一张、下一张
 					model.addAttribute("slideIndex", slideIndex);
-					// 增加浏览计数
-					counterService.incrBrowser(albumInfo.getUserId(), albumId);
 					break;
 				}
 			}
+			
+			// 增加浏览计数
+			counterService.incrBrowser(albumInfo.getUserId(), albumId);
 
 			//加载作者信息
 			User queryUser = userService.loadById(albumInfo.getUserId());
 			model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
-			//加载计数
+			//加载计数信息
 			albumService.initAlbumWithCount(albumInfo);
 			//加载标签
 			albumService.initAlbumWithTags(albumInfo);
+			//加载交互状态（赞、收藏）
+			User currentUser = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+			if(currentUser!=null){
+				albumService.initAlbumInteractionStatus(albumInfo, currentUser.getId());
+			}
 
 			model.addAttribute("albumInfo", albumInfo);
 			return "album/albumInfo";
@@ -216,10 +251,10 @@ public class AlbumController {
 		int limit = 4;
 		int designerId = NumberUtils.toInt(request.getParameter("designerId"));
 		List<Album> albumList = null;
-		if (designerId > 0) {
+		if (designerId > 0) {//设计师专辑类型
 			limit = HOME_LIMIT;
 			albumList = albumService.fallLoadDesignerAlbums(designerId, tailId, limit + 1, true, true);
-		} else {
+		} else {//首页全屏类型
 			limit = FULL_LIMIT;
 			albumList = albumService.fallLoadAlbums(tailId, limit + 1,  true,  true);
 		}
@@ -233,7 +268,7 @@ public class AlbumController {
 				albumList.remove(limit);
 				nextTailId = albumList.get(limit - 1).getId();
 			}
-			String responseHtml = buildFallLoadHtml(albumList, numberPerLine);
+			String responseHtml = HtmlUtils.buildFallLoadHtml(albumList, numberPerLine);
 			Map<String, String> dataMap = new HashMap<String, String>();
 			dataMap.put("html", responseHtml);
 			dataMap.put("tailId", String.valueOf(nextTailId));
@@ -244,8 +279,8 @@ public class AlbumController {
 	@NeedAuthorize
 	@RequestMapping(value = "moreUserFollowAlbums.json")
 	public ModelAndView moreUserFollowAlbums(HttpServletRequest request, int albumsTailId, int numberPerLine) {
-		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
-		int userId = user.getId();
+		User currentUser = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+		int userId = currentUser.getId();
 
 		int limit = FULL_LIMIT;
 		//获取关注列表
@@ -260,13 +295,12 @@ public class AlbumController {
 				albumList.remove(limit);
 				nextTailId = albumList.get(limit - 1).getId();
 			}
-			String responseHtml = buildFallLoadHtml(albumList, numberPerLine);
+			String responseHtml = HtmlUtils.buildFallLoadHtml(albumList, numberPerLine);
 			Map<String, String> dataMap = new HashMap<String, String>();
 			dataMap.put("html", responseHtml);
 			dataMap.put("tailId", String.valueOf(nextTailId));
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap));
 		}
-
 	}
 
 	@RequestMapping(value = "/moreTagAlbums.json")
@@ -285,7 +319,7 @@ public class AlbumController {
 				albumList.remove(limit);
 				nextTailId = albumList.get(limit - 1).getId();
 			}
-			String responseHtml = buildFallLoadHtml(albumList, numberPerLine);
+			String responseHtml = HtmlUtils.buildFallLoadHtml(albumList, numberPerLine); 
 			Map<String, String> dataMap = new HashMap<String, String>();
 			dataMap.put("html", responseHtml);
 			dataMap.put("tailId", String.valueOf(nextTailId));
@@ -303,7 +337,7 @@ public class AlbumController {
 		if (albumList == null || albumList.size() == 0) {
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {
-			String responseHtml = buildFallLoadHtml(albumList, 3);
+			String responseHtml = HtmlUtils.buildFallLoadHtml(albumList, 3);
 			Map<String, String> dataMap = new HashMap<String, String>();
 			dataMap.put("html", responseHtml);
 			dataMap.put("tailId", String.valueOf(nextTailId));
@@ -332,7 +366,7 @@ public class AlbumController {
 		if (albumList == null || albumList.size() == 0) {
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {
-			String responseHtml = buildSidebarHtml(albumList);
+			String responseHtml = HtmlUtils.buildSidebarHtml(albumList);
 			Map<String, String> dataMap = new HashMap<String, String>();
 			dataMap.put("html", responseHtml);
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap));
@@ -363,104 +397,14 @@ public class AlbumController {
 		if (albumList == null || albumList.size() == 0) {
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {
-			String responseHtml = buildSidebarHtml(albumList);
+			String responseHtml = HtmlUtils.buildSidebarHtml(albumList);
 			Map<String, String> dataMap = new HashMap<String, String>();
 			dataMap.put("html", responseHtml);
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap));
 		}
 	}
 
-	/**
-	 * 
-	 * @param albumList
-	 * @return
-	 */
-	private String buildFallLoadHtml(List<Album> albumList, int numberPerLine) {
-		int span = 3;
-		if (numberPerLine <= 0) {
-			numberPerLine = 4;
-		}
-		span = 12 / numberPerLine;
-
-		// TODO freemarker template
-		if (albumList != null && albumList.size() > 0) {
-			StringBuilder sb = new StringBuilder();
-			int i = 0;
-			// sb.append("<div class='shortcode-blogpost row-fluid'>");
-			for (Album album : albumList) {
-				i++;
-				if (i % numberPerLine == 1) {
-					sb.append("<div class='shortcode-blogpost row-fluid'>");
-				}
-				sb.append("<article class='blog-item span" + span + "'>");
-				sb.append("<div class='blog-post-image-wrap'>");
-				sb.append("<a class='blog-single-link' href='/designer-front/album/" + album.getId() + "'>");
-				sb.append("<img src='" + album.getCoverMediumImg() + "'>");
-				sb.append("</a>");
-				sb.append("</div>");
-				sb.append("<div class='content-wrap span9'>");
-				sb.append("<a href='#'><h5>" + album.getTitle() + "</h5></a>");
-				sb.append("<ul>");
-				sb.append("<li><span>标 签:&nbsp;</span>");
-				List<String> tagNameList = album.getTagList();
-				if (tagNameList != null && tagNameList.size() > 0) {
-					int m=0;
-					for (String tagName : tagNameList) {
-						m++;
-						sb.append("<a href='/designer-front/tag/");
-						sb.append(tagName);
-						sb.append("'>");
-						sb.append(tagName);
-						sb.append("</a>");
-						if(m<tagNameList.size()){
-							sb.append(",&nbsp;");
-						}
-					}
-				}
-				sb.append("</li>");
-
-				sb.append("<li><span>价 格:</span>" + album.getPrice() + " 元</li>");
-				sb.append("<li><a href='/designer-front/album/" + album.getId() + "'>" + album.getBrowseCount() + "&nbsp;浏览&nbsp;</a>/&nbsp;");
-				sb.append("<a href='/designer-front/album/" + album.getId() + "'>" + album.getCommentCount() + "&nbsp;评论&nbsp;</a>/&nbsp;");
-				sb.append("<a href='/designer-front/album/" + album.getId() + "'>" + album.getFavoriteCount() + "&nbsp;收藏&nbsp;</a>");
-				sb.append("</li> ");
-				sb.append("</ul>");
-				sb.append("</div>");
-				sb.append("<div class='content-avatar'>");
-				sb.append("<a href='/designer-front/" + album.getUserId() + "/home'>");
-				sb.append("<img src='"+UploadUtil.getAvatarUrl(album.getUserId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"'/>");
-				sb.append("</a>");
-				sb.append("</div>");
-				sb.append("</article>");
-				if (i % numberPerLine == 0) {
-					sb.append("</div>");
-				}
-
-			}
-			// sb.append("</div>");
-			return sb.toString();
-		}
-		return "";
-	}
-
-	/**
-	 * 
-	 * @param albumList
-	 * @return
-	 */
-	private String buildSidebarHtml(List<Album> albumList) {
-		// TODO freemarker template
-		if (albumList != null && albumList.size() > 0) {
-			StringBuilder sb = new StringBuilder();
-			for (Album album : albumList) {
-				sb.append("<div class='flickr_badge_image' id='flickr_badge_image" + album.getId() + "'><a href='/designer-front/album/" + album.getId()
-						+ "'><img src='" + album.getCoverSmallImg() + "' title='" + album.getTitle() + "'" + album.getTitle()
-						+ "'height='75' width='75'></a></div>");
-			}
-			return sb.toString();
-		}
-		return "";
-	}
+	
 
 //	/**
 //	 * 初始化作品计数
@@ -477,4 +421,17 @@ public class AlbumController {
 //		}
 //	}
 
+	
+//	@NeedAuthorize
+//	@RequestMapping(value = "like.json", method = RequestMethod.POST)
+//	public ModelAndView like(HttpServletRequest request, int fromId, int albumId, int designerId) {
+//		User currentUser = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+//		int result = commentService.like(currentUser.getId(), designerId, albumId);
+//		if(result>0){
+//			return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
+//		}else{
+//			return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
+//		}
+//	}
+	
 }

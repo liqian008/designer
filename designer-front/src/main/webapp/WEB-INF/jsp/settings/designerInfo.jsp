@@ -19,7 +19,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
     <head>
         <meta charset="utf-8">
         <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-        <title>设计师资料 - 金玩儿网</title>
+        <title>设计师资料 - 【金玩儿网】</title>
 
         <meta name="description" content="金玩儿网-最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。">
         <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
@@ -84,7 +84,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 							<div class="content-title">
                                 <h2>个人设置</h2>
                             </div>
-
+                            
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
                                 <ul class="tabs-nav tabs clearfix span3">
                                 	<jsp:include page="./settingsTabInc.jsp?settingsMenuFlag=designerInfo"></jsp:include>
@@ -305,8 +305,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
            
         </div> <!-- Close Page -->
    </div> <!-- Close wrapper -->
-
-        
+    
     <!-- Load all Javascript Files -->
     <script src="/designer-front/js/vendor/bootstrap.min.js"></script>
     <script src="/designer-front/js/jquery.hoverdir.js"></script>
@@ -317,6 +316,8 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
     <script src="/designer-front/js/retina.js"></script>
     <script src="/designer-front/js/custom.js"></script>
     <script>
+    
+    
     var idNumAvailable = false;
     var realnameAvailable = false;
     var mobileAvailable = false;
@@ -471,5 +472,41 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 		}
 	}
 	</script>
+	
+	<!-- 设计师协议 -->
+    <div id="cautionModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="cautionModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <h4>设计师申请协议</h4>
+        </div>
+      <div class="modal-body">
+        <p>
+            1、设计师在本站发布的所有作品应为原创设计，不得有抄袭、剽窃行为。
+       	</p>
+       	<p>
+            2、不得发布违法为原材料的首饰作品，如象牙等。
+       </p>
+       	<p>
+            3、不得发布与本站无关的图片或内容，如色情、暴力。
+        </p>
+       	<p>
+            4、设计师在本站发布的所有作品内容，本站享有使用权。
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="button" data-dismiss="modal" aria-hidden="true">我同意</button>
+        <button id="abort" class="button button-white">放 弃</button>
+      </div>
+    </div>
+   	
+   	<script>
+   	$('#cautionModal').modal();
+   	$('#abort').click(function(){
+   		history.back();
+   		//location.href='/designer-front/settings';
+   	});
+   	
+   	</script>
+	
+	
     </body>
 </html>

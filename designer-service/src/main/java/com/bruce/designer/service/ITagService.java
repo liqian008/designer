@@ -2,7 +2,6 @@ package com.bruce.designer.service;
 
 import java.util.List;
 
-import com.bruce.designer.model.Album;
 import com.bruce.designer.model.Tag;
 
 public interface ITagService extends IBaseService<Tag, Integer> {

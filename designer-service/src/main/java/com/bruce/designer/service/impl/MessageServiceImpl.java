@@ -14,6 +14,7 @@ import com.bruce.designer.model.Message;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.util.MessageUtil;
 
 @Service
 public class MessageServiceImpl implements IMessageService, InitializingBean {
@@ -70,7 +71,10 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	 */
 	@Override
 	public int sendMessage(long sourceId, int fromId, int toId, String content, int messageType){
-		return messageDao.sendMessage(sourceId, fromId, toId, content, messageType);
+		if(!MessageUtil.isChatMessage(messageType) && fromId != toId){//除chat消息外，不可以给自己发消息
+			return messageDao.sendMessage(sourceId, fromId, toId, content, messageType);
+		}
+		return 0;
 	}
 	
 	/**

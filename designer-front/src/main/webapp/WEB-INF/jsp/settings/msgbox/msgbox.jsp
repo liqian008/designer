@@ -22,7 +22,7 @@
 <head>
 <meta charset="utf-8">
 <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-<title>我的消息 - 金玩儿网</title>
+<title>我的消息 - 【金玩儿网】</title>
 
 <meta name="description"
 	content="金玩儿网-最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。">
@@ -53,11 +53,10 @@
 	style="background-image: url(/designer-front/img/backgrounds/bg3.jpg);">
 
 	<!--[if lt IE 8]>
-            <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
-        <![endif]-->
+	    <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+	<![endif]-->
 
 	<jsp:include page="../../inc/topBar.jsp"></jsp:include>
-
 
 	<div id="wrapper" class="boxed">
 		<!-- Page Wrapper: Boxed class for boxed layout - Fullwidth class for fullwidth page -->
@@ -141,8 +140,10 @@
 																</h5>
 															</div>
 															<div class="message-content">
-																<%=MessageUtil.isChatMessage(message.getMessageType())?"<a href='/designer-front/"+message.getFromId()+"/home' target='_blank'>"+message.getFromUser().getNickname()+"</a>: ":""%>
-																<%=message.getMessage()%> 发送于: <%=ymdSdf.format(message.getCreateTime())%>
+																<%//=!MessageUtil.isBroadcastMessage(message.getMessageType())?"<a href='/designer-front/"+message.getFromId()+"/home' target='_blank'>"+message.getFromUser().getNickname()+"</a>: ":""%>
+																<%//=message.getMessage()%>
+																<%=MessageUtil.getMessageDisplay(message)%>
+																- 发送于: <%=ymdSdf.format(message.getCreateTime())%>
 															</div>
 														</div>
 													</div></li>

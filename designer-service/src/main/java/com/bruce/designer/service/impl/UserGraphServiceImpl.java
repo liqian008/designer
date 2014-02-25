@@ -16,7 +16,7 @@ import org.springframework.util.Assert;
 
 import com.bruce.designer.cache.user.FanCache;
 import com.bruce.designer.cache.user.FollowCache;
-import com.bruce.designer.constants.ConstRedis;
+//import com.bruce.designer.constants.ConstRedis;
 import com.bruce.designer.dao.IUserFanDao;
 import com.bruce.designer.dao.IUserFollowDao;
 import com.bruce.designer.exception.RedisKeyNotExistException;
@@ -52,9 +52,6 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
     @Autowired
     private IUserService userService;
 
-//    private ExecutorService executorService = new ThreadPoolExecutor(24, 24, 5, TimeUnit.MINUTES,
-//            new LinkedBlockingQueue<Runnable>(1000));
-    
     /**
      * 获取指定uid的关注列表，分页查询
      */
@@ -116,7 +113,7 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
         boolean isFollow = false;
         try {
             isFollow = followCache.isFollowed(uid, followId);
-        } catch (Exception e) {
+        } catch (RedisKeyNotExistException e) {
             List<UserFollow> followList = getFollowList(uid);
             followCache.setFollowList(uid, followList);
 //            friendCache.setFriendList(uid, followList);
@@ -349,14 +346,13 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
     @Override
     public long getFollowCount(int userId) {
         //关注数
-//    	return (int) counterService.getCount(ConstRedis.COUNTER_KEY_FOLLOW + uid);
-//    	return 0;
     	try {
 			return followCache.getFollowCount(userId);
 		} catch (RedisKeyNotExistException e) {
-//			List<UserFollow> followList = followDao.getFollowList(userId);
-//            followCache.setFollowList(userId, followList);
-            return 0;
+			//DB加载数据，重建cache
+			List<UserFollow> followList = followDao.getFollowList(userId);
+            followCache.setFollowList(userId, followList);
+            return followList.size();
 		}
     }
 
@@ -365,14 +361,14 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
      */
     @Override
     public long getFanCount(int userId) {
-//        return (int) counterService.getCount(ConstRedis.COUNTER_KEY_FAN + uid);
     	//粉丝数
     	try {
 			return fanCache.getFanCount(userId);
 		} catch (RedisKeyNotExistException e) {
-//			List<UserFan> fansList = fanDao.getFanList(userId);
-//            fanCache.setFanList(userId, fansList);
-			return 0;
+			//DB加载数据，重建cache
+			List<UserFan> fansList = fanDao.getFanList(userId, FANS_CACHE_MAX_COUNT);
+            fanCache.setFanList(userId, fansList);
+			return fansList.size();
 		}
     }
 

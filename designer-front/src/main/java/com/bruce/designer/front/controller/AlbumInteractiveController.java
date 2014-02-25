@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bruce.designer.model.Album;
 import com.bruce.designer.model.Comment;
 import com.bruce.designer.model.User;
 import com.bruce.designer.annotation.NeedAuthorize;
@@ -24,48 +25,41 @@ import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
-import com.bruce.designer.service.ICommentService;
-import com.bruce.designer.service.IMessageService;
-import com.bruce.designer.service.IUserService;
+import com.bruce.designer.service.*;
 import com.bruce.designer.util.UploadUtil;
 
 /**
- * Handles requests for the application home page.
+ * 专辑交互Controller
+ * @author liqian
+ *
  */
 @Controller
-public class CommentController {
-
+public class AlbumInteractiveController {
+	
 	@Autowired
-	private ICommentService commentService;
+	private IAlbumService albumService;
+	@Autowired
+	private IAlbumCommentService albumCommentService;
+	@Autowired
+	private IAlbumLikeService albumLikeService;
+	@Autowired
+	private IAlbumFavoriteService albumFavoriteService;
 	@Autowired
 	private IUserService userService;
 
-	private static final Logger logger = LoggerFactory.getLogger(CommentController.class);
-
-	// @RequestMapping(value = "/postComment", method = RequestMethod.POST)
-	// public String postComment(Model model, HttpServletRequest request, int
-	// albumId, int albumPostId, String comment) {
-	// User user = (User)
-	// request.getSession().getAttribute(ConstFront.CURRENT_USER);
-	// if(user!=null){
-	// Comment commentBean = new Comment();
-	// commentBean.setComment(comment);
-	// commentBean.setAlbumId(albumId);
-	// // commentBean.setAlbumContentId(albumPostId);
-	// // commentBean.setUserId(user.getId());
-	// commentBean.setNickname(user.getNickname());
-	// Date currentTime = new Date();
-	// commentBean.setCreateTime(currentTime);
-	// commentBean.setUpdateTime(currentTime);
-	// int result = commentService.save(commentBean);
-	// }
-	// return "redirect:/";
-	// }
-
+	private static final Logger logger = LoggerFactory.getLogger(AlbumInteractiveController.class);
+	
+	/**
+	 * 加载更多评论
+	 * @param request
+	 * @param albumId
+	 * @param tailId
+	 * @return
+	 */
 	@RequestMapping(value = "moreComments.json")
 	public ModelAndView moreComments(HttpServletRequest request, int albumId, @RequestParam("commentsTailId") long tailId) {
 		int limit = 5;
-		List<Comment> commentList = commentService.fallLoadComments(albumId, tailId, limit + 1);
+		List<Comment> commentList = albumCommentService.fallLoadComments(albumId, tailId, limit + 1);
 
 		long nextTailId = 0;
 		if (commentList != null) {
@@ -111,13 +105,21 @@ public class CommentController {
 		return "";
 	}
 
-	
+	/**
+	 * 评论
+	 * @param request
+	 * @param comment
+	 * @param albumId
+	 * @param toId
+	 * @param designerId
+	 * @return
+	 */
 	@NeedAuthorize
 	@RequestMapping(value = "comment.json", method = RequestMethod.POST)
 	public ModelAndView comment(HttpServletRequest request, String comment, int albumId, int toId, int designerId) {
 		User user = getSessionUser(request);
 		int fromId = user.getId();
-		Comment commentResult = commentService.comment(null, comment, albumId, fromId, toId, designerId);
+		Comment commentResult = albumCommentService.comment(null, comment, albumId, fromId, toId, designerId);
 		
 		if (commentResult != null) {// 成功响应
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(buildCommentHtml(commentResult)));
@@ -126,10 +128,79 @@ public class CommentController {
 		}
 	}
 	
+	/**
+	 * 赞
+	 * @param request
+	 * @param fromId
+	 * @param albumId
+	 * @return
+	 */
+	@NeedAuthorize
 	@RequestMapping(value = "like.json", method = RequestMethod.POST)
-	public ModelAndView like(HttpServletRequest request, int fromId, int albumId, int designerId) {
-		int result = commentService.like(fromId, designerId, albumId); 
-		if(result>0){
+	public ModelAndView like(HttpServletRequest request,int albumId) {
+		User currentUser = getSessionUser(request);
+		Album album = albumService.loadById(albumId);
+		boolean result = albumLikeService.like(currentUser.getId(), albumId, album.getUserId());
+		if(result){
+			return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
+		}else{
+			return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
+		}
+	}
+	
+	/**
+	 * 取消赞
+	 * @param request
+	 * @param fromId
+	 * @param albumId
+	 * @return
+	 */
+	@NeedAuthorize
+	@RequestMapping(value = "unlike.json", method = RequestMethod.POST)
+	public ModelAndView unlike(HttpServletRequest request, int albumId) {
+		User currentUser = getSessionUser(request);
+		boolean result = albumLikeService.unlike(currentUser.getId(), albumId);
+		if(result){
+			return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
+		}else{
+			return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
+		}
+	}
+	
+	/**
+	 * 收藏
+	 * @param request
+	 * @param fromId
+	 * @param albumId
+	 * @return
+	 */
+	@NeedAuthorize
+	@RequestMapping(value = "favorite.json", method = RequestMethod.POST)
+	public ModelAndView favorite(HttpServletRequest request, int albumId) {
+		User currentUser = getSessionUser(request);
+		Album album = albumService.loadById(albumId);
+//		boolean result = albumLikeService.like(currentUser.getId(), albumId, album.getUserId());
+		boolean result = albumFavoriteService.favorite(currentUser.getId(), albumId, album.getUserId());
+		if(result){
+			return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
+		}else{
+			return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
+		}
+	}
+	
+	/**
+	 * 取消收藏
+	 * @param request
+	 * @param fromId
+	 * @param albumId
+	 * @return
+	 */
+	@NeedAuthorize
+	@RequestMapping(value = "unfavorite.json", method = RequestMethod.POST)
+	public ModelAndView unfavorite(HttpServletRequest request, int albumId) {
+		User currentUser = getSessionUser(request);
+		boolean result = albumFavoriteService.unfavorite(currentUser.getId(), albumId);
+		if(result){
 			return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
 		}else{
 			return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
