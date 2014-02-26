@@ -49,18 +49,24 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					<li <%=menuIndex==1?"class='active current-menu-item'":"" %>><a href="/designer-front/albums">作品辑</a>
 					<ul class="sub-menu">
 						<li><a href="/designer-front/albums">新晋作品辑</a></li>
-						<li><a href="/designer-front/hot/albums">热门作品辑</a>
+						<li><a href="/designer-front/hot/weeklyAlbums">热门作品辑</a>
 							<ul class="sub-menu">
-	                            <li><a href="/designer-front/hot/dailyAlbums">每日热门</a></li>
-	                            <li><a href="/designer-front/hot/weeklyAlbums">每日热门</a></li>
-	                            <li><a href="/designer-front/hot/monthlyAlbums">每月热门</a></li>
+	                            <li><a href="/designer-front/hot/dailyAlbums">本日热门</a></li>
+	                            <li><a href="/designer-front/hot/weeklyAlbums">本周热门</a></li>
+	                            <li><a href="/designer-front/hot/monthlyAlbums">本月热门</a></li>
 	                        </ul>
 						</li>
 					</ul></li>
 					<li <%=menuIndex==2?"class='active current-menu-item'":"" %>><a href="/designer-front/designers">设计师</a>
 						<ul class="sub-menu">
 							<li><a href="/designer-front/designers">新晋设计师</a></li>
-							<li><a href="/designer-front/hot/designers">热门设计师</a></li>
+							<li><a href="/designer-front/hot/weeklyDesigners">热门设计师</a>
+								<ul class="sub-menu">
+		                            <li><a href="/designer-front/hot/dailyDesigners">本日热门</a></li>
+		                            <li><a href="/designer-front/hot/weeklyDesigners">本周热门</a></li>
+		                            <li><a href="/designer-front/hot/monthlyDesigners">本月热门</a></li>
+		                        </ul>
+							</li>
 						</ul></li> 
 					<li <%=menuIndex==3?"class='active current-menu-item'":"" %>><a href="/designer-front/followAlbums">我的关注</a>
 					</li>

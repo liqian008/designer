@@ -336,19 +336,19 @@ public class AlbumController {
 	
 	//日热门
     @RequestMapping(value = "/hot/dailyAlbums", method = RequestMethod.GET)
-    public String dailyAlbums(Model model) {
+    public String hotDailyAlbums(Model model) {
         return hotAlbums(model, HotServiceImpl.HOT_ALBUM_DAILY_LIMIT);
     }
     
     //周热门
     @RequestMapping(value = "/hot/weeklyAlbums", method = RequestMethod.GET)
-    public String weeklyAlbums(Model model) {
+    public String hotWeeklyAlbums(Model model) {
         return hotAlbums(model, HotServiceImpl.HOT_ALBUM_WEEKLY_LIMIT);
     }
     
     //月热门
     @RequestMapping(value = "/hot/monthlyAlbums", method = RequestMethod.GET)
-    public String monthlyAlbums(Model model) {
+    public String hotMonthlyAlbums(Model model) {
         return hotAlbums(model, HotServiceImpl.HOT_ALBUM_MONTHLY_LIMIT);
     }
     

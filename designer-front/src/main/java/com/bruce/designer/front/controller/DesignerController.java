@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,6 +26,7 @@ import com.bruce.designer.model.User;
 import com.bruce.designer.service.IHotService;
 import com.bruce.designer.service.ITagService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.service.impl.HotServiceImpl;
 import com.bruce.designer.util.UploadUtil;
 
 /**
@@ -55,14 +57,33 @@ public class DesignerController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/hot/designers")
-	public String hotDesigner(Model model, HttpServletRequest request) {
-//		System.err.println("DesignerController: "+hotService);
-		List<User> designerList = hotService.fallLoadHotDesigners(0, FULL_LIMIT);
+	public String hotDesigners(Model model, int mode) {
+	    List<User> designerList = hotService.fallLoadHotDesigners(mode);
 		model.addAttribute("designerList", designerList);
+		model.addAttribute("mode", mode);
 		return "designer/hotDesigners";
 	}
-
+	
+	
+	//日热门
+    @RequestMapping(value = "/hot/dailyDesigners", method = RequestMethod.GET)
+    public String hotDailyDesigners(Model model) {
+        return hotDesigners(model, HotServiceImpl.HOT_DESIGNER_DAILY_LIMIT);
+    }
+    
+    //周热门
+    @RequestMapping(value = "/hot/weeklyDesigners", method = RequestMethod.GET)
+    public String hotWeeklyDesigners(Model model) {
+        return hotDesigners(model, HotServiceImpl.HOT_DESIGNER_WEEKLY_LIMIT);
+    }
+    
+    //月热门
+    @RequestMapping(value = "/hot/monthlyDesigners", method = RequestMethod.GET)
+    public String hotMonthlyDesigners(Model model) {
+        return hotDesigners(model, HotServiceImpl.HOT_DESIGNER_MONTHLY_LIMIT);
+    }
+    
+	
 	/**
 	 * 新晋设计师
 	 * @param model
@@ -89,10 +110,12 @@ public class DesignerController {
 	 * @param request
 	 * @return
 	 */
+	@Deprecated
 	@RequestMapping(value = "/hot/designers.json")
 	public ModelAndView hotDesigners4Json(Model model, HttpServletRequest request) {
 		int limit = 5;
-		List<User> designerList = hotService.fallLoadHotDesigners(0, limit);
+//		List<User> designerList = hotService.fallLoadHotDesigners(0, limit);
+		List<User> designerList = hotService.fallLoadHotDesigners(HotServiceImpl.HOT_DESIGNER_WEEKLY_LIMIT);
 		if (designerList == null || designerList.size() == 0) {
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {

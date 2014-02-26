@@ -42,7 +42,10 @@ public class HotServiceImpl implements IHotService, InitializingBean {
     public static final int HOT_ALBUM_WEEKLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_album_weekly_limit"), 20);
     public static final int HOT_ALBUM_MONTHLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_album_monthly_limit"), 20);
     
-
+    public static final int HOT_DESIGNER_DAILY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_designer_daily_limit"), 32);
+    public static final int HOT_DESIGNER_WEEKLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_designer_weekly_limit"), 32);
+    public static final int HOT_DESIGNER_MONTHLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_designer_monthly_limit"), 32);
+    
 	@Autowired
 	private ITagDao tagDao;
 	@Autowired
@@ -105,10 +108,10 @@ public class HotServiceImpl implements IHotService, InitializingBean {
 //	}
 	
     @Override
-    public List<Album> fallLoadHotAlbums(int period) {
+    public List<Album> fallLoadHotAlbums(int mode) {
         List<CountCacheBean> countList = null;
         //先获取相应idList
-        switch (period) {
+        switch (mode) {
             case WEEKLY_FLAG: {
                 countList = albumActionLogDao.realtimeWeeklyTopAlbums(HOT_ALBUM_WEEKLY_LIMIT);
             }
@@ -129,19 +132,45 @@ public class HotServiceImpl implements IHotService, InitializingBean {
         }
         return albumList;
     }
-
-	@Override
-	public List<User> fallLoadHotDesigners(int start, int limit) {
-		List<Integer> designerIdList = null;
-		try {
-			designerIdList = hotDesignerCache.getHotList(start, limit);
-			if(designerIdList!=null&&designerIdList.size()>0){
-				return userService.queryUsersByIds(designerIdList);
-			}
-		} catch (RedisKeyNotExistException e) {
-			logger.error("hot user key not found!", e);
-		}
-		return null;
-	}
-
+    
+    
+    @Override
+    public List<User> fallLoadHotDesigners(int mode) {
+        List<CountCacheBean> countList = null;
+        //先获取相应idList
+        switch (mode) {
+            case WEEKLY_FLAG: {
+                countList = albumActionLogDao.realtimeWeeklyTopAlbums(HOT_ALBUM_WEEKLY_LIMIT);
+            }
+            case MONTHLY_FLAG: {
+                countList = albumActionLogDao.realtimeMonthlyTopAlbums(HOT_ALBUM_MONTHLY_LIMIT);
+            }
+            default: {//default daily
+                countList = albumActionLogDao.realtimeDailyTopAlbums(HOT_ALBUM_DAILY_LIMIT);
+            }
+        }
+        List<User> designerList = null;
+        if(countList!=null&&countList.size()>0){
+            List<Integer> designerIdList = new ArrayList<Integer>();
+            for(CountCacheBean countBean: countList){
+                designerIdList.add(countBean.getMember());
+            }
+            designerList = userService.queryUsersByIds(designerIdList);
+        }
+        return designerList;
+    }
+    
+//	@Override
+//	public List<User> fallLoadHotDesigners(int start, int limit) {
+//		List<Integer> designerIdList = null;
+//		try {
+//			designerIdList = hotDesignerCache.getHotList(start, limit);
+//			if(designerIdList!=null&&designerIdList.size()>0){
+//				return userService.queryUsersByIds(designerIdList);
+//			}
+//		} catch (RedisKeyNotExistException e) {
+//			logger.error("hot user key not found!", e);
+//		}
+//		return null;
+//	}
 }

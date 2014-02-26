@@ -15,10 +15,13 @@ public interface IHotService{
 	public List<Tag> calcHotTags(int limit);
 
 	// 获取热门作品
-	public List<Album> fallLoadHotAlbums(int period);
+	public List<Album> fallLoadHotAlbums(int mode);
 
 	// 获取热门设计师
-	public List<User> fallLoadHotDesigners(int start, int limit);
+	public List<User> fallLoadHotDesigners(int mode);
+	
+	
+//	public List<User> fallLoadHotDesigners(int start, int limit);
 
 //	// 计算热门作品
 //	public List<Album> calcHotAlbums(int limit);
