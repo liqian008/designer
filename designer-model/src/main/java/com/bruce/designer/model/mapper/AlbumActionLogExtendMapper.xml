@@ -18,21 +18,36 @@
 	</select>
 	
 	
-	<!-- 统计每日热门专辑 -->
-	<select id="queryDailyTopAlbum" resultMap="CountCacheMap">
-		 <include refid="CountTopRule" /> where status=1 group by album_id order by total_num desc;
+	<!-- 查询截至现在每日热门专辑 -->
+	<select id="realtimeDailyTopAlbums" resultMap="CountCacheMap">
+		 <include refid="CountTopRule" /> where status=1 and album_id>0 and create_time>=DATE_SUB(now(), Interval 1 month) group by album_id order by total_num desc;
 	</select>
 	
-	<!-- 统计每周热门专辑 -->
-	<select id="queryWeeklyTopAlbum" resultMap="CountCacheMap">
-		 <include refid="CountTopRule" /> where status=1 group by album_id order by total_num desc;
+	<!-- 查询截至现在每周热门专辑 -->
+	<select id="realtimeWeeklyTopAlbums" resultMap="CountCacheMap">
+		 <include refid="CountTopRule" /> where status=1 and album_id>0 and create_time>=DATE_SUB(now(), Interval 1 week) group by album_id order by total_num desc;
 	</select>
 	
-	<!-- 统计每周热门专辑 -->
-	<select id="queryMonthlyTopAlbum" resultMap="CountCacheMap">
-		 <include refid="CountTopRule" /> where status=1 group by album_id order by total_num desc;
+	<!-- 查询截至现在每月热门专辑 -->
+	<select id="realtimeMonthlyTopAlbums" resultMap="CountCacheMap">
+		 <include refid="CountTopRule" /> where status=1 and album_id>0 and create_time>=DATE_SUB(now(), Interval 1 month) group by album_id order by total_num desc;
 	</select>
 	
+	
+	<!-- 查询截至现在每日热门设计师 -->
+	<select id="realtimeDailyTopDesigners" resultMap="CountCacheMap">
+		 <include refid="CountTopRule" /> where status=1 and designer_id>0 and create_time>=DATE_SUB(now(), Interval 1 month) group by designer_id order by total_num desc;
+	</select>
+	
+	<!-- 查询截至现在每周热门设计师 -->
+	<select id="realtimeWeeklyTopDesigners" resultMap="CountCacheMap">
+		 <include refid="CountTopRule" /> where status=1 and designer_id>0 and create_time>=DATE_SUB(now(), Interval 1 week) group by designer_id order by total_num desc;
+	</select>
+	
+	<!-- 查询截至现在每月热门设计师 -->
+	<select id="realtimeMonthlyTopDesigners" resultMap="CountCacheMap">
+		 <include refid="CountTopRule" /> where status=1 and designer_id>0 and create_time>=DATE_SUB(now(), Interval 1 month) group by designer_id order by total_num desc;
+	</select>
 	
 	
 	<sql id="CountTopRule">

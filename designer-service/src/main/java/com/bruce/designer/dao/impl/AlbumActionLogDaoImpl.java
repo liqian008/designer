@@ -134,6 +134,35 @@ public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBe
     	//select album_id, sum(comment_num) total_num from tb_album_action_log where status=1 group by album_id;
     	return null;
     }
+    
+    @Override
+    public List<CountCacheBean> realtimeDailyTopAlbums(int limit) { 
+        return albumActionLogMapper.realtimeDailyTopAlbums(limit);
+    }
+    @Override
+    public List<CountCacheBean> realtimeWeeklyTopAlbums(int limit) { 
+        return albumActionLogMapper.realtimeWeeklyTopAlbums(limit);
+    }
+    
+    @Override
+    public List<CountCacheBean> realtimeMonthlyTopAlbums(int limit) { 
+        return albumActionLogMapper.realtimeMonthlyTopAlbums(limit);
+    }
+    
+    @Override
+    public List<CountCacheBean> realtimeDailyTopDesigners(int limit) { 
+        return albumActionLogMapper.realtimeDailyTopDesigners(limit);
+    }
+    
+    @Override
+    public List<CountCacheBean> realtimeWeeklyTopDesigners(int limit) { 
+        return albumActionLogMapper.realtimeWeeklyTopDesigners(limit);
+    }
+    
+    @Override
+    public List<CountCacheBean> realtimeMonthlyTopDesigners(int limit) { 
+        return albumActionLogMapper.realtimeMonthlyTopDesigners(limit);
+    }
 
 //  @Override
 //  public List<CountCacheBean> queryLikeByAlbumId(int albumId) {

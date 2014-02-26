@@ -76,11 +76,17 @@ public interface AlbumActionLogMapper {
 	
 	List<CountCacheBean> queryBrowseList();
 
-	List<CountCacheBean> queryDailyTopAlbum();
+	List<CountCacheBean> realtimeDailyTopAlbums(int limit);
 	
-	List<CountCacheBean> queryWeeklyTopAlbum();
+	List<CountCacheBean> realtimeWeeklyTopAlbums(int limit);
 	
-	List<CountCacheBean> queryMonthlyTopAlbum();
+	List<CountCacheBean> realtimeMonthlyTopAlbums(int limit);
+	
+	List<CountCacheBean> realtimeDailyTopDesigners(int limit);
+    
+    List<CountCacheBean> realtimeWeeklyTopDesigners(int limit);
+    
+    List<CountCacheBean> realtimeMonthlyTopDesigners(int limit);
 
 //	List<CountCacheBean> queryFavoriteData();
 }

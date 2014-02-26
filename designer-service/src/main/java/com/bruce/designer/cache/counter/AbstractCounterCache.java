@@ -229,7 +229,7 @@ public abstract class AbstractCounterCache {
 //                result = shardedJedis.zadd(key, dataMap) > 0;
             	
             	for(CountCacheBean data: countList){
-            		shardedJedis.zadd(key, data.getScore(), data.getMember());
+            		shardedJedis.zadd(key, data.getScore(), String.valueOf(data.getMember()));
             	}
             }
             cacheShardedJedisPool.returnResource(shardedJedis);

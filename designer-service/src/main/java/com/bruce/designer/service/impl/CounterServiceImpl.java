@@ -260,7 +260,7 @@ public class CounterServiceImpl implements ICounterService, InitializingBean {
 			if(dataList!=null&&dataList.size()>0){
 				List<CountCacheBean> countList = new ArrayList<CountCacheBean>();
 				for (AlbumCounter data : dataList) {
-					countList.add(new CountCacheBean(String.valueOf(data.getAlbumId()), data.getBrowseCount()));
+					countList.add(new CountCacheBean(data.getAlbumId(), data.getBrowseCount()));
                 	if(albumId ==data.getAlbumId()){
                 		result = data.getBrowseCount();
                 	}
@@ -282,7 +282,7 @@ public class CounterServiceImpl implements ICounterService, InitializingBean {
 			if(dataList!=null&&dataList.size()>0){
 				List<CountCacheBean> countList = new ArrayList<CountCacheBean>();
 				for (AlbumCounter data : dataList) {
-					countList.add(new CountCacheBean(String.valueOf(data.getAlbumId()), data.getCommentCount()));
+					countList.add(new CountCacheBean(data.getAlbumId(), data.getCommentCount()));
                 	if(albumId ==data.getAlbumId()){
                 		result = data.getCommentCount();
                 	}
@@ -304,7 +304,7 @@ public class CounterServiceImpl implements ICounterService, InitializingBean {
 			if(dataList!=null&&dataList.size()>0){
 				List<CountCacheBean> countList = new ArrayList<CountCacheBean>();
 				for (AlbumCounter data : dataList) {
-					countList.add(new CountCacheBean(String.valueOf(data.getAlbumId()), data.getLikeCount()));
+					countList.add(new CountCacheBean(data.getAlbumId(), data.getLikeCount()));
                 	if(albumId ==data.getAlbumId()){
                 		result = data.getLikeCount();
                 	}
@@ -326,7 +326,7 @@ public class CounterServiceImpl implements ICounterService, InitializingBean {
 			if(dataList!=null&&dataList.size()>0){
 				List<CountCacheBean> countList = new ArrayList<CountCacheBean>();
 				for (AlbumCounter data : dataList) {
-					countList.add(new CountCacheBean(String.valueOf(data.getAlbumId()), data.getFavoriteCount()));
+					countList.add(new CountCacheBean(data.getAlbumId(), data.getFavoriteCount()));
                 	if(albumId ==data.getAlbumId()){
                 		result = data.getFavoriteCount();
                 	}

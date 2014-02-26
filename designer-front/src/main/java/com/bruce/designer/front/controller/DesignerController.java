@@ -13,17 +13,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.exception.ErrorCode;
+import com.bruce.designer.front.util.HtmlUtils;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IHotService;
 import com.bruce.designer.service.ITagService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.service.impl.HotServiceImpl;
 import com.bruce.designer.util.UploadUtil;
 
 /**
@@ -48,14 +51,45 @@ public class DesignerController {
 		return "designer/latestDesigners";
 	}
 	
-	@RequestMapping(value = "/hot/designers")
-	public String hotDesigner(Model model, HttpServletRequest request) {
-		System.err.println("DesignerController: "+hotService);
-		List<User> designerList = hotService.fallLoadHotDesigners(0, FULL_LIMIT);
+	/**
+	 * 热门设计师
+	 * @param model
+	 * @param request
+	 * @return
+	 */
+	public String hotDesigners(Model model, int mode) {
+	    List<User> designerList = hotService.fallLoadHotDesigners(mode);
 		model.addAttribute("designerList", designerList);
+		model.addAttribute("mode", mode);
 		return "designer/hotDesigners";
 	}
-
+	
+	
+	//日热门
+    @RequestMapping(value = "/hot/dailyDesigners", method = RequestMethod.GET)
+    public String hotDailyDesigners(Model model) {
+        return hotDesigners(model, HotServiceImpl.HOT_DESIGNER_DAILY_LIMIT);
+    }
+    
+    //周热门
+    @RequestMapping(value = "/hot/weeklyDesigners", method = RequestMethod.GET)
+    public String hotWeeklyDesigners(Model model) {
+        return hotDesigners(model, HotServiceImpl.HOT_DESIGNER_WEEKLY_LIMIT);
+    }
+    
+    //月热门
+    @RequestMapping(value = "/hot/monthlyDesigners", method = RequestMethod.GET)
+    public String hotMonthlyDesigners(Model model) {
+        return hotDesigners(model, HotServiceImpl.HOT_DESIGNER_MONTHLY_LIMIT);
+    }
+    
+	
+	/**
+	 * 新晋设计师
+	 * @param model
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/designers.json")
 	public ModelAndView latestDesigners4Json(Model model, HttpServletRequest request) {
 		int limit = 5;
@@ -63,36 +97,34 @@ public class DesignerController {
 		if (designerList == null || designerList.size() == 0) {
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {
-			String responseHtml = buildFallLoadHtml(designerList);
+			String responseHtml = HtmlUtils.buildFallLoadHtml(designerList);
 			Map<String, String> dataMap = new HashMap<String, String>();
 			dataMap.put("html", responseHtml);
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap));
 		}
 	}
 	
+	/**
+	 * 右边栏热门设计师
+	 * @param model
+	 * @param request
+	 * @return
+	 */
+	@Deprecated
 	@RequestMapping(value = "/hot/designers.json")
 	public ModelAndView hotDesigners4Json(Model model, HttpServletRequest request) {
 		int limit = 5;
-		List<User> designerList = hotService.fallLoadHotDesigners(0, limit);
+//		List<User> designerList = hotService.fallLoadHotDesigners(0, limit);
+		List<User> designerList = hotService.fallLoadHotDesigners(HotServiceImpl.HOT_DESIGNER_WEEKLY_LIMIT);
 		if (designerList == null || designerList.size() == 0) {
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {
-			String responseHtml = buildFallLoadHtml(designerList);
+			String responseHtml = HtmlUtils.buildFallLoadHtml(designerList);
 			Map<String, String> dataMap = new HashMap<String, String>();
 			dataMap.put("html", responseHtml);
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap));
 		}
 	}
-
-	private String buildFallLoadHtml(List<User> designerList) {
-		if (designerList != null && designerList.size() > 0) {
-			StringBuilder sb = new StringBuilder();
-			for (User designer : designerList) {
-				sb.append("<li class='social-icons-facebook-icon'><a href='/designer-front/"+designer.getId()+"/home'><img src='"+UploadUtil.getAvatarUrl(designer.getId(), ConstService.UPLOAD_IMAGE_SPEC_LARGE)+"' alt='"+designer.getNickname()+"' /></a></li>");
-			}
-			return sb.toString();
-		}
-		return null;
-	}
+	
 
 }
