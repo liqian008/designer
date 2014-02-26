@@ -46,7 +46,6 @@ public class HotServiceImpl implements IHotService, InitializingBean {
     public static final int HOT_DESIGNER_WEEKLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_designer_weekly_limit"), 32);
     public static final int HOT_DESIGNER_MONTHLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_designer_monthly_limit"), 32);
     
-
 	@Autowired
 	private ITagDao tagDao;
 	@Autowired
@@ -174,5 +173,4 @@ public class HotServiceImpl implements IHotService, InitializingBean {
 //		}
 //		return null;
 //	}
-
 }
