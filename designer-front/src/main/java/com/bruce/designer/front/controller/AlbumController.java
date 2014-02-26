@@ -39,6 +39,7 @@ import com.bruce.designer.service.IHotService;
 import com.bruce.designer.service.IIndexSlideService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.impl.AlbumRecommendServiceImpl;
+import com.bruce.designer.service.impl.HotServiceImpl;
 import com.bruce.designer.util.ConfigUtil;
 import com.bruce.designer.util.UploadUtil;
 
@@ -332,23 +333,49 @@ public class AlbumController {
 		}
 	}
 	
-	@RequestMapping(value = "/hot/albums.json")
-	public ModelAndView moreHotAlbums4Json(Model model, HttpServletRequest request) {
-		int limit = 4;
-		List<Album> albumList = null;
-		albumList = hotService.fallLoadHotAlbums(0, limit);
-
-		int nextTailId = 0;
-		if (albumList == null || albumList.size() == 0) {
-			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
-		} else {
-			String responseHtml = HtmlUtils.buildFallLoadHtml(albumList, 3);
-			Map<String, String> dataMap = new HashMap<String, String>();
-			dataMap.put("html", responseHtml);
-			dataMap.put("tailId", String.valueOf(nextTailId));
-			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap));
-		}
-	}
+	
+	//日热门
+    @RequestMapping(value = "/hot/dailyAlbums", method = RequestMethod.GET)
+    public String dailyAlbums(Model model) {
+        return hotAlbums(model, HotServiceImpl.HOT_ALBUM_DAILY_LIMIT);
+    }
+    
+    //周热门
+    @RequestMapping(value = "/hot/weeklyAlbums", method = RequestMethod.GET)
+    public String weeklyAlbums(Model model) {
+        return hotAlbums(model, HotServiceImpl.HOT_ALBUM_WEEKLY_LIMIT);
+    }
+    
+    //月热门
+    @RequestMapping(value = "/hot/monthlyAlbums", method = RequestMethod.GET)
+    public String monthlyAlbums(Model model) {
+        return hotAlbums(model, HotServiceImpl.HOT_ALBUM_MONTHLY_LIMIT);
+    }
+    
+    private String hotAlbums(Model model, int mode) {
+        List<Album> hotAlbumList = hotService.fallLoadHotAlbums(mode);
+        model.addAttribute("hotAlbumList", hotAlbumList);
+        model.addAttribute("mode", mode);
+        return "album/hotAlbums";
+    }
+    
+//	@RequestMapping(value = "/hot/albums.json")
+//	public ModelAndView moreHotAlbums4Json(Model model, HttpServletRequest request, int period) {
+//		int limit = 4;
+//		List<Album> albumList = null;
+//		albumList = hotService.fallLoadHotAlbums(period, 0, limit);
+//
+//		int nextTailId = 0;
+//		if (albumList == null || albumList.size() == 0) {
+//			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
+//		} else {
+//			String responseHtml = HtmlUtils.buildFallLoadHtml(albumList, 3);
+//			Map<String, String> dataMap = new HashMap<String, String>();
+//			dataMap.put("html", responseHtml);
+//			dataMap.put("tailId", String.valueOf(nextTailId));
+//			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap));
+//		}
+//	}
 
 	/**
 	 * 右侧栏加载的最新作品
@@ -379,26 +406,17 @@ public class AlbumController {
 	}
 	
 	/**
-	 * 热门作品列表
-	 * 
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "/hot/albums", method = RequestMethod.GET)
-	public String hotAlbums(Model model) {
-		return "album/hotAlbums";
-	}
-	
-	/**
 	 * 右侧栏加载的最热作品
 	 * 
 	 * @param request
 	 * @param numberPerLine
 	 * @return
 	 */
+	@Deprecated
 	@RequestMapping(value = "sideHotAlbums.json")
 	public ModelAndView sideHotAlbums(HttpServletRequest request) {
-		List<Album> albumList = hotService.fallLoadHotAlbums(0, SIDE_LIMIT);
+		List<Album> albumList = null;
+		//hotService.fallLoadHotAlbums(0, SIDE_LIMIT);
 		if (albumList == null || albumList.size() == 0) {
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {
@@ -408,8 +426,6 @@ public class AlbumController {
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap));
 		}
 	}
-
-	
 
 //	/**
 //	 * 初始化作品计数
@@ -426,17 +442,5 @@ public class AlbumController {
 //		}
 //	}
 
-	
-//	@NeedAuthorize
-//	@RequestMapping(value = "like.json", method = RequestMethod.POST)
-//	public ModelAndView like(HttpServletRequest request, int fromId, int albumId, int designerId) {
-//		User currentUser = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
-//		int result = commentService.like(currentUser.getId(), designerId, albumId);
-//		if(result>0){
-//			return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
-//		}else{
-//			return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
-//		}
-//	}
 	
 }

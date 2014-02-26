@@ -49,7 +49,13 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					<li <%=menuIndex==1?"class='active current-menu-item'":"" %>><a href="/designer-front/albums">作品辑</a>
 					<ul class="sub-menu">
 						<li><a href="/designer-front/albums">新晋作品辑</a></li>
-						<li><a href="/designer-front/hot/albums">热门作品辑</a></li>
+						<li><a href="/designer-front/hot/albums">热门作品辑</a>
+							<ul class="sub-menu">
+	                            <li><a href="/designer-front/hot/dailyAlbums">每日热门</a></li>
+	                            <li><a href="/designer-front/hot/weeklyAlbums">每日热门</a></li>
+	                            <li><a href="/designer-front/hot/monthlyAlbums">每月热门</a></li>
+	                        </ul>
+						</li>
 					</ul></li>
 					<li <%=menuIndex==2?"class='active current-menu-item'":"" %>><a href="/designer-front/designers">设计师</a>
 						<ul class="sub-menu">

@@ -135,7 +135,7 @@ public class AlbumCounterCache{
                 shardedJedis.del(key);
                 if(dataList!=null&&dataList.size()>0){
                     for (CountCacheBean cacheBean : dataList) {
-                        shardedJedis.zadd(key, cacheBean.getScore(), cacheBean.getMember());
+                        shardedJedis.zadd(key, cacheBean.getScore(), String.valueOf(cacheBean.getMember()));
                     }
                     result =  true;
                 }

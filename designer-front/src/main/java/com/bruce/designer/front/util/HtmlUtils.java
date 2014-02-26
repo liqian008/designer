@@ -4,13 +4,20 @@ import java.util.List;
 
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.model.Album;
+import com.bruce.designer.model.User;
 import com.bruce.designer.util.UploadUtil;
 
+/**
+ * html工具，用于ajax
+ * @author liqian
+ * TODO 条件允许的话，最好改用freemarker，更灵活
+ */
 public class HtmlUtils {
 	
 	/**
-	 * 
+	 * 构造正文页的专辑html
 	 * @param albumList
+	 * @param numberPerLine
 	 * @return
 	 */
 	public static String buildFallLoadHtml(List<Album> albumList, int numberPerLine) {
@@ -81,7 +88,7 @@ public class HtmlUtils {
 	}
 
 	/**
-	 * 
+	 * 生成边栏的专辑html
 	 * @param albumList
 	 * @return
 	 */
@@ -98,4 +105,20 @@ public class HtmlUtils {
 		}
 		return "";
 	}
+	
+	/**
+	 * 构造设计师的html
+	 * @param designerList
+	 * @return
+	 */
+	public static String buildFallLoadHtml(List<User> designerList) {
+        if (designerList != null && designerList.size() > 0) {
+            StringBuilder sb = new StringBuilder();
+            for (User designer : designerList) {
+                sb.append("<li class='social-icons-facebook-icon'><a href='/designer-front/"+designer.getId()+"/home'><img src='"+UploadUtil.getAvatarUrl(designer.getId(), ConstService.UPLOAD_IMAGE_SPEC_LARGE)+"' alt='"+designer.getNickname()+"' /></a></li>");
+            }
+            return sb.toString();
+        }
+        return null;
+    }
 }

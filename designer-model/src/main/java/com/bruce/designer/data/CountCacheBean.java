@@ -3,24 +3,24 @@ package com.bruce.designer.data;
 
 public class CountCacheBean{
 
-	private String member;
+	private int member;
     private long score;
     
     public CountCacheBean(){
     	super();
     }
     
-    public CountCacheBean(String member, long score){
+    public CountCacheBean(int member, long score){
     	super();
     	this.member = member;
     	this.score = score;
     }
 
-	public String getMember() {
+	public int getMember() {
 		return member;
 	}
 
-	public void setMember(String member) {
+	public void setMember(int member) {
 		this.member = member;
 	}
 
