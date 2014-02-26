@@ -14,6 +14,7 @@ import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumFavorite;
 import com.bruce.designer.model.UserFollow;
+import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.IAlbumFavoriteService;
 import com.bruce.designer.service.IAlbumLikeService;
 import com.bruce.designer.service.IAlbumService;
@@ -27,14 +28,14 @@ public class AlbumServiceImpl implements IAlbumService {
 
 	@Autowired
 	private IAlbumDao albumDao;
-	@Autowired
-	private ICounterService counterService;
+//	@Autowired
+//	private ICounterService counterService;
 	@Autowired
 	private IAlbumLikeService albumLikeService;
 	@Autowired
 	private IAlbumFavoriteService albumFavoriteService;
-//	@Autowired
-//	private ICounterService counterService;
+	@Autowired
+	private IAlbumCounterService albumCounterService;
 	
 	@Autowired
 	private IUserGraphService userGraphService;
@@ -109,7 +110,8 @@ public class AlbumServiceImpl implements IAlbumService {
 			//删除tag关联
 			tagAlbumService.deleteByAlbumId(albumId);
 			// TODO 删除相关计数(作品计数)，可能影响热门排行
-			counterService.removeAlbum(userId, albumId);
+//			counterService.removeAlbum(userId, albumId);
+			albumCounterService.removeAlbum(userId, albumId);
 			
 			return result;
 		}
@@ -300,8 +302,9 @@ public class AlbumServiceImpl implements IAlbumService {
 	public void initAlbumWithCount(Album album) {
 		if (album != null) {
 			int albumId = album.getId();
-			album.setBrowseCount(counterService.getBrowseCount(albumId));
-			album.setCommentCount(counterService.getCommentCount(albumId));
+			album.setBrowseCount(albumCounterService.getBrowseCount(albumId));
+//			album.setBrowseCount(counterService.getBrowseCount(albumId));
+//			album.setCommentCount(counterService.getCommentCount(albumId));
 //			album.setLikeCount(counterService.getLikeCount(albumId));
 //			album.setFavoriteCount(counterService.getFavoriteCount(albumId));
 			album.setLikeCount(albumLikeService.getLikeCountByAlbumId(albumId));

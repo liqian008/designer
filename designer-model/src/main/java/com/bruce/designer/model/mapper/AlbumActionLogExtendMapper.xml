@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bruce.designer.dao.mapper.AlbumActionLogMapper">
+
+	<resultMap id="CountCacheMap" type="com.bruce.designer.data.CountCacheBean">
+	    <result column="album_id" jdbcType="VARCHAR" property="member"/>
+	    <result column="total_num" jdbcType="BIGINT" property="score"/>
+    </resultMap>
+    
+	<!-- 专辑浏览数据统计 -->
+	<select id="queryBrowseList" resultMap="CountCacheMap">
+		select album_id, sum(browse_num) total_num from tb_album_action_log where status=1 group by album_id;
+	</select> 
+	
+	<!-- 专辑评论数据统计 -->
+	<select id="queryCommentList" resultMap="CountCacheMap">
+		select album_id, sum(comment_num) total_num from tb_album_action_log where status=1 group by album_id;
+	</select>
+	
+	
+	<!-- 统计每日热门专辑 -->
+	<select id="queryDailyTopAlbum" resultMap="CountCacheMap">
+		 <include refid="CountTopRule" /> where status=1 group by album_id order by total_num desc;
+	</select>
+	
+	<!-- 统计每周热门专辑 -->
+	<select id="queryWeeklyTopAlbum" resultMap="CountCacheMap">
+		 <include refid="CountTopRule" /> where status=1 group by album_id order by total_num desc;
+	</select>
+	
+	<!-- 统计每周热门专辑 -->
+	<select id="queryMonthlyTopAlbum" resultMap="CountCacheMap">
+		 <include refid="CountTopRule" /> where status=1 group by album_id order by total_num desc;
+	</select>
+	
+	
+	
+	<sql id="CountTopRule">
+    	select album_id, 8*sum(comment_num) + 2*sum(like_num)*2 + sum(comment_num) + 0*sum(browse_num) total_num from tb_album_action_log
+	</sql>
+
+</mapper>

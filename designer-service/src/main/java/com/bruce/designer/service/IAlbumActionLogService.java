@@ -16,12 +16,12 @@ public interface IAlbumActionLogService extends
 
     public int logComment(int albumId, int designerId, int userId);
 
-    public List<CountCacheBean> queryBrowseByAlbumId(int albumId);
+    public List<CountCacheBean> queryBrowseList();
+    
+    public List<CountCacheBean> queryCommentList();
 
-    public List<CountCacheBean> queryLikeByAlbumId(int albumId);
-
-    public List<CountCacheBean> queryFavoriteByAlbumId(int albumId);
-
-    public List<CountCacheBean> queryCommentByAlbumId(int albumId);
+//    public List<CountCacheBean> queryLikeByAlbumId(int albumId);
+//
+//    public List<CountCacheBean> queryFavoriteByAlbumId(int albumId);
 
 }

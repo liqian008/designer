@@ -63,6 +63,12 @@ public interface ConstService {
 	public static final short MESSAGE_READ = 0;
 	/* 消息可读状态 */
 	public static final short MESSAGE_UNREAD = 1;
+	
+	
+	/* 操作记录重复状态 */
+	public static final short ACTION_LOG_REPEAT = 0;
+	/* 操作记录正常状态 */
+	public static final short ACTION_LOG_NORMAL = 1;
 
 	// ////////////////////上传常量////////////////////////////////
 

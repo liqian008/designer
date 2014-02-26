@@ -47,8 +47,8 @@ public class UserController {
 	public static final int FOLLOW_PAGE_SIZE = NumberUtils.toInt(ConfigUtil.getString("follow_page_size"), DEFAULT_PAGING_SIZE);
 	public static final int FAN_PAGE_SIZE = NumberUtils.toInt(ConfigUtil.getString("fan_page_size"), DEFAULT_PAGING_SIZE);
     
-    @Autowired
-    private ICounterService counterService;
+//    @Autowired
+//    private ICounterService counterService;
     @Autowired
     private IUserService userService;
     @Autowired

@@ -9,10 +9,12 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.bruce.designer.cache.counter.AlbumCounterCache;
 import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.exception.RedisKeyNotExistException;
+import com.bruce.designer.model.AlbumLike;
 import com.bruce.designer.service.IAlbumActionLogService;
 import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.IAlbumFavoriteService;
@@ -24,7 +26,7 @@ import com.bruce.designer.service.IAlbumLikeService;
  * @author <a href="mailto:jun.liu@opi-corp.com">刘军</a>
  * @createTime 2013-8-11 下午12:08:09
  */
-//@Service
+@Service
 public class AlbumCounterServiceImpl implements IAlbumCounterService, InitializingBean { 
 
     /**
@@ -44,7 +46,16 @@ public class AlbumCounterServiceImpl implements IAlbumCounterService, Initializi
     
     @Override
     public long getBrowseCount(int albumId) {
-        return 0;
+    	try {
+    		return albumCounterCache.getBrowseCount(albumId);
+    	} catch (RedisKeyNotExistException e) {
+			List<CountCacheBean> browseList = albumActionLogService.queryBrowseList();//获取该album的like列表
+            //重建缓存
+            if(browseList!=null&&browseList.size()>0){
+                albumCounterCache.setBrowseDataList(browseList);
+            }
+		}
+    	return 0;
     }
 
     @Override
@@ -68,7 +79,7 @@ public class AlbumCounterServiceImpl implements IAlbumCounterService, Initializi
         try {
             albumCounterCache.incrBrowse(albumId);
         } catch (RedisKeyNotExistException e) {
-            List<CountCacheBean> browseList = albumActionLogService.queryBrowseByAlbumId(albumId);//获取该album的like列表
+            List<CountCacheBean> browseList = albumActionLogService.queryBrowseList();//获取该album的like列表
             //重建缓存
             if(browseList!=null&&browseList.size()>0){
                 albumCounterCache.setBrowseDataList(browseList);

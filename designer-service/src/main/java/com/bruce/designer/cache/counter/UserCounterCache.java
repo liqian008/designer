@@ -11,6 +11,7 @@ import com.bruce.designer.constants.ConstRedis;
  * @createTime 2013-9-11 下午06:46:02
  */
 @Repository
+@Deprecated
 public class UserCounterCache extends AbstractCounterCache {
 	
 	/* 整个用户浏览数的key */

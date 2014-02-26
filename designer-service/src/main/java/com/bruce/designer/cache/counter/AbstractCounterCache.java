@@ -19,6 +19,7 @@ import com.bruce.designer.exception.RedisKeyNotExistException;
  * @author <a href="mailto:liujun4@staff.sina.com.cn">刘军</a>
  * @createTime 2013-9-11 下午06:46:02
  */
+@Deprecated
 public abstract class AbstractCounterCache {
 
 	

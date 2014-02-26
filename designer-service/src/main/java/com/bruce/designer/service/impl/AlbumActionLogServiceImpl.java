@@ -37,47 +37,60 @@ public class AlbumActionLogServiceImpl implements IAlbumActionLogService {
 		return albumActionLogDao.queryAll();
 	}
 
+	/**
+	 * 浏览记录
+	 */
 	@Override
 	public int logBrowse(int albumId, int designerId, int userId) {
 		return albumActionLogDao.logBrowse(albumId, designerId, userId);
 	}
 
+	/**
+	 * 赞记录
+	 */
 	@Override
 	public int logLike(int albumId, int designerId, int userId) {
-	    //如果like过，则不能继续action操作
-		return albumActionLogDao.logLike(albumId, designerId, userId);
+	    //如果like过，记做重复操作
+		boolean everLiked = false;
+		return albumActionLogDao.logLike(albumId, designerId, userId, everLiked);
 	}
 
+	/**
+	 * 收藏记录
+	 */
 	@Override
 	public int logFavorite(int albumId, int designerId, int userId) {
-	    //如果favorite过，则不能继续action操作
-		return albumActionLogDao.logFavorite(albumId, designerId, userId);
+	    //如果favorite过，记做重复操作
+		boolean everFavorited = false;
+		return albumActionLogDao.logFavorite(albumId, designerId, userId, everFavorited);
 	}
 
+	/**
+	 * 评论记录
+	 */
 	@Override
 	public int logComment(int albumId, int designerId, int userId) {
 		return albumActionLogDao.logComment(albumId, designerId, userId);
 	}
 	
 	@Override
-    public List<CountCacheBean> queryBrowseByAlbumId(int albumId) {
-        return albumActionLogDao.queryBrowseByAlbumId(albumId);
+    public List<CountCacheBean> queryBrowseList() {
+        return albumActionLogDao.queryBrowseList();
     }
 	
 	@Override
-    public List<CountCacheBean> queryLikeByAlbumId(int albumId) {
-        return albumActionLogDao.queryLikeByAlbumId(albumId);
+    public List<CountCacheBean> queryCommentList() { 
+        return albumActionLogDao.queryCommentList(); 
     }
 	
-	@Override
-    public List<CountCacheBean> queryFavoriteByAlbumId(int albumId) {
-        return albumActionLogDao.queryFavoriteByAlbumId(albumId);
-    }
-	
-	@Override
-    public List<CountCacheBean> queryCommentByAlbumId(int albumId) {
-        return albumActionLogDao.queryCommentByAlbumId(albumId); 
-    }
-	
+//	@Override
+//    public List<CountCacheBean> queryLikeByAlbumId(int albumId) {
+//        return albumActionLogDao.queryLikeByAlbumId(albumId);
+//    }
+//	
+//	@Override
+//    public List<CountCacheBean> queryFavoriteByAlbumId(int albumId) {
+//        return albumActionLogDao.queryFavoriteByAlbumId(albumId);
+//    }
 
 }

@@ -33,6 +33,12 @@ public class AlbumCounterCache{
 	/* 整个作品辑评论数的key */
 	public static final String COUNTER_KEY_ALBUM_COMMENT = "albumComment";
 	
+	
+	public long getBrowseCount(int albumId) throws RedisKeyNotExistException {
+	    return getCount(getBrowseKey(), albumId);
+    }
+	
+	
 	/**
 	 * 增加浏览
 	 * @param albumId
@@ -74,6 +80,32 @@ public class AlbumCounterCache{
             }
         }
         return 0;
+    }
+	
+    private long getCount(String key, int id) throws RedisKeyNotExistException {
+		long result = 0;
+	    DesignerShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = cacheShardedJedisPool.getResource();
+            boolean exists = shardedJedis.exists(key);
+            if (exists == false) {
+                cacheShardedJedisPool.returnResource(shardedJedis);
+                throw new RedisKeyNotExistException();
+            } else {
+                Double countNum = shardedJedis.zscore(key, String.valueOf(id));
+                cacheShardedJedisPool.returnResource(shardedJedis);
+                if(countNum!=null){
+	            	result = countNum.longValue();
+	            }
+            }
+            return result;
+        } catch (JedisException t) {
+            logger.error("incrByKey", t);
+            if (shardedJedis != null) {
+                cacheShardedJedisPool.returnBrokenResource(shardedJedis);
+            }
+        }
+        return result;
     }
 	
 	/**

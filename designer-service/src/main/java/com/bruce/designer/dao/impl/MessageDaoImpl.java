@@ -123,7 +123,7 @@ public class MessageDaoImpl implements IMessageDao, InitializingBean {
     @Override
     public List<Message> queryMessageSummary(int userId){
         //Sql：select id, message, message_type, source_id, from_id, to_id, dialog_id, status, create_time, update_time, sum(unread) unread from (select * from tb_message ORDER BY id desc ) aliasMessage where to_id= #{id,jdbcType=INTEGER} group by dialog_id 
-      return messageMapper.queryMessageSummary(userId);
+    	return messageMapper.queryMessageSummary(userId);
     }
     
 	/**

@@ -30,8 +30,8 @@ public class UserServiceImpl implements IUserService {
 	private IAccessTokenService accessTokenService;
 	@Autowired
     private UserCache userCache;
-	@Autowired
-	private ICounterService counterService;
+//	@Autowired
+//	private ICounterService counterService;
 	@Autowired
 	private IMessageService messageService;
 	

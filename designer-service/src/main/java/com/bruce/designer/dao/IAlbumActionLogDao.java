@@ -19,18 +19,18 @@ public interface IAlbumActionLogDao extends IBaseDao<AlbumActionLog, Long> {
 
 	public int logBrowse(int albumId, int designerId, int userId);
 
-	public int logLike(int albumId, int designerId, int userId);
+	public int logLike(int albumId, int designerId, int userId, boolean everLiked);
 
-	public int logFavorite(int albumId, int designerId, int userId);
+	public int logFavorite(int albumId, int designerId, int userId, boolean everFavorited);
 
 	public int logComment(int albumId, int designerId, int userId);
 
-    public List<CountCacheBean> queryBrowseByAlbumId(int albumId);
+    public List<CountCacheBean> queryBrowseList();
+    
+    public List<CountCacheBean> queryCommentList(); 
 
-    public List<CountCacheBean> queryLikeByAlbumId(int albumId);
-
-    public List<CountCacheBean> queryFavoriteByAlbumId(int albumId);
-
-    public List<CountCacheBean> queryCommentByAlbumId(int albumId); 
+//    public List<CountCacheBean> queryLikeByAlbumId(int albumId);
+//
+//    public List<CountCacheBean> queryFavoriteByAlbumId(int albumId);
 
 }

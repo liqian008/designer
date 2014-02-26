@@ -22,6 +22,7 @@
 		<mapper resource="com/bruce/designer/model/mapper/AlbumLikeMapper.xml"/>
 		<mapper resource="com/bruce/designer/model/mapper/AlbumFavoriteMapper.xml"/>
 		<mapper resource="com/bruce/designer/model/mapper/AlbumActionLogMapper.xml"/>
+		<mapper resource="com/bruce/designer/model/mapper/AlbumActionLogExtendMapper.xml"/>
 		
 		<!-- 
 		<mapper resource="com/bruce/designer/model/mapper/UserMessageMapper.xml"/>

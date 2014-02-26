@@ -6,6 +6,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IAlbumActionLogDao;
 import com.bruce.designer.dao.mapper.AlbumActionLogMapper;
 import com.bruce.designer.data.CountCacheBean;
@@ -51,9 +52,14 @@ public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBe
 	 * 增加赞
 	 */
 	@Override
-	public int logLike(int albumId, int designerId, int userId) {
+	public int logLike(int albumId, int designerId, int userId, boolean everLiked) {
 		AlbumActionLog log = initBlankLog(albumId, designerId, userId);
-		log.setBrowseNum((short) 1);
+		log.setLikeNum((short) 1);
+		if(everLiked){
+			log.setStatus(ConstService.ACTION_LOG_REPEAT);
+		}else{
+			log.setStatus(ConstService.ACTION_LOG_NORMAL);
+		}
 		return save(log);
 	}
 
@@ -61,9 +67,14 @@ public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBe
 	 * 增加收藏
 	 */
 	@Override
-	public int logFavorite(int albumId, int designerId, int userId) {
+	public int logFavorite(int albumId, int designerId, int userId, boolean everFavorited) {
 		AlbumActionLog log = initBlankLog(albumId, designerId, userId);
 		log.setFavoriteNum((short) 1);
+		if(everFavorited){
+			log.setStatus(ConstService.ACTION_LOG_REPEAT);
+		}else{
+			log.setStatus(ConstService.ACTION_LOG_NORMAL);
+		}
 		return save(log);
 	}
 
@@ -112,23 +123,25 @@ public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBe
 	}
 
     @Override
-    public List<CountCacheBean> queryBrowseByAlbumId(int albumId) {
-        return null;
+    public List<CountCacheBean> queryBrowseList() {
+    	//select album_id, sum(browse_num) total_num from tb_album_action_log where status=1 group by album_id;
+    	return albumActionLogMapper.queryBrowseList();
     }
+
 
     @Override
-    public List<CountCacheBean> queryLikeByAlbumId(int albumId) {
-        return null;
+    public List<CountCacheBean> queryCommentList() { 
+    	//select album_id, sum(comment_num) total_num from tb_album_action_log where status=1 group by album_id;
+    	return null;
     }
 
-    @Override
-    public List<CountCacheBean> queryFavoriteByAlbumId(int albumId) {
-        return null;
-    }
-
-    @Override
-    public List<CountCacheBean> queryCommentByAlbumId(int albumId) {
-        return null;
-    }
-
+//  @Override
+//  public List<CountCacheBean> queryLikeByAlbumId(int albumId) {
+//      return null;
+//  }
+//
+//  @Override
+//  public List<CountCacheBean> queryFavoriteByAlbumId(int albumId) {
+//      return null;
+//  }
 }

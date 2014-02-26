@@ -14,6 +14,7 @@ import com.bruce.designer.exception.RedisKeyNotExistException;
  * @createTime 2013-9-11 下午06:46:02
  */
 @Repository
+@Deprecated
 public class AlbumCounterCacheOld extends AbstractCounterCache {
 	
 	@Autowired

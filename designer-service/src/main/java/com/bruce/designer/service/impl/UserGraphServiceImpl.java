@@ -47,8 +47,8 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
     private FollowCache followCache;
     @Autowired
     private FanCache fanCache;
-    @Autowired
-    private ICounterService counterService;
+//    @Autowired
+//    private ICounterService counterService;
     @Autowired
     private IUserService userService;
 
@@ -343,7 +343,7 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
         Assert.notNull(followDao, "followDao must not null");
         Assert.notNull(followCache, "followCache must not null");
         Assert.notNull(fanCache, "fanCache must not null");
-        Assert.notNull(counterService, "countService must not null");
+//        Assert.notNull(counterService, "countService must not null");
         Assert.notNull(userService, "userService must not null");
     }
     

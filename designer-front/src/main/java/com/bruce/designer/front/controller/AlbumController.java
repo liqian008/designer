@@ -29,6 +29,7 @@ import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumSlide;
 import com.bruce.designer.model.IndexSlide;
 import com.bruce.designer.model.User;
+import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.IAlbumRecommendService;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
@@ -59,8 +60,10 @@ public class AlbumController {
 	private IAlbumCommentService commentService;
 	@Autowired
 	private IAlbumSlideService albumSlideService;
+//	@Autowired
+//	private ICounterService counterService;
 	@Autowired
-	private ICounterService counterService;
+	private IAlbumCounterService albumCounterService;
 	@Autowired
 	private IHotService hotService;
 
@@ -222,8 +225,14 @@ public class AlbumController {
 				}
 			}
 			
+			//加载交互状态（赞、收藏）
+			User currentUser = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+			if(currentUser!=null){
+				albumService.initAlbumInteractionStatus(albumInfo, currentUser.getId());
+			}
+			
 			// 增加浏览计数
-			counterService.incrBrowser(albumInfo.getUserId(), albumId);
+			albumCounterService.incrBrowser(albumInfo.getUserId(), albumId, currentUser!=null?currentUser.getId():0);
 
 			//加载作者信息
 			User queryUser = userService.loadById(albumInfo.getUserId());
@@ -232,11 +241,7 @@ public class AlbumController {
 			albumService.initAlbumWithCount(albumInfo);
 			//加载标签
 			albumService.initAlbumWithTags(albumInfo);
-			//加载交互状态（赞、收藏）
-			User currentUser = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
-			if(currentUser!=null){
-				albumService.initAlbumInteractionStatus(albumInfo, currentUser.getId());
-			}
+			
 
 			model.addAttribute("albumInfo", albumInfo);
 			return "album/albumInfo";

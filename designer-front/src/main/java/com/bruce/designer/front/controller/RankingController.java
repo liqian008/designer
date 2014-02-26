@@ -24,8 +24,8 @@ public class RankingController {
 	private IUserService userService;
 	@Autowired
 	private IAlbumService albumService;
-	@Autowired
-	private ICounterService counterService;
+//	@Autowired
+//	private ICounterService counterService;
 
 	@RequestMapping(value = "/hot/day")
 	public String day(Model model, HttpServletRequest request, @PathVariable("userId") int queryUserId) {

@@ -30,14 +30,12 @@
 		</javaClientGenerator>
 		
 		
-		
-		
 		<table schema="designer" tableName="tb_album_action_log" domainObjectName="AlbumActionLog"/>
+		
+		<!-- 
 		<table schema="designer" tableName="tb_album_favorite" domainObjectName="AlbumFavorite"/>
 		<table schema="designer" tableName="tb_album_Like" domainObjectName="AlbumLike"/>
 		
-		
-		<!-- 
 		<table schema="designer" tableName="tb_album_favorite" domainObjectName="AlbumFavorite"/>
 		<table schema="designer" tableName="tb_album_Like" domainObjectName="AlbumLike"/>
 		<table schema="designer" tableName="tb_album_recommend" domainObjectName="AlbumRecommend"/>

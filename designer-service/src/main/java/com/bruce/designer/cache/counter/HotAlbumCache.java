@@ -12,6 +12,7 @@ import com.bruce.designer.constants.ConstScoreWeight;
  * @createTime 2013-9-11 下午06:46:02
  */
 @Repository
+@Deprecated
 public class HotAlbumCache extends AbstractHotCache {
 
 	private static final String KEY_PREFIX = "hotAlbum";

@@ -12,6 +12,7 @@ import com.bruce.designer.dao.ICommentDao;
 import com.bruce.designer.model.Comment;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IAlbumCommentService;
+import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.ICounterService;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
@@ -21,8 +22,10 @@ public class AlbumCommentServiceImpl implements IAlbumCommentService {
 
 	@Autowired
 	IUserService userService;
+//	@Autowired
+//	private ICounterService counterService;
 	@Autowired
-	private ICounterService counterService;
+	private IAlbumCounterService albumCounterService;
 	@Autowired
 	private IMessageService messageService;
 
@@ -106,7 +109,7 @@ public class AlbumCommentServiceImpl implements IAlbumCommentService {
 
 		if (result > 0) {
 			// 评论计数
-			counterService.incrComment(designerId, albumId);
+			albumCounterService.incrComment(designerId, albumId, fromId);
 
 			// 同时发送消息
 			if(toIdList!=null&&toIdList.size()>0){

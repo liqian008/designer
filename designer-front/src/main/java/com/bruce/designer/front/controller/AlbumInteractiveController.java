@@ -45,6 +45,8 @@ public class AlbumInteractiveController {
 	@Autowired
 	private IAlbumFavoriteService albumFavoriteService;
 	@Autowired
+	private IAlbumCounterService albumCounterService;
+	@Autowired
 	private IUserService userService;
 
 	private static final Logger logger = LoggerFactory.getLogger(AlbumInteractiveController.class);
@@ -140,8 +142,8 @@ public class AlbumInteractiveController {
 	public ModelAndView like(HttpServletRequest request,int albumId) {
 		User currentUser = getSessionUser(request);
 		Album album = albumService.loadById(albumId);
-		boolean result = albumLikeService.like(currentUser.getId(), albumId, album.getUserId());
-		if(result){
+		long result = albumCounterService.incrLike(album.getUserId(), albumId, currentUser.getId());
+		if(result>0){
 			return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
 		}else{
 			return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
@@ -180,8 +182,10 @@ public class AlbumInteractiveController {
 		User currentUser = getSessionUser(request);
 		Album album = albumService.loadById(albumId);
 //		boolean result = albumLikeService.like(currentUser.getId(), albumId, album.getUserId());
-		boolean result = albumFavoriteService.favorite(currentUser.getId(), albumId, album.getUserId());
-		if(result){
+//		boolean result = albumFavoriteService.favorite(currentUser.getId(), albumId, album.getUserId());
+		
+		long result = albumCounterService.incrFavorite(album.getUserId(), albumId, currentUser.getId());
+		if(result>0){
 			return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
 		}else{
 			return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
