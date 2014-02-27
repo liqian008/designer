@@ -20,6 +20,7 @@ import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;
 import com.bruce.designer.util.ConfigUtil;
+import com.bruce.designer.util.Md5Utils;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -36,7 +37,11 @@ public class UserServiceImpl implements IUserService {
 	private IMessageService messageService;
 	
 	public int save(User t) {
-		return userDao.save(t);
+		if(t!=null){
+		    t.setPassword(Md5Utils.md5Encode(t.getPassword().trim()));
+		    return userDao.save(t);
+		}
+		return 0;
 	}
 
 	public List<User> queryAll() {
@@ -72,7 +77,7 @@ public class UserServiceImpl implements IUserService {
 	 * 用户认证
 	 */
 	public User authUser(String username, String password) {
-		User user = userDao.loadByNamePassword(username, password);
+		User user = userDao.loadByNamePassword(username, Md5Utils.md5Encode(password.trim()));
 		if(user!=null){
 			checkUserStatus(user);
 			completeUser(user);
@@ -140,7 +145,7 @@ public class UserServiceImpl implements IUserService {
 	
 	@Override
     public int changePassword(int userId, String password) {
-	    return userDao.changePassword(userId, password);
+	    return userDao.changePassword(userId, Md5Utils.md5Encode(password).trim());
     }
 	
 	/**
