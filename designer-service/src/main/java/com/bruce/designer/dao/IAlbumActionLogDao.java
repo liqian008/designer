@@ -16,6 +16,21 @@ public interface IAlbumActionLogDao extends IBaseDao<AlbumActionLog, Long> {
     //
     // public boolean isLike(int userId, int albumId);
 
+	/**
+	 * 判断用户之前是否做过赞操作
+	 * @param albumId
+	 * @param userId
+	 * @return
+	 */
+	public boolean existLikeLog(int albumId, int userId);
+	/**
+	 * 判断用户之前是否做过收藏操作
+	 * @param albumId
+	 * @param userId
+	 * @return
+	 */
+	public boolean existFavoriteLog(int albumId, int userId);
+	
     public int logBrowse(int albumId, int designerId, int userId);
 
     public int logLike(int albumId, int designerId, int userId, boolean everLiked);

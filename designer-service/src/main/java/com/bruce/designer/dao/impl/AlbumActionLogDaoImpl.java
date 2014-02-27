@@ -1,5 +1,6 @@
 package com.bruce.designer.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
@@ -111,6 +112,10 @@ public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBe
 		log.setAlbumId(albumId);
 		log.setDesignerId(designerId);
 		log.setUserId(userId);
+		log.setCreateTime(new Date());
+		log.setUpdateTime(new Date());
+		log.setUserId(userId);
+		
 		return log;
 	}
 
@@ -121,56 +126,83 @@ public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBe
 	private AlbumActionLog initBlankLog(int albumId) {
 		return initBlankLog(albumId, 0);
 	}
-
+	
+	/**
+	 * 分组查询浏览数据，为重建索引提供数据
+	 */
     @Override
     public List<CountCacheBean> queryBrowseList() {
     	//select album_id, sum(browse_num) total_num from tb_album_action_log where status=1 group by album_id;
     	return albumActionLogMapper.queryBrowseList();
     }
 
-
+    
+    /**
+	 * 分组查询评论数据，为重建索引提供数据
+	 */
     @Override
     public List<CountCacheBean> queryCommentList() { 
     	//select album_id, sum(comment_num) total_num from tb_album_action_log where status=1 group by album_id;
     	return null;
     }
     
+    /**
+     * 实时每日热门作品
+     */
     @Override
     public List<CountCacheBean> realtimeDailyTopAlbums(int limit) { 
         return albumActionLogMapper.realtimeDailyTopAlbums(limit);
     }
+    
+    /**
+     * 实时每周热门作品
+     */
     @Override
     public List<CountCacheBean> realtimeWeeklyTopAlbums(int limit) { 
         return albumActionLogMapper.realtimeWeeklyTopAlbums(limit);
     }
     
+    /**
+     * 实时每月热门作品
+     */
     @Override
     public List<CountCacheBean> realtimeMonthlyTopAlbums(int limit) { 
         return albumActionLogMapper.realtimeMonthlyTopAlbums(limit);
     }
     
+    /**
+     * 实时每日热门设计师
+     */
     @Override
     public List<CountCacheBean> realtimeDailyTopDesigners(int limit) { 
         return albumActionLogMapper.realtimeDailyTopDesigners(limit);
     }
     
+    /**
+     * 实时每周热门设计师
+     */
     @Override
     public List<CountCacheBean> realtimeWeeklyTopDesigners(int limit) { 
         return albumActionLogMapper.realtimeWeeklyTopDesigners(limit);
     }
     
+    /**
+     * 实时每月热门设计师
+     */
     @Override
     public List<CountCacheBean> realtimeMonthlyTopDesigners(int limit) { 
         return albumActionLogMapper.realtimeMonthlyTopDesigners(limit);
     }
 
-//  @Override
-//  public List<CountCacheBean> queryLikeByAlbumId(int albumId) {
-//      return null;
-//  }
-//
-//  @Override
-//  public List<CountCacheBean> queryFavoriteByAlbumId(int albumId) {
-//      return null;
-//  }
+	@Override
+	public boolean existLikeLog(int albumId, int userId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean existFavoriteLog(int albumId, int userId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

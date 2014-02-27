@@ -3,7 +3,7 @@
 <mapper namespace="com.bruce.designer.dao.mapper.AlbumActionLogMapper">
 
 	<resultMap id="CountCacheMap" type="com.bruce.designer.data.CountCacheBean">
-	    <result column="album_id" jdbcType="VARCHAR" property="member"/>
+	    <result column="data_id" jdbcType="VARCHAR" property="member"/>
 	    <result column="total_num" jdbcType="BIGINT" property="score"/>
     </resultMap>
     
@@ -19,39 +19,43 @@
 	
 	
 	<!-- 查询截至现在每日热门专辑 -->
-	<select id="realtimeDailyTopAlbums" resultMap="CountCacheMap">
-		 <include refid="CountTopRule" /> where status=1 and album_id>0 and create_time>=DATE_SUB(now(), Interval 1 month) group by album_id order by total_num desc;
+	<select id="realtimeDailyTopAlbums" resultMap="CountCacheMap" parameterType="java.lang.Integer">
+		 <include refid="CountTopAlbumRule" /> where status=1 and album_id>0 and create_time>=DATE_SUB(now(), Interval 1 day) group by album_id order by total_num desc limit #{limit,jdbcType=INTEGER};
 	</select>
 	
 	<!-- 查询截至现在每周热门专辑 -->
-	<select id="realtimeWeeklyTopAlbums" resultMap="CountCacheMap">
-		 <include refid="CountTopRule" /> where status=1 and album_id>0 and create_time>=DATE_SUB(now(), Interval 1 week) group by album_id order by total_num desc;
+	<select id="realtimeWeeklyTopAlbums" resultMap="CountCacheMap" parameterType="java.lang.Integer">
+		 <include refid="CountTopAlbumRule" /> where status=1 and album_id>0 and create_time>=DATE_SUB(now(), Interval 1 week) group by album_id order by total_num desc limit #{limit,jdbcType=INTEGER};
 	</select>
 	
 	<!-- 查询截至现在每月热门专辑 -->
-	<select id="realtimeMonthlyTopAlbums" resultMap="CountCacheMap">
-		 <include refid="CountTopRule" /> where status=1 and album_id>0 and create_time>=DATE_SUB(now(), Interval 1 month) group by album_id order by total_num desc;
+	<select id="realtimeMonthlyTopAlbums" resultMap="CountCacheMap" parameterType="java.lang.Integer">
+		 <include refid="CountTopAlbumRule" /> where status=1 and album_id>0 and create_time>=DATE_SUB(now(), Interval 1 month) group by album_id order by total_num desc limit #{limit,jdbcType=INTEGER};
 	</select>
 	
 	
 	<!-- 查询截至现在每日热门设计师 -->
-	<select id="realtimeDailyTopDesigners" resultMap="CountCacheMap">
-		 <include refid="CountTopRule" /> where status=1 and designer_id>0 and create_time>=DATE_SUB(now(), Interval 1 month) group by designer_id order by total_num desc;
+	<select id="realtimeDailyTopDesigners" resultMap="CountCacheMap" parameterType="java.lang.Integer">
+		 <include refid="CountTopDesignerRule"/> where status=1 and designer_id>0 and create_time>=DATE_SUB(now(), Interval 1 day) group by designer_id order by total_num desc limit #{limit,jdbcType=INTEGER};
 	</select>
 	
 	<!-- 查询截至现在每周热门设计师 -->
-	<select id="realtimeWeeklyTopDesigners" resultMap="CountCacheMap">
-		 <include refid="CountTopRule" /> where status=1 and designer_id>0 and create_time>=DATE_SUB(now(), Interval 1 week) group by designer_id order by total_num desc;
+	<select id="realtimeWeeklyTopDesigners" resultMap="CountCacheMap" parameterType="java.lang.Integer">
+		 <include refid="CountTopDesignerRule"/> where status=1 and designer_id>0 and create_time>=DATE_SUB(now(), Interval 1 week) group by designer_id order by total_num desc limit #{limit,jdbcType=INTEGER};
 	</select>
 	
 	<!-- 查询截至现在每月热门设计师 -->
-	<select id="realtimeMonthlyTopDesigners" resultMap="CountCacheMap">
-		 <include refid="CountTopRule" /> where status=1 and designer_id>0 and create_time>=DATE_SUB(now(), Interval 1 month) group by designer_id order by total_num desc;
+	<select id="realtimeMonthlyTopDesigners" resultMap="CountCacheMap" parameterType="java.lang.Integer">
+		 <include refid="CountTopDesignerRule"/> where status=1 and designer_id>0 and create_time>=DATE_SUB(now(), Interval 1 month) group by designer_id order by total_num desc limit #{limit,jdbcType=INTEGER};
 	</select>
 	
 	
-	<sql id="CountTopRule">
-    	select album_id, 8*sum(comment_num) + 2*sum(like_num)*2 + sum(comment_num) + 0*sum(browse_num) total_num from tb_album_action_log
+	<sql id="CountTopAlbumRule">
+    	select album_id data_id, 8*sum(favorite_num) + 2*sum(like_num)*2 + sum(comment_num) + 0*sum(browse_num) total_num from tb_album_action_log
+	</sql>
+	
+	<sql id="CountTopDesignerRule">
+    	select designer_id data_id, 8*sum(favorite_num) + 2*sum(like_num)*2 + sum(comment_num) + 0*sum(browse_num) total_num from tb_album_action_log
 	</sql>
 
 </mapper>

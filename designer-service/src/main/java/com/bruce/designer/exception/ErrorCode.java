@@ -39,12 +39,12 @@ public class ErrorCode {
 	public static final int USER_ERROR = 200;
 	/* 用户已经被封禁 */
 	public static final int USER_FORBIDDEN = 201;
-	/* 用户名已存在 */
-	public static final int USER_USERNAME_EXISTS = 202;
+	/* 用户名（email形式）格式错误 */
+	public static final int USER_USERNAME_FORMAT_ERROR = 202;
+	/* 用户名（email形式）已存在 */
+	public static final int USER_USERNAME_EXISTS = 203;
 	/* 昵称已存在 */
-	public static final int USER_NICKNAME_EXISTS = 203;
-	/* Email已存在 */
-	public static final int USER_EMAIL_EXISTS = 204;
+	public static final int USER_NICKNAME_EXISTS = 204;
 	/* 账户密码不匹配，通常用于登录验证 */
 	public static final int USER_PASSWORD_NOT_MATCH = 205;
 	/* 旧密码输入错误，通常用与改密码情况 */

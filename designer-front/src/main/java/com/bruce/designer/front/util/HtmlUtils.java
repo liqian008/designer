@@ -67,6 +67,7 @@ public class HtmlUtils {
 				sb.append("<li><span>价 格:</span>" + album.getPrice() + " 元</li>");
 				sb.append("<li><a href='/designer-front/album/" + album.getId() + "'>" + album.getBrowseCount() + "&nbsp;浏览&nbsp;</a>/&nbsp;");
 				sb.append("<a href='/designer-front/album/" + album.getId() + "'>" + album.getCommentCount() + "&nbsp;评论&nbsp;</a>/&nbsp;");
+				sb.append("<a href='/designer-front/album/" + album.getId() + "'>" + album.getLikeCount() + "&nbsp;赞&nbsp;</a>/&nbsp;");
 				sb.append("<a href='/designer-front/album/" + album.getId() + "'>" + album.getFavoriteCount() + "&nbsp;收藏&nbsp;</a>");
 				sb.append("</li> ");
 				sb.append("</ul>");

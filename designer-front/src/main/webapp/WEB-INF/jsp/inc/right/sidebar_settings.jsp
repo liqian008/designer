@@ -20,6 +20,3 @@ boolean isDesigner = currentUser!=null&&currentUser.getDesignerStatus()==ConstSe
 
 <jsp:include page="./latestDesigners.jsp"></jsp:include>
 
-<!-- 
-<jsp:include page="./hotDesigners.jsp"></jsp:include>
--->

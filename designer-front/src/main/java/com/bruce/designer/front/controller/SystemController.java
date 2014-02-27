@@ -32,6 +32,7 @@ import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.ResponseUtil;
+import com.bruce.designer.front.util.VerifyUtils;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
@@ -90,7 +91,9 @@ public class SystemController {
 		if (StringUtils.isNotEmpty(redirectUrl)) {
 			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
 		}
-
+		//验证用户名格式
+		VerifyUtils.verifyUsername(username);
+		
 		User user = new User();
 		user.setUsername(username.trim());
 		user.setNickname(nickname.trim());

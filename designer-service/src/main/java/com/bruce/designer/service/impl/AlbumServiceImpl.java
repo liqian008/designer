@@ -18,7 +18,6 @@ import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.IAlbumFavoriteService;
 import com.bruce.designer.service.IAlbumLikeService;
 import com.bruce.designer.service.IAlbumService;
-import com.bruce.designer.service.ICounterService;
 import com.bruce.designer.service.ITagAlbumService;
 import com.bruce.designer.service.ITagService;
 import com.bruce.designer.service.IUserGraphService;

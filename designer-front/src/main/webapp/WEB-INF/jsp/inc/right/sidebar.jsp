@@ -24,7 +24,3 @@ if (queryUser != null) {
 
 <jsp:include page="./latestDesigners.jsp"></jsp:include>
 
-<!-- 
-<jsp:include page="./hotDesigners.jsp"></jsp:include>
- -->
-

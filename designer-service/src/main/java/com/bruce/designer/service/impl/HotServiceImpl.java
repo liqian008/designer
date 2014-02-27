@@ -33,10 +33,10 @@ public class HotServiceImpl implements IHotService, InitializingBean {
 	 */
 	private static final Logger logger = Logger.getLogger(AbstractHotCache.class);
 
-	private static final int HOURLY_FLAG = 0;
-	private static final int DAILY_FLAG = 1;
-	private static final int WEEKLY_FLAG = 2;
-    private static final int MONTHLY_FLAG = 3;
+	public static final int HOURLY_FLAG = 0;
+	public static final int DAILY_FLAG = 1;
+	public static final int WEEKLY_FLAG = 2;
+	public static final int MONTHLY_FLAG = 3;
     
     public static final int HOT_ALBUM_DAILY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_album_daily_limit"), 20);
     public static final int HOT_ALBUM_WEEKLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_album_weekly_limit"), 20);
@@ -129,6 +129,9 @@ public class HotServiceImpl implements IHotService, InitializingBean {
                 albumIdList.add(countBean.getMember());
             }
             albumList = albumService.queryAlbumByIds(albumIdList);
+            //加载数据项
+            albumService.initAlbumsWithCount(albumList);
+            albumService.initAlbumsWithTags(albumList);
         }
         return albumList;
     }
@@ -140,13 +143,13 @@ public class HotServiceImpl implements IHotService, InitializingBean {
         //先获取相应idList
         switch (mode) {
             case WEEKLY_FLAG: {
-                countList = albumActionLogDao.realtimeWeeklyTopAlbums(HOT_ALBUM_WEEKLY_LIMIT);
+                countList = albumActionLogDao.realtimeWeeklyTopDesigners(HOT_ALBUM_WEEKLY_LIMIT);
             }
             case MONTHLY_FLAG: {
-                countList = albumActionLogDao.realtimeMonthlyTopAlbums(HOT_ALBUM_MONTHLY_LIMIT);
+                countList = albumActionLogDao.realtimeMonthlyTopDesigners(HOT_ALBUM_MONTHLY_LIMIT);
             }
             default: {//default daily
-                countList = albumActionLogDao.realtimeDailyTopAlbums(HOT_ALBUM_DAILY_LIMIT);
+                countList = albumActionLogDao.realtimeDailyTopDesigners(HOT_ALBUM_DAILY_LIMIT);
             }
         }
         List<User> designerList = null;

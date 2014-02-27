@@ -68,19 +68,19 @@ public class DesignerController {
 	//日热门
     @RequestMapping(value = "/hot/dailyDesigners", method = RequestMethod.GET)
     public String hotDailyDesigners(Model model) {
-        return hotDesigners(model, HotServiceImpl.HOT_DESIGNER_DAILY_LIMIT);
+        return hotDesigners(model, HotServiceImpl.DAILY_FLAG);
     }
     
     //周热门
     @RequestMapping(value = "/hot/weeklyDesigners", method = RequestMethod.GET)
     public String hotWeeklyDesigners(Model model) {
-        return hotDesigners(model, HotServiceImpl.HOT_DESIGNER_WEEKLY_LIMIT);
+        return hotDesigners(model, HotServiceImpl.WEEKLY_FLAG);
     }
     
     //月热门
     @RequestMapping(value = "/hot/monthlyDesigners", method = RequestMethod.GET)
     public String hotMonthlyDesigners(Model model) {
-        return hotDesigners(model, HotServiceImpl.HOT_DESIGNER_MONTHLY_LIMIT);
+        return hotDesigners(model, HotServiceImpl.MONTHLY_FLAG);
     }
     
 	

@@ -104,11 +104,11 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 											<form id="reg-widget-form" method="post" class="clearfix"
 												action="/designer-front/oauthRegister">
 												<div class="row-container clearfix">
-													<div class="row-left">用户名: </div>
+													<div class="row-left">邮 箱:: </div>
 													<div class="row-right">
 														<input type="text" class="span5" id="reg-username" name="username"/>
 														<span id="reg-username-required" class="required">*</span>
-														<span id="reg-username-prompt" class="text-prompt">字符、数字及下划线，4-20位</span>
+														<span id="reg-username-prompt" class="text-prompt">Email格式</span>
 													</div>
 												</div>
 												
@@ -164,7 +164,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 												action="/designer-front/oauthBind">
 												
 												<div class="row-container clearfix">
-													<div class="row-left">昵 称：</div>
+													<div class="row-left">邮 箱:：</div>
 													<div class="row-right">
 														<input type="text" id="login-username" name="username" class="span5" value="liqian">
 														<span id="login-username-required" class="required">*</span>
@@ -238,7 +238,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
     		var passwordVal = $('#login-password').val();
     		if(usernameVal==''){
     			$('#login-username').focus();
-    			$('#login-username-prompt').text('用户名不能为空').show();
+    			$('#login-username-prompt').text('邮箱不能为空').show();
     		}else if(passwordVal==''){
     			$('#login-password').focus();
     			$('#login-password-prompt').text('密码不能为空').show();
@@ -286,10 +286,10 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
     		//中文、英文字符 4-6位
     		var usernameRegex =  /^[\u4E00-\u9FA5\uf900-\ufa2d\w]{4,20}$/;
     		if(usernameVal==''){
-    			$('#reg-username-prompt').text('用户名不能为空').show();
+    			$('#reg-username-prompt').text('邮箱不能为空').show();
         		return false;
     		}else if(!usernameRegex.test(usernameVal)){//检查正则匹配
-    			$('#reg-username-prompt').text('用户名不符合规范').show();
+    			$('#reg-username-prompt').text('邮箱不符合规范').show();
         		return false;
     		}else{//ajax检查是否可用
     			var jsonData = {'username':usernameVal};

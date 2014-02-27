@@ -13,7 +13,6 @@ import com.bruce.designer.model.Comment;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IAlbumCommentService;
 import com.bruce.designer.service.IAlbumCounterService;
-import com.bruce.designer.service.ICounterService;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
 

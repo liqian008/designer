@@ -6,6 +6,15 @@
 <%@ page import="java.util.*"%>
 <%@ page import="java.text.*"%>
 
+<%!String getActive(HttpServletRequest request, int mode){
+	if(mode == ((Integer)request.getAttribute("mode")).intValue()){
+		return "class='active'";
+	}else{
+		return "";
+	}
+}%>
+
+
 <%
 	SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
@@ -90,11 +99,19 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 				<div class="container">
 					<div class="row-fluid">
 						<section class="content span9">
+							<div class="shortcode-tabs">
+	                            <ul class="tabs-nav tabs clearfix">
+	                                <li <%=getActive(request, 1)%>><a class="button button-white" href="/designer-front/hot/dailyDesigners">本日热门设计师</a></li>
+	                                <li <%=getActive(request, 2)%>><a class="button button-white" href="/designer-front/hot/weeklyDesigners">本周热门设计师</a></li>
+	                                <li <%=getActive(request, 3)%>><a class="button button-white" href="/designer-front/hot/monthlyDesigners">本月热门设计师</a></li>
+	                            </ul>
+                            </div>
+						
 							<%
 								List<User> designerList = (List<User>)request.getAttribute("designerList"); 
 								if(designerList!=null&&designerList.size()>0){
 							%>
-
+							
 							<div id="designer-Container" class="designer-container">
 								<div class="widget-box widget-designer">
 									<div class="designer-wrap clearfix">

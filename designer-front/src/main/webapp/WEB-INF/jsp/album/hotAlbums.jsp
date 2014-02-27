@@ -1,9 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.model.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
+<%@ page import="com.bruce.designer.front.util.*" %>
 <%@ page import="com.bruce.designer.constants.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.*" %>
+
+<%!String getActive(HttpServletRequest request, int mode){
+	if(mode == ((Integer)request.getAttribute("mode")).intValue()){
+		return "class='active'";
+	}else{
+		return "";
+	}
+}%>
 
 <%
 SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
@@ -75,7 +84,19 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
                 <div class="container">
                     <div class="row-fluid">
                         <section class="content span9">
-                        	
+                        	<div class="shortcode-tabs">
+	                            <ul class="tabs-nav tabs clearfix">
+	                                <li <%=getActive(request, 1)%>><a class="button button-white" href="/designer-front/hot/dailyAlbums">本日热门作品</a></li>
+	                                <li <%=getActive(request, 2)%>><a class="button button-white" href="/designer-front/hot/weeklyAlbums">本周热门作品</a></li>
+	                                <li <%=getActive(request, 3)%>><a class="button button-white" href="/designer-front/hot/monthlyAlbums">本月热门作品</a></li>
+	                            </ul>
+                            </div>
+                        	<%
+                        	List<Album> hotAlbumList = (List<Album>)request.getAttribute("hotAlbumList");
+                        	if(hotAlbumList!=null&&hotAlbumList.size()>0){
+                        	%>
+                        		<%=HtmlUtils.buildFallLoadHtml(hotAlbumList, 3)%>
+                        	<%}else{%>
                         	<div id="infoboxContainer" class="infobox info-warning info-warning-alt clearfix" style="display:none">
                                 <span>!</span>
                                 <div class="infobox-wrap">
@@ -85,18 +106,8 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                     </p>
                                 </div>
                             </div>
-	                    	<div id="albumContainer">
-	                    	</div>
-	                    	<div>
-	                    		<input type="hidden" id="albumsTailId" name="albumsTailId" value="0" />
-								<div class="shortcode-blogpost row-fluid" id="moreAlbumsContainer">
-									<div class="span2 offset5">
-										<input id="moreAlbumsBtn"
-											class="button-small button button-white btn-block" type="button"
-											value="加载更多..." />
-									</div>
-								</div>
-	                    	</div>
+                        	<%} %>
+                        	 
                         </section>
                        	
                        	<!-- right slidebar -->
@@ -111,7 +122,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
            
         </div> <!-- Close Page -->
    </div> <!-- Close wrapper -->
-
+ 
         
     <!-- Load all Javascript Files -->
     <script src="../js/vendor/bootstrap.min.js"></script>
@@ -123,37 +134,6 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
     <script src="../js/retina.js"></script>
 
     <script src="../js/custom.js"></script>
-	<script>
-		fallLoad();
-		
-		$('#moreAlbumsBtn').click(function(){
-			fallLoad();
-		});
 	
-		function fallLoad(){
-			//置为数据加载状态 
-			$('#moreAlbumsBtn').val("努力加载中...");
-			$('#moreAlbumsBtn').attr("disabled","disabled");
-			var jsonData = {'albumsTailId' : $("#albumsTailId").val(), 'numberPerLine':'3'};
-			$.post('/designer-front/hot/albums.json', jsonData, function(data) {
-				var result = data.result;
-				if(result==1){
-					$("#albumContainer").append(data.data.html);
-					var nextTailId = data.data.tailId;
-					$("#albumsTailId").val(nextTailId);
-					if(nextTailId<=0){//无更多数据，则隐藏按钮
-						$('#moreAlbumsContainer').attr("style","display:none");
-					}else{//还有更多数据，启用加载按钮
-						$('#moreAlbumsBtn').removeAttr("disabled");
-						$('#moreAlbumsBtn').val("加载更多...");
-					}
-				}else{
-					$('#moreAlbumsContainer').hide();
-					$('#infoboxMessage').text(data.message);
-					$('#infoboxContainer').show();
-				}
-			});
-		}
-	</script>
     </body>
 </html>

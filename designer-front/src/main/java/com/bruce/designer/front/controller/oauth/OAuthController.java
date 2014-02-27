@@ -22,6 +22,7 @@ import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.ResponseUtil;
+import com.bruce.designer.front.util.VerifyUtils;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;
 import com.bruce.designer.service.oauth.IOAuthService;
@@ -134,13 +135,15 @@ public class OAuthController {
 		String promptMessage = null;
 		AccessTokenInfo sessionToken = checkOAuthTokenStatus(request);
 		// 前端检查检查用户是否存在，在此不需要再次检查
+		
+		//验证用户名格式
+		VerifyUtils.verifyUsername(username);
 
 		// 创建用户
 		User user = new User();
-//		user.setId(0);
-		user.setUsername(username);
-		user.setNickname(nickname);
-		user.setPassword(password);
+		user.setUsername(username.trim());
+		user.setNickname(nickname.trim());
+		user.setPassword(password.trim());
 		Date currentTime = new Date();
 		user.setCreateTime(currentTime);
 		user.setUpdateTime(currentTime);

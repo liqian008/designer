@@ -104,11 +104,11 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 											<form id="reg-widget-form" method="post" class="clearfix"
 												action="/designer-front/register">
 												<div class="row-container clearfix">
-													<div class="row-left">用户名: </div>
+													<div class="row-left">邮 箱: </div>
 													<div class="row-right">
 														<input type="text" class="span5" id="reg-username" name="username"/>
 														<span id="reg-username-required" class="required">*</span>
-														<span id="reg-username-prompt" class="text-prompt">字符、数字及下划线，4-20位</span>
+														<span id="reg-username-prompt" class="text-prompt">Email格式</span>
 													</div> 
 												</div>
 												
@@ -147,7 +147,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 							        <div class="tab-pane widgets-light <%=!registerActive?"active":""%>" id="login">
 							        	<div class="widget-box widget-wrapper-form">
 								            <div class="content-title">
-												<h4>请填写账户密码进行登录</h4>
+												<h4>请填写邮箱、密码进行登录</h4>
 											</div>
 											
 											<%if(loginErrorMessage!=null){%>
@@ -167,9 +167,9 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 												<%}%>
 												
 												<div class="row-container clearfix">
-													<div class="row-left">用户名：</div>
+													<div class="row-left">邮 箱：</div>
 													<div class="row-right">
-														<input type="text" id="login-username" name="username" class="span5" value="liqian">
+														<input type="text" id="login-username" name="username" class="span5" value="liqian@sina.com">
 														<span id="login-username-required" class="required">*</span>
 														<span id="login-username-prompt" class="text-prompt"></span>
 													</div>
@@ -245,7 +245,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
     		var passwordVal = $('#login-password').val();
     		if(usernameVal==''){
     			$('#login-username').focus();
-    			$('#login-username-prompt').text('用户名不能为空').show();
+    			$('#login-username-prompt').text('邮箱不能为空').show();
     		}else if(passwordVal==''){
     			$('#login-password').focus();
     			$('#login-password-prompt').text('密码不能为空').show();
@@ -279,16 +279,16 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
     		}
     	});
     	
-    	//检查用户名是否合法
+    	//检查邮箱是否合法
     	function checkRegUsername(){
     		var usernameVal = $('#reg-username').val();
     		//中文、英文字符 4-20位
     		var usernameRegex =  /^[\u4E00-\u9FA5\uf900-\ufa2d\w]{4,20}$/;
     		if(usernameVal==''){
-    			$('#reg-username-prompt').text('用户名不能为空').show();
+    			$('#reg-username-prompt').text('邮箱不能为空').show();
         		return false;
     		}else if(!usernameRegex.test(usernameVal)){//检查正则匹配
-    			$('#reg-username-prompt').text('用户名不符合规范').show();
+    			$('#reg-username-prompt').text('邮箱不符合规范').show();
         		return false;
     		}else{//ajax检查是否可用
     			var jsonData = {'username':usernameVal};
