@@ -1,5 +1,6 @@
 package com.bruce.designer.dao.mapper;
 
+import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.model.Comment;
 import com.bruce.designer.model.CommentCriteria;
 import java.util.List;
@@ -74,4 +75,10 @@ public interface CommentMapper {
 	 * @mbggenerated  Mon Sep 30 00:16:22 CST 2013
 	 */
 	int updateByPrimaryKey(Comment record);
+	
+	/**
+	 * 专辑评论数据统计，供重建数据使用
+	 * @return
+	 */
+	List<CountCacheBean> queryCommentStat();
 }

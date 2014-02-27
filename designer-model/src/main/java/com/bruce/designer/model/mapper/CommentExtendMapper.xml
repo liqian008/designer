@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bruce.designer.dao.mapper.CommentMapper">
+
+	<resultMap id="CountCacheMap" type="com.bruce.designer.data.CountCacheBean">
+	    <result column="data_id" jdbcType="VARCHAR" property="member"/>
+	    <result column="total_num" jdbcType="BIGINT" property="score"/>
+    </resultMap>
+    
+	<!-- 专辑评论数据统计，供重建数据使用 -->
+	<select id="queryCommentStat" resultMap="CountCacheMap">
+		select album_id, count(album_id) total_num from tb_comment where status=1 group by album_id;
+	</select>
+	
+</mapper>

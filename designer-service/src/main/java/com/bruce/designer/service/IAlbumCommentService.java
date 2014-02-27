@@ -1,6 +1,8 @@
 package com.bruce.designer.service;
 
 import java.util.List;
+
+import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.model.Comment;
 
 /**
@@ -41,6 +43,11 @@ public interface IAlbumCommentService extends IBaseService<Comment, Long> {
 	 * @return
 	 */
 	public Comment comment(String title, String content, int albumId, int fromId, int toId);
+
+	/**
+     * 分组查询评论数据，为重建索引提供数据
+     */
+    public List<CountCacheBean> queryCommentStat();
 	
 	
 //	/**

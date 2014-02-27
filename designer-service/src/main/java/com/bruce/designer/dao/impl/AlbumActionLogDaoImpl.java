@@ -131,20 +131,20 @@ public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBe
 	 * 分组查询浏览数据，为重建索引提供数据
 	 */
     @Override
-    public List<CountCacheBean> queryBrowseList() {
+    public List<CountCacheBean> queryBrowseStat() {
     	//select album_id, sum(browse_num) total_num from tb_album_action_log where status=1 group by album_id;
-    	return albumActionLogMapper.queryBrowseList();
+    	return albumActionLogMapper.queryBrowseStat();
     }
 
     
-    /**
-	 * 分组查询评论数据，为重建索引提供数据
-	 */
-    @Override
-    public List<CountCacheBean> queryCommentList() { 
-    	//select album_id, sum(comment_num) total_num from tb_album_action_log where status=1 group by album_id;
-    	return null;
-    }
+//    /**
+//	 * 分组查询评论数据，为重建索引提供数据
+//	 */
+//    @Override
+//    public List<CountCacheBean> queryCommentList() { 
+//        //select album_id, count(album_id) total_num from tb_comment where status=1 group by album_id;
+//        return albumActionLogMapper.queryCommentList();
+//    }
     
     /**
      * 实时每日热门作品
@@ -193,16 +193,14 @@ public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBe
     public List<CountCacheBean> realtimeMonthlyTopDesigners(int limit) { 
         return albumActionLogMapper.realtimeMonthlyTopDesigners(limit);
     }
-
+    
 	@Override
 	public boolean existLikeLog(int albumId, int userId) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean existFavoriteLog(int albumId, int userId) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

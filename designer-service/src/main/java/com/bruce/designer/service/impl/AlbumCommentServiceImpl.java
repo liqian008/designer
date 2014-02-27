@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.ICommentDao;
+import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.model.Comment;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IAlbumCommentService;
@@ -130,6 +131,14 @@ public class AlbumCommentServiceImpl implements IAlbumCommentService {
 		return comment(title, content, albumId, fromId, toId, toId);
 	}
 
+	/**
+     * 分组查询评论数据，为重建索引提供数据
+     */
+    @Override
+    public List<CountCacheBean> queryCommentStat() {
+        return commentDao.queryCommentStat();
+    }
+    
 //	/**
 //	 * 赞作品
 //	 */

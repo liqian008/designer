@@ -39,9 +39,7 @@ public interface IAlbumActionLogDao extends IBaseDao<AlbumActionLog, Long> {
 
     public int logComment(int albumId, int designerId, int userId);
 
-    public List<CountCacheBean> queryBrowseList();
-
-    public List<CountCacheBean> queryCommentList();
+    public List<CountCacheBean> queryBrowseStat();
 
     public List<CountCacheBean> realtimeDailyTopAlbums(int limit);
 
@@ -54,9 +52,5 @@ public interface IAlbumActionLogDao extends IBaseDao<AlbumActionLog, Long> {
     public List<CountCacheBean> realtimeWeeklyTopDesigners(int limit);
 
     public List<CountCacheBean> realtimeMonthlyTopDesigners(int limit);
-
-    // public List<CountCacheBean> queryLikeByAlbumId(int albumId);
-    //
-    // public List<CountCacheBean> queryFavoriteByAlbumId(int albumId);
 
 }

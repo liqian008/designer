@@ -16,9 +16,9 @@ public interface IAlbumActionLogService extends
 
     public int logComment(int albumId, int designerId, int userId);
 
-    public List<CountCacheBean> queryBrowseList();
+    public List<CountCacheBean> queryBrowseStat();
     
-    public List<CountCacheBean> queryCommentList();
+//    public List<CountCacheBean> queryCommentList();
 
 //    public List<CountCacheBean> queryLikeByAlbumId(int albumId);
 //

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bruce.designer.dao.ICommentDao;
 import com.bruce.designer.dao.mapper.CommentMapper;
+import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.model.Comment;
 import com.bruce.designer.model.CommentCriteria;
 
@@ -95,5 +96,14 @@ public class CommentDaoImpl implements ICommentDao , InitializingBean {
         List<Comment> commentList = commentMapper.selectByExample(commentCriteria);
         return commentList;
 	}
-
+	
+	
+    /**
+     * 分组查询评论数据，为重建索引提供数据
+     */
+    @Override
+    public List<CountCacheBean> queryCommentStat() {
+        // select album_id, count(album_id) total_num from tb_comment where status=1 group by album_id;
+        return commentMapper.queryCommentStat();
+    }
 }

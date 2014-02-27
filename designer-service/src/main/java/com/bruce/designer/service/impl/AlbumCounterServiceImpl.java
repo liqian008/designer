@@ -16,6 +16,7 @@ import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.exception.RedisKeyNotExistException;
 import com.bruce.designer.model.AlbumLike;
 import com.bruce.designer.service.IAlbumActionLogService;
+import com.bruce.designer.service.IAlbumCommentService;
 import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.IAlbumFavoriteService;
 import com.bruce.designer.service.IAlbumLikeService;
@@ -42,14 +43,15 @@ public class AlbumCounterServiceImpl implements IAlbumCounterService, Initializi
     private IAlbumLikeService albumLikeService;
     @Autowired
     private IAlbumFavoriteService albumFavoriteService;
-    
+    @Autowired
+    private IAlbumCommentService commentService;
     
     @Override
     public long getBrowseCount(int albumId) {
     	try {
     		return albumCounterCache.getBrowseCount(albumId);
     	} catch (RedisKeyNotExistException e) {
-			List<CountCacheBean> browseList = albumActionLogService.queryBrowseList();//获取该album的like列表
+			List<CountCacheBean> browseList = albumActionLogService.queryBrowseStat();//获取该album的like列表
             //重建缓存
             if(browseList!=null&&browseList.size()>0){
                 albumCounterCache.setBrowseDataList(browseList);
@@ -60,6 +62,15 @@ public class AlbumCounterServiceImpl implements IAlbumCounterService, Initializi
 
     @Override
     public long getCommentCount(int albumId) {
+        try {
+            return albumCounterCache.getBrowseCount(albumId);
+        } catch (RedisKeyNotExistException e) {
+            List<CountCacheBean> commentList = commentService.queryCommentStat();//获取该album的comment列表
+            //重建缓存
+            if(commentList!=null&&commentList.size()>0){
+                albumCounterCache.setBrowseDataList(commentList);
+            }
+        }
         return 0;
     }
     
@@ -79,7 +90,7 @@ public class AlbumCounterServiceImpl implements IAlbumCounterService, Initializi
         try {
             albumCounterCache.incrBrowse(albumId);
         } catch (RedisKeyNotExistException e) {
-            List<CountCacheBean> browseList = albumActionLogService.queryBrowseList();//获取该album的like列表
+            List<CountCacheBean> browseList = albumActionLogService.queryBrowseStat();//获取该album的like列表
             //重建缓存
             if(browseList!=null&&browseList.size()>0){
                 albumCounterCache.setBrowseDataList(browseList);
@@ -89,10 +100,25 @@ public class AlbumCounterServiceImpl implements IAlbumCounterService, Initializi
         albumActionLogService.logBrowse(albumId, designerId, userId);
         return result;
     }
-
+    
+    /**
+     * 增加评论统计
+     */
     @Override
     public long incrComment(int designerId, int albumId, int userId) {
-        return 0;
+        long result = 0;
+        try {
+            albumCounterCache.incrComment(albumId);
+        } catch (RedisKeyNotExistException e) {
+            List<CountCacheBean> commentList = commentService.queryCommentStat();//获取该album的评论数据
+            //重建缓存
+            if(commentList!=null&&commentList.size()>0){
+                albumCounterCache.setCommentDataList(commentList);
+            }
+        }
+        //增加评论的actionLog
+        albumActionLogService.logComment(albumId, designerId, userId);
+        return result;
     } 
 
     @Override

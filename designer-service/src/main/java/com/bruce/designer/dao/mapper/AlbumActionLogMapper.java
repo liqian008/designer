@@ -74,8 +74,8 @@ public interface AlbumActionLogMapper {
 	 */
 	int updateByPrimaryKey(AlbumActionLog record);
 	
-	List<CountCacheBean> queryBrowseList();
-
+	List<CountCacheBean> queryBrowseStat();
+	
 	List<CountCacheBean> realtimeDailyTopAlbums(int limit);
 	
 	List<CountCacheBean> realtimeWeeklyTopAlbums(int limit);

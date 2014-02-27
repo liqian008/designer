@@ -1,6 +1,8 @@
 package com.bruce.designer.dao;
 
 import java.util.List;
+
+import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.model.Comment;
 
 public interface ICommentDao extends IBaseDao<Comment, Long> {
@@ -42,5 +44,10 @@ public interface ICommentDao extends IBaseDao<Comment, Long> {
 	 * @return
 	 */
 	public int comment(String title, String content, int albumId, int albumSlideId, int fromId, int toId);
+	
+	/**
+     * 分组查询评论数据，为重建索引提供数据
+     */
+    List<CountCacheBean> queryCommentStat();
 
 }

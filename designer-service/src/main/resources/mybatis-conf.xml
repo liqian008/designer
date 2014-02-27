@@ -11,6 +11,7 @@
 		<mapper resource="com/bruce/designer/model/mapper/AlbumSlideMapper.xml" /> 
 		<mapper resource="com/bruce/designer/model/mapper/MessageMapper.xml" />
 		<mapper resource="com/bruce/designer/model/mapper/MessageExtendMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/CommentExtendMapper.xml" />
 		<mapper resource="com/bruce/designer/model/mapper/CommentMapper.xml" />
 		<mapper resource="com/bruce/designer/model/mapper/AccessTokenInfoMapper.xml" />
 		<mapper resource="com/bruce/designer/model/mapper/TagMapper.xml" />
