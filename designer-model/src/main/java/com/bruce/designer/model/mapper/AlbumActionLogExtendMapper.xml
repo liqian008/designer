@@ -9,7 +9,7 @@
     
 	<!-- 专辑浏览数据统计，供重建数据使用 -->
 	<select id="queryBrowseStat" resultMap="CountCacheMap">
-		select album_id, sum(browse_num) total_num from tb_album_action_log where status=1 group by album_id;
+		select album_id data_id, sum(browse_num) total_num from tb_album_action_log where status=1 group by album_id;
 	</select> 
 	
 	<!-- 专辑评论数据统计，供重建数据使用，转移到commentMapper.java中

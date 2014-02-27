@@ -38,6 +38,10 @@ public class AlbumCounterCache{
 	    return getCount(getBrowseKey(), albumId);
     }
 	
+	public long getCommentCount(int albumId) throws RedisKeyNotExistException {
+	    return getCount(getCommentKey(), albumId);
+    }
+	
 	
 	/**
 	 * 增加浏览

@@ -302,8 +302,8 @@ public class AlbumServiceImpl implements IAlbumService {
 		if (album != null) {
 			int albumId = album.getId();
 			album.setBrowseCount(albumCounterService.getBrowseCount(albumId));
+			album.setCommentCount(albumCounterService.getCommentCount(albumId));
 //			album.setBrowseCount(counterService.getBrowseCount(albumId));
-//			album.setCommentCount(counterService.getCommentCount(albumId));
 //			album.setLikeCount(counterService.getLikeCount(albumId));
 //			album.setFavoriteCount(counterService.getFavoriteCount(albumId));
 			album.setLikeCount(albumLikeService.getLikeCountByAlbumId(albumId));

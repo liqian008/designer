@@ -9,7 +9,7 @@
     
 	<!-- 专辑评论数据统计，供重建数据使用 -->
 	<select id="queryCommentStat" resultMap="CountCacheMap">
-		select album_id, count(album_id) total_num from tb_comment where status=1 group by album_id;
+		select album_id data_id, count(album_id) total_num from tb_comment where status=1 group by album_id;
 	</select>
 	
 </mapper>

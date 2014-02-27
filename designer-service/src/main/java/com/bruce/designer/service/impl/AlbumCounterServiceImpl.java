@@ -63,12 +63,12 @@ public class AlbumCounterServiceImpl implements IAlbumCounterService, Initializi
     @Override
     public long getCommentCount(int albumId) {
         try {
-            return albumCounterCache.getBrowseCount(albumId);
+            return albumCounterCache.getCommentCount(albumId);
         } catch (RedisKeyNotExistException e) {
             List<CountCacheBean> commentList = commentService.queryCommentStat();//获取该album的comment列表
             //重建缓存
             if(commentList!=null&&commentList.size()>0){
-                albumCounterCache.setBrowseDataList(commentList);
+                albumCounterCache.setCommentDataList(commentList);
             }
         }
         return 0;
