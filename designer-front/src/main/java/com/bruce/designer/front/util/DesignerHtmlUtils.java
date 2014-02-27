@@ -12,7 +12,7 @@ import com.bruce.designer.util.UploadUtil;
  * @author liqian
  * TODO 条件允许的话，最好改用freemarker，更灵活
  */
-public class HtmlUtils {
+public class DesignerHtmlUtils {
 	
 	/**
 	 * 构造正文页的专辑html

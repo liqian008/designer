@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.exception.ErrorCode;
-import com.bruce.designer.front.util.HtmlUtils;
+import com.bruce.designer.front.util.DesignerHtmlUtils;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.User;
@@ -97,7 +97,7 @@ public class DesignerController {
 		if (designerList == null || designerList.size() == 0) {
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {
-			String responseHtml = HtmlUtils.buildFallLoadHtml(designerList);
+			String responseHtml = DesignerHtmlUtils.buildFallLoadHtml(designerList);
 			Map<String, String> dataMap = new HashMap<String, String>();
 			dataMap.put("html", responseHtml);
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap));
@@ -119,7 +119,7 @@ public class DesignerController {
 		if (designerList == null || designerList.size() == 0) {
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {
-			String responseHtml = HtmlUtils.buildFallLoadHtml(designerList);
+			String responseHtml = DesignerHtmlUtils.buildFallLoadHtml(designerList);
 			Map<String, String> dataMap = new HashMap<String, String>();
 			dataMap.put("html", responseHtml);
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap));

@@ -95,7 +95,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
                         	List<Album> hotAlbumList = (List<Album>)request.getAttribute("hotAlbumList");
                         	if(hotAlbumList!=null&&hotAlbumList.size()>0){
                         	%>
-                        		<%=HtmlUtils.buildFallLoadHtml(hotAlbumList, 3)%>
+                        		<%=DesignerHtmlUtils.buildFallLoadHtml(hotAlbumList, 3)%>
                         	<%}else{%>
                         	<div id="infoboxContainer" class="infobox info-warning info-warning-alt clearfix" style="display:none">
                                 <span>!</span>
