@@ -29,7 +29,7 @@ import com.bruce.designer.data.PagingData;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
-import com.bruce.designer.front.util.HtmlUtils;
+import com.bruce.designer.front.util.DesignerHtmlUtils;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.front.util.ResponseUtil;
 import com.bruce.designer.model.Album;
@@ -282,7 +282,7 @@ public class UserSettingsController {
 				albumList.remove(limit);
 				nextTailId = albumList.get(limit - 1).getId();
 			}
-			String responseHtml = HtmlUtils.buildFallLoadHtml(albumList, numberPerLine);
+			String responseHtml = DesignerHtmlUtils.buildFallLoadHtml(albumList, numberPerLine);
 			Map<String, String> dataMap = new HashMap<String, String>();
 			dataMap.put("html", responseHtml);
 			dataMap.put("tailId", String.valueOf(nextTailId));
