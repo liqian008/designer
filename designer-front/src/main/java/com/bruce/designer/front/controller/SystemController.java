@@ -25,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.HtmlUtils;
 
 import com.bruce.designer.annotation.NeedAuthorize;
 import com.bruce.designer.constants.ConstService;
@@ -63,6 +64,9 @@ public class SystemController {
 			// 跳转地址
 			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
 		}
+		
+		
+		String newUsername = HtmlUtils.htmlEscape(username);
 
 		User user = userService.authUser(username.trim(), password);
 		if (user != null) {

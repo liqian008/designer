@@ -105,15 +105,24 @@ public class UserDaoImpl implements IUserDao , InitializingBean {
     }
 	
 
+	@Override
 	public List<User> queryUsersByStatus(short status) {
 		UserCriteria criteria = new UserCriteria();
 		criteria.createCriteria().andStatusEqualTo(status);
 		return userMapper.selectByExample(criteria);
 	}
 	
-	public List<User> queryDesignersByStatus(short status) {
+	@Override
+	public List<User> queryAllDesigners() {
 		UserCriteria criteria = new UserCriteria();
-		criteria.createCriteria().andDesignerStatusEqualTo(ConstService.DESIGNER_APPLY_APPROVED).andStatusEqualTo(status);
+		criteria.createCriteria().andDesignerStatusNotEqualTo((short)0);
+		return userMapper.selectByExample(criteria);
+	}
+	
+	@Override
+	public List<User> queryDesignersByStatus(short designerStatus) {
+		UserCriteria criteria = new UserCriteria();
+		criteria.createCriteria().andDesignerStatusEqualTo(designerStatus).andDesignerStatusNotEqualTo((short)0);
 		return userMapper.selectByExample(criteria);
 	}
 	

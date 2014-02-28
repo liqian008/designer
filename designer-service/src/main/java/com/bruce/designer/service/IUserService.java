@@ -12,6 +12,9 @@ public interface IUserService extends IBaseService<User, Integer>{
 	
     public List<User> queryUsersByStatus(short status);
     
+
+	public List<User> queryAllDesigners();
+	
     public List<User> queryDesignersByStatus(short status);
     
     public Map<Integer, User> getUserMap(List<Integer> userIds);
@@ -58,6 +61,7 @@ public interface IUserService extends IBaseService<User, Integer>{
      * @return
      */
 	public List<User> fallLoadDesignerList(long approvelTailTime, int limit);
+
 
 	
 

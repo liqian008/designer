@@ -285,7 +285,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
     		var usernameVal = $('#reg-username').val();
     		//邮箱地址
     		//var usernameRegex =  /^[\u4E00-\u9FA5\uf900-\ufa2d\w]{4,20}$/;
-    		var usernameRegex =  /^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$/;
+    		var usernameRegex =  /^([a-z0-9A-Z]+[-|\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\.)+[a-zA-Z]{2,}$/;
     		if(usernameVal==''){
     			$('#reg-username-prompt').text('邮箱不能为空').show();
         		return false;

@@ -185,8 +185,14 @@ public class UserServiceImpl implements IUserService {
 	    return userDao.queryUsersByStatus(status);
 	}
 	
+	@Override
+	public List<User> queryAllDesigners() {
+	    return userDao.queryAllDesigners();
+	}
+	
+	@Override
 	public List<User> queryDesignersByStatus(short status) {
-		//取正常状态的用户列表
+		//查询设计师列表
 	    return userDao.queryDesignersByStatus(status);
 	}
 	

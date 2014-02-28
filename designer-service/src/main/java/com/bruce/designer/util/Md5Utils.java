@@ -45,7 +45,8 @@ public class Md5Utils {
 
 	public static void main(String[] args) {
 		long time = System.currentTimeMillis();
-		System.out.println(md5Encode("278436491_" + time));
-		System.out.println(md5Encode16("278436491_" + time));
+//		System.out.println(md5Encode("278436491_" + time));
+//		System.out.println(md5Encode16("278436491_" + time));
+		System.out.println(md5Encode("liqian"));
 	}
 }
