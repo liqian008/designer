@@ -2,6 +2,7 @@ package com.bruce.designer.front.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,13 +153,17 @@ public class UserSettingsController {
 	
 	
 	@RequestMapping(value = "/designerApply", method = RequestMethod.POST)
-	public String designerApply(Model model, HttpServletRequest request, String title, long price, int coverId, int[] albumSlideNums, String tags) {
+	public String designerApply(Model model, HttpServletRequest request, String title, long price, int coverId, int[] albumSlideNums, String tags,
+			@RequestParam(required = false, defaultValue = "") String link) {
 		// 检查用户登录
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
 
 		if (albumSlideNums != null && albumSlideNums.length > 0) {
-			String link = request.getParameter("link");
+			if(!"".equals(link)&&!link.startsWith("http://")){
+				link = "http://"+link;
+			}
+			
 			String remark = request.getParameter("remark");
 			
 			Album album = new Album();
@@ -171,6 +176,9 @@ public class UserSettingsController {
 			album.setPrice(price);
 			album.setLink(link);
 			album.setRemark(remark);
+			Date currentTime = new Date();
+			album.setCreateTime(currentTime);
+			album.setUpdateTime(currentTime);
 
 			// 提交作品专辑，建议使用外部主键生成器
 			int result = albumService.save(album);
@@ -186,6 +194,9 @@ public class UserSettingsController {
 
 					slide.setRemark(remark);
 					slide.setUserId(userId);
+					slide.setCreateTime(currentTime);
+					slide.setUpdateTime(currentTime);
+					
 					if(coverId==tempSlideId){
 						slide.setIsCover(ConstService.ALBUM_SLIDE_IS_COVER);
 					}else{
@@ -235,7 +246,6 @@ public class UserSettingsController {
 		PagingData<Album> albumPagingData = albumService.pagingQuery(userId, ConstService.ALBUM_OPEN_STATUS, pageNo, pageSize);
 		if(albumPagingData!=null){
 //			List<Album> albumList = albumPagingData.getPagingData();
-//			model.addAttribute("albumList", albumList);
 			model.addAttribute("albumPagingData", albumPagingData);
 		}
 		return "settings/album/albums";
@@ -362,12 +372,16 @@ public class UserSettingsController {
 	 */
 	@NeedAuthorize(authorizeType=AuthorizeType.DESIGNER)
 	@RequestMapping(value = "/postAlbum", method = RequestMethod.POST)
-	public String postAlbum(Model model, HttpServletRequest request, String title, long price, int coverId, int[] albumSlideNums, String tags) {
+	public String postAlbum(Model model, HttpServletRequest request, String title, long price, int coverId, int[] albumSlideNums, String tags,
+			@RequestParam(required = false, defaultValue = "") String link) {
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
 
 		if (albumSlideNums != null && albumSlideNums.length > 0) {
-			String link = request.getParameter("link");
+			if(!"".equals(link)&&!link.startsWith("http://")){
+				link = "http://"+link;
+			}
+			
 			String remark = request.getParameter("remark");
 			
 			Album album = new Album();
@@ -380,6 +394,9 @@ public class UserSettingsController {
 			album.setPrice(price);
 			album.setLink(link);
 			album.setRemark(remark);
+			Date currentTime = new Date();
+			album.setCreateTime(currentTime);
+			album.setUpdateTime(currentTime);
 			
 			// 提交作品专辑，建议使用外部主键生成器
 			int result = albumService.save(album);
@@ -396,6 +413,8 @@ public class UserSettingsController {
 					slide.setSlideLargeImg(request.getParameter("largeImage" + tempSlideId));
 					slide.setRemark(remark);
 					slide.setUserId(userId);
+					slide.setCreateTime(currentTime);
+					slide.setUpdateTime(currentTime);
 					if(coverId==tempSlideId){
 						slide.setIsCover(ConstService.ALBUM_SLIDE_IS_COVER);
 					}else{
@@ -424,24 +443,31 @@ public class UserSettingsController {
 	 */
 	@NeedAuthorize(authorizeType = AuthorizeType.DESIGNER)
 	@RequestMapping(value = "/updateAlbum")
-	public String updateAlbum(Model model, HttpServletRequest request, int albumId, String title, long price, boolean coverChange, int coverId, boolean tagsChange, String tags, String link) {
+	public String updateAlbum(Model model, HttpServletRequest request, int albumId, String title, long price, boolean coverChange, int coverId, boolean tagsChange, String tags,
+			@RequestParam(required = false, defaultValue = "") String link) {
 		// 检查用户登录
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
 		
 		Album album = albumService.loadById(albumId);
 		if(album!=null && user.getId().equals(album.getUserId())){//是否是自己发布的作品
+			if(!"".equals(link)&&!link.startsWith("http://")){
+				link = "http://"+link;
+			}
+			
 			album = new Album();
 			album.setId(albumId);
 			album.setTitle(title);
+			album.setPrice(price);
+			album.setLink(link);
+			Date currentTime = new Date();
+			album.setUpdateTime(currentTime);
 			if(coverChange){//coverId发生变化，封面需重新设置
 				album.setCoverSmallImg(request.getParameter("smallImage" + coverId));
 				album.setCoverMediumImg(request.getParameter("mediumImage" + coverId));
 				album.setCoverLargeImg(request.getParameter("largeImage" + coverId));
 				albumSlideService.setCover(userId, albumId, coverId);
 			}
-			album.setPrice(price);
-			album.setLink(link);
 			
 			int result = albumService.updateById(album);
 			if(result>0){

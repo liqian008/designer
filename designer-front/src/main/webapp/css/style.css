@@ -2518,7 +2518,6 @@ blockquote {
 	.info-warning span { background-color: #e8981d; border: 1px solid #9f6a18; }
 	.info-info span { background-color: #99d4ec; border: 1px solid #6ca3b8; }
 	
-	/*
 	.info-succes span:before {
 		content: "\f00c";
 	}
@@ -2526,7 +2525,6 @@ blockquote {
 	.info-error span:before, .infobox .info-hide:before {
 		content: "\f00d";
 	}
-	*/
 
 	.info-warning span, .info-info span {
 		color: #fff;

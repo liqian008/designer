@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class VerifyUtils {
 	
     //电子邮件  
-    private static final String emailFormatter = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";  
+    private static final String emailFormatter = "^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";  
     
     
     /**
@@ -31,7 +31,7 @@ public class VerifyUtils {
 	}
 	
 	
-//	public static void main(String[] args) {
-//        System.out.println(verifyUsername("123@1.com.cn"));
-//    }
+	public static void main(String[] args) {
+        System.out.println(verifyUsername("liqian008_1981@163.com"));
+    }
 }

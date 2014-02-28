@@ -21,7 +21,7 @@ public class ErrorCode {
 	public final static int SYSTEM_MISSING_PARAM = 2;
 
 	/* 验证码不正确 */
-	public final static int SYSTEM_RANDIMG_INVALIDATE = 3;
+	public final static int SYSTEM_VERIFYCODE_ERROR = 3;
 	
 	/* 没有更多数据 */
 	public final static int SYSTEM_NO_MORE_DATA = 4;

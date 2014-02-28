@@ -33,18 +33,7 @@ public class HotServiceImpl implements IHotService, InitializingBean {
 	 */
 	private static final Logger logger = Logger.getLogger(AbstractHotCache.class);
 
-	public static final int HOURLY_FLAG = 0;
-	public static final int DAILY_FLAG = 1;
-	public static final int WEEKLY_FLAG = 2;
-	public static final int MONTHLY_FLAG = 3;
-    
-    public static final int HOT_ALBUM_DAILY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_album_daily_limit"), 20);
-    public static final int HOT_ALBUM_WEEKLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_album_weekly_limit"), 20);
-    public static final int HOT_ALBUM_MONTHLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_album_monthly_limit"), 20);
-    
-    public static final int HOT_DESIGNER_DAILY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_designer_daily_limit"), 32);
-    public static final int HOT_DESIGNER_WEEKLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_designer_weekly_limit"), 32);
-    public static final int HOT_DESIGNER_MONTHLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_designer_monthly_limit"), 32);
+	
     
 	@Autowired
 	private ITagDao tagDao;

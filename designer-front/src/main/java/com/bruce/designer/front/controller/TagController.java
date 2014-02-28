@@ -44,7 +44,7 @@ public class TagController {
 	public ModelAndView hotTags(Model model, HttpServletRequest request) {
 		int limit = 40;
 		List<Tag> tagList = hotService.getHotTags(limit);
-		System.err.println("side hotService:"+ hotService);
+//		System.err.println("side hotService:"+ hotService);
 		tagList = randomList(tagList);
 		if (tagList != null && tagList.size() > 0) {
 			String responseHtml = buildHotTagHtml(tagList);

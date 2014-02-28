@@ -249,6 +249,8 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
     <script src="/designer-front/js/jquery.flexslider.js"></script> 
     <script src="/designer-front/js/retina.js"></script>
     <script src="/designer-front/js/custom.js"></script>
+    <script src="/designer-front/js/validate.js"></script>
+    
     <script>
     var titleAvailable = false;
     var tagsAvailable = false;
@@ -282,8 +284,11 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
     //检查标题&正则
     function checkTitle(){
     	var titleVal = $('#title').val();
+    	titleVal = xssFilte(titleVal)
+    	$('#title').val(titleVal);
+    	
     	if(titleVal==''){
-			$('#album-title-prompt').text('作品标题不能为空').show();
+			$('#album-title-prompt').text('请填写作品辑的名称').show();
 		}else{
 			titleAvailable = true;
 			$('#album-title-prompt').hide();
@@ -293,8 +298,10 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 	//检查标签&正则
     function checkTags(){
     	var tagsVal = $('#tags').val();
+    	tagsVal = xssFilte(tagsVal)
+    	$('#tags').val(tagsVal);
 		if(tagsVal==''){
- 			$('#album-tags-prompt').text('标签不能为空').show();
+ 			$('#album-tags-prompt').text('请填写作品辑的标签').show();
  		}else{
  			tagsAvailable = true;
  			$('#album-tags-prompt').hide();
@@ -304,26 +311,30 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 	//检查价格&正则
     function checkPrice(){
     	var priceVal = $('#price').val();
+    	priceVal = xssFilte(priceVal)
+    	$('#price').val(priceVal);
+    	
     	if(priceVal==''){
-			$('#album-price-prompt').text('作品价格不能为空').show();
+			$('#album-price-prompt').text('请标注作品辑价格').show();
 		}else{
 			priceAvailable = true;
 			$('#album-price-prompt').hide();
 		}
 	}
 	
-	//检查标题&正则
+	//检查链接&正则
     function checkLink(){
-    	var linkVal = $('#link').val();
+		linkAvailable = true;
+		/*
+		var linkVal = $('#link').val();
     	if(linkVal==''){//检查链接是否正确
 			$('#album-link-prompt').text('购买链接不能为空').show();
 		}else{
-			linkAvailable = true;
 			$('#album-link-prompt').hide();
-		}
+		} */
 	}
 	
-  //检查标题&正则
+	//检查专辑内容
     function checkAlbumSlides(){
 		if($('#coverId').length<=0){
 			$('#album-upload-prompt').text('请上传作品内容图').show();
@@ -334,7 +345,6 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			if(coverIdVal == null){
 				$('#album-upload-prompt').text('请设置封面图片').show();
 			}else{
-				alert("选中！");
 				albumAvailable = true;
 			}
 		}

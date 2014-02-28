@@ -19,7 +19,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
     <head>
         <meta charset="utf-8">
         <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-        <title>登录|注册 - 【金玩儿网】</title>
+        <title>登录 | 注册 - 【金玩儿网】</title>
 
         <meta name="description" content="金玩儿网-最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。">
         <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
@@ -139,6 +139,16 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 													</div>
 												</div>
 												
+												<div class="row-container clearfix">
+													<div class="row-left">验证码：</div>
+													<div class="row-right">
+														<input type="text" id="reg-verifyCode" name="verifyCode" class="span2" value="">
+														<span id="reg-verifyCode-required" class="required">*</span>
+														<img src='/designer-front/verifyCode' id="reg-verifyCode-img"/>
+														<span id="reg-verifyCode-prompt" class="text-prompt"></span>
+													</div>
+												</div>
+												
 												<input id="reg-button" class="common-submit button" type="button" value="注 册">
 												<input class="common-submit button" type="reset" value="取 消">
 											</form>
@@ -184,14 +194,15 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 													</div>
 												</div>
 
-												<!-- <div class="row-container clearfix">
+												<div class="row-container clearfix">
 													<div class="row-left">验证码：</div>
 													<div class="row-right">
 														<input type="text" id="login-verifyCode" name="verifyCode" class="span2" value="">
-														<span id="login-password-required" class="required">*</span>
-														<img src='/designer-front/getVerifyCode'/>
+														<img src='/designer-front/verifyCode' id="login-verifyCode-img"/>
+														<span id="login-verifyCode-required" class="required">*</span>
+														<span id="login-verifyCode-prompt" class="text-prompt"></span>
 													</div>
-												</div> -->
+												</div>
 												
 												
 												<input id="login-button" class="common-submit button" type="button" value="登 录">
@@ -239,16 +250,21 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
     	$('#login-button').click(function(){
     		$('#login-username-prompt').text('').hide();
     		$('#login-password-prompt').text('').hide();
+    		$('#login-verifyCode-prompt').text('').hide();
     		//$('#login-failed').hide();
     		
     		var usernameVal = $('#login-username').val();
     		var passwordVal = $('#login-password').val();
+    		var verifyCodeVal = $('#login-verifyCode').val();
     		if(usernameVal==''){
     			$('#login-username').focus();
     			$('#login-username-prompt').text('邮箱不能为空').show();
     		}else if(passwordVal==''){
     			$('#login-password').focus();
     			$('#login-password-prompt').text('密码不能为空').show();
+    		}else if(verifyCodeVal==''){
+    			$('#login-verifyCode').focus();
+    			$('#login-verifyCode-prompt').text('验证码不能为空').show();
     		}else{//验证通过
     			//提交请求
     			$('#login-widget-form').submit();
@@ -267,13 +283,17 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
     	$('#reg-rePassword').blur(function(){
     		checkRegPassword();
     	});
+    	$('#reg-verifyCode').blur(function(){
+    		checkVerifyCode();
+    	});
     	
     	var usernameAvailable = false;
     	var nicknameAvailable = false;
     	var passwordAvailable = false;
+    	var verifyCodeAvailable = false;
     	
     	$('#reg-button').click(function(){
-    		if(usernameAvailable && nicknameAvailable && passwordAvailable){
+    		if(usernameAvailable && nicknameAvailable && passwordAvailable&&verifyCodeAvailable){
     			//所有数据项均可用
 	    		$('#reg-widget-form').submit();
     		}
@@ -284,7 +304,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
     		var usernameVal = $('#reg-username').val();
     		//邮箱地址
     		//var usernameRegex =  /^[\u4E00-\u9FA5\uf900-\ufa2d\w]{4,20}$/;
-    		var usernameRegex =  /^([a-z0-9A-Z]+[-|\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\.)+[a-zA-Z]{2,}$/;
+    		var usernameRegex =  /^([a-z0-9A-Z]+[-|_|\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\.)+[a-zA-Z]{2,}$/;
     		if(usernameVal==''){
     			$('#reg-username-prompt').text('邮箱不能为空').show();
         		return false;
@@ -356,6 +376,28 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 	    		}
     		}
     	}
+    	
+    	//检查验证码是否合法
+    	function checkVerifyCode(){
+    		var verifyCodeVal = $('#reg-verifyCode').val();
+    		if(verifyCodeVal==''){
+    			$('#reg-verifyCode-prompt').text('验证码不能为空').show();
+    		}else{
+    			verifyCodeAvailable = true;
+    		}
+    	}
+    	
+    	$('#login-verifyCode-img').click(function(){
+    		var newUrl = "/designer-front/verifyCode?" + Math.floor(Math.random()*100);
+    		$('#login-verifyCode-img').attr("src", newUrl).fadeIn();
+    		$('#reg-verifyCode-img').attr("src", newUrl).fadeIn();
+        })
+    	
+    	$('#reg-verifyCode-img').click(function(){
+    		var newUrl = "/designer-front/verifyCode?" + Math.floor(Math.random()*100);
+    		$('#reg-verifyCode-img').attr("src", newUrl).fadeIn();
+    		$('#login-verifyCode-img').attr("src", newUrl).fadeIn();
+        })
     </script>
     </body>
 </html>

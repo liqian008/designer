@@ -68,19 +68,19 @@ public class DesignerController {
 	//日热门
     @RequestMapping(value = "/hot/dailyDesigners", method = RequestMethod.GET)
     public String hotDailyDesigners(Model model) {
-        return hotDesigners(model, HotServiceImpl.DAILY_FLAG);
+        return hotDesigners(model, IHotService.DAILY_FLAG); 
     }
     
     //周热门
     @RequestMapping(value = "/hot/weeklyDesigners", method = RequestMethod.GET)
     public String hotWeeklyDesigners(Model model) {
-        return hotDesigners(model, HotServiceImpl.WEEKLY_FLAG);
+        return hotDesigners(model, IHotService.WEEKLY_FLAG);
     }
     
     //月热门
     @RequestMapping(value = "/hot/monthlyDesigners", method = RequestMethod.GET)
     public String hotMonthlyDesigners(Model model) {
-        return hotDesigners(model, HotServiceImpl.MONTHLY_FLAG);
+        return hotDesigners(model, IHotService.MONTHLY_FLAG);
     }
     
 	
@@ -115,7 +115,7 @@ public class DesignerController {
 	public ModelAndView hotDesigners4Json(Model model, HttpServletRequest request) {
 		int limit = 5;
 //		List<User> designerList = hotService.fallLoadHotDesigners(0, limit);
-		List<User> designerList = hotService.fallLoadHotDesigners(HotServiceImpl.HOT_DESIGNER_WEEKLY_LIMIT);
+		List<User> designerList = hotService.fallLoadHotDesigners(IHotService.HOT_DESIGNER_WEEKLY_LIMIT);
 		if (designerList == null || designerList.size() == 0) {
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {

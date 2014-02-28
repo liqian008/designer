@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bruce.designer.annotation.NeedAuthorize;
-import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
@@ -29,19 +28,15 @@ import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumSlide;
 import com.bruce.designer.model.IndexSlide;
 import com.bruce.designer.model.User;
+import com.bruce.designer.service.IAlbumCommentService;
 import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.IAlbumRecommendService;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
-import com.bruce.designer.service.IAlbumCommentService;
-import com.bruce.designer.service.ICounterService;
 import com.bruce.designer.service.IHotService;
 import com.bruce.designer.service.IIndexSlideService;
 import com.bruce.designer.service.IUserService;
-import com.bruce.designer.service.impl.AlbumRecommendServiceImpl;
-import com.bruce.designer.service.impl.HotServiceImpl;
 import com.bruce.designer.util.ConfigUtil;
-import com.bruce.designer.util.UploadUtil;
 
 /**
  * Handles requests for the application home page.
@@ -337,19 +332,19 @@ public class AlbumController {
 	//日热门
     @RequestMapping(value = "/hot/dailyAlbums", method = RequestMethod.GET)
     public String hotDailyAlbums(Model model) {
-        return hotAlbums(model, HotServiceImpl.DAILY_FLAG);
+        return hotAlbums(model, IHotService.DAILY_FLAG);
     }
     
     //周热门
     @RequestMapping(value = "/hot/weeklyAlbums", method = RequestMethod.GET)
     public String hotWeeklyAlbums(Model model) {
-        return hotAlbums(model, HotServiceImpl.WEEKLY_FLAG);
+        return hotAlbums(model, IHotService.WEEKLY_FLAG);
     }
     
     //月热门
     @RequestMapping(value = "/hot/monthlyAlbums", method = RequestMethod.GET)
     public String hotMonthlyAlbums(Model model) {
-        return hotAlbums(model, HotServiceImpl.MONTHLY_FLAG);
+        return hotAlbums(model, IHotService.MONTHLY_FLAG);
     }
     
     private String hotAlbums(Model model, int mode) {

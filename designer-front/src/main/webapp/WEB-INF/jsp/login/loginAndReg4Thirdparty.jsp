@@ -19,7 +19,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
     <head>
         <meta charset="utf-8">
         <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-        <title>第三方登录|注册 - 【金玩儿网】</title>
+        <title>第三方登录 | 注册 - 【金玩儿网】</title>
 
         <meta name="description" content="金玩儿网-最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。">
         <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
@@ -285,7 +285,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
     		var usernameVal = $('#reg-username').val();
     		//邮箱地址
     		//var usernameRegex =  /^[\u4E00-\u9FA5\uf900-\ufa2d\w]{4,20}$/;
-    		var usernameRegex =  /^([a-z0-9A-Z]+[-|\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\.)+[a-zA-Z]{2,}$/;
+    		var usernameRegex =  /^([a-z0-9A-Z]+[-|_|\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\.)+[a-zA-Z]{2,}$/;
     		if(usernameVal==''){
     			$('#reg-username-prompt').text('邮箱不能为空').show();
         		return false;

@@ -35,8 +35,6 @@
 			<version>1.0.0-BUILD-SNAPSHOT</version>
 		</dependency>
 
-
-
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -70,11 +68,11 @@
 		</dependency>
 
 		<!-- datasource -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>

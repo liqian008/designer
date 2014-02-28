@@ -1,20 +1,13 @@
 package com.bruce.designer.front.controller;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.util.ArrayList;
+import java.awt.image.BufferedImage;
 import java.util.Date;
-import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-//import nl.captcha.Captcha;
-//import nl.captcha.backgrounds.TransparentBackgroundProducer;
-//import nl.captcha.gimpy.DropShadowGimpyRenderer;
-//import nl.captcha.servlet.CaptchaServletUtil;
-//import nl.captcha.text.renderer.DefaultWordRenderer;
-//import nl.captcha.text.renderer.WordRenderer;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -25,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.HtmlUtils;
 
 import com.bruce.designer.annotation.NeedAuthorize;
@@ -38,6 +32,14 @@ import com.bruce.designer.model.User;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.ConfigUtil;
+import com.google.code.kaptcha.Constants;
+import com.google.code.kaptcha.Producer;
+//import nl.captcha.Captcha;
+//import nl.captcha.backgrounds.TransparentBackgroundProducer;
+//import nl.captcha.gimpy.DropShadowGimpyRenderer;
+//import nl.captcha.servlet.CaptchaServletUtil;
+//import nl.captcha.text.renderer.DefaultWordRenderer;
+//import nl.captcha.text.renderer.WordRenderer;
 
 @Controller
 public class SystemController {
@@ -58,7 +60,7 @@ public class SystemController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String doLogin(Model model, HttpServletRequest request, String username, String password,
+	public String doLogin(Model model, HttpServletRequest request, String username, String password, @RequestParam(defaultValue = "") String verifyCode,
 			@RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
 		if (StringUtils.isNotEmpty(redirectUrl)) {
 			// 跳转地址
@@ -66,7 +68,12 @@ public class SystemController {
 		}
 		
 		
-		String newUsername = HtmlUtils.htmlEscape(username);
+		//校验后删除session中的随机码
+		if(!verifyCode.equals(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY))){
+			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.SYSTEM_VERIFYCODE_ERROR));
+			return "login/loginAndReg";
+		}
+		request.getSession().removeAttribute(Constants.KAPTCHA_SESSION_KEY);
 
 		User user = userService.authUser(username.trim(), password);
 		if (user != null) {
@@ -91,10 +98,20 @@ public class SystemController {
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String doRegister(Model model, HttpServletRequest request, String username, String nickname, String password, String rePassword,
-			@RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
+			@RequestParam(defaultValue="") String verifyCode, @RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
 		if (StringUtils.isNotEmpty(redirectUrl)) {
 			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
 		}
+		//标志为注册tab
+		model.addAttribute(ConstFront.REGISTER_ACTIVE, "REGISTER_ACTIVE");
+		
+		//校验后删除session中的随机码
+		if(!verifyCode.equals(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY))){
+			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.SYSTEM_VERIFYCODE_ERROR));
+			return "login/loginAndReg";
+		}
+		request.getSession().removeAttribute(Constants.KAPTCHA_SESSION_KEY);
+		
 		//验证用户名格式
 		VerifyUtils.verifyUsername(username);
 		
@@ -120,7 +137,6 @@ public class SystemController {
 			}
 		} else {
 			model.addAttribute(ConstFront.REG_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.USER_PASSWORD_NOT_MATCH));
-			model.addAttribute(ConstFront.REGISTER_ACTIVE, "REGISTER_ACTIVE");
 			return "login/loginAndReg";
 		}
 		throw new DesignerException(ErrorCode.ALBUM_CREATE_FAILED);
@@ -138,28 +154,45 @@ public class SystemController {
 		return ResponseUtil.getRedirectHomeString();
 	}
 	
-//	@RequestMapping("/verifyCode")
-//	public void verifyCode(Model model,HttpServletRequest request,HttpServletResponse response) {
-//		List<Color> colors = new ArrayList<Color>();
-//		colors.add(Color.GREEN);
-//		colors.add(Color.BLUE);
-//		colors.add(Color.ORANGE);
-//		colors.add(Color.RED);
-//		
-//		List<Font> fonts = new ArrayList<Font>();
-//		fonts.add(new Font("Geneva", 2, 32));
-//		fonts.add(new Font("Courier", 3, 32));
-//		fonts.add(new Font("Arial", 1, 32));
-//	    
-//		//WordRenderer wordRenderer = new ColoredEdgesWordRenderer(colors, fonts);
-//		WordRenderer wordRenderer = new DefaultWordRenderer();
-//
-//		Captcha captcha = new Captcha.Builder(150, 50).addText(wordRenderer).gimp(new DropShadowGimpyRenderer())
-//				.addBackground(new TransparentBackgroundProducer()).build();
-//		request.getSession().setAttribute("verifyCode", captcha.getAnswer());
-//		CaptchaServletUtil.writeImage(response, captcha.getImage());
-//	}
 	
+	@Autowired
+	private Producer captchaProducer;
+
+	@RequestMapping(value="verifyCode")
+	public ModelAndView getVerifyCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+//		String code = (String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
+//		System.out.println("******************验证码是: " + code + "******************");
+		response.setDateHeader("Expires", 0);
+		// Set standard HTTP/1.1 no-cache headers.
+		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+		// Set IE extended HTTP/1.1 no-cache headers (use addHeader).
+		response.addHeader("Cache-Control", "post-check=0, pre-check=0");
+		// Set standard HTTP/1.0 no-cache header.
+		response.setHeader("Pragma", "no-cache");
+		// return a jpeg
+		response.setContentType("image/jpeg");
+		// create the text for the image
+		String capText = captchaProducer.createText();
+		System.out.println("******************新验证码是: " + capText + "******************");
+
+
+		// store the text in the session
+		session.setAttribute(Constants.KAPTCHA_SESSION_KEY, capText);
+
+		// create the image with the text
+		BufferedImage bi = captchaProducer.createImage(capText);
+		ServletOutputStream out = response.getOutputStream();
+
+		// write the data out
+		ImageIO.write(bi, "jpg", out);
+		try {
+			out.flush();
+		} finally {
+			out.close();
+		}
+		return null;
+	}
 	
 	/**
 	 * 跳转请求
