@@ -27,6 +27,7 @@ import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;
 import com.bruce.designer.service.oauth.IOAuthService;
 import com.bruce.designer.service.oauth.SharedInfo;
+import com.bruce.designer.util.OAuthUtil;
 ///designer-front/oauthBind
 ///designer-front/oauthRegister
 @Controller
@@ -107,6 +108,7 @@ public class OAuthController {
 					request.setAttribute(ConstFront.REDIRECT_PROMPT, "欢迎您回来，" + user.getNickname() + "，现在将转入首页，请稍候…");
 					return ResponseUtil.getForwardReirect();
 				} else {//新的accessToken，说明之前未绑定过，则进入注册、绑定已有账户流程
+				    request.setAttribute(ConstFront.THIRDPARTY_USERNAME, OAuthUtil.getOAuthDisplayName(thirdpartyType, tokenInfo.getThirdpartyUname()));
 					return "login/loginAndReg4Thirdparty";
 				}
 			} else {// 已登录状态（进入账户绑定流程）

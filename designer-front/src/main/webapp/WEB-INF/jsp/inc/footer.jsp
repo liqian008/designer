@@ -84,8 +84,10 @@
 				<div class="copyright span5">
 					<p>
 						<a href="javascript:void(0)">金玩儿网&nbsp;&nbsp;(京ICP备13008813号)</a>
+						
+						&nbsp;|&nbsp;<a href="/designer-front/sitemap.xml">网站地图</a>
 						<!-- 
-						&nbsp;|&nbsp;<a href="/designer-front/sitemap">网站地图</a>&nbsp;|&nbsp;
+						&nbsp;|&nbsp;
 						<a href="http://www.cnzz.com/stat/website.php?web_id=1941475" target="_blank">站长统计</a>
 						 -->
 					</p>

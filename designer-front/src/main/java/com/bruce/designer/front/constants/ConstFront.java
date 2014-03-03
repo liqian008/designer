@@ -27,9 +27,12 @@ public interface ConstFront {
 	
 	/*跳转时的文字提示*/
 	public static final String REDIRECT_PROMPT = "_redirectPrompt";
-	
+
 	/*accessToken的临时key*/
 	public static final String TEMPLATE_ACCESS_TOKEN = "_templateAccessToken";
+	
+	/*第三方系统的用户名*/
+    public static final String THIRDPARTY_USERNAME = "_thirdpartyUsername";
 	
 	public static final String YYYY_MM_DD_FORMAT = "yyyy_MM_dd"; 
 	
