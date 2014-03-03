@@ -158,7 +158,20 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 														<textarea class='album-slide-remark' name='remark' rows='2'></textarea>
 													</div>
 												</div>
+												
 												<div class="row-container clearfix">
+													<div class="row-left">验证码：</div>
+													<div class="row-right">
+														<input type="text" id="album-verifyCode" name="verifyCode" class="span2" value="">
+														<a href="javascript:void(0)">
+														<img src='/designer-front/verifyCode' id="album-verifyCode-img" width="75px"/>
+														</a>
+														<span id="album-verifyCode-required" class="required">*</span>
+														<span id="album-verifyCode-prompt" class="text-prompt"></span>
+													</div>
+												</div>
+												
+												<%-- <div class="row-container clearfix">
 													<div class="row-left">分享选项: </div>
 													<div class="row-right">
 														<%
@@ -176,7 +189,8 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 														<input type="checkbox" name="sync2Tencent" value="1" <%=sync2Tencent==1?"checked='checked'":""%>/>同时分享到QQ空间&nbsp;<a href="/designer-front/settings/thirdparty">修改分享设置</a>
 														<%}%>
 													</div>
-												</div>
+												</div> --%>
+													
 												<!-- <div>
 													<ul id="imgPreview" class="clearfix">
 													</ul>
@@ -252,11 +266,14 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
     <script src="/designer-front/js/validate.js"></script>
     
     <script>
+    $('#title').focus();
+    
     var titleAvailable = false;
     var tagsAvailable = false;
 	var priceAvailable = false;
 	var linkAvailable = false;
 	var albumAvailable = false;
+	var albumVerifyCodeAvailable = false;
     
 	$('#title').blur(function(){
 		checkTitle();
@@ -274,9 +291,13 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 		checkLink();
 	});
 	
+	$('#album-verifyCode').blur(function(){
+		checkAlbumVerifyCode();
+	});
+	
     $('#submit-button').click(function(){
 		checkAlbumSlides();
-		if(titleAvailable && tagsAvailable && priceAvailable && linkAvailable && albumAvailable){
+		if(titleAvailable && tagsAvailable && priceAvailable && linkAvailable && albumAvailable && albumVerifyCodeAvailable){
 			$("#album-widget-form").submit();
     	}
 	});
@@ -349,6 +370,33 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			}
 		}
 	}
+	
+	//检查验证码是否合法
+	function checkAlbumVerifyCode(){
+		var verifyCodeVal = $('#album-verifyCode').val();
+		if(verifyCodeVal==''){
+			$('#album-verifyCode-prompt').text('验证码不能为空').show();
+		}else{
+			var jsonData = {'verifyCode':verifyCodeVal};
+			$.post('/designer-front/checkVerifyCode.json', jsonData, function(responseData) {
+   				var result = responseData.result;
+   				if(result==1){
+   					//设置verifyCode的标识
+   					albumVerifyCodeAvailable = true;
+   					$('#album-verifyCode-prompt').text('').hide();
+   				}else{
+   	    			//设置verifyCode unavailable的标识
+   	    			albumVerifyCodeAvailable = false;
+   	    			$('#album-verifyCode-prompt').text(responseData.message).show();
+   				}
+   			});
+		}
+	}
+	
+    $('#album-verifyCode-img').click(function(){
+		var newUrl = "/designer-front/verifyCode?" + Math.floor(Math.random()*100);
+		$('#album-verifyCode-img').attr("src", newUrl).fadeIn();
+    })
     </script>
     </body>
 </html>

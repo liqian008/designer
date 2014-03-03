@@ -1,4 +1,3 @@
-<%@page import="com.bruce.designer.front.util.DesignerHtmlUtils"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.model.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
@@ -43,71 +42,37 @@
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
         <![endif]-->
         
-        <jsp:include page="./inc/topBar.jsp"></jsp:include>
+        <jsp:include page="../inc/topBar.jsp"></jsp:include>
            
 
         <div id="wrapper" class="boxed"> <!-- Page Wrapper: Boxed class for boxed layout - Fullwidth class for fullwidth page --> 
             
             <div class="header-background"> <!-- Header Background -->
                 
-                <jsp:include page="./inc/headerBanner.jsp"></jsp:include>
+                <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 				
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="./inc/headerNav.jsp"></jsp:include>
-                    
-                    <jsp:include page="./inc/indexSlide.jsp"></jsp:include>
-                     
+                    <jsp:include page="../inc/headerNav.jsp"></jsp:include>
+					<%
+                    List<IndexSlide> indexSlideList = (List<IndexSlide>)request.getAttribute("indexSlideList");
+                    if(indexSlideList!=null&&indexSlideList.size()>0){%>
+                    <div id="homepage-slider"> <!-- Homepage Slider Container -->
+                    	<!-- oneByOne Slider -->
+                        <div id="slides-container">
+                        	<%
+							for(IndexSlide loop: indexSlideList){
+							%>
+                            <%=loop.getCode()%> 
+                            <%}%>
+                        </div> <!-- Close oneByone Slider -->
+                    </div> <!-- Close Homepage Slider Container -->
+                    <%}%>
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
         <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
 
         <div class="page"> <!-- Page -->
-			<div class="breadscrumbs">
-			    <div class="container">
-			        <ul class="clearfix">
-			            <li><a href="/designer-front/index">首页</a>/</li> 
-			            <li><a href="#">精品推荐</a></li>
-			        </ul> 
-			    </div>
-			</div>
-			            
-            <div class="main fullwidth">
-            	<section class="content"> <!-- Content -->
-                    <div class="container" id="proAlbumContainer">
-                    	<jsp:include page="./inc/indexRecommend.jsp"></jsp:include>
-                    </div>
-                </section> <!-- Close Content -->
-			</div> <!-- Close Main -->
-			
-			<div class="breadscrumbs">
-			    <div class="container">
-			        <ul class="clearfix">
-			            <li><a href="/designer-front/index">首页</a>/</li> 
-			            <li><a href="/designer-front/albums">最新发布</a></li>
-			        </ul> 
-			    </div>
-			</div>
-			
-			<div class="main fullwidth">
-				<section class="content">
-					<!-- Content -->
-					<div class="container" id="latestAlbumContainer">
-					</div>
-					<input type="hidden" id="albumsTailId" name="albumsTailId" value="0" />
-					<div class="shortcode-blogpost row-fluid" id="moreAlbumsContainer">
-						<div class="span2 offset5">
-							<input id="moreAlbumsBtn"
-								class="button-small button button-white btn-block" type="button"
-								value="加载更多..." />
-						</div>
-					</div>
-				</section>
-				<!-- Close Content -->
-			</div>
-			<!-- Close Main -->
-
-			<jsp:include page="./inc/footer.jsp"></jsp:include>
-           
+			<jsp:include page="../inc/footer.jsp"></jsp:include>
 		</div> <!-- Close Page -->
 	</div> <!-- Close wrapper -->
 
@@ -123,38 +88,6 @@
    <!--  <script src="/designer-front/js/jquery.tweet.js"></script>  -->
 	<!-- <script src="/designer-front/js/jquery.flexslider.js"></script>
 	<script src="/designer-front/js/jquery.jcarousel.min.js"></script> -->
-
     <script src="/designer-front/js/custom.js"></script>
-	<script>
-		fallLoad();
-	
-    	$('#moreAlbumsBtn').click(function(){
-    		fallLoad();
-    	});
-    	
-    	function fallLoad(){
-    		//置为数据加载状态
-    		$('#moreAlbumsBtn').val("努力加载中...");
-    		$('#moreAlbumsBtn').attr("disabled","disabled");
-    		var jsonData = {'albumsTailId' : $("#albumsTailId").val(), 'numberPerLine':'4'};
-    		$.post('/designer-front/moreAlbums.json', jsonData, function(data) {
-    			var result = data.result;
-	    		if(result==1){
-	    			$("#latestAlbumContainer").append(data.data.html);
-	    			//$("#proAlbumContainer").append(data.data.html);
-	   				var nextTailId = data.data.tailId;
-	    			$("#albumsTailId").val(nextTailId);
-	    			if(nextTailId<=0){//无更多数据，则隐藏按钮
-	   					$('#moreAlbumsContainer').attr("style","display:none");
-	   				}else{//还有更多数据，启用加载按钮
-	   					$('#moreAlbumsBtn').removeAttr("disabled");
-	   					$('#moreAlbumsBtn').val("加载更多...");
-	   				}
-	    		}else{
-	    			$('#moreAlbumsContainer').attr("style","display:none");
-	    		}
-   			});
-    	}
-    </script>
     </body>
 </html>

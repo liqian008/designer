@@ -87,8 +87,12 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					</li> 
 					<li <%=menuIndex==5?"class='active current-menu-item'":"" %>><a href="/designer-front/settings">我的设置</a>
 						<ul class="sub-menu">
+							<%if(currentUser.getDesignerStatus()!=null&&currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED){%>
+                            <li><a href="/designer-front/settings/newAlbum">发布新作品</a></li>
+                            <%}%>
                             <li><a href="/designer-front/settings/changePasswd">修改密码</a></li>
                             <li><a href="/designer-front/settings/avatar">修改头像</a></li>
+                            <li><a href="/designer-front/settings/msgbox">我的消息</a></li>
                             <li><a href="/designer-front/settings/favorites">我的收藏</a></li>
                         </ul>
 					</li> 

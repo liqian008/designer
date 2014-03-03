@@ -27,7 +27,7 @@ if("avatar".equals(tempFlag)){
 
 %>
 <%if(user.getDesignerStatus()!=null&&user.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED){%>
-<li <%=settingsMenuIndex==6?"class=active":""%>><a class="button button-white" href="/designer-front/settings/albums">作品管理</a></li>
+<li <%=settingsMenuIndex==6?"class=active":""%>><a class="button button-white" href="/designer-front/settings/albums">作品辑管理</a></li>
 <%}%>
 <li <%=settingsMenuIndex==5?"class=active":""%>><a class="button button-white" href="/designer-front/settings/thirdparty">第三方账户绑定</a></li>
 <li <%=settingsMenuIndex==0?"class=active":""%>><a class="button button-white" href="/designer-front/settings">个人资料</a></li>

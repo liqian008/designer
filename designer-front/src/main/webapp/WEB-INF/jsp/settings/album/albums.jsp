@@ -134,9 +134,10 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 														</ul>
 													</div>
 													<div class="content-avatar">
-														<a href="/designer-front/settings/editAlbum?albumId=<%=album.getId()%>">编 辑</a>
+														<%-- <a href="/designer-front/settings/editAlbum?albumId=<%=album.getId()%>">编 辑</a> --%>
+														<a href="#" onclick="editAlbum(<%=album.getId()%>)">编 辑</a>
 														<br/>
-														<a href="/designer-front/settings/deleteAlbum?ownerId=<%=currentUser.getId()%>&albumId=<%=album.getId()%>">删 除</a>
+														<a href="#" onclick="delAlbum(<%=currentUser.getId()%>, <%=album.getId()%>)">删 除</a>
 													</div>
 												</article>
 											<%if(i%2==0){%>
@@ -180,5 +181,18 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
     <script src="/designer-front/js/jquery.flexslider.js"></script> 
     <script src="/designer-front/js/retina.js"></script>
     <script src="/designer-front/js/custom.js"></script>
+    <script>
+    function editAlbum(albumId){
+    	if(confirm("确定要编辑该作品辑吗？")){
+    		location.href="/designer-front/settings/editAlbum?albumId="+albumId;
+    	}
+    }
+    
+    function delAlbum(userId, albumId){
+    	if(confirm("作品删除后将无法恢复，确定删除吗？")){
+    		location.href="/designer-front/settings/deleteAlbum?ownerId="+userId+"&albumId="+albumId;
+    	}
+    }
+    </script>
     </body>
 </html>

@@ -80,28 +80,43 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                 <h2>关于我们</h2>
                             </div>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                                
                             </p>
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
                                 <ul class="tabs-nav tabs clearfix span3">
                                     <li class="active"><a class="button button-white" href="#aboutUs" data-toggle="tab">关于我们</a></li>
                                     <li><a class="button button-white" href="#contactUs" data-toggle="tab">联系我们</a></li>
+                                    <li><a class="button button-white" href="#support" data-toggle="tab">技术支持</a></li>
                                 </ul>
 
                                 <div class="tab-content span9">
                                     <div class="tab-pane active" id="aboutUs"> 
-                                        <h2>Engineering</h2>
+                                        <h2>金玩儿网</h2>
                                         <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                                            最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。
                                         </p>                           
                                     </div>
+                                    
                                     <div class="tab-pane" id="contactUs">
-                                        <h2>Product development</h2>
+                                        <h2>通信方式</h2>
                                         <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                                            联系人: 李先生
+                                        </p>
+                                        <p>
+                                            联系电话: 138xxxxxxxx
+                                        </p>
+                                        <p>
+                                            电子邮箱: <a href="mailto:xxx@xxx.com">xxx@xxx.com</a>
+                                        </p>
+                                    </div>
+                                    
+                                    <div class="tab-pane" id="support">
+                                        <h2>技术团队</h2>
+                                        <p>
+                                        	技术支持: Geekway Studio
+                                        </p>
+                                        <p>
+                                            电子邮箱: <a href="mailto:business@xxx.com">xxx@xxx.com</a> 
                                         </p>
                                     </div>
                                 </div>

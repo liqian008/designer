@@ -6,7 +6,7 @@ import weibo4j.model.WeiboException;
 import weibo4j.org.json.JSONException;
 
 import com.bruce.designer.model.AccessTokenInfo;
-import com.bruce.designer.service.oauth.SharedContent;
+import com.bruce.designer.service.oauth.SharedInfo;
 
 /**
  * 第三方发布接口
@@ -48,6 +48,6 @@ public interface IOAuthProcessor {
 	 * @param sharedContent
 	 * @throws OAuthException
 	 */
-	public void shareout(SharedContent sharedContent);
+	public void shareout(SharedInfo sharedContent);
 
 }

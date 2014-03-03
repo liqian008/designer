@@ -9,7 +9,7 @@ import com.bruce.designer.model.AccessTokenInfo;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.service.oauth.IOAuthService;
-import com.bruce.designer.service.oauth.SharedContent;
+import com.bruce.designer.service.oauth.SharedInfo;
 import com.qq.connect.QQConnectException;
 import com.qq.connect.api.OpenID;
 import com.qq.connect.api.qzone.UserInfo;
@@ -94,7 +94,7 @@ public class OAuthTencentWbProcessor implements IOAuthProcessor, InitializingBea
      * @param sharedContent
      * @throws DesignerException
      */
-    public void shareout(SharedContent sharedContent){
+    public void shareout(SharedInfo sharedContent){
         System.out.println("发布tencent weibo");
     }
     

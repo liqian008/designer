@@ -23,10 +23,10 @@
 						<prop key="kaptcha.textproducer.font.names">微软雅黑,宋体,楷体</prop>
 						<prop key="kaptcha.textproducer.font.color">blue</prop> 
 						-->
-						<prop key="kaptcha.image.width">90</prop> 
-						<prop key="kaptcha.image.height">36</prop>
-						<prop key="kaptcha.textproducer.font.size">28</prop>
-						<prop key="kaptcha.noise.impl">com.google.code.kaptcha.impl.NoNoise</prop>
+						<prop key="kaptcha.image.width">200</prop> 
+						<prop key="kaptcha.image.height">80</prop>
+						<prop key="kaptcha.textproducer.font.size">64</prop>
+						<!-- <prop key="kaptcha.noise.impl">com.google.code.kaptcha.impl.NoNoise</prop> -->
 						<prop key="kaptcha.session.key">code</prop>
 						<prop key="kaptcha.textproducer.char.length">5</prop>
 					</props>

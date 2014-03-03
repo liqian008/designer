@@ -26,6 +26,7 @@ import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
+import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.front.util.ResponseUtil;
 import com.bruce.designer.front.util.VerifyUtils;
 import com.bruce.designer.model.User;
@@ -175,15 +176,12 @@ public class SystemController {
 		// create the text for the image
 		String capText = captchaProducer.createText();
 		System.out.println("******************新验证码是: " + capText + "******************");
-
-
 		// store the text in the session
 		session.setAttribute(Constants.KAPTCHA_SESSION_KEY, capText);
 
 		// create the image with the text
 		BufferedImage bi = captchaProducer.createImage(capText);
 		ServletOutputStream out = response.getOutputStream();
-
 		// write the data out
 		ImageIO.write(bi, "jpg", out);
 		try {
@@ -192,6 +190,17 @@ public class SystemController {
 			out.close();
 		}
 		return null;
+	}
+	
+	@RequestMapping(value = "/checkVerifyCode.json")
+	public ModelAndView checkVerifyCode(Model model, HttpServletRequest request, @RequestParam(defaultValue="") String verifyCode) {
+		String code = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+		if(verifyCode.equals(code)){
+			return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
+		}else{
+			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_VERIFYCODE_ERROR));
+//			throw new DesignerException(ErrorCode.SYSTEM_VERIFYCODE_ERROR);
+		}
 	}
 	
 	/**

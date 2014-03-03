@@ -4,8 +4,13 @@
  */
 package com.bruce.designer.util;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -23,8 +28,6 @@ public class UploadUtil {
 
     public static final String FILE_SEPARTOR = System.getProperty("file.separator");
     
-//    private static final String prefixUrl = ConfigUtil.getString("upload_url_base");//"http://localhost:8080/designer-front/staticFile";
-
     private final static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
     
     /**
@@ -85,10 +88,10 @@ public class UploadUtil {
      * @param userId
      * @return
      */
-    public static String getFilePath() {
-        String filePath = ConfigUtil.getString("upload_path_file") + UploadUtil.FILE_SEPARTOR + getDictionary() + UploadUtil.FILE_SEPARTOR;;
-        return filePath;
-    }
+//    public static String getFilePath() {
+//        String filePath = ConfigUtil.getString("upload_path_file") + UploadUtil.FILE_SEPARTOR + getDictionary() + UploadUtil.FILE_SEPARTOR;;
+//        return filePath;
+//    }
     
     /**
 	 * 获取用户头像保存的相对路径
@@ -154,4 +157,43 @@ public class UploadUtil {
     	}
     	return getBaseUrl()  + getAvatarPath() + UploadUtil.FILE_SEPARTOR + width + UploadUtil.FILE_SEPARTOR + userId +".jpg";
     }
+    
+    
+    
+    /**
+     * 判断文件是否存在
+     * @param fileUrl
+     * @return
+     */
+    public static File fileExists(String fileUrl){
+    	if(fileUrl!=null){
+    		String abFilePath = fileUrl.replace(getBaseUrl(), getBasePath());
+    		File file = new File(abFilePath);
+    		return file;
+    	}
+    	return null;
+    }
+    
+    
+	public static byte[] file2bytes(File file) throws Exception {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream((int) file.length());
+		BufferedInputStream in = null;
+		try {
+			in = new BufferedInputStream(new FileInputStream(file));
+			int buf_size = 1024;
+			byte[] buffer = new byte[buf_size];
+			int len = 0;
+			while (-1 != (len = in.read(buffer, 0, buf_size))) {
+				bos.write(buffer, 0, len);
+			}
+			return bos.toByteArray();
+		} finally {
+			try {
+				in.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			bos.close();
+		}
+	}
 }

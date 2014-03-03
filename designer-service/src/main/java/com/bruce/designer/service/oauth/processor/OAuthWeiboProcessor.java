@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import weibo4j.Account;
 import weibo4j.Timeline;
+import weibo4j.http.ImageItem;
 import weibo4j.model.Status;
 import weibo4j.model.WeiboException;
 import weibo4j.org.json.JSONObject;
@@ -14,7 +15,7 @@ import com.bruce.designer.model.AccessTokenInfo;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.service.oauth.IOAuthService;
-import com.bruce.designer.service.oauth.SharedContent;
+import com.bruce.designer.service.oauth.SharedInfo;
 
 @Component
 public class OAuthWeiboProcessor implements IOAuthProcessor {
@@ -86,20 +87,23 @@ public class OAuthWeiboProcessor implements IOAuthProcessor {
 	}
 
 	/**
-	 * 发布
+	 * 发布带图片的微博
 	 * 
-	 * @param sharedContent
+	 * @param sharedInfo
 	 * @throws DesignerException
 	 */
-	public void shareout(SharedContent sharedContent) {
-		System.out.println("发布weibo");
+	public void shareout(SharedInfo sharedInfo) {
+		//System.out.println("发布weibo");
 		try {
 			// String content =
-			// java.net.URLEncoder.encode(sharedContent.getContent(), "utf-8");
+			// java.net.URLEncoder.encode(sharedInfo.getContent(), "utf-8");
 			Timeline tl = new Timeline();
-			tl.client.setToken(sharedContent.getAccessToken());// access_token
-			Status status = tl.UpdateStatus(sharedContent.getContent());
-			System.out.println("Successfully upload the status to [" + status.getText() + "].");
+			tl.client.setToken(sharedInfo.getAccessToken());// access_token
+			/*构造图片对象*/
+			ImageItem imageItem = new ImageItem(sharedInfo.getImgBytes());
+			Status status = tl.UploadStatus(sharedInfo.getContent(), imageItem);
+//			Status status = tl.UpdateStatus(sharedInfo.getContent());
+//			System.out.println("Successfully upload the status to [" + status.getText() + "].");
 		} catch (Exception e) {
 			throw new DesignerException(ErrorCode.OAUTH_ERROR);
 		}

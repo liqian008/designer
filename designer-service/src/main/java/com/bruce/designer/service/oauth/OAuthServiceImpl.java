@@ -2,6 +2,7 @@ package com.bruce.designer.service.oauth;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,6 +17,7 @@ import org.springframework.util.Assert;
 
 
 import com.bruce.designer.model.AccessTokenInfo;
+import com.bruce.designer.model.Album;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.service.IUserService;
@@ -30,7 +32,7 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
     private IAccessTokenService accessTokenService;
     @Autowired
     private IUserService userService;
-//    @Autowired
+//    @Autowired 
 //    private IOAuthProcessor oauthProcessor;
     
     private Map<Short, IOAuthProcessor> processorMap;
@@ -73,12 +75,26 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
     }
     
     
-    public void shareout(SharedContent sharedContent){
-        SharedThread sharedThread = new SharedThread(sharedContent);
-        //添加至线程中执行
-        executorService.execute(sharedThread);
-        return;
+//    public void shareout(SharedInfo sharedInfo){
+//        SharedThread sharedThread = new SharedThread(sharedInfo);
+//        //添加至线程中执行
+//        executorService.execute(sharedThread);
+//        return;
+//    }
+    
+    @Override
+    public void shareout(List<SharedInfo> sharedInfoList){
+    	if(sharedInfoList!=null && sharedInfoList.size()>0){
+    		for(SharedInfo sharedInfo: sharedInfoList){
+	    		SharedThread sharedThread = new SharedThread(sharedInfo);
+	            //添加至线程中执行
+	            executorService.execute(sharedThread);
+    		}
+    	}
+    	return;
     }
+    
+    
 
     /**
      * 将第三方的最新token内容更新到db中
@@ -105,23 +121,27 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
      *
      */
     class SharedThread implements Runnable{
-        private SharedContent content;
+        private SharedInfo sharedInfo;
+//        private Album album;
+//        private short sharedType;
         
-        private SharedThread(SharedContent content){
-            this.content = content;
+        private SharedThread(SharedInfo sharedInfo){
+            this.sharedInfo = sharedInfo;
         }
         
-        @Override
+		@Override
         public void run() {
-        	IOAuthProcessor oauthProcessor = processorMap.get(content.getThirdpartyType());
+        	IOAuthProcessor oauthProcessor = processorMap.get(sharedInfo.getThirdpartyType());
         	//发布至第三方
         	try {
-        		oauthProcessor.shareout(content);
+        		
+        		oauthProcessor.shareout(sharedInfo);
             } catch (DesignerException e) {
                 e.printStackTrace();
                 //log this
             }
         }
+        
     }
     
 
@@ -147,5 +167,7 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
 //		Assert.notNull(oauthProcessor, "oauthProcessor can't be null");
 		Assert.notNull(processorMap, "processorMap can't be null");
 	}
+
+	
 
 }

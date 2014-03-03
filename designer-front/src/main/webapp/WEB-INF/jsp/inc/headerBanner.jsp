@@ -27,7 +27,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                     <a href="/designer-front/settings/msgbox"><span id="messageCount">消息中心</span></a>&nbsp;|&nbsp;
                     <%if(user.getDesignerStatus()!=null&&user.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED){%>
                     <a href="/designer-front/settings/newAlbum">发布新作品</a>&nbsp;|&nbsp;
-                    <a href="/designer-front/settings/albums">作品管理</a>&nbsp;|&nbsp; 
+                    <a href="/designer-front/settings/albums">作品辑管理</a>&nbsp;|&nbsp; 
                     <%}%>
                     <a href="/designer-front/settings">设置</a>&nbsp;|&nbsp;
                     <a href="/designer-front/logout">退出</a>

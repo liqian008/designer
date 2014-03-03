@@ -36,7 +36,9 @@ import com.bruce.designer.service.IAlbumSlideService;
 import com.bruce.designer.service.IHotService;
 import com.bruce.designer.service.IIndexSlideService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.service.oauth.SharedInfo;
 import com.bruce.designer.util.ConfigUtil;
+import com.bruce.designer.util.OAuthUtil;
 
 /**
  * Handles requests for the application home page.
@@ -48,10 +50,7 @@ public class AlbumController {
 	private IUserService userService;
 	@Autowired
 	private IAlbumService albumService;
-	@Autowired
-	private IAlbumRecommendService albumRecommendService;
-	@Autowired
-	private IIndexSlideService indexSlideService;
+
 	@Autowired
 	private IAlbumCommentService commentService;
 	@Autowired
@@ -119,8 +118,8 @@ public class AlbumController {
 //		model.addAttribute("indexSlideList", indexSlideList);
 		
 		//推荐专辑
-		List<Album> recommendAlbumList = albumRecommendService.queryRecommendAlbums(INDEX_SLIDE_LIMIT);
-		model.addAttribute("recommendAlbumList", recommendAlbumList);
+//		List<Album> recommendAlbumList = albumRecommendService.queryRecommendAlbums(INDEX_SLIDE_LIMIT);
+//		model.addAttribute("recommendAlbumList", recommendAlbumList);
 		
 		//专辑列表
 //		int limit = FULL_LIMIT;
@@ -138,20 +137,6 @@ public class AlbumController {
 //			model.addAttribute("tailId", tailId);
 //		}
 		return "index";
-	}
-	
-	/**
-	 * 首页请求
-	 * 
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "/indexTest", method = RequestMethod.GET)
-	public String indexTest(Model model) {
-		//系统轮播
-		List<IndexSlide> indexSlideList = indexSlideService.queryIndexSlideList(0, INDEX_SLIDE_LIMIT);
-		model.addAttribute("indexSlideList", indexSlideList);
-		return "indexTest";
 	}
 	
 
@@ -196,6 +181,7 @@ public class AlbumController {
 	public String albumInfo(HttpServletRequest request, Model model, @PathVariable int albumId, @PathVariable int albumSlideId) {
 		Album albumInfo = albumService.loadById(albumId);
 		if (albumInfo != null) {
+			
 			// 读取作品列表
 			List<AlbumSlide> slideList = albumSlideService.querySlidesByAlbumId(albumId);
 			albumInfo.setSlideList(slideList);
@@ -225,6 +211,12 @@ public class AlbumController {
 			User currentUser = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 			if(currentUser!=null){
 				albumService.initAlbumInteractionStatus(albumInfo, currentUser.getId());
+				
+				//提交发布第三， for test
+//				boolean isShareOut = UserSettingsController.ALBUM_SHAREOUT_FLAG;
+//				if(albumInfo!=null && albumInfo.getId()> 0&& isShareOut){
+//					List<SharedInfo> sharedInfoList = OAuthUtil.buildSharedInfoList(albumInfo, currentUser.getAccessTokenMap());
+//				}
 			}
 			
 			// 增加浏览计数

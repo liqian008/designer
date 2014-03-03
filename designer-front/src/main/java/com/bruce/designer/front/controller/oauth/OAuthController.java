@@ -26,7 +26,7 @@ import com.bruce.designer.front.util.VerifyUtils;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;
 import com.bruce.designer.service.oauth.IOAuthService;
-import com.bruce.designer.service.oauth.SharedContent;
+import com.bruce.designer.service.oauth.SharedInfo;
 ///designer-front/oauthBind
 ///designer-front/oauthRegister
 @Controller
@@ -261,24 +261,24 @@ public class OAuthController {
 		return "tempReady2pub";
 	}
 
-	/**
-	 * 同步微博api测试
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/shareout")
-	public String shareout(HttpServletRequest request, String content) throws Exception {
-		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
-
-		if (user != null) {
-			SharedContent sharedContent = new SharedContent();
-			sharedContent.setContent(content);
-			sharedContent.setAccessToken(user.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE).getAccessToken());
-			oAuthService.shareout(sharedContent);
-		}
-		return "redirect:index";
-	}
+//	/**
+//	 * 同步微博api测试
+//	 * 
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	@RequestMapping(value = "/shareout")
+//	public String shareout(HttpServletRequest request, String content) throws Exception {
+//		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+//
+//		if (user != null) {
+//			SharedContent sharedContent = new SharedContent();
+//			sharedContent.setContent(content);
+//			sharedContent.setAccessToken(user.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE).getAccessToken());
+//			oAuthService.shareout(sharedContent);
+//		}
+//		return "redirect:index";
+//	}
 
 	/**
 	 * 使用oauth登录或绑定现有账户时，需检查session中的tokenInfo状态（不能为空且不其userId不能有值）

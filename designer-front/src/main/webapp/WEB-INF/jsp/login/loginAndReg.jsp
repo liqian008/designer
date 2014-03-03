@@ -144,7 +144,9 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 													<div class="row-right">
 														<input type="text" id="reg-verifyCode" name="verifyCode" class="span2" value="">
 														<span id="reg-verifyCode-required" class="required">*</span>
-														<img src='/designer-front/verifyCode' id="reg-verifyCode-img"/>
+														<a href="javascript:void(0)">
+														<img src='/designer-front/verifyCode' id="reg-verifyCode-img" width="75px"/>
+														</a>
 														<span id="reg-verifyCode-prompt" class="text-prompt"></span>
 													</div>
 												</div>
@@ -179,7 +181,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 												<div class="row-container clearfix">
 													<div class="row-left">邮 箱：</div>
 													<div class="row-right">
-														<input type="text" id="login-username" name="username" class="span5" value="liqian@sina.com">
+														<input type="text" id="login-username" name="username" class="span5" value="">
 														<span id="login-username-required" class="required">*</span>
 														<span id="login-username-prompt" class="text-prompt"></span>
 													</div>
@@ -188,7 +190,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 												<div class="row-container clearfix">
 													<div class="row-left">密 码：</div>
 													<div class="row-right">
-														<input type="password" id="login-password" name="password"  class="span5" value="liqian">
+														<input type="password" id="login-password" name="password"  class="span5" value="">
 														<span id="login-password-required" class="required">*</span>
 														<span id="login-password-prompt" class="text-prompt"></span>
 													</div>
@@ -198,7 +200,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 													<div class="row-left">验证码：</div>
 													<div class="row-right">
 														<input type="text" id="login-verifyCode" name="verifyCode" class="span2" value="">
-														<img src='/designer-front/verifyCode' id="login-verifyCode-img"/>
+														<a href="javascript:void(0)"><img src='/designer-front/verifyCode' id="login-verifyCode-img" width="75px" height="30px"/></a>
 														<span id="login-verifyCode-required" class="required">*</span>
 														<span id="login-verifyCode-prompt" class="text-prompt"></span>
 													</div>
@@ -247,29 +249,86 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
     		<%}%>
     	});
     	
-    	$('#login-button').click(function(){
-    		$('#login-username-prompt').text('').hide();
-    		$('#login-password-prompt').text('').hide();
-    		$('#login-verifyCode-prompt').text('').hide();
-    		//$('#login-failed').hide();
-    		
+    	
+    	/*登录部分JS*/
+    	var loginUsernameAvailable = false;
+    	var loginPasswordAvailable = false;
+    	var loginVerifyCodeAvailable = false;
+    	
+    	$('#login-username').blur(function(){
+    		checkLoginUsername();
+    	});
+    	$('#login-password').blur(function(){
+    		checkLoginPassword();
+    	});
+    	$('#login-verifyCode').blur(function(){
+    		checkLoginVerifyCode();
+    	});
+    	
+    	//检查邮箱是否合法
+    	function checkLoginUsername(){
     		var usernameVal = $('#login-username').val();
-    		var passwordVal = $('#login-password').val();
-    		var verifyCodeVal = $('#login-verifyCode').val();
+    		//邮箱地址
+    		var usernameRegex =  /^([a-z0-9A-Z]+[-|_|\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\.)+[a-zA-Z]{2,}$/;
     		if(usernameVal==''){
-    			$('#login-username').focus();
-    			$('#login-username-prompt').text('邮箱不能为空').show();
-    		}else if(passwordVal==''){
-    			$('#login-password').focus();
+    			$('#login-username-prompt').text('邮箱不能为空').show(); 
+        		return false;
+    		}else if(!usernameRegex.test(usernameVal)){//检查正则匹配
+    			$('#login-username-prompt').text('邮箱不符合规范').show();
+        		return false;
+    		}else{//输入正确
+				//设置username available的标识
+				$('#login-username-prompt').text('').hide();
+				loginUsernameAvailable = true;
+    		}
+    	}
+
+    	//检查密码是否合法
+    	function checkLoginPassword(){
+    		var passwordVal = $('#login-password').val();
+    		if(passwordVal==''){
     			$('#login-password-prompt').text('密码不能为空').show();
-    		}else if(verifyCodeVal==''){
-    			$('#login-verifyCode').focus();
+    		}else{
+    			$('#login-password-prompt').text('').hide();
+    			loginPasswordAvailable = true;
+    		}
+    	}
+    	
+    	//检查验证码是否合法
+    	function checkLoginVerifyCode(){
+    		var verifyCodeVal = $('#login-verifyCode').val();
+    		if(verifyCodeVal==''){
     			$('#login-verifyCode-prompt').text('验证码不能为空').show();
-    		}else{//验证通过
-    			//提交请求
-    			$('#login-widget-form').submit();
+    		}else{
+    			var jsonData = {'verifyCode':verifyCodeVal};
+    			$.post('/designer-front/checkVerifyCode.json', jsonData, function(responseData) {
+       				var result = responseData.result;
+       				if(result==1){
+       					//设置verifyCode的标识
+       					loginVerifyCodeAvailable = true;
+       					$('#login-verifyCode-prompt').text('').hide();
+       				}else{
+       	    			//设置verifyCode unavailable的标识
+       	    			loginVerifyCodeAvailable = false;
+       	    			$('#login-verifyCode-prompt').text(responseData.message).show();
+       				}
+       			});
+    		}
+    	}
+    	
+    	$('#login-button').click(function(){
+    		if(loginUsernameAvailable && loginPasswordAvailable&&loginVerifyCodeAvailable){ 
+    			//所有数据项均可用
+	    		$('#login-widget-form').submit();
     		}
     	});
+    	
+    	
+    	/*注册部分JS*/
+    	var regUsernameAvailable = false;
+    	var regNicknameAvailable = false;
+    	var regPasswordAvailable = false;
+    	var regVerifyCodeAvailable = false;
     	
     	$('#reg-username').blur(function(){
     		checkRegUsername();
@@ -284,16 +343,11 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
     		checkRegPassword();
     	});
     	$('#reg-verifyCode').blur(function(){
-    		checkVerifyCode();
+    		checkRegVerifyCode();
     	});
     	
-    	var usernameAvailable = false;
-    	var nicknameAvailable = false;
-    	var passwordAvailable = false;
-    	var verifyCodeAvailable = false;
-    	
     	$('#reg-button').click(function(){
-    		if(usernameAvailable && nicknameAvailable && passwordAvailable&&verifyCodeAvailable){
+    		if(regUsernameAvailable && regNicknameAvailable && regPasswordAvailable&&regVerifyCodeAvailable){
     			//所有数据项均可用
 	    		$('#reg-widget-form').submit();
     		}
@@ -317,11 +371,11 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
        				var result = data.result;
        				if(result==1){
        					//设置username available的标识
-       					usernameAvailable = true;
+       					regUsernameAvailable = true;
        					$('#reg-username-prompt').hide();
        				}else{
        					//设置username unabailable的标识
-       					usernameAvailable = false;
+       					regUsernameAvailable = false;
        					$('#reg-username-prompt').text(data.message).show();
        				}
        			});
@@ -343,11 +397,11 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
        				var result = data.result;
        				if(result==1){
        					//设置nickname available的标识
-       					nicknameAvailable = true;
+       					regNicknameAvailable = true;
        					$('#reg-nickname-prompt').text('').hide();
        				}else{
        	    			//设置nickname unavailable的标识
-       	    			nicknameAvailable = false;
+       	    			regNicknameAvailable = false;
        	    			$('#reg-nickname-prompt').text(data.message).show();
        				}
        			});
@@ -371,19 +425,32 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 	    		}else if(passwordVal!=rePasswordVal){
 	    			$('#reg-rePassword-prompt').text('密码与确认密码不匹配').show();
 	    		}else{
-	    			passwordAvailable = true;
+	    			regPasswordAvailable = true;
 	        		$('#reg-rePassword-prompt').text('').hide();
 	    		}
     		}
     	}
     	
     	//检查验证码是否合法
-    	function checkVerifyCode(){
+    	function checkRegVerifyCode(){
     		var verifyCodeVal = $('#reg-verifyCode').val();
     		if(verifyCodeVal==''){
     			$('#reg-verifyCode-prompt').text('验证码不能为空').show();
     		}else{
-    			verifyCodeAvailable = true;
+    			/* regVerifyCodeAvailable = true; */
+    			var jsonData = {'verifyCode':verifyCodeVal};
+    			$.post('/designer-front/checkVerifyCode.json', jsonData, function(responseData) {
+       				var result = responseData.result;
+       				if(result==1){
+       					//设置verifyCode的标识
+       					regVerifyCodeAvailable = true;
+       					$('#reg-verifyCode-prompt').text('').hide();
+       				}else{
+       	    			//设置verifyCode unavailable的标识
+       	    			regVerifyCodeAvailable = false;
+       	    			$('#reg-verifyCode-prompt').text(responseData.message).show();
+       				}
+       			});
     		}
     	}
     	

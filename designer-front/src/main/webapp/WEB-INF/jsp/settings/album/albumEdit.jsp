@@ -179,8 +179,20 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													</div>
 												</div>
 												
+												<div class="row-container clearfix">
+													<div class="row-left">验证码：</div>
+													<div class="row-right">
+														<input type="text" id="album-verifyCode" name="verifyCode" class="span2" value="">
+														<a href="javascript:void(0)">
+														<img src='/designer-front/verifyCode' id="album-verifyCode-img" width="75px"/>
+														</a>
+														<span id="album-verifyCode-required" class="required">*</span>
+														<span id="album-verifyCode-prompt" class="text-prompt"></span>
+													</div>
+												</div>
+												
 												<input id="album-update-button" class="common-submit button" type="button" value="修 改">
-												<input id="album-delete-button" class="common-submit button" type="button" value="删除作品">
+												<input id="album-reset-button" class="common-submit button" type="reset" value="重 置">
 											</form>
 										</div>
                                     </div>
@@ -214,12 +226,6 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
     <script src="/designer-front/js/validate.js"></script>
     
     <script>
-    	$('#album-delete-button').click(function(){
-    		if(confirm('作品删除后将无法恢复，确定删除吗？')){
-    			
-    		}
-    	});
-    	
     	$('#title').change(function(){
     		checkTitle();
     	});
@@ -237,6 +243,10 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
     		checkLink();
     	});
     	
+    	$('#album-verifyCode').blur(function(){
+    		checkAlbumVerifyCode();
+    	});
+    	
     	$("#album-widget-form :radio").change(function(){
     		$('#cover-change').val("true");
     	});
@@ -246,10 +256,11 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 		var priceAvailable = true;
 		var linkAvailable = true;
 		var albumAvailable = true;
+		var albumVerifyCodeAvailable = false;
 		
 	    $('#album-update-button').click(function(){
 			checkAlbumSlides();
-			if(titleAvailable && tagsAvailable && priceAvailable && linkAvailable && albumAvailable){
+			if(titleAvailable && tagsAvailable && priceAvailable && linkAvailable && albumAvailable && albumVerifyCodeAvailable){
 				$("#album-widget-form").submit();
 	    	}
 		});
@@ -299,13 +310,6 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 		//检查标题&正则
 	    function checkLink(){
 			linkAvailable = true;
-			/*
-			var linkVal = $('#link').val();
-	    	if(linkVal==''){//检查链接是否正确
-				$('#album-link-prompt').text('购买链接不能为空').show();
-			}else{
-				$('#album-link-prompt').hide();
-			} */
 		}
 		
 		//检查标题&正则
@@ -318,7 +322,33 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 				albumAvailable = true;
 			}
 		}
-	  
+		
+		//检查验证码是否合法
+		function checkAlbumVerifyCode(){
+			var verifyCodeVal = $('#album-verifyCode').val();
+			if(verifyCodeVal==''){
+				$('#album-verifyCode-prompt').text('验证码不能为空').show();
+			}else{
+				var jsonData = {'verifyCode':verifyCodeVal};
+				$.post('/designer-front/checkVerifyCode.json', jsonData, function(responseData) {
+	   				var result = responseData.result;
+	   				if(result==1){
+	   					//设置verifyCode的标识
+	   					albumVerifyCodeAvailable = true;
+	   					$('#album-verifyCode-prompt').text('').hide();
+	   				}else{
+	   	    			//设置verifyCode unavailable的标识
+	   	    			albumVerifyCodeAvailable = false;
+	   	    			$('#album-verifyCode-prompt').text(responseData.message).show();
+	   				}
+	   			});
+			}
+		}
+		
+	    $('#album-verifyCode-img').click(function(){
+			var newUrl = "/designer-front/verifyCode?" + Math.floor(Math.random()*100);
+			$('#album-verifyCode-img').attr("src", newUrl).fadeIn();
+	    })
 	    </script>    
     </body>
 </html>

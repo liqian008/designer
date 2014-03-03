@@ -1,12 +1,10 @@
+<%@page import="com.bruce.designer.front.util.DesignerHtmlUtils"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="com.bruce.designer.model.*" %>
 <%@ page import="com.bruce.designer.front.constants.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.*" %>
 
-<%
-SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
-%>
 
 <!DOCTYPE html> 
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]--> 
@@ -45,37 +43,52 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
         <![endif]-->
         
-        <jsp:include page="./inc/topBar.jsp"></jsp:include>
+        <jsp:include page="../inc/topBar.jsp"></jsp:include>
            
 
         <div id="wrapper" class="boxed"> <!-- Page Wrapper: Boxed class for boxed layout - Fullwidth class for fullwidth page --> 
             
             <div class="header-background"> <!-- Header Background -->
                 
-                <jsp:include page="./inc/headerBanner.jsp"></jsp:include>
+                <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 				
                 <div class="header-wrap"> <!-- Header Wrapper, contains Mene and Slider -->
-                    <jsp:include page="./inc/headerNav.jsp"></jsp:include>
-					<%
-                    List<IndexSlide> indexSlideList = (List<IndexSlide>)request.getAttribute("indexSlideList");
-                    if(indexSlideList!=null&&indexSlideList.size()>0){%>
-                    <div id="homepage-slider"> <!-- Homepage Slider Container -->
-                    	<!-- oneByOne Slider -->
-                        <div id="slides-container">
-                        	<%
-							for(IndexSlide loop: indexSlideList){
-							%>
-                            <%=loop.getCode()%> 
-                            <%}%>
-                        </div> <!-- Close oneByone Slider -->
-                    </div> <!-- Close Homepage Slider Container -->
-                    <%}%>
+                    <jsp:include page="../inc/headerNav.jsp"></jsp:include>
+                    
+                    <jsp:include page="../inc/indexSlide.jsp"></jsp:include>
+                    
                 </div> <!-- Close Header Menu -->
             </div> <!-- Close Header Wrapper -->
         <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
 
         <div class="page"> <!-- Page -->
-			<jsp:include page="./inc/footer.jsp"></jsp:include>
+			<div class="breadscrumbs">
+			    <div class="container">
+			        <ul class="clearfix">
+			            <li><a href="/designer-front/index">首页</a>/</li> 
+			            <li><a href="#">精品推荐</a></li>
+			        </ul> 
+			    </div>
+			</div>
+			            
+            <div class="main fullwidth">
+            	<section class="content"> <!-- Content -->
+                    <div class="container" id="proAlbumContainer">
+                    	
+                    	<%
+                    	List<Album> recommendList = (List<Album>)request.getAttribute("recommendAlbumList");
+                    	if(recommendList!=null&&recommendList.size()>0){%>
+                    		<%=DesignerHtmlUtils.buildFallLoadHtml(recommendList, 4)%>
+                    	<%}%>
+                    
+                    </div>
+                </section> <!-- Close Content -->
+			</div> <!-- Close Main -->
+			
+			<!-- Close Main -->
+
+			<jsp:include page="../inc/footer.jsp"></jsp:include>
+           
 		</div> <!-- Close Page -->
 	</div> <!-- Close wrapper -->
 
@@ -91,6 +104,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
    <!--  <script src="/designer-front/js/jquery.tweet.js"></script>  -->
 	<!-- <script src="/designer-front/js/jquery.flexslider.js"></script>
 	<script src="/designer-front/js/jquery.jcarousel.min.js"></script> -->
+
     <script src="/designer-front/js/custom.js"></script>
     </body>
 </html>

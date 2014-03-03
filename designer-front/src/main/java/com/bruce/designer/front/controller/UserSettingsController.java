@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -43,7 +44,11 @@ import com.bruce.designer.service.ITagAlbumService;
 import com.bruce.designer.service.ITagService;
 import com.bruce.designer.service.IUploadService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.service.oauth.IOAuthService;
+import com.bruce.designer.service.oauth.SharedInfo;
 import com.bruce.designer.util.ConfigUtil;
+import com.bruce.designer.util.OAuthUtil;
+import com.google.code.kaptcha.Constants;
 
 /**
  * Handles requests for the application home page.
@@ -55,6 +60,8 @@ public class UserSettingsController {
 
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private IOAuthService oauthService;
 	@Autowired
 	private IUploadService uploadService;
 	@Autowired
@@ -73,8 +80,10 @@ public class UserSettingsController {
 	public static final int MY_ALBUMS_LIMIT = NumberUtils.toInt(ConfigUtil.getString("my_album_limit"), 10);
 	/*我的收藏item的数量*/
 	public static final int MY_FAVORITE_LIMIT = NumberUtils.toInt(ConfigUtil.getString("myfavorite_album_limit"), 2);
+	/*发布第三方的状态*/
+	public static final boolean ALBUM_SHAREOUT_FLAG = BooleanUtils.toBoolean(ConfigUtil.getString("album_shareout_flag"), "true", "false");
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET) 
 	public String settings(Model model) {
 		return info(model);
 	}
@@ -373,18 +382,26 @@ public class UserSettingsController {
 	@NeedAuthorize(authorizeType=AuthorizeType.DESIGNER)
 	@RequestMapping(value = "/postAlbum", method = RequestMethod.POST)
 	public String postAlbum(Model model, HttpServletRequest request, String title, long price, int coverId, int[] albumSlideNums, String tags,
-			@RequestParam(required = false, defaultValue = "") String link) {
+			@RequestParam(required = false, defaultValue = "") String link, @RequestParam(defaultValue = "") String verifyCode) {
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
-
+		
+		/* 检查验证码 */
+		if(!verifyCode.equals(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY))){
+			throw new DesignerException(ErrorCode.SYSTEM_VERIFYCODE_ERROR);
+		}
+		request.getSession().removeAttribute(Constants.KAPTCHA_SESSION_KEY);
+		
+		Album album = null;
+		
 		if (albumSlideNums != null && albumSlideNums.length > 0) {
-			if(!"".equals(link)&&!link.startsWith("http://")){
+			if(!StringUtils.isBlank(link)&&!link.toLowerCase().startsWith("http://")){
 				link = "http://"+link;
 			}
 			
 			String remark = request.getParameter("remark");
 			
-			Album album = new Album();
+			album = new Album();
 			album.setUserId(userId);
 			album.setTitle(title);
 			album.setStatus(ConstService.ALBUM_OPEN_STATUS);
@@ -429,7 +446,16 @@ public class UserSettingsController {
 			}
 			// TODO 增加计数
 		}
-		request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的作品已成功发布，现在将转入个人主页，请稍候…");
+		
+		//TODO 提交发布第三方
+		boolean isShareOut = ALBUM_SHAREOUT_FLAG;
+		if(album!=null && album.getId()> 0&& isShareOut){
+			List<SharedInfo> sharedInfoList = OAuthUtil.buildSharedInfoList(album, user.getAccessTokenMap());
+			oauthService.shareout(sharedInfoList);
+		}
+		
+//		model.addAttribute(ConstFront.REDIRECT_URL, "/designer-front/settings/albums");
+		request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的作品已成功发布，现在将转入首页，请稍候…");
 		return ResponseUtil.getForwardReirect();
 	}
 	
@@ -444,14 +470,20 @@ public class UserSettingsController {
 	@NeedAuthorize(authorizeType = AuthorizeType.DESIGNER)
 	@RequestMapping(value = "/updateAlbum")
 	public String updateAlbum(Model model, HttpServletRequest request, int albumId, String title, long price, boolean coverChange, int coverId, boolean tagsChange, String tags,
-			@RequestParam(required = false, defaultValue = "") String link) {
+			@RequestParam(required = false, defaultValue = "") String link, @RequestParam(defaultValue = "") String verifyCode) {
 		// 检查用户登录
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
 		
+		/* 检查验证码 */
+		if(!verifyCode.equals(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY))){
+			throw new DesignerException(ErrorCode.SYSTEM_VERIFYCODE_ERROR);
+		}
+		request.getSession().removeAttribute(Constants.KAPTCHA_SESSION_KEY);
+		
 		Album album = albumService.loadById(albumId);
 		if(album!=null && user.getId().equals(album.getUserId())){//是否是自己发布的作品
-			if(!"".equals(link)&&!link.startsWith("http://")){
+			if(!StringUtils.isBlank(link)&&!link.toLowerCase().startsWith("http://")){
 				link = "http://"+link;
 			}
 			
@@ -475,7 +507,17 @@ public class UserSettingsController {
 					List<String> tagNameList = parseTagNameList(tags);
 					tagService.tagAlbum(albumId, tagNameList);
 				}
-				request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的作品已成功修改，现在将转入首页，请稍候…");
+				
+				//TODO 提交发布第三方
+				boolean isShareOut = ALBUM_SHAREOUT_FLAG;
+				if(album!=null && album.getId()> 0&& isShareOut){
+					List<SharedInfo> sharedInfoList = OAuthUtil.buildSharedInfoList(album, user.getAccessTokenMap());
+					oauthService.shareout(sharedInfoList);
+				}
+
+				model.addAttribute(ConstFront.REDIRECT_URL, "/designer-front/settings/albums");
+				request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的作品辑已成功修改，现在将转入作品辑管理页，请稍候…");
+				
 				return ResponseUtil.getForwardReirect();
 			}
 		}else{
