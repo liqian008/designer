@@ -1,7 +1,6 @@
 package com.bruce.designer.util;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +14,10 @@ import com.bruce.designer.service.oauth.IOAuthService;
 import com.bruce.designer.service.oauth.SharedInfo;
 
 public class OAuthUtil {
+    
+    public static String getOAuthDisplayName(short thirdpartyType, String thirdpartyUname){
+        return getSourceNameByType(thirdpartyType) +"_"+ thirdpartyUname;
+    }
 
 	public static String getSourceNameByType(short thirdpartyType) {
 		String thirdpartyName;
@@ -38,6 +41,9 @@ public class OAuthUtil {
 		}
 		return thirdpartyName;
 	}
+	
+	
+	
 
 	/**
 	 * 根据配置构造分享对象列表

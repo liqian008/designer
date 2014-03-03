@@ -9,7 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.bruce.designer.front.util.ResponseBuilderUtil;
+import com.bruce.designer.front.util.SitemapGenerator;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.IndexSlide;
 import com.bruce.designer.service.IAlbumRecommendService;
@@ -67,6 +70,12 @@ public class TestController {
 		model.addAttribute("recommendAlbumList", recommendAlbumList);
 		return "testTemplate/indexRecommendTest";
 	}
+	
+	@RequestMapping(value = "/refreshSitemap.json", method = RequestMethod.GET)
+    public ModelAndView buildSitemap(Model model) {
+        int result = SitemapGenerator.getInstance().generateSiteMap();
+        return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(result));
+    }
 
 	@RequestMapping(value = "/carousel", method = RequestMethod.GET)
 	public String carousel(Model model) {
