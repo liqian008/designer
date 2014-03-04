@@ -132,5 +132,4 @@ public class SitemapGenerator {
     public static void main(String[] args) throws MalformedURLException {
         SitemapGenerator.getInstance().generateSiteMap();
     }
-
 }

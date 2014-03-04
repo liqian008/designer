@@ -84,7 +84,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
                             </p>
                             <div class="shortcode-tabs shortcode-tabs-vertical clearfix">
                                 <ul class="tabs-nav tabs clearfix span3">
-                                    <li class="active"><a class="button button-white" href="#aboutUs" data-toggle="tab">关于我们</a></li>
+                                    <li class="active"><a class="button button-white" href="#aboutUs" data-toggle="tab">网站介绍</a></li>
                                     <li><a class="button button-white" href="#contactUs" data-toggle="tab">联系我们</a></li>
                                     <li><a class="button button-white" href="#support" data-toggle="tab">技术支持</a></li>
                                 </ul>
