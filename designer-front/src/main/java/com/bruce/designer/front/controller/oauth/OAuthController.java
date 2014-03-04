@@ -28,8 +28,6 @@ import com.bruce.designer.service.oauth.IAccessTokenService;
 import com.bruce.designer.service.oauth.IOAuthService;
 import com.bruce.designer.service.oauth.SharedInfo;
 import com.bruce.designer.util.OAuthUtil;
-///designer-front/oauthBind
-///designer-front/oauthRegister
 @Controller
 public class OAuthController {
 

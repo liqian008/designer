@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bruce.designer.exception.ErrorCode;
+import com.bruce.designer.front.util.DesignerHtmlUtils;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.model.Tag;
 import com.bruce.designer.service.IHotService;
@@ -47,7 +48,7 @@ public class TagController {
 //		System.err.println("side hotService:"+ hotService);
 		tagList = randomList(tagList);
 		if (tagList != null && tagList.size() > 0) {
-			String responseHtml = buildHotTagHtml(tagList);
+			String responseHtml = DesignerHtmlUtils.buildHotTagHtml(tagList);
 			Map<String, String> dataMap = new HashMap<String, String>();
 			dataMap.put("html", responseHtml);
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap));
@@ -55,13 +56,7 @@ public class TagController {
 		return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 	}
 
-	private String buildHotTagHtml(List<Tag> tagList) {
-		StringBuilder sb = new StringBuilder();
-		for (Tag tag : tagList) {
-			sb.append("<a href='/designer-front/tag/" + tag.getName() + "' rel='" + tag.getHotNum() + "'>" + tag.getName() + "</a>");
-		}
-		return sb.toString();
-	}
+	
 
 	/**
 	 * 随机排序热门tag，用于tagCloud

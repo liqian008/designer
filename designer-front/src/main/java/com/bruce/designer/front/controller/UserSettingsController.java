@@ -454,7 +454,6 @@ public class UserSettingsController {
 			oauthService.shareout(sharedInfoList);
 		}
 		
-//		model.addAttribute(ConstFront.REDIRECT_URL, "/designer-front/settings/albums");
 		request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的作品已成功发布，现在将转入首页，请稍候…");
 		return ResponseUtil.getForwardReirect();
 	}
@@ -515,7 +514,7 @@ public class UserSettingsController {
 					oauthService.shareout(sharedInfoList);
 				}
 
-				model.addAttribute(ConstFront.REDIRECT_URL, "/designer-front/settings/albums");
+				model.addAttribute(ConstFront.REDIRECT_URL, ConstFront.CONTEXT_PATH +"/settings/albums");
 				request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的作品辑已成功修改，现在将转入作品辑管理页，请稍候…");
 				
 				return ResponseUtil.getForwardReirect();

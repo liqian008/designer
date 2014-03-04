@@ -1,5 +1,7 @@
 package com.bruce.designer.constants;
 
+import com.bruce.designer.util.ConfigUtil;
+
 public interface ConstService {
 
 	public static final short ALBUM_DELETE_STATUS = 0;
@@ -87,5 +89,8 @@ public interface ConstService {
 	public static final String UPLOAD_IMAGE_SPEC_MEDIUM = "medium";
 	/* 小图片规格 */
 	public static final String UPLOAD_IMAGE_SPEC_SMALL = "small";
+	
+	
+
 
 }

@@ -12,6 +12,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.bruce.designer.front.constants.ConstFront;
+
 /**
  * Comments for UrlUtil.java
  * 
@@ -146,7 +148,7 @@ public class UrlUtil {
 	}
 
 	public static String getFullUrl(String path) {
-		return "/designer-front" + path;
+		return ConstFront.CONTEXT_PATH + path;
 	}
 
 }

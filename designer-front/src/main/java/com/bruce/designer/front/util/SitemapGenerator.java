@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bruce.designer.constants.ConstService;
+import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IAlbumService;
@@ -20,9 +21,8 @@ import com.redfin.sitemapgenerator.WebSitemapUrl;
 
 public class SitemapGenerator {
     
-    private static final String domain = ConfigUtil.getString("domain");
-    private static final String sitemapPath = ConfigUtil
-            .getString("sitemap_dir_path");
+    private static final String domain = ConstFront.DOMAIN;
+    private static final String sitemapPath = ConfigUtil.getString("sitemap_dir_path");
     
     @Autowired
     private IAlbumService albumService;

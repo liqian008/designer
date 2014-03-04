@@ -69,9 +69,15 @@ public class UploadUtil {
    		return basePath;
    	}
    	
+//   	public static String getDomain() {
+//        String basePath = ConfigUtil.getString("domain");
+//        return basePath;
+//    }
    	
     public static String getBaseUrl() {
-        String basePath = ConfigUtil.getString("upload_url_base");
+    	String domain = ConfigUtil.getString("domain");
+    	String contextPath = ConfigUtil.getString("contextPath"); 
+    	String basePath = domain + contextPath + ConfigUtil.getString("upload_url_base");
         return basePath;
     }
    	

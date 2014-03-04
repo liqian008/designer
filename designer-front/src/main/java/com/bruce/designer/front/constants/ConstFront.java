@@ -1,5 +1,7 @@
 package com.bruce.designer.front.constants;
 
+import com.bruce.designer.util.ConfigUtil;
+
 public interface ConstFront {
 	/*jsonView*/
 	public static final String JSON_VIEW = "jsonView";
@@ -38,5 +40,8 @@ public interface ConstFront {
 	
 	public static final String YYYY_MM_DD_HH_MM_FORMAT = "yyyy-MM-dd HH:mm";
 	
-
+	
+	public static final String DOMAIN = ConfigUtil.getString("domain");
+	
+	public static final String CONTEXT_PATH = ConfigUtil.getString("contextPath");
 }
