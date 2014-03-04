@@ -5207,7 +5207,21 @@ input.contact-form-error {
 			text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
 			margin: 10px 5px 0 0;
 		}
-
+		
+		.qq-login {
+			background-image: url(../img/icon/qq.png);
+			width: 159px!important;
+			height:30px!important;
+			border: 0px!important;
+		}
+		
+		.wb-login {
+			background-image: url(../img/icon/weibo.png);
+			width: 162px!important;
+			height:30px!important;
+			border: 0px!important;
+		}
+		
 		.contact-form-widget-respons {
 			color: #5eb518;
 			display: none;

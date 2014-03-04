@@ -113,7 +113,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 												</div>
 												
 												<div class="row-container clearfix">
-													<div class="row-left">昵 称: </div>
+													<div class="row-left">中文昵称: </div>
 													<div class="row-right">
 														<input type="text" class="span5" id="reg-nickname" name="nickname"/>
 														<span id="reg-nickname-required" class="required">*</span>
@@ -151,8 +151,8 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 													</div>
 												</div>
 												
-												<input id="reg-button" class="common-submit button" type="button" value="注 册">
-												<input class="common-submit button" type="reset" value="取 消">
+												<input id="reg-button" class="common-submit button" type="submit" value="注 册">
+												<input class="common-submit button" type="reset" value="重 置">
 											</form>
 										</div>
 							        </div>
@@ -207,10 +207,15 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 												</div>
 												
 												
-												<input id="login-button" class="common-submit button" type="button" value="登 录">
+												<input id="login-button" class="common-submit button" type="submit" value="登 录">
+												<input class="wb-login common-submit button" type="button" onclick="location.href='/designer-front/connectWeibo'"/>
+												<input class="qq-login common-submit button" type="button" onclick="location.href='/designer-front/connectTencent'"/>
+												
+												<!-- 
 												<input class="common-submit button" type="button" value="微博登录" onclick="location.href='/designer-front/connectWeibo'"/>
 												<input class="common-submit button" type="button" value="QQ登录" onclick="location.href='/designer-front/connectTencent'"/>
-												
+												 -->
+												 
 											</form>
 										</div>
 							        </div>
@@ -316,10 +321,12 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
     		}
     	}
     	
-    	$('#login-button').click(function(){
+    	$('#login-widget-form').submit(function(){
     		if(loginUsernameAvailable && loginPasswordAvailable&&loginVerifyCodeAvailable){ 
     			//所有数据项均可用
 	    		$('#login-widget-form').submit();
+    		}else{
+    			return false;
     		}
     	});
     	
@@ -346,10 +353,18 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
     		checkRegVerifyCode();
     	});
     	
-    	$('#reg-button').click(function(){
+    	//$('#reg-button').click(function(){
+    	$('#reg-widget-form').submit(function(){
     		if(regUsernameAvailable && regNicknameAvailable && regPasswordAvailable&&regVerifyCodeAvailable){
     			//所有数据项均可用
 	    		$('#reg-widget-form').submit();
+    		}else{
+    			
+    			alert(regUsernameAvailable);
+    			alert(regNicknameAvailable);
+    			alert(regPasswordAvailable);
+    			alert(regVerifyCodeAvailable);
+    			return false;
     		}
     	});
     	
