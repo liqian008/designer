@@ -7,6 +7,8 @@
 <%@ page import="java.text.*"%>
 
 <%
+String contextPath = ConstFront.CONTEXT_PATH;
+
 User currentUser = (User) session.getAttribute(ConstFront.CURRENT_USER);
 User queryUser = (User) request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE);
 boolean isDesigner = queryUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED;
@@ -25,11 +27,11 @@ if (queryUser != null) {
 		</h4>
 	</div>
 	<form id="contact-form-widget" method="post" class="clearfix"
-		action="/designer-front/login">
+		action="<%=contextPath%>/login">
 		<ul>
 			<li class="clearfix">
 				<div class="widget-blogpost-avatar">
-					<a href="/designer-front/<%=queryUser.getId()%>/home"><img
+					<a href="<%=contextPath%>/<%=queryUser.getId()%>/home"><img
 						src="<%=UploadUtil.getAvatarUrl(queryUser.getId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)%>">
 					</a>
 				</div>
@@ -62,7 +64,7 @@ if (queryUser != null) {
 			<script>
 			//初始化加载用户资料&状态
 			var queryJsonData = {"queryUserId": <%=queryUser.getId()%>};
-			$.post("/designer-front/userboxInfo.json", queryJsonData, function(responseData) {
+			$.post("<%=contextPath%>/userboxInfo.json", queryJsonData, function(responseData) {
 				if(responseData.result==1){
 					$('.fansCount').each(function(){
 						$(this).text(responseData.data.fansCount);
@@ -86,7 +88,7 @@ if (queryUser != null) {
 			$(".followBtn").click(function(){
 				$(".followBtn").attr("disabled", "disabled");
 				var followJsonData = {"uid": <%=queryUser.getId()%>};
-				$.post("/designer-front/follow.json", followJsonData, function(data) {
+				$.post("<%=contextPath%>/follow.json", followJsonData, function(data) {
 					$(".followBtn").removeAttr("disabled");
 					if(data.result==1){
 						$(".unfollowBtn").show();
@@ -106,7 +108,7 @@ if (queryUser != null) {
 			$(".unfollowBtn").click(function(){
 				$(".unfollowBtn").attr("disabled", "disabled");
 				var unfollowJsonData = {"uid": <%=queryUser.getId()%>};
-				$.post("/designer-front/unfollow.json", unfollowJsonData, function(data) {
+				$.post("<%=contextPath%>/unfollow.json", unfollowJsonData, function(data) {
 					$(".unfollowBtn").removeAttr("disabled");
 					if(data.result==1){
 						$(".followBtn").show();
@@ -131,14 +133,14 @@ if (queryUser != null) {
 		
 		<%if (!isMe) {%>
 			<input type="button" class="common-button button" value="私信"
-			onclick="location.href='/designer-front/settings/msgbox/chat?toId=<%=queryUser.getId()%>'" />
+			onclick="location.href='<%=contextPath%>/settings/msgbox/chat?toId=<%=queryUser.getId()%>'" />
 		<%}%>
 		
 		<input type="button" class="common-button button button-blue" value="个人主页"
-			onclick="location.href='/designer-front/<%=queryUser.getId()%>/home'" />	
+			onclick="location.href='<%=contextPath%>/<%=queryUser.getId()%>/home'" />	
 		<%if (isMe) {%>
 		<input type="button" class="common-button button" value="个人设置"
-			onclick="location.href='/designer-front/settings'" />
+			onclick="location.href='<%=contextPath%>/settings'" />
 		<%}%>
 	</form>
 	

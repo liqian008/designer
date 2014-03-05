@@ -10,7 +10,8 @@
 <%@ page import="java.text.*" %> 
 
 <%
-SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
+String contextPath = ConstFront.CONTEXT_PATH;
+
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 %>
 
@@ -28,25 +29,25 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
         <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/designer-front/css/font-awesome.css">
-        <link rel="stylesheet" href="/designer-front/css/animate.css">
-        <link rel="stylesheet" href="/designer-front/css/flexslider.css">
-        <link rel="stylesheet" href="/designer-front/css/style.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/bootstrap.min.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/font-awesome.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/animate.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/flexslider.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/style.css">
         
         <!--[if IE 8]>
-        <link rel="stylesheet" type="text/css" media="all" href="/designer-front/css/ie8.css" />    
+        <link rel="stylesheet" type="text/css" media="all" href="<%=contextPath%>/css/ie8.css" />    
         <![endif]-->
                 
 
-        <script src="/designer-front/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-        <script src="/designer-front/js/vendor/jquery-1.8.3.min.js"></script>
-        <script src="/designer-front/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
+        <script src="<%=contextPath%>/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+        <script src="<%=contextPath%>/js/vendor/jquery-1.8.3.min.js"></script>
+        <script src="<%=contextPath%>/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
 
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
     </head>
-    <body class="body-background" style="background-image: url(/designer-front/img/backgrounds/bg3.jpg); ">
+    <body class="body-background" style="background-image: url(<%=contextPath%>/img/backgrounds/bg3.jpg); ">
 
         <!--[if lt IE 8]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
@@ -73,8 +74,8 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
             <div class="breadscrumbs">
                 <div class="container">
                     <ul class="clearfix">
-                        <li><a href="/designer-front">首页</a>/</li>
-                        <li><a href="/designer-front/settings">设置</a>/</li>
+                        <li><a href="<%=contextPath%>">首页</a>/</li>
+                        <li><a href="<%=contextPath%>/settings">设置</a>/</li>
                         <li><a href="javascript:void(0)">我的收藏</a></li>
                     </ul>
                 </div>
@@ -140,14 +141,14 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
         
     <!-- Load all Javascript Files -->
-    <script src="/designer-front/js/vendor/bootstrap.min.js"></script>
-    <script src="/designer-front/js/jquery.hoverdir.js"></script>
-    <script src="/designer-front/js/superfish.js"></script>
-    <!-- <script src="/designer-front/js/supersubs.js"></script> -->
-   <!--  <script src="/designer-front/js/jquery.tweet.js"></script>  -->
-    <script src="/designer-front/js/jquery.flexslider.js"></script> 
-    <script src="/designer-front/js/retina.js"></script>
-    <script src="/designer-front/js/custom.js"></script>
+    <script src="<%=contextPath%>/js/vendor/bootstrap.min.js"></script>
+    <script src="<%=contextPath%>/js/jquery.hoverdir.js"></script>
+    <script src="<%=contextPath%>/js/superfish.js"></script>
+    <!-- <script src="<%=contextPath%>/js/supersubs.js"></script> -->
+   <!--  <script src="<%=contextPath%>/js/jquery.tweet.js"></script>  -->
+    <script src="<%=contextPath%>/js/jquery.flexslider.js"></script> 
+    <script src="<%=contextPath%>/js/retina.js"></script>
+    <script src="<%=contextPath%>/js/custom.js"></script>
     <script>
 		fallLoad();
 		
@@ -160,7 +161,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			$('#moreAlbumsBtn').val("努力加载中...");
 			$('#moreAlbumsBtn').attr("disabled","disabled");
 			var jsonData = {'favoriteTailId' : $("#favoriteTailId").val(), 'numberPerLine':'2'};
-			$.post('/designer-front/settings/moreFavoritesAlbums.json', jsonData, function(data) {
+			$.post('<%=contextPath%>/settings/moreFavoritesAlbums.json', jsonData, function(data) {
 				var result = data.result;
 				if(result==1){
 					$("#albumContainer").append(data.data.html);

@@ -5,7 +5,7 @@
 <%@ page import="java.text.*"%>
 
 <%
-SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
+String contextPath = ConstFront.CONTEXT_PATH;
 %>
 
 <!DOCTYPE html>
@@ -78,7 +78,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
 			<div class="breadscrumbs">
 			    <div class="container">
 			        <ul class="clearfix">
-			            <li><a href="/designer-front/index">首页</a>/</li> 
+			            <li><a href="<%=contextPath%>/index">首页</a>/</li> 
 			            <li><a href="#">我的关注</a></li>
 			        </ul> 
 			    </div>
@@ -164,7 +164,7 @@ SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
     		$('#moreAlbumsBtn').val("努力加载中...");
     		$('#moreAlbumsBtn').attr("disabled","disabled");
     		var jsonData = {'albumsTailId' : $("#albumsTailId").val(), 'numberPerLine':'3'};
-    		$.post('/designer-front/moreUserFollowAlbums.json', jsonData, function(data) {
+    		$.post('<%=contextPath%>/moreUserFollowAlbums.json', jsonData, function(data) {
     			var result = data.result;
 	    		if(result==1){
 	   				$("#albumContainer").append(data.data.html);

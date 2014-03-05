@@ -7,7 +7,9 @@
 <%@ page import="java.text.*" %>
 
 <%
-SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
+String contextPath = ConstFront.CONTEXT_PATH;
+%>
+<%
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 User queryUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE);
 
@@ -80,8 +82,8 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
             <div class="breadscrumbs">
                 <div class="container">
                     <ul class="clearfix">
-                        <li><a href="/designer-front/">首页</a>/</li>
-                        <li><a href="/designer-front/home"><%=queryUser.getNickname()%></a>/</li>
+                        <li><a href="<%=contextPath%>/">首页</a>/</li>
+                        <li><a href="<%=contextPath%>/home"><%=queryUser.getNickname()%></a>/</li>
                         <li><a href="javascript:void(0)">个人资料</a></li>
                     </ul>
                 </div>
@@ -122,7 +124,7 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 										<div class="row-container clearfix">
 											<div class="row-left">关注数:</div>
 											<div class="row-right">
-												<a href='/designer-front/<%=queryUser.getId()%>/follows'><span class="followsCount">0</span>人</a>
+												<a href='<%=contextPath%>/<%=queryUser.getId()%>/follows'><span class="followsCount">0</span>人</a>
 											</div>
 										</div>
 			                            
@@ -139,14 +141,14 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 			                            <div class="row-container clearfix">
 											<div class="row-left">专辑数: </div>
 											<div class="row-right">
-												<a href='/designer-front/<%=queryUser.getId()%>/home'><span class="albumsCount">x</span>个</a>
+												<a href='<%=contextPath%>/<%=queryUser.getId()%>/home'><span class="albumsCount">x</span>个</a>
 											</div>
 										</div>
 										
 										<div class="row-container clearfix">
 											<div class="row-left">粉丝数: </div>
 											<div class="row-right">
-												<a href='/designer-front/<%=queryUser.getId()%>/fans'><span class="fansCount">0</span>人</a>
+												<a href='<%=contextPath%>/<%=queryUser.getId()%>/fans'><span class="fansCount">0</span>人</a>
 												<%
 												if(!isMe){
 													/* Boolean hasFollowed = (Boolean) request.getAttribute("hasFollowed"); */
@@ -228,7 +230,7 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 		var followId = followBtn.attr('dataItem');
 		followBtn.attr("disabled", "disabled");
 		var followJsonData = {"uid": followId};
-		$.post("/designer-front/follow.json", followJsonData, function(data) {
+		$.post("<%=contextPath%>/follow.json", followJsonData, function(data) {
 			followBtn.removeAttr("disabled");
 			if(data.result==1){
 				followBtn.next().show();
@@ -244,7 +246,7 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 		var unfollowId = unfollowBtn.attr('dataItem');
 		unfollowBtn.attr("disabled", "disabled");
 		var unfollowJsonData = {"uid": unfollowId};
-		$.post("/designer-front/unfollow.json", unfollowJsonData, function(data) {
+		$.post("<%=contextPath%>/unfollow.json", unfollowJsonData, function(data) {
 			unfollowBtn.removeAttr("disabled");
 			if(data.result==1){
 				unfollowBtn.prev().show();

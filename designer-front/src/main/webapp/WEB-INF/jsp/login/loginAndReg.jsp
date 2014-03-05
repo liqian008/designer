@@ -5,6 +5,10 @@
 <%@ page import="java.text.*" %>
 
 <%
+String contextPath = ConstFront.CONTEXT_PATH;
+%>
+
+<%
 String redirectUrl = (String)request.getAttribute(ConstFront.REDIRECT_URL);
 String loginErrorMessage = (String)request.getAttribute(ConstFront.LOGIN_ERROR_MESSAGE);
 String regErrorMessage = (String)request.getAttribute(ConstFront.REG_ERROR_MESSAGE);
@@ -25,18 +29,18 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
         <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/designer-front/css/font-awesome.css">
-        <link rel="stylesheet" href="/designer-front/css/animate.css">
-        <link rel="stylesheet" href="/designer-front/css/flexslider.css">
-        <link rel="stylesheet" href="/designer-front/css/style.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/bootstrap.min.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/font-awesome.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/animate.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/flexslider.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/style.css">
                                 <!--[if IE 8]>
-        <link rel="stylesheet" type="text/css" media="all" href="/designer-front/css/ie8.css" />    
+        <link rel="stylesheet" type="text/css" media="all" href="<%=contextPath%>/css/ie8.css" />    
         <![endif]-->
                 
 
-        <script src="/designer-front/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-        <script src="/designer-front/js/vendor/jquery-1.8.3.min.js"></script>
+        <script src="<%=contextPath%>/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+        <script src="<%=contextPath%>/js/vendor/jquery-1.8.3.min.js"></script>
 
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
@@ -102,7 +106,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 											<%}%>
 				                            
 											<form id="reg-widget-form" method="post" class="clearfix"
-												action="/designer-front/register">
+												action="<%=contextPath%>/register">
 												<div class="row-container clearfix">
 													<div class="row-left">邮 箱: </div>
 													<div class="row-right">
@@ -145,7 +149,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 														<input type="text" id="reg-verifyCode" name="verifyCode" class="span2" value="">
 														<span id="reg-verifyCode-required" class="required">*</span>
 														<a href="javascript:void(0)">
-														<img src='/designer-front/verifyCode' id="reg-verifyCode-img" width="75px"/>
+														<img src='<%=contextPath%>/verifyCode' id="reg-verifyCode-img" width="75px"/>
 														</a>
 														<span id="reg-verifyCode-prompt" class="text-prompt"></span>
 													</div>
@@ -173,7 +177,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 											<%}%>
 				                            
 											<form id="login-widget-form" method="post" class="clearfix"
-												action="/designer-front/login">
+												action="<%=contextPath%>/login">
 												<%if(redirectUrl!=null){%>
 													<input type="hidden" name="<%=ConstFront.REDIRECT_URL%>" value="<%=redirectUrl%>"/>
 												<%}%>
@@ -200,7 +204,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 													<div class="row-left">验证码：</div>
 													<div class="row-right">
 														<input type="text" id="login-verifyCode" name="verifyCode" class="span2" value="">
-														<a href="javascript:void(0)"><img src='/designer-front/verifyCode' id="login-verifyCode-img" width="75px" height="30px"/></a>
+														<a href="javascript:void(0)"><img src='<%=contextPath%>/verifyCode' id="login-verifyCode-img" width="75px" height="30px"/></a>
 														<span id="login-verifyCode-required" class="required">*</span>
 														<span id="login-verifyCode-prompt" class="text-prompt"></span>
 													</div>
@@ -208,12 +212,12 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 												
 												
 												<input id="login-button" class="common-submit button" type="submit" value="登 录">
-												<input class="wb-login common-submit button" type="button" onclick="location.href='/designer-front/connectWeibo'"/>
-												<input class="qq-login common-submit button" type="button" onclick="location.href='/designer-front/connectTencent'"/>
+												<input class="wb-login common-submit button" type="button" onclick="location.href='<%=contextPath%>/connectWeibo'"/>
+												<input class="qq-login common-submit button" type="button" onclick="location.href='<%=contextPath%>/connectTencent'"/>
 												
 												<!-- 
-												<input class="common-submit button" type="button" value="微博登录" onclick="location.href='/designer-front/connectWeibo'"/>
-												<input class="common-submit button" type="button" value="QQ登录" onclick="location.href='/designer-front/connectTencent'"/>
+												<input class="common-submit button" type="button" value="微博登录" onclick="location.href='<%=contextPath%>/connectWeibo'"/>
+												<input class="common-submit button" type="button" value="QQ登录" onclick="location.href='<%=contextPath%>/connectTencent'"/>
 												 -->
 												 
 											</form>
@@ -235,15 +239,15 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 
         
     <!-- Load all Javascript Files -->
-    <script src="/designer-front/js/vendor/bootstrap.min.js"></script>
-    <script src="/designer-front/js/jquery.hoverdir.js"></script>
-    <script src="/designer-front/js/superfish.js"></script>
-    <!-- <script src="/designer-front/js/supersubs.js"></script> -->
-   <!--  <script src="/designer-front/js/jquery.tweet.js"></script>  -->
-    <script src="/designer-front/js/jquery.flexslider.js"></script> 
-    <script src="/designer-front/js/retina.js"></script>
+    <script src="<%=contextPath%>/js/vendor/bootstrap.min.js"></script>
+    <script src="<%=contextPath%>/js/jquery.hoverdir.js"></script>
+    <script src="<%=contextPath%>/js/superfish.js"></script>
+    <!-- <script src="<%=contextPath%>/js/supersubs.js"></script> -->
+   <!--  <script src="<%=contextPath%>/js/jquery.tweet.js"></script>  -->
+    <script src="<%=contextPath%>/js/jquery.flexslider.js"></script> 
+    <script src="<%=contextPath%>/js/retina.js"></script>
 
-    <script src="/designer-front/js/custom.js"></script>
+    <script src="<%=contextPath%>/js/custom.js"></script>
 	<script>
     	$(document).ready(function(){
     		//$('#login-failed').hide();
@@ -306,7 +310,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
     			$('#login-verifyCode-prompt').text('验证码不能为空').show();
     		}else{
     			var jsonData = {'verifyCode':verifyCodeVal};
-    			$.post('/designer-front/checkVerifyCode.json', jsonData, function(responseData) {
+    			$.post('<%=contextPath%>/checkVerifyCode.json', jsonData, function(responseData) {
        				var result = responseData.result;
        				if(result==1){
        					//设置verifyCode的标识
@@ -382,7 +386,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
         		return false;
     		}else{//ajax检查是否可用
     			var jsonData = {'username':usernameVal};
-    			$.post('/designer-front/usernameExists.json', jsonData, function(data) {
+    			$.post('<%=contextPath%>/usernameExists.json', jsonData, function(data) {
        				var result = data.result;
        				if(result==1){
        					//设置username available的标识
@@ -408,7 +412,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
     			$('#reg-nickname-prompt').text('昵称不符合规范').show();
     		}else{//ajax检查昵称是否可用
     			var jsonData = {'nickname':nicknameVal};
-    			$.post('/designer-front/nicknameExists.json', jsonData, function(data) {
+    			$.post('<%=contextPath%>/nicknameExists.json', jsonData, function(data) {
        				var result = data.result;
        				if(result==1){
        					//设置nickname available的标识
@@ -454,7 +458,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
     		}else{
     			/* regVerifyCodeAvailable = true; */
     			var jsonData = {'verifyCode':verifyCodeVal};
-    			$.post('/designer-front/checkVerifyCode.json', jsonData, function(responseData) {
+    			$.post('<%=contextPath%>/checkVerifyCode.json', jsonData, function(responseData) {
        				var result = responseData.result;
        				if(result==1){
        					//设置verifyCode的标识
@@ -470,13 +474,13 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
     	}
     	
     	$('#login-verifyCode-img').click(function(){
-    		var newUrl = "/designer-front/verifyCode?" + Math.floor(Math.random()*100);
+    		var newUrl = "<%=contextPath%>/verifyCode?" + Math.floor(Math.random()*100);
     		$('#login-verifyCode-img').attr("src", newUrl).fadeIn();
     		$('#reg-verifyCode-img').attr("src", newUrl).fadeIn();
         })
     	
     	$('#reg-verifyCode-img').click(function(){
-    		var newUrl = "/designer-front/verifyCode?" + Math.floor(Math.random()*100);
+    		var newUrl = "<%=contextPath%>/verifyCode?" + Math.floor(Math.random()*100);
     		$('#reg-verifyCode-img').attr("src", newUrl).fadeIn();
     		$('#login-verifyCode-img').attr("src", newUrl).fadeIn();
         })

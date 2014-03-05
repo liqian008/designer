@@ -5,6 +5,10 @@
 <%@ page import='java.util.*'%>
 <%@ page import='java.text.*'%>
 
+<%
+String contextPath = ConstFront.CONTEXT_PATH;
+%>
+
 
 <div class='widget-box widget-flickr'>
 	<div class='content-title'>
@@ -27,7 +31,7 @@
 fallLoad();
 
 function fallLoad(){
-	$.get('/designer-front/sideLatestAlbums.json', function(data) {
+	$.get('<%=contextPath%>/sideLatestAlbums.json', function(data) {
 		var result = data.result;
 		if(result==1){
 			$("#slideLatestAlbumsContainer").append(data.data.html);
@@ -49,7 +53,7 @@ function fallLoad(){
 			<li class="clearfix">
 				<div class="widget-blogpost-avatar">
 					<a href="post-gallery.html#"> <img
-						src="/designer-front/img/demo/ecopower-70x70.jpg" alt="Blogpost-1">
+						src="<%=contextPath%>/img/demo/ecopower-70x70.jpg" alt="Blogpost-1">
 					</a>
 				</div>
 				<div class="widget-blogpost-content">
@@ -66,7 +70,7 @@ function fallLoad(){
 			<li class="clearfix">
 				<div class="widget-blogpost-avatar">
 					<a href="post-gallery.html#"> <img
-						src="/designer-front/img/demo/architecture-70x70.jpg"
+						src="<%=contextPath%>/img/demo/architecture-70x70.jpg"
 						alt="Blogpost-1">
 					</a>
 				</div>
@@ -84,7 +88,7 @@ function fallLoad(){
 			<li class="clearfix">
 				<div class="widget-blogpost-avatar">
 					<a href="post-gallery.html#"> <img
-						src="/designer-front/img/demo/ecohands-70x70.jpg" alt="Blogpost-1">
+						src="<%=contextPath%>/img/demo/ecohands-70x70.jpg" alt="Blogpost-1">
 					</a>
 				</div>
 				<div class="widget-blogpost-content">

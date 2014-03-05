@@ -7,7 +7,9 @@
 <%@ page import="java.text.*" %> 
 
 <%
-SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
+String contextPath = ConstFront.CONTEXT_PATH;
+%>
+<%
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 boolean isDesigner = currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED;
 
@@ -27,23 +29,23 @@ boolean isDesigner = currentUser.getDesignerStatus()==ConstService.DESIGNER_APPL
         <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/designer-front/css/font-awesome.css">
-        <link rel="stylesheet" href="/designer-front/css/animate.css">
-        <link rel="stylesheet" href="/designer-front/css/flexslider.css">
-        <link rel="stylesheet" href="/designer-front/css/style.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/bootstrap.min.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/font-awesome.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/animate.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/flexslider.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/style.css">
                                 <!--[if IE 8]>
-        <link rel="stylesheet" type="text/css" media="all" href="/designer-front/css/ie8.css" />    
+        <link rel="stylesheet" type="text/css" media="all" href="<%=contextPath%>/css/ie8.css" />    
         <![endif]-->
                 
 
-        <script src="/designer-front/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-        <script src="/designer-front/js/vendor/jquery-1.8.3.min.js"></script>
+        <script src="<%=contextPath%>/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+        <script src="<%=contextPath%>/js/vendor/jquery-1.8.3.min.js"></script>
 
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
     </head>
-    <body class="body-background" style="background-image: url(/designer-front/img/backgrounds/bg3.jpg); ">
+    <body class="body-background" style="background-image: url(<%=contextPath%>/img/backgrounds/bg3.jpg); ">
 
         <!--[if lt IE 8]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
@@ -68,8 +70,8 @@ boolean isDesigner = currentUser.getDesignerStatus()==ConstService.DESIGNER_APPL
             <div class="breadscrumbs">
                 <div class="container">
                     <ul class="clearfix">
-                        <li><a href="/designer-front">首页</a>/</li>
-                        <li><a href="/designer-front/settings">设置</a>/</li>
+                        <li><a href="<%=contextPath%>">首页</a>/</li>
+                        <li><a href="<%=contextPath%>/settings">设置</a>/</li>
                         <li><a href="javascript:void(0)">第三方账户绑定</a></li>
                     </ul>
                 </div>
@@ -90,7 +92,7 @@ boolean isDesigner = currentUser.getDesignerStatus()==ConstService.DESIGNER_APPL
                                     <div class="tab-pane widgets-light active" id="info">
                                         <div class="widget-box widget-wrapper-form">
 											<form class="widget-form" method="post" class="clearfix"
-												action="/designer-front/settings/info">
+												action="<%=contextPath%>/settings/info">
 												
 												<div class="content-title">
 													<h4>第三方账户绑定</h4> 
@@ -119,13 +121,13 @@ boolean isDesigner = currentUser.getDesignerStatus()==ConstService.DESIGNER_APPL
 														%>
 														<%=wbBound?"已绑定":"未绑定"%><%=wbToken!=null?"【"+wbToken.getThirdpartyUname()+"】":""%>
 														<%if(wbBound){%>
-														<!-- <a href="/designer-front/unbindOauth?thirdpartyType=1" class="button button-small button-white">解绑Sina微博账户</a> -->
-														<input type="button" class="button button-white" value="解 绑" onclick="location.href='/designer-front/unbindOauth?thirdpartyType=1'"/>
+														<!-- <a href="<%=contextPath%>/unbindOauth?thirdpartyType=1" class="button button-small button-white">解绑Sina微博账户</a> -->
+														<input type="button" class="button button-white" value="解 绑" onclick="location.href='<%=contextPath%>/unbindOauth?thirdpartyType=1'"/>
 														<input type="checkbox" name="sync2Weibo" value="1" <%=wbToken.getSyncAlbum()==1?"checked='checked'":""%>/>发布作品时同步到Sina微博
 														<%}else{%>
-														<input type="button" class="button button-green" value="现在就去绑定" onclick="location.href='/designer-front/connectWeibo'"/>
+														<input type="button" class="button button-green" value="现在就去绑定" onclick="location.href='<%=contextPath%>/connectWeibo'"/>
 														<!-- 
-														<a href="/designer-front/connectWeibo" class="button button-small button-green">现在就去绑定</a>
+														<a href="<%=contextPath%>/connectWeibo" class="button button-small button-green">现在就去绑定</a>
 														 -->
 														<%}%>
 													</div>
@@ -139,12 +141,12 @@ boolean isDesigner = currentUser.getDesignerStatus()==ConstService.DESIGNER_APPL
 														%>
 														<%=tencentBound?"已绑定":"未绑定"%><%=tencentToken!=null?"【"+tencentToken.getThirdpartyUname()+"】":""%>
 														<%if(tencentBound){%>
-														<!-- <a href="/designer-front/unbindOauth?thirdpartyType=2" class="button button-small button-white">解绑QQ账户</a> -->
-														<input type="button" class="button button-white" value="解 绑" onclick="location.href='/designer-front/unbindOauth?thirdpartyType=2'"/>
+														<!-- <a href="<%=contextPath%>/unbindOauth?thirdpartyType=2" class="button button-small button-white">解绑QQ账户</a> -->
+														<input type="button" class="button button-white" value="解 绑" onclick="location.href='<%=contextPath%>/unbindOauth?thirdpartyType=2'"/>
 														<input type="checkbox" name="sync2Tencent" value="1" <%=wbToken.getSyncAlbum()==1?"checked='checked'":""%>/>发布作品时同步到QQ空间
 														<%}else{%>
-														<input type="button" class="button button-green" value="现在就去绑定" onclick="location.href='/designer-front/connectTencent'"/>
-														<!--<a href="/designer-front/connectTencent" class="button button-small button-green">现在就去绑定</a> -->
+														<input type="button" class="button button-green" value="现在就去绑定" onclick="location.href='<%=contextPath%>/connectTencent'"/>
+														<!--<a href="<%=contextPath%>/connectTencent" class="button button-small button-green">现在就去绑定</a> -->
 														<%}%>
 													</div>
 												</div>
@@ -177,15 +179,15 @@ boolean isDesigner = currentUser.getDesignerStatus()==ConstService.DESIGNER_APPL
 
         
     <!-- Load all Javascript Files -->
-    <script src="/designer-front/js/vendor/bootstrap.min.js"></script>
-    <script src="/designer-front/js/jquery.hoverdir.js"></script>
-    <script src="/designer-front/js/superfish.js"></script>
-    <!-- <script src="/designer-front/js/supersubs.js"></script> -->
-   <!--  <script src="/designer-front/js/jquery.tweet.js"></script>  -->
-    <script src="/designer-front/js/jquery.flexslider.js"></script> 
-    <script src="/designer-front/js/retina.js"></script>
+    <script src="<%=contextPath%>/js/vendor/bootstrap.min.js"></script>
+    <script src="<%=contextPath%>/js/jquery.hoverdir.js"></script>
+    <script src="<%=contextPath%>/js/superfish.js"></script>
+    <!-- <script src="<%=contextPath%>/js/supersubs.js"></script> -->
+   <!--  <script src="<%=contextPath%>/js/jquery.tweet.js"></script>  -->
+    <script src="<%=contextPath%>/js/jquery.flexslider.js"></script> 
+    <script src="<%=contextPath%>/js/retina.js"></script>
 
-    <script src="/designer-front/js/custom.js"></script>
+    <script src="<%=contextPath%>/js/custom.js"></script>
 
     </body>
 </html>

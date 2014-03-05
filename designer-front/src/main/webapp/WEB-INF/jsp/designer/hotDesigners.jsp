@@ -6,6 +6,11 @@
 <%@ page import="java.util.*"%>
 <%@ page import="java.text.*"%>
 
+
+<%
+String contextPath = ConstFront.CONTEXT_PATH;
+%>
+
 <%!String getActive(HttpServletRequest request, int mode){
 	if(mode == ((Integer)request.getAttribute("mode")).intValue()){
 		return "class='active'";
@@ -38,19 +43,19 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 	content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
-<link rel="stylesheet" href="/designer-front/css/font-awesome.css">
-<link rel="stylesheet" href="/designer-front/css/animate.css">
-<link rel="stylesheet" href="/designer-front/css/flexslider.css">
-<link rel="stylesheet" href="/designer-front/css/style.css">
+<link rel="stylesheet" href="<%=contextPath%>/css/bootstrap.min.css">
+<link rel="stylesheet" href="<%=contextPath%>/css/font-awesome.css">
+<link rel="stylesheet" href="<%=contextPath%>/css/animate.css">
+<link rel="stylesheet" href="<%=contextPath%>/css/flexslider.css">
+<link rel="stylesheet" href="<%=contextPath%>/css/style.css">
 <!--[if IE 8]>
-        <link rel="stylesheet" type="text/css" media="all" href="/designer-front/css/ie8.css" />    
+        <link rel="stylesheet" type="text/css" media="all" href="<%=contextPath%>/css/ie8.css" />    
         <![endif]-->
 
 
 <script
-	src="/designer-front/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-<script src="/designer-front/js/vendor/jquery-1.8.3.min.js"></script>
+	src="<%=contextPath%>/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+<script src="<%=contextPath%>/js/vendor/jquery-1.8.3.min.js"></script>
 
 <link href='http://fonts.googleapis.com/css?family=Lato'
 	rel='stylesheet' type='text/css'>
@@ -58,7 +63,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 	rel='stylesheet' type='text/css'>
 </head>
 <body class="body-background"
-	style="background-image: url(/designer-front/img/backgrounds/bg3.jpg);">
+	style="background-image: url(<%=contextPath%>/img/backgrounds/bg3.jpg);">
 
 	<!--[if lt IE 8]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
@@ -101,9 +106,9 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 						<section class="content span9">
 							<div class="shortcode-tabs">
 	                            <ul class="tabs-nav tabs clearfix">
-	                                <li <%=getActive(request, 1)%>><a class="button button-white" href="/designer-front/hot/dailyDesigners">本日热门设计师</a></li>
-	                                <li <%=getActive(request, 2)%>><a class="button button-white" href="/designer-front/hot/weeklyDesigners">本周热门设计师</a></li>
-	                                <li <%=getActive(request, 3)%>><a class="button button-white" href="/designer-front/hot/monthlyDesigners">本月热门设计师</a></li>
+	                                <li <%=getActive(request, 1)%>><a class="button button-white" href="<%=contextPath%>/hot/dailyDesigners">本日热门设计师</a></li>
+	                                <li <%=getActive(request, 2)%>><a class="button button-white" href="<%=contextPath%>/hot/weeklyDesigners">本周热门设计师</a></li>
+	                                <li <%=getActive(request, 3)%>><a class="button button-white" href="<%=contextPath%>/hot/monthlyDesigners">本月热门设计师</a></li>
 	                            </ul>
                             </div>
 						
@@ -117,7 +122,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 									<div class="designer-wrap clearfix">
 										<%for(User designer: designerList){%>
 										<div class="designer_badge_image" id="designer_badge_image<%=designer.getId()%>">
-											<a href="/designer-front/<%=designer.getId()%>/home">
+											<a href="<%=contextPath%>/<%=designer.getId()%>/home">
 												<img src="<%=UploadUtil.getAvatarUrl(designer.getId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)%>">
 											</a>
 										</div>
@@ -160,12 +165,12 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
 
 	<!-- Load all Javascript Files -->
-	<script src="/designer-front/js/vendor/bootstrap.min.js"></script>
-	<script src="/designer-front/js/jquery.hoverdir.js"></script>
-	<script src="/designer-front/js/superfish.js"></script>
-	<!-- <script src="/designer-front/js/supersubs.js"></script> -->
-	<!--  <script src="/designer-front/js/jquery.tweet.js"></script>  -->
-	<script src="/designer-front/js/retina.js"></script>
-	<script src="/designer-front/js/custom.js"></script>
+	<script src="<%=contextPath%>/js/vendor/bootstrap.min.js"></script>
+	<script src="<%=contextPath%>/js/jquery.hoverdir.js"></script>
+	<script src="<%=contextPath%>/js/superfish.js"></script>
+	<!-- <script src="<%=contextPath%>/js/supersubs.js"></script> -->
+	<!--  <script src="<%=contextPath%>/js/jquery.tweet.js"></script>  -->
+	<script src="<%=contextPath%>/js/retina.js"></script>
+	<script src="<%=contextPath%>/js/custom.js"></script>
 </body>
 </html>

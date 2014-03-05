@@ -7,6 +7,7 @@
 <%@ page import="java.text.*"%>
 
 <%
+String contextPath = ConstFront.CONTEXT_PATH;
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 Album album = (Album)request.getAttribute("albumInfo");
 %>
@@ -29,18 +30,18 @@ Album album = (Album)request.getAttribute("albumInfo");
 	content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
-<link rel="stylesheet" href="/designer-front/css/font-awesome.css">
-<link rel="stylesheet" href="/designer-front/css/animate.css">
-<link rel="stylesheet" href="/designer-front/css/flexslider.css">
-<link rel="stylesheet" href="/designer-front/css/style.css">
+<link rel="stylesheet" href="<%=contextPath%>/css/bootstrap.min.css">
+<link rel="stylesheet" href="<%=contextPath%>/css/font-awesome.css">
+<link rel="stylesheet" href="<%=contextPath%>/css/animate.css">
+<link rel="stylesheet" href="<%=contextPath%>/css/flexslider.css">
+<link rel="stylesheet" href="<%=contextPath%>/css/style.css">
 <!--[if IE 8]>
-        <link rel="stylesheet" type="text/css" media="all" href="/designer-front/css/ie8.css" />    
+        <link rel="stylesheet" type="text/css" media="all" href="<%=contextPath%>/css/ie8.css" />    
         <![endif]-->
 
 <script
-	src="/designer-front/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-<script src="/designer-front/js/vendor/jquery-1.8.3.min.js"></script>
+	src="<%=contextPath%>/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+<script src="<%=contextPath%>/js/vendor/jquery-1.8.3.min.js"></script>
 
 <link href='http://fonts.googleapis.com/css?family=Lato'
 	rel='stylesheet' type='text/css'>
@@ -48,7 +49,7 @@ Album album = (Album)request.getAttribute("albumInfo");
 	rel='stylesheet' type='text/css'>
 </head>
 <body class="body-background"
-	style="background-image: url(/designer-front/img/backgrounds/bg3.jpg);">
+	style="background-image: url(<%=contextPath%>/img/backgrounds/bg3.jpg);">
 
 	<!--[if lt IE 8]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
@@ -83,7 +84,7 @@ Album album = (Album)request.getAttribute("albumInfo");
 			<div class="breadscrumbs">
 				<div class="container">
 					<ul class="clearfix">
-						<li><a href="/designer-front/">首页</a>/</li>
+						<li><a href="<%=contextPath%>/">首页</a>/</li>
 						<li><a href="javascript:void(0)">专辑展示</a>/</li>
 						<li><a href="javascript:void(0)"><%=album.getTitle()%></a></li>
 					
@@ -112,10 +113,10 @@ Album album = (Album)request.getAttribute("albumInfo");
 								%>
 								<div class="single-navigation navigation clearfix">
 									<%if(slideIndex>0){%>
-									<a href="/designer-front/album/<%=album.getId() %>/<%=slideList.get(slideIndex-1).getId()%>" class="nav-left"><span></span>上一张</a>
+									<a href="<%=contextPath%>/album/<%=album.getId() %>/<%=slideList.get(slideIndex-1).getId()%>" class="nav-left"><span></span>上一张</a>
 									<%}
 									if(slideIndex<slideList.size()-1){
-									%><a href="/designer-front/album/<%=album.getId() %>/<%=slideList.get(slideIndex+1).getId()%>" class="nav-right">下一张<span></span></a>
+									%><a href="<%=contextPath%>/album/<%=album.getId() %>/<%=slideList.get(slideIndex+1).getId()%>" class="nav-right">下一张<span></span></a>
 									<%}%>
 								</div>
 								<%}%>
@@ -145,7 +146,7 @@ Album album = (Album)request.getAttribute("albumInfo");
 													for(String tagName: tagNameList){
 														tagIndex++;
 												%>
-													<a href="/designer-front/tag/<%=tagName%>"><%=tagName%></a>
+													<a href="<%=contextPath%>/tag/<%=tagName%>"><%=tagName%></a>
 													<%=tagIndex<tagNameList.size()?",&nbsp;":""%>
 												<%}
 												}%>
@@ -255,7 +256,7 @@ Album album = (Album)request.getAttribute("albumInfo");
 												<h4>发表新评论</h4>
 											</div>
 											<%if(currentUser==null){%>
-											<form action="/designer-front/loginBack" method="post"
+											<form action="<%=contextPath%>/loginBack" method="post"
 												id="loginBackForm" class="form">
 												<div class="span12">
 													发表评论需要您先登录！ <input
@@ -267,12 +268,12 @@ Album album = (Album)request.getAttribute("albumInfo");
 													
 													<!-- <input class="button button-small button-green"
 														type="button" name="weiboLoginBtn" id="weiboLoginBtn" tabindex="5"
-														value="微博登录"  onclick="location.href='/designer-front/connectWeibo'"/>
+														value="微博登录"  onclick="location.href='<%=contextPath%>/connectWeibo'"/>
 													<input class="button button-small"
 														type="button" name="tencentLoginBtn" id="tencentLoginBtn" tabindex="5"
-														value="QQ登录" onclick="location.href='/designer-front/connectTencent'"/> -->
-													<input class="wb-login common-submit button" id="weiboLoginBtn" type="button" onclick="location.href='/designer-front/connectWeibo'"/>
-													<input class="qq-login common-submit button" id="tencentLoginBtn" type="button" onclick="location.href='/designer-front/connectTencent'"/>
+														value="QQ登录" onclick="location.href='<%=contextPath%>/connectTencent'"/> -->
+													<input class="wb-login common-submit button" id="weiboLoginBtn" type="button" onclick="location.href='<%=contextPath%>/connectWeibo'"/>
+													<input class="qq-login common-submit button" id="tencentLoginBtn" type="button" onclick="location.href='<%=contextPath%>/connectTencent'"/>
 												
 												</div>
 											</form>
@@ -319,15 +320,15 @@ Album album = (Album)request.getAttribute("albumInfo");
 
 
 	<!-- Load all Javascript Files -->
-	<script src="/designer-front/js/vendor/bootstrap.min.js"></script>
-	<script src="/designer-front/js/jquery.hoverdir.js"></script>
-	<script src="/designer-front/js/superfish.js"></script>
-	<!-- <script src="/designer-front/js/supersubs.js"></script> -->
-	<!--  <script src="/designer-front/js/jquery.tweet.js"></script>  -->
-	<script src="/designer-front/js/jquery.flexslider.js"></script>
-	<script src="/designer-front/js/retina.js"></script>
+	<script src="<%=contextPath%>/js/vendor/bootstrap.min.js"></script>
+	<script src="<%=contextPath%>/js/jquery.hoverdir.js"></script>
+	<script src="<%=contextPath%>/js/superfish.js"></script>
+	<!-- <script src="<%=contextPath%>/js/supersubs.js"></script> -->
+	<!--  <script src="<%=contextPath%>/js/jquery.tweet.js"></script>  -->
+	<script src="<%=contextPath%>/js/jquery.flexslider.js"></script>
+	<script src="<%=contextPath%>/js/retina.js"></script>
 
-	<script src="/designer-front/js/custom.js"></script>
+	<script src="<%=contextPath%>/js/custom.js"></script>
 
 	<script>
 		<%if(album.isLike()){%>
@@ -358,7 +359,7 @@ Album album = (Album)request.getAttribute("albumInfo");
 			$(".comment-operation-container").toggle();
 			
 			var jsonData = {'commentsTailId' : $("#commentsTailId").val(), "albumId": <%=album.getId()%> };
-			$.post('/designer-front/moreComments.json', jsonData, function(data) {
+			$.post('<%=contextPath%>/moreComments.json', jsonData, function(data) {
 				$(".comment-operation-container").toggle();
 				$("#commentListContainer").append(data.data.html);
 				var nextTailId = data.data.tailId;
@@ -390,7 +391,7 @@ Album album = (Album)request.getAttribute("albumInfo");
     	
     	$("#likeLink").click(function(){
     		var likeJsonData = {'albumId': $("#albumId").val()};
-	    	$.post("/designer-front/like.json", likeJsonData, function(responseData) {
+	    	$.post("<%=contextPath%>/like.json", likeJsonData, function(responseData) {
 	    		var result = responseData.result;
    				if(result==1){
    					var likeCount = parseInt($('.album-like-counter').text());
@@ -405,7 +406,7 @@ Album album = (Album)request.getAttribute("albumInfo");
     	
     	$("#favoriteLink").click(function(){
     		var favoriteJsonData = {'albumId': $("#albumId").val()};
-	    	$.post("/designer-front/favorite.json", favoriteJsonData, function(responseData) {
+	    	$.post("<%=contextPath%>/favorite.json", favoriteJsonData, function(responseData) {
 	    		var result = responseData.result;
    				if(result==1){
    					var favoriteCount = parseInt($('.album-favorite-counter').text());
@@ -422,7 +423,7 @@ Album album = (Album)request.getAttribute("albumInfo");
     		//disable submitBtn
     		$("#commentBtn").attr("disabled", "disabled");
     		var commentJsonData = {"comment": $("#comment").val(),'albumId': $("#albumId").val(), 'toId':$("#toId").val(), 'designerId':$("#designerId").val()};
-    		$.post("/designer-front/comment.json", commentJsonData, function(data) {
+    		$.post("<%=contextPath%>/comment.json", commentJsonData, function(data) {
     			var result = data.result;
    				if(result==1){
    					$("#comment").val("");
@@ -439,7 +440,7 @@ Album album = (Album)request.getAttribute("albumInfo");
 			$("#loginBackForm").submit();
     	});
     	$("#regBtn").click(function(){
-			location.href="/designer-front/register";
+			location.href="<%=contextPath%>/register";
     	});
     	
     	function reply(fromId, fromName){

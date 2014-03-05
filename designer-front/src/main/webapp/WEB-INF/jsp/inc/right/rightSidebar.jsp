@@ -6,6 +6,8 @@
 <%@ page import="java.text.*"%>
 
 <%
+String contextPath = ConstFront.CONTEXT_PATH;
+
 User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 %>
 
@@ -17,7 +19,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			<div class="content-title">
 				<h4 class="widget-title">用户登录</h4>
 			</div>
-			<form id="contact-form-widget" method="post" class="clearfix" action="/designer-front/login">
+			<form id="contact-form-widget" method="post" class="clearfix" action="<%=contextPath%>/login">
 				<div class="input-container">
 					<input type="text" class="contact-form-name" name="username"
 						value="liqian"
@@ -30,10 +32,10 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 						value="liqian"/> 
 						<i class="icon-envelope-alt"></i>
 				</div>
-				<input class="common-submit button" type="button" value="微博登录" onclick="location.href='/designer-front/connectWeibo'"/>
-				<input class="common-submit button" type="button" value="QQ登录" onclick="location.href='/designer-front/connectTencent'"/>
+				<input class="common-submit button" type="button" value="微博登录" onclick="location.href='<%=contextPath%>/connectWeibo'"/>
+				<input class="common-submit button" type="button" value="QQ登录" onclick="location.href='<%=contextPath%>/connectTencent'"/>
 				<input class="common-submit button" type="submit" value="登 录">
-				<input class="common-submit button" type="button" value="注 册"  onclick="location.href='/designer-front/register'">
+				<input class="common-submit button" type="button" value="注 册"  onclick="location.href='<%=contextPath%>/register'">
 			</form>
 		</div>
 	<%}else{%>
@@ -41,12 +43,12 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 		<div class="content-title">
 			<h4 class="widget-title">设计师资料</h4>
 		</div>
-		<form id="contact-form-widget" method="post" class="clearfix" action="/designer-front/login">
+		<form id="contact-form-widget" method="post" class="clearfix" action="<%=contextPath%>/login">
 			<ul>
 				<li class="clearfix">
 					<div class="widget-blogpost-avatar">
 						<a href="post-gallery.html#">
-						<img src="/designer-front/img/demo/portraits/1_avatar_middle.jpg" alt="Blogpost-1">
+						<img src="<%=contextPath%>/img/demo/portraits/1_avatar_middle.jpg" alt="Blogpost-1">
 						</a>
 					</div>
 					<div class="widget-blogpost-content">
@@ -58,22 +60,22 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 								身份：设计师
 							</p>
 							<p>
-								未读消息：<a href="/designer-front/settings?op=inbox&messageType=0">(XX条)</a>
+								未读消息：<a href="<%=contextPath%>/settings?op=inbox&messageType=0">(XX条)</a>
 							</p>
 						</div>
 					</div>
 				</li>
 			</ul>
-			<input class="common-submit button" type="button" value="个人设置" onclick="location.href='/designer-front/settings'"/>
+			<input class="common-submit button" type="button" value="个人设置" onclick="location.href='<%=contextPath%>/settings'"/>
 			 <%if(user.getDesignerStatus()!=null&&user.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED){%> 
-				<input class="common-submit button" type="button" value="发布作品"  onclick="location.href='/designer-front/settings?op=publisher'"/>
+				<input class="common-submit button" type="button" value="发布作品"  onclick="location.href='<%=contextPath%>/settings?op=publisher'"/>
 				<!--  
-				<input class="common-submit button" type="button" value="发布设置"  onclick="location.href='/designer-front/settings?op=shareSettings'"/>
+				<input class="common-submit button" type="button" value="发布设置"  onclick="location.href='<%=contextPath%>/settings?op=shareSettings'"/>
 				 -->
 			<%}else{%>
-				<input class="common-submit button" type="button" value="申请设计师"  onclick="location.href='/designer-front/settings?op=designerApply'"/>
+				<input class="common-submit button" type="button" value="申请设计师"  onclick="location.href='<%=contextPath%>/settings?op=designerApply'"/>
 			<%}%>
-			<input class="common-submit button" type="button" value="注 销" onclick="location.href='/designer-front/logout'"/>
+			<input class="common-submit button" type="button" value="注 销" onclick="location.href='<%=contextPath%>/logout'"/>
 			
 		</form>
 	</div>
@@ -85,19 +87,19 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 		</div>
 		<ul class="clearfix">
 			<li class="social-icons-facebook-icon">
-				<a href="#"><img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
+				<a href="#"><img src="<%=contextPath%>/img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
 			</li>
 			<li class="social-icons-facebook-icon">
-				<a href="#"><img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
+				<a href="#"><img src="<%=contextPath%>/img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
 			</li>
 			<li class="social-icons-facebook-icon">
-				<a href="#"><img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
+				<a href="#"><img src="<%=contextPath%>/img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
 			</li>
 			<li class="social-icons-facebook-icon">
-				<a href="#"><img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
+				<a href="#"><img src="<%=contextPath%>/img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
 			</li>
 			<li class="social-icons-facebook-icon">
-				<a href="#"><img src="/designer-front/img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
+				<a href="#"><img src="<%=contextPath%>/img/demo/portraits/avatar_middle.jpg" alt="Page Title"/></a>
 			</li>
 		</ul>
 	</div>
@@ -176,7 +178,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			<li class="clearfix">
 				<div class="widget-blogpost-avatar">
 					<a href="post-gallery.html#"> <img
-						src="/designer-front/img/demo/ecopower-70x70.jpg" alt="Blogpost-1"> <span
+						src="<%=contextPath%>/img/demo/ecopower-70x70.jpg" alt="Blogpost-1"> <span
 						class="widget-blogpost-overlay"></span>
 					</a>
 				</div>
@@ -194,7 +196,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			<li class="clearfix">
 				<div class="widget-blogpost-avatar">
 					<a href="post-gallery.html#"> <img
-						src="/designer-front/img/demo/architecture-70x70.jpg" alt="Blogpost-1"> <span
+						src="<%=contextPath%>/img/demo/architecture-70x70.jpg" alt="Blogpost-1"> <span
 						class="widget-blogpost-overlay"></span>
 					</a>
 				</div>
@@ -212,7 +214,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			<li class="clearfix">
 				<div class="widget-blogpost-avatar">
 					<a href="post-gallery.html#"> <img
-						src="/designer-front/img/demo/ecohands-70x70.jpg" alt="Blogpost-1"> <span
+						src="<%=contextPath%>/img/demo/ecohands-70x70.jpg" alt="Blogpost-1"> <span
 						class="widget-blogpost-overlay"></span>
 					</a>
 				</div>
@@ -230,7 +232,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 		</ul>
 	</div>
 	
-	<script src="/designer-front/js/jquery.tagcloud.js"></script>
+	<script src="<%=contextPath%>/js/jquery.tagcloud.js"></script>
 	<script>
         $.fn.tagcloud.defaults = {
           size: {start: 8, end: 13, unit: 'pt'},

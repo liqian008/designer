@@ -10,7 +10,8 @@
 <%@ page import="java.text.*" %> 
 
 <%
-SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
+String contextPath = ConstFront.CONTEXT_PATH;
+
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 %>
 
@@ -28,25 +29,25 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
         <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/designer-front/css/font-awesome.css">
-        <link rel="stylesheet" href="/designer-front/css/animate.css">
-        <link rel="stylesheet" href="/designer-front/css/flexslider.css">
-        <link rel="stylesheet" href="/designer-front/css/style.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/bootstrap.min.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/font-awesome.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/animate.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/flexslider.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/style.css">
         
         <!--[if IE 8]>
-        <link rel="stylesheet" type="text/css" media="all" href="/designer-front/css/ie8.css" />    
+        <link rel="stylesheet" type="text/css" media="all" href="<%=contextPath%>/css/ie8.css" />    
         <![endif]-->
                 
 
-        <script src="/designer-front/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-        <script src="/designer-front/js/vendor/jquery-1.8.3.min.js"></script>
-        <script src="/designer-front/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
+        <script src="<%=contextPath%>/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+        <script src="<%=contextPath%>/js/vendor/jquery-1.8.3.min.js"></script>
+        <script src="<%=contextPath%>/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
 
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
     </head>
-    <body class="body-background" style="background-image: url(/designer-front/img/backgrounds/bg3.jpg); ">
+    <body class="body-background" style="background-image: url(<%=contextPath%>/img/backgrounds/bg3.jpg); ">
 
         <!--[if lt IE 8]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
@@ -73,8 +74,8 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
             <div class="breadscrumbs">
                 <div class="container">
                     <ul class="clearfix">
-                        <li><a href="/designer-front">首页</a>/</li>
-                        <li><a href="/designer-front/settings">设置</a>/</li>
+                        <li><a href="<%=contextPath%>">首页</a>/</li>
+                        <li><a href="<%=contextPath%>/settings">设置</a>/</li>
                         <li><a href="javascript:void(0)">作品管理</a></li>
                     </ul>
                 </div>
@@ -112,7 +113,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<article class="blog-item span6">
 													<div class="blog-post-image-wrap">
 														<a class="blog-single-link"
-															href="/designer-front/album/<%=album.getId()%>"><img
+															href="<%=contextPath%>/album/<%=album.getId()%>"><img
 															src="<%=album.getCoverMediumImg()%>"></a>
 													</div>
 													<div class="content-wrap span9">
@@ -122,8 +123,8 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 														<ul>
 															<li>
 																<span>标 签:&nbsp;</span>
-																<a href="/designer-front/tag/素组">素组</a>,&nbsp;
-																<a href="/designer-front/tag/moto">moto</a>
+																<a href="<%=contextPath%>/tag/素组">素组</a>,&nbsp;
+																<a href="<%=contextPath%>/tag/moto">moto</a>
 															</li>
 															<li><span>价 格:</span><%=album.getPrice()%>&nbsp;元</li>
 															<li>
@@ -134,7 +135,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 														</ul>
 													</div>
 													<div class="content-avatar">
-														<%-- <a href="/designer-front/settings/editAlbum?albumId=<%=album.getId()%>">编 辑</a> --%>
+														<%-- <a href="<%=contextPath%>/settings/editAlbum?albumId=<%=album.getId()%>">编 辑</a> --%>
 														<a href="#" onclick="editAlbum(<%=album.getId()%>)">编 辑</a>
 														<br/>
 														<a href="#" onclick="delAlbum(<%=currentUser.getId()%>, <%=album.getId()%>)">删 除</a>
@@ -147,7 +148,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 											}%>
 										</div>
 										
-										<%=PagingUtil.getPagingHtml(albumPagingData, "/designer-front/settings/albums")%>
+										<%=PagingUtil.getPagingHtml(albumPagingData, "<%=contextPath%>/settings/albums")%>
 										<!-- <div class="paging-navigation">
 			                                <ul class="clearfix">
 			                                </ul>
@@ -173,24 +174,24 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
         
     <!-- Load all Javascript Files -->
-    <script src="/designer-front/js/vendor/bootstrap.min.js"></script>
-    <script src="/designer-front/js/jquery.hoverdir.js"></script>
-    <script src="/designer-front/js/superfish.js"></script>
-    <!-- <script src="/designer-front/js/supersubs.js"></script> -->
-   <!--  <script src="/designer-front/js/jquery.tweet.js"></script>  -->
-    <script src="/designer-front/js/jquery.flexslider.js"></script> 
-    <script src="/designer-front/js/retina.js"></script>
-    <script src="/designer-front/js/custom.js"></script>
+    <script src="<%=contextPath%>/js/vendor/bootstrap.min.js"></script>
+    <script src="<%=contextPath%>/js/jquery.hoverdir.js"></script>
+    <script src="<%=contextPath%>/js/superfish.js"></script>
+    <!-- <script src="<%=contextPath%>/js/supersubs.js"></script> -->
+   <!--  <script src="<%=contextPath%>/js/jquery.tweet.js"></script>  -->
+    <script src="<%=contextPath%>/js/jquery.flexslider.js"></script> 
+    <script src="<%=contextPath%>/js/retina.js"></script>
+    <script src="<%=contextPath%>/js/custom.js"></script>
     <script>
     function editAlbum(albumId){
     	if(confirm("确定要编辑该作品辑吗？")){
-    		location.href="/designer-front/settings/editAlbum?albumId="+albumId;
+    		location.href="<%=contextPath%>/settings/editAlbum?albumId="+albumId;
     	}
     }
     
     function delAlbum(userId, albumId){
     	if(confirm("作品删除后将无法恢复，确定删除吗？")){
-    		location.href="/designer-front/settings/deleteAlbum?ownerId="+userId+"&albumId="+albumId;
+    		location.href="<%=contextPath%>/settings/deleteAlbum?ownerId="+userId+"&albumId="+albumId;
     	}
     }
     </script>

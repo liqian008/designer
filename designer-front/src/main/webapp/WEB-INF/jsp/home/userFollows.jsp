@@ -8,7 +8,9 @@
 <%@ page import="java.text.*" %>
 
 <%
-SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
+String contextPath = ConstFront.CONTEXT_PATH;
+%>
+<%
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 User queryUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE);
 
@@ -33,18 +35,18 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
         <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="/designer-front/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/designer-front/css/font-awesome.css">
-        <link rel="stylesheet" href="/designer-front/css/animate.css">
-        <link rel="stylesheet" href="/designer-front/css/flexslider.css">
-        <link rel="stylesheet" href="/designer-front/css/style.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/bootstrap.min.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/font-awesome.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/animate.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/flexslider.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/style.css">
                                 <!--[if IE 8]>
-        <link rel="stylesheet" type="text/css" media="all" href="/designer-front/css/ie8.css" />    
+        <link rel="stylesheet" type="text/css" media="all" href="<%=contextPath%>/css/ie8.css" />    
         <![endif]-->
                 
 
-        <script src="/designer-front/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-        <script src="/designer-front/js/vendor/jquery-1.8.3.min.js"></script>
+        <script src="<%=contextPath%>/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+        <script src="<%=contextPath%>/js/vendor/jquery-1.8.3.min.js"></script>
 
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
@@ -81,8 +83,8 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
             <div class="breadscrumbs">
                 <div class="container">
                      <ul class="clearfix">
-                        <li><a href="/designer-front/">首页</a>/</li>
-                        <li><a href="/designer-front//home"><%=queryUser.getNickname()%></a>/</li>
+                        <li><a href="<%=contextPath%>/">首页</a>/</li>
+                        <li><a href="<%=contextPath%>//home"><%=queryUser.getNickname()%></a>/</li>
                         <li><a href="javascript:void(0)">关注列表</a></li>
                     </ul>
                 </div>
@@ -121,16 +123,16 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 												<li class="message" id="li-message-1"><div class="message-container" id="message-1">
 													<div class="message-avatar-medium">
 														<div class="message-author vcard">
-															<!-- <img src="/designer-front/img/icon/icon_1.png"> -->
-															<a href="/designer-front/<%=follow.getFollowId()%>/home">
+															<!-- <img src="<%=contextPath%>/img/icon/icon_1.png"> -->
+															<a href="<%=contextPath%>/<%=follow.getFollowId()%>/home">
 																<img
-																	src="/designer-front/staticFile/avatar/<%=follow.getFollowId()%>_medium.jpg"/>
+																	src="<%=contextPath%>/staticFile/avatar/<%=follow.getFollowId()%>_medium.jpg"/>
 															</a>
 														</div>
 													</div>
 													<div class="message-body">
 														<div class="message-meta messagemetadata">
-																<a href="/designer-front/<%=follow.getFollowId()%>/home"><h5 class="message-author"><%=follow.getFollowUser().getNickname()%></h5></a>
+																<a href="<%=contextPath%>/<%=follow.getFollowId()%>/home"><h5 class="message-author"><%=follow.getFollowUser().getNickname()%></h5></a>
 														</div>
 														<div class="message-content">
 															<%
@@ -142,8 +144,8 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 			                                            	<a href="javascript:void(0)" dataItem="<%=follow.getFollowId()%>" class="listFollowBtn button button-small button-green" <%=hasFollowed?hideStr:""%>>关 注</a>
 			                                            	<a href="javascript:void(0)" dataItem="<%=follow.getFollowId()%>" class="listUnfollowBtn button button-small button-white" <%=hasFollowed?"":hideStr%>>取消关注</a>
 			                                            	<%}%>
-			                                            	<a href="/designer-front/<%=follow.getFollowId()%>/home" class="button button-small button-white">作品辑</a>
-															<a href="/designer-front/<%=follow.getFollowId()%>/info" class="button button-small button-white">个人资料</a>
+			                                            	<a href="<%=contextPath%>/<%=follow.getFollowId()%>/home" class="button button-small button-white">作品辑</a>
+															<a href="<%=contextPath%>/<%=follow.getFollowId()%>/info" class="button button-small button-white">个人资料</a>
 														</div>
 													</div>
 												</div></li>
@@ -155,7 +157,7 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 	                                	<%
 	                                	PagingData<UserFollow> followsPagingData = (PagingData<UserFollow>)request.getAttribute("followsPagingData");
 	                                	%>
-	                                    <%=PagingUtil.getPagingHtml(followsPagingData, "/designer-front/"+queryUser.getId()+"/follows")%>
+	                                    <%=PagingUtil.getPagingHtml(followsPagingData, "<%=contextPath%>/"+queryUser.getId()+"/follows")%>
                                     </div>
                                 </div>
                             </div>
@@ -177,15 +179,15 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 
         
     <!-- Load all Javascript Files -->
-    <script src="/designer-front/js/vendor/bootstrap.min.js"></script>
-    <script src="/designer-front/js/jquery.hoverdir.js"></script>
-    <script src="/designer-front/js/superfish.js"></script>
-    <!-- <script src="/designer-front/js/supersubs.js"></script> -->
-   <!--  <script src="/designer-front/js/jquery.tweet.js"></script>  -->
-    <script src="/designer-front/js/jquery.flexslider.js"></script> 
-    <script src="/designer-front/js/retina.js"></script>
+    <script src="<%=contextPath%>/js/vendor/bootstrap.min.js"></script>
+    <script src="<%=contextPath%>/js/jquery.hoverdir.js"></script>
+    <script src="<%=contextPath%>/js/superfish.js"></script>
+    <!-- <script src="<%=contextPath%>/js/supersubs.js"></script> -->
+   <!--  <script src="<%=contextPath%>/js/jquery.tweet.js"></script>  -->
+    <script src="<%=contextPath%>/js/jquery.flexslider.js"></script> 
+    <script src="<%=contextPath%>/js/retina.js"></script>
 
-    <script src="/designer-front/js/custom.js"></script>
+    <script src="<%=contextPath%>/js/custom.js"></script>
 	
 	<script>
 	
@@ -194,7 +196,7 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 		var followId = listFollowBtn.attr('dataItem');
 		listFollowBtn.attr("disabled", "disabled");
 		var followJsonData = {"uid": followId};
-		$.post("/designer-front/follow.json", followJsonData, function(data) {
+		$.post("<%=contextPath%>/follow.json", followJsonData, function(data) {
 			listFollowBtn.removeAttr("disabled");
 			if(data.result==1){
 				listFollowBtn.next().show();
@@ -210,7 +212,7 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 		var unfollowId = listUnfollowBtn.attr('dataItem');
 		listUnfollowBtn.attr("disabled", "disabled");
 		var unfollowJsonData = {"uid": unfollowId};
-		$.post("/designer-front/unfollow.json", unfollowJsonData, function(data) {
+		$.post("<%=contextPath%>/unfollow.json", unfollowJsonData, function(data) {
 			listUnfollowBtn.removeAttr("disabled");
 			if(data.result==1){
 				listUnfollowBtn.prev().show();

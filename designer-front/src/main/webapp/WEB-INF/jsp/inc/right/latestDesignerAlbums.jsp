@@ -3,6 +3,8 @@
 <%@ page import="com.bruce.designer.front.constants.*"%>
 
 <%
+String contextPath = ConstFront.CONTEXT_PATH;
+
 User queryUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE);
 %>
 
@@ -27,7 +29,7 @@ fallLoad();
 
 function fallLoad(){
 	var jsonData = {'designerId':'<%=queryUser.getId()%>'};
-	$.get('/designer-front/sideLatestAlbums.json', function(data) {
+	$.get('<%=contextPath%>/sideLatestAlbums.json', function(data) {
 		var result = data.result;
 		if(result==1){
 			$("#slideLatestDesignerAlbumsContainer").append(data.data.html);

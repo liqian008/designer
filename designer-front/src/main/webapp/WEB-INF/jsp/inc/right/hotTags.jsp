@@ -5,8 +5,11 @@
 <%@ page import="java.util.*"%>
 <%@ page import="java.text.*"%>
 
+<%
+String contextPath = ConstFront.CONTEXT_PATH;
+%>
 
-<script src="/designer-front/js/jquery.tagcloud.js"></script>
+<script src="<%=contextPath%>/js/jquery.tagcloud.js"></script>
 <script>
 	$.fn.tagcloud.defaults = {
 		size : {
@@ -31,7 +34,7 @@
 	<script>
 		initHotTag();
 		function initHotTag(){
-			$.post('/designer-front/tag/hotTags.json', function(data) {
+			$.post('<%=contextPath%>/tag/hotTags.json', function(data) {
 				var result = data.result;
 				if(result==1){
 					$("#tagcloud").append(data.data.html);

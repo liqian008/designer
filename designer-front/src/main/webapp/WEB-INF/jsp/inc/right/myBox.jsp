@@ -7,6 +7,8 @@
 <%@ page import="java.text.*"%>
 
 <%
+String contextPath = ConstFront.CONTEXT_PATH;
+
 User currentUser = (User) session.getAttribute(ConstFront.CURRENT_USER);
 boolean isDesigner = currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED;
 
@@ -18,11 +20,11 @@ if (currentUser != null) {
 		</h4>
 	</div>
 	<form id="contact-form-widget" method="post" class="clearfix"
-		action="/designer-front/login">
+		action="<%=contextPath%>/login">
 		<ul>
 			<li class="clearfix">
 				<div class="widget-blogpost-avatar">
-					<a href="/designer-front/settings/avatar" title="点击修改头像">
+					<a href="<%=contextPath%>/settings/avatar" title="点击修改头像">
 						<img src="<%=UploadUtil.getAvatarUrl(currentUser.getId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)%>" alt="点击修改头像">
 					</a> 
 				</div>
@@ -38,7 +40,7 @@ if (currentUser != null) {
 						<script>
 						//初始化加载用户资料&状态
 						var queryJsonData = {"queryUserId": <%=currentUser.getId()%>};
-						$.post("/designer-front/userboxInfo.json", queryJsonData, function(responseData) {
+						$.post("<%=contextPath%>/userboxInfo.json", queryJsonData, function(responseData) {
 							if(responseData.result==1){
 								$('.fansCount').each(function(){
 									$(this).text(responseData.data.fansCount);
@@ -71,13 +73,13 @@ if (currentUser != null) {
 		%>
 		<%if(isDesigner){%>
 			<input class="common-button button button-green" type="button" value="发布作品"
-			onclick="location.href='/designer-front/settings/newAlbum'" />
+			onclick="location.href='<%=contextPath%>/settings/newAlbum'" />
 		<%} %>
 		<input class="common-button button button-blue" type="button" value="个人主页"
-			onclick="location.href='/designer-front/<%=currentUser.getId()%>/home'" />
+			onclick="location.href='<%=contextPath%>/<%=currentUser.getId()%>/home'" />
 			
 		<input class="common-button button" type="button" value="修改密码"
-			onclick="location.href='/designer-front/settings/changePasswd'" />
+			onclick="location.href='<%=contextPath%>/settings/changePasswd'" />
 		
 		
 	</form>

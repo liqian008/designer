@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
+<%@ page import="com.bruce.designer.front.constants.*" %>
 
+<%
+String contextPath = ConstFront.CONTEXT_PATH;
+%>
 
 <footer>
 	<!-- Footer -->
@@ -7,7 +11,7 @@
 		<div class="container">
 			<div class="row-fluid">
 				<div class="footer-logo span3">
-					<img src="/designer-front/img/footer-verendus-logo.png"
+					<img src="<%=contextPath%>/img/footer-verendus-logo.png"
 						alt="Verendus" />
 				</div>
 				<div class="top-off-page span1 offset8">
@@ -85,7 +89,7 @@
 					<p>
 						<a href="javascript:void(0)">金玩儿网&nbsp;&nbsp;(京ICP备13008813号)</a>
 						
-						&nbsp;|&nbsp;<a href="/designer-front/sitemap.xml">网站地图</a>
+						&nbsp;|&nbsp;<a href="<%=contextPath%>/sitemap.xml">网站地图</a>
 						<!-- 
 						&nbsp;|&nbsp;
 						<a href="http://www.cnzz.com/stat/website.php?web_id=1941475" target="_blank">站长统计</a>

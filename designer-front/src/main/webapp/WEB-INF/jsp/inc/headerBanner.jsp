@@ -6,6 +6,10 @@
 <%@ page import="java.text.*"%>
 
 <%
+String contextPath = ConstFront.CONTEXT_PATH;
+%>
+
+<%
 User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 %>
 
@@ -14,23 +18,23 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
         <div class="container"> 
             <div class="row-fluid">
                 <div class="span3 logo">
-                    <a href="/designer-front/">
-                        <img src="/designer-front/img/verendus-logo.png" alt="Verendus Logo" title="Verendus Logo" />
+                    <a href="<%=contextPath%>/">
+                        <img src="<%=contextPath%>/img/verendus-logo.png" alt="Verendus Logo" title="Verendus Logo" />
                     </a>
                 </div>
 				
 				<div class="header-contact">
 					<%if(user==null){%>
-                    <a href="/designer-front/login">登 录</a> | <a href="/designer-front/register">注 册</a>
+                    <a href="<%=contextPath%>/login">登 录</a> | <a href="<%=contextPath%>/register">注 册</a>
                     <%}else{ %>
-                    欢迎您，<a href="/designer-front/<%=user.getId()%>/info"><%=user.getNickname() %></a>&nbsp;|&nbsp;
-                    <a href="/designer-front/settings/msgbox"><span id="messageCount">消息中心</span></a>&nbsp;|&nbsp;
+                    欢迎您，<a href="<%=contextPath%>/<%=user.getId()%>/info"><%=user.getNickname() %></a>&nbsp;|&nbsp;
+                    <a href="<%=contextPath%>/settings/msgbox"><span id="messageCount">消息中心</span></a>&nbsp;|&nbsp;
                     <%if(user.getDesignerStatus()!=null&&user.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED){%>
-                    <a href="/designer-front/settings/newAlbum">发布新作品</a>&nbsp;|&nbsp;
-                    <a href="/designer-front/settings/albums">作品辑管理</a>&nbsp;|&nbsp; 
+                    <a href="<%=contextPath%>/settings/newAlbum">发布新作品</a>&nbsp;|&nbsp;
+                    <a href="<%=contextPath%>/settings/albums">作品辑管理</a>&nbsp;|&nbsp; 
                     <%}%>
-                    <a href="/designer-front/settings">设置</a>&nbsp;|&nbsp;
-                    <a href="/designer-front/logout">退出</a>
+                    <a href="<%=contextPath%>/settings">设置</a>&nbsp;|&nbsp;
+                    <a href="<%=contextPath%>/logout">退出</a>
                     
                     <script>
                     //setTimeout(loadUnreadMessage, 5000);
@@ -38,7 +42,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
 				    function loadUnreadMessage(){
 						//置为数据加载状态 
-						$.post('/designer-front/settings/unreadMessageCount.json', function(responseData) {
+						$.post('<%=contextPath%>/settings/unreadMessageCount.json', function(responseData) {
 							var result = responseData.result;
 							if(result==1){
 								//$('#messageCount').attr("style", "color:orange");

@@ -1,9 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
+<%@ page import="com.bruce.designer.front.constants.*" %>
+
+<%
+String contextPath = ConstFront.CONTEXT_PATH;
+%>
+
 <div class="page-title">
     <div class="span6">
         <div class="page-title-avatar">
-             <a href='/designer-front/img/icon/scanCode.jpeg' target="_blank">
-             	<img src="/designer-front/img/icon/scanCode.jpeg" width="80" height="80">
+             <a href='<%=contextPath%>/img/icon/scanCode.jpeg' target="_blank">
+             	<img src="<%=contextPath%>/img/icon/scanCode.jpeg" width="80" height="80">
              </a>
         </div>
         <div class="page-title-content">
@@ -15,7 +21,7 @@
     <div class="span6">
         <div class="page-title-avatar">
              <a href='http://www.weibo.com/' target="_blank">
-             	<img src="/designer-front/img/icon/scanCode.jpeg" width="80" height="80">
+             	<img src="<%=contextPath%>/img/icon/scanCode.jpeg" width="80" height="80">
              </a>
         </div>
         <div class="page-title-content">
