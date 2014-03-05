@@ -13,6 +13,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 <title>Pannonia - premium responsive admin template by Eugene Kopyov</title>
 <link href="../css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
 <!--[if IE 8]><link href="css/ie8.css" rel="stylesheet" type="text/css" /><![endif]-->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 
@@ -59,8 +60,6 @@
 
 			<!-- Content wrapper -->
 		    <div class="wrapper">
-
-				<jsp:include page="../inc/mainHeader.jsp"></jsp:include>
 
 	            <!-- Form validation -->
 	            <h5 class="widget-name"><i class="icon-th-list"></i>专辑管理</h5>

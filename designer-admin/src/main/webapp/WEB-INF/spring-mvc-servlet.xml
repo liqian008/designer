@@ -25,7 +25,7 @@
     	<bean class="com.bruce.baseAdmin.interceptors.WebDefaultInterceptor"/>    	
     	<mvc:interceptor>    
         	<mvc:mapping path="/u/**" /> 
-        	<bean class="com.bruce.baseAdmin.interceptors.UAuthorizeInterceptor"></bean>
+        	<bean class="com.bruce.baseAdmin.interceptors.UAuthorizeInterceptor"></bean> 
     	</mvc:interceptor>
 	</mvc:interceptors>
 	

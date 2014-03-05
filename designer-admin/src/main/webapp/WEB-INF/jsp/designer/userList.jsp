@@ -15,6 +15,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 <title>Pannonia - premium responsive admin template by Eugene Kopyov</title>
 <link href="../css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
 <!--[if IE 8]><link href="css/ie8.css" rel="stylesheet" type="text/css" /><![endif]-->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 
@@ -55,8 +56,6 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		    <!-- Content wrapper -->
 		    <div class="wrapper">
 
-			    <jsp:include page="../inc/mainHeader.jsp"></jsp:include>
-			    
 				<h5 class="widget-name"><i class="icon-th-list"></i>用户管理</h5>
 				<form class="form-horizontal" action="/designer-admin/designer/users" method="post">
 	                <fieldset>
@@ -73,9 +72,8 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	                            		<div class="control-group">
 			                                <label class="control-label">用户状态: <span class="text-error">*</span></label>
 			                                <div class="controls">
-		
-												<select data-placeholder="Choose a Country..." id="clear-results">
-	                                                <option value="0">所有</option> 
+												<select name="userStatus">
+	                                                <option value="-1">所有</option>
 	                                                <option value="1">正常用户</option>
 	                                                <option value="2">冻结用户</option>
 	                                            </select>

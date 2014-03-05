@@ -4,10 +4,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.model.Album;
@@ -28,8 +31,14 @@ public class DesignerAdminController {
 	public String userList(Model model, HttpServletRequest request) {
 		String servletPath = request.getRequestURI();
 		model.addAttribute("servletPath", servletPath);
-
-		List<User> userList = userService.queryUsersByStatus(ConstService.USER_STATUS_OPEN);
+//		model.addAttribute("userStatus", userStatus);
+//		List<User> userList = null;
+//		if(userStatus==-1){
+//			userList = userService.queryAll();
+//		}else{ 
+//			userList = userService.queryUsersByStatus(userStatus);
+//		}
+		List<User> userList = userService.queryAll();
 		model.addAttribute("userList", userList);
 		return "designer/userList";
 	}
@@ -58,23 +67,44 @@ public class DesignerAdminController {
 	 * @return
 	 */
 	@RequestMapping("/designers")
-	public String designerList(Model model, HttpServletRequest request) {
+	public String designerList(Model model, HttpServletRequest request, @RequestParam(required=false, defaultValue="1") short designerStatus) {
 		String servletPath = request.getRequestURI();
 		model.addAttribute("servletPath", servletPath);
-
-		List<User> designerList = userService.queryDesignersByStatus(ConstService.USER_STATUS_OPEN);
+		model.addAttribute("designerStatus", designerStatus);
+		
+		List<User> designerList = null;
+		if(designerStatus==-1){
+			//查询所有设计师列表
+			designerList = userService.queryAllDesigners();
+		}else{
+			//按状态查询设计师列表
+			designerList = userService.queryDesignersByStatus(designerStatus);
+		}
 		model.addAttribute("designerList", designerList);
 		return "designer/designerList";
 	}
 	
 	
 	@RequestMapping("/albums")
-	public String albumList(Model model, HttpServletRequest request) {
+	public String albumList(Model model, HttpServletRequest request, short albumStatus) {
 		String servletPath = request.getRequestURI();
 		model.addAttribute("servletPath", servletPath);
-
-		List<Album> albumList = albumService.queryAll();
+		model.addAttribute("albumStatus", albumStatus);
+		
+		List<Album> albumList = null;
+		if(albumStatus==-1){
+			albumList = albumService.queryAll();
+		}else{ 
+			albumList = albumService.queryAll();
+		}
+		//加载计数（浏览、评论）
+		albumService.initAlbumsWithCount(albumList);
+		//加载标签
+		albumService.initAlbumsWithTags(albumList);
 		model.addAttribute("albumList", albumList);
+		
+		
+		
 		return "designer/albumList";
 	}
 	

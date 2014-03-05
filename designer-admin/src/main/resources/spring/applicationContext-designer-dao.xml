@@ -22,65 +22,91 @@
 		<property name="password" value="${designer.jdbc.password}" />
 	</bean>
 
-	<bean id="designer_sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="configLocation" value="classpath:mybatis-conf.xml" />
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-conf.xml"/>
 		<property name="dataSource" ref="designer_datasource" />
 	</bean>
 
 	<bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.UserMapper" />
-		<property name="sqlSessionFactory" ref="designer_sqlSessionFactory" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 	<bean id="userFanMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.UserFanMapper" />
-		<property name="sqlSessionFactory" ref="designer_sqlSessionFactory" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 	<bean id="userFollowMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface"
-			value="com.bruce.designer.dao.mapper.UserFollowMapper" />
-		<property name="sqlSessionFactory" ref="designer_sqlSessionFactory" />
+		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.UserFollowMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
-	<bean id="userFavoriteMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface"
-			value="com.bruce.designer.dao.mapper.UserFavoriteMapper" />
-		<property name="sqlSessionFactory" ref="designer_sqlSessionFactory" />
-	</bean>
-
+	<!-- <bean id="userFavoriteMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.UserFavoriteMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean> -->
+	
 	<bean id="albumMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.AlbumMapper" />
-		<property name="sqlSessionFactory" ref="designer_sqlSessionFactory" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
-
+	
 	<bean id="commentMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.CommentMapper" />
-		<property name="sqlSessionFactory" ref="designer_sqlSessionFactory" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
-
+	
 	<bean id="slideMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface"
-			value="com.bruce.designer.dao.mapper.AlbumSlideMapper" />
-		<property name="sqlSessionFactory" ref="designer_sqlSessionFactory" />
+		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.AlbumSlideMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
-
+	
 	<bean id="messageMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.MessageMapper" />
-		<property name="sqlSessionFactory" ref="designer_sqlSessionFactory" />
-	</bean>
-
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean> 
+	
 	<bean id="accessTokenInfoMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface"
-			value="com.bruce.designer.dao.mapper.AccessTokenInfoMapper" />
-		<property name="sqlSessionFactory" ref="designer_sqlSessionFactory" />
+		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.AccessTokenInfoMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
-
+	
 	<bean id="tagMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.TagMapper" />
-		<property name="sqlSessionFactory" ref="designer_sqlSessionFactory" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
-
+	
 	<bean id="tagALbumMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.TagAlbumMapper" />
-		<property name="sqlSessionFactory" ref="designer_sqlSessionFactory" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="indexSlideMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.IndexSlideMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="albumCounterMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.AlbumCounterMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="albumRecommendMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.AlbumRecommendMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="albumLikeMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.AlbumLikeMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="albumFavoriteMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.AlbumFavoriteMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="albumActionLogMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.AlbumActionLogMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 
 </beans>

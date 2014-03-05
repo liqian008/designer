@@ -12,7 +12,6 @@
 	<artifactId>designer-admin</artifactId>
 	<name>designer-admin</name>
 	<packaging>war</packaging>
-	<version>1.0.0-BUILD-SNAPSHOT</version>
 	
 	<properties>
 		<org.springframework-security-version>3.1.1.RELEASE</org.springframework-security-version>
