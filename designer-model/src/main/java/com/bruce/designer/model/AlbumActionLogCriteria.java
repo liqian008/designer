@@ -1039,4 +1039,100 @@ public class AlbumActionLogCriteria {
             super();
         }
     }
+    
+    private Integer albumBrowseScore;
+    private Integer albumCommentScore;
+    private Integer albumLikeScore;
+    private Integer albumFavoriteScore;
+    
+    private Integer designerBrowseScore;
+    private Integer designerCommentScore;
+    private Integer designerLikeScore;
+    private Integer designerFavoriteScore;
+    
+    private Integer start;
+    private Integer limit;
+
+    public Integer getStart() {
+        return start;
+    }
+
+    public void setStart(Integer start) {
+        this.start = start;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+	public Integer getAlbumBrowseScore() {
+		return albumBrowseScore;
+	}
+
+	public void setAlbumBrowseScore(Integer albumBrowseScore) {
+		this.albumBrowseScore = albumBrowseScore;
+	}
+
+	public Integer getAlbumCommentScore() {
+		return albumCommentScore;
+	}
+
+	public void setAlbumCommentScore(Integer albumCommentScore) {
+		this.albumCommentScore = albumCommentScore;
+	}
+
+	public Integer getAlbumLikeScore() {
+		return albumLikeScore;
+	}
+
+	public void setAlbumLikeScore(Integer albumLikeScore) {
+		this.albumLikeScore = albumLikeScore;
+	}
+
+	public Integer getAlbumFavoriteScore() {
+		return albumFavoriteScore;
+	}
+
+	public void setAlbumFavoriteScore(Integer albumFavoriteScore) {
+		this.albumFavoriteScore = albumFavoriteScore;
+	}
+
+	public Integer getDesignerBrowseScore() {
+		return designerBrowseScore;
+	}
+
+	public void setDesignerBrowseScore(Integer designerBrowseScore) {
+		this.designerBrowseScore = designerBrowseScore;
+	}
+
+	public Integer getDesignerCommentScore() {
+		return designerCommentScore;
+	}
+
+	public void setDesignerCommentScore(Integer designerCommentScore) {
+		this.designerCommentScore = designerCommentScore;
+	}
+
+	public Integer getDesignerLikeScore() {
+		return designerLikeScore;
+	}
+
+	public void setDesignerLikeScore(Integer designerLikeScore) {
+		this.designerLikeScore = designerLikeScore;
+	}
+
+	public Integer getDesignerFavoriteScore() {
+		return designerFavoriteScore;
+	}
+
+	public void setDesignerFavoriteScore(Integer designerFavoriteScore) {
+		this.designerFavoriteScore = designerFavoriteScore;
+	}
+
+	
+    
 }
