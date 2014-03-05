@@ -12,6 +12,7 @@ import com.bruce.designer.dao.IAlbumActionLogDao;
 import com.bruce.designer.dao.mapper.AlbumActionLogMapper;
 import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.model.AlbumActionLog;
+import com.bruce.designer.model.AlbumActionLogCriteria;
 
 @Repository
 public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBean {
@@ -151,15 +152,38 @@ public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBe
      */
     @Override
     public List<CountCacheBean> realtimeDailyTopAlbums(int limit) { 
-        return albumActionLogMapper.realtimeDailyTopAlbums(limit);
+    	AlbumActionLogCriteria criteria = initAlbumScoreCriteria(limit);
+        return albumActionLogMapper.realtimeDailyTopAlbums(criteria);
     }
+
+	private AlbumActionLogCriteria initAlbumScoreCriteria(int limit) {
+		AlbumActionLogCriteria criteria = new AlbumActionLogCriteria();
+    	criteria.setAlbumBrowseScore(1);
+    	criteria.setAlbumLikeScore(1);
+    	criteria.setAlbumCommentScore(1);
+    	criteria.setAlbumFavoriteScore(1);
+    	criteria.setLimit(limit);
+    	return criteria;
+	}
+	
+	private AlbumActionLogCriteria initDesignerScoreCriteria(int limit) {
+		AlbumActionLogCriteria criteria = new AlbumActionLogCriteria();
+    	criteria.setDesignerBrowseScore(1);
+    	criteria.setDesignerLikeScore(1);
+    	criteria.setDesignerCommentScore(1);
+    	criteria.setDesignerFavoriteScore(1);
+    	criteria.setLimit(limit);
+    	return criteria;
+	}
     
     /**
      * 实时每周热门作品
      */
     @Override
     public List<CountCacheBean> realtimeWeeklyTopAlbums(int limit) { 
-        return albumActionLogMapper.realtimeWeeklyTopAlbums(limit);
+//        return albumActionLogMapper.realtimeWeeklyTopAlbums(limit);
+    	AlbumActionLogCriteria criteria = initAlbumScoreCriteria(limit);
+        return albumActionLogMapper.realtimeWeeklyTopAlbums(criteria);
     }
     
     /**
@@ -167,7 +191,9 @@ public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBe
      */
     @Override
     public List<CountCacheBean> realtimeMonthlyTopAlbums(int limit) { 
-        return albumActionLogMapper.realtimeMonthlyTopAlbums(limit);
+//        return albumActionLogMapper.realtimeMonthlyTopAlbums(limit);
+    	AlbumActionLogCriteria criteria = initAlbumScoreCriteria(limit);
+        return albumActionLogMapper.realtimeMonthlyTopAlbums(criteria);
     }
     
     /**
@@ -175,7 +201,9 @@ public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBe
      */
     @Override
     public List<CountCacheBean> realtimeDailyTopDesigners(int limit) { 
-        return albumActionLogMapper.realtimeDailyTopDesigners(limit);
+//        return albumActionLogMapper.realtimeDailyTopDesigners(limit);
+    	AlbumActionLogCriteria criteria = initDesignerScoreCriteria(limit);
+        return albumActionLogMapper.realtimeDailyTopDesigners(criteria);
     }
     
     /**
@@ -183,7 +211,9 @@ public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBe
      */
     @Override
     public List<CountCacheBean> realtimeWeeklyTopDesigners(int limit) { 
-        return albumActionLogMapper.realtimeWeeklyTopDesigners(limit);
+//        return albumActionLogMapper.realtimeWeeklyTopDesigners(limit);
+    	AlbumActionLogCriteria criteria = initDesignerScoreCriteria(limit);
+        return albumActionLogMapper.realtimeWeeklyTopDesigners(criteria);
     }
     
     /**
@@ -191,7 +221,9 @@ public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBe
      */
     @Override
     public List<CountCacheBean> realtimeMonthlyTopDesigners(int limit) { 
-        return albumActionLogMapper.realtimeMonthlyTopDesigners(limit);
+//        return albumActionLogMapper.realtimeMonthlyTopDesigners(limit);
+    	AlbumActionLogCriteria criteria = initDesignerScoreCriteria(limit);
+        return albumActionLogMapper.realtimeMonthlyTopDesigners(criteria);
     }
     
 	@Override
