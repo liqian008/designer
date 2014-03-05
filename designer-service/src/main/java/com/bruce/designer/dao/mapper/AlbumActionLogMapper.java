@@ -76,17 +76,17 @@ public interface AlbumActionLogMapper {
 	
 	List<CountCacheBean> queryBrowseStat();
 	
-	List<CountCacheBean> realtimeDailyTopAlbums(int limit);
+	List<CountCacheBean> realtimeDailyTopAlbums(@Param("example") AlbumActionLogCriteria example);
 	
-	List<CountCacheBean> realtimeWeeklyTopAlbums(int limit);
+	List<CountCacheBean> realtimeWeeklyTopAlbums(@Param("example") AlbumActionLogCriteria example);
 	
-	List<CountCacheBean> realtimeMonthlyTopAlbums(int limit);
+	List<CountCacheBean> realtimeMonthlyTopAlbums(@Param("example") AlbumActionLogCriteria example);
 	
-	List<CountCacheBean> realtimeDailyTopDesigners(int limit);
+	List<CountCacheBean> realtimeDailyTopDesigners(@Param("example") AlbumActionLogCriteria example);
     
-    List<CountCacheBean> realtimeWeeklyTopDesigners(int limit);
+    List<CountCacheBean> realtimeWeeklyTopDesigners(@Param("example") AlbumActionLogCriteria example);
     
-    List<CountCacheBean> realtimeMonthlyTopDesigners(int limit);
+    List<CountCacheBean> realtimeMonthlyTopDesigners(@Param("example") AlbumActionLogCriteria example);
 
 //	List<CountCacheBean> queryFavoriteData();
 }
