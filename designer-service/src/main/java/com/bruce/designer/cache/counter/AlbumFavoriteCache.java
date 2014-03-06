@@ -56,6 +56,7 @@ public class AlbumFavoriteCache {
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 throw new RedisKeyNotExistException();
             } else {
+            	cacheShardedJedisPool.returnResource(shardedJedis);
             	return shardedJedis.zcard(key);
             }
         } catch (JedisException t) {
