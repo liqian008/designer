@@ -47,6 +47,8 @@ User toUser = (User)request.getAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUT
 
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
+        
+        <jsp:include page="../../inc/baiduAsyncStat.jsp"></jsp:include>
     </head>
     <body class="body-background" style="background-image: url(<%=contextPath%>/img/backgrounds/bg3.jpg); ">
 
