@@ -103,12 +103,15 @@ public class HotServiceImpl implements IHotService, InitializingBean {
         switch (mode) {
             case WEEKLY_FLAG: {
                 countList = albumActionLogDao.realtimeWeeklyTopAlbums(HOT_ALBUM_WEEKLY_LIMIT);
+                break;
             }
             case MONTHLY_FLAG: {
                 countList = albumActionLogDao.realtimeMonthlyTopAlbums(HOT_ALBUM_MONTHLY_LIMIT);
+                break;
             }
             default: {//default daily
                 countList = albumActionLogDao.realtimeDailyTopAlbums(HOT_ALBUM_DAILY_LIMIT);
+                break;
             }
         }
         List<Album> albumList = null;
@@ -133,12 +136,15 @@ public class HotServiceImpl implements IHotService, InitializingBean {
         switch (mode) {
             case WEEKLY_FLAG: {
                 countList = albumActionLogDao.realtimeWeeklyTopDesigners(HOT_ALBUM_WEEKLY_LIMIT);
+                break;
             }
             case MONTHLY_FLAG: {
                 countList = albumActionLogDao.realtimeMonthlyTopDesigners(HOT_ALBUM_MONTHLY_LIMIT);
+                break;
             }
             default: {//default daily
                 countList = albumActionLogDao.realtimeDailyTopDesigners(HOT_ALBUM_DAILY_LIMIT);
+                break;
             }
         }
         List<User> designerList = null;

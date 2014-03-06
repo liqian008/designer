@@ -53,9 +53,9 @@ public class AlbumActionLogServiceImpl implements IAlbumActionLogService {
 	    //如果之前like过，重复操作不做记录
 	    boolean everLiked = albumActionLogDao.existLikeLog(albumId, userId);//TODO 从缓存查询
         if(everLiked){
-            return albumActionLogDao.logLike(albumId, designerId, userId, everLiked);
+        	return 0;
         }else{
-            return 0;
+        	return albumActionLogDao.logLike(albumId, designerId, userId, everLiked);
         }
 	}
 
@@ -67,9 +67,10 @@ public class AlbumActionLogServiceImpl implements IAlbumActionLogService {
 	    //如果之前favorite过，重复操作不做记录
 		boolean everFavorited = albumActionLogDao.existFavoriteLog(albumId, userId);//TODO 从缓存查询
 		if(everFavorited){//
-		    return albumActionLogDao.logFavorite(albumId, designerId, userId, everFavorited);
+			return 0;
+		}else{
+			return albumActionLogDao.logFavorite(albumId, designerId, userId, everFavorited);
 		}
-		return 0;
 	}
 
 	/**

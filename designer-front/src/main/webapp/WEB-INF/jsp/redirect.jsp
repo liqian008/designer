@@ -14,7 +14,7 @@ if(prompt==null||"".equals(prompt)){
 	prompt = "操作成功，现在将转入后续页面，请稍候…";
 }
 if(redirectUrl==null||"".equals(redirectUrl)){
-	redirectUrl = "<%=contextPath%>/index";
+	redirectUrl = contextPath + "/index";
 }
 %>
 

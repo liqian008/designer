@@ -11,15 +11,13 @@
 
 <%
 String contextPath = ConstFront.CONTEXT_PATH;
-%>
 
-<%
 SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_HH_MM_FORMAT);
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
 User toUser = (User)request.getAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUTE);
 
-String locationHref= "<%=contextPath%>/settings/msgbox/chat?toId="+toUser.getId();
+String locationHref= contextPath + "/settings/msgbox/chat?toId="+toUser.getId(); 
 %>
 
 <!DOCTYPE html>

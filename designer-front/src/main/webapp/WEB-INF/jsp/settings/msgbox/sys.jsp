@@ -11,10 +11,8 @@
 
 <%
 String contextPath = ConstFront.CONTEXT_PATH;
-%>
 
-<%
-SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_FORMAT);
+SimpleDateFormat ymdSdf = new SimpleDateFormat(ConstFront.YYYY_MM_DD_HH_MM_FORMAT);
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
 User toUser = (User)request.getAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUTE);
@@ -131,6 +129,7 @@ User toUser = (User)request.getAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUT
 														</div>
 														<div class="message-content">
 															<%=message.getMessage()%>
+															 发送于: <%=ymdSdf.format(message.getCreateTime())%>
 														</div>
 													</div>
 												</div></li>
@@ -139,7 +138,7 @@ User toUser = (User)request.getAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUT
 			                            <%}
 			                            }%>
 			                            
-			                            <%=PagingUtil.getPagingHtml(messagePagingData, "<%=contextPath%>/settings/msgbox/sys")%>
+			                            <%=PagingUtil.getPagingHtml(messagePagingData, contextPath+ "/settings/msgbox/sys")%>
 			                            
                                     </div>
                                 </div>

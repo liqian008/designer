@@ -66,22 +66,8 @@ String contextPath = ConstFront.CONTEXT_PATH;
         <div class="page-top-stripes"></div> <!-- Page Background Stripes -->
 
         <div class="page"> <!-- Page -->
-			<div class="breadscrumbs">
-			    <div class="container">
-			        <ul class="clearfix">
-			            <li><a href="<%=contextPath%>/index">首页</a>/</li> 
-			            <li><a href="#">精品推荐</a></li>
-			        </ul> 
-			    </div>
-			</div>
-			            
-            <div class="main fullwidth">
-            	<section class="content"> <!-- Content -->
-                    <div class="container" id="proAlbumContainer">
-                    	<jsp:include page="./inc/indexRecommend.jsp"></jsp:include>
-                    </div>
-                </section> <!-- Close Content -->
-			</div> <!-- Close Main -->
+			
+            <jsp:include page="./inc/indexRecommend.jsp"></jsp:include>
 			
 			<div class="breadscrumbs">
 			    <div class="container">

@@ -112,12 +112,13 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 	                            </ul>
                             </div>
 						
-							<%
-								List<User> designerList = (List<User>)request.getAttribute("designerList"); 
-								if(designerList!=null&&designerList.size()>0){
-							%>
+							
 							
 							<div id="designer-Container" class="designer-container">
+								<% 
+								List<User> designerList = (List<User>)request.getAttribute("designerList"); 
+								if(designerList!=null&&designerList.size()>0){
+								%>
 								<div class="widget-box widget-designer">
 									<div class="designer-wrap clearfix">
 										<%for(User designer: designerList){%>
@@ -141,9 +142,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 										<p id="infoboxMessage">暂无数据!</p>
 									</div>
 								</div>
-								<%
-									}
-								%>
+								<%}%>
 							</div>
 						</section>
 						

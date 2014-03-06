@@ -93,13 +93,13 @@ public class SitemapGenerator {
         urlList.add(new WebSitemapUrl.Options(domain + "/hot/monthlyAlbums")
         .lastMod(date).priority(0.9).changeFreq(ChangeFreq.WEEKLY).build());
         //所有album内容
-        List<Album> albumList = albumService.queryAll();
-        if(albumList!=null&&albumList.size()>0){
-            for(Album album: albumList){
-                urlList.add(new WebSitemapUrl.Options(domain + "/album/"+album.getId())
-                .lastMod(album.getUpdateTime()).priority(0.8).changeFreq(ChangeFreq.DAILY).build());
-            }
-        }
+//        List<Album> albumList = albumService.queryAll();
+//        if(albumList!=null&&albumList.size()>0){
+//            for(Album album: albumList){
+//                urlList.add(new WebSitemapUrl.Options(domain + "/album/"+album.getId())
+//                .lastMod(album.getUpdateTime()).priority(0.8).changeFreq(ChangeFreq.DAILY).build());
+//            }
+//        }
         
         // 新晋
         urlList.add(new WebSitemapUrl.Options(domain + "/designers")
@@ -114,13 +114,13 @@ public class SitemapGenerator {
         urlList.add(new WebSitemapUrl.Options(domain + "/hot/monthlyDesigners")
         .lastMod(date).priority(0.9).changeFreq(ChangeFreq.WEEKLY).build());
         //所有designer内容
-        List<User> userList = userService.queryDesignersByStatus(ConstService.DESIGNER_APPLY_APPROVED);
-        if(userList!=null&&userList.size()>0){
-            for(User designer: userList){
-                urlList.add(new WebSitemapUrl.Options(domain + "/"+designer.getId()+"/home")
-                .lastMod(designer.getUpdateTime()).priority(0.7).changeFreq(ChangeFreq.DAILY).build());
-            }
-        }
+//        List<User> userList = userService.queryDesignersByStatus(ConstService.DESIGNER_APPLY_APPROVED);
+//        if(userList!=null&&userList.size()>0){
+//            for(User designer: userList){
+//                urlList.add(new WebSitemapUrl.Options(domain + "/"+designer.getId()+"/home")
+//                .lastMod(designer.getUpdateTime()).priority(0.7).changeFreq(ChangeFreq.DAILY).build());
+//            }
+//        }
 
         // 关于我们
         urlList.add(new WebSitemapUrl.Options(domain + "/hot/aboutUs")

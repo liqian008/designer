@@ -2,9 +2,13 @@ package com.bruce.designer.front.util;
 
 import java.util.List;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
+
+import com.bruce.designer.constants.ConstDateFormat;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.model.Album;
+import com.bruce.designer.model.Comment;
 import com.bruce.designer.model.Message;
 import com.bruce.designer.model.Tag;
 import com.bruce.designer.model.User;
@@ -174,6 +178,36 @@ public class DesignerHtmlUtils {
 						message.getMessage();
 				}
 			}
+		}
+		return "";
+	}
+	
+	
+	/**
+	 * 评论ajax html
+	 * @param commentList
+	 * @param userId
+	 * @return
+	 */
+	public static String buildFallLoadHtml(List<Comment> commentList, Integer userId) {
+		// TODO freemarker template
+		if (commentList != null && commentList.size() > 0) {
+			StringBuilder sb = new StringBuilder();
+			for (Comment comment : commentList) {
+				sb.append("<li class='comment depth-1' id='li-comment-1'>" + "<div class='comment-container' id='comment-1'><div class='comment-avatar'>"
+						+ "<div class='comment-author vcard'>" + "<img src='"+UploadUtil.getAvatarUrl(comment.getFromId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"'/>" + "</div></div>"
+						+ "<div class='comment-body'><div class='comment-meta commentmetadata'>" + "<h6 class='comment-author'>"
+						+ "<a href='#' rel='external nofollow' class='url'>" + comment.getNickname() + "</a> 发表于 "
+						+ DateFormatUtils.format(comment.getCreateTime(), ConstDateFormat.YYYYMMDD_HHMM_FORMAT) + "</h6></div>"
+						+ "<div class='comment-content'>");
+				sb.append(comment.getComment());
+				boolean displayReplyBtn = userId!=null&&!userId.equals(comment.getFromId());
+				if(displayReplyBtn){
+					sb.append("&nbsp;&nbsp;<a href=\"javascript:reply("+comment.getFromId()+",'"+comment.getNickname()+"')\">回复</a>");
+				}
+				sb.append("</div> </div></div></li>");
+			}
+			return sb.toString();
 		}
 		return "";
 	}

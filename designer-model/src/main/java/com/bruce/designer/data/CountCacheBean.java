@@ -11,7 +11,6 @@ public class CountCacheBean{
     }
     
     public CountCacheBean(int member, long score){
-    	super();
     	this.member = member;
     	this.score = score;
     }
@@ -31,7 +30,5 @@ public class CountCacheBean{
 	public void setScore(long score) {
 		this.score = score;
 	}
-    
-	
     
 }

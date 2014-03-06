@@ -157,7 +157,7 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 	                                	<%
 	                                	PagingData<UserFollow> followsPagingData = (PagingData<UserFollow>)request.getAttribute("followsPagingData");
 	                                	%>
-	                                    <%=PagingUtil.getPagingHtml(followsPagingData, "<%=contextPath%>/"+queryUser.getId()+"/follows")%>
+	                                    <%=PagingUtil.getPagingHtml(followsPagingData, contextPath + "/"+queryUser.getId()+"/follows")%>
                                     </div>
                                 </div>
                             </div>

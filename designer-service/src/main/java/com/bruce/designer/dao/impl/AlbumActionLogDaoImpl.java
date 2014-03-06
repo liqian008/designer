@@ -3,6 +3,7 @@ package com.bruce.designer.dao.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,10 +14,31 @@ import com.bruce.designer.dao.mapper.AlbumActionLogMapper;
 import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.model.AlbumActionLog;
 import com.bruce.designer.model.AlbumActionLogCriteria;
+import com.bruce.designer.util.ConfigUtil;
 
 @Repository
 public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBean {
 
+	/*album收藏积分*/
+	public static final int ALBUM_FAVORITE_SCORE = NumberUtils.toInt(ConfigUtil.getString("album_favorite_score"), 100);
+	/*album赞积分*/
+	public static final int ALBUM_LIKE_SCORE = NumberUtils.toInt(ConfigUtil.getString("album_like_score"), 5);
+	/*album浏览积分*/
+	public static final int ALBUM_BROWSE_SCORE = NumberUtils.toInt(ConfigUtil.getString("album_browse_score"), 0);
+	/*album评论积分*/
+	public static final int ALBUM_COMMENT_SCORE = NumberUtils.toInt(ConfigUtil.getString("album_comment_score"), 2);
+	
+	/*designer收藏积分*/
+	public static final int DESIGNER_FAVORITE_SCORE = NumberUtils.toInt(ConfigUtil.getString("designer_favorite_score"), 100);
+	/*designer赞积分*/
+	public static final int DESIGNER_LIKE_SCORE = NumberUtils.toInt(ConfigUtil.getString("designer_like_score"), 5);
+	/*designer浏览积分*/
+	public static final int DESIGNER_BROWSE_SCORE = NumberUtils.toInt(ConfigUtil.getString("designer_browse_score"), 0);
+	/*designer评论积分*/
+	public static final int DESIGNER_COMMENT_SCORE = NumberUtils.toInt(ConfigUtil.getString("designer_comment_score"), 2);
+	
+	
+	
 	@Autowired
 	private AlbumActionLogMapper albumActionLogMapper;
 
@@ -158,20 +180,20 @@ public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBe
 
 	private AlbumActionLogCriteria initAlbumScoreCriteria(int limit) {
 		AlbumActionLogCriteria criteria = new AlbumActionLogCriteria();
-    	criteria.setAlbumBrowseScore(1);
-    	criteria.setAlbumLikeScore(1);
-    	criteria.setAlbumCommentScore(1);
-    	criteria.setAlbumFavoriteScore(1);
+    	criteria.setAlbumBrowseScore(ALBUM_BROWSE_SCORE);
+    	criteria.setAlbumLikeScore(ALBUM_LIKE_SCORE);
+    	criteria.setAlbumCommentScore(ALBUM_COMMENT_SCORE);
+    	criteria.setAlbumFavoriteScore(ALBUM_FAVORITE_SCORE);
     	criteria.setLimit(limit);
     	return criteria;
 	}
 	
 	private AlbumActionLogCriteria initDesignerScoreCriteria(int limit) {
 		AlbumActionLogCriteria criteria = new AlbumActionLogCriteria();
-    	criteria.setDesignerBrowseScore(1);
-    	criteria.setDesignerLikeScore(1);
-    	criteria.setDesignerCommentScore(1);
-    	criteria.setDesignerFavoriteScore(1);
+    	criteria.setDesignerBrowseScore(DESIGNER_BROWSE_SCORE);
+    	criteria.setDesignerLikeScore(DESIGNER_LIKE_SCORE);
+    	criteria.setDesignerCommentScore(DESIGNER_COMMENT_SCORE);
+    	criteria.setDesignerFavoriteScore(DESIGNER_FAVORITE_SCORE);
     	criteria.setLimit(limit);
     	return criteria;
 	}
@@ -228,11 +250,15 @@ public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBe
     
 	@Override
 	public boolean existLikeLog(int albumId, int userId) {
-		return false;
+		AlbumActionLogCriteria criteria = new AlbumActionLogCriteria();
+		criteria.createCriteria().andAlbumIdEqualTo(albumId).andUserIdEqualTo(userId).andLikeNumEqualTo((short)1);
+        return albumActionLogMapper.countByExample(criteria)>0;
 	}
 
 	@Override
 	public boolean existFavoriteLog(int albumId, int userId) {
-		return false;
+		AlbumActionLogCriteria criteria = new AlbumActionLogCriteria();
+		criteria.createCriteria().andAlbumIdEqualTo(albumId).andUserIdEqualTo(userId).andFavoriteNumEqualTo((short)1);
+        return albumActionLogMapper.countByExample(criteria)>0;
 	}
 }

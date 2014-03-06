@@ -2,6 +2,7 @@
 <%@ page import="com.bruce.designer.model.*"%>
 <%@ page import="com.bruce.designer.service.oauth.*"%>
 <%@ page import="com.bruce.designer.front.constants.*"%>
+<%@ page import="com.bruce.designer.front.util.*"%>
 <%@ page import="com.bruce.designer.constants.*"%>
 <%@ page import="com.bruce.designer.util.*"%>
 <%@ page import="java.util.*"%>
@@ -144,10 +145,8 @@ User user = (User) session.getAttribute(ConstFront.CURRENT_USER);
 																</h5>
 															</div>
 															<div class="message-content">
-																<%//=!MessageUtil.isBroadcastMessage(message.getMessageType())?"<a href='<%=contextPath%>/"+message.getFromId()+"/home' target='_blank'>"+message.getFromUser().getNickname()+"</a>: ":""%>
-																<%//=message.getMessage()%>
-																<%=MessageUtil.getMessageDisplay(message)%>
-																- 发送于: <%=ymdSdf.format(message.getCreateTime())%>
+																<%=DesignerHtmlUtils.getMessageDisplay(message)%> 
+																 发送于: <%=ymdSdf.format(message.getCreateTime())%>
 															</div>
 														</div>
 													</div></li>

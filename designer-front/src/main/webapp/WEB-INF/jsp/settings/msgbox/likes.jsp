@@ -123,6 +123,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 															<a href='<%=contextPath%>/<%=message.getFromId()%>/home' target='_blank'><%=message.getFromUser().getNickname()%></a>
 															赞了您的专辑作品&nbsp;&nbsp;
 															<a href='<%=contextPath%>/album/<%=message.getSourceId()%>' target='_blank'>点击查看</a>
+															 发送于: <%=ymdSdf.format(message.getCreateTime())%>
 														</div>
 													</div>
 												</div></li>
@@ -131,7 +132,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			                            <%}
 			                            }%>
 			                            
-			                            <%=PagingUtil.getPagingHtml(messagePagingData, "<%=contextPath%>/settings/msgbox/likes")%>
+			                            <%=PagingUtil.getPagingHtml(messagePagingData, contextPath+"/settings/msgbox/likes")%>
 			                            
                                     </div>
                                 </div>
