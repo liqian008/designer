@@ -1,0 +1,11 @@
+# robots.txt generated at http://tool.chinaz.com/robots/ 
+User-agent: *
+Allow: /album/
+Disallow: /settings/
+Disallow: /css/
+Disallow: /img/
+Disallow: /js/
+Disallow: /faustCplus/
+Disallow: /fonts/
+Disallow: /uploadify/
+Sitemap: http://www.jinwanr.com.cn/sitemap.xml
