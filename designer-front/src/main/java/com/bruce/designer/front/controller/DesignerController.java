@@ -14,20 +14,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.exception.ErrorCode;
+import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.DesignerHtmlUtils;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
-import com.bruce.designer.model.Album;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IHotService;
-import com.bruce.designer.service.ITagService;
 import com.bruce.designer.service.IUserService;
-import com.bruce.designer.service.impl.HotServiceImpl;
-import com.bruce.designer.util.UploadUtil;
+import com.bruce.designer.util.ConfigUtil;
 
 /**
  * Handles requests for the application home page.
@@ -39,7 +35,8 @@ public class DesignerController {
 	private IUserService userService; 
 	@Autowired
 	private IHotService hotService;
-
+	
+	
 	private static final Logger logger = LoggerFactory.getLogger(DesignerController.class);
 
 	private static final int FULL_LIMIT = 8;
@@ -57,8 +54,8 @@ public class DesignerController {
 	 * @param request
 	 * @return
 	 */
-	public String hotDesigners(Model model, int mode) {
-	    List<User> designerList = hotService.fallLoadHotDesigners(mode);
+	private String hotDesigners(Model model, int mode, int limit) {
+	    List<User> designerList = hotService.fallLoadHotDesigners(mode, limit);
 		model.addAttribute("designerList", designerList);
 		model.addAttribute("mode", mode);
 		return "designer/hotDesigners";
@@ -68,19 +65,19 @@ public class DesignerController {
 	//日热门
     @RequestMapping(value = "/hot/dailyDesigners", method = RequestMethod.GET)
     public String hotDailyDesigners(Model model) {
-        return hotDesigners(model, IHotService.DAILY_FLAG); 
+        return hotDesigners(model, IHotService.DAILY_FLAG, ConstFront.HOT_DESIGNER_DAILY_LIMIT); 
     }
     
     //周热门
     @RequestMapping(value = "/hot/weeklyDesigners", method = RequestMethod.GET)
     public String hotWeeklyDesigners(Model model) {
-        return hotDesigners(model, IHotService.WEEKLY_FLAG);
+        return hotDesigners(model, IHotService.WEEKLY_FLAG, ConstFront.HOT_DESIGNER_WEEKLY_LIMIT);
     }
     
     //月热门
     @RequestMapping(value = "/hot/monthlyDesigners", method = RequestMethod.GET)
     public String hotMonthlyDesigners(Model model) {
-        return hotDesigners(model, IHotService.MONTHLY_FLAG);
+        return hotDesigners(model, IHotService.MONTHLY_FLAG, ConstFront.HOT_DESIGNER_MONTHLY_LIMIT);
     }
     
 	
@@ -114,8 +111,7 @@ public class DesignerController {
 	@RequestMapping(value = "/hot/designers.json")
 	public ModelAndView hotDesigners4Json(Model model, HttpServletRequest request) {
 		int limit = 5;
-//		List<User> designerList = hotService.fallLoadHotDesigners(0, limit);
-		List<User> designerList = hotService.fallLoadHotDesigners(IHotService.HOT_DESIGNER_WEEKLY_LIMIT);
+		List<User> designerList = hotService.fallLoadHotDesigners(0, limit);
 		if (designerList == null || designerList.size() == 0) {
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {

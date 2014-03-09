@@ -1,5 +1,7 @@
 package com.bruce.designer.front.constants;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import com.bruce.designer.util.ConfigUtil;
 
 public interface ConstFront {
@@ -40,8 +42,34 @@ public interface ConstFront {
 	
 	public static final String YYYY_MM_DD_HH_MM_FORMAT = "yyyy-MM-dd HH:mm";
 	
-	
+	/*访问域名*/
 	public static final String DOMAIN = ConfigUtil.getString("domain");
-	
+	/*contextPath*/
 	public static final String CONTEXT_PATH = ConfigUtil.getString("contextPath");
+	
+	
+	public static final String WEIXIN_WELCOME_CONTENT = ConfigUtil.getString("weixin_welcome_content");
+	
+	public static final String WEIXIN_AUTO_REPLY_CONTENT = ConfigUtil.getString("weixin_auto_reply_content");
+	
+	
+	/*日热门作品limit*/
+	public static final int HOT_ALBUM_DAILY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_album_daily_limit"), 20);
+	/*周热门作品limit*/
+	public static final int HOT_ALBUM_WEEKLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_album_weekly_limit"), 20);
+	/*月热门作品limit*/
+	public static final int HOT_ALBUM_MONTHLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_album_monthly_limit"), 20);
+
+	/*日热门设计师limit*/
+    public static final int HOT_DESIGNER_DAILY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_designer_daily_limit"), 32);
+    /*周热门设计师limit*/
+    public static final int HOT_DESIGNER_WEEKLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_designer_weekly_limit"), 32);
+    /*月热门设计师limit*/
+    public static final int HOT_DESIGNER_MONTHLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_designer_monthly_limit"), 32);
+    
+    /*微信渠道——热门作品limit*/
+	public static final int HOT_ALBUM_WEIXIN_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_album_weixin_limit"), 3);
+    /*微信渠道——热门设计师limit*/
+    public static final int HOT_DESIGNER_WEIXIN_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_designer_weixin_limit"), 3);
+
 }

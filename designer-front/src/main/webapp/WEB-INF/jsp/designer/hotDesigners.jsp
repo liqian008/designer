@@ -97,7 +97,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 			<div class="breadscrumbs">
 				<div class="container">
 					<ul class="clearfix">
-						<li><a href="./">首页</a>/</li>
+						<li><a href="<%=contextPath%>/">首页</a>/</li>
 						<li><a href="javascript:void(0)">热门设计师</a></li>
 					</ul>
 				</div>

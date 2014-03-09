@@ -17,7 +17,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
 User toUser = (User)request.getAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUTE);
 
-String locationHref= contextPath + "/settings/msgbox/chat?toId="+toUser.getId(); 
+String locationHref= contextPath + "/settings/msgbox/chat/"+toUser.getId(); 
 %>
 
 <!DOCTYPE html>

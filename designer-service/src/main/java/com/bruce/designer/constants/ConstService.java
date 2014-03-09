@@ -1,5 +1,7 @@
 package com.bruce.designer.constants;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import com.bruce.designer.util.ConfigUtil;
 
 public interface ConstService {
@@ -38,7 +40,7 @@ public interface ConstService {
 	/* 评论类型消息 */
 	public static final int MESSAGE_TYPE_COMMENT = 2;
 	/* 关注类型消息 */
-	public static final int MESSAGE_TYPE_FLOWER = 3;
+	public static final int MESSAGE_TYPE_FOLLOW = 3;
 	/* like类型消息 */
 	public static final int MESSAGE_TYPE_LIKE = 4;
 	/* 收藏类型消息 */
@@ -53,7 +55,7 @@ public interface ConstService {
 	/* 评论类型消息 */
 	public static final int MESSAGE_DELIVER_ID_COMMENT = MESSAGE_TYPE_COMMENT;
 	/* 关注类型消息 */
-	public static final int MESSAGE_DELIVER_ID_FLOWER = MESSAGE_TYPE_FLOWER;
+	public static final int MESSAGE_DELIVER_ID_FOLLOW = MESSAGE_TYPE_FOLLOW; 
 	/* like类型消息 */
 	public static final int MESSAGE_DELIVER_ID_LIKE = MESSAGE_TYPE_LIKE;
 	/* 收藏类型消息 */
@@ -91,6 +93,4 @@ public interface ConstService {
 	public static final String UPLOAD_IMAGE_SPEC_SMALL = "small";
 	
 	
-
-
 }

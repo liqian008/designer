@@ -12,8 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -144,6 +146,10 @@ public class MessageController {
 				if(!MessageUtil.isBroadcastMessage(message.getMessageType())){
 					int fromId = message.getFromId();
 					fromIdList.add(fromId);
+					if(MessageUtil.isChatMessage(message.getMessageType())){
+						int chatId = message.getMessageType();
+						fromIdList.add(chatId);
+					}
 				}
 			}
 			//获取用户map
@@ -154,6 +160,10 @@ public class MessageController {
 				if(!MessageUtil.isBroadcastMessage(message.getMessageType())){
 					int fromId = message.getFromId();
 					message.setFromUser(fromUserMap.get(fromId));
+					if(MessageUtil.isChatMessage(message.getMessageType())){
+						int chatId = message.getMessageType();
+						message.setChatUser(fromUserMap.get(chatId));
+					}
 				}
 			}
 		}
@@ -192,8 +202,8 @@ public class MessageController {
 		return "/settings/msgbox/favorites";
 	}
 	
-	@RequestMapping(value = "/msgbox/chat")
-	public String chats(Model model, HttpServletRequest request, int toId) {
+	@RequestMapping(value = "/msgbox/chat/{toId}")
+	public String chats(Model model, HttpServletRequest request, @PathVariable int toId) {
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
 		// 检查toUser是否存在

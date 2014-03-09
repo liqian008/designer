@@ -129,7 +129,7 @@ User user = (User) session.getAttribute(ConstFront.CURRENT_USER);
 																<%if(MessageUtil.isChatMessage(message.getMessageType())){ %>
 																<a href="<%=contextPath%>/<%=message.getFromId()%>/home" target="_blank">
 																<img
-																	src="<%=contextPath%>/staticFile/avatar/50/<%=message.getFromId()%>.jpg"/>
+																	src="<%=contextPath%>/staticFile/avatar/50/<%=message.getMessageType()%>.jpg"/>
 																</a>
 																<%}else{ %>
 																<img
@@ -141,7 +141,12 @@ User user = (User) session.getAttribute(ConstFront.CURRENT_USER);
 															<div class="message-meta messagemetadata">
 																<h5 class="message-author">
 																	<a href="<%=contextPath%>/settings/msgbox/<%=MessageUtil.getMessageTypeFlag(message.getMessageType())%>">
-																	<%=MessageUtil.getMessageTypeName(message.getMessageType())%> (<%=message.getUnread()%> 条未读)
+																		<%if(MessageUtil.isChatMessage(message.getMessageType())){ %>
+																			<%=message.getChatUser().getNickname()%>
+																		<%}else{ %>
+																			<%=MessageUtil.getMessageTypeName(message.getMessageType())%>
+																		<%} %>
+																	 (<%=message.getUnread()%> 条未读)
 																	</a>
 																</h5>
 															</div>
