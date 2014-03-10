@@ -81,7 +81,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
             <div class="breadscrumbs">
                 <div class="container">
                     <ul class="clearfix">
-                        <li><a href="/designer-front/">首页</a>/</li>
+                        <li><a href="<%=contextPath%>/">首页</a>/</li>
                         <li><a href="javascript:void(0)">热门专辑作品</a></li>
                     </ul>
                 </div>
@@ -92,9 +92,9 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
                         <section class="content span9">
                         	<div class="shortcode-tabs">
 	                            <ul class="tabs-nav tabs clearfix">
-	                                <li <%=getActive(request, 1)%>><a class="button button-white" href="/designer-front/hot/dailyAlbums">本日热门作品</a></li>
-	                                <li <%=getActive(request, 2)%>><a class="button button-white" href="/designer-front/hot/weeklyAlbums">本周热门作品</a></li>
-	                                <li <%=getActive(request, 3)%>><a class="button button-white" href="/designer-front/hot/monthlyAlbums">本月热门作品</a></li>
+	                                <li <%=getActive(request, 1)%>><a class="button button-white" href="<%=contextPath%>/hot/dailyAlbums">本日热门作品</a></li>
+	                                <li <%=getActive(request, 2)%>><a class="button button-white" href="<%=contextPath%>/hot/weeklyAlbums">本周热门作品</a></li>
+	                                <li <%=getActive(request, 3)%>><a class="button button-white" href="<%=contextPath%>/hot/monthlyAlbums">本月热门作品</a></li>
 	                            </ul>
                             </div>
                         	<%
@@ -113,7 +113,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                 </div>
                             </div>
                         	<%} %>
-                        	 
+                        	
                         </section>
                        	
                        	<!-- right slidebar -->

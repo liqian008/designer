@@ -70,6 +70,8 @@ public class AlbumController {
 	public static final int SIDE_LIMIT = NumberUtils.toInt(ConfigUtil.getString("slide_latest_album_limit"), 3*2);
 	/*首页专辑推荐的排序数量*/
 	public static final int INDEX_SLIDE_LIMIT = NumberUtils.toInt(ConfigUtil.getString("index_slide_limit"), 4);
+	
+	
 
 	private static final Logger logger = LoggerFactory.getLogger(AlbumController.class);
 
@@ -89,56 +91,8 @@ public class AlbumController {
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
-		// PagingData<Album> albumPagingData =
-		// albumService.pagingQuery(ConstService.ALBUM_OPEN_STATUS, 1, 16);
-		// if (albumPagingData != null && albumPagingData.getPageData() != null)
-		// {
-		// // List<Album> albumList =
-		// // albumService.queryAlbumByStatus(ConstService.ALBUM_OPEN_STATUS);
-		// List<Album> albumList = albumPagingData.getPageData();
-		// if (albumList != null && albumList.size() > 0) {
-		// for (Album loopAlbum : albumList) {
-		// int albumId = loopAlbum.getId();
-		// loopAlbum.setBrowseCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUM_BROWSE
-		// + albumId));
-		// loopAlbum.setCommentCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUM_COMMENT
-		// + albumId));
-		// loopAlbum.setLikeCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUM_LIKE
-		// + albumId));
-		// loopAlbum.setFavoriteCount(counterService.getCount(ConstRedis.COUNTER_KEY_ALBUM_FAVORITE
-		// + albumId));
-		// }
-		// model.addAttribute("albumList", albumList);
-		// }
-		// model.addAttribute("albumPagingData", albumPagingData);
-		// }
-		
-		//系统轮播
-//		List<IndexSlide> indexSlideList = indexSlideService.queryIndexSlideList(0, INDEX_SLIDE_LIMIT);
-//		model.addAttribute("indexSlideList", indexSlideList);
-		
-		//推荐专辑
-//		List<Album> recommendAlbumList = albumRecommendService.queryRecommendAlbums(INDEX_SLIDE_LIMIT);
-//		model.addAttribute("recommendAlbumList", recommendAlbumList);
-		
-		//专辑列表
-//		int limit = FULL_LIMIT;
-//		List<Album> albumList = albumService.fallLoadAlbums(0, limit + 1, true, true);
-//		int tailId = 0;
-//		if (albumList != null) {
-//			if (albumList.size() > limit) {// 查询数据超过limit，含分页内容
-//				// 移除最后一个元素
-//				albumList.remove(limit);
-//				tailId = albumList.get(limit - 1).getId();
-//			}
-////			initAlbumDataCount(albumList);
-//
-//			model.addAttribute("albumList", albumList);
-//			model.addAttribute("tailId", tailId);
-//		}
 		return "index";
 	}
-	
 
 	/**
 	 * 时间轴作品列表
@@ -324,23 +278,23 @@ public class AlbumController {
 	//日热门
     @RequestMapping(value = "/hot/dailyAlbums", method = RequestMethod.GET)
     public String hotDailyAlbums(Model model) {
-        return hotAlbums(model, IHotService.DAILY_FLAG);
+        return hotAlbums(model, IHotService.DAILY_FLAG, ConstFront.HOT_ALBUM_DAILY_LIMIT); 
     }
     
     //周热门
     @RequestMapping(value = "/hot/weeklyAlbums", method = RequestMethod.GET)
     public String hotWeeklyAlbums(Model model) {
-        return hotAlbums(model, IHotService.WEEKLY_FLAG);
+        return hotAlbums(model, IHotService.WEEKLY_FLAG, ConstFront.HOT_ALBUM_WEEKLY_LIMIT);
     }
     
     //月热门
     @RequestMapping(value = "/hot/monthlyAlbums", method = RequestMethod.GET)
     public String hotMonthlyAlbums(Model model) {
-        return hotAlbums(model, IHotService.MONTHLY_FLAG);
+        return hotAlbums(model, IHotService.MONTHLY_FLAG, ConstFront.HOT_ALBUM_MONTHLY_LIMIT);
     }
     
-    private String hotAlbums(Model model, int mode) {
-        List<Album> hotAlbumList = hotService.fallLoadHotAlbums(mode);
+    private String hotAlbums(Model model, int mode, int limit) {
+        List<Album> hotAlbumList = hotService.fallLoadHotAlbums(mode, limit);
         model.addAttribute("hotAlbumList", hotAlbumList);
         model.addAttribute("mode", mode);
         return "album/hotAlbums";

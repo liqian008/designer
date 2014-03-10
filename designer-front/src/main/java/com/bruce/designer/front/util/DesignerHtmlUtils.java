@@ -155,7 +155,7 @@ public class DesignerHtmlUtils {
 				case ConstService.MESSAGE_TYPE_SYSTEM: {
 					return message.getMessage();
 				}
-				case ConstService.MESSAGE_TYPE_FLOWER: {
+				case ConstService.MESSAGE_TYPE_FOLLOW: {
 					return "";
 				}
 				case ConstService.MESSAGE_TYPE_COMMENT: {

@@ -171,7 +171,7 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 												</div>
 											</div>
 											<%}%>
-										<%}%>
+										
 										
 										<div class="row-container clearfix">
 											<div class="row-left">淘宝店铺主页: </div>
@@ -193,7 +193,7 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 												
 											</div>
 										</div>
-										
+										<%}%>
 										
                                     </div>
                                     </div>

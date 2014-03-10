@@ -97,20 +97,20 @@ public class HotServiceImpl implements IHotService, InitializingBean {
 //	}
 	
     @Override
-    public List<Album> fallLoadHotAlbums(int mode) {
+    public List<Album> fallLoadHotAlbums(int mode, int limit) {
         List<CountCacheBean> countList = null;
         //先获取相应idList
         switch (mode) {
             case WEEKLY_FLAG: {
-                countList = albumActionLogDao.realtimeWeeklyTopAlbums(HOT_ALBUM_WEEKLY_LIMIT);
+                countList = albumActionLogDao.realtimeWeeklyTopAlbums(limit);//HOT_ALBUM_WEEKLY_LIMIT);
                 break;
             }
             case MONTHLY_FLAG: {
-                countList = albumActionLogDao.realtimeMonthlyTopAlbums(HOT_ALBUM_MONTHLY_LIMIT);
+                countList = albumActionLogDao.realtimeMonthlyTopAlbums(limit);//HOT_ALBUM_MONTHLY_LIMIT);
                 break;
             }
             default: {//default daily
-                countList = albumActionLogDao.realtimeDailyTopAlbums(HOT_ALBUM_DAILY_LIMIT);
+                countList = albumActionLogDao.realtimeDailyTopAlbums(limit);//HOT_ALBUM_DAILY_LIMIT);
                 break;
             }
         }
@@ -130,20 +130,20 @@ public class HotServiceImpl implements IHotService, InitializingBean {
     
     
     @Override
-    public List<User> fallLoadHotDesigners(int mode) {
+    public List<User> fallLoadHotDesigners(int mode, int limit) {
         List<CountCacheBean> countList = null;
         //先获取相应idList
         switch (mode) {
             case WEEKLY_FLAG: {
-                countList = albumActionLogDao.realtimeWeeklyTopDesigners(HOT_ALBUM_WEEKLY_LIMIT);
+                countList = albumActionLogDao.realtimeWeeklyTopDesigners(limit);//HOT_ALBUM_WEEKLY_LIMIT);
                 break;
             }
             case MONTHLY_FLAG: {
-                countList = albumActionLogDao.realtimeMonthlyTopDesigners(HOT_ALBUM_MONTHLY_LIMIT);
+                countList = albumActionLogDao.realtimeMonthlyTopDesigners(limit);//HOT_ALBUM_MONTHLY_LIMIT);
                 break;
             }
             default: {//default daily
-                countList = albumActionLogDao.realtimeDailyTopDesigners(HOT_ALBUM_DAILY_LIMIT);
+                countList = albumActionLogDao.realtimeDailyTopDesigners(limit);//HOT_ALBUM_DAILY_LIMIT);
                 break;
             }
         }

@@ -133,7 +133,7 @@ if (queryUser != null) {
 		
 		<%if (!isMe) {%>
 			<input type="button" class="common-button button" value="私信"
-			onclick="location.href='<%=contextPath%>/settings/msgbox/chat?toId=<%=queryUser.getId()%>'" />
+			onclick="location.href='<%=contextPath%>/settings/msgbox/chat/<%=queryUser.getId()%>'" />
 		<%}%>
 		
 		<input type="button" class="common-button button button-blue" value="个人主页"

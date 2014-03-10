@@ -10,7 +10,7 @@ public class MessageUtil {
 			case ConstService.MESSAGE_TYPE_SYSTEM: {
 				return "系统消息";
 			}
-			case ConstService.MESSAGE_TYPE_FLOWER: {
+			case ConstService.MESSAGE_TYPE_FOLLOW: {
 				return "关注消息";
 			}
 			case ConstService.MESSAGE_TYPE_COMMENT: {
@@ -36,8 +36,8 @@ public class MessageUtil {
 			case ConstService.MESSAGE_TYPE_SYSTEM: {
 				return "sys";
 			}
-			case ConstService.MESSAGE_TYPE_FLOWER: {
-				return "flowers";
+			case ConstService.MESSAGE_TYPE_FOLLOW: {
+				return "follows";
 			}
 			case ConstService.MESSAGE_TYPE_COMMENT: {
 				return "comments";
@@ -52,7 +52,7 @@ public class MessageUtil {
 				return "ats";
 			}
 			default: {
-				return "chat?toId="+messageType;
+				return "chat/"+messageType;
 			}
 		}
 	}

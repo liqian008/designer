@@ -175,7 +175,7 @@ public class SystemController {
 		response.setContentType("image/jpeg");
 		// create the text for the image
 		String capText = captchaProducer.createText();
-		System.out.println("******************新验证码是: " + capText + "******************");
+//		System.out.println("******************新验证码是: " + capText + "******************");
 		// store the text in the session
 		session.setAttribute(Constants.KAPTCHA_SESSION_KEY, capText);
 

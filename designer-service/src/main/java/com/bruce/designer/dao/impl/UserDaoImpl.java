@@ -147,6 +147,7 @@ public class UserDaoImpl implements IUserDao , InitializingBean {
         user.setDesignerCompany(company);
         user.setDesignerTaobaoHomepage(taobaoHomepage);
         user.setDesignerStatus(ConstService.DESIGNER_APPLY_SENT);
+        user.setDesignerApplyTime(new Date());
         return userMapper.updateByExampleSelective(user, criteria);
     }
     
@@ -161,6 +162,9 @@ public class UserDaoImpl implements IUserDao , InitializingBean {
         criteria.createCriteria().andIdEqualTo(userId);
         User user = new User();
         user.setDesignerStatus(operationType);
+        if(ConstService.DESIGNER_APPLY_APPROVED == operationType){
+        	user.setDesignerPassTime(new Date());
+        }
         return userMapper.updateByExampleSelective(user, criteria);
     }
     
