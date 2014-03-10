@@ -148,7 +148,7 @@ public class WeixinService {
 				article.setTitle(album.getTitle());
 				article.setDescription(album.getRemark());
 				article.setPicUrl(album.getCoverMediumImg());
-				article.setUrl(ConstFront.CONTEXT_PATH + "/album/" + album.getId());
+				article.setUrl(ConstFront.DOMAIN + ConstFront.CONTEXT_PATH + "/album/" + album.getId());
 				articleList.add(article);
 			}
 			// 设置图文消息个数

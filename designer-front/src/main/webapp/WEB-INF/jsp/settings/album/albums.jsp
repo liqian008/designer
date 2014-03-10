@@ -148,7 +148,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 											}%>
 										</div>
 										
-										<%=PagingUtil.getPagingHtml(albumPagingData, "<%=contextPath%>/settings/albums")%>
+										<%=PagingUtil.getPagingHtml(albumPagingData, contextPath + "/settings/albums")%>
 										<!-- <div class="paging-navigation">
 			                                <ul class="clearfix">
 			                                </ul>
