@@ -47,7 +47,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
         
         <jsp:include page="../inc/baiduAsyncStat.jsp"></jsp:include>
     </head>
-    <body class="body-background" style="background-image: url(<%=contextPath%>/img/backgrounds/bg3.jpg); ">
+    <body class="body-background" style="background-image: url(<%=contextPath%>/img/backgrounds/bg.jpg); ">
 
         <!--[if lt IE 8]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>

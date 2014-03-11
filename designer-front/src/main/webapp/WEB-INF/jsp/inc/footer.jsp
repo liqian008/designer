@@ -29,44 +29,44 @@ String contextPath = ConstFront.CONTEXT_PATH;
             	<div class="span6">
             		<div class="widget-box widget-menu list-links span3">
 	                    <ul>
-	                        <li><a href="http://www.jadewd.com/forum.php">卫东翡翠网</a></li>
+	                        <li><a href="http://www.jadewd.com/forum.php" target="_blank">卫东翡翠网</a></li>
 	                    </ul>
 	                </div>
 	                <div class="widget-box widget-menu list-links span3">
 	                    <ul>
-	                        <li><a href="http://www.jadewd.com/forum.php">卫东翡翠网</a></li>
+	                        <li><a href="http://www.jadewd.com/forum.php" target="_blank">卫东翡翠网</a></li>
 	                    </ul>
 	                </div>
 	                <div class="widget-box widget-menu list-links span3">
 	                    <ul>
-	                        <li><a href="http://www.jadewd.com/forum.php">卫东翡翠网</a></li>
+	                        <li><a href="http://www.jadewd.com/forum.php" target="_blank">卫东翡翠网</a></li>
 	                    </ul>
 	                </div>
 	                <div class="widget-box widget-menu list-links span3">
 	                    <ul>
-	                        <li><a href="http://www.jadewd.com/forum.php">卫东翡翠网</a></li>
+	                        <li><a href="http://www.jadewd.com/forum.php" target="_blank">卫东翡翠网</a></li>
 	                    </ul>
 	                </div>
             	</div>
             	<div class="span6">
             		<div class="widget-box widget-menu list-links span3">
 	                    <ul>
-	                        <li><a href="http://www.jadewd.com/forum.php">卫东翡翠网</a></li>
+	                        <li><a href="http://www.jadewd.com/forum.php" target="_blank">卫东翡翠网</a></li>
 	                    </ul>
 	                </div>
 	                <div class="widget-box widget-menu list-links span3">
 	                    <ul>
-	                        <li><a href="http://www.jadewd.com/forum.php">卫东翡翠网</a></li>
+	                        <li><a href="http://www.jadewd.com/forum.php" target="_blank">卫东翡翠网</a></li>
 	                    </ul>
 	                </div>
 	                <div class="widget-box widget-menu list-links span3">
 	                    <ul>
-	                        <li><a href="http://www.jadewd.com/forum.php">卫东翡翠网</a></li>
+	                        <li><a href="http://www.jadewd.com/forum.php" target="_blank">卫东翡翠网</a></li>
 	                    </ul>
 	                </div>
 	                <div class="widget-box widget-menu list-links span3">
 	                    <ul>
-	                        <li><a href="http://www.jadewd.com/forum.php">卫东翡翠网</a></li>
+	                        <li><a href="http://www.jadewd.com/forum.php" target="_blank">卫东翡翠网</a></li>
 	                    </ul>
 	                </div>
             	</div>

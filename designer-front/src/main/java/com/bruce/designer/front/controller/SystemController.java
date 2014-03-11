@@ -133,6 +133,7 @@ public class SystemController {
 				long sourceId = 0;
 				String welcomeMessage = ConfigUtil.getString("welcome_message");
 				messageService.sendMessage(sourceId, ConstService.MESSAGE_DELIVER_ID_BROADCAST, user.getId(),  welcomeMessage, ConstService.MESSAGE_TYPE_SYSTEM);
+				//TODO 系统异步发送欢迎邮件
 				
 				return ResponseUtil.getForwardReirect();
 			}
