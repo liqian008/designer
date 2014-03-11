@@ -15,17 +15,63 @@ import com.bruce.designer.util.ConfigUtil;
 
 @Service
 public class MailService {
-	
+    /*SMTP配置*/
 	private static final String MAIL_SMTP = ConfigUtil.getString("mail_smtp");
-//	private static final String MAIL_USERNAME = ConfigUtil.getString("mail_username");
-//	private static final String MAIL_PASSWORD = ConfigUtil.getString("mail_password");
+	/*邮件人的账户*/
+	private static final String MAIL_ADMIN_USERNAME = ConfigUtil.getString("mail_admin_username");
+	/*邮件人的密码*/
+	private static final String MAIL_ADMIN_PASSWORD = ConfigUtil.getString("mail_admin_password");
+	/*欢迎邮件标题*/
+	private static final String MAIL_WELCOME_TITLE = ConfigUtil.getString("mail_welcome_title");
+	/*欢迎邮件内容*/
+	private static final String MAIL_WELCOME_CONTENT = ConfigUtil.getString("mail_welcome_content");
+	/*申请设计师邮件标题*/
+	private static final String MAIL_APPLY_TITLE = ConfigUtil.getString("mail_apply_title");
+	/*申请设计师邮件内容*/
+    private static final String MAIL_APPLY_CONTENT = ConfigUtil.getString("mail_apply_content");
+    /*审核人的email，多人需用半角逗号,分割*/
+    private static final String MAIL_STAFF_EMAIL = ConfigUtil.getString("mail_staff_email");
 
 	// private static final Log log = LogFactory.getLog(SendMail.class);
 
 	/**
-	 * Title: sendMailOfValidate Description:发送邮件的方法,Authenticator类验证
+	 * 发送欢迎邮件，to用户
 	 */
-	public void sendSSLMail(String mailFrom, String mailPwd, String mailTo, String mailTitle, String mailContent) {
+	public void sendWelcomeMail(String userMail){
+	    String welcomeTitle = MAIL_WELCOME_TITLE;
+	    String welcomeContent = MAIL_WELCOME_CONTENT;
+	    sendSSLMail(MAIL_ADMIN_USERNAME, MAIL_ADMIN_PASSWORD, userMail, welcomeTitle, welcomeContent);
+	}
+	
+	/**
+	 * 发送设计师申请确认邮件，to审批人
+	 */
+	public void sendDesignerApplyMail(int userId){
+	    String designerApplyTitle = MAIL_APPLY_TITLE;
+        String designerApplyContent = MAIL_APPLY_CONTENT;
+        //审批人的email，可能有多个，需用,分割
+        String staffMail = MAIL_STAFF_EMAIL;
+        sendSSLMail(MAIL_ADMIN_USERNAME, MAIL_ADMIN_PASSWORD, staffMail, designerApplyTitle, designerApplyContent);
+    }
+
+	/**
+	 * 发送设计师申请通过邮件，to设计师
+	 */
+	public void sendDesignerApprovedMail(int designerId, String designerMail){
+	    String designerApprovedTitle = "";
+        String designerApprovedContent = "";
+        sendSSLMail(MAIL_ADMIN_USERNAME, MAIL_ADMIN_PASSWORD, designerMail, designerApprovedTitle, designerApprovedContent);
+	}
+	
+	/**
+	 * 发送邮件的方法,Authenticator类验证
+	 * @param mailFrom
+	 * @param mailPwd
+	 * @param mailTo
+	 * @param mailTitle
+	 * @param mailContent
+	 */
+	private void sendSSLMail(String mailFrom, String mailPwd, String mailTo, String mailTitle, String mailContent) {
 		Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
 		String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 
