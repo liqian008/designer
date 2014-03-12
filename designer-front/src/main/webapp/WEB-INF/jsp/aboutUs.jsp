@@ -106,7 +106,7 @@ String contextPath = ConstFront.CONTEXT_PATH;
                                             联系电话: 138xxxxxxxx
                                         </p>
                                         <p>
-                                            电子邮箱: <a href="mailto:xxx@xxx.com">xxx@xxx.com</a>
+                                            电子邮箱: <a href="mailto:admin@jinwanr.com.cn">admin@jinwanr.com.cn</a>
                                         </p>
                                     </div>
                                     
@@ -116,7 +116,7 @@ String contextPath = ConstFront.CONTEXT_PATH;
                                         	技术支持: Geekway Studio
                                         </p>
                                         <p>
-                                            电子邮箱: <a href="mailto:business@xxx.com">xxx@xxx.com</a> 
+                                            电子邮箱: <a href="mailto:admin@jinwanr.com.cn">admin@jinwanr.com.cn</a> 
                                         </p>
                                     </div>
                                 </div>

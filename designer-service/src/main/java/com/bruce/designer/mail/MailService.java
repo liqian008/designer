@@ -29,18 +29,18 @@ public class MailService {
 	private static final String MAIL_ADMIN_PASSWORD = ConfigUtil.getString("mail_admin_password");
 	/*欢迎邮件标题——【金玩儿网】欢迎新用户注册*/
 	private static final String MAIL_WELCOME_TITLE = ConfigUtil.getString("mail_welcome_title");
-	/*欢迎邮件内容——尊敬的用户您好，欢迎您注册【金玩儿网】*/
+	/*欢迎邮件内容——尊敬的用户您好，欢迎您注册 <a href="www.jinwanr.com.cn">【金玩儿网】</a> */
 	private static final String MAIL_WELCOME_CONTENT = ConfigUtil.getString("mail_welcome_content");
 	/*申请设计师邮件标题——【金玩儿网】设计师申请已提交*/
 	private static final String MAIL_DESIGNER_APPLY_TITLE = ConfigUtil.getString("mail_designer_apply_title");
-	/*申请设计师邮件内容——尊敬的用户您好，您的设计师申请已成功提交，我们的工作人员会尽快审核您提交的资料，并及时给您做出反馈，感谢您的参与！*/
+	/*申请设计师邮件内容——尊敬的用户您好，您的设计师申请已成功提交，我们的工作人员会尽快审核您提交的资料，并第一时间给您做出反馈，感谢您的参与！<p/><a href="www.jinwanr.com.cn">【金玩儿网】</a>*/
     private static final String MAIL_DESIGNER_APPLY_CONTENT = ConfigUtil.getString("mail_designer_apply_content");
     /*审核人的email，多人需用半角逗号,分割*/
     private static final String MAIL_DESIGNER_STAFF_EMAIL = ConfigUtil.getString("mail_designer_staff_email");
 
     /*设计师审核通过邮件标题——【金玩儿网】设计师申请已通过*/
 	private static final String MAIL_DESIGNER_APPROVED_TITLE = ConfigUtil.getString("mail_designer_approved_title");
-	/*设计师审核通过邮件内容——尊敬的设计师您好，您的设计师申请已通过，现在可以发布新作品了！*/
+	/*设计师审核通过邮件内容——尊敬的设计师您好，您的设计师申请已通过，现在可以发布新作品了！<p/><a href="www.jinwanr.com.cn">【金玩儿网】</a>*/
     private static final String MAIL_DESIGNER_APPROVED_CONTENT = ConfigUtil.getString("mail_designer_approved_content");
     
 	// private static final Log log = LogFactory.getLog(SendMail.class);
@@ -56,9 +56,8 @@ public class MailService {
 				System.out.println("发送欢迎邮件");
 				String welcomeTitle = MAIL_WELCOME_TITLE;
 			    String welcomeContent = MAIL_WELCOME_CONTENT;
-			    sendSSLMail(MAIL_ADMIN_USERNAME, MAIL_ADMIN_PASSWORD, userMail, welcomeTitle, welcomeContent);
+			    sendSSLMail(MAIL_ADMIN_USERNAME, MailEncrypt.decrypt(MAIL_ADMIN_PASSWORD), userMail, welcomeTitle, welcomeContent);
 			}
-			
 		});
 	}
 	
@@ -75,7 +74,7 @@ public class MailService {
 		        String designerApplyContent = MAIL_DESIGNER_APPLY_CONTENT;
 		        //审批人的email，可能有多个，需用,分割
 		        String staffMail = MAIL_DESIGNER_STAFF_EMAIL;
-		        sendSSLMail(MAIL_ADMIN_USERNAME, MAIL_ADMIN_PASSWORD, staffMail, designerApplyTitle, designerApplyContent);
+		        sendSSLMail(MAIL_ADMIN_USERNAME, MailEncrypt.decrypt(MAIL_ADMIN_PASSWORD), staffMail, designerApplyTitle, designerApplyContent);
 			}
 			
 		});
@@ -87,7 +86,7 @@ public class MailService {
 	public void sendDesignerApprovedMail(int designerId, String designerMail){
 	    String designerApprovedTitle = "";
         String designerApprovedContent = "";
-        sendSSLMail(MAIL_ADMIN_USERNAME, MAIL_ADMIN_PASSWORD, designerMail, designerApprovedTitle, designerApprovedContent);
+        sendSSLMail(MAIL_ADMIN_USERNAME, MailEncrypt.decrypt(MAIL_ADMIN_PASSWORD), designerMail, designerApprovedTitle, designerApprovedContent);
 	}
 	
 	/**
@@ -128,7 +127,8 @@ public class MailService {
 				}
 			}
 			message.setSubject(mailTitle);// 主题
-			message.setText(mailContent);// 内容
+//			message.setText(mailContent);// 内容
+			message.setContent(mailContent, "text/html;charset = gbk");//html类型
 
 			Transport.send(message);// 调用发送邮件的方法
 //			System.out.println("邮件发送成功");
