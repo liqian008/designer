@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.HtmlUtils;
 
 import com.bruce.designer.annotation.NeedAuthorize;
 import com.bruce.designer.constants.ConstService;
@@ -29,18 +28,13 @@ import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.front.util.ResponseUtil;
 import com.bruce.designer.front.util.VerifyUtils;
+import com.bruce.designer.mail.MailService;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.ConfigUtil;
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
-//import nl.captcha.Captcha;
-//import nl.captcha.backgrounds.TransparentBackgroundProducer;
-//import nl.captcha.gimpy.DropShadowGimpyRenderer;
-//import nl.captcha.servlet.CaptchaServletUtil;
-//import nl.captcha.text.renderer.DefaultWordRenderer;
-//import nl.captcha.text.renderer.WordRenderer;
 
 @Controller
 public class SystemController {
@@ -49,6 +43,8 @@ public class SystemController {
 	private IUserService userService;
 	@Autowired
 	private IMessageService messageService;
+	@Autowired
+	private MailService mailService;
 
 	private static final Logger logger = LoggerFactory.getLogger(SystemController.class);
 
@@ -133,7 +129,8 @@ public class SystemController {
 				long sourceId = 0;
 				String welcomeMessage = ConfigUtil.getString("welcome_message");
 				messageService.sendMessage(sourceId, ConstService.MESSAGE_DELIVER_ID_BROADCAST, user.getId(),  welcomeMessage, ConstService.MESSAGE_TYPE_SYSTEM);
-				//TODO 系统异步发送欢迎邮件
+				//系统异步发送欢迎邮件
+				mailService.sendWelcomeMail(username);
 				
 				return ResponseUtil.getForwardReirect();
 			}

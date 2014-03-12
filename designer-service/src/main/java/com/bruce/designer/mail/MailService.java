@@ -9,49 +9,76 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bruce.designer.service.ITaskService;
 import com.bruce.designer.util.ConfigUtil;
 
 @Service
 public class MailService {
+	
+	@Autowired
+	private ITaskService taskService;
+	
     /*SMTP配置*/
 	private static final String MAIL_SMTP = ConfigUtil.getString("mail_smtp");
 	/*邮件人的账户*/
 	private static final String MAIL_ADMIN_USERNAME = ConfigUtil.getString("mail_admin_username");
 	/*邮件人的密码*/
 	private static final String MAIL_ADMIN_PASSWORD = ConfigUtil.getString("mail_admin_password");
-	/*欢迎邮件标题*/
+	/*欢迎邮件标题——【金玩儿网】欢迎新用户注册*/
 	private static final String MAIL_WELCOME_TITLE = ConfigUtil.getString("mail_welcome_title");
-	/*欢迎邮件内容*/
+	/*欢迎邮件内容——尊敬的用户您好，欢迎您注册【金玩儿网】*/
 	private static final String MAIL_WELCOME_CONTENT = ConfigUtil.getString("mail_welcome_content");
-	/*申请设计师邮件标题*/
-	private static final String MAIL_APPLY_TITLE = ConfigUtil.getString("mail_apply_title");
-	/*申请设计师邮件内容*/
-    private static final String MAIL_APPLY_CONTENT = ConfigUtil.getString("mail_apply_content");
+	/*申请设计师邮件标题——【金玩儿网】设计师申请已提交*/
+	private static final String MAIL_DESIGNER_APPLY_TITLE = ConfigUtil.getString("mail_designer_apply_title");
+	/*申请设计师邮件内容——尊敬的用户您好，您的设计师申请已成功提交，我们的工作人员会尽快审核您提交的资料，并及时给您做出反馈，感谢您的参与！*/
+    private static final String MAIL_DESIGNER_APPLY_CONTENT = ConfigUtil.getString("mail_designer_apply_content");
     /*审核人的email，多人需用半角逗号,分割*/
-    private static final String MAIL_STAFF_EMAIL = ConfigUtil.getString("mail_staff_email");
+    private static final String MAIL_DESIGNER_STAFF_EMAIL = ConfigUtil.getString("mail_designer_staff_email");
 
+    /*设计师审核通过邮件标题——【金玩儿网】设计师申请已通过*/
+	private static final String MAIL_DESIGNER_APPROVED_TITLE = ConfigUtil.getString("mail_designer_approved_title");
+	/*设计师审核通过邮件内容——尊敬的设计师您好，您的设计师申请已通过，现在可以发布新作品了！*/
+    private static final String MAIL_DESIGNER_APPROVED_CONTENT = ConfigUtil.getString("mail_designer_approved_content");
+    
 	// private static final Log log = LogFactory.getLog(SendMail.class);
 
 	/**
 	 * 发送欢迎邮件，to用户
 	 */
-	public void sendWelcomeMail(String userMail){
-	    String welcomeTitle = MAIL_WELCOME_TITLE;
-	    String welcomeContent = MAIL_WELCOME_CONTENT;
-	    sendSSLMail(MAIL_ADMIN_USERNAME, MAIL_ADMIN_PASSWORD, userMail, welcomeTitle, welcomeContent);
+	public void sendWelcomeMail(final String userMail){
+		//添加至线程池运行
+		taskService.executeTask(new Runnable(){
+			@Override
+			public void run() {
+				System.out.println("发送欢迎邮件");
+				String welcomeTitle = MAIL_WELCOME_TITLE;
+			    String welcomeContent = MAIL_WELCOME_CONTENT;
+			    sendSSLMail(MAIL_ADMIN_USERNAME, MAIL_ADMIN_PASSWORD, userMail, welcomeTitle, welcomeContent);
+			}
+			
+		});
 	}
 	
 	/**
 	 * 发送设计师申请确认邮件，to审批人
 	 */
-	public void sendDesignerApplyMail(int userId){
-	    String designerApplyTitle = MAIL_APPLY_TITLE;
-        String designerApplyContent = MAIL_APPLY_CONTENT;
-        //审批人的email，可能有多个，需用,分割
-        String staffMail = MAIL_STAFF_EMAIL;
-        sendSSLMail(MAIL_ADMIN_USERNAME, MAIL_ADMIN_PASSWORD, staffMail, designerApplyTitle, designerApplyContent);
+	public void sendDesignerApplyMail(int albumId){
+		//添加至线程池运行
+		taskService.executeTask(new Runnable(){
+			@Override
+			public void run() {
+				System.out.println("发送审核提醒邮件");
+				String designerApplyTitle = MAIL_DESIGNER_APPLY_TITLE;
+		        String designerApplyContent = MAIL_DESIGNER_APPLY_CONTENT;
+		        //审批人的email，可能有多个，需用,分割
+		        String staffMail = MAIL_DESIGNER_STAFF_EMAIL;
+		        sendSSLMail(MAIL_ADMIN_USERNAME, MAIL_ADMIN_PASSWORD, staffMail, designerApplyTitle, designerApplyContent);
+			}
+			
+		});
     }
 
 	/**
@@ -71,6 +98,7 @@ public class MailService {
 	 * @param mailTitle
 	 * @param mailContent
 	 */
+	@SuppressWarnings("restriction")
 	private void sendSSLMail(String mailFrom, String mailPwd, String mailTo, String mailTitle, String mailContent) {
 		Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
 		String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";

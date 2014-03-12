@@ -20,6 +20,7 @@ import com.bruce.designer.model.AccessTokenInfo;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.exception.DesignerException;
+import com.bruce.designer.service.ITaskService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.processor.IOAuthProcessor;
 import com.bruce.designer.service.oauth.processor.OAuthTencentWbProcessor;
@@ -32,6 +33,8 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
     private IAccessTokenService accessTokenService;
     @Autowired
     private IUserService userService;
+    @Autowired
+    private ITaskService taskService;
 //    @Autowired 
 //    private IOAuthProcessor oauthProcessor;
     
@@ -49,7 +52,7 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
 
 
     /*线程池*/
-    private static ExecutorService executorService = Executors.newCachedThreadPool();
+//    private static ExecutorService executorService = Executors.newCachedThreadPool();
     
     public AccessTokenInfo loadTokenByCallback(HttpServletRequest request, short thirdpartyType){
     	IOAuthProcessor oauthProcessor = processorMap.get(thirdpartyType);
@@ -88,7 +91,9 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
     		for(SharedInfo sharedInfo: sharedInfoList){
 	    		SharedThread sharedThread = new SharedThread(sharedInfo);
 	            //添加至线程中执行
-	            executorService.execute(sharedThread);
+//	            executorService.execute(sharedThread);
+	    		taskService.executeTask(sharedThread);
+	    		
     		}
     	}
     	return;

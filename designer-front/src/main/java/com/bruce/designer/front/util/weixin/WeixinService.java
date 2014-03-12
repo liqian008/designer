@@ -30,7 +30,7 @@ public class WeixinService {
 	// 默认返回的文本消息内容 
 	private static final String AUTO_REPLY_CONTENT = ConstFront.WEIXIN_AUTO_REPLY_CONTENT;//"回复【最新作品】或【zxzp】查看最新作品\n回复【热门作品】或【rmzp】查看热门作品\n\n更多精彩作品可访问【金玩网】\nhttp://www.jinwanr.com.cn";
 	// 关注欢迎文本消息
-	private static final String WELCOME_CONTENT = ConstFront.WEIXIN_WELCOME_CONTENT + AUTO_REPLY_CONTENT;//"您好，欢迎您关注金玩儿网微信公众账户\n\n";
+	private static final String WELCOME_CONTENT = ConstFront.WEIXIN_WELCOME_CONTENT + AUTO_REPLY_CONTENT;//"您好，欢迎您关注【金玩儿网】微信公众账户\n\n";
 
 	@Autowired
 	private IAlbumService albumService;

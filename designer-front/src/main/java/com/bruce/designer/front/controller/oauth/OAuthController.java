@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.bruce.designer.mail.MailService;
 import com.bruce.designer.model.AccessTokenInfo;
 import com.bruce.designer.model.User;
 import com.bruce.designer.exception.DesignerException;
@@ -37,6 +38,9 @@ public class OAuthController {
 	private IOAuthService oAuthService;
 	@Autowired
 	private IAccessTokenService accessTokenService;
+	@Autowired
+	private MailService mailService;
+	
 
 	private static final Logger logger = LoggerFactory.getLogger(OAuthController.class);
 
@@ -160,6 +164,10 @@ public class OAuthController {
 					request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
 				}
 				promptMessage = "注册成功, " + user.getNickname() + "，现在将转入首页，请稍候…";
+				
+				//系统异步发送欢迎邮件
+				mailService.sendWelcomeMail(username);
+				
 				request.setAttribute(ConstFront.REDIRECT_PROMPT, promptMessage);
 				// return "forward:/redirect";
 				return ResponseUtil.getForwardReirect();

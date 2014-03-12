@@ -96,13 +96,13 @@ body {
 
 		background-attachment: fixed;
 		
-		background-position: 50% 50%;
+		/* background-position: 50% 50%;
 		background-repeat: no-repeat no-repeat;
 		background-color: transparent;
 
 		-webkit-background-size: cover;
 		-moz-background-size: cover;
-		background-size: cover;
+		background-size: cover; */
 	}
 
 	.body-background .header-background { background: none!important; }

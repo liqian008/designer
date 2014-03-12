@@ -34,6 +34,7 @@ import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.DesignerHtmlUtils;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.front.util.ResponseUtil;
+import com.bruce.designer.mail.MailService;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumSlide;
 import com.bruce.designer.model.User;
@@ -74,6 +75,8 @@ public class UserSettingsController {
 	private ITagService tagService;
 	@Autowired
 	private ITagAlbumService tagAlbumService;
+	@Autowired
+	private MailService mailService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserSettingsController.class);
 
@@ -227,7 +230,10 @@ public class UserSettingsController {
 			int applyResult = userService.apply4Designer(userId, realname, idNum, mobile, company, taobaoHomepage);
 			
 			request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的申请资料已成功提交，请耐心等待审批。现在将转入首页，请稍候…");
-
+			//系统异步发送申请邮件给工作人员
+			mailService.sendDesignerApplyMail(album.getId());
+			
+			
 			// 验证通过（修改用户状态、修改作品状态）
 			int approvalResult = userService.designerApprove(user.getId());
 			if (approvalResult > 0) {
