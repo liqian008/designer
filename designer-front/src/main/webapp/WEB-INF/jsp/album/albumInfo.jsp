@@ -134,7 +134,7 @@ Album album = (Album)request.getAttribute("albumInfo");
                                     </p>
                                 </blockquote>
 								
-                                <img src="<%=albumSlide.getSlideLargeImg()%>">
+                                <img src="<%=albumSlide.getSlideLargeImg()%>" width="100%">
 								
 								<div class="row-fluid clearfix">
 

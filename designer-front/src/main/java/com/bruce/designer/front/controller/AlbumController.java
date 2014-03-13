@@ -91,6 +91,9 @@ public class AlbumController {
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
+//		if(logger.isDebugEnabled()){
+//			logger.debug("首页");
+//		}
 		return "index";
 	}
 
@@ -102,12 +105,18 @@ public class AlbumController {
 	 */
 	@RequestMapping(value = "/albums", method = RequestMethod.GET)
 	public String albums(Model model) {
+//		if(logger.isDebugEnabled()){
+//			logger.debug("时间轴作品集");
+//		}
 		return "album/latestAlbums";
 	}
 
 	@NeedAuthorize
 	@RequestMapping(value = "/followAlbums", method = RequestMethod.GET)
 	public String followAlbums(Model model) {
+//		if(logger.isDebugEnabled()){
+//			logger.debug("我的关注作品集");
+//		}
 		return "album/followAlbums";
 	}
 
@@ -135,7 +144,6 @@ public class AlbumController {
 	public String albumInfo(HttpServletRequest request, Model model, @PathVariable int albumId, @PathVariable int albumSlideId) {
 		Album albumInfo = albumService.loadById(albumId);
 		if (albumInfo != null) {
-			
 			// 读取作品列表
 			List<AlbumSlide> slideList = albumSlideService.querySlidesByAlbumId(albumId);
 			albumInfo.setSlideList(slideList);
@@ -184,10 +192,12 @@ public class AlbumController {
 			//加载标签
 			albumService.initAlbumWithTags(albumInfo);
 			
-
 			model.addAttribute("albumInfo", albumInfo);
 			return "album/albumInfo";
 		}else{
+			if(logger.isErrorEnabled()){
+				logger.error("加载作品集[%s]出错", albumId);
+			}
 			throw new DesignerException(ErrorCode.ALBUM_NOT_EXIST);
 		}
 	}

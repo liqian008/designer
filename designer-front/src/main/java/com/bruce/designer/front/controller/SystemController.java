@@ -50,6 +50,9 @@ public class SystemController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model, @RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
+		if(logger.isDebugEnabled()){
+			logger.debug("登录前的redirectUrl参数: %s", redirectUrl);
+		}
 		if (StringUtils.isNotEmpty(redirectUrl)) {
 			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
 		}
@@ -59,33 +62,49 @@ public class SystemController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String doLogin(Model model, HttpServletRequest request, String username, String password, @RequestParam(defaultValue = "") String verifyCode,
 			@RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
+		
+		String sessionVerifyCode = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+		
 		if (StringUtils.isNotEmpty(redirectUrl)) {
 			// 跳转地址
 			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
 		}
 		
+		if(logger.isDebugEnabled()){
+			logger.debug("登录后的redirectUrl地址: %s", redirectUrl);
+			logger.debug("登录前的session验证码: %s, 用户输入的验证码: %s", sessionVerifyCode, verifyCode);
+		}
 		
-		//校验后删除session中的随机码
-		if(!verifyCode.equals(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY))){
+		if(!verifyCode.equals(sessionVerifyCode)){
 			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.SYSTEM_VERIFYCODE_ERROR));
 			return "login/loginAndReg";
 		}
+		//校验后删除session中的随机码
 		request.getSession().removeAttribute(Constants.KAPTCHA_SESSION_KEY);
-
+		
 		User user = userService.authUser(username.trim(), password);
 		if (user != null) {
 			request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
 			model.addAttribute(ConstFront.REDIRECT_PROMPT, "您好，" + user.getNickname() + "，您已成功登录，现在将转后续页面，请稍候…");
+			if(logger.isDebugEnabled()){
+				logger.debug("用户[%s]登录成功", username);
+			}
 			return ResponseUtil.getForwardReirect();
 		} else {// 用户身份验证失败
+			if(logger.isErrorEnabled()){
+				logger.error("用户[%s]登录认证失败：账户密码不匹配", username);
+			}
 			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.USER_PASSWORD_NOT_MATCH));
 			return "login/loginAndReg";
 		}
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String register(Model model, HttpServletRequest request) {
-		String redirectUrl = request.getParameter(ConstFront.REDIRECT_URL);
+	public String register(Model model, HttpServletRequest request, @RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
+//		String redirectUrl = request.getParameter(ConstFront.REDIRECT_URL);
+		if(logger.isDebugEnabled()){
+			logger.debug("注册前的redirectUrl参数: %s", redirectUrl);
+		}
 		if (StringUtils.isNotEmpty(redirectUrl)) {
 			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
 		}
@@ -96,17 +115,26 @@ public class SystemController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String doRegister(Model model, HttpServletRequest request, String username, String nickname, String password, String rePassword,
 			@RequestParam(defaultValue="") String verifyCode, @RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
-		if (StringUtils.isNotEmpty(redirectUrl)) {
-			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
-		}
 		//标志为注册tab
 		model.addAttribute(ConstFront.REGISTER_ACTIVE, "REGISTER_ACTIVE");
 		
-		//校验后删除session中的随机码
+		String sessionVerifyCode = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+		
+		if (StringUtils.isNotEmpty(redirectUrl)) {
+			// 跳转地址
+			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
+		}
+		
+		if(logger.isDebugEnabled()){
+			logger.debug("登录后的redirectUrl地址: %s", redirectUrl);
+			logger.debug("登录前的session验证码: %s, 用户输入的验证码: %s", sessionVerifyCode, verifyCode);
+		}
+		
 		if(!verifyCode.equals(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY))){
 			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.SYSTEM_VERIFYCODE_ERROR));
 			return "login/loginAndReg";
 		}
+		//校验后删除session中的随机码
 		request.getSession().removeAttribute(Constants.KAPTCHA_SESSION_KEY);
 		
 		//验证用户名格式
@@ -121,11 +149,17 @@ public class SystemController {
 		user.setUpdateTime(currentTime);
 		int result = userService.save(user);
 		if (result == 1) {
+			if(logger.isDebugEnabled()){
+				logger.debug("用户[%s]注册成功", username);
+			}
 			user = userService.authUser(username, password);
 			if(user!=null){
 				request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
 				model.addAttribute(ConstFront.REDIRECT_PROMPT, "您好，" + nickname + "，您已成功注册，现在将转入首页，请稍候…");
 				//系统发送欢迎消息
+				if(logger.isDebugEnabled()){
+					logger.debug("系统为用户[%s]发送欢迎消息", username);
+				}
 				long sourceId = 0;
 				String welcomeMessage = ConfigUtil.getString("welcome_message");
 				messageService.sendMessage(sourceId, ConstService.MESSAGE_DELIVER_ID_BROADCAST, user.getId(),  welcomeMessage, ConstService.MESSAGE_TYPE_SYSTEM);
@@ -135,7 +169,10 @@ public class SystemController {
 				return ResponseUtil.getForwardReirect();
 			}
 		} else {
-			model.addAttribute(ConstFront.REG_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.USER_PASSWORD_NOT_MATCH));
+			if(logger.isErrorEnabled()){
+				logger.error("用户[%s]注册失败", username);
+			}
+			model.addAttribute(ConstFront.REG_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.USER_REGISTER_ERROR));
 			return "login/loginAndReg";
 		}
 		throw new DesignerException(ErrorCode.ALBUM_CREATE_FAILED);
@@ -148,6 +185,9 @@ public class SystemController {
 	 */
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpServletRequest request) {
+		if(logger.isDebugEnabled()){
+			logger.debug("用户注销登录");
+		}
 		request.getSession().removeAttribute(ConstFront.CURRENT_USER);
 		request.setAttribute(ConstFront.REDIRECT_PROMPT, "您已成功注销登录，现在将以游客身份转入首页，请稍候…");
 		return ResponseUtil.getRedirectHomeString();
@@ -190,14 +230,24 @@ public class SystemController {
 		return null;
 	}
 	
+	/**
+	 * ajax检查验证码
+	 * @param model
+	 * @param request
+	 * @param verifyCode
+	 * @return
+	 */
 	@RequestMapping(value = "/checkVerifyCode.json")
 	public ModelAndView checkVerifyCode(Model model, HttpServletRequest request, @RequestParam(defaultValue="") String verifyCode) {
-		String code = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-		if(verifyCode.equals(code)){
+		String sessionVerifyCode = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+		
+		if(logger.isDebugEnabled()){
+			logger.debug("ajax检查session验证码: %s, 用户输入的验证码: %s", sessionVerifyCode, verifyCode);
+		}
+		if(verifyCode.equals(sessionVerifyCode)){
 			return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
 		}else{
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_VERIFYCODE_ERROR));
-//			throw new DesignerException(ErrorCode.SYSTEM_VERIFYCODE_ERROR);
 		}
 	}
 	

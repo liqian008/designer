@@ -16,6 +16,9 @@ public class AboutUsController {
 	
 	@RequestMapping(value = "/aboutUs")
 	public String aboutUs(Model model) {
+		if(logger.isDebugEnabled()){
+			logger.debug("关于我们");
+		}
 		return "aboutUs";
 	}
 	

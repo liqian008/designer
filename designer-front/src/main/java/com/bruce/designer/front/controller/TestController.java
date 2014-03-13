@@ -63,7 +63,10 @@ public class TestController {
      */
     @RequestMapping(value = "/indexSlideTest", method = RequestMethod.GET)
     public String indexSlideTest(Model model) {
-        // 系统轮播
+    	if(logger.isDebugEnabled()){
+			logger.debug("系统轮播");
+		}
+    	// 系统轮播
         List<IndexSlide> indexSlideList = indexSlideService
                 .queryIndexSlideList(0, AlbumController.INDEX_SLIDE_LIMIT);
         model.addAttribute("indexSlideList", indexSlideList);
@@ -78,7 +81,10 @@ public class TestController {
      */
     @RequestMapping(value = "/indexRecommendTest", method = RequestMethod.GET)
     public String indexRecommendTest(Model model) {
-        // 编辑推荐
+    	if(logger.isDebugEnabled()){
+			logger.debug("编辑推荐");
+		}
+    	// 编辑推荐
         List<Album> recommendAlbumList = albumRecommendService
                 .queryRecommendAlbums(AlbumController.INDEX_SLIDE_LIMIT);
         model.addAttribute("recommendAlbumList", recommendAlbumList);
@@ -87,7 +93,10 @@ public class TestController {
 
     @RequestMapping(value = "/refreshSitemap", method = RequestMethod.GET)
     public String buildSitemap(Model model) {
-        int result = generateSiteMap();
+    	if(logger.isDebugEnabled()){
+			logger.debug("更新sitemap");
+		}
+    	int result = generateSiteMap();
         String sitemapResult = "sitemap生成失败！";
         if(result>0){
             sitemapResult = "sitemap生成成功！";
