@@ -101,19 +101,19 @@ public class UserSettingsController {
 		return "settings/thirdparty";
 	}
 	
-	@NeedAuthorize
-    @RequestMapping(value = "/thirdparty.json", method = RequestMethod.POST)
-	public ModelAndView thirdparty(HttpServletRequest request) {
-		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
-		boolean share2Wb = true;
-		boolean share2QQ = true;
-		boolean success = false;
-		if (success) {
-            return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
-        } else {
-            return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
-        }
-    }
+//	@NeedAuthorize
+//    @RequestMapping(value = "/thirdparty.json", method = RequestMethod.POST)
+//	public ModelAndView thirdparty(HttpServletRequest request) {
+//		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+//		boolean share2Wb = true;
+//		boolean share2QQ = true;
+//		boolean success = false;
+//		if (success) {
+//            return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
+//        } else {
+//            return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
+//        }
+//    }
 	
 
 	@RequestMapping(value= "/avatar", method = RequestMethod.GET)
@@ -161,12 +161,6 @@ public class UserSettingsController {
 
 	@RequestMapping(value= "/designerInfo", method = RequestMethod.GET)
 	public String designerInfo(Model model,HttpServletRequest request) {
-//		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
-//		int userId = user.getId();
-//		if (user != null) {
-//			model.addAttribute("", user);
-//		}
-//		throw new DesignerException(ErrorCode.USER_NOT_EXIST);
 		return "settings/designerInfo";
 	}
 	
@@ -177,7 +171,11 @@ public class UserSettingsController {
 		// 检查用户登录
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
-
+		
+		if(logger.isDebugEnabled()){
+            logger.debug("用户["+user.getId()+"]申请设计师");
+        }
+		
 		if (albumSlideNums != null && albumSlideNums.length > 0) {
 			if(!"".equals(link)&&!link.startsWith("http://")){
 				link = "http://"+link;
@@ -198,11 +196,16 @@ public class UserSettingsController {
 			Date currentTime = new Date();
 			album.setCreateTime(currentTime);
 			album.setUpdateTime(currentTime);
-
+			
 			// 提交作品专辑，建议使用外部主键生成器
 			int result = albumService.save(album);
 			if (result > 0) {
-				int albumId = album.getId();
+			    int albumId = album.getId();
+			    
+			    if(logger.isDebugEnabled()){
+		            logger.debug("用户["+user.getId()+"]申请设计师的作品["+albumId+"]");
+		        }
+			    
 				for (int tempSlideId : albumSlideNums) {
 					AlbumSlide slide = new AlbumSlide();
 					slide.setAlbumId(album.getId());
@@ -224,6 +227,9 @@ public class UserSettingsController {
 					slide.setStatus(ConstService.ALBUM_OPEN_STATUS);
 					albumSlideService.save(slide);
 				}
+				if(logger.isDebugEnabled()){
+                    logger.debug("用户["+user.getId()+"]申请设计师的作品["+albumId+"]标签:"+tags);
+                }
 				//关联作品与tag
 				List<String> tagNameList = parseTagNameList(tags);
 				tagService.tagAlbum(albumId, tagNameList);
@@ -235,20 +241,31 @@ public class UserSettingsController {
 			String company = StringUtils.defaultString(request.getParameter("company"), "");
 			String taobaoHomepage = StringUtils.defaultString(request.getParameter("taobaoHomepage"), "");
 			int applyResult = userService.apply4Designer(userId, realname, idNum, mobile, company, taobaoHomepage);
-			
-			request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的申请资料已成功提交，请耐心等待审批。现在将转入首页，请稍候…");
-			//系统异步发送申请邮件给工作人员
-			mailService.sendDesignerApplyMail(album.getId());
-			
-			
-			// 验证通过（修改用户状态、修改作品状态）
-			int approvalResult = userService.designerApprove(user.getId());
-			if (approvalResult > 0) {
-				User designerUser = userService.loadById(userId);
-				if (designerUser != null) {
-					request.getSession().setAttribute(ConstFront.CURRENT_USER, designerUser);
-				}
+			if(applyResult>0){
+    			if(logger.isDebugEnabled()){
+                    logger.debug("用户["+user.getId()+"]申请设计师操作成功");
+                }
+    			request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的申请资料已成功提交，请耐心等待审批。现在将转入首页，请稍候…");
+    			//系统异步发送申请邮件给工作人员
+    			mailService.sendDesignerApplyMail(album.getId());
+    			
+    			// 验证通过（修改用户状态、修改作品状态）
+    			int approvalResult = userService.designerApprove(user.getId());
+    			if (approvalResult > 0) {
+    				User designerUser = userService.loadById(userId);
+    				if (designerUser != null) {
+    					request.getSession().setAttribute(ConstFront.CURRENT_USER, designerUser);
+    				}
+    			}
+			}else{
+			    if(logger.isErrorEnabled()){
+                    logger.error("变更用户["+user.getId()+"]申请状态失败");
+                }
 			}
+		}else{
+		    if(logger.isErrorEnabled()){
+                logger.error("用户["+user.getId()+"]申请作品数有误");
+            }
 		}
 		
 		return ResponseUtil.getForwardReirect();
@@ -260,9 +277,16 @@ public class UserSettingsController {
 	public String albums(Model model, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
+		if(logger.isDebugEnabled()){
+            logger.debug("用户["+user.getId()+"]查看个人作品列表");
+        }
 		
 		int pageNo = NumberUtils.toInt(request.getParameter("pageNo"), 1);
 		int pageSize = NumberUtils.toInt(request.getParameter("pageSize"), MY_ALBUMS_LIMIT);
+		
+		if(logger.isDebugEnabled()){
+            logger.debug("用户["+user.getId()+"]查看个人作品列表, pageNo: "+pageNo+", pageSize:"+pageSize);
+        }
 		
 //		List<Album> albumList = albumService.queryAlbumByUserId(userId);
 		PagingData<Album> albumPagingData = albumService.pagingQuery(userId, ConstService.ALBUM_OPEN_STATUS, pageNo, pageSize);
@@ -300,6 +324,10 @@ public class UserSettingsController {
 	public ModelAndView moreFavoritesAlbums(HttpServletRequest request, int favoriteTailId, int numberPerLine) {
 		User currentUser = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = currentUser.getId();
+		
+		if(logger.isDebugEnabled()){
+            logger.debug("ajax加载用户[userId]的收藏专辑，tailId: "+favoriteTailId +", 每页展示条目："+numberPerLine);
+        }
 
 		int limit = MY_FAVORITE_LIMIT;
 		//获取收藏列表
@@ -307,12 +335,18 @@ public class UserSettingsController {
 		int nextTailId = 0;
 
 		if (albumList == null || albumList.size() == 0) {
+		    if(logger.isDebugEnabled()){
+                logger.debug("无更多专辑");
+            }
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {
 			if (albumList.size() > limit) {// 查询数据超过limit，含分页内容
 				// 移除最后一个元素
 				albumList.remove(limit);
 				nextTailId = albumList.get(limit - 1).getId();
+				if(logger.isDebugEnabled()){
+                    logger.debug("还有更多专辑，tailId： "+nextTailId);
+                }
 			}
 			String responseHtml = DesignerHtmlUtils.buildFallLoadHtml(albumList, numberPerLine);
 			Map<String, String> dataMap = new HashMap<String, String>();
@@ -344,12 +378,23 @@ public class UserSettingsController {
 	public String editAlbum(Model model, HttpServletRequest request, int albumId) {
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
+		
+		if(logger.isDebugEnabled()){
+            logger.debug("用户["+user.getId()+"]编辑作品["+albumId+"]");
+        }
+		
 		if (albumId > 0) {
 			Album album = albumService.loadById(albumId);
 			if (album == null) {//加载失败
+			    if(logger.isErrorEnabled()){
+                    logger.error("专辑["+albumId+"]数据异常");
+                }
 				throw new DesignerException(ErrorCode.ALBUM_NOT_EXIST);
 			}else if(userId != album.getUserId()){//作者不匹配，无法编辑
-				throw new DesignerException(ErrorCode.ALBUM_AUTHOR_NOT_MATCH);
+			    if(logger.isErrorEnabled()){
+		            logger.error("用户["+user.getId()+"]与专辑作者["+album.getUserId()+"]不匹配");
+		        }
+			    throw new DesignerException(ErrorCode.ALBUM_AUTHOR_NOT_MATCH);
 			}
 			// 读取作品列表
 			List<AlbumSlide> albumSlideList = albumSlideService.querySlidesByAlbumId(albumId);
@@ -380,6 +425,10 @@ public class UserSettingsController {
 			@RequestParam(required = false, defaultValue = "") String link, @RequestParam(defaultValue = "") String verifyCode) {
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
+		
+		if(logger.isDebugEnabled()){
+            logger.debug("用户["+user.getId()+"]发布作品");
+        }
 		
 		/* 检查验证码 */
 		if(!verifyCode.equals(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY))){
@@ -438,19 +487,29 @@ public class UserSettingsController {
 				//关联作品与tag
 				List<String> tagNameList = parseTagNameList(tags);
 				tagService.tagAlbum(albumId, tagNameList);
+				
+				//TODO 提交发布第三方
+	            boolean isShareOut = ALBUM_SHAREOUT_FLAG;
+	            if(album!=null && album.getId()> 0&& isShareOut){
+	                List<SharedInfo> sharedInfoList = OAuthUtil.buildSharedInfoList(album, user.getAccessTokenMap());
+	                oauthService.shareout(sharedInfoList);
+	            }
+	            
+	            request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的作品已成功发布，现在将转入首页，请稍候…");
+	            return ResponseUtil.getForwardReirect();
+			}else{
+			    if(logger.isErrorEnabled()){
+	                logger.error("用户["+user.getId()+"]发布作品出错");
+	            }
+			    throw new DesignerException(ErrorCode.ALBUM_CREATE_FAILED);
 			}
-			// TODO 增加计数
+		}else{
+		    if(logger.isErrorEnabled()){
+                logger.error("用户["+user.getId()+"]发布作品数有误");
+            }
+		    throw new DesignerException(ErrorCode.ALBUM_CREATE_FAILED);
 		}
 		
-		//TODO 提交发布第三方
-		boolean isShareOut = ALBUM_SHAREOUT_FLAG;
-		if(album!=null && album.getId()> 0&& isShareOut){
-			List<SharedInfo> sharedInfoList = OAuthUtil.buildSharedInfoList(album, user.getAccessTokenMap());
-			oauthService.shareout(sharedInfoList);
-		}
-		
-		request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的作品已成功发布，现在将转入首页，请稍候…");
-		return ResponseUtil.getForwardReirect();
 	}
 	
 	/**
@@ -468,6 +527,10 @@ public class UserSettingsController {
 		// 检查用户登录
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
+		
+		if(logger.isDebugEnabled()){
+            logger.debug("用户["+user.getId()+"]更新作品["+albumId+"]");
+        }
 		
 		/* 检查验证码 */
 		if(!verifyCode.equals(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY))){
@@ -503,18 +566,25 @@ public class UserSettingsController {
 				}
 				
 				//TODO 提交发布第三方
-				boolean isShareOut = ALBUM_SHAREOUT_FLAG;
-				if(album!=null && album.getId()> 0&& isShareOut){
-					List<SharedInfo> sharedInfoList = OAuthUtil.buildSharedInfoList(album, user.getAccessTokenMap());
-					oauthService.shareout(sharedInfoList);
-				}
+//				boolean isShareOut = ALBUM_SHAREOUT_FLAG;
+//				if(album!=null && album.getId()> 0&& isShareOut){
+//					List<SharedInfo> sharedInfoList = OAuthUtil.buildSharedInfoList(album, user.getAccessTokenMap());
+//					oauthService.shareout(sharedInfoList);
+//				}
 
 				model.addAttribute(ConstFront.REDIRECT_URL, ConstFront.CONTEXT_PATH +"/settings/albums");
 				request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的作品辑已成功修改，现在将转入作品辑管理页，请稍候…");
 				
 				return ResponseUtil.getForwardReirect();
+			}else{
+			    if(logger.isErrorEnabled()){
+	                logger.error("用户["+user.getId()+"]更新作品["+albumId+"]失败");
+	            }
 			}
 		}else{
+		    if(logger.isErrorEnabled()){
+                logger.error("用户["+user.getId()+"]更新非自己作品["+albumId+"]失败");
+            }
 			throw new DesignerException(ErrorCode.ALBUM_AUTHOR_NOT_MATCH);
 		}
 		throw new DesignerException(ErrorCode.ALBUM_ERROR);

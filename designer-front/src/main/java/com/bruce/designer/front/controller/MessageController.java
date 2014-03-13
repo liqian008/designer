@@ -15,12 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.bruce.designer.model.Message;
-import com.bruce.designer.model.User;
 import com.bruce.designer.annotation.NeedAuthorize;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.data.PagingData;
@@ -28,11 +24,10 @@ import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
-import com.bruce.designer.service.IAlbumService;
-import com.bruce.designer.service.IAlbumCommentService;
+import com.bruce.designer.model.Message;
+import com.bruce.designer.model.User;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
-import com.bruce.designer.service.impl.UserGraphServiceImpl;
 import com.bruce.designer.util.ConfigUtil;
 import com.bruce.designer.util.MessageUtil;
 
@@ -134,6 +129,11 @@ public class MessageController {
 	public String msgbox(Model model, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
+		
+		if(logger.isDebugEnabled()){
+            logger.debug("用户["+userId+"]查看消息中心");
+        }
+		
 		// 消息中心
 //		int messageType = NumberUtils.toInt(request.getParameter("messageType"), 0);
 		List<Message> messageList = messageService.queryMessageSummary(userId);
@@ -208,11 +208,17 @@ public class MessageController {
 		int userId = user.getId();
 		// 检查toUser是否存在
 		if (toId == userId) {//不能给自己发消息
+		    if(logger.isErrorEnabled()){
+                logger.error("用户["+userId+"]不能给自己发消息");
+            }
 			throw new DesignerException(ErrorCode.MESSAGE_TO_SELF);
 		} else {
 			User toUser = userService.loadById(toId);
 			if (toUser == null || toUser.getId() == null) {
-				throw new DesignerException(ErrorCode.USER_NOT_EXIST);
+			    if(logger.isErrorEnabled()){
+	                logger.error("发送私信的目标用户["+toId+"]不存在或数据异常");
+	            }
+			    throw new DesignerException(ErrorCode.USER_NOT_EXIST);
 			} else {
 				model.addAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUTE, toUser);
 			}
@@ -241,13 +247,20 @@ public class MessageController {
 	@RequestMapping(value = "/unreadMessageCount.json")
 	public ModelAndView unreadMessageCount(Model model, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
-		if(user!=null){
-			int userId = user.getId();
-			int result = messageService.queryUnreadMessageCount(userId);
-			if (result > 0) {
-				return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(result));
-			}
+	    
+		if(logger.isDebugEnabled()){
+            logger.debug("用户["+user.getId()+"]ajax方式检查未读消息数");
+        }
+		
+		int userId = user.getId();
+		int result = messageService.queryUnreadMessageCount(userId);
+		if (result > 0) {
+			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(result));
 		}
+		
+		if(logger.isDebugEnabled()){
+		    logger.debug("用户["+user.getId()+"]未读消息数: "+result);
+        }
 		return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
 	}
 
@@ -256,15 +269,28 @@ public class MessageController {
 	public ModelAndView sendMsg(Model model, HttpServletRequest request, int toId, String content) {
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
+		if(logger.isErrorEnabled()){
+            logger.error("用户["+user.getId()+"]给目标用户["+toId+"]发送私信消息");
+        }
+		
 		if (!MessageUtil.isChatMessage(toId)) {// 只能再聊天场景下回复消息
+		    if(logger.isErrorEnabled()){
+                logger.error("用户["+user.getId()+"]私信对象["+toId+"]有误");
+            }
 			throw new DesignerException(ErrorCode.MESSAGE_UNSUPPORT_TYPE);
 		} else if (toId == userId) {// 不能给自己发消息
+		    if(logger.isErrorEnabled()){
+                logger.error("用户["+user.getId()+"]不能给自己发私信消息");
+            }
 			throw new DesignerException(ErrorCode.MESSAGE_TO_SELF);
 		}
 		int result = messageService.sendChatMessage(userId, toId, content);
 		if (result > 0) {
 			return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
 		} else {
+		    if(logger.isErrorEnabled()){
+                logger.error("用户["+user.getId()+"]发送私信消息失败");
+            }
 			return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
 		}
 	}

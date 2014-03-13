@@ -52,7 +52,7 @@ public class UserCache implements InitializingBean {
                 return gson.fromJson(userJson, User.class);
             }
         } catch (Throwable t) {
-            logger.error("getUser", t);
+            logger.error("getUser: " + userId, t);
             if (shardedJedis != null) {
                 cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
@@ -98,7 +98,7 @@ public class UserCache implements InitializingBean {
                 userMap.put(id, user);
             }
         } catch (Throwable t) {
-            logger.error("getUser", t);
+            logger.error("multiGetUser: " + userIdList, t);
             if (shardedJedis != null) {
                 cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
@@ -116,7 +116,7 @@ public class UserCache implements InitializingBean {
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 return true;
             } catch (Throwable t) {
-//                logger.error("setTicket", t);
+                logger.error("setUser: " + user.getId(), t);
                 if (shardedJedis != null) {
                     cacheShardedJedisPool.returnBrokenResource(shardedJedis);
                 }
@@ -144,7 +144,7 @@ public class UserCache implements InitializingBean {
             cacheShardedJedisPool.returnResource(shardedJedis);
             return true;
         } catch (Throwable t) {
-//            logger.error("setTicket", t);
+            logger.error("deleteUser: "+userId, t);
             if (shardedJedis != null) {
                 cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }

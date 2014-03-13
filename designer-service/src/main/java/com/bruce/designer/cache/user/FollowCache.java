@@ -2,9 +2,7 @@ package com.bruce.designer.cache.user;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.math.NumberUtils;
@@ -15,11 +13,11 @@ import org.springframework.stereotype.Repository;
 import redis.clients.jedis.Tuple;
 import redis.clients.jedis.exceptions.JedisException;
 
-import com.bruce.designer.model.UserFollow;
 import com.bruce.designer.cache.DesignerShardedJedis;
 import com.bruce.designer.cache.DesignerShardedJedisPool;
 import com.bruce.designer.constants.ConstRedis;
 import com.bruce.designer.exception.RedisKeyNotExistException;
+import com.bruce.designer.model.UserFollow;
 
 /**
  * Comments for FollowCache.java
@@ -57,7 +55,7 @@ public class FollowCache {
             	return shardedJedis.zcard(key);
             }
         } catch (JedisException t) {
-            logger.error("getFollowCount", t);
+            logger.error("getFollowCount: "+userId, t);
             if (shardedJedis != null) {
                 cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
@@ -87,7 +85,7 @@ public class FollowCache {
                 return result;
             }
         } catch (JedisException t) {
-            logger.error("addUserFollow", t);
+            logger.error("addFollow: "+userFollow, t);
             if (shardedJedis != null) {
                 cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
@@ -117,7 +115,7 @@ public class FollowCache {
             }
 
         } catch (JedisException t) {
-            logger.error("removeUserFollow", t);
+            logger.error("removeFollow: "+userId+", "+unfollowId, t);
             if (shardedJedis != null) {
                 cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
@@ -147,7 +145,8 @@ public class FollowCache {
             }
 
         } catch (JedisException t) {
-            logger.error("isUserFollowed", t);
+//            logger.error("isUserFollowed", t);
+            logger.error("isFollowed: "+hostId+", "+clientId, t);
             if (shardedJedis != null) {
                 cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
@@ -176,7 +175,7 @@ public class FollowCache {
                 return result;
             }
         } catch (JedisException t) {
-            logger.error("isFans", t);
+            logger.error("isFans: "+uid1+", "+uid2, t);
             if (shardedJedis != null) {
                 cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
@@ -210,7 +209,7 @@ public class FollowCache {
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 return result;
             } catch (JedisException t) {
-                logger.error("setUserFollowList", t);
+                logger.error("setFollowList: "+uid+", "+followList, t);
                 if (shardedJedis != null) {
                     cacheShardedJedisPool.returnBrokenResource(shardedJedis);
                 }
@@ -249,7 +248,7 @@ public class FollowCache {
                 return followList;
             }
         } catch (JedisException t) {
-            logger.error("getAllUserFollowList", t);
+            logger.error("getAllFollowList: "+uid, t);
             if (shardedJedis != null) {
                 cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
@@ -271,7 +270,6 @@ public class FollowCache {
             shardedJedis = cacheShardedJedisPool.getResource();
             boolean exists = shardedJedis.exists(key);
             if (exists == false) {
-
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 throw new RedisKeyNotExistException();
             } else {
@@ -289,7 +287,7 @@ public class FollowCache {
                 return followList;
             }
         } catch (JedisException t) {
-            logger.error("getUserFollowList", t);
+            logger.error("getFollowList: "+uid + ", "+ start +", "+ end, t);
             if (shardedJedis != null) {
                 cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }

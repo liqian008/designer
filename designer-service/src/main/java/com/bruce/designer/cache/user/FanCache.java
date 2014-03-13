@@ -59,7 +59,7 @@ public class FanCache {
             	return shardedJedis.zcard(key);
             }
         } catch (JedisException t) {
-            logger.error("getFanCount", t);
+            logger.error("getFanCount: "+userId, t);
             if (shardedJedis != null) {
                 cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
@@ -89,7 +89,7 @@ public class FanCache {
             }
 
         } catch (JedisException t) {
-            logger.error("addUserFan", t);
+            logger.error("addFan: "+fans, t);
             if (shardedJedis != null) {
                 cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
@@ -118,7 +118,7 @@ public class FanCache {
                 return result;
             }
         } catch (JedisException t) {
-            logger.error("removeUserFan", t);
+            logger.error("removeFan: "+uid+", "+fans, t);
             if (shardedJedis != null) {
                 cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
@@ -152,7 +152,7 @@ public class FanCache {
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 return result;
             } catch (JedisException t) {
-                logger.error("setUserFanList", t);
+                logger.error("setFanList: "+uid+", "+fansList, t);
                 if (shardedJedis != null) {
                     cacheShardedJedisPool.returnBrokenResource(shardedJedis);
                 }
@@ -190,14 +190,12 @@ public class FanCache {
                 return fansList;
             }
         } catch (JedisException t) {
-            logger.error("getAllUserFanList", t);
+            logger.error("getAllFanList: "+uid,  t);
             if (shardedJedis != null) {
                 cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }
         }
-
         return null;
-
     }
 
     /**
@@ -229,7 +227,7 @@ public class FanCache {
                 return fansList;
             }
         } catch (JedisException t) {
-            logger.error("getUserFanList", t);
+            logger.error("getFanList: "+uid + ", "+ start +", "+ end, t);
             if (shardedJedis != null) {
                 cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }

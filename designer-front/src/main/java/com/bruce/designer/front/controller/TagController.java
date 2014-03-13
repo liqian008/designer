@@ -43,7 +43,11 @@ public class TagController {
 
 	@RequestMapping(value = "/tag/hotTags.json")
 	public ModelAndView hotTags(Model model, HttpServletRequest request) {
-		int limit = 40;
+	    int limit = 40;
+	    if(logger.isDebugEnabled()){
+            logger.debug("Slidebar ajax获取热门Tag，limit: "+limit);
+        }
+	    
 		List<Tag> tagList = hotService.getHotTags(limit);
 //		System.err.println("side hotService:"+ hotService);
 		tagList = randomList(tagList);
