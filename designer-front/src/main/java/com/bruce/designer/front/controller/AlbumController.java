@@ -26,19 +26,14 @@ import com.bruce.designer.front.util.DesignerHtmlUtils;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumSlide;
-import com.bruce.designer.model.IndexSlide;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IAlbumCommentService;
 import com.bruce.designer.service.IAlbumCounterService;
-import com.bruce.designer.service.IAlbumRecommendService;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
 import com.bruce.designer.service.IHotService;
-import com.bruce.designer.service.IIndexSlideService;
 import com.bruce.designer.service.IUserService;
-import com.bruce.designer.service.oauth.SharedInfo;
 import com.bruce.designer.util.ConfigUtil;
-import com.bruce.designer.util.OAuthUtil;
 
 /**
  * Handles requests for the application home page.
@@ -410,20 +405,20 @@ public class AlbumController {
 	 * @param numberPerLine
 	 * @return
 	 */
-	@Deprecated
-	@RequestMapping(value = "sideHotAlbums.json")
-	public ModelAndView sideHotAlbums(HttpServletRequest request) {
-		List<Album> albumList = null;
-		//hotService.fallLoadHotAlbums(0, SIDE_LIMIT);
-		if (albumList == null || albumList.size() == 0) {
-			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
-		} else {
-			String responseHtml = DesignerHtmlUtils.buildSidebarHtml(albumList);
-			Map<String, String> dataMap = new HashMap<String, String>();
-			dataMap.put("html", responseHtml);
-			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap));
-		}
-	}
+//	@Deprecated
+//	@RequestMapping(value = "sideHotAlbums.json")
+//	public ModelAndView sideHotAlbums(HttpServletRequest request) {
+//		List<Album> albumList = null;
+//		//hotService.fallLoadHotAlbums(0, SIDE_LIMIT);
+//		if (albumList == null || albumList.size() == 0) {
+//			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
+//		} else {
+//			String responseHtml = DesignerHtmlUtils.buildSidebarHtml(albumList);
+//			Map<String, String> dataMap = new HashMap<String, String>();
+//			dataMap.put("html", responseHtml);
+//			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap));
+//		}
+//	}
 
 //	/**
 //	 * 初始化作品计数

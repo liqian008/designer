@@ -62,6 +62,11 @@ public class AlbumInteractiveController {
 	@RequestMapping(value = "moreComments.json")
 	public ModelAndView moreComments(HttpServletRequest request, int albumId, @RequestParam("commentsTailId") long tailId) {
 		int limit = 5;
+		
+		if(logger.isDebugEnabled()){
+            logger.debug("获取专辑["+albumId+"]评论列表, tailId： "+tailId+", limit："+limit);
+        }
+		
 		List<Comment> commentList = albumCommentService.fallLoadComments(albumId, tailId, limit + 1);
 
 		long nextTailId = 0;
@@ -70,6 +75,9 @@ public class AlbumInteractiveController {
 				// 移除最后一个元素
 				commentList.remove(limit);
 				nextTailId = commentList.get(limit - 1).getId();
+				if(logger.isDebugEnabled()){
+                    logger.debug("还有更多评论，tailId： "+nextTailId);
+                }
 			}
 		}
 		
@@ -101,11 +109,19 @@ public class AlbumInteractiveController {
 	public ModelAndView comment(HttpServletRequest request, String comment, int albumId, int toId, int designerId) {
 		User user = getSessionUser(request);
 		int fromId = user.getId();
+		
+		if(logger.isDebugEnabled()){
+            logger.debug("评论设计师["+designerId+"]的专辑["+albumId+"], from 用户["+fromId+"] to 用户["+toId+"]");
+        }
+		
 		Comment commentResult = albumCommentService.comment(null, comment, albumId, fromId, toId, designerId);
 		
 		if (commentResult != null) {// 成功响应
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(buildCommentHtml(commentResult)));
 		} else {
+		    if(logger.isErrorEnabled()){
+	            logger.error("评论设计师["+designerId+"]的专辑["+albumId+"], from 用户["+fromId+"] to 用户["+toId+"]，操作失败");
+	        }
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_ERROR));
 		}
 	}
@@ -121,11 +137,21 @@ public class AlbumInteractiveController {
 	@RequestMapping(value = "like.json", method = RequestMethod.POST)
 	public ModelAndView like(HttpServletRequest request,int albumId) {
 		User currentUser = getSessionUser(request);
+		int userId = currentUser.getId();
+		
 		Album album = albumService.loadById(albumId);
-		long result = albumCounterService.incrLike(album.getUserId(), albumId, currentUser.getId());
+		int designerId = album.getUserId();
+		
+		if(logger.isDebugEnabled()){
+            logger.debug("用户["+userId+"]赞了设计师["+designerId+"]的专辑["+albumId+"]");
+        }
+		long result = albumCounterService.incrLike(album.getUserId(), albumId, userId);
 		if(result>0){
 			return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
 		}else{
+		    if(logger.isErrorEnabled()){
+                logger.error("用户["+userId+"]赞设计师["+designerId+"]的专辑["+albumId+"]，操作失败");
+            }
 			return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
 		}
 	}
@@ -141,10 +167,19 @@ public class AlbumInteractiveController {
 	@RequestMapping(value = "unlike.json", method = RequestMethod.POST)
 	public ModelAndView unlike(HttpServletRequest request, int albumId) {
 		User currentUser = getSessionUser(request);
-		boolean result = albumLikeService.unlike(currentUser.getId(), albumId);
+		int userId = currentUser.getId();
+		
+		if(logger.isDebugEnabled()){
+            logger.debug("用户["+userId+"]取消赞设计师的专辑["+albumId+"]");
+        }
+		
+		boolean result = albumLikeService.unlike(userId, albumId);
 		if(result){
 			return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
 		}else{
+		    if(logger.isErrorEnabled()){
+                logger.error("用户["+userId+"]取消赞设计师的专辑["+albumId+"]，操作失败");
+            }
 			return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
 		}
 	}
@@ -160,14 +195,22 @@ public class AlbumInteractiveController {
 	@RequestMapping(value = "favorite.json", method = RequestMethod.POST)
 	public ModelAndView favorite(HttpServletRequest request, int albumId) {
 		User currentUser = getSessionUser(request);
+		int userId = currentUser.getId();
 		Album album = albumService.loadById(albumId);
+		int designerId = album.getUserId();
 //		boolean result = albumLikeService.like(currentUser.getId(), albumId, album.getUserId());
 //		boolean result = albumFavoriteService.favorite(currentUser.getId(), albumId, album.getUserId());
 		
-		long result = albumCounterService.incrFavorite(album.getUserId(), albumId, currentUser.getId());
+		if(logger.isDebugEnabled()){
+            logger.debug("用户["+userId+"]收藏了设计师["+designerId+"]的专辑["+albumId+"]");
+        }
+		long result = albumCounterService.incrFavorite(designerId, albumId, userId);
 		if(result>0){
 			return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
 		}else{
+		    if(logger.isErrorEnabled()){
+                logger.error("用户["+userId+"]收藏设计师["+designerId+"]的专辑["+albumId+"]，操作失败");
+            }
 			return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
 		}
 	}
@@ -183,10 +226,18 @@ public class AlbumInteractiveController {
 	@RequestMapping(value = "unfavorite.json", method = RequestMethod.POST)
 	public ModelAndView unfavorite(HttpServletRequest request, int albumId) {
 		User currentUser = getSessionUser(request);
+		int userId = currentUser.getId();
+		
+		if(logger.isDebugEnabled()){
+            logger.debug("用户["+userId+"]取消收藏设计师的专辑["+albumId+"]");
+        }
 		boolean result = albumFavoriteService.unfavorite(currentUser.getId(), albumId);
 		if(result){
 			return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
 		}else{
+		    if(logger.isErrorEnabled()){
+                logger.error("用户["+userId+"]取消收藏设计师的专辑["+albumId+"]，操作失败");
+            }
 			return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
 		}
 	}

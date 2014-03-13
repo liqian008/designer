@@ -20,6 +20,7 @@ import com.bruce.designer.front.util.weixin.WeixinService;
  * Handles requests for the application home page.
  */
 @Controller
+@RequestMapping(value = "/weixin")
 public class WeixinController {
 
 	private static final Logger logger = LoggerFactory.getLogger(WeixinController.class);
@@ -46,10 +47,19 @@ public class WeixinController {
 
 	@RequestMapping(value = "/api", method = RequestMethod.GET)
 	public String get(Model model, String signature, String timestamp, String nonce, String echostr) {
-		boolean checkResult = SignUtil.checkSignature(signature, timestamp, nonce);
+	    if(logger.isDebugEnabled()){
+            logger.debug("微信验证");
+        }
+	    boolean checkResult = SignUtil.checkSignature(signature, timestamp, nonce);
 		if (checkResult) {
+		    if(logger.isDebugEnabled()){
+                logger.debug("微信验证成功");
+            }
 			model.addAttribute("echostr", echostr);
 		} else {
+		    if(logger.isErrorEnabled()){
+	            logger.error("微信验证失败");
+	        }
 			model.addAttribute("echostr", "");
 		}
 		return "weixin/token";
@@ -57,16 +67,22 @@ public class WeixinController {
 
 	@RequestMapping(value = "/api", method = RequestMethod.POST)
 	public String post(HttpServletRequest request, HttpServletResponse response, Model model) {
-//		System.out.println("entering weixin post api...");
+	    if(logger.isDebugEnabled()){
+            logger.debug("微信请求数据");
+        }
+	    
 	    // 将请求、响应的编码均设置为UTF-8（防止中文乱码）
 		try {
 			request.setCharacterEncoding("UTF-8");
 			response.setCharacterEncoding("UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		    if(logger.isErrorEnabled()){
+                logger.error("设置编码异常", e);
+            }
 		}
 		// 调用核心业务类接收消息、处理消息
 //		System.out.println("process weixin request...");
+		
 		String respMessage = weixinService.processRequest(request);
 		model.addAttribute("respMessage", respMessage);
 		return "weixin/response";
