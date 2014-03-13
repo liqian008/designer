@@ -126,12 +126,19 @@ public class UserSettingsController {
     @RequestMapping(value = "uploadAvatar.json", method = RequestMethod.POST)
 	public ModelAndView uploadAvatar(HttpServletRequest request, @RequestParam(value = "file", required = true) MultipartFile file) {
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+		
+		if(logger.isDebugEnabled()){
+            logger.debug("用户["+user.getId()+"]上传头像");
+        }
 		boolean success = true; 
         try {
         	uploadService.uploadAvatar(file.getBytes(), user.getId());
         } catch (IOException e) {
         	success = false;
-            logger.error("uploadAvatar(MultipartFile)", e);
+        	if(logger.isErrorEnabled()){
+                logger.error("用户["+user.getId()+"]上传头像失败", e);
+            }
+//            logger.error("uploadAvatar(MultipartFile)", e);
         }
         if (success) {
             return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
@@ -314,24 +321,6 @@ public class UserSettingsController {
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap)); 
 		}
 	}
-	
-//	/**
-//	 * 我的收藏
-//	 * 
-//	 * @param model
-//	 * @param user
-//	 * @return
-//	 */
-//	@RequestMapping(value= "/favorities")
-//	public String favorities(Model model, User user) {
-//		List<Album> albumList = albumService.queryAlbumByUserId(3);
-//		if (albumList != null && albumList.size() > 0) {
-//			model.addAttribute("albumList", albumList);
-//		}
-//		return "settings/myFavorities";
-//	}
-	
-	
 	
 	/**
 	 * 新建作品辑
@@ -538,6 +527,10 @@ public class UserSettingsController {
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
 		
+		if(logger.isDebugEnabled()){
+            logger.debug("用户["+user.getId()+"]删除作品["+albumId+"]");
+        }
+		
 		if (ownerId == userId) {
 			//删除作品
 			int result = albumService.deleteUserAlbum(userId, albumId);
@@ -546,9 +539,15 @@ public class UserSettingsController {
 				return ResponseUtil.getForwardReirect();
 			}
 		} else {
+		    if(logger.isErrorEnabled()){
+	            logger.error("用户["+user.getId()+"]删除非自己作品["+albumId+"]失败");
+	        }
 			// 操作有误，不能删除别人的作品
 			throw new DesignerException(ErrorCode.ALBUM_AUTHOR_NOT_MATCH);
 		}
+		if(logger.isErrorEnabled()){
+            logger.error("用户["+user.getId()+"]删除作品["+albumId+"]失败");
+        }
 		throw new DesignerException(ErrorCode.ALBUM_ERROR);
 	}
 
@@ -573,44 +572,52 @@ public class UserSettingsController {
 	 */
 	@RequestMapping(value = "/changePasswd.json", method = RequestMethod.POST)
 	public ModelAndView changePasswd(Model model, HttpServletRequest request, String oldPassword, String password, String rePassword) {
-		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
-		// TODO 密码加密
+	    User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+	    if(logger.isDebugEnabled()){
+            logger.debug("用户["+user.getId()+"]修改密码");
+        }
 		if(userService.authUser(user.getUsername(), oldPassword)!=null){
 			// 重置密码
 			int result = userService.changePassword(user.getId(), rePassword);
 			if(result>0){
+			    if(logger.isDebugEnabled()){
+	                logger.debug("用户["+user.getId()+"]修改密码成功");
+	            }
 				return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
 			}
 		}else{
+		    if(logger.isErrorEnabled()){
+	            logger.error("用户["+user.getId()+"]修改密码失败");
+	        }
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.USER_PASSWORD_NOT_MATCH));
 		}
 		return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.USER_CHANGE_PASSWORD_FAILED));
 	}
 
-	/**
-	 * 我的粉丝
-	 * 
-	 * @param model
-	 * @param user
-	 * @return
-	 */
-	@NeedAuthorize(authorizeType = AuthorizeType.DESIGNER)
-	@RequestMapping(value= "/flowers")
-	public String flowers(Model model, User user) {
-		return "settings/myFlowers";
-	}
-
-	/**
-	 * 我的关注
-	 * 
-	 * @param model
-	 * @param user
-	 * @return
-	 */
-	@RequestMapping(value= "/flowerings")
-	public String flowerings(Model model, User user) {
-		return "settings/myFlowerings";
-	}
+//	/**
+//	 * 我的粉丝
+//	 * 
+//	 * @param model
+//	 * @param user
+//	 * @return
+//	 */
+//	@NeedAuthorize(authorizeType = AuthorizeType.DESIGNER)
+//	@RequestMapping(value= "/flowers")
+//	public String flowers(Model model, User user) {
+//		return "settings/myFlowers";
+//	}
+//
+//	/**
+//	 * 我的关注
+//	 * 
+//	 * @param model
+//	 * @param user
+//	 * @return
+//	 */
+//	@RequestMapping(value= "/flowerings")
+//	public String flowerings(Model model, User user) {
+//		return "settings/myFlowerings";
+//	}
 
 	
 	/**

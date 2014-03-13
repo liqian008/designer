@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bruce.designer.annotation.NeedAuthorize;
-import com.bruce.designer.constants.ConstRedis;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.data.PagingData;
 import com.bruce.designer.data.UserboxInfoBean;
@@ -24,23 +25,22 @@ import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
-import com.bruce.designer.model.Album;
 import com.bruce.designer.model.User;
 import com.bruce.designer.model.UserFan;
 import com.bruce.designer.model.UserFollow;
 import com.bruce.designer.service.IAlbumService;
-import com.bruce.designer.service.ICounterService;
 import com.bruce.designer.service.IUserGraphService;
 import com.bruce.designer.service.IUserService;
-import com.bruce.designer.service.impl.UserGraphServiceImpl;
 import com.bruce.designer.util.ConfigUtil;
-import com.qq.connect.javabeans.weibo.FansIdolsBean;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class UserController {
+    
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
 
 	private static final int DEFAULT_PAGING_SIZE = 20;
 	
@@ -57,7 +57,6 @@ public class UserController {
     private IAlbumService albumService;
     
 
-
     /**
      * 个人主页【作品集】
      * @param model
@@ -67,15 +66,24 @@ public class UserController {
     @RequestMapping(value = "/{userId}/home")
     public String userHome(Model model,  HttpServletRequest request, @PathVariable("userId") int queryUserId) {
         User queryUser = userService.loadById(queryUserId);
+        if(logger.isDebugEnabled()){
+            logger.debug("加载用户["+queryUserId+"]的个人主页");
+        }
         if(queryUser!=null){
             model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
             User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+            if(logger.isDebugEnabled()){
+                logger.debug("用户当前session: " +  user);
+            }
             if(user!=null&&user.getId()>0){
                 int userId = user.getId();
                 boolean hasFollowed = userGraphService.isFollow(userId, queryUserId);
                 model.addAttribute("hasFollowed", hasFollowed);
             }
         }else{
+            if(logger.isErrorEnabled()){
+                logger.error("加载用户["+queryUserId+"]个人主页信息失败");
+            }
         	throw new DesignerException(ErrorCode.USER_NOT_EXIST);
         }
         return "home/userHome";
@@ -89,6 +97,9 @@ public class UserController {
      */
     @RequestMapping(value = "/{userId}/info")
     public String userInfo(Model model,  HttpServletRequest request, @PathVariable("userId") int queryUserId) {
+        if(logger.isDebugEnabled()){
+            logger.debug("加载用户["+queryUserId+"]的个人资料");
+        }
         User queryUser = userService.loadById(queryUserId);
         if(queryUser!=null){
         	model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
@@ -116,17 +127,29 @@ public class UserController {
 //            }
             return "home/userInfo";
         }else{
+            if(logger.isErrorEnabled()){
+                logger.error("加载用户["+queryUserId+"]个人资料信息失败");
+            }
         	throw new DesignerException(ErrorCode.USER_NOT_EXIST);
         }
     }
     
     @RequestMapping(value = "usernameExists.json")
 	public ModelAndView usernameExists(String username) {
+        if(logger.isDebugEnabled()){
+            logger.debug("检查用户名["+username+"]是否注册");
+        }
 		boolean usernameExists = false;
 		usernameExists = userService.usernameExists(username);
 		if (usernameExists) {
+		    if(logger.isDebugEnabled()){
+	            logger.debug("用户名["+username+"]已注册");
+	        }
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.USER_USERNAME_EXISTS));
 		} else {
+		    if(logger.isDebugEnabled()){
+                logger.debug("用户名["+username+"]未注册，可以使用");
+            }
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson());
 		}
 	}
@@ -134,10 +157,19 @@ public class UserController {
     @RequestMapping(value = "nicknameExists.json")
 	public ModelAndView nicknameExists(String nickname) {
 		boolean nicknameExists = false;
+		if(logger.isDebugEnabled()){
+            logger.debug("检查用户昵称["+nickname+"]是否注册");
+        }
 		nicknameExists = userService.nicknameExists(nickname);
 		if (nicknameExists) {
+		    if(logger.isDebugEnabled()){
+                logger.debug("用户昵称["+nickname+"]已注册");
+            }
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.USER_NICKNAME_EXISTS));
 		} else {
+		    if(logger.isDebugEnabled()){
+                logger.debug("用户昵称["+nickname+"]未注册，可以使用");
+            }
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson());
 		}
 	}
@@ -149,7 +181,11 @@ public class UserController {
      */
     @RequestMapping(value = "userboxInfo.json")
    	public ModelAndView userboxInfo(HttpServletRequest request, int queryUserId) {
-    	//TODO 用户发表的专辑数
+    	
+        if(logger.isDebugEnabled()){
+            logger.debug("Slidebar ajax查询用户["+queryUserId+"]个人信息");
+        }
+        //TODO 用户发表的专辑数
     	int followsCount = (int) userGraphService.getFollowCount(queryUserId);
     	int fansCount = (int) userGraphService.getFanCount(queryUserId);
     	User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
@@ -169,7 +205,9 @@ public class UserController {
      */
     @RequestMapping(value = "/{userId}/follows") 
     public String userFollows(Model model, HttpServletRequest request, @PathVariable("userId") int queryUserId) {
-    	
+        if(logger.isDebugEnabled()){
+            logger.debug("查询用户["+queryUserId+"]的关注列表");
+        }
     	User queryUser = userService.loadById(queryUserId);
         if(queryUser!=null){
             model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
@@ -228,6 +266,9 @@ public class UserController {
             model.addAttribute("followMap", followMap);
             
         }else{
+            if(logger.isErrorEnabled()){
+                logger.error("查询用户["+queryUserId+"]的关注列表失败");
+            }
         	throw new DesignerException(ErrorCode.USER_NOT_EXIST);
         }
         return "home/userFollows";
@@ -241,7 +282,9 @@ public class UserController {
      */
     @RequestMapping(value = "/{userId}/fans")
     public String userFans(Model model, HttpServletRequest request, @PathVariable("userId") int queryUserId) {
-        
+        if(logger.isDebugEnabled()){
+            logger.debug("查询用户["+queryUserId+"]的粉丝列表");
+        }
         User queryUser = userService.loadById(queryUserId);
         if(queryUser!=null){
             model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
@@ -296,6 +339,9 @@ public class UserController {
             model.addAttribute("followMap", followMap);
             model.addAttribute("fanList", fanList);
         }else{
+            if(logger.isErrorEnabled()){
+                logger.error("查询用户["+queryUserId+"]的粉丝列表失败");
+            }
         	throw new DesignerException(ErrorCode.USER_NOT_EXIST);
         }
         return "home/userFans";
@@ -313,20 +359,33 @@ public class UserController {
     public ModelAndView follow(Model model,  HttpServletRequest request, int uid) {
         User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
         int userId = user.getId();
+        
+        if(logger.isDebugEnabled()){
+            logger.debug("用户["+userId+"]关注设计师["+uid+"]");
+        }
         if(userId==uid){
-        	//不能关注自己
-        	return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.GRAPH_FOLLOW_SELF_DENIED));
+            if(logger.isErrorEnabled()){
+                logger.error("用户["+userId+"]不能关注自己");
+            }
+            //不能关注自己
+            return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.GRAPH_FOLLOW_SELF_DENIED));
         }else{
 	        User followUser = userService.loadById(uid);
 	        if(followUser!=null){
 	        	if(followUser.getDesignerStatus()!=ConstService.DESIGNER_APPLY_APPROVED){
-	            	//不能关注一般用户（只能关注设计师）
+	        	    if(logger.isErrorEnabled()){
+	                    logger.error("["+uid+"]非设计师身份，不能被关注");
+	                }
+	        	    //不能关注一般用户（只能关注设计师）
 	            	return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.GRAPH_FOLLOW_COMMONUSER_DENIED));
 	            }
 		        boolean result = userGraphService.follow(userId, uid);
 		        if(result){
 		        	return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
 		        }
+		        if(logger.isDebugEnabled()){
+                    logger.debug("用户["+userId+"]关注设计师["+uid+"]结果: "+result);
+                }
 	        }
         }
         return ResponseBuilderUtil.SUBMIT_FAILED_VIEW; 
@@ -337,6 +396,9 @@ public class UserController {
     public ModelAndView unfollow(Model model, HttpServletRequest request, int uid) {
         User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
         int userId = user.getId();
+        if(logger.isDebugEnabled()){
+            logger.debug("用户["+userId+"]取消关注设计师["+uid+"]");
+        }
         boolean result = userGraphService.unfollow(userId, uid);
         if(result){
         	return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;

@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IHotService;
 import com.bruce.designer.service.IUserService;
-import com.bruce.designer.util.ConfigUtil;
 
 /**
  * Handles requests for the application home page.
@@ -43,6 +41,9 @@ public class DesignerController {
 
 	@RequestMapping(value = "/designers")
 	public String latestDesigners(Model model, HttpServletRequest request) {
+	    if(logger.isDebugEnabled()){
+            logger.debug("获取新晋设计师");
+        }
 		List<User> designerList = userService.fallLoadDesignerList(0, FULL_LIMIT);
 		model.addAttribute("designerList", designerList);
 		return "designer/latestDesigners";
@@ -55,6 +56,9 @@ public class DesignerController {
 	 * @return
 	 */
 	private String hotDesigners(Model model, int mode, int limit) {
+	    if(logger.isDebugEnabled()){
+            logger.debug("获取热门设计师，mode:"+mode+", limit: "+limit);
+        }
 	    List<User> designerList = hotService.fallLoadHotDesigners(mode, limit);
 		model.addAttribute("designerList", designerList);
 		model.addAttribute("mode", mode);
@@ -89,10 +93,16 @@ public class DesignerController {
 	 */
 	@RequestMapping(value = "/designers.json")
 	public ModelAndView latestDesigners4Json(Model model, HttpServletRequest request) {
+	    if(logger.isDebugEnabled()){
+            logger.debug("ajax获取新晋设计师");
+        }
 		int limit = 5;
 		List<User> designerList = userService.fallLoadDesignerList(0, limit);
 		if (designerList == null || designerList.size() == 0) {
-			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
+		    if(logger.isDebugEnabled()){
+	            logger.debug("ajax获取新晋设计师数量: 0");
+	        }
+		    return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {
 			String responseHtml = DesignerHtmlUtils.buildFallLoadHtml(designerList);
 			Map<String, String> dataMap = new HashMap<String, String>();

@@ -182,21 +182,33 @@ public class AlbumController {
 			}
 			
 			// 增加浏览计数
-			albumCounterService.incrBrowser(albumInfo.getUserId(), albumId, currentUser!=null?currentUser.getId():0);
-
+			int guestId = currentUser!=null?currentUser.getId():0;
+			if(logger.isDebugEnabled()){
+                logger.debug("增加专辑["+albumId+"]浏览计数, 浏览人: " + guestId);
+            }
+			albumCounterService.incrBrowser(albumInfo.getUserId(), albumId, guestId);
+			
 			//加载作者信息
 			User queryUser = userService.loadById(albumInfo.getUserId());
 			model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
-			//加载计数信息
+
+			//加载专辑的计数信息
+			if(logger.isDebugEnabled()){
+                logger.debug("加载专辑["+albumId+"]浏览计数");
+            }
 			albumService.initAlbumWithCount(albumInfo);
-			//加载标签
+			
+			//加载专辑的标签
+			if(logger.isDebugEnabled()){
+                logger.debug("加载专辑["+albumId+"]的标签");
+            }
 			albumService.initAlbumWithTags(albumInfo);
 			
 			model.addAttribute("albumInfo", albumInfo);
 			return "album/albumInfo";
 		}else{
 			if(logger.isErrorEnabled()){
-				logger.error("加载作品集[%s]出错", albumId);
+				logger.error("加载作品集["+albumId+"]出错");
 			}
 			throw new DesignerException(ErrorCode.ALBUM_NOT_EXIST);
 		}
@@ -205,25 +217,40 @@ public class AlbumController {
 
 	@RequestMapping(value = "moreAlbums.json")
 	public ModelAndView moreAlbums(HttpServletRequest request, @RequestParam("albumsTailId") int tailId, int numberPerLine) {
-		int limit = 4;
+	    if(logger.isDebugEnabled()){
+            logger.debug("ajax加载更多专辑，tailId: "+tailId +", 每页展示条目："+numberPerLine);
+        }
+	    int limit = 4;
 		int designerId = NumberUtils.toInt(request.getParameter("designerId"));
 		List<Album> albumList = null;
 		if (designerId > 0) {//设计师专辑类型
+		    if(logger.isDebugEnabled()){
+	            logger.debug("查询设计师专辑列表");
+	        }
 			limit = HOME_LIMIT;
 			albumList = albumService.fallLoadDesignerAlbums(designerId, tailId, limit + 1, true, true);
 		} else {//首页全屏类型
+		    if(logger.isDebugEnabled()){
+                logger.debug("查询首页专辑列表");
+            }
 			limit = FULL_LIMIT;
 			albumList = albumService.fallLoadAlbums(tailId, limit + 1,  true,  true);
 		}
 
 		int nextTailId = 0;
 		if (albumList == null || albumList.size() == 0) {
+		    if(logger.isDebugEnabled()){
+                logger.debug("无更多专辑");
+            }
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {
 			if (albumList.size() > limit) {// 查询数据超过limit，含分页内容
 				// 移除最后一个元素
 				albumList.remove(limit);
 				nextTailId = albumList.get(limit - 1).getId();
+				if(logger.isDebugEnabled()){
+	                logger.debug("还有更多专辑，tailId： "+nextTailId);
+	            }
 			}
 			String responseHtml = DesignerHtmlUtils.buildFallLoadHtml(albumList, numberPerLine);
 			Map<String, String> dataMap = new HashMap<String, String>();
@@ -236,8 +263,12 @@ public class AlbumController {
 	@NeedAuthorize
 	@RequestMapping(value = "moreUserFollowAlbums.json")
 	public ModelAndView moreUserFollowAlbums(HttpServletRequest request, int albumsTailId, int numberPerLine) {
-		User currentUser = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+	    User currentUser = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = currentUser.getId();
+		
+		if(logger.isDebugEnabled()){
+            logger.debug("ajax加载我的关注专辑，userId："+userId+"，albumsTailId: "+albumsTailId +", 每页展示条目："+numberPerLine);
+        }
 
 		int limit = FULL_LIMIT;
 		//获取关注列表
@@ -245,12 +276,18 @@ public class AlbumController {
 		int nextTailId = 0;
 
 		if (albumList == null || albumList.size() == 0) {
+		    if(logger.isDebugEnabled()){
+                logger.debug("无更多专辑");
+            }
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {
 			if (albumList.size() > limit) {// 查询数据超过limit，含分页内容
 				// 移除最后一个元素
 				albumList.remove(limit);
 				nextTailId = albumList.get(limit - 1).getId();
+				if(logger.isDebugEnabled()){
+                    logger.debug("还有更多专辑，tailId： "+nextTailId);
+                }
 			}
 			String responseHtml = DesignerHtmlUtils.buildFallLoadHtml(albumList, numberPerLine);
 			Map<String, String> dataMap = new HashMap<String, String>();
@@ -263,18 +300,28 @@ public class AlbumController {
 	@RequestMapping(value = "/moreTagAlbums.json")
 	public ModelAndView moreTagAlbums(Model model, HttpServletRequest request, @RequestParam("tag") String tagName, @RequestParam("albumsTailId") int tailId,
 			int numberPerLine) {
-		int limit = 1;
+	    if(logger.isDebugEnabled()){
+            logger.debug("ajax加载Tag专辑，tagName："+tagName+"，tailId: "+tailId +", 每页展示条目："+numberPerLine);
+        }
+	    
+	    int limit = 1;
 		List<Album> albumList = null;
 		albumList = albumService.fallLoadAlbumsByTagName(tagName, tailId, limit + 1);
 
 		int nextTailId = 0;
 		if (albumList == null || albumList.size() == 0) {
+		    if(logger.isDebugEnabled()){
+                logger.debug("无更多专辑");
+            }
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {
 			if (albumList.size() > limit) {// 查询数据超过limit，含分页内容
 				// 移除最后一个元素
 				albumList.remove(limit);
 				nextTailId = albumList.get(limit - 1).getId();
+				if(logger.isDebugEnabled()){
+                    logger.debug("还有更多专辑，tailId： "+nextTailId);
+                }
 			}
 			String responseHtml = DesignerHtmlUtils.buildFallLoadHtml(albumList, numberPerLine); 
 			Map<String, String> dataMap = new HashMap<String, String>();

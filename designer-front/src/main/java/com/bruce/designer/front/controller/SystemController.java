@@ -51,7 +51,7 @@ public class SystemController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model, @RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
 		if(logger.isDebugEnabled()){
-			logger.debug("登录前的redirectUrl参数: %s", redirectUrl);
+			logger.debug("登录前的redirectUrl参数: "+redirectUrl);
 		}
 		if (StringUtils.isNotEmpty(redirectUrl)) {
 			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
@@ -71,8 +71,8 @@ public class SystemController {
 		}
 		
 		if(logger.isDebugEnabled()){
-			logger.debug("登录后的redirectUrl地址: %s", redirectUrl);
-			logger.debug("登录前的session验证码: %s, 用户输入的验证码: %s", sessionVerifyCode, verifyCode);
+			logger.debug("提交登录后的redirectUrl地址: "+ redirectUrl);
+			logger.debug("提交登录前的session验证码: "+sessionVerifyCode +", 用户输入的验证码: "+verifyCode);
 		}
 		
 		if(!verifyCode.equals(sessionVerifyCode)){
@@ -87,12 +87,12 @@ public class SystemController {
 			request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
 			model.addAttribute(ConstFront.REDIRECT_PROMPT, "您好，" + user.getNickname() + "，您已成功登录，现在将转后续页面，请稍候…");
 			if(logger.isDebugEnabled()){
-				logger.debug("用户[%s]登录成功", username);
+				logger.debug("用户["+username+"]登录成功");
 			}
 			return ResponseUtil.getForwardReirect();
 		} else {// 用户身份验证失败
 			if(logger.isErrorEnabled()){
-				logger.error("用户[%s]登录认证失败：账户密码不匹配", username);
+				logger.error("用户["+username+"]登录认证失败：账户密码不匹配");
 			}
 			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.USER_PASSWORD_NOT_MATCH));
 			return "login/loginAndReg";
@@ -103,7 +103,7 @@ public class SystemController {
 	public String register(Model model, HttpServletRequest request, @RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
 //		String redirectUrl = request.getParameter(ConstFront.REDIRECT_URL);
 		if(logger.isDebugEnabled()){
-			logger.debug("注册前的redirectUrl参数: %s", redirectUrl);
+			logger.debug("注册前的redirectUrl参数: " + redirectUrl);
 		}
 		if (StringUtils.isNotEmpty(redirectUrl)) {
 			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
@@ -126,8 +126,8 @@ public class SystemController {
 		}
 		
 		if(logger.isDebugEnabled()){
-			logger.debug("登录后的redirectUrl地址: %s", redirectUrl);
-			logger.debug("登录前的session验证码: %s, 用户输入的验证码: %s", sessionVerifyCode, verifyCode);
+			logger.debug("提交注册时的redirectUrl地址: " + redirectUrl);
+			logger.debug("提交注册时的session验证码: "+sessionVerifyCode + ", 用户输入的验证码: " + verifyCode);
 		}
 		
 		if(!verifyCode.equals(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY))){
@@ -150,7 +150,7 @@ public class SystemController {
 		int result = userService.save(user);
 		if (result == 1) {
 			if(logger.isDebugEnabled()){
-				logger.debug("用户[%s]注册成功", username);
+				logger.debug("用户["+username+"]注册成功", username);
 			}
 			user = userService.authUser(username, password);
 			if(user!=null){
@@ -158,7 +158,7 @@ public class SystemController {
 				model.addAttribute(ConstFront.REDIRECT_PROMPT, "您好，" + nickname + "，您已成功注册，现在将转入首页，请稍候…");
 				//系统发送欢迎消息
 				if(logger.isDebugEnabled()){
-					logger.debug("系统为用户[%s]发送欢迎消息", username);
+					logger.debug("系统为用户["+username+"]发送欢迎消息", username);
 				}
 				long sourceId = 0;
 				String welcomeMessage = ConfigUtil.getString("welcome_message");
@@ -170,7 +170,7 @@ public class SystemController {
 			}
 		} else {
 			if(logger.isErrorEnabled()){
-				logger.error("用户[%s]注册失败", username);
+				logger.error("用户["+username+"]注册失败", username);
 			}
 			model.addAttribute(ConstFront.REG_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.USER_REGISTER_ERROR));
 			return "login/loginAndReg";
@@ -242,7 +242,7 @@ public class SystemController {
 		String sessionVerifyCode = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
 		
 		if(logger.isDebugEnabled()){
-			logger.debug("ajax检查session验证码: %s, 用户输入的验证码: %s", sessionVerifyCode, verifyCode);
+			logger.debug("ajax检查session验证码: "+sessionVerifyCode+", 用户输入的验证码: "+ verifyCode);
 		}
 		if(verifyCode.equals(sessionVerifyCode)){
 			return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
