@@ -50,9 +50,11 @@ public class TestController {
     @Autowired
     private IIndexSlideService indexSlideService;
 
-    private static final Logger logger = LoggerFactory.getLogger(AlbumController.class);
+    private static final Logger logger = LoggerFactory
+            .getLogger(AlbumController.class);
 
-    private static final String sitemapPath = ConfigUtil.getString("sitemap_dir_path");
+    private static final String sitemapPath = ConfigUtil
+            .getString("sitemap_dir_path");
 
     /**
      * 首页slide的测试页
@@ -62,10 +64,10 @@ public class TestController {
      */
     @RequestMapping(value = "/indexSlideTest", method = RequestMethod.GET)
     public String indexSlideTest(Model model) {
-    	if(logger.isDebugEnabled()){
-			logger.debug("系统轮播");
-		}
-    	// 系统轮播
+        if (logger.isDebugEnabled()) {
+            logger.debug("系统轮播");
+        }
+        // 系统轮播
         List<IndexSlide> indexSlideList = indexSlideService
                 .queryIndexSlideList(0, AlbumController.INDEX_SLIDE_LIMIT);
         model.addAttribute("indexSlideList", indexSlideList);
@@ -80,10 +82,10 @@ public class TestController {
      */
     @RequestMapping(value = "/indexRecommendTest", method = RequestMethod.GET)
     public String indexRecommendTest(Model model) {
-    	if(logger.isDebugEnabled()){
-			logger.debug("编辑推荐");
-		}
-    	// 编辑推荐
+        if (logger.isDebugEnabled()) {
+            logger.debug("编辑推荐");
+        }
+        // 编辑推荐
         List<Album> recommendAlbumList = albumRecommendService
                 .queryRecommendAlbums(AlbumController.INDEX_SLIDE_LIMIT);
         model.addAttribute("recommendAlbumList", recommendAlbumList);
@@ -92,18 +94,19 @@ public class TestController {
 
     @RequestMapping(value = "/refreshSitemap", method = RequestMethod.GET)
     public String buildSitemap(Model model) {
-    	if(logger.isDebugEnabled()){
-			logger.debug("更新sitemap");
-		}
-    	int result = generateSiteMap();
+        if (logger.isDebugEnabled()) {
+            logger.debug("更新sitemap");
+        }
+        int result = generateSiteMap();
         String sitemapResult = "sitemap生成失败！";
-        if(result>0){
+        if (result > 0) {
             sitemapResult = "sitemap生成成功！";
         }
         model.addAttribute(ConstFront.REDIRECT_PROMPT, sitemapResult);
-        model.addAttribute(ConstFront.REDIRECT_URL, ConstFront.CONTEXT_PATH + "/sitemap.xml");
+        model.addAttribute(ConstFront.REDIRECT_URL, ConstFront.CONTEXT_PATH
+                + "/sitemap.xml");
         return ResponseUtil.getForwardReirect();
-        
+
     }
 
     @RequestMapping(value = "/carousel", method = RequestMethod.GET)
@@ -157,7 +160,7 @@ public class TestController {
         urlList.add(new WebSitemapUrl.Options(ConstFront.DOMAIN
                 + "/hot/monthlyAlbums").lastMod(date).priority(0.9)
                 .changeFreq(ChangeFreq.WEEKLY).build());
-        
+
         // 所有album内容
         List<Album> albumList = albumService.queryAll();
         if (albumList != null && albumList.size() > 0) {
@@ -191,14 +194,32 @@ public class TestController {
         if (userList != null && userList.size() > 0) {
             for (User user : userList) {
                 double priority = 0.5f;
-                //设计师sitemap的优先级调高
-                if(user!=null&&ConstService.DESIGNER_APPLY_APPROVED == user.getDesignerStatus()){
+                // 设计师sitemap的优先级调高
+                if (user != null && ConstService.DESIGNER_APPLY_APPROVED == user.getDesignerStatus()) {
                     priority = 0.8f;
+                    //个人主页
+                    urlList.add(new WebSitemapUrl.Options(ConstFront.DOMAIN + "/"
+                            + user.getId() + "/home").lastMod(user.getUpdateTime())
+                            .priority(priority).changeFreq(ChangeFreq.DAILY)
+                            .build());
+                    //粉丝页
+                    urlList.add(new WebSitemapUrl.Options(ConstFront.DOMAIN + "/"
+                            + user.getId() + "/fans").lastMod(user.getUpdateTime())
+                            .priority(priority).changeFreq(ChangeFreq.DAILY)
+                            .build());
+                    
                 }
+                //个人资料页
                 urlList.add(new WebSitemapUrl.Options(ConstFront.DOMAIN + "/"
-                        + user.getId() + "/home")
-                        .lastMod(user.getUpdateTime()).priority(priority)
-                        .changeFreq(ChangeFreq.DAILY).build());
+                        + user.getId() + "/info").lastMod(user.getUpdateTime())
+                        .priority(priority).changeFreq(ChangeFreq.DAILY)
+                        .build());
+                
+                //关注页
+                urlList.add(new WebSitemapUrl.Options(ConstFront.DOMAIN + "/"
+                        + user.getId() + "/follows").lastMod(user.getUpdateTime())
+                        .priority(priority).changeFreq(ChangeFreq.DAILY)
+                        .build());
             }
         }
 
