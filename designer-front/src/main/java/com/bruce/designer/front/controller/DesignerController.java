@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IHotService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.util.ConfigUtil;
 
 /**
  * Handles requests for the application home page.
@@ -37,14 +39,18 @@ public class DesignerController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DesignerController.class);
 
-	private static final int FULL_LIMIT = 8;
+	/*新晋设计师查询limit*/
+	public static final int MAIN_LASTEST_DESIGNER_LIMIT = NumberUtils.toInt(ConfigUtil.getString("main_latest_designer_limit"), 20);
+	/*新晋设计师查询limit*/
+    public static final int SIDEBAR_LASTEST_DESIGNER_LIMIT = NumberUtils.toInt(ConfigUtil.getString("slide_latest_designer_limit"), 5);
+    
 
 	@RequestMapping(value = "/designers")
 	public String latestDesigners(Model model, HttpServletRequest request) {
 	    if(logger.isDebugEnabled()){
             logger.debug("获取新晋设计师");
         }
-		List<User> designerList = userService.fallLoadDesignerList(0, FULL_LIMIT);
+		List<User> designerList = userService.fallLoadDesignerList(0, MAIN_LASTEST_DESIGNER_LIMIT);
 		model.addAttribute("designerList", designerList);
 		return "designer/latestDesigners";
 	}
@@ -96,7 +102,7 @@ public class DesignerController {
 	    if(logger.isDebugEnabled()){
             logger.debug("ajax获取新晋设计师");
         }
-		int limit = 5;
+		int limit = SIDEBAR_LASTEST_DESIGNER_LIMIT;
 		List<User> designerList = userService.fallLoadDesignerList(0, limit);
 		if (designerList == null || designerList.size() == 0) {
 		    if(logger.isDebugEnabled()){

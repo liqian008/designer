@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.DesignerHtmlUtils;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.service.*;
+import com.bruce.designer.util.ConfigUtil;
 import com.bruce.designer.util.UploadUtil;
 
 /**
@@ -49,8 +51,12 @@ public class AlbumInteractiveController {
 	private IAlbumCounterService albumCounterService;
 	@Autowired
 	private IUserService userService;
-
+	
 	private static final Logger logger = LoggerFactory.getLogger(AlbumInteractiveController.class);
+	
+	/*评论分页数量*/
+    public static final int COMMENT_LIMIT = NumberUtils.toInt(ConfigUtil.getString("comment_limit"), 20);
+    
 	
 	/**
 	 * 加载更多评论
@@ -61,7 +67,7 @@ public class AlbumInteractiveController {
 	 */
 	@RequestMapping(value = "moreComments.json")
 	public ModelAndView moreComments(HttpServletRequest request, int albumId, @RequestParam("commentsTailId") long tailId) {
-		int limit = 5;
+		int limit = COMMENT_LIMIT;
 		
 		if(logger.isDebugEnabled()){
             logger.debug("获取专辑["+albumId+"]评论列表, tailId： "+tailId+", limit："+limit);

@@ -380,7 +380,7 @@ public class AlbumController {
 	@RequestMapping(value = "sideLatestAlbums.json")
 	public ModelAndView sideLatestAlbums(HttpServletRequest request) {
 		int tailId = 0;
-		int limit = 6;
+		int limit = SIDE_LIMIT;
 		int designerId = NumberUtils.toInt(request.getParameter("designerId"));
 		List<Album> albumList = null;
 		if (designerId > 0) {
