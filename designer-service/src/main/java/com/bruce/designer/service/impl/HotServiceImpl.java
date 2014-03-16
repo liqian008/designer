@@ -3,20 +3,17 @@ package com.bruce.designer.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bruce.designer.cache.counter.AbstractHotCache;
 import com.bruce.designer.cache.counter.HotAlbumCache;
 import com.bruce.designer.cache.counter.HotDesignerCache;
 import com.bruce.designer.dao.IAlbumActionLogDao;
 import com.bruce.designer.dao.ITagDao;
-import com.bruce.designer.dao.impl.AlbumActionLogDaoImpl;
 import com.bruce.designer.data.CountCacheBean;
-import com.bruce.designer.exception.RedisKeyNotExistException;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.Tag;
 import com.bruce.designer.model.User;
@@ -24,17 +21,11 @@ import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IHotService;
 import com.bruce.designer.service.ITagAlbumService;
 import com.bruce.designer.service.IUserService;
-import com.bruce.designer.util.ConfigUtil;
 
 @Service
 public class HotServiceImpl implements IHotService, InitializingBean {
-	/**
-	 * Logger for this class
-	 */
-	private static final Logger logger = Logger.getLogger(AbstractHotCache.class);
-
 	
-    
+
 	@Autowired
 	private ITagDao tagDao;
 	@Autowired
@@ -49,6 +40,11 @@ public class HotServiceImpl implements IHotService, InitializingBean {
 	private HotAlbumCache hotAlbumCache;
 	@Autowired
 	private HotDesignerCache hotDesignerCache;
+	
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = LoggerFactory.getLogger(HotServiceImpl.class);
 	
 	private List<Tag> hotTagList = null; 
 

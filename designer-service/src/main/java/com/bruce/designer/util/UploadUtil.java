@@ -75,7 +75,7 @@ public class UploadUtil {
 //    }
    	
     public static String getBaseUrl() {
-    	String domain = ConfigUtil.getString("domain");
+    	String domain = ConfigUtil.getString("img_domain");
     	String contextPath = ConfigUtil.getString("contextPath"); 
     	String basePath = domain + contextPath + ConfigUtil.getString("upload_url_base");
         return basePath;

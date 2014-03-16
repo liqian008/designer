@@ -6,7 +6,8 @@ package com.bruce.designer.cache.counter;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -27,14 +28,16 @@ import com.bruce.designer.model.AlbumLike;
 @Repository
 public class AlbumLikeCache {
 
+    
+    @Autowired
+    private DesignerShardedJedisPool cacheShardedJedisPool;
+
     /**
      * Logger for this class
      */
-    private static final Logger logger = Logger.getLogger(AlbumLikeCache.class);
+    private static final Logger logger = LoggerFactory.getLogger(AlbumLikeCache.class);
 
     private static final String KEY_PREFIX = "albumLike";
-    @Autowired
-    private DesignerShardedJedisPool cacheShardedJedisPool;
 
     private String getKey(int albumId) {
         return ConstRedis.REDIS_NAMESPACE + "_" + KEY_PREFIX + "_" + albumId;
@@ -60,7 +63,7 @@ public class AlbumLikeCache {
             	return shardedJedis.zcard(key);
             }
         } catch (JedisException t) {
-            logger.error("getLikeCount", t);
+            logger.error("getLikeCount: "+albumId, t);
             if (shardedJedis != null) {
                 cacheShardedJedisPool.returnBrokenResource(shardedJedis);
             }

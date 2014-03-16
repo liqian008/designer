@@ -3,6 +3,8 @@ package com.bruce.designer.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +27,8 @@ public class AlbumLikeServiceImpl implements IAlbumLikeService {
 	private AlbumLikeCache albumLikeCache;
 	@Autowired
 	private IMessageService messageService;
-
+	
+	private Logger logger = LoggerFactory.getLogger(AlbumFavoriteServiceImpl.class);
 
 	public int save(AlbumLike t) {
 		return albumLikeDao.save(t);
@@ -59,6 +62,10 @@ public class AlbumLikeServiceImpl implements IAlbumLikeService {
 				try {
 					albumLikeCache.like(userId, albumId);
 				} catch (RedisKeyNotExistException e) {
+					if(logger.isErrorEnabled()){
+		    			logger.error("like: "+albumId+", "+designerId+", "+userId, e);
+		    		}
+					
 					List<AlbumLike> likeList = getLikeListByAlbumId(albumId);//获取该album的like列表
 					if(likeList!=null&&likeList.size()>0){
 					    albumLikeCache.setLikeList(albumId, likeList);

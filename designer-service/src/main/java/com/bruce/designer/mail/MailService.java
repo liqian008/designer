@@ -9,6 +9,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +45,7 @@ public class MailService {
 	/*设计师审核通过邮件内容——尊敬的设计师您好，您的设计师申请已通过，现在可以发布新作品了！<p/><a href="www.jinwanr.com.cn">【金玩儿网】</a>*/
     private static final String MAIL_DESIGNER_APPROVED_CONTENT = ConfigUtil.getString("mail_designer_approved_content");
     
-	// private static final Log log = LogFactory.getLog(SendMail.class);
+	 private static final Logger logger = LoggerFactory.getLogger(MailService.class);
 
 	/**
 	 * 发送欢迎邮件，to用户
@@ -133,8 +135,13 @@ public class MailService {
 			Transport.send(message);// 调用发送邮件的方法
 //			System.out.println("邮件发送成功");
 		} catch (Exception e) {
-			System.out.println("邮件发送失败");
-			e.printStackTrace();
+//			System.out.println("邮件发送失败");
+//			e.printStackTrace();
+			
+			if(logger.isErrorEnabled()){
+				logger.error("sendSSLMail邮件发送失败", e);
+			}
+			
 		}
 	}
 

@@ -6,7 +6,8 @@ package com.bruce.designer.cache.counter;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -27,14 +28,17 @@ import com.bruce.designer.model.AlbumFavorite;
 @Repository
 public class AlbumFavoriteCache {
 
+    
+    @Autowired
+    private DesignerShardedJedisPool cacheShardedJedisPool;
+    
     /**
      * Logger for this class
      */
-    private static final Logger logger = Logger.getLogger(AlbumFavoriteCache.class);
+    private static final Logger logger = LoggerFactory.getLogger(AlbumFavoriteCache.class);
 
     private static final String KEY_PREFIX = "albumFavorite";
-    @Autowired
-    private DesignerShardedJedisPool cacheShardedJedisPool;
+    
 
     private String getKey(int albumId) {
         return ConstRedis.REDIS_NAMESPACE + "_" + KEY_PREFIX + "_" + albumId;

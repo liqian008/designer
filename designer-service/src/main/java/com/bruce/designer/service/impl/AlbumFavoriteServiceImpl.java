@@ -2,6 +2,8 @@ package com.bruce.designer.service.impl;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,8 @@ public class AlbumFavoriteServiceImpl implements IAlbumFavoriteService {
 	private AlbumFavoriteCache albumFavoriteCache;
 	@Autowired
 	private IMessageService messageService;
+	
+	private Logger logger = LoggerFactory.getLogger(AlbumFavoriteServiceImpl.class);
 
 	public int save(AlbumFavorite t) {
 		return albumFavoriteDao.save(t);
@@ -59,6 +63,10 @@ public class AlbumFavoriteServiceImpl implements IAlbumFavoriteService {
 				try {
 					albumFavoriteCache.favorite(userId, albumId);
 				} catch (RedisKeyNotExistException e) {
+					if(logger.isErrorEnabled()){
+		    			logger.error("favorite: "+albumId+", "+designerId+", "+userId, e);
+		    		}
+					
 					//TODO 
 					List<AlbumFavorite> favoriteList = getFavoriteListByAlbumId(albumId);////获取该album的like列表
 					if(favoriteList!=null&&favoriteList.size()>0){
@@ -85,6 +93,9 @@ public class AlbumFavoriteServiceImpl implements IAlbumFavoriteService {
 				return true;
 			}
 		} catch (Exception e) {
+			if(logger.isErrorEnabled()){
+    			logger.error("unfavorite: "+albumId+", "+userId, e);
+    		}
 		}
 		return false;
 	}
@@ -95,6 +106,9 @@ public class AlbumFavoriteServiceImpl implements IAlbumFavoriteService {
 		 try {
 			isFavorite = albumFavoriteCache.isFavorite(userId, albumId);
 		 } catch (RedisKeyNotExistException e) {
+			if(logger.isErrorEnabled()){
+    			logger.error("isFavorite: "+albumId+", "+userId, e);
+    		}
 			List<AlbumFavorite> favoriteList = getFavoriteListByAlbumId(albumId);
 			if(favoriteList!=null&&favoriteList.size()>0){
 			    albumFavoriteCache.setFavoriteList(albumId, favoriteList);
@@ -144,6 +158,10 @@ public class AlbumFavoriteServiceImpl implements IAlbumFavoriteService {
 		try {
 			return albumFavoriteCache.getFavoriteCount(albumId);
 		} catch (RedisKeyNotExistException e) {
+			if(logger.isErrorEnabled()){
+    			logger.error("getFavoriteCountByAlbumId: "+albumId, e);
+    		}
+			
 			//DB加载数据，重建cache
 			List<AlbumFavorite> favoriteList = getFavoriteListByAlbumId(albumId);
 			if(favoriteList!=null&&favoriteList.size()>0){

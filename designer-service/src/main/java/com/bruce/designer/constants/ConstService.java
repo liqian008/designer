@@ -1,8 +1,5 @@
 package com.bruce.designer.constants;
 
-import org.apache.commons.lang3.math.NumberUtils;
-
-import com.bruce.designer.util.ConfigUtil;
 
 public interface ConstService {
 
