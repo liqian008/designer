@@ -32,6 +32,7 @@ if(redirectUrl==null||"".equals(redirectUrl)){
         <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+        <link rel="icon" href="<%=contextPath%>/img/favicon.ico">
         <link rel="stylesheet" href="<%=contextPath%>/css/bootstrap.min.css">
         <link rel="stylesheet" href="<%=contextPath%>/css/font-awesome.css">
         <link rel="stylesheet" href="<%=contextPath%>/css/animate.css">
