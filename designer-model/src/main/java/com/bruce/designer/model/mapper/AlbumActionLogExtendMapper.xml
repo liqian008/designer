@@ -56,7 +56,7 @@
 	</sql>
 	
 	<sql id="CountTopDesignerRule">
-    	select ${designerFavoriteScore}*sum(favorite_num) + ${designerLikeScore}*sum(like_num) + ${designerCommentScore}*(comment_num) + ${designerBrowseScore}*sum(browse_num) total_num, album_id data_id from tb_album_action_log
+    	select ${designerFavoriteScore}*sum(favorite_num) + ${designerLikeScore}*sum(like_num) + ${designerCommentScore}*(comment_num) + ${designerBrowseScore}*sum(browse_num) total_num, designer_id data_id from tb_album_action_log
 	</sql>
 
 </mapper>

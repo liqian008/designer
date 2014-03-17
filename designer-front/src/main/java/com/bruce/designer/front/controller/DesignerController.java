@@ -3,6 +3,7 @@ package com.bruce.designer.front.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,6 +23,7 @@ import com.bruce.designer.front.util.DesignerHtmlUtils;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IHotService;
+import com.bruce.designer.service.IUserGraphService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.ConfigUtil;
 
@@ -32,7 +34,9 @@ import com.bruce.designer.util.ConfigUtil;
 public class DesignerController {
 
 	@Autowired
-	private IUserService userService; 
+	private IUserService userService;
+	@Autowired
+	private IUserGraphService userGraphService; 
 	@Autowired
 	private IHotService hotService;
 	
@@ -52,6 +56,11 @@ public class DesignerController {
         }
 		List<User> designerList = userService.fallLoadDesignerList(0, MAIN_LASTEST_DESIGNER_LIMIT);
 		model.addAttribute("designerList", designerList);
+
+		if(designerList!=null&&designerList.size()>0){
+			Map<Integer, Boolean> followMap = loadFollowMap(request, designerList);
+			model.addAttribute("followMap", followMap);
+		}
 		return "designer/latestDesigners";
 	}
 	
@@ -61,33 +70,64 @@ public class DesignerController {
 	 * @param request
 	 * @return
 	 */
-	private String hotDesigners(Model model, int mode, int limit) {
+	private String hotDesigners(Model model, HttpServletRequest request, int mode, int limit) {
 	    if(logger.isDebugEnabled()){
             logger.debug("获取热门设计师，mode:"+mode+", limit: "+limit);
         }
 	    List<User> designerList = hotService.fallLoadHotDesigners(mode, limit);
 		model.addAttribute("designerList", designerList);
 		model.addAttribute("mode", mode);
+		
+		if(designerList!=null&&designerList.size()>0){
+			Map<Integer, Boolean> followMap = loadFollowMap(request, designerList);
+			model.addAttribute("followMap", followMap);
+		}
 		return "designer/hotDesigners";
+	}
+
+	/**
+	 * 加载关注状态
+	 * @param request
+	 * @param designerList
+	 * @return
+	 */
+	private Map<Integer, Boolean> loadFollowMap(HttpServletRequest request, List<User> designerList) {
+		Map<Integer, Boolean> followMap = new HashMap<Integer, Boolean>();
+		if(designerList!=null&&designerList.size()>0){
+			for(User designer: designerList){
+				//默认状态下，均设置为未关注
+				followMap.put(designer.getId(), false);
+			}
+			
+			User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+			if(user!=null&&followMap!=null&&followMap.size()>0){
+				//已登录情况下，查询关注状态
+                for(Entry<Integer, Boolean> entry: followMap.entrySet()){
+                    int keyId = entry.getKey();
+                    entry.setValue(userGraphService.isFollow(user.getId(), keyId));
+                }
+            }
+		}
+		return followMap;
 	}
 	
 	
 	//日热门
     @RequestMapping(value = "/hot/dailyDesigners", method = RequestMethod.GET)
-    public String hotDailyDesigners(Model model) {
-        return hotDesigners(model, IHotService.DAILY_FLAG, ConstFront.HOT_DESIGNER_DAILY_LIMIT); 
+    public String hotDailyDesigners(Model model, HttpServletRequest request) {
+        return hotDesigners(model, request, IHotService.DAILY_FLAG, ConstFront.HOT_DESIGNER_DAILY_LIMIT); 
     }
     
     //周热门
     @RequestMapping(value = "/hot/weeklyDesigners", method = RequestMethod.GET)
-    public String hotWeeklyDesigners(Model model) {
-        return hotDesigners(model, IHotService.WEEKLY_FLAG, ConstFront.HOT_DESIGNER_WEEKLY_LIMIT);
+    public String hotWeeklyDesigners(Model model ,HttpServletRequest request) {
+        return hotDesigners(model, request, IHotService.WEEKLY_FLAG, ConstFront.HOT_DESIGNER_WEEKLY_LIMIT);
     }
     
     //月热门
     @RequestMapping(value = "/hot/monthlyDesigners", method = RequestMethod.GET)
-    public String hotMonthlyDesigners(Model model) {
-        return hotDesigners(model, IHotService.MONTHLY_FLAG, ConstFront.HOT_DESIGNER_MONTHLY_LIMIT);
+    public String hotMonthlyDesigners(Model model, HttpServletRequest request) {
+        return hotDesigners(model, request, IHotService.MONTHLY_FLAG, ConstFront.HOT_DESIGNER_MONTHLY_LIMIT);
     }
     
 	
@@ -97,8 +137,8 @@ public class DesignerController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/designers.json")
-	public ModelAndView latestDesigners4Json(Model model, HttpServletRequest request) {
+	@RequestMapping(value = "/sideLatestDesigners.json")
+	public ModelAndView sideLatestDesigners(Model model, HttpServletRequest request) {
 	    if(logger.isDebugEnabled()){
             logger.debug("ajax获取新晋设计师");
         }

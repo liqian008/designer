@@ -170,7 +170,7 @@ h6 { font-size: 12px; line-height: 18px; }
 	zoom: 1;
 	text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
 	color: #fff;
-	margin: 0 2px 0px 0px; 
+	margin: 0 0px 0px 0px; 
 }
 
 	.button:focus {
@@ -5456,7 +5456,7 @@ input.contact-form-error {
 	.designer-wrap div {
 		float: left;
 		width: 60px;
-		height: 60px;
+		/* height: 60px; */
 		margin: 0 4.16% 10px 0;
 		border: 4px solid #363636;
 		position: relative;
@@ -5733,8 +5733,12 @@ input.contact-form-error {
 	
 	.designer-wrap div {
 		width: 85px;
-		height: 85px;
+		/* height: 85px; */
 		margin: 0 20px 20px 0;
+	}
+	
+	.designer_badge_image {
+		text-align:center;
 	}
 
 		.widget-blogpost-avatar, .widget-blogpost-avatar img {

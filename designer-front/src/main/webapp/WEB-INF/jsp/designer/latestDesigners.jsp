@@ -8,6 +8,7 @@
 
 <%
 String contextPath = ConstFront.CONTEXT_PATH;
+User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 %>
 
 <!DOCTYPE html>
@@ -95,6 +96,7 @@ String contextPath = ConstFront.CONTEXT_PATH;
 							<%
 								List<User> designerList = (List<User>)request.getAttribute("designerList"); 
 								if(designerList!=null&&designerList.size()>0){
+									Map<Integer, Boolean> followMap = (Map<Integer, Boolean>)request.getAttribute("followMap");
 							%>
 
 							<div id="designer-Container" class="designer-container">
@@ -103,8 +105,24 @@ String contextPath = ConstFront.CONTEXT_PATH;
 										<%for(User designer: designerList){%>
 										<div class="designer_badge_image" id="designer_badge_image<%=designer.getId()%>">
 											<a href="<%=contextPath%>/<%=designer.getId()%>/home">
-											<img src="<%=UploadUtil.getAvatarUrl(designer.getId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)%>">
+												<img src="<%=UploadUtil.getAvatarUrl(designer.getId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)%>" width="100%" title="<%=designer.getNickname()%>">
 											</a>
+											<%
+											if(currentUser!=null&&designer.getId().equals(currentUser.getId())){
+											%>
+											<a href="<%=contextPath%>/<%=designer.getId()%>/home" class="button button-small button-blue">我</a>
+											<%
+											}else{	
+												boolean hasFollowed = followMap.get(designer.getId())!=null&&followMap.get(designer.getId());
+												String hideStr = "style='display:none'";
+												%>
+												<a href="javascript:void(0)" dataItem="<%=designer.getId()%>" class="listFollowBtn button button-small button-green" <%=hasFollowed?hideStr:""%>>
+													关 注
+												</a>
+												<a href="javascript:void(0)" dataItem="<%=designer.getId()%>" class="listUnfollowBtn button button-small button-white" <%=hasFollowed?"":hideStr%>">
+													已关注
+												</a>
+											<%}%>
 										</div>
 										<%} %>
 									</div>
@@ -152,5 +170,39 @@ String contextPath = ConstFront.CONTEXT_PATH;
 	<!--  <script src="<%=contextPath%>/js/jquery.tweet.js"></script>  -->
 	<script src="<%=contextPath%>/js/retina.js"></script>
 	<script src="<%=contextPath%>/js/custom.js"></script>
+	<script>
+	$("body").delegate('a.listFollowBtn', 'click', function(){
+		var listFollowBtn = $(this);
+		var followId = listFollowBtn.attr('dataItem');
+		listFollowBtn.attr("disabled", "disabled");
+		var followJsonData = {"uid": followId};
+		$.post("<%=contextPath%>/follow.json", followJsonData, function(data) {
+			listFollowBtn.removeAttr("disabled");
+			if(data.result==1){
+				listFollowBtn.next().show();
+				listFollowBtn.hide();
+			}else{
+				alert(data.message);
+			}
+		 }, "json");
+	});
+	
+	
+	$("body").delegate('a.listUnfollowBtn', 'click', function(){
+		var listUnfollowBtn = $(this);
+		var unfollowId = listUnfollowBtn.attr('dataItem');
+		listUnfollowBtn.attr("disabled", "disabled");
+		var unfollowJsonData = {"uid": unfollowId};
+		$.post("<%=contextPath%>/unfollow.json", unfollowJsonData, function(data) {
+			listUnfollowBtn.removeAttr("disabled");
+			if(data.result==1){
+				listUnfollowBtn.prev().show();
+				listUnfollowBtn.hide();
+			}else{
+				alert(data.message);
+			}
+		 }, "json");
+	});
+	</script>
 </body>
 </html>

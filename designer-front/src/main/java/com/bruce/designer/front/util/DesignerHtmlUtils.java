@@ -80,8 +80,8 @@ public class DesignerHtmlUtils {
 				sb.append("</ul>");
 				sb.append("</div>");
 				sb.append("<div class='content-avatar'>");
-				sb.append("<a href='"+ConstFront.CONTEXT_PATH+"/" + album.getUserId() + "/home'>");
-				sb.append("<img src='"+UploadUtil.getAvatarUrl(album.getUserId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"'/>");
+				sb.append("<a href='"+ConstFront.CONTEXT_PATH+"/" + album.getUserId() + "/home'>"); 
+				sb.append("<img src='"+UploadUtil.getAvatarUrl(album.getUserId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"' width='100%'/>");
 				sb.append("</a>");
 				sb.append("</div>");
 				sb.append("</article>");

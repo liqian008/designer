@@ -24,7 +24,7 @@ String contextPath = ConstFront.CONTEXT_PATH;
 fallLoad();
 
 function fallLoad(){
-	$.get('<%=contextPath%>/designers.json', function(data) {
+	$.get('<%=contextPath%>/sideLatestDesigners.json', function(data) {
 		var result = data.result;
 		if(result==1){
 			$("#recentDesignerContainer").append(data.data.html);
