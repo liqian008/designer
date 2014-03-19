@@ -263,19 +263,14 @@ Album album = (Album)request.getAttribute("albumInfo");
 											<form action="<%=contextPath%>/loginBack" method="post"
 												id="loginBackForm" class="form">
 												<div class="span12">
-													发表评论需要您先登录！ <input
+													发表评论需要您先登录！ 
+													<!-- <input
 														class="button button-small button-orange" type="button"
 														name="loginBtn" id="loginBtn" tabindex="5" value="登 录" />
 													<input class="button button-small button-green"
 														type="button" name="regBtn" id="regBtn" tabindex="5"
-														value="注册新用户" />
+														value="注册新用户" /> -->
 													
-													<!-- <input class="button button-small button-green"
-														type="button" name="weiboLoginBtn" id="weiboLoginBtn" tabindex="5"
-														value="微博登录"  onclick="location.href='<%=contextPath%>/connectWeibo'"/>
-													<input class="button button-small"
-														type="button" name="tencentLoginBtn" id="tencentLoginBtn" tabindex="5"
-														value="QQ登录" onclick="location.href='<%=contextPath%>/connectTencent'"/> -->
 													<input class="wb-login common-submit button" id="weiboLoginBtn" type="button" onclick="location.href='<%=contextPath%>/connectWeibo'"/>
 													<input class="qq-login common-submit button" id="tencentLoginBtn" type="button" onclick="location.href='<%=contextPath%>/connectTencent'"/>
 												

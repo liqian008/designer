@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bruce.designer.mail.MailService;
 import com.bruce.designer.model.AccessTokenInfo;
@@ -30,6 +31,7 @@ import com.bruce.designer.service.oauth.IAccessTokenService;
 import com.bruce.designer.service.oauth.IOAuthService;
 import com.bruce.designer.service.oauth.SharedInfo;
 import com.bruce.designer.util.OAuthUtil;
+import com.google.code.kaptcha.Constants;
 @Controller
 public class OAuthController {
 
@@ -164,8 +166,31 @@ public class OAuthController {
 	}
 
 	@RequestMapping(value = "/oauthRegister", method = RequestMethod.POST)
-	public String oauthRegister(Model model, HttpServletRequest request, String username, String nickname, String password, String repassword) {
+	public String oauthRegister(Model model, HttpServletRequest request, String username, String nickname, String password, String repassword,
+			@RequestParam(defaultValue="") String verifyCode) {
+		if(logger.isDebugEnabled()){
+			logger.debug("用户["+username+"]使用第三方账户注册绑定");
+		}
+		
 		String promptMessage = null;
+		
+		String sessionVerifyCode = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+		
+//		if (StringUtils.isNotEmpty(redirectUrl)) {
+//			// 跳转地址
+//			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
+//		}
+		
+		if(logger.isDebugEnabled()){
+//			logger.debug("提交注册时的redirectUrl地址: " + redirectUrl);
+			logger.debug("提交注册绑定时的session验证码: "+sessionVerifyCode + ", 用户输入的验证码: " + verifyCode);
+		}
+		
+		if(!verifyCode.equals(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY))){
+			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.SYSTEM_VERIFYCODE_ERROR));
+			return "login/loginAndReg4Thirdparty";
+		}
+		
 		
 		AccessTokenInfo sessionToken = checkOAuthTokenStatus(request);
 		String thirdpartyName = getThirdpartyName(sessionToken.getThirdpartyType());
@@ -229,14 +254,33 @@ public class OAuthController {
 	 * @return
 	 */
 	@RequestMapping(value = "/oauthBind", method = RequestMethod.POST)
-	public String oauthBind(Model model, HttpServletRequest request, String username, String password) {
+	public String oauthBind(Model model, HttpServletRequest request, String username, String password,
+			@RequestParam(defaultValue="") String verifyCode) {
+		if(logger.isDebugEnabled()){
+			logger.debug("用户["+username+"]使用第三方账户登录绑定");
+		}
+		
+		String sessionVerifyCode = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+		
+//		if (StringUtils.isNotEmpty(redirectUrl)) {
+//			// 跳转地址
+//			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
+//		}
+		
+		if(logger.isDebugEnabled()){
+//			logger.debug("提交注册时的redirectUrl地址: " + redirectUrl);
+			logger.debug("提交登录绑定时的session验证码: "+sessionVerifyCode + ", 用户输入的验证码: " + verifyCode);
+		}
+		
+		if(!verifyCode.equals(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY))){
+			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.SYSTEM_VERIFYCODE_ERROR));
+			return "login/loginAndReg4Thirdparty";
+		}
+		
 		// 检查session中是否存在accessToken
 		AccessTokenInfo sessionToken = checkOAuthTokenStatus(request);
 		String thirdpartyName = getThirdpartyName(sessionToken.getThirdpartyType());
 		
-		if(logger.isDebugEnabled()){
-            logger.debug("用户["+username+"]使用第三方账户登录绑定");
-        }
 		
 		// 加载用户
 		User user = userService.authUser(username, password);

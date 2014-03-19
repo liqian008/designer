@@ -12,7 +12,7 @@ String contextPath = ConstFront.CONTEXT_PATH;
 String redirectUrl = (String)request.getAttribute(ConstFront.REDIRECT_URL);
 String loginErrorMessage = (String)request.getAttribute(ConstFront.LOGIN_ERROR_MESSAGE);
 String regErrorMessage = (String)request.getAttribute(ConstFront.REG_ERROR_MESSAGE);
-boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront.REGISTER_ACTIVE));
+boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGISTER_ACTIVE));
 %>
 
 <!DOCTYPE html>
@@ -23,7 +23,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
     <head>
         <meta charset="utf-8">
         <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-        <title>第三方登录 | 注册 - 【金玩儿网】</title>
+        <title>登录 | 注册 - 【金玩儿网】</title>
 
         <meta name="description" content="金玩儿网-最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。">
         <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
@@ -47,8 +47,9 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
         <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
         
         <jsp:include page="../inc/baiduAsyncStat.jsp"></jsp:include>
+        
     </head>
-    <body class="body-background" style="background-image: url(<%=contextPath%>/img/backgrounds/bg.jpg); ">
+    <body class="body-background" style="background-image: url(./img/backgrounds/bg.jpg); ">
 
         <!--[if lt IE 8]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
@@ -76,7 +77,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
                 <div class="container">
                     <ul class="clearfix">
                         <li><a href="/">首页</a>/</li>
-                        <li><a href="javascript:void(0)">第三方账户登录</a></li>
+                        <li><a href="javascript:void(0)">登录注册</a></li>
                     </ul>
                 </div>
             </div>
@@ -87,42 +88,42 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
                         <section class="content span6 offset3">
 							<div class="shortcode-tabs">
 							    <ul class="tabs-nav tabs clearfix">
-							        <li <%=registerActive?"class='active'":""%>><a class="button button-white" href="#register" data-toggle="tab">完善帐号信息</a></li>
-							        <li <%=!registerActive?"class='active'":""%>><a class="button button-white" href="#login" data-toggle="tab">绑定已有账户</a></li>
+							        <li <%=!registerActive?"class='active'":""%>><a class="button button-white" href="#login" data-toggle="tab">已有账户登录</a></li>
+							        <li <%=registerActive?"class='active'":""%>><a class="button button-white" href="#register" data-toggle="tab">新用户注册</a></li>
 							    </ul>
 							     
 							    <div class="tab-content">
 							        <div class="tab-pane widgets-light <%=registerActive?"active":""%>" id="register">
 							        	<div class="widget-box widget-wrapper-form">
 											<div class="content-title">
-												<h4>完善帐号信息可体验本站更多功能</h4>
+												<h4>请填写注册信息</h4>
 											</div>
 											
 											<%if(regErrorMessage!=null){%>
 											<div id="reg-failed" class="infobox info-error info-error-alt clearfix">
 				                                <span></span>
 				                                <div class="infobox-wrap">
-				                                    <h4 id="regErrorTitle">提示</h4>
+				                                    <h4 id="regErrorTitle">错误提示</h4>
 				                                    <p id="regErrorMessage"><%=regErrorMessage%></p>
 				                                </div>
 				                            </div>
 											<%}%>
 				                            
 											<form id="reg-widget-form" method="post" class="clearfix"
-												action="<%=contextPath%>/oauthRegister">
+												action="<%=contextPath%>/register">
 												<div class="row-container clearfix">
-													<div class="row-left">邮 箱:: </div>
+													<div class="row-left">邮 箱: </div>
 													<div class="row-right">
 														<input type="text" class="span5" id="reg-username" name="username"/>
 														<span id="reg-username-required" class="required">*</span>
 														<span id="reg-username-prompt" class="text-prompt">Email格式</span>
-													</div>
+													</div> 
 												</div>
 												
 												<div class="row-container clearfix">
-													<div class="row-left">昵 称: </div>
+													<div class="row-left">中文昵称: </div>
 													<div class="row-right">
-														<input type="text" class="span5" id="reg-nickname" name="nickname" value=""/>
+														<input type="text" class="span5" id="reg-nickname" name="nickname"/>
 														<span id="reg-nickname-required" class="required">*</span>
 														<span id="reg-nickname-prompt" class="text-prompt">字符、数字及下划线，2-20位</span>
 													</div>
@@ -158,34 +159,37 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 													</div>
 												</div>
 												
-												<input id="oauth-reg" class="common-submit button" type="submit" value="提 交">
-												<input id="oauth-reg-reset" class="common-submit button" type="reset" value="重 置">
+												<input id="reg-button" class="common-submit button" type="submit" value="注 册">
+												<input class="common-submit button" type="reset" value="重 置">
 											</form>
 										</div>
 							        </div>
 							        <div class="tab-pane widgets-light <%=!registerActive?"active":""%>" id="login">
 							        	<div class="widget-box widget-wrapper-form">
 								            <div class="content-title">
-												<h4>绑定已有账户进行登录</h4>
+												<h4>请填写邮箱、密码进行登录</h4>
 											</div>
 											
 											<%if(loginErrorMessage!=null){%>
 											<div id="login-failed" class="infobox info-error info-error-alt clearfix">
 				                                <span></span>
 				                                <div class="infobox-wrap">
-				                                    <h4 id="loginErrorTitle">提示</h4>
+				                                    <h4 id="loginErrorTitle">错误提示</h4>
 				                                    <p id="loginErrorMessage"><%=loginErrorMessage%></p>
 				                                </div>
 				                            </div>
 											<%}%>
 				                            
 											<form id="login-widget-form" method="post" class="clearfix"
-												action="<%=contextPath%>/oauthBind">
+												action="<%=contextPath%>/login">
+												<%if(redirectUrl!=null){%>
+													<input type="hidden" name="<%=ConstFront.REDIRECT_URL%>" value="<%=redirectUrl%>"/>
+												<%}%>
 												
 												<div class="row-container clearfix">
-													<div class="row-left">邮 箱:：</div>
+													<div class="row-left">邮 箱：</div>
 													<div class="row-right">
-														<input type="text" id="login-username" name="username" class="span5" value="liqian">
+														<input type="text" id="login-username" name="username" class="span5" value="">
 														<span id="login-username-required" class="required">*</span>
 														<span id="login-username-prompt" class="text-prompt"></span>
 													</div>
@@ -194,12 +198,12 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 												<div class="row-container clearfix">
 													<div class="row-left">密 码：</div>
 													<div class="row-right">
-														<input type="password" id="login-password" name="password"  class="span5" value="liqian">
+														<input type="password" id="login-password" name="password"  class="span5" value="">
 														<span id="login-password-required" class="required">*</span>
 														<span id="login-password-prompt" class="text-prompt"></span>
 													</div>
 												</div>
-												
+
 												<div class="row-container clearfix">
 													<div class="row-left">验证码：</div>
 													<div class="row-right">
@@ -210,9 +214,16 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 													</div>
 												</div>
 												
-												<input id="oauth-bind" class="common-submit button" type="submit" value="绑 定">
-												<input id="oauth-bind-reset" class="common-submit button" type="reset" value="取 消">
-				
+												
+												<input id="login-button" class="common-submit button" type="submit" value="登 录">
+												<input class="wb-login common-submit button" type="button" onclick="location.href='<%=contextPath%>/connectWeibo'"/>
+												<input class="qq-login common-submit button" type="button" onclick="location.href='<%=contextPath%>/connectTencent'"/>
+												
+												<!-- 
+												<input class="common-submit button" type="button" value="微博登录" onclick="location.href='<%=contextPath%>/connectWeibo'"/>
+												<input class="common-submit button" type="button" value="QQ登录" onclick="location.href='<%=contextPath%>/connectTencent'"/>
+												 -->
+												 
 											</form>
 										</div>
 							        </div>
@@ -243,12 +254,14 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
     <script src="<%=contextPath%>/js/custom.js"></script>
 	<script>
     	$(document).ready(function(){
+    		//$('#login-failed').hide();
     		<%if(registerActive){%>
-				$('#reg-username').focus();
-			<%}else{%>
-				$('#login-username').focus();
-			<%}%>
+    			$('#reg-username').focus();
+    		<%}else{%>
+    			$('#login-username').focus();
+    		<%}%>
     	});
+    	
     	
     	/*登录部分JS*/
     	var loginUsernameAvailable = false;

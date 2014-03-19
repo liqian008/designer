@@ -59,124 +59,124 @@ public class SystemController {
 		return "login/loginAndReg";
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String doLogin(Model model, HttpServletRequest request, String username, String password, @RequestParam(defaultValue = "") String verifyCode,
-			@RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
-		
-		String sessionVerifyCode = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-		
-		if (StringUtils.isNotEmpty(redirectUrl)) {
-			// 跳转地址
-			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
-		}
-		
-		if(logger.isDebugEnabled()){
-			logger.debug("提交登录后的redirectUrl地址: "+ redirectUrl);
-			logger.debug("提交登录前的session验证码: "+sessionVerifyCode +", 用户输入的验证码: "+verifyCode);
-		}
-		
-		if(!verifyCode.equals(sessionVerifyCode)){
-			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.SYSTEM_VERIFYCODE_ERROR));
-			return "login/loginAndReg";
-		}
-		//校验后删除session中的随机码
-		request.getSession().removeAttribute(Constants.KAPTCHA_SESSION_KEY);
-		
-		User user = userService.authUser(username.trim(), password);
-		if (user != null) {
-			request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
-			model.addAttribute(ConstFront.REDIRECT_PROMPT, "您好，" + user.getNickname() + "，您已成功登录，现在将转后续页面，请稍候…");
-			if(logger.isDebugEnabled()){
-				logger.debug("用户["+username+"]登录成功");
-			}
-			return ResponseUtil.getForwardReirect();
-		} else {// 用户身份验证失败
-			if(logger.isErrorEnabled()){
-				logger.error("用户["+username+"]登录认证失败：账户密码不匹配");
-			}
-			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.USER_PASSWORD_NOT_MATCH));
-			return "login/loginAndReg";
-		}
-	}
-
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String register(Model model, HttpServletRequest request, @RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
-//		String redirectUrl = request.getParameter(ConstFront.REDIRECT_URL);
-		if(logger.isDebugEnabled()){
-			logger.debug("注册前的redirectUrl参数: " + redirectUrl);
-		}
-		if (StringUtils.isNotEmpty(redirectUrl)) {
-			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
-		}
-		model.addAttribute(ConstFront.REGISTER_ACTIVE, "REGISTER_ACTIVE");
-		return "login/loginAndReg";
-	}
-
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String doRegister(Model model, HttpServletRequest request, String username, String nickname, String password, String rePassword,
-			@RequestParam(defaultValue="") String verifyCode, @RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
-		//标志为注册tab
-		model.addAttribute(ConstFront.REGISTER_ACTIVE, "REGISTER_ACTIVE");
-		
-		String sessionVerifyCode = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-		
-		if (StringUtils.isNotEmpty(redirectUrl)) {
-			// 跳转地址
-			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
-		}
-		
-		if(logger.isDebugEnabled()){
-			logger.debug("提交注册时的redirectUrl地址: " + redirectUrl);
-			logger.debug("提交注册时的session验证码: "+sessionVerifyCode + ", 用户输入的验证码: " + verifyCode);
-		}
-		
-		if(!verifyCode.equals(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY))){
-			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.SYSTEM_VERIFYCODE_ERROR));
-			return "login/loginAndReg";
-		}
-		//校验后删除session中的随机码
-		request.getSession().removeAttribute(Constants.KAPTCHA_SESSION_KEY);
-		
-		//验证用户名格式
-		VerifyUtils.verifyUsername(username);
-		
-		User user = new User();
-		user.setUsername(username.trim());
-		user.setNickname(nickname.trim());
-		user.setPassword(password.trim());
-		Date currentTime = new Date();
-		user.setCreateTime(currentTime);
-		user.setUpdateTime(currentTime);
-		int result = userService.save(user);
-		if (result == 1) {
-			if(logger.isDebugEnabled()){
-				logger.debug("用户["+username+"]注册成功", username);
-			}
-			user = userService.authUser(username, password);
-			if(user!=null){
-				request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
-				model.addAttribute(ConstFront.REDIRECT_PROMPT, "您好，" + nickname + "，您已成功注册，现在将转入首页，请稍候…");
-				//系统发送欢迎消息
-				if(logger.isDebugEnabled()){
-					logger.debug("系统为用户["+username+"]发送欢迎消息", username);
-				}
-				long sourceId = 0;
-				String welcomeMessage = ConfigUtil.getString("welcome_message");
-				messageService.sendMessage(sourceId, ConstService.MESSAGE_DELIVER_ID_BROADCAST, user.getId(),  welcomeMessage, ConstService.MESSAGE_TYPE_SYSTEM);
-				//系统异步发送欢迎邮件
-				mailService.sendWelcomeMail(username);
-				
-				return ResponseUtil.getForwardReirect();
-			}
-		} else {
-			if(logger.isErrorEnabled()){
-				logger.error("用户["+username+"]注册失败", username);
-			}
-			model.addAttribute(ConstFront.REG_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.USER_REGISTER_ERROR));
-			return "login/loginAndReg";
-		}
-		throw new DesignerException(ErrorCode.ALBUM_CREATE_FAILED);
-	}
+//	@RequestMapping(value = "/login", method = RequestMethod.POST)
+//	public String doLogin(Model model, HttpServletRequest request, String username, String password, @RequestParam(defaultValue = "") String verifyCode,
+//			@RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
+//		
+//		String sessionVerifyCode = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+//		
+//		if (StringUtils.isNotEmpty(redirectUrl)) {
+//			// 跳转地址
+//			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
+//		}
+//		
+//		if(logger.isDebugEnabled()){
+//			logger.debug("提交登录后的redirectUrl地址: "+ redirectUrl);
+//			logger.debug("提交登录前的session验证码: "+sessionVerifyCode +", 用户输入的验证码: "+verifyCode);
+//		}
+//		
+//		if(!verifyCode.equals(sessionVerifyCode)){
+//			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.SYSTEM_VERIFYCODE_ERROR));
+//			return "login/loginAndReg";
+//		}
+//		//校验后删除session中的随机码
+//		request.getSession().removeAttribute(Constants.KAPTCHA_SESSION_KEY);
+//		
+//		User user = userService.authUser(username.trim(), password);
+//		if (user != null) {
+//			request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
+//			model.addAttribute(ConstFront.REDIRECT_PROMPT, "您好，" + user.getNickname() + "，您已成功登录，现在将转后续页面，请稍候…");
+//			if(logger.isDebugEnabled()){
+//				logger.debug("用户["+username+"]登录成功");
+//			}
+//			return ResponseUtil.getForwardReirect();
+//		} else {// 用户身份验证失败
+//			if(logger.isErrorEnabled()){
+//				logger.error("用户["+username+"]登录认证失败：账户密码不匹配");
+//			}
+//			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.USER_PASSWORD_NOT_MATCH));
+//			return "login/loginAndReg";
+//		}
+//	}
+//
+//	@RequestMapping(value = "/register", method = RequestMethod.GET)
+//	public String register(Model model, HttpServletRequest request, @RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
+////		String redirectUrl = request.getParameter(ConstFront.REDIRECT_URL);
+//		if(logger.isDebugEnabled()){
+//			logger.debug("注册前的redirectUrl参数: " + redirectUrl);
+//		}
+//		if (StringUtils.isNotEmpty(redirectUrl)) {
+//			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
+//		}
+//		model.addAttribute(ConstFront.REGISTER_ACTIVE, "REGISTER_ACTIVE");
+//		return "login/loginAndReg";
+//	}
+//
+//	@RequestMapping(value = "/register", method = RequestMethod.POST)
+//	public String doRegister(Model model, HttpServletRequest request, String username, String nickname, String password, String rePassword,
+//			@RequestParam(defaultValue="") String verifyCode, @RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
+//		//标志为注册tab
+//		model.addAttribute(ConstFront.REGISTER_ACTIVE, "REGISTER_ACTIVE");
+//		
+//		String sessionVerifyCode = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+//		
+//		if (StringUtils.isNotEmpty(redirectUrl)) {
+//			// 跳转地址
+//			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
+//		}
+//		
+//		if(logger.isDebugEnabled()){
+//			logger.debug("提交注册时的redirectUrl地址: " + redirectUrl);
+//			logger.debug("提交注册时的session验证码: "+sessionVerifyCode + ", 用户输入的验证码: " + verifyCode);
+//		}
+//		
+//		if(!verifyCode.equals(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY))){
+//			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.SYSTEM_VERIFYCODE_ERROR));
+//			return "login/loginAndReg";
+//		}
+//		//校验后删除session中的随机码
+//		request.getSession().removeAttribute(Constants.KAPTCHA_SESSION_KEY);
+//		
+//		//验证用户名格式
+//		VerifyUtils.verifyUsername(username);
+//		
+//		User user = new User();
+//		user.setUsername(username.trim());
+//		user.setNickname(nickname.trim());
+//		user.setPassword(password.trim());
+//		Date currentTime = new Date();
+//		user.setCreateTime(currentTime);
+//		user.setUpdateTime(currentTime);
+//		int result = userService.save(user);
+//		if (result == 1) {
+//			if(logger.isDebugEnabled()){
+//				logger.debug("用户["+username+"]注册成功", username);
+//			}
+//			user = userService.authUser(username, password);
+//			if(user!=null){
+//				request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
+//				model.addAttribute(ConstFront.REDIRECT_PROMPT, "您好，" + nickname + "，您已成功注册，现在将转入首页，请稍候…");
+//				//系统发送欢迎消息
+//				if(logger.isDebugEnabled()){
+//					logger.debug("系统为用户["+username+"]发送欢迎消息", username);
+//				}
+//				long sourceId = 0;
+//				String welcomeMessage = ConfigUtil.getString("welcome_message");
+//				messageService.sendMessage(sourceId, ConstService.MESSAGE_DELIVER_ID_BROADCAST, user.getId(),  welcomeMessage, ConstService.MESSAGE_TYPE_SYSTEM);
+//				//系统异步发送欢迎邮件
+//				mailService.sendWelcomeMail(username);
+//				
+//				return ResponseUtil.getForwardReirect();
+//			}
+//		} else {
+//			if(logger.isErrorEnabled()){
+//				logger.error("用户["+username+"]注册失败", username);
+//			}
+//			model.addAttribute(ConstFront.REG_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.USER_REGISTER_ERROR));
+//			return "login/loginAndReg";
+//		}
+//		throw new DesignerException(ErrorCode.ALBUM_CREATE_FAILED);
+//	}
 
 	/**
 	 * 

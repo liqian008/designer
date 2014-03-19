@@ -25,7 +25,9 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 				
 				<div class="header-contact">
 					<%if(user==null){%>
-                    <a href="<%=contextPath%>/login">登 录</a> | <a href="<%=contextPath%>/register">注 册</a>
+					<input class="wb-login-small common-submit button" id="weiboLoginSmallBtn" type="button" onclick="location.href='/designer-front/connectWeibo'">
+					<input class="qq-login-small common-submit button" id="qqLoginSmallBtn" type="button" onclick="location.href='/designer-front/connectTencent'">
+					 
                     <%}else{ %>
                     欢迎您，<a href="<%=contextPath%>/<%=user.getId()%>/info"><%=user.getNickname() %></a>&nbsp;|&nbsp;
                     <a href="<%=contextPath%>/settings/msgbox"><span id="messageCount">消息中心</span></a>&nbsp;|&nbsp;
