@@ -54,7 +54,7 @@ public class SystemController {
 			logger.debug("登录前的redirectUrl参数: "+redirectUrl);
 		}
 		if (StringUtils.isNotEmpty(redirectUrl)) {
-			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
+			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl); 
 		}
 		return "login/loginAndReg";
 	}

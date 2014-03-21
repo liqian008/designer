@@ -110,6 +110,11 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 				                            
 											<form id="reg-widget-form" method="post" class="clearfix"
 												action="<%=contextPath%>/oauthRegister">
+												
+												<%if(redirectUrl!=null){%>
+													<input type="hidden" name="<%=ConstFront.REDIRECT_URL%>" value="<%=redirectUrl%>"/>
+												<%}%>
+												
 												<div class="row-container clearfix">
 													<div class="row-left">邮 箱:: </div>
 													<div class="row-right">
@@ -181,6 +186,10 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 				                            
 											<form id="login-widget-form" method="post" class="clearfix"
 												action="<%=contextPath%>/oauthBind">
+												
+												<%if(redirectUrl!=null){%>
+													<input type="hidden" name="<%=ConstFront.REDIRECT_URL%>" value="<%=redirectUrl%>"/>
+												<%}%>
 												
 												<div class="row-container clearfix">
 													<div class="row-left">邮 箱:：</div>

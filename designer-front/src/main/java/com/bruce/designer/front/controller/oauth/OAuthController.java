@@ -48,22 +48,19 @@ public class OAuthController {
 	private static final Logger logger = LoggerFactory.getLogger(OAuthController.class);
 
 	@RequestMapping(value = "/connectWeibo")
-	public String connectWeibo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String connectWeibo(HttpServletRequest request, @RequestParam(required=false) String redirectUrl) throws Exception {
 	    if(logger.isDebugEnabled()){
-            logger.debug("请求微薄登录");
+            logger.debug("请求微薄登录"+redirectUrl);  
         }
-//	    response.sendRedirect(new weibo4j.Oauth().authorize("code"));
-//		return null;
-		return ResponseUtil.getRedirectString(new weibo4j.Oauth().authorize("code"));
+	    String weiboOAuthUrl = new weibo4j.Oauth().authorize("code", redirectUrl);
+		return ResponseUtil.getRedirectString(weiboOAuthUrl);
 	}
 
 	@RequestMapping(value = "/connectTencent")
-	public String connectTencent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String connectTencent(HttpServletRequest request) throws Exception {
 	    if(logger.isDebugEnabled()){
             logger.debug("请求QQ登录");
         }
-//		response.sendRedirect(new com.qq.connect.oauth.Oauth().getAuthorizeURL(request));
-//		return null;
 		return ResponseUtil.getRedirectString(new com.qq.connect.oauth.Oauth().getAuthorizeURL(request));
 	}
 
@@ -75,15 +72,16 @@ public class OAuthController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/wbCallback")
-	public String wbCallback(Model model, HttpServletRequest request) {
-		String code = request.getParameter("code");
+	public String wbCallback(Model model, HttpServletRequest request, @RequestParam(required=false) String code, 
+			@RequestParam(required=false) String state) { 
+//		String code = request.getParameter("code");
 		if(logger.isDebugEnabled()){
-            logger.debug("微博登录回调");
+            logger.debug("微博登录回调"+state);
         }
-		if (StringUtils.isEmpty(code)) {// 用户取消授权，直接返回
+		if (StringUtils.isBlank(code)) {// 用户取消授权，直接返回
 			return ResponseUtil.getRedirectHomeString();
 		}
-		return unifiedCallback(request, IOAuthService.OAUTH_WEIBO_TYPE);
+		return unifiedCallback(request, IOAuthService.OAUTH_WEIBO_TYPE, state);
 	}
 
 	/**
@@ -95,11 +93,12 @@ public class OAuthController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/tencentCallback")
-	public String tencentCallback(Model model, HttpServletRequest request) {
+	public String tencentCallback(Model model, HttpServletRequest request, 
+			@RequestParam(value="state", required=false) String redirectUrl) {
 	    if(logger.isDebugEnabled()){
             logger.debug("QQ登录回调");
         }
-	    return unifiedCallback(request, IOAuthService.OAUTH_TENCENT_TYPE);
+	    return unifiedCallback(request, IOAuthService.OAUTH_TENCENT_TYPE, redirectUrl);
 	}
 
 	/**
@@ -109,7 +108,7 @@ public class OAuthController {
 	 * @param thirdpartyType
 	 * @return
 	 */
-	private String unifiedCallback(HttpServletRequest request, short thirdpartyType) {
+	private String unifiedCallback(HttpServletRequest request, short thirdpartyType, String redirectUrl) {
 		AccessTokenInfo tokenInfo = oAuthService.loadTokenByCallback(request, thirdpartyType);
 		String thirdpartyName = getThirdpartyName(thirdpartyType);
 		
@@ -119,25 +118,24 @@ public class OAuthController {
 			// token正常
 			User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 			if (user == null) {// 未登录状态
+				//登录后的跳转链接
+				request.setAttribute(ConstFront.REDIRECT_URL, redirectUrl);
 				if (tokenInfo.getUserId() != null && tokenInfo.getUserId() > 0) {// 用户之前绑定过，可直接登录
 				    if(logger.isDebugEnabled()){
 	                    logger.debug("系统中存在用户["+tokenInfo.getUserId()+"]的第三方账户["+thirdpartyName+"]记录，可直接登录");
 	                }
-				    
 					user = userService.loadById(tokenInfo.getUserId());
 					// 加载并设置用户的所有token
 					List<AccessTokenInfo> accessTokenList = accessTokenService.queryByUserId(tokenInfo.getUserId());
 					user.refreshTokenMap(accessTokenList);
 					request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
-					// oauth验证成功，返回首页
-					request.setAttribute(ConstFront.REDIRECT_PROMPT, "欢迎您回来，" + user.getNickname() + "，现在将转入首页，请稍候…");
+					// oauth验证成功，返回之前页面
+					request.setAttribute(ConstFront.REDIRECT_PROMPT, "欢迎您回来，" + user.getNickname() + "，即将转入先前页面，请稍候…");
 					return ResponseUtil.getForwardReirect();
 				} else {//新的accessToken，说明之前未绑定过，则进入注册、绑定已有账户流程
-				    
 				    if(logger.isDebugEnabled()){
                         logger.debug("系统中不存在用户["+tokenInfo.getUserId()+"]的第三方账户["+thirdpartyName+"]，需登录或注册");
                     }
-				    
 				    request.setAttribute(ConstFront.THIRDPARTY_USERNAME, OAuthUtil.getOAuthDisplayName(thirdpartyType, tokenInfo.getThirdpartyUname()));
 					return "login/loginAndReg4Thirdparty";
 				}
@@ -152,7 +150,7 @@ public class OAuthController {
 					accessTokenService.save(tokenInfo);
 					user.getAccessTokenMap().put(tokenInfo.getThirdpartyType(), tokenInfo);
 					
-					request.setAttribute(ConstFront.REDIRECT_PROMPT, "您已成功绑定[" + thirdpartyName + "]账户，现在将转入个人主页，请稍候…");
+					request.setAttribute(ConstFront.REDIRECT_PROMPT, "您已成功绑定[" + thirdpartyName + "]账户，即将转入个人主页，请稍候…");
 					return ResponseUtil.getForwardReirect();
 				} else {// 该uid已经被绑定过，无法同时绑定多个同类型账户
 				    if(logger.isErrorEnabled()){
@@ -167,7 +165,8 @@ public class OAuthController {
 
 	@RequestMapping(value = "/oauthRegister", method = RequestMethod.POST)
 	public String oauthRegister(Model model, HttpServletRequest request, String username, String nickname, String password, String repassword,
-			@RequestParam(defaultValue="") String verifyCode) {
+			@RequestParam(defaultValue="") String verifyCode, 
+			@RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
 		if(logger.isDebugEnabled()){
 			logger.debug("用户["+username+"]使用第三方账户注册绑定");
 		}
@@ -218,7 +217,7 @@ public class OAuthController {
 				// 重新加载用户
 				user = userService.authUser(username, password);
 				request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
-				promptMessage = "注册成功, " + user.getNickname() + "，现在将转入首页，请稍候…";
+				promptMessage = "注册成功, " + user.getNickname() + "，即将转入先前页面，请稍候…";
 				
 				if(logger.isDebugEnabled()){
                     logger.debug("用户["+username+"]使用第三方账户["+thirdpartyName+"]注册绑定成功");
@@ -227,6 +226,7 @@ public class OAuthController {
                 //系统异步发送欢迎邮件
                 mailService.sendWelcomeMail(username);
                 
+                request.setAttribute(ConstFront.REDIRECT_URL, redirectUrl);
                 request.setAttribute(ConstFront.REDIRECT_PROMPT, promptMessage);
                 return ResponseUtil.getForwardReirect();
 			}
@@ -255,7 +255,8 @@ public class OAuthController {
 	 */
 	@RequestMapping(value = "/oauthBind", method = RequestMethod.POST)
 	public String oauthBind(Model model, HttpServletRequest request, String username, String password,
-			@RequestParam(defaultValue="") String verifyCode) {
+			@RequestParam(defaultValue="") String verifyCode,  
+			@RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
 		if(logger.isDebugEnabled()){
 			logger.debug("用户["+username+"]使用第三方账户登录绑定");
 		}
@@ -281,7 +282,6 @@ public class OAuthController {
 		AccessTokenInfo sessionToken = checkOAuthTokenStatus(request);
 		String thirdpartyName = getThirdpartyName(sessionToken.getThirdpartyType());
 		
-		
 		// 加载用户
 		User user = userService.authUser(username, password);
 		
@@ -303,8 +303,12 @@ public class OAuthController {
 		            logger.debug("用户["+username+"]使用第三方账户["+thirdpartyName+"]登录绑定成功");
 		        }
 				
-				request.setAttribute(ConstFront.REDIRECT_PROMPT, "欢迎您，" + user.getNickname() + "，现在将转入首页，请稍候…");
-				return ResponseUtil.getRedirectHomeString();
+//				request.setAttribute(ConstFront.REDIRECT_PROMPT, "欢迎您，" + user.getNickname() + "，即将转入首页，请稍候…");
+//				return ResponseUtil.getRedirectHomeString();
+				String promptMessage = "绑定成功, " + user.getNickname() + "，即将转入先前页面，请稍候…";
+				request.setAttribute(ConstFront.REDIRECT_URL, redirectUrl);
+                request.setAttribute(ConstFront.REDIRECT_PROMPT, promptMessage);
+                return ResponseUtil.getForwardReirect();
 			} else {// 账户之前已经绑定过本token，不能重复绑定
 				//promptMessage = "用户已绑定过该第三方账户，不能重复绑定!";
 			    if(logger.isDebugEnabled()){
@@ -352,7 +356,7 @@ public class OAuthController {
 	            logger.debug("用户["+userId+"]解绑第三方账户["+thirdpartyType+"]成功");
 	        }
 		}
-		request.setAttribute(ConstFront.REDIRECT_PROMPT, "您已成功解绑[" + thirdpartyName + "]账户，现在将转入首页，请稍候…");
+		request.setAttribute(ConstFront.REDIRECT_PROMPT, "您已成功解绑[" + thirdpartyName + "]账户，即将转入首页，请稍候…");
 //		return "forward:/redirect";
 		return ResponseUtil.getForwardReirect();
 	}

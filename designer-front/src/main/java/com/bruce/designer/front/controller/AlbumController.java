@@ -71,11 +71,14 @@ public class AlbumController {
 	private static final Logger logger = LoggerFactory.getLogger(AlbumController.class);
 
 	/**
-	 * Simply selects the home view to render by returning its name.
+	 * 首页请求
+	 * 
+	 * @param model
+	 * @return
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/")
 	public String start(Model model) {
-		return index(model);
+		return "index";
 	}
 
 	/**
@@ -84,13 +87,13 @@ public class AlbumController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index(Model model) {
+//	@RequestMapping(value = "/index", method = RequestMethod.GET)
+//	public String index(Model model) {
 //		if(logger.isDebugEnabled()){
 //			logger.debug("首页");
 //		}
-		return "index";
-	}
+//		return "index";
+//	}
 
 	/**
 	 * 时间轴作品列表

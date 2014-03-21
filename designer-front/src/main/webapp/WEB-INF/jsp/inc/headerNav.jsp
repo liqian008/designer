@@ -47,7 +47,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 				<!-- Menu Slider -->
 				<ul id="header-menu" class="menu">
 					<li <%=menuIndex==0?"class='active current-menu-item'":"" %>><a
-						href="<%=contextPath%>/index">首页</a></li> 
+						href="<%=contextPath%>/">首页</a></li> 
 					<li <%=menuIndex==1?"class='active current-menu-item'":"" %>><a href="<%=contextPath%>/albums">作品辑</a>
 					<ul class="sub-menu">
 						<li><a href="<%=contextPath%>/albums">新晋作品辑</a></li>
