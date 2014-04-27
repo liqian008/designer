@@ -1,5 +1,6 @@
 package com.bruce.designer.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +18,6 @@ import android.widget.ListView;
 
 import com.bruce.designer.R;
 import com.bruce.designer.model.Album;
-import com.bruce.designer.util.ApiUtil;
 import com.bruce.designer.util.AppManager;
 import com.bruce.designer.util.UiUtil;
 import com.bruce.designer.util.cache.ImageLoader;
@@ -27,7 +28,7 @@ public class Activity_Main extends BaseActivity {
 	private long lastQuitTime = 0;
 	private int albumTailId = 0;
 	
-
+	private ViewPager viewPager;
 	private ListView albumListView;
 	
 	private Handler handler = new Handler(){
@@ -56,28 +57,36 @@ public class Activity_Main extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		albumListView = (ListView) findViewById(R.id.main_album_list);
 		
-		//TODO 启动线程获取数据
-		Thread thread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				Map<String, Object> dataMap = ApiUtil.getAlbumList(albumTailId);
-				Message message;
-				if(dataMap!=null){
-					message = handler.obtainMessage(1);
-					message.obj = dataMap;
-				}else{
-					message = handler.obtainMessage(0);
-				}
-				message.sendToTarget();
-			}
-		});
-		thread.start();
+		viewPager = (ViewPager) findViewById(R.id.viewPager);
+		
+		LayoutInflater inflater = LayoutInflater.from(this);
+		List<View> pagerViews = new ArrayList<View>();
+		// 初始化引导图片列表
+		pagerViews.add(inflater.inflate(R.layout.albums_listview, null));
+		pagerViews.add(inflater.inflate(R.layout.albums_listview2, null));
+		
+		viewPager.setAdapter(new ViewPagerAdapter(pagerViews, this));
+
+//		albumListView = (ListView) findViewById(R.id.main_album_list);
+		
+//		//TODO 启动线程获取数据
+//		Thread thread = new Thread(new Runnable() {
+//			@Override
+//			public void run() {
+//				Map<String, Object> dataMap = ApiUtil.getAlbumList(albumTailId);
+//				Message message;
+//				if(dataMap!=null){
+//					message = handler.obtainMessage(1);
+//					message.obj = dataMap;
+//				}else{
+//					message = handler.obtainMessage(0);
+//				}
+//				message.sendToTarget();
+//			}
+//		});
+//		thread.start();
 	}
-	
-	
 	
 	
 	class AlbumListAdapter extends BaseAdapter {
@@ -121,10 +130,11 @@ public class Activity_Main extends BaseActivity {
 			
 			//加载内容图片
 			ImageLoader.getInstance().loadImage(album.getCoverMediumImg(), albumImageView);
-			
 			return itemLayout;
 		}
 	}
+	
+	
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

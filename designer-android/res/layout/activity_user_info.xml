@@ -5,6 +5,8 @@
     android:orientation="vertical"
     >
 
-    <include layout="@layout/titlebar_main" />
+    <include layout="@layout/titlebar_set_profile" />
+
+    <include layout="@layout/view_profile_top" />
 
 </LinearLayout>
