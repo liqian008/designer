@@ -24,6 +24,7 @@ import com.bruce.designer.R;
 import com.bruce.designer.adapter.GridAdapter;
 import com.bruce.designer.adapter.ViewPagerAdapter;
 import com.bruce.designer.model.Album;
+import com.bruce.designer.util.ApiUtil;
 import com.bruce.designer.util.AppManager;
 import com.bruce.designer.util.UiUtil;
 import com.bruce.designer.util.cache.ImageLoader;
@@ -31,6 +32,7 @@ import com.bruce.designer.view.RoundImageView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 
 public class Activity_Main extends BaseActivity {
 
@@ -42,25 +44,33 @@ public class Activity_Main extends BaseActivity {
 	private AlbumListAdapter albumListAdapter;
 	
 	/*Tabs*/
-	View tab1View;
-	View tab2View;
-	View tab3View;
+	private View tab1View;
+	private View tab2View;
+	private View tab3View;
 	
-	private Handler handler = new Handler(){
+	private PullToRefreshListView pullToRefreshView1;
+	private PullToRefreshListView pullToRefreshView2;
+	
+	private Handler tabDataHandler = new Handler(){
 		@SuppressWarnings("unchecked")
 		public void handleMessage(Message msg) {
 			switch(msg.what){
 				case 1:
-					Map<String, Object> dataMap = (Map<String, Object>) msg.obj;
-					if(dataMap!=null){
-						List<Album> albumList = (List<Album>) dataMap.get("albumList");
-						if(albumList!=null&&albumList.size()>0){
-							AlbumListAdapter2 albumListAdapter = new AlbumListAdapter2(context, albumList);
-							albumListView.setAdapter(albumListAdapter);
-						}
-					}
+//					Map<String, Object> dataMap = (Map<String, Object>) msg.obj;
+//					if(dataMap!=null){
+//						List<Album> albumList = (List<Album>) dataMap.get("albumList");
+//						if(albumList!=null&&albumList.size()>0){
+//							AlbumListAdapter2 albumListAdapter = new AlbumListAdapter2(context, albumList);
+//							albumListView.setAdapter(albumListAdapter);
+//						}
+//					}
+//					break;
+//				case 0:
+//					break;
+					pullToRefreshView1.onRefreshComplete();
 					break;
-				case 0:
+				case 2:
+					pullToRefreshView2.onRefreshComplete();
 					break;
 				default:
 					break;
@@ -97,64 +107,39 @@ public class Activity_Main extends BaseActivity {
 		LayoutInflater inflater = LayoutInflater.from(this);
 		List<View> pagerViews = new ArrayList<View>();
 		// 初始化引导图片列表
-		View tabView1 = inflater.inflate(R.layout.albums_listview, null);
-		View tabView2 = inflater.inflate(R.layout.albums_listview, null);
+		View tabContentView1 = inflater.inflate(R.layout.albums_listview, null);
+		View tabContentView2 = inflater.inflate(R.layout.albums_listview, null);
 		
+		//构造tab1
 		List<String> dataList = new ArrayList<String>();
 		dataList.add("test");
 		dataList.add("test");
 		dataList.add("test");
-		PullToRefreshListView pull2RefreshView1 = (PullToRefreshListView) tabView1.findViewById(R.id.pull_refresh_list);
-		PullToRefreshListView pull2RefreshView2 = (PullToRefreshListView) tabView2.findViewById(R.id.pull_refresh_list);
-		pull2RefreshView1.setMode(Mode.BOTH);
-		pull2RefreshView1.setOnRefreshListener(new com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2<ListView>() {
-
-			@Override
-			public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-				Toast.makeText(getApplicationContext(), "下拉刷新", Toast.LENGTH_LONG).show();
-			}
-
-			@Override
-			public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-				Toast.makeText(getApplicationContext(), "上拉获取更多", Toast.LENGTH_LONG).show();
-				return;
-			}
-		});
+		pullToRefreshView1 = (PullToRefreshListView) tabContentView1.findViewById(R.id.pull_refresh_list);
+		pullToRefreshView1.setMode(Mode.BOTH);
+		pullToRefreshView1.setOnRefreshListener(tab1RefreshListener);
+		ListView listView1 = pullToRefreshView1.getRefreshableView();
+		listView1.setAdapter(new AlbumListAdapter(context, dataList, 0));
 		
-		ListView actualListView = pull2RefreshView1.getRefreshableView();
-		actualListView.setAdapter(new AlbumListAdapter(context, dataList));
+		//构造tab2
+		List<String> dataList2 = new ArrayList<String>();
+		dataList2.add("test");
+		dataList2.add("test");
+		pullToRefreshView2 = (PullToRefreshListView) tabContentView2.findViewById(R.id.pull_refresh_list);
+		pullToRefreshView2.setMode(Mode.BOTH);
+		pullToRefreshView2.setOnRefreshListener(tab2RefreshListener);
+		ListView listView2 = pullToRefreshView2.getRefreshableView();
+		listView2.setAdapter(new AlbumListAdapter(context, dataList2, 1));
 		
 		
-//		List<String> dataList2 = new ArrayList<String>();
-//		dataList2.add("test");
-//		dataList2.add("test");
-//		listView2.setAdapter(new AlbumListAdapter(context, dataList2, 1));
-		
-		
-		pagerViews.add(tabView1);
-//		pagerViews.add(tabView2);
+		pagerViews.add(tabContentView1);
+		pagerViews.add(tabContentView2);
 		
 		ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(pagerViews, this);
 		viewPager.setAdapter(viewPagerAdapter);
 
 //		albumListView = (ListView) findViewById(R.id.main_album_list);
-		
-//		//TODO 启动线程获取数据
-//		Thread thread = new Thread(new Runnable() {
-//			@Override
-//			public void run() {
-//				Map<String, Object> dataMap = ApiUtil.getAlbumList(albumTailId);
-//				Message message;
-//				if(dataMap!=null){
-//					message = handler.obtainMessage(1);
-//					message.obj = dataMap;
-//				}else{
-//					message = handler.obtainMessage(0);
-//				}
-//				message.sendToTarget();
-//			}
-//		});
-//		thread.start();
+
 	}
 	
 	
@@ -163,10 +148,6 @@ public class Activity_Main extends BaseActivity {
 		private List<String> albumList;
 		private Context context;
 		private int style;
-		
-		public AlbumListAdapter(Context context, List<String> albumList) {
-			this(context, albumList, 0);
-		}
 		
 		public AlbumListAdapter(Context context, List<String> albumList, int style) {
 			this.context = context;
@@ -269,15 +250,18 @@ public class Activity_Main extends BaseActivity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			View itemLayout = LayoutInflater.from(context).inflate(R.layout.item_album, null);
+			
+			if(convertView==null){
+				convertView = LayoutInflater.from(context).inflate(R.layout.item_album, null);
+			}
 			
 			Album album = getItem(position);
-			RoundImageView designerAvatarView = (RoundImageView) itemLayout.findViewById(R.id.item_album_designer_avatar);
-			RoundImageView albumImageView = (RoundImageView) itemLayout.findViewById(R.id.item_album_thumb_img);
+			RoundImageView designerAvatarView = (RoundImageView) convertView.findViewById(R.id.item_album_designer_avatar);
+			RoundImageView albumImageView = (RoundImageView) convertView.findViewById(R.id.item_album_thumb_img);
 			
 			//加载内容图片
-			ImageLoader.getInstance().loadImage(album.getCoverMediumImg(), albumImageView);
-			return itemLayout;
+			ImageLoader.getInstance().loadImage(album.getCoverMediumImg(), albumImageView); 
+			return convertView;
 		}
 	}
 	
@@ -299,4 +283,91 @@ public class Activity_Main extends BaseActivity {
 		}
 		return flag;
 	}
+	
+	
+	OnRefreshListener2<ListView> tab1RefreshListener = new OnRefreshListener2<ListView>() {
+		@Override
+		public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+			Toast.makeText(getApplicationContext(), "下拉刷新", Toast.LENGTH_LONG).show();
+			//TODO 启动线程获取数据
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+//					Map<String, Object> dataMap = ApiUtil.getAlbumList(albumTailId);
+//					Message message;
+//					if(dataMap!=null){
+//						message = handler.obtainMessage(1);
+//						message.obj = dataMap;
+//					}else{
+//						message = handler.obtainMessage(0);
+//					}
+//					message.sendToTarget();
+					
+					try {
+						Thread.sleep(3000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					tabDataHandler.obtainMessage(1).sendToTarget();
+				}
+			});
+			thread.start();
+		}
+
+		@Override
+		public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+			Toast.makeText(getApplicationContext(), "上拉获取更多", Toast.LENGTH_LONG).show();
+			//TODO 启动线程获取数据
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						Thread.sleep(3000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					tabDataHandler.obtainMessage(1).sendToTarget();
+				}
+			});
+			thread.start();
+		}
+	};
+	
+	OnRefreshListener2<ListView> tab2RefreshListener = new OnRefreshListener2<ListView>() {
+		@Override
+		public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+			Toast.makeText(getApplicationContext(), "下拉刷新", Toast.LENGTH_LONG).show();
+			//TODO 启动线程获取数据
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						Thread.sleep(3000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					tabDataHandler.obtainMessage(2).sendToTarget();
+				}
+			});
+			thread.start();
+		}
+
+		@Override
+		public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+			Toast.makeText(getApplicationContext(), "上拉获取更多", Toast.LENGTH_LONG).show();
+			//TODO 启动线程获取数据
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						Thread.sleep(3000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					tabDataHandler.obtainMessage(2).sendToTarget();
+				}
+			});
+			thread.start();
+		}
+	};
 }

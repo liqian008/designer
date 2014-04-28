@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="精选" />
+                android:text="精选推荐" />
 
             <ImageView
                 android:layout_width="1.0px"
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="最新" />
+                android:text="最新发布" />
 
             <ImageView
                 android:layout_width="1.0px"
@@ -81,7 +81,16 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="10.0dip"
                 android:background="#ffeeeeee" />
-
+			<!-- 
+			<ImageView
+                android:id="@+id/new_notice"
+                android:layout_width="6.0dip"
+                android:layout_height="6.0dip"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20.0dip"
+                android:layout_marginTop="10.0dip"
+                android:background="@drawable/new_notice_tip"/>
+             -->
         </RelativeLayout>
 
         <RelativeLayout
