@@ -33,31 +33,30 @@ public class Activity_Splash extends BaseActivity{
 		setContentView(R.layout.activity_splash);
 		
 		//启动线程
-//		Thread thread = new Thread(new Runnable() {
-//			@Override
-//			public void run() {
-//				//TODO check version for update
-//				try {
-//					Thread.sleep(3000);
-//					handler.obtainMessage().sendToTarget();
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//		thread.start();
-		
-		ImageButton wbLoginBtnView = (ImageButton) findViewById(R.id.wbLoginButton);
-		wbLoginBtnView.setOnClickListener(new View.OnClickListener() {
-			
+		Thread thread = new Thread(new Runnable() {
 			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(context, Activity_Main.class);
-				startActivity(intent);
-				finish();				
+			public void run() {
+				//TODO check version for update
+				try {
+					Thread.sleep(2000);
+					handler.obtainMessage().sendToTarget();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		});
+		thread.start();
+		
+//		ImageButton wbLoginBtnView = (ImageButton) findViewById(R.id.wbLoginButton);
+//		wbLoginBtnView.setOnClickListener(new View.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				Intent intent = new Intent(context, Activity_Main.class);
+//				startActivity(intent);
+//				finish();				
+//			}
+//		});
 	}
 
 	@Override

@@ -1,17 +1,14 @@
-package com.bruce.designer.activity;
+package com.bruce.designer.adapter;
 
 import java.util.List;
-
-import com.bruce.designer.R;
 
 import android.app.Activity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-class ViewPagerAdapter extends PagerAdapter {
+public class ViewPagerAdapter extends PagerAdapter {
 
 	private List<View> views;
 	private Activity activity;

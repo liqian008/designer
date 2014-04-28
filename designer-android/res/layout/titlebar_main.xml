@@ -42,7 +42,7 @@
         android:orientation="horizontal" >
 
         <RelativeLayout
-            android:id="@+id/recommend"
+            android:id="@+id/tab_recommend"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1.0" >
@@ -63,7 +63,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/follow"
+            android:id="@+id/tab_latest"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1.0" >
@@ -82,19 +82,10 @@
                 android:layout_marginTop="10.0dip"
                 android:background="#ffeeeeee" />
 
-            <!-- <ImageView
-                android:id="@+id/new_notice"
-                android:layout_width="6.0dip"
-                android:layout_height="6.0dip"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20.0dip"
-                android:layout_marginTop="10.0dip"
-                android:background="@drawable/new_notice_tip"
-                android:visibility="gone" /> -->
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/action"
+            android:id="@+id/tab_myfollow"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1.0" >
