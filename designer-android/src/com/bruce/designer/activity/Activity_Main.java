@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,6 +25,7 @@ import com.bruce.designer.AppManager;
 import com.bruce.designer.R;
 import com.bruce.designer.adapter.GridAdapter;
 import com.bruce.designer.adapter.ViewPagerAdapter;
+import com.bruce.designer.constants.ConstantKey;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.json.JsonResultBean;
 import com.bruce.designer.util.ApiUtil;
@@ -199,7 +201,7 @@ public class Activity_Main extends BaseActivity {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			if(getItem(position)!=null){
-				Album album = getItem(position);
+				final Album album = getItem(position);
 				View albumItemView = null;
 				
 				if(style==1){//grid mode
@@ -210,12 +212,12 @@ public class Activity_Main extends BaseActivity {
 					
 				}else{//mainImg mode
 					albumItemView = LayoutInflater.from(context).inflate(R.layout.item_album_view, null);
-					ImageView coverView = (ImageView) albumItemView.findViewById(R.id.imgPic);
+					ImageView coverView = (ImageView) albumItemView.findViewById(R.id.cover_img);
 					ImageLoader.loadImage(album.getCoverMediumImg(), coverView);
 				}
 				
 				ImageView avatarView = (ImageView) albumItemView.findViewById(R.id.avatar);
-				ImageLoader.loadImage("http://img.jinwanr.com.cn/staticFile/avatar/default.jpg", avatarView);
+				ImageLoader.loadImage("http://img.jinwanr.com.cn/staticFile/avatar/100/100009.jpg", avatarView);
 				
 				TextView usernameView = (TextView) albumItemView.findViewById(R.id.txtUsername);
 				usernameView.setText("大树珠宝");
@@ -227,6 +229,20 @@ public class Activity_Main extends BaseActivity {
 				titleView.setText(album.getTitle());
 				TextView contentView = (TextView) albumItemView.findViewById(R.id.txtContent);
 				contentView.setText(album.getRemark());
+				
+				TextView commentView = (TextView) albumItemView.findViewById(R.id.txtComment);
+				commentView.setText("查看全部"+album.getCommentCount()+"条评论");
+				commentView.setVisibility(View.VISIBLE);
+				
+				final int albumId = album.getId();
+				
+				albumItemView.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+						Intent intent = new Intent(context, Activity_AlbumInfo.class);
+						startActivity(intent);
+					}
+				});
 				
 				return albumItemView;
 			}

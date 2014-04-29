@@ -13,8 +13,7 @@
         android:layout_height="fill_parent"
         android:background="@drawable/btn_title_return_bg"
         android:paddingLeft="10.0dip"
-        android:paddingRight="10.0dip"
-        android:visibility="gone" >
+        android:paddingRight="10.0dip" >
 
         <ImageView
             android:id="@+id/titlebar_icon"

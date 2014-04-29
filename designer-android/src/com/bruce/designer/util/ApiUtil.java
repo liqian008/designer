@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import com.bruce.designer.constants.Config;
 import com.bruce.designer.model.Album;
+import com.bruce.designer.model.Comment;
 import com.bruce.designer.model.json.JsonResultBean;
 import com.google.gson.reflect.TypeToken;
 
@@ -45,6 +46,73 @@ public class ApiUtil {
 		LogUtil.d("=====albumListJsonResult======"+albumListJsonResult);
 		return null;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static JsonResultBean getAlbumInfo(int albumId){
+		
+		String albumInfoUrl = Config.JINWAN_API_PREFIX+"/album/"+albumId + ".json";
+		
+		LogUtil.d("=====albumInfoUrl======"+albumInfoUrl);
+		String albumInfoJsonResult = null;
+		JsonResultBean jsonResult = null;
+		try {
+			albumInfoJsonResult = HttpClientUtils.httpGet(albumInfoUrl);
+			JSONObject jsonObject = new JSONObject(albumInfoJsonResult);
+			int result = jsonObject.getInt("result");
+			if(result==1){//成功响应
+				JSONObject jsonData = jsonObject.getJSONObject("data");
+				String albumInfoStr = jsonData.getString("albumInfo");
+				Album albumInfo = JsonUtil.gson.fromJson(albumInfoStr, Album.class);
+				if(albumInfo!=null){
+					jsonResult = new JsonResultBean(result, albumInfo, 0, null);
+				}
+			}else{//错误响应
+				int errorcode = jsonObject.getInt("errorcode");
+				String message = jsonObject.getString("message");
+				jsonResult = new JsonResultBean(result, null, errorcode, message);
+			}
+			return jsonResult;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		LogUtil.d("=====albumInfoUrl======"+albumInfoJsonResult);
+		return null;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public static JsonResultBean getAlbumComments(int albumId, int commentsTailId){
+		String albumCommentsUrl = Config.JINWAN_API_PREFIX+"/moreComments.json?albumId="+albumId+"&commentsTailId="+commentsTailId;
+		
+		LogUtil.d("=====albumCommentsUrl======"+albumCommentsUrl);
+		String albumCommentsJsonResult = null;
+		JsonResultBean jsonResult = null;
+		try {
+			albumCommentsJsonResult = HttpClientUtils.httpGet(albumCommentsUrl);
+			JSONObject jsonObject = new JSONObject(albumCommentsJsonResult);
+			int result = jsonObject.getInt("result");
+			if(result==1){//成功响应
+				JSONObject jsonData = jsonObject.getJSONObject("data");
+				int resTailId = jsonData.getInt("tailId");
+				String commentListStr = jsonData.getString("commentList");
+				List<Comment> commentList = JsonUtil.gson.fromJson(commentListStr, new TypeToken<List<Comment>>(){}.getType());
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("commentTailId", resTailId);
+				map.put("commentList", commentList);
+				jsonResult = new JsonResultBean(result, map, 0, null);
+			}else{//错误响应
+				int errorcode = jsonObject.getInt("errorcode");
+				String message = jsonObject.getString("message");
+				jsonResult = new JsonResultBean(result, null, errorcode, message);
+			}
+			return jsonResult;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		LogUtil.d("=====albumCommentsJsonResult======"+albumCommentsJsonResult);
+		return null;
+	}
+	
 	
 	
 	

@@ -5,6 +5,11 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:paddingBottom="20.0dip" >
+    
+	<View
+	    android:layout_width="fill_parent"
+	    android:layout_height="1px"
+	    android:background="@color/grey_button_normal_color" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -126,7 +131,7 @@
         >
 
         <ImageView
-        android:id="@+id/imgPic"
+        android:id="@+id/cover_img"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
@@ -282,7 +287,7 @@
             android:textSize="12.0sp"
             android:visibility="gone" />
     </RelativeLayout>
-	
+	 -->
    
     <TextView
         android:id="@+id/txtComment"
@@ -293,6 +298,16 @@
         android:layout_marginTop="10.0dip"
         android:text="查看全部评论"
         android:textColor="@color/txt_show_comment_color"
-        android:textSize="12.0sp" />
-	 -->
+        android:textSize="12.0sp"
+        android:visibility="gone"
+        />
+	
+    <ListView
+        android:id="@+id/commentList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </ListView>
+    
+    
+    
 </LinearLayout>
