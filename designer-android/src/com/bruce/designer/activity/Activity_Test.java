@@ -13,7 +13,6 @@ import android.widget.ImageButton;
 
 import com.bruce.designer.R;
 import com.bruce.designer.adapter.GridAdapter;
-import com.bruce.designer.util.AppManager;
 import com.bruce.designer.util.UiUtil;
 
 public class Activity_Test extends BaseActivity{
@@ -25,7 +24,7 @@ public class Activity_Test extends BaseActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.context = Activity_Test.this;
-		setContentView(R.layout.activity_test);
+//		setContentView(R.layout.activity_test);
 		
 		GridView gridView = (GridView) findViewById(R.id.grid);
 		gridView.setAdapter(new GridAdapter(context));

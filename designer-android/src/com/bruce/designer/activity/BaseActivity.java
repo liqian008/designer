@@ -1,6 +1,6 @@
 package com.bruce.designer.activity;
 
-import com.bruce.designer.util.AppManager;
+import com.bruce.designer.AppManager;
 
 import android.app.Activity;
 import android.content.Context;

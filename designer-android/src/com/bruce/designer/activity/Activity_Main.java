@@ -20,12 +20,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bruce.designer.AppManager;
 import com.bruce.designer.R;
 import com.bruce.designer.adapter.GridAdapter;
 import com.bruce.designer.adapter.ViewPagerAdapter;
 import com.bruce.designer.model.Album;
+import com.bruce.designer.model.json.JsonResultBean;
 import com.bruce.designer.util.ApiUtil;
-import com.bruce.designer.util.AppManager;
+import com.bruce.designer.util.TimeUtil;
 import com.bruce.designer.util.UiUtil;
 import com.bruce.designer.util.cache.ImageLoader;
 import com.bruce.designer.view.RoundImageView;
@@ -40,8 +42,11 @@ public class Activity_Main extends BaseActivity {
 	private int albumTailId = 0;
 	
 	private ViewPager viewPager;
-	private ListView albumListView;
-	private AlbumListAdapter albumListAdapter;
+	
+	private ListView listView1;
+	private AlbumListAdapter listView1Adapter;
+	private ListView listView2;
+	private AlbumListAdapter listView2Adapter;
 	
 	/*Tabs*/
 	private View tab1View;
@@ -56,20 +61,37 @@ public class Activity_Main extends BaseActivity {
 		public void handleMessage(Message msg) {
 			switch(msg.what){
 				case 1:
-//					Map<String, Object> dataMap = (Map<String, Object>) msg.obj;
-//					if(dataMap!=null){
-//						List<Album> albumList = (List<Album>) dataMap.get("albumList");
-//						if(albumList!=null&&albumList.size()>0){
-//							AlbumListAdapter2 albumListAdapter = new AlbumListAdapter2(context, albumList);
-//							albumListView.setAdapter(albumListAdapter);
-//						}
-//					}
-//					break;
-//				case 0:
-//					break;
+					Map<String, Object> tab1DataMap = (Map<String, Object>) msg.obj;
+					if(tab1DataMap!=null){
+						List<Album> albumList = (List<Album>) tab1DataMap.get("albumList");
+						if(albumList!=null&&albumList.size()>0){
+							
+							List<Album> oldAlbumList = listView1Adapter.getAlbumList();
+							if(oldAlbumList==null){
+								oldAlbumList = new ArrayList<Album>();
+							}
+							oldAlbumList.addAll(0, albumList);
+							listView1Adapter.setAlbumList(oldAlbumList);
+							
+							listView1Adapter.notifyDataSetChanged();
+						}
+					}
 					pullToRefreshView1.onRefreshComplete();
 					break;
 				case 2:
+					Map<String, Object> tab2DataMap = (Map<String, Object>) msg.obj;
+					if(tab2DataMap!=null){
+						List<Album> albumList = (List<Album>) tab2DataMap.get("albumList");
+						if(albumList!=null&&albumList.size()>0){
+							List<Album> oldAlbumList = listView2Adapter.getAlbumList();
+							if(oldAlbumList==null){
+								oldAlbumList = new ArrayList<Album>();
+							}
+							oldAlbumList.addAll(0, albumList);
+							listView2Adapter.setAlbumList(oldAlbumList);
+							listView2Adapter.notifyDataSetChanged();
+						}
+					}
 					pullToRefreshView2.onRefreshComplete();
 					break;
 				default:
@@ -101,130 +123,56 @@ public class Activity_Main extends BaseActivity {
 			}
 		}
 		
-		
 		viewPager = (ViewPager) findViewById(R.id.viewPager);
 		
 		LayoutInflater inflater = LayoutInflater.from(this);
 		List<View> pagerViews = new ArrayList<View>();
-		// 初始化引导图片列表
+		// 初始化tab页的view
 		View tabContentView1 = inflater.inflate(R.layout.albums_listview, null);
 		View tabContentView2 = inflater.inflate(R.layout.albums_listview, null);
 		
-		//构造tab1
-		List<String> dataList = new ArrayList<String>();
-		dataList.add("test");
-		dataList.add("test");
-		dataList.add("test");
 		pullToRefreshView1 = (PullToRefreshListView) tabContentView1.findViewById(R.id.pull_refresh_list);
 		pullToRefreshView1.setMode(Mode.BOTH);
 		pullToRefreshView1.setOnRefreshListener(tab1RefreshListener);
-		ListView listView1 = pullToRefreshView1.getRefreshableView();
-		listView1.setAdapter(new AlbumListAdapter(context, dataList, 0));
+		listView1 = pullToRefreshView1.getRefreshableView();
+		listView1Adapter = new AlbumListAdapter(context, null, 0);
+		listView1.setAdapter(listView1Adapter);
+		getAlbums(0, 1);
 		
-		//构造tab2
-		List<String> dataList2 = new ArrayList<String>();
-		dataList2.add("test");
-		dataList2.add("test");
 		pullToRefreshView2 = (PullToRefreshListView) tabContentView2.findViewById(R.id.pull_refresh_list);
 		pullToRefreshView2.setMode(Mode.BOTH);
 		pullToRefreshView2.setOnRefreshListener(tab2RefreshListener);
-		ListView listView2 = pullToRefreshView2.getRefreshableView();
-		listView2.setAdapter(new AlbumListAdapter(context, dataList2, 1));
-		
+		listView2 = pullToRefreshView2.getRefreshableView();
+		listView2Adapter = new AlbumListAdapter(context, null, 0);
+		listView2.setAdapter(listView2Adapter);
+		pullToRefreshView2.setRefreshing(true);
+		getAlbums(0, 2);
 		
 		pagerViews.add(tabContentView1);
 		pagerViews.add(tabContentView2);
 		
 		ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(pagerViews, this);
 		viewPager.setAdapter(viewPagerAdapter);
-
-//		albumListView = (ListView) findViewById(R.id.main_album_list);
-
 	}
-	
 	
 	class AlbumListAdapter extends BaseAdapter {
 
-		private List<String> albumList;
+		private List<Album> albumList;
 		private Context context;
 		private int style;
 		
-		public AlbumListAdapter(Context context, List<String> albumList, int style) {
+		public AlbumListAdapter(Context context, List<Album> albumList, int style) {
 			this.context = context;
 			this.albumList = albumList;
 			this.style = style;
 		}
-
-		@Override
-		public int getCount() {
-			if (albumList != null) {
-				return albumList.size();
-			}
-			return 0;
-		}
-
-		@Override
-		public String getItem(int position) {
-			if (albumList != null) {
-				return albumList.get(position);
-			}
-			return null;
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return position;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			if(getItem(position)!=null){
-				View albumItemView = null;
-				
-				if(style==1){//grid mode
-					albumItemView = LayoutInflater.from(context).inflate(R.layout.item_album_view2, null);
-					
-					GridView gridView = (GridView) albumItemView.findViewById(R.id.grid);
-					gridView.setAdapter(new GridAdapter(context));
-					
-				}else{//mainImg mode
-					albumItemView = LayoutInflater.from(context).inflate(R.layout.item_album_view, null);
-					ImageView coverView = (ImageView) albumItemView.findViewById(R.id.imgPic);
-					ImageLoader.loadImage("http://www.jinwanr.com.cn/staticFile/image/20140306/large/100012_151a51d814179c4526cba469afde4f99.jpg", coverView);
-				}
-						
-				ImageView avatarView = (ImageView) albumItemView.findViewById(R.id.avatar);
-				ImageLoader.loadImage("http://img.jinwanr.com.cn/staticFile/avatar/default.jpg", avatarView);
-				
-				TextView usernameView = (TextView) albumItemView.findViewById(R.id.txtUsername);
-				usernameView.setText("大树珠宝");
-				
-				TextView pubtimeView = (TextView) albumItemView.findViewById(R.id.txtTime);
-				pubtimeView.setText("半小时前");
-				
-				TextView titleView = (TextView) albumItemView.findViewById(R.id.txtSticker);
-				titleView.setText("标题");
-				TextView contentView = (TextView) albumItemView.findViewById(R.id.txtContent);
-				contentView.setText("内容");
-				
-				
-				return albumItemView;
-			}
-			return null;
-		}
-	}
-	
-	
-	
-	
-	class AlbumListAdapter2 extends BaseAdapter {
-
-		private List<Album> albumList;
-		private Context context;
-
-		public AlbumListAdapter2(Context context, List<Album> albumList) {
-			this.context = context;
+		
+		public void setAlbumList(List<Album> albumList) {
 			this.albumList = albumList;
+		}
+
+		public List<Album> getAlbumList() {
+			return albumList;
 		}
 
 		@Override
@@ -250,22 +198,41 @@ public class Activity_Main extends BaseActivity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			
-			if(convertView==null){
-				convertView = LayoutInflater.from(context).inflate(R.layout.item_album, null);
+			if(getItem(position)!=null){
+				Album album = getItem(position);
+				View albumItemView = null;
+				
+				if(style==1){//grid mode
+					albumItemView = LayoutInflater.from(context).inflate(R.layout.item_album_view2, null);
+					
+					GridView gridView = (GridView) albumItemView.findViewById(R.id.grid);
+					gridView.setAdapter(new GridAdapter(context));
+					
+				}else{//mainImg mode
+					albumItemView = LayoutInflater.from(context).inflate(R.layout.item_album_view, null);
+					ImageView coverView = (ImageView) albumItemView.findViewById(R.id.imgPic);
+					ImageLoader.loadImage(album.getCoverMediumImg(), coverView);
+				}
+				
+				ImageView avatarView = (ImageView) albumItemView.findViewById(R.id.avatar);
+				ImageLoader.loadImage("http://img.jinwanr.com.cn/staticFile/avatar/default.jpg", avatarView);
+				
+				TextView usernameView = (TextView) albumItemView.findViewById(R.id.txtUsername);
+				usernameView.setText("大树珠宝");
+				
+				TextView pubtimeView = (TextView) albumItemView.findViewById(R.id.txtTime);
+				pubtimeView.setText(TimeUtil.displayTime(album.getCreateTime()));
+				
+				TextView titleView = (TextView) albumItemView.findViewById(R.id.txtSticker);
+				titleView.setText(album.getTitle());
+				TextView contentView = (TextView) albumItemView.findViewById(R.id.txtContent);
+				contentView.setText(album.getRemark());
+				
+				return albumItemView;
 			}
-			
-			Album album = getItem(position);
-			RoundImageView designerAvatarView = (RoundImageView) convertView.findViewById(R.id.item_album_designer_avatar);
-			RoundImageView albumImageView = (RoundImageView) convertView.findViewById(R.id.item_album_thumb_img);
-			
-			//加载内容图片
-			ImageLoader.getInstance().loadImage(album.getCoverMediumImg(), albumImageView); 
-			return convertView;
+			return null;
 		}
 	}
-	
-	
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -285,33 +252,15 @@ public class Activity_Main extends BaseActivity {
 	}
 	
 	
+	
+
+
 	OnRefreshListener2<ListView> tab1RefreshListener = new OnRefreshListener2<ListView>() {
 		@Override
 		public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
 			Toast.makeText(getApplicationContext(), "下拉刷新", Toast.LENGTH_LONG).show();
-			//TODO 启动线程获取数据
-			Thread thread = new Thread(new Runnable() {
-				@Override
-				public void run() {
-//					Map<String, Object> dataMap = ApiUtil.getAlbumList(albumTailId);
-//					Message message;
-//					if(dataMap!=null){
-//						message = handler.obtainMessage(1);
-//						message.obj = dataMap;
-//					}else{
-//						message = handler.obtainMessage(0);
-//					}
-//					message.sendToTarget();
-					
-					try {
-						Thread.sleep(3000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					tabDataHandler.obtainMessage(1).sendToTarget();
-				}
-			});
-			thread.start();
+			//tab1请求数据
+			getAlbums(0, 1);
 		}
 
 		@Override
@@ -337,19 +286,8 @@ public class Activity_Main extends BaseActivity {
 		@Override
 		public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
 			Toast.makeText(getApplicationContext(), "下拉刷新", Toast.LENGTH_LONG).show();
-			//TODO 启动线程获取数据
-			Thread thread = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						Thread.sleep(3000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					tabDataHandler.obtainMessage(2).sendToTarget();
-				}
-			});
-			thread.start();
+			//tab2请求数据
+			getAlbums(0, 2);
 		}
 
 		@Override
@@ -370,4 +308,25 @@ public class Activity_Main extends BaseActivity {
 			thread.start();
 		}
 	};
+	
+	
+	
+	private void getAlbums(final int albumTailId, final int tabIndex) {
+		//启动线程获取数据
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Message message;
+				JsonResultBean jsonResult = ApiUtil.getAlbumList(albumTailId);
+				if(jsonResult!=null&&jsonResult.getResult()==1){
+					message = tabDataHandler.obtainMessage(tabIndex);
+					message.obj = jsonResult.getData();
+					message.sendToTarget();
+				}else{//发送失败消息
+					tabDataHandler.obtainMessage(0).sendToTarget();
+				}
+			}
+		});
+		thread.start();
+	}
 }

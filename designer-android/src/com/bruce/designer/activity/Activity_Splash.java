@@ -11,7 +11,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 
 import com.bruce.designer.R;
-import com.bruce.designer.util.AppManager;
 import com.bruce.designer.util.UiUtil;
 
 public class Activity_Splash extends BaseActivity{

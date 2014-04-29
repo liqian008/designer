@@ -118,29 +118,37 @@
         android:id="@+id/imgContainer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10.0dip"
-        android:layout_marginRight="10.0dip"
         android:background="@color/white"
 		android:padding="1dp"
         android:gravity="center"
         >
-	
+		
+        
 		<GridView
         android:id="@+id/grid"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:columnWidth="100dp"
         android:gravity="center"
-        android:horizontalSpacing="4dp"
-        android:verticalSpacing="4dp"
+        android:horizontalSpacing="2dp"
+        android:verticalSpacing="2dp"
         android:numColumns="auto_fit"
         android:scrollbars="vertical"
         android:scrollbarStyle="insideOverlay"
         android:stretchMode="columnWidth"
         />
+		
+        <!-- 
+		<com.bruce.designer.view.AlbumImagesView
+            android:id="@+id/feed_image" 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dip" />
+		-->
+		         	
+        <!-- 
 
         
-        <!-- 
         <ImageView
             android:id="@+id/imgWatermark"
             android:layout_width="wrap_content"

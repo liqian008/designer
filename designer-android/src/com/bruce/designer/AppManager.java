@@ -1,4 +1,4 @@
-package com.bruce.designer.util;
+package com.bruce.designer;
 
 import java.util.Stack;
 

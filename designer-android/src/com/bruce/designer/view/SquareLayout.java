@@ -1,5 +1,7 @@
 package com.bruce.designer.view;
 
+import com.bruce.designer.util.LogUtil;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
@@ -26,6 +28,8 @@ public class SquareLayout extends RelativeLayout {
 		// Children are just made to fill our space.
 		int childWidthSize = getMeasuredWidth();
 		int childHeightSize = getMeasuredHeight();
+		LogUtil.d("======childWidthSize======="+childWidthSize);
+		LogUtil.d("======childHeightSize======="+childHeightSize);
 		// 高度和宽度一样
 		heightMeasureSpec = widthMeasureSpec = MeasureSpec.makeMeasureSpec(
 				childWidthSize, MeasureSpec.EXACTLY);

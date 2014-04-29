@@ -121,7 +121,7 @@
         android:layout_marginLeft="10.0dip"
         android:layout_marginRight="10.0dip"
         android:background="@color/grey_button_active_color"
-		android:padding="1dp"
+		android:padding="0.5dp"
         android:gravity="center"
         >
 
