@@ -200,6 +200,7 @@ public class Activity_Main extends BaseActivity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
+			//TODO 暂未使用convertView
 			if(getItem(position)!=null){
 				final Album album = getItem(position);
 				View albumItemView = null;
@@ -231,19 +232,22 @@ public class Activity_Main extends BaseActivity {
 				contentView.setText(album.getRemark());
 				
 				TextView commentView = (TextView) albumItemView.findViewById(R.id.txtComment);
-				commentView.setText("查看全部"+album.getCommentCount()+"条评论");
-				commentView.setVisibility(View.VISIBLE);
+				if(album.getCommentCount()>0){
+					commentView.setText("查看全部"+album.getCommentCount()+"条评论");
+				}else{
+					commentView.setVisibility(View.GONE); 
+				}
 				
-				final int albumId = album.getId();
+//				final int albumId = album.getId();
 				
 				albumItemView.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
 						Intent intent = new Intent(context, Activity_AlbumInfo.class);
-						startActivity(intent);
+						intent.putExtra(ConstantKey.BUNDLE_ALBUM_INFO, album);
+						context.startActivity(intent);
 					}
 				});
-				
 				return albumItemView;
 			}
 			return null;
@@ -266,8 +270,6 @@ public class Activity_Main extends BaseActivity {
 		}
 		return flag;
 	}
-	
-	
 	
 
 

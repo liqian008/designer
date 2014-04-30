@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/commentContainer"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -49,4 +49,4 @@
             android:textSize="12.0sp" />
     </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>
