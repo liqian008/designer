@@ -296,16 +296,16 @@
         android:layout_marginLeft="10.0dip"
         android:layout_marginRight="10.0dip"
         android:layout_marginTop="10.0dip"
-        android:text="查看全部评论"
+        android:text="评论列表"
         android:textColor="@color/txt_show_comment_color"
         android:textSize="12.0sp"
-        android:visibility="gone"
         />
 	
     <ListView
         android:id="@+id/commentList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        >
     </ListView>
     
     

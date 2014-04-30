@@ -19,11 +19,14 @@ import android.widget.TextView;
 
 import com.bruce.designer.R;
 import com.bruce.designer.adapter.GridAdapter;
+import com.bruce.designer.constants.ConstantKey;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.Comment;
 import com.bruce.designer.model.json.JsonResultBean;
 import com.bruce.designer.util.ApiUtil;
+import com.bruce.designer.util.LogUtil;
 import com.bruce.designer.util.TimeUtil;
+import com.bruce.designer.util.UiUtil;
 import com.bruce.designer.util.cache.ImageLoader;
 
 public class Activity_AlbumInfo extends BaseActivity {
@@ -61,6 +64,7 @@ public class Activity_AlbumInfo extends BaseActivity {
 						List<Comment> commentList = (List<Comment>) dataMap.get("commentList");
 						commentsAdapter.setCommentList(commentList);
 						commentsAdapter.notifyDataSetChanged();
+						UiUtil.setListViewHeightBasedOnChildren(commentListView);
 					}
 					break;
 				default:
@@ -73,6 +77,7 @@ public class Activity_AlbumInfo extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_album_info);
+		
 		//init view
 		titlebarView = findViewById(R.id.titlebar_return);
 		titlebarView.setOnClickListener(new View.OnClickListener() {
@@ -96,13 +101,16 @@ public class Activity_AlbumInfo extends BaseActivity {
 		commentListView.setAdapter(commentsAdapter);
 		 
 		
+		Intent intent = getIntent();
+		Album album = (Album) intent.getSerializableExtra(ConstantKey.BUNDLE_ALBUM_INFO);
 		//读取上个activity传入的albumId值 
-		int albumId = 100012;//savedInstanceState.getInt(ConstantKey.BUNDLE_ALBUM_INFO_ID, 0);
-		if(albumId>0){
-			//获取专辑资料
-			getAlbumInfo(albumId);
+		if(album!=null&&album.getId()!=null){
+			//UI线程展示
+			Message message = handler.obtainMessage(1);
+			message.obj = album;
+			message.sendToTarget();
 			//获取评论列表
-			getAlbumComments(albumId, 0);
+			getAlbumComments(album.getId(), 0);
 		}
 	}
 	
