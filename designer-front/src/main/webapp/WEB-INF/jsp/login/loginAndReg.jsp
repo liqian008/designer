@@ -118,7 +118,7 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 												<div class="row-container clearfix">
 													<div class="row-left">&nbsp;</div>
 													<div class="row-right">
-														<input class="wb-login button" type="button" onclick="location.href='<%=contextPath%>/connectWeibo'"/>
+														<input class="wb-login button" type="button" onclick="location.href='<%=contextPath%>/connectWeibo?<%=ConstFront.REDIRECT_URL%>=<%=redirectUrl%>'"/>
 													</div>
 												</div>
 												
