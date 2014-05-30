@@ -214,12 +214,12 @@ public class AlbumController {
 
 
 	@RequestMapping(value = "moreAlbums.json")
-	public ModelAndView moreAlbums(HttpServletRequest request, @RequestParam("albumsTailId") int tailId, int numberPerLine) {
+	public ModelAndView moreAlbums(HttpServletRequest request, @RequestParam(required=false, defaultValue="0") int designerId, @RequestParam("albumsTailId") int tailId, int numberPerLine) {
 	    if(logger.isDebugEnabled()){
             logger.debug("ajax加载更多专辑，tailId: "+tailId +", 每页展示条目："+numberPerLine);
         }
 	    int limit = 4;
-		int designerId = NumberUtils.toInt(request.getParameter("designerId"));
+//		int designerId = NumberUtils.toInt(request.getParameter("designerId"));
 		List<Album> albumList = null;
 		if (designerId > 0) {//设计师专辑类型
 		    if(logger.isDebugEnabled()){
@@ -381,10 +381,10 @@ public class AlbumController {
 	 * @return
 	 */
 	@RequestMapping(value = "sideLatestAlbums.json")
-	public ModelAndView sideLatestAlbums(HttpServletRequest request) {
+	public ModelAndView sideLatestAlbums(HttpServletRequest request, @RequestParam(required=false, defaultValue="0") int designerId) {
 		int tailId = 0;
 		int limit = SIDE_LIMIT;
-		int designerId = NumberUtils.toInt(request.getParameter("designerId"));
+//		int designerId = NumberUtils.toInt(request.getParameter("designerId"));
 		List<Album> albumList = null;
 		if (designerId > 0) {
 			albumList = albumService.fallLoadDesignerAlbums(designerId, tailId, limit, false, false);

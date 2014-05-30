@@ -98,8 +98,39 @@ public class OAuthController {
 	    if(logger.isDebugEnabled()){
             logger.debug("QQ登录回调");
         }
-	    return unifiedCallback(request, IOAuthService.OAUTH_TENCENT_TYPE, redirectUrl);
+	    return unifiedCallback(request, IOAuthService.OAUTH_TENCENT_TYPE, null);
 	}
+	
+//	/**
+//	 * tencent OAauth callback(为通过审核临时做的)
+//	 * @param model
+//	 * @param request
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	
+//	@RequestMapping(value = "/tencentCallback")
+//	public String tencentCallback(Model model, HttpServletRequest request, 
+//			@RequestParam(value="state", required=false) String redirectUrl) {
+//	    if(logger.isDebugEnabled()){
+//            logger.debug("QQ登录回调");
+//        }
+//	    AccessTokenInfo tokenInfo = oAuthService.loadTokenByCallback(request, IOAuthService.OAUTH_TENCENT_TYPE);
+//	    if(tokenInfo!=null){
+//			// 创建用户
+//			User user = new User();
+//			user.setNickname(tokenInfo.getThirdpartyUname());
+//			user.setUsername(tokenInfo.getThirdpartyUname());
+//			user.setPassword("f7c78e6132affce11e1e80d73fc16e01");
+//			Date currentTime = new Date();
+//			user.setCreateTime(currentTime);
+//			user.setUpdateTime(currentTime);
+//			user.setDesignerStatus((short) 0);
+//			int result = userService.save(user);
+//			request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
+//		}
+//		return "redirect:/";
+//	}
 
 	/**
 	 * 通用oauth callback处理
