@@ -45,8 +45,8 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
         <script src="<%=contextPath%>/js/vendor/jquery-1.8.3.min.js"></script>
         <script src="<%=contextPath%>/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
 
-        <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
+        
+        
     </head>
     <body class="body-background" style="background-image: url(<%=contextPath%>/img/backgrounds/bg.jpg); ">
 

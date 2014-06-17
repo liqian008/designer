@@ -28,6 +28,13 @@ public class UserBase{
 //		return refreshTokenMap(accessTokenList);
 //	}
 	
+	
+	
+	private int fansCount;
+	
+	private int followsCount;
+	
+	
 	public Map<Short, AccessTokenInfo> getAccessTokenMap() {
 		return accessTokenMap;
 	}
@@ -48,7 +55,22 @@ public class UserBase{
 		}
 		return accessTokenMap;
 	}
-	
+
+	public int getFansCount() {
+		return fansCount;
+	}
+
+	public void setFansCount(int fansCount) {
+		this.fansCount = fansCount;
+	}
+
+	public int getFollowsCount() {
+		return followsCount;
+	}
+
+	public void setFollowsCount(int followsCount) {
+		this.followsCount = followsCount;
+	}
 	
     
 }

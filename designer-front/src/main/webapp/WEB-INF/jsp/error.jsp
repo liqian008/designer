@@ -39,9 +39,6 @@ if(errorMessage==null){
         <script src="<%=contextPath%>/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
         <script src="<%=contextPath%>/js/vendor/jquery-1.8.3.min.js"></script>
 
-        <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
-        
         <jsp:include page="./inc/baiduAsyncStat.jsp"></jsp:include>
     </head>
     <body class="body-background" style="background-image: url(<%=contextPath%>/img/backgrounds/bg.jpg); ">
