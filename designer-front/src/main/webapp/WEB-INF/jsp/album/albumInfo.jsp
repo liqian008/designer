@@ -40,14 +40,8 @@ Album album = (Album)request.getAttribute("albumInfo");
         <link rel="stylesheet" type="text/css" media="all" href="<%=contextPath%>/css/ie8.css" />    
         <![endif]-->
 
-<script
-	src="<%=contextPath%>/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-<script src="<%=contextPath%>/js/vendor/jquery-1.8.3.min.js"></script>
-
-<link href='http://fonts.googleapis.com/css?family=Lato'
-	rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Lato:700'
-	rel='stylesheet' type='text/css'>
+	<script src="<%=contextPath%>/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+	<script src="<%=contextPath%>/js/vendor/jquery-1.8.3.min.js"></script>
 
 <jsp:include page="../inc/baiduAsyncStat.jsp"></jsp:include>
 

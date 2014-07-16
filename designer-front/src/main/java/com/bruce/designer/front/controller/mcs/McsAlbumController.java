@@ -65,12 +65,11 @@ public class McsAlbumController {
 	private static final Logger logger = LoggerFactory.getLogger(McsAlbumController.class);
 
 	@RequestMapping(value = "moreAlbums.json")
-	public ModelAndView moreAlbums(HttpServletRequest request, @RequestParam(value="albumsTailId") int tailId) {
+	public ModelAndView moreAlbums(HttpServletRequest request, @RequestParam(required=false, defaultValue="0") int designerId, @RequestParam(value="albumsTailId") int tailId) {
 	    if(logger.isDebugEnabled()){
             logger.debug("MCS加载更多专辑，tailId: "+tailId);
         }
 	    int limit = 4;
-		int designerId = NumberUtils.toInt(request.getParameter("designerId"));
 		List<Album> albumList = null;
 		if (designerId > 0) {//设计师专辑类型
 		    if(logger.isDebugEnabled()){

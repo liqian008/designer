@@ -289,8 +289,8 @@ public class UserController {
         if(queryUser!=null){
             model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
             
-            Map<Integer, Boolean> followMap = new HashMap<Integer, Boolean>();
-            followMap.put(queryUserId, false);
+            Map<Integer, Boolean> fanMap = new HashMap<Integer, Boolean>();
+            fanMap.put(queryUserId, false);
 
             // TODO 获取粉丝列表
             int pageNo = NumberUtils.toInt(request.getParameter("pageNo"), 1);
@@ -307,7 +307,7 @@ public class UserController {
             			//根据粉丝人员的名单，抽取粉丝人员Id以查询关注状态
             			if(user!=null&&user.getId()>0){
 	            			int fanId = userFan.getFanId();
-	                        followMap.put(fanId, false);
+	                        fanMap.put(fanId, false);
             			}
             		}else{//移除无效用户
             			fanList.remove(i);
@@ -321,8 +321,8 @@ public class UserController {
 //                    }
 //                }
                 
-                if(user!=null&&followMap!=null&&followMap.size()>0){
-                    for(Entry<Integer, Boolean> entry: followMap.entrySet()){
+                if(user!=null&&fanMap!=null&&fanMap.size()>0){
+                    for(Entry<Integer, Boolean> entry: fanMap.entrySet()){
                         int keyId = entry.getKey();
                         entry.setValue(userGraphService.isFollow(user.getId(), keyId));
                     }
@@ -336,7 +336,7 @@ public class UserController {
             PagingData<UserFan> fansPagingData = new PagingData<UserFan>(fanList, fanCount, pageNo, pageSize);
             model.addAttribute("fansPagingData", fansPagingData);
             
-            model.addAttribute("followMap", followMap);
+            model.addAttribute("followMap", fanMap);
             model.addAttribute("fanList", fanList);
         }else{
             if(logger.isErrorEnabled()){

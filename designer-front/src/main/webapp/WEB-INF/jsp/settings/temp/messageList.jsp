@@ -43,8 +43,8 @@ User toUser = (User)request.getAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUT
         <script src="/designer-front/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
         <script src="/designer-front/js/vendor/jquery-1.8.3.min.js"></script>
 
-        <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
+        
+        
         
         <jsp:include page="../../inc/baiduAsyncStat.jsp"></jsp:include>
     </head>
