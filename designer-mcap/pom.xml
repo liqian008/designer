@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>com.bruce</groupId>
+		<artifactId>designer-root</artifactId>
+		<version>1.0.0-BUILD-SNAPSHOT</version>
+	</parent>
+	
+	<artifactId>designer-mcap</artifactId>
+	<name>designer-mcap</name>
+	<packaging>war</packaging>
+	
+	<properties>
+		<org.springframework-security-version>3.1.1.RELEASE</org.springframework-security-version>
+	</properties>
+	
+	<dependencies>
+		<!-- foundation-mcap -->
+		<dependency>
+			<groupId>com.bruce</groupId>
+			<artifactId>foundation-mcap</artifactId>
+			<version>1.0.0-BUILD-SNAPSHOT</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>com.bruce</groupId>
+			<artifactId>foundation-mcap</artifactId>
+			<version>1.0.0-BUILD-SNAPSHOT</version>
+			<type>jar</type>
+		</dependency>
+	</dependencies>
+    <build>
+        <plugins>
+        	<plugin>  
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>   
+                <configuration>  
+                    <overlays>  
+                        <overlay>  
+                            <groupId>com.bruce</groupId>
+                            <artifactId>foundation-mcap</artifactId>
+                            <excludes>
+				            	<exclude>WEB-INF/web.xml</exclude>
+				            	<!-- 子工程需要编写自己所需的command -->
+				            	<exclude>WEB-INF/classes/spring/applicationContext-mcap-command.xml</exclude>
+				            </excludes>
+                        </overlay>
+                    </overlays>  
+                </configuration>  
+            </plugin>  
+            <plugin>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <additionalProjectnatures>
+                        <projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+                    </additionalProjectnatures>
+                    <additionalBuildcommands>
+                        <buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
+                    </additionalBuildcommands>
+                    <downloadSources>true</downloadSources>
+                    <downloadJavadocs>true</downloadJavadocs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <compilerArgument>-Xlint:all</compilerArgument>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <mainClass>org.test.int1.Main</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

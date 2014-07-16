@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<bean id="checkUpdateCommand" class="com.bruce.designer.macp.api.command.system.CheckUpdateCommand">
+	</bean>
+
+	<!-- command map -->
+	<util:map id="apiCommandMap" key-type="java.lang.String"
+		value-type="com.bruce.foundation.macp.api.command.ApiCommand">
+		<entry key="checkUpdate.cmd" value-ref="checkUpdateCommand" />
+		
+		<!-- test apis -->
+		<entry key="test.cmd" value-ref="testCommand" />
+
+	</util:map>
+
+	<!-- ticket is un necessary -->
+	<util:set id="ticketUnnecessaryApiSet" value-type="java.lang.String">
+		<value>checkUpdate.cmd</value>
+		<value>test.cmd</value>
+
+		<!-- batch apis -->
+		<!-- <value>batch.batchRun</value>
+		<value>sys.statLog</value>
+		<value>account.x2Login</value>
+		<value>feed.getAdFeeds</value>
+		<value>search.searchAdUsers</value>
+		-->
+	</util:set>
+	
+	<!-- test command -->
+	<bean id="testCommand" class="com.bruce.foundation.macp.api.command.test.TestCommand">
+	</bean>
+
+</beans>
