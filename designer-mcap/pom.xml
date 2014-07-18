@@ -46,6 +46,7 @@
 				            	<exclude>WEB-INF/web.xml</exclude>
 				            	<!-- 子工程需要编写自己所需的command -->
 				            	<exclude>WEB-INF/classes/spring/applicationContext-mcap-command.xml</exclude>
+				            	<exclude>WEB-INF/classes/api_result_code_messages*.properties</exclude>
 				            </excludes>
                         </overlay>
                     </overlays>  

@@ -6,35 +6,58 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 	
-	<bean id="checkUpdateCommand" class="com.bruce.designer.macp.api.command.system.CheckUpdateCommand">
+	<!-- <bean id="batchRunCommand" class="com.renren.mobile.mcp.api.command.batch.BatchRunCommand">
+		<property name="mobileClientAppService" ref="mobileClientAppService" />
+		<property name="commandLookupService" ref="commandLookupService" />
+	</bean> -->
+	
+	<bean id="systemCheckCommand" class="com.bruce.designer.macp.api.command.system.SystemCheckCommand">
+		<property name="passportService" ref="passportService" />
+	</bean>
+	<bean id="testLoginCommand" class="com.bruce.foundation.macp.api.command.account.TestLoginCommand">
+		<property name="passportService" ref="passportService" />
+	</bean>
+	
+	<bean id="weiboLoginCommand" class="com.bruce.foundation.macp.api.command.account.WeiboLoginCommand">
+		<property name="passportService" ref="passportService" />
 	</bean>
 
 	<!-- command map -->
 	<util:map id="apiCommandMap" key-type="java.lang.String"
 		value-type="com.bruce.foundation.macp.api.command.ApiCommand">
-		<entry key="checkUpdate.cmd" value-ref="checkUpdateCommand" />
 		
-		<!-- test apis -->
+		<entry key="systemCheck.cmd" value-ref="systemCheckCommand" />
+		<entry key="testLogin.cmd" value-ref="testLoginCommand" />
+		<entry key="wbLogin.cmd" value-ref="weiboLoginCommand" />
+		<!-- apis for test -->
 		<entry key="test.cmd" value-ref="testCommand" />
 
 	</util:map>
 
 	<!-- ticket is un necessary -->
 	<util:set id="ticketUnnecessaryApiSet" value-type="java.lang.String">
+		<value>systemCheck.cmd</value>
 		<value>checkUpdate.cmd</value>
+		<value>testLogin.cmd</value>
+		<value>wbLogin.cmd</value>
 		<value>test.cmd</value>
 
 		<!-- batch apis -->
 		<!-- <value>batch.batchRun</value>
+
 		<value>sys.statLog</value>
+
 		<value>account.x2Login</value>
+
 		<value>feed.getAdFeeds</value>
+
 		<value>search.searchAdUsers</value>
-		-->
+ -->
 	</util:set>
 	
-	<!-- test command -->
+	<!-- 测试command -->
 	<bean id="testCommand" class="com.bruce.foundation.macp.api.command.test.TestCommand">
+		<property name="passportService" ref="passportService"></property>
 	</bean>
 
 </beans>
