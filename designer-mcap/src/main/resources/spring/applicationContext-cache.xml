@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<context:property-placeholder location="classpath:conf/redis.properties" ignore-unresolvable="true" />
+
+	<!-- Jedis cache POOL配置 -->
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxActive" value="${redis.poolConfig.maxActive}" />
+		<property name="maxIdle" value="${redis.poolConfig.maxIdle}" />
+		<property name="maxWait" value="${redis.poolConfig.maxWait}" />
+		<property name="testOnBorrow" value="true" />
+	</bean>
+
+	<bean id="cache_redis_idx_1" class="redis.clients.jedis.JedisShardInfo">
+		<constructor-arg index="0" value="${redis.cache.ip}" />
+		<constructor-arg index="1" value="${redis.cache.port}" type="int" />
+		<constructor-arg index="2" value="${redis.cache.timeout}" type="int" />
+	</bean>
+
+	<bean id="cacheShardedJedisPool" class="com.bruce.designer.cache.DesignerShardedJedisPool">
+		<constructor-arg index="0" ref="jedisPoolConfig" />
+		<constructor-arg index="1">
+			<list>
+				<ref bean="cache_redis_idx_1" />
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<!-- Jedis persistence POOL配置 -->
+	
+	<bean id="persistence_redis_idx_1" class="redis.clients.jedis.JedisShardInfo">
+		<constructor-arg index="0" value="${redis.persistence.ip}" />
+		<constructor-arg index="1" value="${redis.persistence.port}" type="int" />
+		<constructor-arg index="2" value="${redis.persistence.timeout}" type="int" />
+	</bean>
+
+	<bean id="persistenceShardedJedisPool" class="com.bruce.designer.cache.DesignerShardedJedisPool">
+		<constructor-arg index="0" ref="jedisPoolConfig" />
+		<constructor-arg index="1">
+			<list>
+				<ref bean="persistence_redis_idx_1" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+
+</beans>
