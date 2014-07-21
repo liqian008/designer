@@ -34,7 +34,7 @@ public class UserInfoCommand extends AbstractApiCommand implements InitializingB
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        Assert.notNull(userService, "userService is required!");
+//        Assert.notNull(userService, "userService is required!");
     }
 
     @Override

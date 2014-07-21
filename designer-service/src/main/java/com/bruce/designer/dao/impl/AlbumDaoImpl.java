@@ -138,4 +138,14 @@ public class AlbumDaoImpl implements IAlbumDao{
         return albumList;
 	}
 
+	public AlbumMapper getAlbumMapper() {
+		return albumMapper;
+	}
+
+	public void setAlbumMapper(AlbumMapper albumMapper) {
+		this.albumMapper = albumMapper;
+	}
+	
+	
+
 }

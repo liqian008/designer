@@ -40,7 +40,7 @@ public class UserFansCommand extends AbstractApiCommand implements InitializingB
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        Assert.notNull(userGraphService, "userGraphService is required!");
+//        Assert.notNull(userGraphService, "userGraphService is required!");
     }
 
     @Override

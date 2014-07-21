@@ -41,11 +41,36 @@ public class FollowAlbumCommand extends AbstractApiCommand implements Initializi
     @Override
     public ApiResult onExecute(ApiCommandContext context) {
     	Map<String, Object> rt = new HashMap<String, Object>();
-    	
-    	List<Album> albumList = albumService.fallLoadAlbums(0, 20, true, false);
-    	
-    	rt.put("albumList", albumList);
-        return ResponseBuilderUtil.buildSuccessResult(rt);
+    		
+    	int userId = 100007;
+		int albumsTailId = 0;
+		if(logger.isDebugEnabled()){
+            logger.debug("ajax加载我的关注专辑，userId："+userId+"，albumsTailId: "+albumsTailId);
+        }
+
+		int limit = 20;
+		//获取关注列表
+		List<Album> albumList = albumService.fallLoadUserFollowAlbums(userId, albumsTailId, limit + 1);
+		int nextTailId = 0;
+
+		if (albumList == null || albumList.size() == 0) {
+		    if(logger.isDebugEnabled()){
+                logger.debug("无更多专辑");
+            }
+		} else {
+			if (albumList.size() > limit) {// 查询数据超过limit，含分页内容
+				// 移除最后一个元素
+				albumList.remove(limit);
+				nextTailId = albumList.get(limit - 1).getId();
+				if(logger.isDebugEnabled()){
+                    logger.debug("还有更多专辑，tailId： "+nextTailId);
+                }
+			}
+			rt.put("albumList", albumList);
+			rt.put("albumTailId", String.valueOf(nextTailId));
+	        return ResponseBuilderUtil.buildSuccessResult(rt);
+		}
+		return ResponseBuilderUtil.buildErrorResult();
     }
 
 	public IAlbumService getAlbumService() {

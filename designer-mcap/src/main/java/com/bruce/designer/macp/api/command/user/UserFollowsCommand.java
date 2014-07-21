@@ -36,7 +36,7 @@ public class UserFollowsCommand extends AbstractApiCommand implements Initializi
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        Assert.notNull(userGraphService, "userGraphService is required!");
+//        Assert.notNull(userGraphService, "userGraphService is required!");
     }
 
     @Override

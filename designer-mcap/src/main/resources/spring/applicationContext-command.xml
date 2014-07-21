@@ -31,10 +31,10 @@
 	
 	<!-- user command -->
 	<bean id="userFollowsCommand" class="com.bruce.designer.macp.api.command.user.UserFollowsCommand">
-		<property name="userGraphService" ref="userGraphService" />
+		<!-- <property name="userGraphService" ref="userGraphService" /> -->
 	</bean>
 	<bean id="userFansCommand" class="com.bruce.designer.macp.api.command.user.UserFansCommand">
-		<property name="userGraphService" ref="userGraphService" />
+		<!-- <property name="userGraphService" ref="userGraphService" /> -->
 	</bean>
 	<bean id="userInfoCommand" class="com.bruce.designer.macp.api.command.user.UserInfoCommand">
 		<property name="userService" ref="userService" />

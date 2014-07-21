@@ -346,4 +346,12 @@ public class AlbumServiceImpl implements IAlbumService {
 	    }
 	}
 
+	public IAlbumDao getAlbumDao() {
+		return albumDao;
+	}
+
+	public void setAlbumDao(IAlbumDao albumDao) {
+		this.albumDao = albumDao;
+	}
+
 }

@@ -9,19 +9,10 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd 
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
-
 	default-lazy-init="false">
 
-	
-	<bean id="albumService" class="com.bruce.designer.service.impl.AlbumServiceImpl">
-		<property name="albumDao" ref="albumDao"></property>
+	<bean id="albumDao" class="com.bruce.designer.dao.impl.AlbumDaoImpl">
+		<property name="albumMapper" ref="albumMapper"></property>
 	</bean>
 	
-	<bean id="userService" class="com.bruce.designer.service.impl.UserServiceImpl">
-	</bean>
-	
-	<!-- 
-	<bean id="userGraphService" class="com.bruce.designer.service.impl.UserGraphServiceImpl">
-	</bean>
-	 -->
 </beans>
