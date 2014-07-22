@@ -10,12 +10,12 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.stereotype.Component;
 
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
 import com.bruce.foundation.macp.api.entity.VersionCheckResult;
 import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
-import com.bruce.foundation.macp.passport.entity.UserPassport;
 import com.bruce.foundation.macp.passport.service.PassportService;
 import com.bruce.foundation.model.result.ApiResult;
 
@@ -23,6 +23,7 @@ import com.bruce.foundation.model.result.ApiResult;
  * @author liqian
  * 
  */
+@Component
 public class SystemCheckCommand extends AbstractApiCommand implements InitializingBean {
 
     private static final Log logger = LogFactory.getLog(SystemCheckCommand.class);

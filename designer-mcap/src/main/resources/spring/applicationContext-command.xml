@@ -6,76 +6,29 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 	
-	<!-- <bean id="batchRunCommand" class="com.renren.mobile.mcp.api.command.batch.BatchRunCommand">
-		<property name="mobileClientAppService" ref="mobileClientAppService" />
-		<property name="commandLookupService" ref="commandLookupService" />
-	</bean> -->
-	<!-- 版本检查command -->
-	<bean id="systemCheckCommand" class="com.bruce.designer.macp.api.command.system.SystemCheckCommand">
-		<property name="passportService" ref="passportService" />
-	</bean>
-	<!-- 作品command -->
-	<bean id="latestAlbumCommand" class="com.bruce.designer.macp.api.command.album.LatestAlbumCommand">
-		<property name="albumService" ref="albumService" />
-	</bean>
-	<bean id="recommendAlbumCommand" class="com.bruce.designer.macp.api.command.album.RecommendAlbumCommand">
-		<property name="albumService" ref="albumService" />
-	</bean>
-	<bean id="followAlbumCommand" class="com.bruce.designer.macp.api.command.album.FollowAlbumCommand">
-		<property name="albumService" ref="albumService" />
-	</bean>
-	
-	<bean id="albumInfoCommand" class="com.bruce.designer.macp.api.command.album.AlbumInfoCommand">
-		<property name="albumService" ref="albumService" />
-	</bean>
-	
-	<!-- user command -->
-	<bean id="userFollowsCommand" class="com.bruce.designer.macp.api.command.user.UserFollowsCommand">
-		<!-- <property name="userGraphService" ref="userGraphService" /> -->
-	</bean>
-	<bean id="userFansCommand" class="com.bruce.designer.macp.api.command.user.UserFansCommand">
-		<!-- <property name="userGraphService" ref="userGraphService" /> -->
-	</bean>
-	<bean id="userInfoCommand" class="com.bruce.designer.macp.api.command.user.UserInfoCommand">
-		<property name="userService" ref="userService" />
-	</bean>
-	
-	
-	
-	<bean id="testLoginCommand" class="com.bruce.foundation.macp.api.command.account.TestLoginCommand">
-		<property name="passportService" ref="passportService" />
-	</bean>
-	
-	<bean id="weiboLoginCommand" class="com.bruce.foundation.macp.api.command.account.WeiboLoginCommand">
-		<property name="passportService" ref="passportService" />
-	</bean>
-
 	<!-- command map -->
 	<util:map id="apiCommandMap" key-type="java.lang.String"
 		value-type="com.bruce.foundation.macp.api.command.ApiCommand">
 		
 		<entry key="systemCheck.cmd" value-ref="systemCheckCommand" />
+		<entry key="testLogin.cmd" value-ref="testLoginCommand" />
 		<entry key="latestAlbum.cmd" value-ref="latestAlbumCommand" />
 		<entry key="followAlbum.cmd" value-ref="followAlbumCommand" />
-		<entry key="recommendAlbum.cmd" value-ref="recommendAlbumCommand" />
 		<entry key="albumInfo.cmd" value-ref="albumInfoCommand" />
-	
+		<entry key="albumComments.cmd" value-ref="albumCommentsCommand" />
+		
+		<entry key="comment.cmd" value-ref="commentCommand" />
+		<entry key="like.cmd" value-ref="likeCommand" />
+		
 		<entry key="userInfo.cmd" value-ref="userInfoCommand" />
-		<entry key="userFollows.cmd" value-ref="userFollowsCommand" />
 		<entry key="userFans.cmd" value-ref="userFansCommand" />
+		<entry key="userFollows.cmd" value-ref="userFollowsCommand" />
 		
-		
-		<entry key="testLogin.cmd" value-ref="testLoginCommand" />
-		<entry key="wbLogin.cmd" value-ref="weiboLoginCommand" />
-		<!-- apis for test -->
-		<entry key="test.cmd" value-ref="testCommand" />
-
 	</util:map>
 
 	<!-- ticket is un necessary -->
 	<util:set id="ticketUnnecessaryApiSet" value-type="java.lang.String">
 		<value>systemCheck.cmd</value>
-		<value>checkUpdate.cmd</value>
 		<value>testLogin.cmd</value>
 		<value>wbLogin.cmd</value>
 		<value>test.cmd</value>

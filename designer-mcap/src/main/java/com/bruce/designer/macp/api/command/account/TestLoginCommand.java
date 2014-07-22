@@ -10,6 +10,8 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
@@ -22,15 +24,15 @@ import com.bruce.foundation.model.result.ApiResult;
  * @author liqian
  * 
  */
+@Component
 public class TestLoginCommand extends AbstractApiCommand implements InitializingBean {
 
     private static final Log logger = LogFactory.getLog(TestLoginCommand.class);
-    
+    @Autowired
     private PassportService passportService;
 
     @Override
     public void afterPropertiesSet() throws Exception {
-//        Assert.notNull(passportService, "commandLookupService is required!");
     }
 
     @Override

@@ -13,6 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.bruce.designer.model.Album;
@@ -27,6 +28,7 @@ import com.bruce.foundation.model.result.ApiResult;
  * @author liqian
  * 
  */
+@Component
 public class LatestAlbumCommand extends AbstractApiCommand implements InitializingBean {
 
     private static final Log logger = LogFactory.getLog(LatestAlbumCommand.class);
@@ -45,20 +47,20 @@ public class LatestAlbumCommand extends AbstractApiCommand implements Initializi
     	
     	String albumsTailIdStr = context.getStringParams().get("albumsTailId");
     	String designerIdStr = context.getStringParams().get("designerId");
-    	int tailId = NumberUtils.toInt(albumsTailIdStr, 0);
+    	int fromTailId = NumberUtils.toInt(albumsTailIdStr, 0);
     	int designerId = NumberUtils.toInt(designerIdStr, 0);
     	
 		if(logger.isDebugEnabled()){
-            logger.debug("MCS加载更多专辑，tailId: "+tailId);
+            logger.debug("MCS加载更多专辑，tailId: "+fromTailId);
         }
 		List<Album> albumList = null;
 	    if(logger.isDebugEnabled()){
             logger.debug("MCS查询专辑列表");
         }
 		int limit = 1;
-		albumList = albumService.fallLoadAlbums(tailId, limit + 1,  false, false);
+		albumList = albumService.fallLoadAlbums(fromTailId, limit + 1,  true, false);
 
-		int nextTailId = 0;
+		int newTailId = 0;
 		if (albumList == null || albumList.size() == 0) {
 		    if(logger.isDebugEnabled()){
                 logger.debug("无更多专辑");
@@ -67,13 +69,14 @@ public class LatestAlbumCommand extends AbstractApiCommand implements Initializi
 			if (albumList.size() > limit) {// 查询数据超过limit，含分页内容
 				// 移除最后一个元素
 				albumList.remove(limit);
-				nextTailId = albumList.get(limit - 1).getId();
+				newTailId = albumList.get(limit - 1).getId();
 				if(logger.isDebugEnabled()){
-	                logger.debug("还有更多专辑，tailId： "+nextTailId);
+	                logger.debug("还有更多专辑，tailId： "+newTailId);
 	            }
 			}
 			rt.put("albumList", albumList);
-			rt.put("albumTailId", String.valueOf(nextTailId));
+			rt.put("fromTailId", String.valueOf(fromTailId));
+			rt.put("newTailId", String.valueOf(newTailId));
 	        return ResponseBuilderUtil.buildSuccessResult(rt);
 		}
 		return ResponseBuilderUtil.buildErrorResult();

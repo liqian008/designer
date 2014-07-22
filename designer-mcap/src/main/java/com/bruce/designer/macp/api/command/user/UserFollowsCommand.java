@@ -8,13 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
+import org.springframework.stereotype.Component;
 
-import com.bruce.designer.model.UserFan;
 import com.bruce.designer.model.UserFollow;
 import com.bruce.designer.service.IUserGraphService;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
@@ -27,6 +27,7 @@ import com.bruce.foundation.model.result.ApiResult;
  * @author liqian
  * 
  */
+@Component
 public class UserFollowsCommand extends AbstractApiCommand implements InitializingBean {
 
     private static final Log logger = LogFactory.getLog(UserFollowsCommand.class);
@@ -43,7 +44,9 @@ public class UserFollowsCommand extends AbstractApiCommand implements Initializi
     public ApiResult onExecute(ApiCommandContext context) {
     	Map<String, Object> rt = new HashMap<String, Object>();
     	
-    	int queryUserId = 0;
+    	String queryUserIdStr = context.getStringParams().get("userId");
+    	int queryUserId = NumberUtils.toInt(queryUserIdStr, 0);
+    	
     	if(logger.isDebugEnabled()){
             logger.debug("查询用户["+queryUserId+"]的关注列表");
         }

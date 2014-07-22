@@ -7,13 +7,16 @@ package com.bruce.designer.macp.api.command.user;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.bruce.designer.model.User;
+import com.bruce.designer.service.IUserGraphService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
@@ -25,39 +28,44 @@ import com.bruce.foundation.model.result.ApiResult;
  * @author liqian
  * 
  */
+@Component
 public class UserInfoCommand extends AbstractApiCommand implements InitializingBean {
 
     private static final Log logger = LogFactory.getLog(UserInfoCommand.class);
     
     @Autowired
     private IUserService userService;
+    @Autowired
+    private IUserGraphService userGraphService;
 
     @Override
     public void afterPropertiesSet() throws Exception {
-//        Assert.notNull(userService, "userService is required!");
+        Assert.notNull(userService, "userService is required!");
     }
 
     @Override
     public ApiResult onExecute(ApiCommandContext context) {
     	Map<String, Object> rt = new HashMap<String, Object>();
     	
-    	User user = userService.loadById(1);
+    	String queryUserIdStr = context.getStringParams().get("userId");
+    	int queryUserId = NumberUtils.toInt(queryUserIdStr, 0);
     	
-    	rt.put("user", user);
-    	
-    	//获取用户分析&关注数量
-    	
-    	//获取用户专辑资料
-    	
-        return ResponseBuilderUtil.buildSuccessResult(rt);
+    	if(logger.isDebugEnabled()){
+            logger.debug("加载用户["+queryUserId+"]的个人资料");
+        }
+        User queryUser = userService.loadById(queryUserId);
+        if(queryUser!=null){
+        	//判断是否是设计师
+        	int followsCount = (int) userGraphService.getFollowCount(queryUserId);
+        	int fansCount = (int) userGraphService.getFanCount(queryUserId);
+        	
+        	//TODO 判断关注状态，以呈现不同状态的按钮
+        	rt.put("userinfo", queryUser);
+        	rt.put("followsCount", followsCount);
+        	rt.put("fansCount", fansCount);
+			return ResponseBuilderUtil.buildSuccessResult(rt);
+        }
+        return ResponseBuilderUtil.buildErrorResult();
     }
-
-	public IUserService getUserService() {
-		return userService;
-	}
-
-	public void setUserService(IUserService userService) {
-		this.userService = userService;
-	}
 
 }

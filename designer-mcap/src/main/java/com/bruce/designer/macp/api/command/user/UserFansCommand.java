@@ -13,6 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.bruce.designer.exception.DesignerException;
@@ -31,6 +32,7 @@ import com.bruce.foundation.model.result.ApiResult;
  * @author liqian
  * 
  */
+@Component
 public class UserFansCommand extends AbstractApiCommand implements InitializingBean {
 
     private static final Log logger = LogFactory.getLog(UserFansCommand.class);
@@ -46,8 +48,9 @@ public class UserFansCommand extends AbstractApiCommand implements InitializingB
     @Override
     public ApiResult onExecute(ApiCommandContext context) {
     	Map<String, Object> rt = new HashMap<String, Object>();
-    	
-    	int queryUserId = 0;
+    	String queryUserIdStr = context.getStringParams().get("userId");
+    	int queryUserId = NumberUtils.toInt(queryUserIdStr, 0);
+
     	if(logger.isDebugEnabled()){
             logger.debug("查询用户["+queryUserId+"]的关注列表");
         }

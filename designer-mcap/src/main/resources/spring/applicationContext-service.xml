@@ -13,13 +13,14 @@
 	default-lazy-init="false">
 
 	
+	<!-- 
 	<bean id="albumService" class="com.bruce.designer.service.impl.AlbumServiceImpl">
 		<property name="albumDao" ref="albumDao"></property>
 	</bean>
 	
 	<bean id="userService" class="com.bruce.designer.service.impl.UserServiceImpl">
 	</bean>
-	
+	 -->
 	<!-- 
 	<bean id="userGraphService" class="com.bruce.designer.service.impl.UserGraphServiceImpl">
 	</bean>
