@@ -24,6 +24,8 @@
 		<entry key="userFans.cmd" value-ref="userFansCommand" />
 		<entry key="userFollows.cmd" value-ref="userFollowsCommand" />
 		
+		<entry key="follow.cmd" value-ref="followCommand" />
+		
 	</util:map>
 
 	<!-- ticket is un necessary -->

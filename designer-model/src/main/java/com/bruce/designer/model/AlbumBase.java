@@ -19,6 +19,8 @@ public class AlbumBase {
 	private List<String> tagList;
 
 	private List<AlbumSlide> slideList;
+	
+	private AlbumAuthorInfo authorInfo;
 
 	public long getBrowseCount() {
 		return browseCount;
@@ -82,6 +84,14 @@ public class AlbumBase {
 
 	public void setSlideList(List<AlbumSlide> slideList) {
 		this.slideList = slideList;
+	}
+
+	public AlbumAuthorInfo getAuthorInfo() {
+		return authorInfo;
+	}
+
+	public void setAuthorInfo(AlbumAuthorInfo authorInfo) {
+		this.authorInfo = authorInfo;
 	}
 
 }

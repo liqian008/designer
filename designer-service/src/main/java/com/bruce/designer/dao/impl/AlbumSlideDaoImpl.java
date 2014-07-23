@@ -52,7 +52,7 @@ public class AlbumSlideDaoImpl implements IAlbumSlideDao , InitializingBean {
 	
 	public List<AlbumSlide> querySlidesByAlbumId(int albumId) {
 		AlbumSlideCriteria criteria = new AlbumSlideCriteria();
-		criteria.setOrderByClause("is_cover desc, id desc");
+		criteria.setOrderByClause("is_cover desc, id asc");
 		criteria.createCriteria().andAlbumIdEqualTo(albumId);
 		return albumSlideMapper.selectByExample(criteria);
 	}

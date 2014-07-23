@@ -16,8 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.model.Album;
+import com.bruce.designer.model.AlbumAuthorInfo;
+import com.bruce.designer.model.User;
 import com.bruce.designer.service.IAlbumService;
+import com.bruce.designer.service.IUserGraphService;
+import com.bruce.designer.service.IUserService;
+import com.bruce.designer.util.UploadUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
 import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
@@ -35,7 +41,11 @@ public class LatestAlbumCommand extends AbstractApiCommand implements Initializi
     
     @Autowired
     private IAlbumService albumService;
-
+    @Autowired
+    private IUserService userService;
+    @Autowired
+    private IUserGraphService userGraphService;
+    
     @Override
     public void afterPropertiesSet() throws Exception {
         Assert.notNull(albumService, "albumService is required!");
@@ -45,10 +55,12 @@ public class LatestAlbumCommand extends AbstractApiCommand implements Initializi
     public ApiResult onExecute(ApiCommandContext context) {
     	Map<String, Object> rt = new HashMap<String, Object>();
     	
+    	int hostId = context.getUserId();
+    	
     	String albumsTailIdStr = context.getStringParams().get("albumsTailId");
-    	String designerIdStr = context.getStringParams().get("designerId");
     	int fromTailId = NumberUtils.toInt(albumsTailIdStr, 0);
-    	int designerId = NumberUtils.toInt(designerIdStr, 0);
+//    	String designerIdStr = context.getStringParams().get("designerId");
+//    	int designerId = NumberUtils.toInt(designerIdStr, 0);
     	
 		if(logger.isDebugEnabled()){
             logger.debug("MCS加载更多专辑，tailId: "+fromTailId);
@@ -74,6 +86,24 @@ public class LatestAlbumCommand extends AbstractApiCommand implements Initializi
 	                logger.debug("还有更多专辑，tailId： "+newTailId);
 	            }
 			}
+			
+			//构造albumList中的设计师资料
+			Map<Integer, AlbumAuthorInfo> albumAuthorMap = new HashMap<Integer, AlbumAuthorInfo>();
+			for(Album album: albumList){
+				int designerId = album.getUserId();
+				AlbumAuthorInfo authorInfo = null;
+				if(!albumAuthorMap.containsKey(designerId)){//考虑到多个作品的设计师可能是同一个人，因此使用map缓存
+					User designer = userService.loadById(designerId);
+					String designerAvatar = UploadUtil.getAvatarUrl(designerId, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+					String designerNickname = designer.getNickname();
+					boolean followed = userGraphService.isFollow(hostId, designerId);
+					authorInfo = new AlbumAuthorInfo(designerAvatar, designerNickname, followed);
+				}else{
+					authorInfo = albumAuthorMap.get(designerId);
+				}
+				album.setAuthorInfo(authorInfo);
+			}
+			
 			rt.put("albumList", albumList);
 			rt.put("fromTailId", String.valueOf(fromTailId));
 			rt.put("newTailId", String.valueOf(newTailId));
@@ -89,5 +119,5 @@ public class LatestAlbumCommand extends AbstractApiCommand implements Initializi
 	public void setAlbumService(IAlbumService albumService) {
 		this.albumService = albumService;
 	}
-
+	
 }
