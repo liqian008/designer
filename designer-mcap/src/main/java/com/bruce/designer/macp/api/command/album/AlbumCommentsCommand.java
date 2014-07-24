@@ -16,8 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.model.Comment;
 import com.bruce.designer.service.IAlbumCommentService;
+import com.bruce.designer.util.UploadUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
 import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
@@ -66,6 +68,11 @@ public class AlbumCommentsCommand extends AbstractApiCommand implements Initiali
 				if(logger.isDebugEnabled()){
                     logger.debug("MCS还有更多评论，commentTailId： "+commentTailId);
                 }
+			}
+			
+			for(Comment comment: commentList){
+				String userHeadImg = UploadUtil.getAvatarUrl(comment.getFromId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+				comment.setUserHeadImg(userHeadImg);
 			}
 		}
 		rt.put("commentList", commentList);
