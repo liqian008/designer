@@ -17,10 +17,12 @@ public interface IOAuthService {
 
 	public AccessTokenInfo loadTokenByCallback(HttpServletRequest request, short thirdpartyType);
 	
+	public AccessTokenInfo loadTokenByClient(String thirdpartyUid, String accessToken, String refreshToken, long expireIn,  short thirdpartyType);
+	    
+
+	public void shareout(List<SharedInfo> sharedInfoList);
+
 //	public void shareout(SharedInfo sharedInfo);
-
-	void shareout(List<SharedInfo> sharedInfoList);
-
 //	public void shareOut(Album album, short sharedType);
 
 }

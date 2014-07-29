@@ -19,8 +19,10 @@ import org.springframework.util.Assert;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumAuthorInfo;
+import com.bruce.designer.model.AlbumSlide;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IAlbumService;
+import com.bruce.designer.service.IAlbumSlideService;
 import com.bruce.designer.service.IUserGraphService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.UploadUtil;
@@ -42,9 +44,11 @@ public class LatestAlbumCommand extends AbstractApiCommand implements Initializi
     @Autowired
     private IAlbumService albumService;
     @Autowired
-    private IUserService userService;
+    private IAlbumSlideService albumSlideService;
     @Autowired
-    private IUserGraphService userGraphService;
+    private IUserService userService;
+//    @Autowired
+//    private IUserGraphService userGraphService;
     
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -56,6 +60,9 @@ public class LatestAlbumCommand extends AbstractApiCommand implements Initializi
     	Map<String, Object> rt = new HashMap<String, Object>();
     	
     	int hostId = context.getUserId();
+    	
+    	String queryDesignerIdStr = context.getStringParams().get("designerId");
+    	int designerId = NumberUtils.toInt(queryDesignerIdStr, 0);
     	
     	String albumsTailIdStr = context.getStringParams().get("albumsTailId");
     	int fromTailId = NumberUtils.toInt(albumsTailIdStr, 0);
@@ -70,7 +77,11 @@ public class LatestAlbumCommand extends AbstractApiCommand implements Initializi
             logger.debug("MCS查询专辑列表");
         }
 		int limit = 1;
-		albumList = albumService.fallLoadAlbums(fromTailId, limit + 1,  true, false);
+		if(designerId>0){//加载指定设计师的专辑内容
+			albumList = albumService.fallLoadDesignerAlbums(designerId, fromTailId, limit + 1,  true, false);
+		}else{//加载所有的专辑内容
+			albumList = albumService.fallLoadAlbums(fromTailId, limit + 1,  true, false);
+		}
 
 		int newTailId = 0;
 		if (albumList == null || albumList.size() == 0) {
@@ -87,19 +98,27 @@ public class LatestAlbumCommand extends AbstractApiCommand implements Initializi
 	            }
 			}
 			
-			//构造albumList中的设计师资料
+			//构造album中的设计师资料 & slide列表
 			Map<Integer, AlbumAuthorInfo> albumAuthorMap = new HashMap<Integer, AlbumAuthorInfo>();
 			for(Album album: albumList){
-				int designerId = album.getUserId();
+				//构造专辑的slide列表
+				int albumId = album.getId();
+				List<AlbumSlide> slideList = albumSlideService.querySlidesByAlbumId(albumId);
+				if(slideList!=null){
+					album.setSlideList(slideList);
+				}
+				
+				//构造设计师信息
+				int albumAuthorId = album.getUserId();
 				AlbumAuthorInfo authorInfo = null;
-				if(!albumAuthorMap.containsKey(designerId)){//考虑到多个作品的设计师可能是同一个人，因此使用map缓存
-					User designer = userService.loadById(designerId);
-					String designerAvatar = UploadUtil.getAvatarUrl(designerId, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+				if(!albumAuthorMap.containsKey(albumAuthorId)){//考虑到多个作品的设计师可能是同一个人，因此使用map缓存
+					User designer = userService.loadById(albumAuthorId);
+					String designerAvatar = UploadUtil.getAvatarUrl(albumAuthorId, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
 					String designerNickname = designer.getNickname();
-					boolean followed = userGraphService.isFollow(hostId, designerId);
+					boolean followed = false;//userGraphService.isFollow(hostId, albumAuthorId);
 					authorInfo = new AlbumAuthorInfo(designerAvatar, designerNickname, followed);
 				}else{
-					authorInfo = albumAuthorMap.get(designerId);
+					authorInfo = albumAuthorMap.get(albumAuthorId);
 				}
 				album.setAuthorInfo(authorInfo);
 			}

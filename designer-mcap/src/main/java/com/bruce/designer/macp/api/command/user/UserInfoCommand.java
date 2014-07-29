@@ -15,9 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IUserGraphService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.util.UploadUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
 import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
@@ -55,6 +57,11 @@ public class UserInfoCommand extends AbstractApiCommand implements InitializingB
         }
         User queryUser = userService.loadById(queryUserId);
         if(queryUser!=null){
+        	
+        	//补全头像信息
+        	String designerAvatarUrl = UploadUtil.getAvatarUrl(queryUserId, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+        	queryUser.setHeadImg(designerAvatarUrl);
+        	
         	//判断是否是设计师
         	int followsCount = (int) userGraphService.getFollowCount(queryUserId);
         	int fansCount = (int) userGraphService.getFanCount(queryUserId);

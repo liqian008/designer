@@ -78,6 +78,40 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
     }
     
     
+    /**
+     * 处理手机客户端的oauth
+     * @param thirdpartyUid
+     * @param accessToken
+     * @param refreshToken
+     * @param expireIn
+     * @param thirdpartyType
+     * @return
+     */
+    public AccessTokenInfo loadTokenByClient(String thirdpartyUid, String accessToken, String refreshToken, long expireIn,  short thirdpartyType){
+    	IOAuthProcessor oauthProcessor = processorMap.get(thirdpartyType);
+    	if(thirdpartyType<=0 || oauthProcessor==null){
+            throw new DesignerException(ErrorCode.OAUTH_ERROR);
+        }else {
+        	//构造来自客户端的accessToken
+        	AccessTokenInfo clientAccessToken = new AccessTokenInfo();
+        	clientAccessToken.setThirdpartyUid(thirdpartyUid);
+        	clientAccessToken.setAccessToken(accessToken);
+        	clientAccessToken.setRefreshToken(refreshToken);
+        	clientAccessToken.setExpireIn(expireIn);
+        	
+            //查询本地token表，看第三方用户是否曾在本站绑定过 
+            AccessTokenInfo dbTokenInfo = accessTokenService.load(clientAccessToken.getThirdpartyUid(), thirdpartyType);
+            if(dbTokenInfo==null){//如果未绑定过（可进行绑定），直接返回 
+                //加载返回第三方账户基础信息
+                return oauthProcessor.loadThirdpartyProfile(clientAccessToken);
+            }else{//如果绑定过(不可再进行绑定)
+                //将第三方的最新token内容更新到db中
+                return refreshToken(dbTokenInfo, clientAccessToken);
+            }
+        }
+    }
+    
+    
 //    public void shareout(SharedInfo sharedInfo){
 //        SharedThread sharedThread = new SharedThread(sharedInfo);
 //        //添加至线程中执行

@@ -27,7 +27,7 @@ public interface IAlbumService extends IBaseService<Album, Integer> {
 	
 	public List<Album> fallLoadAlbums(int albumsTailId, int limit, boolean isLoadCount, boolean isLoadTags);
 
-	public List<Album> fallLoadDesignerAlbums(int designerId, int albumsTailId, int limit, boolean isLoadCount, boolean fallLoadAlbums);
+	public List<Album> fallLoadDesignerAlbums(int designerId, int albumsTailId, int limit, boolean isLoadCount, boolean isLoadTags);
 
 	public List<Album> fallLoadUserFollowAlbums(int userId, int albumsTailId, int limit);
 	

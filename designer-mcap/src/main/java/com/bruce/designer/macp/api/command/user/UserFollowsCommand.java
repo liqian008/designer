@@ -47,13 +47,14 @@ public class UserFollowsCommand extends AbstractApiCommand implements Initializi
     	String queryUserIdStr = context.getStringParams().get("userId");
     	int queryUserId = NumberUtils.toInt(queryUserIdStr, 0);
     	
+    	String pageNoStr = context.getStringParams().get("pageNo");
+    	int pageNo = NumberUtils.toInt(pageNoStr, 1);
+    	int pageSize = 20;
+    	
     	if(logger.isDebugEnabled()){
             logger.debug("查询用户["+queryUserId+"]的关注列表");
         }
     	
-        // TODO 获取关注列表
-        int pageNo = 1;
-		int pageSize = 20;
 		
         List<UserFollow> followList = userGraphService.getFollowListWithUser(queryUserId, pageNo, pageSize);
         
