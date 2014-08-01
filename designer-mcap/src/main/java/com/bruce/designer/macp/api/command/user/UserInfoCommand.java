@@ -47,6 +47,9 @@ public class UserInfoCommand extends AbstractApiCommand implements InitializingB
 
     @Override
     public ApiResult onExecute(ApiCommandContext context) {
+    	
+    	int hostId = context.getUserId();
+    	
     	Map<String, Object> rt = new HashMap<String, Object>();
     	
     	String queryUserIdStr = context.getStringParams().get("userId");
@@ -66,10 +69,17 @@ public class UserInfoCommand extends AbstractApiCommand implements InitializingB
         	int followsCount = (int) userGraphService.getFollowCount(queryUserId);
         	int fansCount = (int) userGraphService.getFanCount(queryUserId);
         	
-        	//TODO 判断关注状态，以呈现不同状态的按钮
         	rt.put("userinfo", queryUser);
         	rt.put("followsCount", followsCount);
         	rt.put("fansCount", fansCount);
+        	
+        	boolean hasFollowed = false;
+        	if(hostId!=queryUserId){
+        		//判断关注状态，以呈现不同状态的按钮
+        		hasFollowed = userGraphService.isFollow(hostId, queryUserId);
+        	}
+        	rt.put("hasFollowed", hasFollowed);
+        	
 			return ResponseBuilderUtil.buildSuccessResult(rt);
         }
         return ResponseBuilderUtil.buildErrorResult();

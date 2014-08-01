@@ -21,8 +21,8 @@
 		update_time, sum(unread) unread from
 		(select
 		<include refid="Base_Column_List" />
-		from tb_message ORDER BY id desc ) aliasMessage
-		where to_id= #{id,jdbcType=INTEGER} group by message_type;
+		from tb_message where to_id= #{id,jdbcType=INTEGER} ORDER BY id desc ) aliasMessage
+		 group by message_type;
 	</select> 
 
 </mapper>

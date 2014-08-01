@@ -66,28 +66,28 @@ public class FollowCommand extends AbstractApiCommand implements
 			}
 			// 不能关注自己
 		} else {
-//			User followUser = userService.loadById(designerId);
-//			if (followUser != null) {
-//				if (followUser.getDesignerStatus() != ConstService.DESIGNER_APPLY_APPROVED) {
-//					if (logger.isErrorEnabled()) {
-//						logger.error("[" + designerId + "]非设计师身份，不能进行"+actionName+"操作");
-//					}
-//					// 不能关注一般用户（只能关注设计师）
-//				}
-//				boolean result =false;
-//				if(followAction){
-//					result = userGraphService.follow(hostId, designerId);
-//				}else{
-//					result = userGraphService.unfollow(hostId, designerId);
-//				}
-//				if (result) {
-//					//操作成功
-//				}
-//				if (logger.isDebugEnabled()) {
-//					logger.debug("用户[" + hostId + "]"+actionName+"设计师[" + designerId
-//							+ "]结果: " + result);
-//				}
-//			}
+			User followUser = userService.loadById(designerId);
+			if (followUser != null) {
+				if (followUser.getDesignerStatus() != ConstService.DESIGNER_APPLY_APPROVED) {
+					if (logger.isErrorEnabled()) {
+						logger.error("[" + designerId + "]非设计师身份，不能进行"+actionName+"操作");
+					}
+					// 不能关注一般用户（只能关注设计师）
+				}
+				boolean result =false;
+				if(followAction){
+					result = userGraphService.follow(hostId, designerId);
+				}else{
+					result = userGraphService.unfollow(hostId, designerId);
+				}
+				if (result) {
+					//操作成功
+				}
+				if (logger.isDebugEnabled()) {
+					logger.debug("用户[" + hostId + "]"+actionName+"设计师[" + designerId
+							+ "]结果: " + result);
+				}
+			}
 			return ResponseBuilderUtil.buildSuccessResult();
 		}
 		return ResponseBuilderUtil.buildErrorResult();

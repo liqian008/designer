@@ -27,6 +27,9 @@
 		
 		<entry key="follow.cmd" value-ref="followCommand" />
 		
+		
+		<entry key="messageBox.cmd" value-ref="messageBoxCommand" />
+		<entry key="messageList.cmd" value-ref="messageListCommand" />
 	</util:map>
 
 	<!-- ticket is un necessary -->
