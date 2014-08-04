@@ -1,6 +1,7 @@
 package com.bruce.designer.service.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,12 +82,12 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	 * 批量发送消息
 	 */
 	@Override
-	public int sendMessage(long sourceId, int fromId, List<Integer> toIdList, String content, int messageType) {
-		if(toIdList!=null&&toIdList.size()>0){
-			for(int toId: toIdList){
+	public int sendMessage(long sourceId, int fromId, Set<Integer> toIdSet, String content, int messageType) {
+		if(toIdSet!=null&&toIdSet.size()>0){
+			for(int toId: toIdSet){
 				sendMessage(sourceId, fromId, toId, content, messageType);
 			}
-			return toIdList.size();
+			return toIdSet.size();
 		}
 		return 0;
 	}

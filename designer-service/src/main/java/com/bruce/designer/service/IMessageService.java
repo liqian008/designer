@@ -1,6 +1,7 @@
 package com.bruce.designer.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.bruce.designer.model.Message;
 import com.bruce.designer.data.PagingData;
@@ -80,7 +81,7 @@ public interface IMessageService extends IBaseService<Message, Long>{
     /**
      * 发送多条消息
      */
-    public int sendMessage(long sourceId, int fromId, List<Integer> toIdList, String content, int messageType);
+    public int sendMessage(long sourceId, int fromId, Set<Integer> toIdSet, String content, int messageType);
     
     /**
      * 发送多条消息

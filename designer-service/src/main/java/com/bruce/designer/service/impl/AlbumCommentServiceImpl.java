@@ -2,7 +2,9 @@ package com.bruce.designer.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,14 +82,15 @@ public class AlbumCommentServiceImpl implements IAlbumCommentService {
 		User replyUser = userService.loadById(toId);
 		String prefix = "回复"+replyUser.getNickname()+":";
 		
-		List<Integer> toIdList = new ArrayList<Integer>();
+//		List<Integer> toIdList = new ArrayList<Integer>();
+		Set<Integer> toIdSet  = new HashSet<Integer>();
 		if(fromId!=designerId && fromId!=toId){//自己回复评论情况下，不额外发送评论消息
-			toIdList.add(designerId);
+			toIdSet.add(designerId);
 		}
 		if(replyUser!=null&&content.startsWith(prefix)){//判断toId是否有效
 			if(replyUser.getId()!=designerId){
 				//判断和designerId是否是同一个人，避免重复发送消息
-				toIdList.add(replyUser.getId());
+				toIdSet.add(replyUser.getId());
 			}
 		}else{
 			toId = designerId;
@@ -112,10 +115,10 @@ public class AlbumCommentServiceImpl implements IAlbumCommentService {
 			albumCounterService.incrComment(designerId, albumId, fromId);
 
 			// 同时发送消息
-			if(toIdList!=null&&toIdList.size()>0){
+			if(toIdSet!=null&&toIdSet.size()>0){
 				content = content.replace(prefix, "").trim();
 //				String messageContent = fromNickname+": " + content;
-				messageService.sendMessage(albumId, fromId, toIdList, content, ConstService.MESSAGE_TYPE_COMMENT);
+				messageService.sendMessage(albumId, fromId, toIdSet, content, ConstService.MESSAGE_TYPE_COMMENT);
 			}
 			
 			return comment;

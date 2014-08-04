@@ -19,7 +19,7 @@ import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
 import com.bruce.foundation.model.result.ApiResult;
 
 /**
- * 赞&取消赞 操作
+ * 赞操作（暂不支持取消赞）
  * @author liqian
  * 
  */
@@ -44,7 +44,7 @@ public class LikeCommand extends AbstractApiCommand implements InitializingBean 
     	int albumId = NumberUtils.toInt(albumIdStr, 0);
     	String designerIdStr = context.getStringParams().get("designerId");
     	int designerId = NumberUtils.toInt(designerIdStr, 0);
-		
+    	
 		if(logger.isDebugEnabled()){
             logger.debug("MCS用户["+hostId+"]赞了设计师["+designerId+"]的专辑["+albumId+"]");
         }
