@@ -39,7 +39,7 @@ public class TestLoginCommand extends AbstractApiCommand implements Initializing
     public ApiResult onExecute(ApiCommandContext context) {
     	Map<String, Object> paramMap = new HashMap<String, Object>();
 		UserPassport userPassport = new UserPassport();
-        userPassport.setUserId(100007);
+        userPassport.setUserId(100009);
         userPassport.setIdentity(String.valueOf(System.currentTimeMillis()));
         String ticket = passportService.createTicket(userPassport);
         userPassport.setTicket(ticket);

@@ -122,13 +122,13 @@ public class LatestAlbumCommand extends AbstractApiCommand implements Initializi
 				}
 				album.setAuthorInfo(authorInfo);
 			}
-			
-			rt.put("albumList", albumList);
-			rt.put("fromTailId", String.valueOf(fromTailId));
-			rt.put("newTailId", String.valueOf(newTailId));
-	        return ResponseBuilderUtil.buildSuccessResult(rt);
 		}
-		return ResponseBuilderUtil.buildErrorResult();
+		rt.put("albumList", albumList);
+		rt.put("fromTailId", String.valueOf(fromTailId));
+		rt.put("newTailId", String.valueOf(newTailId));
+        return ResponseBuilderUtil.buildSuccessResult(rt);
+        
+//		return ResponseBuilderUtil.buildErrorResult();
     }
 
 	public IAlbumService getAlbumService() {

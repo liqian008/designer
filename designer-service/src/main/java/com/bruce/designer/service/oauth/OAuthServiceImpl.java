@@ -98,9 +98,10 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
         	clientAccessToken.setAccessToken(accessToken);
         	clientAccessToken.setRefreshToken(refreshToken);
         	clientAccessToken.setExpireIn(expireIn);
+        	clientAccessToken.setThirdpartyType(thirdpartyType);
         	
-            //查询本地token表，看第三方用户是否曾在本站绑定过 
-            AccessTokenInfo dbTokenInfo = accessTokenService.load(clientAccessToken.getThirdpartyUid(), thirdpartyType);
+            //查询本地token表，看第三方用户是否曾在本站绑定过
+            AccessTokenInfo dbTokenInfo = accessTokenService.load(thirdpartyUid, thirdpartyType);
             if(dbTokenInfo==null){//如果未绑定过（可进行绑定），直接返回 
                 //加载返回第三方账户基础信息
                 return oauthProcessor.loadThirdpartyProfile(clientAccessToken);
