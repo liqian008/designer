@@ -1,5 +1,6 @@
 package com.bruce.designer.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,8 +12,10 @@ import com.bruce.designer.cache.counter.AlbumFavoriteCache;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IAlbumFavoriteDao;
 import com.bruce.designer.exception.RedisKeyNotExistException;
+import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumFavorite;
 import com.bruce.designer.service.IAlbumFavoriteService;
+import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IMessageService;
 
 @Service
@@ -22,8 +25,8 @@ public class AlbumFavoriteServiceImpl implements IAlbumFavoriteService {
 
 	@Autowired
 	private IAlbumFavoriteDao albumFavoriteDao;
-//	@Autowired
-//	private ICounterService counterService;
+	@Autowired
+	private IAlbumService albumService;
 	@Autowired
 	private AlbumFavoriteCache albumFavoriteCache;
 	@Autowired
@@ -131,11 +134,49 @@ public class AlbumFavoriteServiceImpl implements IAlbumFavoriteService {
 		return favoriteList;
 	}
 	
+	/**
+	 * 我的收藏
+	 */
 	@Override
 	public List<AlbumFavorite> getFavoriteListByUserId(int userId, int favoriteTailId, int limit) {
 		List<AlbumFavorite> favoriteList = albumFavoriteDao.getFavoriteListByUserId(userId, favoriteTailId, limit);
 		return favoriteList;
 	}
+	
+	
+	/**
+	 * 我的收藏数据（包含album的详细数据）
+	 */
+	@Override
+	public List<AlbumFavorite> fallLoadUserFavoriteAlbums(int userId, int favoriteTailId, int limit) {
+		List<AlbumFavorite> favoriteList = getFavoriteListByUserId(userId, favoriteTailId, limit);
+		if (favoriteList != null && favoriteList.size() > 0) {
+			List<Integer> albumIdList = new ArrayList<Integer>();
+			for (AlbumFavorite albumFavorite : favoriteList) {
+				albumIdList.add(albumFavorite.getAlbumId());
+			}
+			//根据albumId列表加载详情
+			List<Album> albumList = albumService.queryAlbumByIds(albumIdList); //albumDao.fallLoadDesignerAlbums(albumIdList, albumsTailId, limit);
+			
+			if(albumList!=null&&albumList.size()>0){
+				albumService.initAlbumsWithCount(albumList);
+				albumService.initAlbumsWithTags(albumList);
+				
+				//将album写入favorite
+				for(Album album: albumList){
+					for(AlbumFavorite favorite: favoriteList){
+						if(favorite.getAlbumId().equals(album.getId())){
+							favorite.setAlbum(album);
+							continue;
+						}
+					}
+				}
+			}
+			return favoriteList;
+		}
+		return null;
+	}
+	
 
 
 //	@Override

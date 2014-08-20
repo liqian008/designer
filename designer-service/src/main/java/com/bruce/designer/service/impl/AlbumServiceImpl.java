@@ -193,27 +193,6 @@ public class AlbumServiceImpl implements IAlbumService {
 	}
 	
 	/**
-	 * 我的收藏
-	 */
-	@Override
-	public List<Album> fallLoadUserFavoriteAlbums(int userId, int favoriteTailId, int limit) {
-//		List<AlbumFavorite> favoriteList = albumFavoriteService.getFavoriteListByAlbumId(userId);
-		List<AlbumFavorite> favoriteList = albumFavoriteService.getFavoriteListByUserId(userId, favoriteTailId, limit);
-		if (favoriteList != null && favoriteList.size() > 0) {
-			List<Integer> albumIdList = new ArrayList<Integer>();
-			for (AlbumFavorite albumFavorite : favoriteList) {
-				albumIdList.add(albumFavorite.getAlbumId());
-			}
-			//根据albumId列表加载详情
-			List<Album> albumList = queryAlbumByIds(albumIdList); //albumDao.fallLoadDesignerAlbums(albumIdList, albumsTailId, limit);
-			initAlbumsWithCount(albumList);
-			initAlbumsWithTags(albumList);
-			return albumList;
-		}
-		return null;
-	}
-	
-	/**
 	 * 获取推荐专辑列表
 	 */
 	public List<Album> queryRecommendAlbums(int limit) {

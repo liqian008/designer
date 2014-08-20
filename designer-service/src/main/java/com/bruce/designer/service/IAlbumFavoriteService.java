@@ -7,8 +7,10 @@ import com.bruce.designer.model.AlbumFavorite;
 public interface IAlbumFavoriteService extends IBaseService<AlbumFavorite, Integer>{ 
     
     public List<AlbumFavorite> getFavoriteListByAlbumId(int userId);
-    
+    /*返回favorite的简单对象*/
     public List<AlbumFavorite> getFavoriteListByUserId(int userId, int favoriteTailId, int limit);
+    /*返回favorite+album的组合数据*/
+    public List<AlbumFavorite> fallLoadUserFavoriteAlbums(int userId, int favoriteTailId, int limit);
 
 //    public List<AlbumFavorite> getFavoriteListByAlbumId(int userId, int page, int pageSize);
 

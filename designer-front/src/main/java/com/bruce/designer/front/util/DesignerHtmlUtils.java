@@ -8,6 +8,7 @@ import com.bruce.designer.constants.ConstDateFormat;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.model.Album;
+import com.bruce.designer.model.AlbumFavorite;
 import com.bruce.designer.model.Comment;
 import com.bruce.designer.model.Message;
 import com.bruce.designer.model.Tag;
@@ -40,61 +41,106 @@ public class DesignerHtmlUtils {
 			int i = 0;
 			for (Album album : albumList) {
 				i++;
-				if (i % numberPerLine == 1) {
-					sb.append("<div class='shortcode-blogpost row-fluid'>");
-				}
-				sb.append("<article class='blog-item span" + span + "'>");
-				sb.append("<div class='blog-post-image-wrap'>");
-				sb.append("<a class='blog-single-link' href='"+ConstFront.CONTEXT_PATH+"/album/" + album.getId() + "'>");
-				sb.append("<img src='" + album.getCoverMediumImg() + "'>");
-				sb.append("</a>");
-				sb.append("</div>");
-				sb.append("<div class='content-wrap span9'>");
-				sb.append("<a class='blog-single-link' href='"+ConstFront.CONTEXT_PATH+"/album/" + album.getId() + "'>" +
-						"<h5>" + album.getTitle() + "</h5></a>");
-				sb.append("<ul>");
-				sb.append("<li><span>标 签:&nbsp;</span>");
-				List<String> tagNameList = album.getTagList();
-				if (tagNameList != null && tagNameList.size() > 0) {
-					int m=0;
-					for (String tagName : tagNameList) {
-						m++;
-						sb.append("<a href='"+ConstFront.CONTEXT_PATH+"/tag/");
-						sb.append(tagName);
-						sb.append("'>");
-						sb.append(tagName);
-						sb.append("</a>");
-						if(m<tagNameList.size()){
-							sb.append(",&nbsp;");
-						}
-					}
-				}
-				sb.append("</li>");
-
-				sb.append("<li><span>价 格:</span>" + album.getPrice() + " 元</li>");
-				sb.append("<li><a href='"+ConstFront.CONTEXT_PATH+"/album/" + album.getId() + "'>" + album.getBrowseCount() + "&nbsp;浏览&nbsp;</a>/&nbsp;");
-				sb.append("<a href='"+ConstFront.CONTEXT_PATH+"/album/" + album.getId() + "'>" + album.getCommentCount() + "&nbsp;评论&nbsp;</a>/&nbsp;");
-				sb.append("<a href='"+ConstFront.CONTEXT_PATH+"/album/" + album.getId() + "'>" + album.getLikeCount() + "&nbsp;赞&nbsp;</a>/&nbsp;");
-				sb.append("<a href='"+ConstFront.CONTEXT_PATH+"/album/" + album.getId() + "'>" + album.getFavoriteCount() + "&nbsp;收藏&nbsp;</a>");
-				sb.append("</li> ");
-				sb.append("</ul>");
-				sb.append("</div>");
-				sb.append("<div class='content-avatar'>");
-				sb.append("<a href='"+ConstFront.CONTEXT_PATH+"/" + album.getUserId() + "/home'>"); 
-				sb.append("<img src='"+UploadUtil.getAvatarUrl(album.getUserId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"' width='100%'/>");
-				sb.append("</a>");
-				sb.append("</div>");
-				sb.append("</article>");
-				if (i % numberPerLine == 0) {
-					sb.append("</div>");
-				}
+				int mod = i % numberPerLine;//取模
+				sb.append(buildAlbumItemHtml(album, mod, span));
 			}
-			// sb.append("</div>");
 			return sb.toString();
 		}
 		return "";
 	}
+	
+	/**
+	 * 加载我的收藏
+	 * @param favoriteList
+	 * @param numberPerLine
+	 * @return
+	 */
+	public static String buildFallLoadFavoriteFHtml(List<AlbumFavorite> favoriteList, int numberPerLine) {
+		int span = 3;
+		if (numberPerLine <= 0) {
+			numberPerLine = 4;
+		}
+		span = 12 / numberPerLine;
 
+		// TODO freemarker template
+		if (favoriteList != null && favoriteList.size() > 0) {
+			StringBuilder sb = new StringBuilder();
+			int i = 0;
+			for (AlbumFavorite albumFavorite : favoriteList) {
+				i++;
+				int mod = i % numberPerLine;//取模
+				sb.append(buildAlbumItemHtml(albumFavorite.getAlbum(), mod, span));
+			}
+			return sb.toString();
+		}
+		return "";
+	}
+	
+	
+	
+	
+
+	/**
+	 * 
+	 * @param album
+	 * @param mod 模 
+	 * @return
+	 */
+	private static String buildAlbumItemHtml(Album album, int mod, int span){
+		StringBuilder sb = new StringBuilder();
+		if (mod == 1) {
+			sb.append("<div class='shortcode-blogpost row-fluid'>");
+		}
+		sb.append("<article class='blog-item span" + span + "'>");
+		sb.append("<div class='blog-post-image-wrap'>");
+		sb.append("<a class='blog-single-link' href='"+ConstFront.CONTEXT_PATH+"/album/" + album.getId() + "'>");
+		sb.append("<img src='" + album.getCoverMediumImg() + "'>");
+		sb.append("</a>");
+		sb.append("</div>");
+		sb.append("<div class='content-wrap span9'>");
+		sb.append("<a class='blog-single-link' href='"+ConstFront.CONTEXT_PATH+"/album/" + album.getId() + "'>" +
+				"<h5>" + album.getTitle() + "</h5></a>");
+		sb.append("<ul>");
+		sb.append("<li><span>标 签:&nbsp;</span>");
+		List<String> tagNameList = album.getTagList();
+		if (tagNameList != null && tagNameList.size() > 0) {
+			int m=0;
+			for (String tagName : tagNameList) {
+				m++;
+				sb.append("<a href='"+ConstFront.CONTEXT_PATH+"/tag/");
+				sb.append(tagName);
+				sb.append("'>");
+				sb.append(tagName);
+				sb.append("</a>");
+				if(m<tagNameList.size()){
+					sb.append(",&nbsp;");
+				}
+			}
+		}
+		sb.append("</li>");
+
+		sb.append("<li><span>价 格:</span>" + album.getPrice() + " 元</li>");
+		sb.append("<li><a href='"+ConstFront.CONTEXT_PATH+"/album/" + album.getId() + "'>" + album.getBrowseCount() + "&nbsp;浏览&nbsp;</a>/&nbsp;");
+		sb.append("<a href='"+ConstFront.CONTEXT_PATH+"/album/" + album.getId() + "'>" + album.getCommentCount() + "&nbsp;评论&nbsp;</a>/&nbsp;");
+		sb.append("<a href='"+ConstFront.CONTEXT_PATH+"/album/" + album.getId() + "'>" + album.getLikeCount() + "&nbsp;赞&nbsp;</a>/&nbsp;");
+		sb.append("<a href='"+ConstFront.CONTEXT_PATH+"/album/" + album.getId() + "'>" + album.getFavoriteCount() + "&nbsp;收藏&nbsp;</a>");
+		sb.append("</li> ");
+		sb.append("</ul>");
+		sb.append("</div>");
+		sb.append("<div class='content-avatar'>");
+		sb.append("<a href='"+ConstFront.CONTEXT_PATH+"/" + album.getUserId() + "/home'>"); 
+		sb.append("<img src='"+UploadUtil.getAvatarUrl(album.getUserId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"' width='100%'/>");
+		sb.append("</a>");
+		sb.append("</div>");
+		sb.append("</article>");
+		if (mod == 0) {
+			sb.append("</div>");
+		}
+		return sb.toString();
+	}
+	
+	
+	
 	/**
 	 * 生成边栏的专辑html
 	 * @param albumList

@@ -31,7 +31,7 @@ public interface IAlbumService extends IBaseService<Album, Integer> {
 
 	public List<Album> fallLoadUserFollowAlbums(int userId, int albumsTailId, int limit);
 	
-	public List<Album> fallLoadUserFavoriteAlbums(int userId, int favoriteTailId, int limit);
+//	public List<Album> fallLoadUserFavoriteAlbums(int userId, int favoriteTailId, int limit);
 	
 	//根据tagName查询引用的album列表，瀑布流
 	public List<Album> fallLoadAlbumsByTagName(String tagName, int albumsTailId, int limit);

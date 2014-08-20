@@ -3,8 +3,8 @@ package com.bruce.designer.service;
 import java.util.List;
 import java.util.Set;
 
-import com.bruce.designer.model.Message;
 import com.bruce.designer.data.PagingData;
+import com.bruce.designer.model.Message;
 
 public interface IMessageService extends IBaseService<Message, Long>{
     
@@ -39,6 +39,11 @@ public interface IMessageService extends IBaseService<Message, Long>{
      * @return
      */
     public PagingData<Message> pagingQuery(int userId, int messageType, int pageNo, int pageSize);
+    
+    
+    public List<Message> fallLoadMessagesByType(int userId, int messageType, long messageTailId, int limit);
+    
+    
     
     /**
      * 分页查询用户的对话消息

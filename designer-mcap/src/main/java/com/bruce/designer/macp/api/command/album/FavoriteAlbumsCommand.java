@@ -19,8 +19,10 @@ import org.springframework.util.Assert;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumAuthorInfo;
+import com.bruce.designer.model.AlbumFavorite;
 import com.bruce.designer.model.AlbumSlide;
 import com.bruce.designer.model.User;
+import com.bruce.designer.service.IAlbumFavoriteService;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
 import com.bruce.designer.service.IUserService;
@@ -41,7 +43,7 @@ public class FavoriteAlbumsCommand extends AbstractApiCommand implements Initial
     private static final Log logger = LogFactory.getLog(FavoriteAlbumsCommand.class);
     
     @Autowired
-    private IAlbumService albumService;
+    private IAlbumFavoriteService albumFavoriteService;
     @Autowired
     private IUserService userService;
     @Autowired
@@ -49,7 +51,7 @@ public class FavoriteAlbumsCommand extends AbstractApiCommand implements Initial
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        Assert.notNull(albumService, "albumService is required!");
+        Assert.notNull(albumFavoriteService, "albumFavoriteService is required!");
         Assert.notNull(userService, "userService is required!");
     }
 
@@ -67,18 +69,18 @@ public class FavoriteAlbumsCommand extends AbstractApiCommand implements Initial
 
 		int limit = 20;
 		//获取关注列表
-		List<Album> albumList = albumService.fallLoadUserFavoriteAlbums(hostId, fromTailId, limit);
+		List<AlbumFavorite> favoriteList = albumFavoriteService.fallLoadUserFavoriteAlbums(hostId, fromTailId, limit);
 		int newTailId = 0;
 
-		if (albumList == null || albumList.size() == 0) {
+		if (favoriteList == null || favoriteList.size() == 0) {
 		    if(logger.isDebugEnabled()){
                 logger.debug("无更多专辑");
             }
 		} else {
-			if (albumList.size() > limit) {// 查询数据超过limit，含分页内容
+			if (favoriteList.size() > limit) {// 查询数据超过limit，含分页内容
 				// 移除最后一个元素
-				albumList.remove(limit);
-				newTailId = albumList.get(limit - 1).getId();
+				favoriteList.remove(limit);
+				newTailId = favoriteList.get(limit - 1).getId();
 				if(logger.isDebugEnabled()){
                     logger.debug("还有更多专辑，newTailId： "+newTailId);
                 }
@@ -86,7 +88,8 @@ public class FavoriteAlbumsCommand extends AbstractApiCommand implements Initial
 			
 			//构造album中的设计师资料 & slide列表
 			Map<Integer, AlbumAuthorInfo> albumAuthorMap = new HashMap<Integer, AlbumAuthorInfo>();
-			for(Album album: albumList){
+			for(AlbumFavorite favorite: favoriteList){
+				Album album = favorite.getAlbum();
 				//构造专辑的slide列表
 				int albumId = album.getId();
 				List<AlbumSlide> slideList = albumSlideService.querySlidesByAlbumId(albumId);
@@ -95,7 +98,7 @@ public class FavoriteAlbumsCommand extends AbstractApiCommand implements Initial
 				}
 				
 				//构造设计师信息
-				int albumAuthorId = album.getUserId();
+				int albumAuthorId = favorite.getUserId();
 				AlbumAuthorInfo authorInfo = null;
 				if(!albumAuthorMap.containsKey(albumAuthorId)){//考虑到多个作品的设计师可能是同一个人，因此使用map缓存
 					User designer = userService.loadById(albumAuthorId);
@@ -109,7 +112,7 @@ public class FavoriteAlbumsCommand extends AbstractApiCommand implements Initial
 				album.setAuthorInfo(authorInfo);
 			}
 			
-			rt.put("albumList", albumList);
+			rt.put("favoriteList", favoriteList);
 			rt.put("fromTailId", String.valueOf(fromTailId));
 			rt.put("newTailId", String.valueOf(newTailId));
 	        return ResponseBuilderUtil.buildSuccessResult(rt);
@@ -117,12 +120,12 @@ public class FavoriteAlbumsCommand extends AbstractApiCommand implements Initial
 		return ResponseBuilderUtil.buildErrorResult();
     }
 
-	public IAlbumService getAlbumService() {
-		return albumService;
+	public IAlbumFavoriteService getAlbumFavoriteService() {
+		return albumFavoriteService;
 	}
 
-	public void setAlbumService(IAlbumService albumService) {
-		this.albumService = albumService;
+	public void setAlbumFavoriteService(IAlbumFavoriteService albumFavoriteService) {
+		this.albumFavoriteService = albumFavoriteService;
 	}
 
 }

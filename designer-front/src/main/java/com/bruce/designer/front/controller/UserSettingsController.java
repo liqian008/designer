@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Map; 
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,8 +36,10 @@ import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.front.util.ResponseUtil;
 import com.bruce.designer.mail.MailService;
 import com.bruce.designer.model.Album;
+import com.bruce.designer.model.AlbumFavorite;
 import com.bruce.designer.model.AlbumSlide;
 import com.bruce.designer.model.User;
+import com.bruce.designer.service.IAlbumFavoriteService;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
 import com.bruce.designer.service.IMessageService;
@@ -67,6 +69,8 @@ public class UserSettingsController {
 	private IUploadService uploadService;
 	@Autowired
 	private IAlbumService albumService;
+	@Autowired
+	private IAlbumFavoriteService albumFavoriteService;
 	@Autowired
 	private IAlbumSlideService albumSlideService;
 	@Autowired
@@ -331,24 +335,24 @@ public class UserSettingsController {
 
 		int limit = MY_FAVORITE_LIMIT;
 		//获取收藏列表
-		List<Album> albumList = albumService.fallLoadUserFavoriteAlbums(userId, favoriteTailId, limit + 1);
+		List<AlbumFavorite> favoriteList = albumFavoriteService.fallLoadUserFavoriteAlbums(userId, favoriteTailId, limit + 1);
 		int nextTailId = 0;
 
-		if (albumList == null || albumList.size() == 0) {
+		if (favoriteList == null || favoriteList.size() == 0) {
 		    if(logger.isDebugEnabled()){
                 logger.debug("无更多专辑");
             }
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {
-			if (albumList.size() > limit) {// 查询数据超过limit，含分页内容
+			if (favoriteList.size() > limit) {// 查询数据超过limit，含分页内容
 				// 移除最后一个元素
-				albumList.remove(limit);
-				nextTailId = albumList.get(limit - 1).getId();
+				favoriteList.remove(limit);
+				nextTailId = favoriteList.get(limit - 1).getId();
 				if(logger.isDebugEnabled()){
                     logger.debug("还有更多专辑，tailId： "+nextTailId);
                 }
 			}
-			String responseHtml = DesignerHtmlUtils.buildFallLoadHtml(albumList, numberPerLine);
+			String responseHtml = DesignerHtmlUtils.buildFallLoadFavoriteFHtml(favoriteList, numberPerLine);
 			Map<String, String> dataMap = new HashMap<String, String>();
 			dataMap.put("html", responseHtml);
 			dataMap.put("tailId", String.valueOf(nextTailId));

@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
-import com.bruce.designer.model.Comment;
-import com.bruce.designer.service.IAlbumCommentService;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.util.MessageUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;

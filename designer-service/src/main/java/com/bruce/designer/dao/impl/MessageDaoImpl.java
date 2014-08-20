@@ -209,5 +209,19 @@ public class MessageDaoImpl implements IMessageDao, InitializingBean {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	/**
+	 * 
+	 */
+	@Override
+	public List<Message> fallLoadList(int userId, int messageType, Long tailId, int limit) {
+        //查询条件
+        MessageCriteria criteria = new MessageCriteria();
+        criteria.createCriteria().andToIdEqualTo(userId).andMessageTypeEqualTo(messageType).andIdLessThan(tailId);
+        criteria.setLimit(limit);
+        criteria.setOrderByClause("id desc");
+        return messageMapper.selectByExample(criteria);
+	}
 
 }

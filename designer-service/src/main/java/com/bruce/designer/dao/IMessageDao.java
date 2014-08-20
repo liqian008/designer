@@ -85,6 +85,10 @@ public interface IMessageDao extends IBaseDao<Message, Long>{
      * 批量标记为已读
      */
     public int markRead(int userId, List<Long>messageIdList);
+    
+    
+
+	public List<Message> fallLoadList(int userId, int messageType, Long tailId, int limit);
 
 
 

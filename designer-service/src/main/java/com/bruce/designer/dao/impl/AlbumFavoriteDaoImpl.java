@@ -56,10 +56,10 @@ public class AlbumFavoriteDaoImpl implements IAlbumFavoriteDao, InitializingBean
         subCriteria.andUserIdEqualTo(userId);
         
         if(favoriteTailId>0){
-			subCriteria.andAlbumIdLessThan(favoriteTailId);
+			subCriteria.andIdLessThan(favoriteTailId);
 		}
 		criteria.setLimit(limit);
-	    criteria.setOrderByClause("album_id desc");
+	    criteria.setOrderByClause("id desc");
         List<AlbumFavorite> fansList = albumFavoriteMapper.selectByExample(criteria);
         return fansList;
     }
