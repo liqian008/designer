@@ -18,24 +18,29 @@
 		<entry key="followAlbum.cmd" value-ref="followAlbumCommand" />
 		<entry key="albumInfo.cmd" value-ref="albumInfoCommand" />
 		<entry key="albumComments.cmd" value-ref="albumCommentsCommand" />
-		<!-- 评论操作api -->
-		<entry key="comment.cmd" value-ref="commentCommand" />
-		<!-- 赞操作api -->
-		<entry key="like.cmd" value-ref="likeCommand" />
 		
 		<entry key="userInfo.cmd" value-ref="userInfoCommand" />
 		<entry key="userFans.cmd" value-ref="userFansCommand" />
 		<entry key="userFollows.cmd" value-ref="userFollowsCommand" />
-		<!-- 关注操作api -->
-		<entry key="follow.cmd" value-ref="followCommand" />
 		<!-- 我的收藏列表api -->
 		<entry key="favoriteAlbums.cmd" value-ref="favoriteAlbumsCommand" />
-		<!-- 收藏操作api -->
-		<entry key="favorite.cmd" value-ref="favoriteCommand" />
-		
-		
+		<!-- 我的消息列表api -->
 		<entry key="messageBox.cmd" value-ref="messageBoxCommand" />
-		<entry key="messageList.cmd" value-ref="messageListCommand" />
+		<entry key="messageList.cmd" value-ref="messageListCommand" /> 
+		
+		
+		<!-- 收藏操作api -->
+		<entry key="postFavorite.cmd" value-ref="postFavoriteCommand" />
+		<!-- 赞操作api -->
+		<entry key="postLike.cmd" value-ref="postLikeCommand" />
+		<!-- 评论操作api -->
+		<entry key="postComment.cmd" value-ref="postCommentCommand" />
+		<!-- 关注操作api -->
+		<entry key="postFollow.cmd" value-ref="postFollowCommand" />
+		<!-- 聊天操作api -->
+		<entry key="postChat.cmd" value-ref="postChatCommand" />
+		
+		
 	</util:map>
 
 	<!-- ticket is un necessary -->

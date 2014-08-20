@@ -44,7 +44,7 @@ public class MessageListCommand extends AbstractApiCommand implements Initializi
     @Autowired
     private IMessageService messageService;
 
-	private static final int MESSAGE_PAGE_SIZE = 20;
+	private static final int MESSAGE_PAGE_SIZE = 5;
     
     @Override 
     public void afterPropertiesSet() throws Exception {

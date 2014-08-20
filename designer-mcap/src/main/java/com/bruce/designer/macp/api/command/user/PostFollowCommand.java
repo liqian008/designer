@@ -27,10 +27,10 @@ import com.bruce.foundation.model.result.ApiResult;
  * 
  */
 @Component
-public class FollowCommand extends AbstractApiCommand implements
+public class PostFollowCommand extends AbstractApiCommand implements
 		InitializingBean {
 
-	private static final Log logger = LogFactory.getLog(FollowCommand.class);
+	private static final Log logger = LogFactory.getLog(PostFollowCommand.class);
 
 	@Autowired
 	private IUserService userService;

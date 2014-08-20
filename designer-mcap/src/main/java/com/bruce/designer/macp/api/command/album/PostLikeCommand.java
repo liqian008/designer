@@ -24,9 +24,9 @@ import com.bruce.foundation.model.result.ApiResult;
  * 
  */
 @Component
-public class LikeCommand extends AbstractApiCommand implements InitializingBean {
+public class PostLikeCommand extends AbstractApiCommand implements InitializingBean {
 
-    private static final Log logger = LogFactory.getLog(LikeCommand.class);
+    private static final Log logger = LogFactory.getLog(PostLikeCommand.class);
     
     @Autowired
     private IAlbumCounterService albumCounterService;

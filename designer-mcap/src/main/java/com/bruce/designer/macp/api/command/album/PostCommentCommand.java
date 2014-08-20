@@ -25,9 +25,9 @@ import com.bruce.foundation.model.result.ApiResult;
  * 
  */
 @Component
-public class CommentCommand extends AbstractApiCommand implements InitializingBean {
+public class PostCommentCommand extends AbstractApiCommand implements InitializingBean {
 
-    private static final Log logger = LogFactory.getLog(CommentCommand.class);
+    private static final Log logger = LogFactory.getLog(PostCommentCommand.class);
     
     @Autowired
     private IAlbumCommentService albumCommentService;

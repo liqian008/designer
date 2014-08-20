@@ -52,21 +52,22 @@ public class AlbumCommentsCommand extends AbstractApiCommand implements Initiali
     	String albumIdStr = context.getStringParams().get("albumId");
     	int albumId = NumberUtils.toInt(albumIdStr, 0);
     	
-    	int tailId = 0;
-    	int limit = 20;
+    	String commentTailIdStr = context.getStringParams().get("commentsTailId");
+    	long fromTailId = NumberUtils.toLong(commentTailIdStr, 0);
+    	int limit = 5;
     	if(logger.isDebugEnabled()){
-            logger.debug("MCS获取专辑["+albumId+"]评论列表, tailId： "+tailId+", limit："+limit);
+            logger.debug("MCS获取专辑["+albumId+"]评论列表, tailId： "+fromTailId+", limit："+limit);
         }
 		
-		List<Comment> commentList = albumCommentService.fallLoadComments(albumId, tailId, limit + 1);
-		long commentTailId = 0;
+		List<Comment> commentList = albumCommentService.fallLoadComments(albumId, fromTailId, limit + 1);
+		long newTailId = 0;
 		if (commentList != null) {
 			if (commentList.size() > limit) {// 查询数据超过limit，含分页内容
 				// 移除最后一个元素
 				commentList.remove(limit);
-				commentTailId = commentList.get(limit - 1).getId();
+				newTailId = commentList.get(limit - 1).getId();
 				if(logger.isDebugEnabled()){
-                    logger.debug("MCS还有更多评论，commentTailId： "+commentTailId);
+                    logger.debug("MCS还有更多评论，newCommentTailId： "+newTailId);
                 }
 			}
 			
@@ -76,7 +77,8 @@ public class AlbumCommentsCommand extends AbstractApiCommand implements Initiali
 			}
 		}
 		rt.put("commentList", commentList);
-		rt.put("commentTailId", String.valueOf(commentTailId));
+		rt.put("fromTailId", String.valueOf(fromTailId));
+		rt.put("newTailId", String.valueOf(newTailId));
         return ResponseBuilderUtil.buildSuccessResult(rt);
     }
 

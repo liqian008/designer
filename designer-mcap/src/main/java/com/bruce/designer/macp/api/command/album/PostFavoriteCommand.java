@@ -24,9 +24,9 @@ import com.bruce.foundation.model.result.ApiResult;
  * 
  */
 @Component
-public class FavoriteCommand extends AbstractApiCommand implements InitializingBean {
+public class PostFavoriteCommand extends AbstractApiCommand implements InitializingBean {
 
-    private static final Log logger = LogFactory.getLog(FavoriteCommand.class);
+    private static final Log logger = LogFactory.getLog(PostFavoriteCommand.class);
     
     @Autowired
     private IAlbumCounterService albumCounterService;
