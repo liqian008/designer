@@ -46,11 +46,15 @@ public interface IAlbumActionLogDao extends IBaseDao<AlbumActionLog, Long> {
     public List<CountCacheBean> realtimeWeeklyTopAlbums(int limit);
 
     public List<CountCacheBean> realtimeMonthlyTopAlbums(int limit);
+    
+    public List<CountCacheBean> realtimeYearlyTopAlbums(int limit);
 
     public List<CountCacheBean> realtimeDailyTopDesigners(int limit);
 
     public List<CountCacheBean> realtimeWeeklyTopDesigners(int limit);
 
     public List<CountCacheBean> realtimeMonthlyTopDesigners(int limit);
+    
+    public List<CountCacheBean> realtimeYearlyTopDesigners(int limit);
 
 }

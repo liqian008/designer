@@ -14,7 +14,6 @@
 		<param name="File" value="/Users/liqian/temp/stdout.log" />
 		<!-- 
 		<param name="File" value="/data/jinwanr/www/logs/stdout.log" />
-		<param name="File" value="/data/jinwanr/www/logs/stdout.log" />
 		 -->
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -26,7 +25,6 @@
 		<param name="File" value="/Users/liqian/temp/stdout.log" />
 		<!-- 
 		<param name="File" value="/data/jinwanr/www/logs/designer_stdout.log" />
-		<param name="File" value="/data/jinwanr/www/logs/designer_stdout.log" />
 		 -->
 		 <param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -37,7 +35,6 @@
 	<appender name="spring_stdout" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="File" value="/Users/liqian/temp/stdout.log" />
 		<!-- 
-		<param name="File" value="/data/jinwanr/www/logs/spring_stdout.log" />
 		<param name="File" value="/data/jinwanr/www/logs/spring_stdout.log" />
 		 -->
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />

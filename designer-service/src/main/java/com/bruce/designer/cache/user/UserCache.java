@@ -86,16 +86,6 @@ public class UserCache implements InitializingBean {
                 }catch(Exception e){
                     logger.error("multiGetUser(List<Integer>)", e);
                 }
-                
-//                if (byteArray != null) {
-//                    UserPB userPB;
-//                    try {
-//                        userPB = UserPB.parseFrom(byteArray);
-//                        user = UserPBUtils.convert2User(userPB);
-//                    } catch (InvalidProtocolBufferException e) {
-//                        logger.error("multiGetFeed(List<Integer>)", e);
-//                    }
-//                }
                 userMap.put(id, user);
             }
         } catch (Throwable t) {

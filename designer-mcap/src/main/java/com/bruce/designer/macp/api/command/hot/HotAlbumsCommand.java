@@ -2,7 +2,7 @@
  * $Id $
  * Copyright 2009-2011 Oak Pacific Interactive. All rights reserved.
  */
-package com.bruce.designer.macp.api.command.album;
+package com.bruce.designer.macp.api.command.hot;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,11 +19,11 @@ import org.springframework.util.Assert;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumAuthorInfo;
-import com.bruce.designer.model.AlbumFavorite;
 import com.bruce.designer.model.AlbumSlide;
 import com.bruce.designer.model.User;
-import com.bruce.designer.service.IAlbumFavoriteService;
+import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
+import com.bruce.designer.service.IHotService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.UploadUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
@@ -32,26 +32,27 @@ import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
 import com.bruce.foundation.model.result.ApiResult;
 
 /**
- * 我收藏的专辑列表
+ * 最新专辑
  * @author liqian
  * 
  */
 @Component
-public class FavoriteAlbumsCommand extends AbstractApiCommand implements InitializingBean {
+public class HotAlbumsCommand extends AbstractApiCommand implements InitializingBean {
 
-    private static final Log logger = LogFactory.getLog(FavoriteAlbumsCommand.class);
+    private static final Log logger = LogFactory.getLog(HotAlbumsCommand.class);
     
     @Autowired
-    private IAlbumFavoriteService albumFavoriteService;
+    private IAlbumService albumService;
+    @Autowired
+    private IAlbumSlideService albumSlideService;
     @Autowired
     private IUserService userService;
     @Autowired
-    private IAlbumSlideService albumSlideService;
-
+	private IHotService hotService;
+    
     @Override
     public void afterPropertiesSet() throws Exception {
-        Assert.notNull(albumFavoriteService, "albumFavoriteService is required!");
-        Assert.notNull(userService, "userService is required!");
+        Assert.notNull(albumService, "albumService is required!");
     }
 
     @Override
@@ -59,36 +60,27 @@ public class FavoriteAlbumsCommand extends AbstractApiCommand implements Initial
     	Map<String, Object> rt = new HashMap<String, Object>();
     	
     	int hostId = context.getUserId();
-    	String tailIdStr = context.getStringParams().get("tailId");
-    	int fromTailId = NumberUtils.toInt(tailIdStr, 0);
+    	
+    	String modeStr = context.getStringParams().get("mode");
+    	int mode = NumberUtils.toInt(modeStr, 0);
     	
 		if(logger.isDebugEnabled()){
-            logger.debug("加载我的收藏专辑，hostId："+hostId+"，fromTailId: "+fromTailId);
+            logger.debug("MCS查询热门专辑，mode: "+mode);
         }
-
-		int limit = 1;
-		//获取关注列表
-		List<AlbumFavorite> favoriteList = albumFavoriteService.fallLoadUserFavoriteAlbums(hostId, fromTailId, limit+1);
-		int newTailId = 0;
-
-		if (favoriteList == null || favoriteList.size() == 0) {
+	    if(logger.isDebugEnabled()){
+            logger.debug("MCS查询热门专辑列表");
+        }
+		int limit = 5;
+		
+		List<Album> hotAlbumList = hotService.fallLoadHotAlbums(mode, limit);
+		if (hotAlbumList == null || hotAlbumList.size() == 0) {
 		    if(logger.isDebugEnabled()){
-                logger.debug("无更多专辑");
+                logger.debug("无更多热门专辑");
             }
-		} else {
-			if (favoriteList.size() > limit) {// 查询数据超过limit，含分页内容
-				// 移除最后一个元素
-				favoriteList.remove(limit);
-				newTailId = favoriteList.get(limit - 1).getId();
-				if(logger.isDebugEnabled()){
-                    logger.debug("还有更多专辑，newTailId： "+newTailId);
-                }
-			}
-			
+		}else{
 			//构造album中的设计师资料 & slide列表
 			Map<Integer, AlbumAuthorInfo> albumAuthorMap = new HashMap<Integer, AlbumAuthorInfo>();
-			for(AlbumFavorite favorite: favoriteList){
-				Album album = favorite.getAlbum();
+			for(Album album: hotAlbumList){
 				//构造专辑的slide列表
 				int albumId = album.getId();
 				List<AlbumSlide> slideList = albumSlideService.querySlidesByAlbumId(albumId);
@@ -110,21 +102,42 @@ public class FavoriteAlbumsCommand extends AbstractApiCommand implements Initial
 				}
 				album.setAuthorInfo(authorInfo);
 			}
-			
-			rt.put("favoriteList", favoriteList);
-			rt.put("fromTailId", String.valueOf(fromTailId));
-			rt.put("newTailId", String.valueOf(newTailId));
-	        return ResponseBuilderUtil.buildSuccessResult(rt);
 		}
-		return ResponseBuilderUtil.buildErrorResult();
+		rt.put("hotAlbumList", hotAlbumList);
+		rt.put("mode", mode);
+        return ResponseBuilderUtil.buildSuccessResult(rt);
     }
 
-	public IAlbumFavoriteService getAlbumFavoriteService() {
-		return albumFavoriteService;
+	public IAlbumService getAlbumService() {
+		return albumService;
 	}
 
-	public void setAlbumFavoriteService(IAlbumFavoriteService albumFavoriteService) {
-		this.albumFavoriteService = albumFavoriteService;
+	public void setAlbumService(IAlbumService albumService) {
+		this.albumService = albumService;
 	}
 
+	public IAlbumSlideService getAlbumSlideService() {
+		return albumSlideService;
+	}
+
+	public void setAlbumSlideService(IAlbumSlideService albumSlideService) {
+		this.albumSlideService = albumSlideService;
+	}
+
+	public IUserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(IUserService userService) {
+		this.userService = userService;
+	}
+
+	public IHotService getHotService() {
+		return hotService;
+	}
+
+	public void setHotService(IHotService hotService) {
+		this.hotService = hotService;
+	}
+	
 }

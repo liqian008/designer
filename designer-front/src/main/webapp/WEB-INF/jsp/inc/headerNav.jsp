@@ -109,6 +109,8 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					<!-- <li><a
 						href="javascript:void(0)">搜索</a>
 					</li> -->
+					<li><a href="<%=contextPath%>/downloads/">下载客户端</a>
+					</li>
 					<li <%=menuIndex==6?"class='active current-menu-item'":"" %>><a
 						href="<%=contextPath%>/aboutUs">关于我们</a>
 					</li>

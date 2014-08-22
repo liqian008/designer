@@ -23,7 +23,6 @@ import com.bruce.designer.model.AlbumSlide;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
-import com.bruce.designer.service.IUserGraphService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.UploadUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;

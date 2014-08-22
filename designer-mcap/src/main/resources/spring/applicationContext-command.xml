@@ -40,6 +40,9 @@
 		<!-- 聊天操作api -->
 		<entry key="postChat.cmd" value-ref="postChatCommand" />
 		
+		<!-- 热门设计师操作api -->
+		<entry key="hotDesigners.cmd" value-ref="hotDesignersCommand" />
+		<entry key="hotAlbums.cmd" value-ref="hotAlbumsCommand" />
 		
 	</util:map>
 

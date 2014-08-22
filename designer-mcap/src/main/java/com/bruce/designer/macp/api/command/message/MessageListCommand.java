@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -86,7 +87,7 @@ public class MessageListCommand extends AbstractApiCommand implements Initializi
 
 			List<Integer> fromIdList = new ArrayList<Integer>();
 			for (Message message : messageList) {
-				// 非系统广播，先构造fromId列表
+				//非系统广播，先构造fromId列表
 				if (!MessageUtil.isBroadcastMessage(message.getMessageType())) {
 					int fromId = message.getFromId();
 					fromIdList.add(fromId);
@@ -101,8 +102,8 @@ public class MessageListCommand extends AbstractApiCommand implements Initializi
 					int fromId = message.getFromId();
 					message.setFromUser(fromUserMap.get(fromId));
 				}
-
-				MessageBoxCommand.fillMessageContent(message);
+				//填充消息内容
+				MessageUtil.fillMessageContent(message);
 			}
 			// 读取消息后标记为已读
 			messageService.markRead(hostId, messageType);

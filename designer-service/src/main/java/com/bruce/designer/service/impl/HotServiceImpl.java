@@ -9,8 +9,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bruce.designer.cache.counter.HotAlbumCache;
-import com.bruce.designer.cache.counter.HotDesignerCache;
 import com.bruce.designer.dao.IAlbumActionLogDao;
 import com.bruce.designer.dao.ITagDao;
 import com.bruce.designer.data.CountCacheBean;
@@ -36,10 +34,6 @@ public class HotServiceImpl implements IHotService, InitializingBean {
 	private IAlbumService albumService;
 	@Autowired
 	private ITagAlbumService tagAlbumService;
-	@Autowired
-	private HotAlbumCache hotAlbumCache;
-	@Autowired
-	private HotDesignerCache hotDesignerCache;
 	
 	/**
 	 * Logger for this class
@@ -105,6 +99,10 @@ public class HotServiceImpl implements IHotService, InitializingBean {
                 countList = albumActionLogDao.realtimeMonthlyTopAlbums(limit);//HOT_ALBUM_MONTHLY_LIMIT);
                 break;
             }
+            case YEARLY_FLAG: {
+                countList = albumActionLogDao.realtimeMonthlyTopAlbums(limit);//HOT_ALBUM_MONTHLY_LIMIT);
+                break;
+            }
             default: {//default daily
                 countList = albumActionLogDao.realtimeDailyTopAlbums(limit);//HOT_ALBUM_DAILY_LIMIT);
                 break;
@@ -136,6 +134,10 @@ public class HotServiceImpl implements IHotService, InitializingBean {
             }
             case MONTHLY_FLAG: {
                 countList = albumActionLogDao.realtimeMonthlyTopDesigners(limit);//HOT_ALBUM_MONTHLY_LIMIT);
+                break;
+            }
+            case YEARLY_FLAG: {
+                countList = albumActionLogDao.realtimeMonthlyTopDesigners(limit);//HOT_ALBUM_YEARLY_LIMIT);
                 break;
             }
             default: {//default daily

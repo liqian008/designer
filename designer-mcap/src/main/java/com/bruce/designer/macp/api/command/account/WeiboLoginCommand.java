@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bruce.designer.model.AccessTokenInfo;
+import com.bruce.designer.model.User;
+import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.IOAuthService;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
@@ -36,7 +38,9 @@ public class WeiboLoginCommand extends AbstractApiCommand implements Initializin
     private PassportService passportService;
     @Autowired
     private IOAuthService oauthService;
-
+    @Autowired
+    private IUserService userService;
+    
     @Override
     public void afterPropertiesSet() throws Exception {
     }
@@ -59,6 +63,11 @@ public class WeiboLoginCommand extends AbstractApiCommand implements Initializin
 			String ticket = passportService.createTicket(userPassport);
 			userPassport.setTicket(ticket);
 			paramMap.put("userPassport", userPassport);
+			
+			User hostUser = userService.loadById(accessToken.getUserId());
+			if(hostUser!=null){
+				paramMap.put("hostUser", hostUser);
+			}
     	}else{//之前未绑定过，需要进行登录绑定操作
     		
     	}

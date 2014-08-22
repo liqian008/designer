@@ -16,7 +16,7 @@
 	<!-- 消息摘要 -->
 	<select id="queryMessageSummary" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
-		select id, message, message_type, source_id, from_id, to_id, status,
+		select id, message, message_type, source_type, source_id, source_desc, from_id, to_id, status,
 		create_time,
 		update_time, sum(unread) unread from
 		(select

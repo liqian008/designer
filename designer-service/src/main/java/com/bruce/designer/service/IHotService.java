@@ -12,6 +12,7 @@ public interface IHotService {
 	public static final int DAILY_FLAG = 1;
 	public static final int WEEKLY_FLAG = 2;
 	public static final int MONTHLY_FLAG = 3;
+	public static final int YEARLY_FLAG = 4;
 
 	// 获取热门tag
 	public List<Tag> getHotTags(int limit);

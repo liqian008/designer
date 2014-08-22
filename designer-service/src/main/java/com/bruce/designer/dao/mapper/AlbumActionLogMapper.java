@@ -82,11 +82,15 @@ public interface AlbumActionLogMapper {
 	
 	List<CountCacheBean> realtimeMonthlyTopAlbums(AlbumActionLogCriteria example);
 	
+	List<CountCacheBean> realtimeYearlyTopAlbums(AlbumActionLogCriteria example);
+	
 	List<CountCacheBean> realtimeDailyTopDesigners(AlbumActionLogCriteria example);
     
     List<CountCacheBean> realtimeWeeklyTopDesigners(AlbumActionLogCriteria example);
     
     List<CountCacheBean> realtimeMonthlyTopDesigners(AlbumActionLogCriteria example);
+    
+    List<CountCacheBean> realtimeYearlyTopDesigners(AlbumActionLogCriteria example);
 
 //	List<CountCacheBean> queryFavoriteData();
 }

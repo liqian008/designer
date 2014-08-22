@@ -98,8 +98,7 @@ public class MessageBoxCommand extends AbstractApiCommand implements Initializin
 						}
 					}
 				}
-				
-				fillMessageContent(message);
+				MessageUtil.fillMessageContent(message);
 			}
 		}
 		rt.put("messageBoxList", messageBoxList);
@@ -107,32 +106,6 @@ public class MessageBoxCommand extends AbstractApiCommand implements Initializin
     }
     
     
-    /**
-     * 构造消息内容（消息中心的消息体中，需要有nickname）
-     * @param message
-     */
-    public static void fillMessageContent(Message message){
-    	if(message!=null&&message.getMessageType()!=null){
-    		int messageType = message.getMessageType();
-    		String messageContent = null;
-			if(messageType ==ConstService.MESSAGE_TYPE_LIKE){
-	    		messageContent  = ("赞了您的专辑作品");
-	    	}else if(messageType ==ConstService.MESSAGE_TYPE_FAVORITIES){
-		    	messageContent = ("收藏了您的专辑作品");
-		    }else if(messageType ==ConstService.MESSAGE_TYPE_FOLLOW){
-	    		messageContent = ("关注了您");
-			}else if(messageType ==ConstService.MESSAGE_TYPE_AT){
-			    messageContent = ("@了您");
-			}
-    		
-    		if(messageContent!=null && message.getFromUser()!=null){
-//    			messageContent = message.getFromUser().getNickname() +" "+ messageContent;
-    			message.setMessage(messageContent);
-    		}
-    	}
-    }
-    
-
 	public IUserService getUserService() {
 		return userService;
 	}

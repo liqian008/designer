@@ -47,11 +47,9 @@ public interface ConstFront {
 	/*contextPath*/
 	public static final String CONTEXT_PATH = ConfigUtil.getString("contextPath");
 	
-	
 	public static final String WEIXIN_WELCOME_CONTENT = ConfigUtil.getString("weixin_welcome_content");
 	
 	public static final String WEIXIN_AUTO_REPLY_CONTENT = ConfigUtil.getString("weixin_auto_reply_content");
-	
 	
 	/*日热门作品limit*/
 	public static final int HOT_ALBUM_DAILY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_album_daily_limit"), 20);
@@ -59,6 +57,9 @@ public interface ConstFront {
 	public static final int HOT_ALBUM_WEEKLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_album_weekly_limit"), 20);
 	/*月热门作品limit*/
 	public static final int HOT_ALBUM_MONTHLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_album_monthly_limit"), 20);
+	/*月热门作品limit*/
+	public static final int HOT_ALBUM_YEARLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_album_yearly_limit"), 20);
+	
 
 	/*日热门设计师limit*/
     public static final int HOT_DESIGNER_DAILY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_designer_daily_limit"), 32);
@@ -66,7 +67,9 @@ public interface ConstFront {
     public static final int HOT_DESIGNER_WEEKLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_designer_weekly_limit"), 32);
     /*月热门设计师limit*/
     public static final int HOT_DESIGNER_MONTHLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_designer_monthly_limit"), 32);
-    
+    /*月热门作品limit*/
+	public static final int HOT_DESIGNER_YEARLY_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_designer_yearly_limit"), 20);
+	
     /*微信渠道——热门作品limit*/
 	public static final int HOT_ALBUM_WEIXIN_LIMIT = NumberUtils.toInt(ConfigUtil.getString("hot_album_weixin_limit"), 3);
     /*微信渠道——热门设计师limit*/

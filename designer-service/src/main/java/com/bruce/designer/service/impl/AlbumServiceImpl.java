@@ -12,7 +12,6 @@ import com.bruce.designer.data.PagingData;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.model.Album;
-import com.bruce.designer.model.AlbumFavorite;
 import com.bruce.designer.model.UserFollow;
 import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.IAlbumFavoriteService;
@@ -27,15 +26,12 @@ public class AlbumServiceImpl implements IAlbumService {
 
 	@Autowired
 	private IAlbumDao albumDao;
-//	@Autowired
-//	private ICounterService counterService;
 	@Autowired
 	private IAlbumLikeService albumLikeService;
 	@Autowired
 	private IAlbumFavoriteService albumFavoriteService;
 	@Autowired
 	private IAlbumCounterService albumCounterService;
-	
 	@Autowired
 	private IUserGraphService userGraphService;
 	@Autowired
@@ -56,7 +52,7 @@ public class AlbumServiceImpl implements IAlbumService {
 	}
 
 	public Album loadById(Integer id) {
-		return loadById(id, false, false); 
+		return loadById(id, false, false);
 	}
 	
 	public Album loadById(Integer id, boolean loadCount, boolean loadTags) {

@@ -1,5 +1,7 @@
 package com.bruce.designer.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.model.Message;
 
@@ -30,6 +32,40 @@ public class MessageUtil {
 			}
 		}
 	}
+	
+	/**
+     * 构造消息内容
+     * @param message
+     */
+    public static void fillMessageContent(Message message){
+    	if(message!=null&&message.getMessageType()!=null){
+    		int messageType = message.getMessageType();
+    		String messageContent = null;
+			if(messageType ==ConstService.MESSAGE_TYPE_LIKE){
+	    		messageContent  = ("赞了您的专辑作品"+wrapSourceDesc(message.getSourceDesc()));
+		    }else if(messageType ==ConstService.MESSAGE_TYPE_FAVORITIES){
+		    	messageContent = ("收藏了您的专辑作品"+wrapSourceDesc(message.getSourceDesc()));
+		    }else if(messageType ==ConstService.MESSAGE_TYPE_COMMENT){
+		    	messageContent = message.getMessage() + wrapSourceDesc(message.getSourceDesc());
+		    }else if(messageType ==ConstService.MESSAGE_TYPE_FOLLOW){
+	    		messageContent = ("关注了您");
+			}else if(messageType ==ConstService.MESSAGE_TYPE_AT){
+			    messageContent = ("@了您");
+			}
+    		if(messageContent!=null && message.getFromUser()!=null){
+    			message.setMessage(messageContent);
+    		}
+    	}
+    }
+	
+	private static String wrapSourceDesc(String sourceDesc){
+		String wrapDesc = "";
+		if(!StringUtils.isBlank(sourceDesc)){
+			wrapDesc = " - ["+sourceDesc+"]";
+		}
+		return wrapDesc;
+	}
+	
 	
 	public static String getMessageTypeFlag(int messageType) {
 		switch (messageType) {
@@ -62,7 +98,21 @@ public class MessageUtil {
 		return messageType>=10000; 
 	}
 	
-	public static boolean isBroadcastMessage(int messageType){
+	/**
+	 * 判断是否是系统广播
+	 * @param messageType
+	 * @return
+	 */
+	public static boolean isBroadcastMessage(int messageType) {
 		return messageType == ConstService.MESSAGE_TYPE_SYSTEM; 
+	}
+
+	/**
+	 * 判断是否是交互的消息（交互类消息有源，通常是Album）
+	 * @param messageType
+	 * @return
+	 */
+	public static boolean isInteractiveMessage(int messageType) {
+		return messageType == ConstService.MESSAGE_TYPE_COMMENT || messageType == ConstService.MESSAGE_TYPE_LIKE || messageType == ConstService.MESSAGE_TYPE_FAVORITIES;
 	}
 }

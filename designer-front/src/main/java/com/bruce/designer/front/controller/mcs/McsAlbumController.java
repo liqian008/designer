@@ -10,9 +10,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -223,6 +221,12 @@ public class McsAlbumController {
     @RequestMapping(value = "/hot/monthlyAlbums.json", method = RequestMethod.GET)
     public ModelAndView hotMonthlyAlbums() {
         return hotAlbums(IHotService.MONTHLY_FLAG, ConstFront.HOT_ALBUM_MONTHLY_LIMIT);
+    }
+    
+    //年热门
+    @RequestMapping(value = "/hot/yearlyAlbums.json", method = RequestMethod.GET)
+    public ModelAndView hotYearlyAlbums() {
+        return hotAlbums(IHotService.YEARLY_FLAG, ConstFront.HOT_ALBUM_MONTHLY_LIMIT);
     }
     
     private ModelAndView hotAlbums(int mode, int limit) {
