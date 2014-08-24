@@ -10,6 +10,8 @@ import com.bruce.designer.dao.IUserFollowDao;
 import com.bruce.designer.dao.mapper.UserFollowMapper;
 import com.bruce.designer.model.UserFollow;
 import com.bruce.designer.model.UserFollowCriteria;
+import com.bruce.designer.model.UserFollow;
+import com.bruce.designer.model.UserFollowCriteria;
 
 @Repository
 public class UserFollowDaoImpl implements IUserFollowDao, InitializingBean { 
@@ -59,9 +61,25 @@ public class UserFollowDaoImpl implements IUserFollowDao, InitializingBean {
     }
 
 	@Override
-	public List<UserFollow> fallLoadList(Long tailId, int limit) {
-		// TODO Auto-generated method stub
-		return null;
+	public int updateByCriteria(UserFollow t, UserFollowCriteria criteria) {
+		return userFollowMapper.updateByExample(t, criteria);
+	}
+
+	@Override
+	public int deleteByCriteria(UserFollowCriteria criteria) {
+		return userFollowMapper.deleteByExample(criteria);
+	}
+
+	@Override
+	public List<UserFollow> queryAll(String orderByClause) {
+		UserFollowCriteria criteria = new UserFollowCriteria();
+		criteria.setOrderByClause(orderByClause);
+		return queryByCriteria(criteria);
+	}
+
+	@Override
+	public List<UserFollow> queryByCriteria(UserFollowCriteria criteria) {
+		return userFollowMapper.selectByExample(criteria);
 	}
 
 } 

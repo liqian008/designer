@@ -14,6 +14,8 @@ import com.bruce.designer.dao.IAlbumFavoriteDao;
 import com.bruce.designer.exception.RedisKeyNotExistException;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumFavorite;
+import com.bruce.designer.model.AlbumFavorite;
+import com.bruce.designer.model.AlbumFavoriteCriteria;
 import com.bruce.designer.service.IAlbumFavoriteService;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IMessageService;
@@ -66,9 +68,9 @@ public class AlbumFavoriteServiceImpl implements IAlbumFavoriteService {
 				try {
 					albumFavoriteCache.favorite(userId, albumId);
 				} catch (RedisKeyNotExistException e) {
-					if(logger.isErrorEnabled()){
-		    			logger.error("favorite: "+albumId+", "+designerId+", "+userId, e);
-		    		}
+					if (logger.isErrorEnabled()) {
+						logger.error("favorite: " + albumId + ", " + designerId + ", " + userId, e);
+					}
 					
 					//TODO 
 					List<AlbumFavorite> favoriteList = getFavoriteListByAlbumId(albumId);////获取该album的like列表
@@ -227,4 +229,36 @@ public class AlbumFavoriteServiceImpl implements IAlbumFavoriteService {
 //		return null;
 //	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	@Override
+	public int updateByCriteria(AlbumFavorite t, AlbumFavoriteCriteria criteria) {
+		return albumFavoriteDao.updateByCriteria(t, criteria);
+	}
+
+	@Override
+	public int deleteByCriteria(AlbumFavoriteCriteria criteria) {
+		return albumFavoriteDao.deleteByCriteria(criteria);
+	}
+
+	@Override
+	public List<AlbumFavorite> queryAll(String orderByClause) {
+		return albumFavoriteDao.queryAll(orderByClause);
+	}
+
+	@Override
+	public List<AlbumFavorite> queryByCriteria(AlbumFavoriteCriteria criteria) {
+		return albumFavoriteDao.queryByCriteria(criteria);
+	}
+	
+	
 }

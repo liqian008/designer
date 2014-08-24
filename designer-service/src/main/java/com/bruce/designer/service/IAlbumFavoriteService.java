@@ -3,8 +3,10 @@ package com.bruce.designer.service;
 import java.util.List;
 
 import com.bruce.designer.model.AlbumFavorite;
+import com.bruce.designer.model.AlbumFavoriteCriteria;
+import com.bruce.foundation.service.IFoundationService;
 
-public interface IAlbumFavoriteService extends IBaseService<AlbumFavorite, Integer>{ 
+public interface IAlbumFavoriteService extends IFoundationService<AlbumFavorite, Integer, AlbumFavoriteCriteria>{ 
     
     public List<AlbumFavorite> getFavoriteListByAlbumId(int userId);
     /*返回favorite的简单对象*/

@@ -76,13 +76,8 @@ public class CommentDaoImpl implements ICommentDao , InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        // TODO Auto-generated method stub
     }
 
-    @Override
-	public List<Comment> fallLoadList(Long tailId, int limit) {
-		return null;
-	}
     
 	@Override
 	public List<Comment> fallLoadComments(int albumId, Long tailId, int limit) {
@@ -91,7 +86,7 @@ public class CommentDaoImpl implements ICommentDao , InitializingBean {
 		if(tailId!=null&&tailId>0){
 			queryCriteria.andIdLessThan(tailId);
 		}
-		commentCriteria.setLimit(limit);
+		commentCriteria.setLimitRows(limit);
 		commentCriteria.setOrderByClause("id desc");
         List<Comment> commentList = commentMapper.selectByExample(commentCriteria);
         return commentList;
@@ -106,4 +101,28 @@ public class CommentDaoImpl implements ICommentDao , InitializingBean {
         // select album_id, count(album_id) total_num from tb_comment where status=1 group by album_id;
         return commentMapper.queryCommentStat();
     }
+    
+    
+    
+    @Override
+	public int updateByCriteria(Comment t, CommentCriteria criteria) {
+		return commentMapper.updateByExample(t, criteria);
+	}
+
+	@Override
+	public int deleteByCriteria(CommentCriteria criteria) {
+		return commentMapper.deleteByExample(criteria);
+	}
+
+	@Override
+	public List<Comment> queryAll(String orderByClause) {
+		CommentCriteria criteria = new CommentCriteria();
+		criteria.setOrderByClause(orderByClause);
+		return queryByCriteria(criteria);
+	}
+
+	@Override
+	public List<Comment> queryByCriteria(CommentCriteria criteria) {
+		return commentMapper.selectByExample(criteria);
+	}
 }

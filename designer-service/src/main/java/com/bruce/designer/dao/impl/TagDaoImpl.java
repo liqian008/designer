@@ -40,11 +40,6 @@ public class TagDaoImpl implements ITagDao, InitializingBean {
 	}
 
 	@Override
-	public List<Tag> fallLoadList(Integer tailId, int limit) {
-		return null;
-	}
-
-	@Override
 	public void afterPropertiesSet() throws Exception {
 
 	}
@@ -54,7 +49,7 @@ public class TagDaoImpl implements ITagDao, InitializingBean {
 		TagCriteria criteria = new TagCriteria();
 		criteria.createCriteria().andNameEqualTo(tagName);
 		List<Tag> tagList = tagMapper.selectByExample(criteria);
-		if(tagList!=null&&tagList.size()>0){
+		if (tagList != null && tagList.size() > 0) {
 			return tagList.get(0).getId();
 		}
 		throw new DesignerException(ErrorCode.TAG_NOT_EXISTS);
@@ -65,18 +60,42 @@ public class TagDaoImpl implements ITagDao, InitializingBean {
 		TagCriteria criteria = new TagCriteria();
 		criteria.createCriteria().andIdEqualTo(tagId);
 		List<Tag> tagList = tagMapper.selectByExample(criteria);
-		if(tagList!=null&&tagList.size()>0){
+		if (tagList != null && tagList.size() > 0) {
 			return tagList.get(0).getName();
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 计算热门Tag
 	 */
 	@Override
-	public List<Tag> calcHotTags(int limit){
+	public List<Tag> calcHotTags(int limit) {
 		return tagMapper.calcHotTags(limit);
 	}
 
+	
+	
+	
+	@Override
+	public int updateByCriteria(Tag t, TagCriteria criteria) {
+		return tagMapper.updateByExample(t, criteria);
+	}
+
+	@Override
+	public int deleteByCriteria(TagCriteria criteria) {
+		return tagMapper.deleteByExample(criteria);
+	}
+
+	@Override
+	public List<Tag> queryAll(String orderByClause) {
+		TagCriteria criteria = new TagCriteria();
+		criteria.setOrderByClause(orderByClause);
+		return queryByCriteria(criteria);
+	}
+
+	@Override
+	public List<Tag> queryByCriteria(TagCriteria criteria) {
+		return tagMapper.selectByExample(criteria);
+	}
 }

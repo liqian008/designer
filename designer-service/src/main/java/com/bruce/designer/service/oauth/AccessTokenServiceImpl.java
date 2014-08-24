@@ -55,5 +55,25 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
     public int delete(Integer userId, Short thirdpartyType) {
         return accessTokenDao.delete(userId, thirdpartyType);
     }
+
+	@Override
+	public int updateByCriteria(AccessTokenInfo t, AccessTokenInfoCriteria criteria) {
+		return accessTokenDao.updateByCriteria(t, criteria);
+	}
+
+	@Override
+	public int deleteByCriteria(AccessTokenInfoCriteria criteria) {
+		return accessTokenDao.deleteByCriteria(criteria);
+	}
+
+	@Override
+	public List<AccessTokenInfo> queryAll(String orderByClause) {
+		return accessTokenDao.queryAll(orderByClause);
+	}
+
+	@Override
+	public List<AccessTokenInfo> queryByCriteria(AccessTokenInfoCriteria criteria) {
+		return accessTokenDao.queryByCriteria(criteria);
+	}
     
 }

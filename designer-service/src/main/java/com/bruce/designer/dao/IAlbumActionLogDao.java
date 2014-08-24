@@ -4,17 +4,10 @@ import java.util.List;
 
 import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.model.AlbumActionLog;
+import com.bruce.designer.model.AlbumActionLogCriteria;
+import com.bruce.foundation.dao.IFoundationDao;
 
-public interface IAlbumActionLogDao extends IBaseDao<AlbumActionLog, Long> {
-
-    // public List<AlbumActionLog> getLikeListByAlbumId(int albumId, int
-    // maxCount);
-    //
-    // public int deleteLike(int userId, int albumId);
-    //
-    // public int like(int userId, int albumId);
-    //
-    // public boolean isLike(int userId, int albumId);
+public interface IAlbumActionLogDao extends IFoundationDao<AlbumActionLog, Long, AlbumActionLogCriteria> {
 
 	/**
 	 * 判断用户之前是否做过赞操作
@@ -38,9 +31,11 @@ public interface IAlbumActionLogDao extends IBaseDao<AlbumActionLog, Long> {
     public int logFavorite(int albumId, int designerId, int userId, boolean everFavorited);
 
     public int logComment(int albumId, int designerId, int userId);
-
+    
+    /**查询浏览数*/
     public List<CountCacheBean> queryBrowseStat();
-
+    
+    /*以下是查询热门专辑接口*/
     public List<CountCacheBean> realtimeDailyTopAlbums(int limit);
 
     public List<CountCacheBean> realtimeWeeklyTopAlbums(int limit);
@@ -49,6 +44,7 @@ public interface IAlbumActionLogDao extends IBaseDao<AlbumActionLog, Long> {
     
     public List<CountCacheBean> realtimeYearlyTopAlbums(int limit);
 
+    /*以下是查询热门设计师接口*/
     public List<CountCacheBean> realtimeDailyTopDesigners(int limit);
 
     public List<CountCacheBean> realtimeWeeklyTopDesigners(int limit);

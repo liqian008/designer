@@ -4,13 +4,15 @@ import java.util.List;
 
 import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.model.Comment;
+import com.bruce.designer.model.CommentCriteria;
+import com.bruce.foundation.service.IFoundationService;
 
 /**
  * 专辑交互service
  * @author liqian
  *
  */
-public interface IAlbumCommentService extends IBaseService<Comment, Long> {
+public interface IAlbumCommentService extends IFoundationService<Comment, Long, CommentCriteria> {
 
 //	public List<Comment> queryCommentsByAlbumSlideId(int albumSlideId);
 //	public List<Comment> queryCommentsByAlbumId(int albumId);
@@ -49,40 +51,4 @@ public interface IAlbumCommentService extends IBaseService<Comment, Long> {
      */
     public List<CountCacheBean> queryCommentStat();
 	
-	
-//	/**
-//	 * 赞
-//	 * @param fromId
-//	 * @param designerId
-//	 * @param albumId
-//	 * @return
-//	 */
-//	public int like(int fromId, int designerId, int albumId);
-//	
-//	/**
-//	 * 取消赞
-//	 * @param fromId
-//	 * @param designerId
-//	 * @param albumId
-//	 * @return
-//	 */
-//	public int unlike(int fromId, int designerId, int albumId);
-//	
-//	/**
-//	 * 收藏
-//	 * @param fromId
-//	 * @param designerId
-//	 * @param albumId
-//	 * @return
-//	 */
-//	public int favorite(int fromId, int designerId, int albumId);
-//	
-//	/**
-//	 * 取消收藏
-//	 * @param fromId
-//	 * @param designerId
-//	 * @param albumId
-//	 * @return
-//	 */
-//	public int unfavorite(int fromId, int designerId, int albumId);
 }

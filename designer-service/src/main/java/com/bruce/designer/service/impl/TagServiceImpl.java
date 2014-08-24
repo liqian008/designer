@@ -1,8 +1,6 @@
 package com.bruce.designer.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -12,16 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.ITagDao;
-import com.bruce.designer.data.PagingData;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
-import com.bruce.designer.model.Album;
 import com.bruce.designer.model.Tag;
-import com.bruce.designer.model.TagAlbum;
 import com.bruce.designer.model.TagCriteria;
-import com.bruce.designer.model.User;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.ITagAlbumService;
 import com.bruce.designer.service.ITagService;
@@ -180,4 +173,28 @@ public class TagServiceImpl implements ITagService, InitializingBean {
 		return tagName;
 	}
 
+	
+	
+
+	
+	@Override
+	public int updateByCriteria(Tag t, TagCriteria criteria) {
+		return tagDao.updateByCriteria(t, criteria);
+	}
+
+	@Override
+	public int deleteByCriteria(TagCriteria criteria) {
+		return tagDao.deleteByCriteria(criteria);
+	}
+
+	@Override
+	public List<Tag> queryAll(String orderByClause) {
+		return tagDao.queryAll(orderByClause);
+	}
+
+	@Override
+	public List<Tag> queryByCriteria(TagCriteria criteria) {
+		return tagDao.queryByCriteria(criteria);
+	}
+	
 }

@@ -12,6 +12,7 @@ import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IMessageDao;
 import com.bruce.designer.data.PagingData;
 import com.bruce.designer.model.Message;
+import com.bruce.designer.model.MessageCriteria;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
@@ -219,5 +220,33 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 		Assert.notNull(messageDao, "messageDao can't be null");
 		Assert.notNull(userService, "userService can't be null");
 	}
+	
+	
+	
+	
+	
+	
 
+	@Override
+	public int updateByCriteria(Message t, MessageCriteria criteria) {
+		return messageDao.updateByCriteria(t, criteria);
+	}
+
+	@Override
+	public int deleteByCriteria(MessageCriteria criteria) {
+		return messageDao.deleteByCriteria(criteria);
+	}
+
+	@Override
+	public List<Message> queryAll(String orderByClause) {
+		return messageDao.queryAll(orderByClause);
+	}
+
+	@Override
+	public List<Message> queryByCriteria(MessageCriteria criteria) {
+		return messageDao.queryByCriteria(criteria);
+	}
+	
+	
+	
 }

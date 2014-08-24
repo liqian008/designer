@@ -2,15 +2,15 @@ package com.bruce.designer.dao.impl;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import com.bruce.designer.model.Album;
-import com.bruce.designer.model.AlbumCriteria;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IAlbumDao;
 import com.bruce.designer.dao.mapper.AlbumMapper;
 import com.bruce.designer.data.PagingData;
+import com.bruce.designer.model.Album;
+import com.bruce.designer.model.AlbumCriteria;
 
 @Repository
 public class AlbumDaoImpl implements IAlbumDao{
@@ -48,8 +48,8 @@ public class AlbumDaoImpl implements IAlbumDao{
 	public List<Album> queryList(int start, int limit){
 	    AlbumCriteria criteria = new AlbumCriteria();
         criteria.createCriteria();
-        criteria.setStart(start);
-        criteria.setLimit(limit);
+        criteria.setLimitOffset(start);
+        criteria.setLimitOffset(limit);
         criteria.setOrderByClause("id desc");
         List<Album> albumList = albumMapper.selectByExample(criteria);
         return albumList;
@@ -64,8 +64,8 @@ public class AlbumDaoImpl implements IAlbumDao{
         int start = (pageNo-1) * pageSize;
         AlbumCriteria criteria = new AlbumCriteria();
         criteria.createCriteria().andUserIdEqualTo(userId).andStatusEqualTo(albumStatus);
-        criteria.setStart(start);
-        criteria.setLimit(pageSize);
+        criteria.setLimitOffset(start);
+        criteria.setLimitRows(pageSize);
         criteria.setOrderByClause("id desc");
         List<Album> albumList = albumMapper.selectByExample(criteria); 
         int totalCount = albumMapper.countByExample(criteria);//总条数
@@ -73,20 +73,6 @@ public class AlbumDaoImpl implements IAlbumDao{
         return pagingData;
     }
 	
-	
-//	public PagingData<Album> pagingQuery(short status, int pageNo, int pageSize){
-//		if(pageNo<0) pageNo = 1;
-//		int offset = (pageNo-1) * pageSize;
-//		AlbumCriteria criteria = new AlbumCriteria();
-//		criteria.createCriteria().andStatusEqualTo(status);
-//		criteria.setOffset(offset);
-//		criteria.setLimit(pageSize);
-//		criteria.setOrderByClause("id desc");
-//		List<Album> albumList = albumMapper.selectByExample(criteria);
-//		int totalCount = albumMapper.countByExample(criteria);//总条数
-//		PagingData<Album> pagingData = new PagingData<Album>(albumList, totalCount, pageNo, pageSize);
-//		return pagingData;
-//	}
 	
 	@Override
 	public java.util.List<Album> queryAlbumByIds(java.util.List<Integer> idList) {
@@ -96,12 +82,6 @@ public class AlbumDaoImpl implements IAlbumDao{
 		return albumMapper.selectByExample(criteria);
 	}
 	
-//	public List<Album> queryAlbumByStatus(short status) {
-//		AlbumCriteria criteria = new AlbumCriteria();
-//		criteria.createCriteria().andStatusEqualTo(status);
-//		criteria.setOrderByClause("id desc");
-//		return albumMapper.selectByExample(criteria);
-//	}
 
 	public List<Album> queryAlbumByUserId(int userId) {
 		AlbumCriteria criteria = new AlbumCriteria();
@@ -132,20 +112,32 @@ public class AlbumDaoImpl implements IAlbumDao{
 		if(albumsTailId>0){
 			subCriteria.andIdLessThan(albumsTailId);
 		}
-		criteria.setLimit(limit);
+		criteria.setLimitRows(limit);
 	    criteria.setOrderByClause("id desc");
         List<Album> albumList = albumMapper.selectByExample(criteria);
         return albumList;
 	}
 
-	public AlbumMapper getAlbumMapper() {
-		return albumMapper;
+	@Override
+	public int updateByCriteria(Album t, AlbumCriteria criteria) {
+		return albumMapper.updateByExample(t, criteria);
 	}
 
-	public void setAlbumMapper(AlbumMapper albumMapper) {
-		this.albumMapper = albumMapper;
+	@Override
+	public int deleteByCriteria(AlbumCriteria criteria) {
+		return albumMapper.deleteByExample(criteria);
 	}
-	
-	
+
+	@Override
+	public List<Album> queryAll(String orderByClause) {
+		AlbumCriteria criteria = new AlbumCriteria();
+		criteria.setOrderByClause(orderByClause);
+		return queryByCriteria(criteria);
+	}
+
+	@Override
+	public List<Album> queryByCriteria(AlbumCriteria criteria) {
+		return albumMapper.selectByExample(criteria);
+	}
 
 }

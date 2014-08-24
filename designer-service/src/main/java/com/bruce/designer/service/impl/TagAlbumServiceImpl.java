@@ -9,20 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.ITagAlbumDao;
-import com.bruce.designer.dao.ITagDao;
-import com.bruce.designer.data.PagingData;
-import com.bruce.designer.exception.DesignerException;
-import com.bruce.designer.exception.ErrorCode;
-import com.bruce.designer.model.Album;
-import com.bruce.designer.model.Tag;
 import com.bruce.designer.model.TagAlbum;
-import com.bruce.designer.model.TagCriteria;
-import com.bruce.designer.model.User;
-import com.bruce.designer.service.IAlbumService;
+import com.bruce.designer.model.TagAlbumCriteria;
 import com.bruce.designer.service.ITagAlbumService;
-import com.bruce.designer.service.ITagService;
 import com.bruce.designer.service.IUserService;
 
 @Service
@@ -121,5 +111,25 @@ public class TagAlbumServiceImpl implements ITagAlbumService, InitializingBean {
 		return 0;
 	}
 	
+
 	
+	@Override
+	public int updateByCriteria(TagAlbum t, TagAlbumCriteria criteria) {
+		return tagAlbumDao.updateByCriteria(t, criteria);
+	}
+
+	@Override
+	public int deleteByCriteria(TagAlbumCriteria criteria) {
+		return tagAlbumDao.deleteByCriteria(criteria);
+	}
+
+	@Override
+	public List<TagAlbum> queryAll(String orderByClause) {
+		return tagAlbumDao.queryAll(orderByClause);
+	}
+
+	@Override
+	public List<TagAlbum> queryByCriteria(TagAlbumCriteria criteria) {
+		return tagAlbumDao.queryByCriteria(criteria);
+	}
 }

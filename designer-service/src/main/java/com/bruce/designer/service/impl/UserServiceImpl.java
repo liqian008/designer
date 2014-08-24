@@ -4,18 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.bruce.designer.model.AccessTokenInfo;
-import com.bruce.designer.model.Album;
-import com.bruce.designer.model.User;
 import com.bruce.designer.cache.user.UserCache;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IUserDao;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
-import com.bruce.designer.service.ICounterService;
+import com.bruce.designer.model.AccessTokenInfo;
+import com.bruce.designer.model.User;
+import com.bruce.designer.model.UserCriteria;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;
@@ -263,4 +262,35 @@ public class UserServiceImpl implements IUserService {
 	    List<AccessTokenInfo> accessTokenList = accessTokenService.queryByUserId(user.getId());
 	    user.refreshTokenMap(accessTokenList);
     }
+	
+	
+	
+	
+	
+	
+	
+	
+
+	@Override
+	public int updateByCriteria(User t, UserCriteria criteria) {
+		return userDao.updateByCriteria(t, criteria);
+	}
+
+	@Override
+	public int deleteByCriteria(UserCriteria criteria) {
+		return userDao.deleteByCriteria(criteria);
+	}
+
+	@Override
+	public List<User> queryAll(String orderByClause) {
+		return userDao.queryAll(orderByClause);
+	}
+
+	@Override
+	public List<User> queryByCriteria(UserCriteria criteria) {
+		return userDao.queryByCriteria(criteria);
+	}
+	
+	
+	
 }

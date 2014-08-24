@@ -79,9 +79,25 @@ public class AlbumLikeDaoImpl implements IAlbumLikeDao, InitializingBean {
         
     }
 
+    @Override
+	public int updateByCriteria(AlbumLike t, AlbumLikeCriteria criteria) {
+		return albumLikeMapper.updateByExample(t, criteria);
+	}
+
 	@Override
-	public List<AlbumLike> fallLoadList(Integer tailId, int limit) {
-		// TODO Auto-generated method stub
-		return null;
+	public int deleteByCriteria(AlbumLikeCriteria criteria) {
+		return albumLikeMapper.deleteByExample(criteria);
+	}
+
+	@Override
+	public List<AlbumLike> queryAll(String orderByClause) {
+		AlbumLikeCriteria criteria = new AlbumLikeCriteria();
+		criteria.setOrderByClause(orderByClause);
+		return queryByCriteria(criteria);
+	}
+
+	@Override
+	public List<AlbumLike> queryByCriteria(AlbumLikeCriteria criteria) {
+		return albumLikeMapper.selectByExample(criteria);
 	}
 } 

@@ -13,6 +13,7 @@ import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.ICommentDao;
 import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.model.Comment;
+import com.bruce.designer.model.CommentCriteria;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IAlbumCommentService;
 import com.bruce.designer.service.IAlbumCounterService;
@@ -141,58 +142,29 @@ public class AlbumCommentServiceImpl implements IAlbumCommentService {
     public List<CountCacheBean> queryCommentStat() {
         return commentDao.queryCommentStat();
     }
+
     
-//	/**
-//	 * 赞作品
-//	 */
-//	@Override
-//	public int like(int fromId, int designerId, int albumId){
-//		// 评论计量
-//		long albumSlideLikeCount = counterService.incrLike(designerId, albumId);
-//		
-//		// TODO 同时发送消息
-//		long sourceId = albumId;
-//		String likeMessage = "";//赞了您的作品
-//		messageService.sendMessage(sourceId, ConstService.MESSAGE_DELIVER_ID_LIKE, designerId, likeMessage, ConstService.MESSAGE_TYPE_LIKE);
-//		if (albumSlideLikeCount > 0) {
-//			return 1;
-//		}
-//		return 0;
-//	}
-//	
-//	/**
-//	 * 取消赞
-//	 */
-//	@Override
-//	public int unlike(int fromId, int designerId, int albumId){
-//		
-//		return 0;
-//	}
-//	/**
-//	 * 收藏作品
-//	 */
-//	@Override
-//	public int favorite(int fromId, int designerId, int albumId){
-//		// 评论计量
-//		long albumSlideLikeCount = counterService.incrLike(designerId, albumId);
-//		
-//		// TODO 同时发送消息
-//		long sourceId = albumId;
-//		String likeMessage = "";//赞了您的作品
-//		messageService.sendMessage(sourceId, ConstService.MESSAGE_DELIVER_ID_LIKE, designerId, likeMessage, ConstService.MESSAGE_TYPE_LIKE);
-//		if (albumSlideLikeCount > 0) {
-//			return 1;
-//		}
-//		return 0;
-//	}
-//	
-//	/**
-//	 * 取消收藏作品
-//	 */
-//	@Override
-//	public int unfavorite(int fromId, int designerId, int albumId){
-//		
-//		return 0;
-//	}
+    
+    
+    
+	@Override
+	public int updateByCriteria(Comment t, CommentCriteria criteria) {
+		return commentDao.updateByCriteria(t, criteria);
+	}
+
+	@Override
+	public int deleteByCriteria(CommentCriteria criteria) {
+		return commentDao.deleteByCriteria(criteria);
+	}
+
+	@Override
+	public List<Comment> queryAll(String orderByClause) {
+		return commentDao.queryAll(orderByClause);
+	}
+
+	@Override
+	public List<Comment> queryByCriteria(CommentCriteria criteria) {
+		return commentDao.queryByCriteria(criteria);
+	}
 
 }

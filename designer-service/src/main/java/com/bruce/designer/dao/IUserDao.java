@@ -3,8 +3,10 @@ package com.bruce.designer.dao;
 import java.util.List;
 
 import com.bruce.designer.model.User;
+import com.bruce.designer.model.UserCriteria;
+import com.bruce.foundation.dao.IFoundationDao;
 
-public interface IUserDao extends IBaseDao<User, Integer> {
+public interface IUserDao extends IFoundationDao<User, Integer, UserCriteria> {
 
 	public boolean usernameExists(String username);
 

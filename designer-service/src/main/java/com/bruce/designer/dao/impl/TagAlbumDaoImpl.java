@@ -38,11 +38,6 @@ public class TagAlbumDaoImpl implements ITagAlbumDao, InitializingBean {
     }
 
 	@Override
-	public List<TagAlbum> fallLoadList(Long albumTailId, int limit) {
-		return null;
-	}
-
-	@Override
 	public void afterPropertiesSet() throws Exception {
 		
 	}
@@ -55,7 +50,7 @@ public class TagAlbumDaoImpl implements ITagAlbumDao, InitializingBean {
 		if(albumsTailId>0){
 			subCriteria.andAlbumIdLessThan(albumsTailId);
 		}
-		criteria.setLimit(limit);
+		criteria.setLimitOffset(limit);
 	    criteria.setOrderByClause("id desc");
         List<TagAlbum> albumList = tagAlbumMapper.selectByExample(criteria);
         return albumList;
@@ -76,6 +71,33 @@ public class TagAlbumDaoImpl implements ITagAlbumDao, InitializingBean {
 		criteria.createCriteria().andAlbumIdEqualTo(albumId);
         int result = tagAlbumMapper.deleteByExample(criteria);
         return result;
+	}
+	
+	
+	
+	
+	
+
+	@Override
+	public int updateByCriteria(TagAlbum t, TagAlbumCriteria criteria) {
+		return tagAlbumMapper.updateByExample(t, criteria);
+	}
+
+	@Override
+	public int deleteByCriteria(TagAlbumCriteria criteria) {
+		return tagAlbumMapper.deleteByExample(criteria);
+	}
+
+	@Override
+	public List<TagAlbum> queryAll(String orderByClause) {
+		TagAlbumCriteria criteria = new TagAlbumCriteria();
+		criteria.setOrderByClause(orderByClause);
+		return queryByCriteria(criteria);
+	}
+
+	@Override
+	public List<TagAlbum> queryByCriteria(TagAlbumCriteria criteria) {
+		return tagAlbumMapper.selectByExample(criteria);
 	}
 
 } 

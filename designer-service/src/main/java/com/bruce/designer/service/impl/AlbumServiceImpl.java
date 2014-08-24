@@ -12,6 +12,8 @@ import com.bruce.designer.data.PagingData;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.model.Album;
+import com.bruce.designer.model.Album;
+import com.bruce.designer.model.AlbumCriteria;
 import com.bruce.designer.model.UserFollow;
 import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.IAlbumFavoriteService;
@@ -321,12 +323,33 @@ public class AlbumServiceImpl implements IAlbumService {
 	    }
 	}
 
-	public IAlbumDao getAlbumDao() {
-		return albumDao;
+	
+	
+	
+	
+	
+
+	
+	@Override
+	public int updateByCriteria(Album t, AlbumCriteria criteria) {
+		return albumDao.updateByCriteria(t, criteria);
 	}
 
-	public void setAlbumDao(IAlbumDao albumDao) {
-		this.albumDao = albumDao;
+	@Override
+	public int deleteByCriteria(AlbumCriteria criteria) {
+		return albumDao.deleteByCriteria(criteria);
 	}
+
+	@Override
+	public List<Album> queryAll(String orderByClause) {
+		return albumDao.queryAll(orderByClause);
+	}
+
+	@Override
+	public List<Album> queryByCriteria(AlbumCriteria criteria) {
+		return albumDao.queryByCriteria(criteria);
+	}
+	
+	
 
 }

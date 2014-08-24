@@ -13,6 +13,7 @@ import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IAlbumLikeDao;
 import com.bruce.designer.exception.RedisKeyNotExistException;
 import com.bruce.designer.model.AlbumLike;
+import com.bruce.designer.model.AlbumLikeCriteria;
 import com.bruce.designer.service.IAlbumLikeService;
 import com.bruce.designer.service.IMessageService;
 
@@ -151,6 +152,28 @@ public class AlbumLikeServiceImpl implements IAlbumLikeService {
             return likeList.size();
 		}
 	}
-	
 
+	
+	
+	
+	@Override
+	public int updateByCriteria(AlbumLike t, AlbumLikeCriteria criteria) {
+		return albumLikeDao.updateByCriteria(t, criteria);
+	}
+
+	@Override
+	public int deleteByCriteria(AlbumLikeCriteria criteria) {
+		return albumLikeDao.deleteByCriteria(criteria);
+	}
+
+	@Override
+	public List<AlbumLike> queryAll(String orderByClause) {
+		return albumLikeDao.queryAll(orderByClause);
+	}
+
+	@Override
+	public List<AlbumLike> queryByCriteria(AlbumLikeCriteria criteria) {
+		return albumLikeDao.queryByCriteria(criteria);
+	}
+	
 }

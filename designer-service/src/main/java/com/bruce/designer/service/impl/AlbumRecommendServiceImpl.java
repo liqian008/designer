@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.bruce.designer.dao.IAlbumRecommendDao;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumRecommend;
+import com.bruce.designer.model.AlbumRecommendCriteria;
+import com.bruce.designer.model.AlbumRecommend;
 import com.bruce.designer.service.IAlbumRecommendService;
 import com.bruce.designer.service.IAlbumService;
 
@@ -62,5 +64,28 @@ public class AlbumRecommendServiceImpl implements IAlbumRecommendService{
 		}
 		return null;
 	}
+	
+	
+	
+	
+	@Override
+	public int updateByCriteria(AlbumRecommend t, AlbumRecommendCriteria criteria) {
+		return albumRecommendDao.updateByCriteria(t, criteria);
+	}
 
+	@Override
+	public int deleteByCriteria(AlbumRecommendCriteria criteria) {
+		return albumRecommendDao.deleteByCriteria(criteria);
+	}
+
+	@Override
+	public List<AlbumRecommend> queryAll(String orderByClause) {
+		return albumRecommendDao.queryAll(orderByClause);
+	}
+
+	@Override
+	public List<AlbumRecommend> queryByCriteria(AlbumRecommendCriteria criteria) {
+		return albumRecommendDao.queryByCriteria(criteria);
+	}
+	
 }

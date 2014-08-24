@@ -4,11 +4,12 @@ package com.bruce.designer.service.oauth;
 import java.util.List;
 
 import com.bruce.designer.model.AccessTokenInfo;
-import com.bruce.designer.service.IBaseService;
+import com.bruce.designer.model.AccessTokenInfoCriteria;
+import com.bruce.foundation.service.IFoundationService;
 
 
 
-public interface IAccessTokenService extends IBaseService<AccessTokenInfo, Integer> {
+public interface IAccessTokenService extends IFoundationService<AccessTokenInfo, Integer, AccessTokenInfoCriteria> {
     
     //创建accessToken
     //public int addAccessTokenInfo(AccessTokenInfo accessTokenInfo);

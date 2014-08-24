@@ -177,7 +177,7 @@ public class UserDaoImpl implements IUserDao , InitializingBean {
 		if(approvelTailTime>0){
 			subCriteria.andDesignerApplyTimeLessThan(new Date(approvelTailTime));
 		}
-		criteria.setLimit(limit);
+		criteria.setLimitOffset(limit);
 	    criteria.setOrderByClause("designer_pass_time desc");
         List<User> designerList = userMapper.selectByExample(criteria);
         return designerList;
@@ -190,10 +190,28 @@ public class UserDaoImpl implements IUserDao , InitializingBean {
         
     }
 
-	@Override
-	public List<User> fallLoadList(Integer tailId, int limit) {
-		// TODO Auto-generated method stub
-		return null;
+
+    @Override
+	public int updateByCriteria(User t, UserCriteria criteria) {
+		return userMapper.updateByExample(t, criteria);
 	}
 
+	@Override
+	public int deleteByCriteria(UserCriteria criteria) {
+		return userMapper.deleteByExample(criteria);
+	}
+
+	@Override
+	public List<User> queryAll(String orderByClause) {
+		UserCriteria criteria = new UserCriteria();
+		criteria.setOrderByClause(orderByClause);
+		return queryByCriteria(criteria);
+	}
+
+	@Override
+	public List<User> queryByCriteria(UserCriteria criteria) {
+		return userMapper.selectByExample(criteria);
+	}
+    
+    
 }

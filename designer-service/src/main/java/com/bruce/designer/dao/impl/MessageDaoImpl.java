@@ -145,8 +145,8 @@ public class MessageDaoImpl implements IMessageDao, InitializingBean {
         int start = (pageNo-1) * pageSize;
         MessageCriteria criteria = new MessageCriteria();
         criteria.createCriteria().andToIdEqualTo(userId).andMessageTypeEqualTo(messageType);
-        criteria.setStart(start);
-        criteria.setLimit(pageSize);
+        criteria.setLimitOffset(start);
+        criteria.setLimitRows(pageSize);
         criteria.setOrderByClause("id desc");
         List<Message> messageList = messageMapper.selectByExample(criteria); 
         int totalCount = messageMapper.countByExample(criteria);//总条数
@@ -204,11 +204,6 @@ public class MessageDaoImpl implements IMessageDao, InitializingBean {
         Assert.notNull(userService, "userService can't be null");
     }
 
-	@Override
-	public List<Message> fallLoadList(Long tailId, int limit) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	
 	/**
@@ -223,9 +218,34 @@ public class MessageDaoImpl implements IMessageDao, InitializingBean {
         if(tailId>0){
         	subCriteria.andIdLessThan(tailId);
         }
-        criteria.setLimit(limit);
+        criteria.setLimitRows(limit);
         criteria.setOrderByClause("id desc");
         return messageMapper.selectByExample(criteria);
+	}
+	
+	
+	
+	
+	@Override
+	public int updateByCriteria(Message t, MessageCriteria criteria) {
+		return messageMapper.updateByExample(t, criteria);
+	}
+
+	@Override
+	public int deleteByCriteria(MessageCriteria criteria) {
+		return messageMapper.deleteByExample(criteria);
+	}
+
+	@Override
+	public List<Message> queryAll(String orderByClause) {
+		MessageCriteria criteria = new MessageCriteria();
+		criteria.setOrderByClause(orderByClause);
+		return queryByCriteria(criteria);
+	}
+
+	@Override
+	public List<Message> queryByCriteria(MessageCriteria criteria) {
+		return messageMapper.selectByExample(criteria);
 	}
 
 }

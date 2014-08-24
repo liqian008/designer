@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.bruce.designer.dao.IAlbumActionLogDao;
 import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.model.AlbumActionLog;
+import com.bruce.designer.model.AlbumActionLogCriteria;
 import com.bruce.designer.service.IAlbumActionLogService;
 
 @Service
@@ -24,8 +25,18 @@ public class AlbumActionLogServiceImpl implements IAlbumActionLogService {
 		return albumActionLogDao.updateById(t);
 	}
 
+	@Override
+	public int updateByCriteria(AlbumActionLog t, AlbumActionLogCriteria criteria) {
+		return albumActionLogDao.updateByCriteria(t, criteria);
+	}
+
 	public int deleteById(Long id) {
 		return albumActionLogDao.deleteById(id);
+	}
+
+	@Override
+	public int deleteByCriteria(AlbumActionLogCriteria criteria) {
+		return albumActionLogDao.deleteByCriteria(criteria);
 	}
 
 	public AlbumActionLog loadById(Long id) {
@@ -35,6 +46,16 @@ public class AlbumActionLogServiceImpl implements IAlbumActionLogService {
 	@Override
 	public List<AlbumActionLog> queryAll() {
 		return albumActionLogDao.queryAll();
+	}
+
+	@Override
+	public List<AlbumActionLog> queryAll(String orderByClause) {
+		return albumActionLogDao.queryAll(orderByClause);
+	}
+
+	@Override
+	public List<AlbumActionLog> queryByCriteria(AlbumActionLogCriteria criteria) {
+		return albumActionLogDao.queryByCriteria(criteria);
 	}
 
 	/**
@@ -50,13 +71,14 @@ public class AlbumActionLogServiceImpl implements IAlbumActionLogService {
 	 */
 	@Override
 	public int logLike(int albumId, int designerId, int userId) {
-	    //如果之前like过，重复操作不做记录
-	    boolean everLiked = albumActionLogDao.existLikeLog(albumId, userId);//TODO 从缓存查询
-        if(everLiked){
-        	return 0;
-        }else{
-        	return albumActionLogDao.logLike(albumId, designerId, userId, everLiked);
-        }
+		// 如果之前like过，重复操作不做记录
+		boolean everLiked = albumActionLogDao.existLikeLog(albumId, userId);// TODO
+																			// 从缓存查询
+		if (everLiked) {
+			return 0;
+		} else {
+			return albumActionLogDao.logLike(albumId, designerId, userId, everLiked);
+		}
 	}
 
 	/**
@@ -64,11 +86,11 @@ public class AlbumActionLogServiceImpl implements IAlbumActionLogService {
 	 */
 	@Override
 	public int logFavorite(int albumId, int designerId, int userId) {
-	    //如果之前favorite过，重复操作不做记录
-		boolean everFavorited = albumActionLogDao.existFavoriteLog(albumId, userId);//TODO 从缓存查询
-		if(everFavorited){//
+		// 如果之前favorite过，重复操作不做记录
+		boolean everFavorited = albumActionLogDao.existFavoriteLog(albumId, userId);
+		if (everFavorited) {//
 			return 0;
-		}else{
+		} else {
 			return albumActionLogDao.logFavorite(albumId, designerId, userId, everFavorited);
 		}
 	}
@@ -82,23 +104,8 @@ public class AlbumActionLogServiceImpl implements IAlbumActionLogService {
 	}
 	
 	@Override
-    public List<CountCacheBean> queryBrowseStat() {
-        return albumActionLogDao.queryBrowseStat();
-    }
-	
-//	@Override
-//    public List<CountCacheBean> queryBrowseStat() { 
-//        return albumActionLogDao.queryBrowseStat();
-//    }
-	
-//	@Override
-//    public List<CountCacheBean> queryLikeByAlbumId(int albumId) {
-//        return albumActionLogDao.queryLikeByAlbumId(albumId);
-//    }
-//	
-//	@Override
-//    public List<CountCacheBean> queryFavoriteByAlbumId(int albumId) {
-//        return albumActionLogDao.queryFavoriteByAlbumId(albumId);
-//    }
+	public List<CountCacheBean> queryBrowseStat() {
+		return albumActionLogDao.queryBrowseStat();
+	}
 
 }

@@ -3,8 +3,10 @@ package com.bruce.designer.dao;
 import java.util.List;
 
 import com.bruce.designer.model.AlbumLike;
+import com.bruce.designer.model.AlbumLikeCriteria;
+import com.bruce.foundation.dao.IFoundationDao;
 
-public interface IAlbumLikeDao extends IBaseDao<AlbumLike, Integer>{ 
+public interface IAlbumLikeDao extends IFoundationDao<AlbumLike, Integer, AlbumLikeCriteria>{ 
     
     public List<AlbumLike> getLikeListByAlbumId(int albumId, int maxCount); 
 

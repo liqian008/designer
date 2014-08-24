@@ -3,8 +3,10 @@ package com.bruce.designer.service;
 import java.util.List;
 
 import com.bruce.designer.model.AlbumLike;
+import com.bruce.designer.model.AlbumLikeCriteria;
+import com.bruce.foundation.service.IFoundationService;
 
-public interface IAlbumLikeService extends IBaseService<AlbumLike, Integer>{ 
+public interface IAlbumLikeService extends IFoundationService<AlbumLike, Integer, AlbumLikeCriteria>{ 
     
     public List<AlbumLike> getLikeListByAlbumId(int albumId);
 

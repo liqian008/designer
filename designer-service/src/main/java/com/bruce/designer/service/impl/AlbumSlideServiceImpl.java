@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.bruce.designer.dao.IAlbumSlideDao;
 import com.bruce.designer.model.AlbumSlide;
+import com.bruce.designer.model.AlbumSlideCriteria;
 import com.bruce.designer.service.IAlbumSlideService;
 
 @Service
@@ -54,4 +55,27 @@ public class AlbumSlideServiceImpl implements IAlbumSlideService {
 		return albumSlideDao.setCover(userId, albumId, albumSlideId);
 	}
 
+	
+
+	@Override
+	public int updateByCriteria(AlbumSlide t, AlbumSlideCriteria criteria) {
+		return albumSlideDao.updateByCriteria(t, criteria);
+	}
+
+	@Override
+	public int deleteByCriteria(AlbumSlideCriteria criteria) {
+		return albumSlideDao.deleteByCriteria(criteria);
+	}
+
+	@Override
+	public List<AlbumSlide> queryAll(String orderByClause) {
+		return albumSlideDao.queryAll(orderByClause);
+	}
+
+	@Override
+	public List<AlbumSlide> queryByCriteria(AlbumSlideCriteria criteria) {
+		return albumSlideDao.queryByCriteria(criteria);
+	}
+	
+	
 }

@@ -1,6 +1,5 @@
 package com.bruce.designer.model;
 
-import java.util.Date;
 
 public class TagAlbumBase {
 	

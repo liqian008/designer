@@ -11,13 +11,13 @@ import com.bruce.designer.model.IndexSlide;
 import com.bruce.designer.model.IndexSlideCriteria;
 
 @Repository
-public class IndexSlideDaoImpl implements IIndexSlideDao{
+public class IndexSlideDaoImpl implements IIndexSlideDao {
 
 	@Autowired
 	private IndexSlideMapper indexSlideMapper;
 
 	public int save(IndexSlide t) {
-	    return indexSlideMapper.insertSelective(t);
+		return indexSlideMapper.insertSelective(t);
 	}
 
 	public int updateById(IndexSlide t) {
@@ -28,8 +28,18 @@ public class IndexSlideDaoImpl implements IIndexSlideDao{
 		return indexSlideMapper.deleteByPrimaryKey(id);
 	}
 
+	@Override
+	public int updateByCriteria(IndexSlide t, IndexSlideCriteria criteria) {
+		return indexSlideMapper.updateByExample(t, criteria);
+	}
+
+	@Override
+	public int deleteByCriteria(IndexSlideCriteria criteria) {
+		return indexSlideMapper.deleteByExample(criteria);
+	}
+
 	public IndexSlide loadById(Integer id) {
-	    return indexSlideMapper.selectByPrimaryKey(id);
+		return indexSlideMapper.selectByPrimaryKey(id);
 	}
 
 	public List<IndexSlide> queryAll() {
@@ -37,19 +47,25 @@ public class IndexSlideDaoImpl implements IIndexSlideDao{
 	}
 
 	@Override
+	public List<IndexSlide> queryAll(String orderByClause) {
+		IndexSlideCriteria criteria = new IndexSlideCriteria();
+		criteria.setOrderByClause(orderByClause);
+		return queryByCriteria(criteria);
+	}
+
+	@Override
+	public List<IndexSlide> queryByCriteria(IndexSlideCriteria criteria) {
+		return indexSlideMapper.selectByExample(criteria);
+	}
+
+	@Override
 	public List<IndexSlide> queryIndexSlideList(int start, int limit) {
 		IndexSlideCriteria criteria = new IndexSlideCriteria();
 		criteria.createCriteria();
-		criteria.setLimit(limit);
+		criteria.setLimitOffset(limit);
 		criteria.setOrderByClause("sort desc");
-        List<IndexSlide> indexSlideList = indexSlideMapper.selectByExample(criteria);
-        return indexSlideList;
-	}
-	
-	@Override
-	public List<IndexSlide> fallLoadList(Integer tailId, int limit) {
-		// TODO Auto-generated method stub
-		return null;
+		List<IndexSlide> indexSlideList = indexSlideMapper.selectByExample(criteria);
+		return indexSlideList;
 	}
 
 }

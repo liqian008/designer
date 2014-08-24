@@ -3,9 +3,10 @@ package com.bruce.designer.service;
 import java.util.List;
 
 import com.bruce.designer.model.TagAlbum;
+import com.bruce.designer.model.TagAlbumCriteria;
+import com.bruce.foundation.service.IFoundationService;
 
-public interface ITagAlbumService extends IBaseService<TagAlbum, Long>{ 
-    
+public interface ITagAlbumService extends IFoundationService<TagAlbum, Long, TagAlbumCriteria>{ 
 	
 	/**
 	 * 

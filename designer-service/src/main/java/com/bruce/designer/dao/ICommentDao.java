@@ -4,12 +4,11 @@ import java.util.List;
 
 import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.model.Comment;
+import com.bruce.designer.model.CommentCriteria;
+import com.bruce.foundation.dao.IFoundationDao;
 
-public interface ICommentDao extends IBaseDao<Comment, Long> {
+public interface ICommentDao extends IFoundationDao<Comment, Long, CommentCriteria> {
 
-//	public List<Comment> queryCommentsByAlbumId(int albumId);
-//
-//	public List<Comment> queryCommentsByAlbumSlideId(int albumSlideId);
 	
 	
 	/**
@@ -18,7 +17,7 @@ public interface ICommentDao extends IBaseDao<Comment, Long> {
      * @param limit
      * @return
      */
-    public List<Comment> fallLoadComments(int albumSlideId, Long tailId, int limit);
+    public List<Comment> fallLoadComments(int albumId, Long tailId, int limit);
     
 	/**
 	 * 

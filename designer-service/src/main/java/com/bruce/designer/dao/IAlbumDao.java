@@ -4,9 +4,14 @@ import java.util.List;
 
 import com.bruce.designer.data.PagingData;
 import com.bruce.designer.model.Album;
+import com.bruce.designer.model.AlbumCriteria;
+import com.bruce.foundation.dao.IFoundationDao;
 
-public interface IAlbumDao extends IBaseDao<Album, Integer> {
+public interface IAlbumDao extends IFoundationDao<Album, Integer, AlbumCriteria> {
 
+	public List<Album> fallLoadList(Integer tailId, int limit);
+	
+	
 	public List<Album> queryAlbumByIds(List<Integer> idList);
 
 //	public List<Album> queryAlbumByStatus(short status);

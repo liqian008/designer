@@ -13,60 +13,76 @@ import com.bruce.designer.model.UserFanCriteria;
 
 @Repository
 public class UserFanDaoImpl implements IUserFanDao, InitializingBean {
-     
-    @Autowired
-    private UserFanMapper userFanMapper;
-    
-    public int save(UserFan t) {
-        return userFanMapper.insertSelective(t);
-    }
 
-    public List<UserFan> queryAll() {
-        return userFanMapper.selectByExample(null);
-    }
+	@Autowired
+	private UserFanMapper userFanMapper;
 
-    public int updateById(UserFan t) {
-        return userFanMapper.updateByPrimaryKeySelective(t);
-    }
+	public int save(UserFan t) {
+		return userFanMapper.insertSelective(t);
+	}
 
-    public int deleteById(Long id) {
-        return userFanMapper.deleteByPrimaryKey(id);
-    }
+	public List<UserFan> queryAll() {
+		return userFanMapper.selectByExample(null);
+	}
 
-    public UserFan loadById(Long id) {
-        return userFanMapper.selectByPrimaryKey(id);
-    }
+	public int updateById(UserFan t) {
+		return userFanMapper.updateByPrimaryKeySelective(t);
+	}
 
-    
-    @Override
-    public List<UserFan> getFanList(int userId) {
-        return getFanList(userId, -1);
-    }
-    
-    @Override
-    public List<UserFan> getFanList(int userId, int maxCount) {
-        UserFanCriteria criteria = new UserFanCriteria();
-        criteria.createCriteria().andUserIdEqualTo(userId);
-        List<UserFan> fansList = userFanMapper.selectByExample(criteria);
-        return fansList;
-    }
+	public int deleteById(Long id) {
+		return userFanMapper.deleteByPrimaryKey(id);
+	}
 
-    @Override
-    public int deleteFan(int unfollowId, int uid) {
-        UserFanCriteria criteria = new UserFanCriteria();
-        criteria.createCriteria().andUserIdEqualTo(unfollowId).andFanIdEqualTo(uid);
-        return userFanMapper.deleteByExample(criteria);
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        // TODO Auto-generated method stub
-        
-    }
+	public UserFan loadById(Long id) {
+		return userFanMapper.selectByPrimaryKey(id);
+	}
 
 	@Override
-	public List<UserFan> fallLoadList(Long tailId, int limit) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<UserFan> getFanList(int userId) {
+		return getFanList(userId, -1);
 	}
-} 
+
+	@Override
+	public List<UserFan> getFanList(int userId, int maxCount) {
+		UserFanCriteria criteria = new UserFanCriteria();
+		criteria.createCriteria().andUserIdEqualTo(userId);
+		List<UserFan> fansList = userFanMapper.selectByExample(criteria);
+		return fansList;
+	}
+
+	@Override
+	public int deleteFan(int unfollowId, int uid) {
+		UserFanCriteria criteria = new UserFanCriteria();
+		criteria.createCriteria().andUserIdEqualTo(unfollowId).andFanIdEqualTo(uid);
+		return userFanMapper.deleteByExample(criteria);
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public int updateByCriteria(UserFan t, UserFanCriteria criteria) {
+		return userFanMapper.updateByExample(t, criteria);
+	}
+
+	@Override
+	public int deleteByCriteria(UserFanCriteria criteria) {
+		return userFanMapper.deleteByExample(criteria);
+	}
+
+	@Override
+	public List<UserFan> queryAll(String orderByClause) {
+		UserFanCriteria criteria = new UserFanCriteria();
+		criteria.setOrderByClause(orderByClause);
+		return queryByCriteria(criteria);
+	}
+
+	@Override
+	public List<UserFan> queryByCriteria(UserFanCriteria criteria) {
+		return userFanMapper.selectByExample(criteria);
+	}
+
+}

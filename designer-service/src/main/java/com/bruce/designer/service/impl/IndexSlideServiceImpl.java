@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.bruce.designer.dao.IIndexSlideDao;
 import com.bruce.designer.model.IndexSlide;
+import com.bruce.designer.model.IndexSlide;
+import com.bruce.designer.model.IndexSlideCriteria;
 import com.bruce.designer.service.IIndexSlideService;
 
 
@@ -45,5 +47,30 @@ public class IndexSlideServiceImpl implements IIndexSlideService{
 	public List<IndexSlide> queryIndexSlideList(int start, int limit) {
 		return indexSlideDao.queryIndexSlideList(start, limit);
 	}
+	
+	
+	
+	
+	@Override
+	public int updateByCriteria(IndexSlide t, IndexSlideCriteria criteria) {
+		return indexSlideDao.updateByCriteria(t, criteria);
+	}
+
+	@Override
+	public int deleteByCriteria(IndexSlideCriteria criteria) {
+		return indexSlideDao.deleteByCriteria(criteria);
+	}
+
+	@Override
+	public List<IndexSlide> queryAll(String orderByClause) {
+		return indexSlideDao.queryAll(orderByClause);
+	}
+
+	@Override
+	public List<IndexSlide> queryByCriteria(IndexSlideCriteria criteria) {
+		return indexSlideDao.queryByCriteria(criteria);
+	}
+	
+	
 
 }

@@ -64,12 +64,6 @@ public class AlbumSlideDaoImpl implements IAlbumSlideDao , InitializingBean {
     }
 
 	@Override
-	public List<AlbumSlide> fallLoadList(Integer tailId, int limit) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int clearCover(int userId, int albumId) {
 		AlbumSlideCriteria criteria = new AlbumSlideCriteria();
 		criteria.createCriteria().andAlbumIdEqualTo(albumId).andUserIdEqualTo(userId);
@@ -89,6 +83,26 @@ public class AlbumSlideDaoImpl implements IAlbumSlideDao , InitializingBean {
 
 	
 
-	
+	@Override
+	public int updateByCriteria(AlbumSlide t, AlbumSlideCriteria criteria) {
+		return albumSlideMapper.updateByExample(t, criteria);
+	}
+
+	@Override
+	public int deleteByCriteria(AlbumSlideCriteria criteria) {
+		return albumSlideMapper.deleteByExample(criteria);
+	}
+
+	@Override
+	public List<AlbumSlide> queryAll(String orderByClause) {
+		AlbumSlideCriteria criteria = new AlbumSlideCriteria();
+		criteria.setOrderByClause(orderByClause);
+		return queryByCriteria(criteria);
+	}
+
+	@Override
+	public List<AlbumSlide> queryByCriteria(AlbumSlideCriteria criteria) {
+		return albumSlideMapper.selectByExample(criteria);
+	}
 
 }

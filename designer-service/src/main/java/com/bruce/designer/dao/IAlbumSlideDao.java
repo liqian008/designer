@@ -3,10 +3,10 @@ package com.bruce.designer.dao;
 import java.util.List;
 
 import com.bruce.designer.model.AlbumSlide;
+import com.bruce.designer.model.AlbumSlideCriteria;
+import com.bruce.foundation.dao.IFoundationDao;
 
-public interface IAlbumSlideDao extends IBaseDao<AlbumSlide, Integer> {
-
-	// public AlbumSlide queryCoverSlide(int albumId);
+public interface IAlbumSlideDao extends IFoundationDao<AlbumSlide, Integer, AlbumSlideCriteria> {
 
 	public List<AlbumSlide> querySlidesByAlbumId(int albumId);
 

@@ -11,13 +11,13 @@ import com.bruce.designer.model.AlbumRecommend;
 import com.bruce.designer.model.AlbumRecommendCriteria;
 
 @Repository
-public class AlbumRecommendDaoImpl implements IAlbumRecommendDao{
+public class AlbumRecommendDaoImpl implements IAlbumRecommendDao {
 
 	@Autowired
 	private AlbumRecommendMapper albumRecommendMapper;
 
 	public int save(AlbumRecommend t) {
-	    return albumRecommendMapper.insertSelective(t);
+		return albumRecommendMapper.insertSelective(t);
 	}
 
 	public int updateById(AlbumRecommend t) {
@@ -28,26 +28,43 @@ public class AlbumRecommendDaoImpl implements IAlbumRecommendDao{
 		return albumRecommendMapper.deleteByPrimaryKey(id);
 	}
 
+	@Override
+	public int updateByCriteria(AlbumRecommend t, AlbumRecommendCriteria criteria) {
+		return albumRecommendMapper.updateByExample(t, criteria);
+	}
+
+	@Override
+	public int deleteByCriteria(AlbumRecommendCriteria criteria) {
+		return albumRecommendMapper.deleteByExample(criteria);
+	}
+
 	public AlbumRecommend loadById(Integer id) {
-	    return albumRecommendMapper.selectByPrimaryKey(id);
+		return albumRecommendMapper.selectByPrimaryKey(id);
 	}
 
 	public List<AlbumRecommend> queryAll() {
 		return albumRecommendMapper.selectByExample(null);
 	}
-	
+
 	@Override
 	public List<AlbumRecommend> queryAll(int limit) {
 		AlbumRecommendCriteria criteria = new AlbumRecommendCriteria();
 		criteria.createCriteria();
-		criteria.setLimit(limit);
+		criteria.setLimitOffset(limit);
 		criteria.setOrderByClause("sort desc");
 		return albumRecommendMapper.selectByExample(criteria);
 	}
-	
+
 	@Override
-	public List<AlbumRecommend> fallLoadList(Integer tailId, int limit) {
-		return null;
+	public List<AlbumRecommend> queryAll(String orderByClause) {
+		AlbumRecommendCriteria criteria = new AlbumRecommendCriteria();
+		criteria.setOrderByClause(orderByClause);
+		return queryByCriteria(criteria);
+	}
+
+	@Override
+	public List<AlbumRecommend> queryByCriteria(AlbumRecommendCriteria criteria) {
+		return albumRecommendMapper.selectByExample(criteria);
 	}
 
 }

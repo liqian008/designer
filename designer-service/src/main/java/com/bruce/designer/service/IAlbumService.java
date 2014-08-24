@@ -1,12 +1,13 @@
 package com.bruce.designer.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.bruce.designer.data.PagingData;
 import com.bruce.designer.model.Album;
+import com.bruce.designer.model.AlbumCriteria;
+import com.bruce.foundation.service.IFoundationService;
 
-public interface IAlbumService extends IBaseService<Album, Integer> {
+public interface IAlbumService extends IFoundationService<Album, Integer, AlbumCriteria> {
 	
 	/*根据albumId获取album的Map，通常用于从cache中获取album*/
 //	public Map<Integer, Album> getAlbumMap(List<Integer> albumIds);
