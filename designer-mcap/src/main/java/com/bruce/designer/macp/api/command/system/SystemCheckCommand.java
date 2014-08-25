@@ -12,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
+import com.bruce.designer.macp.api.Config;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
 import com.bruce.foundation.macp.api.entity.VersionCheckResult;
@@ -46,7 +47,7 @@ public class SystemCheckCommand extends AbstractApiCommand implements Initializi
 
     	boolean needLogin = true;
     	int userId = context.getUserId();
-    	if(userId>0){
+    	if(userId>0 && userId!=Config.GUEST_ID){//游客身份
     		needLogin = false;
     	}
     	rt.put("needLogin", needLogin);

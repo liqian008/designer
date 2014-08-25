@@ -25,12 +25,12 @@ import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.ResponseUtil;
-import com.bruce.designer.front.util.VerifyUtils;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;
 import com.bruce.designer.service.oauth.IOAuthService;
 import com.bruce.designer.service.oauth.SharedInfo;
 import com.bruce.designer.util.OAuthUtil;
+import com.bruce.designer.util.VerifyUtils;
 import com.google.code.kaptcha.Constants;
 @Controller
 public class OAuthController {

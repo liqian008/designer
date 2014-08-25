@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.bruce.designer.model.AlbumLike;
 import com.bruce.designer.model.AlbumLikeCriteria;
-import com.bruce.foundation.service.IFoundationService;
+import com.bruce.foundation.service.IFoundationDao;
 
-public interface IAlbumLikeService extends IFoundationService<AlbumLike, Integer, AlbumLikeCriteria>{ 
+public interface IAlbumLikeService extends IFoundationDao<AlbumLike, Integer, AlbumLikeCriteria>{ 
     
     public List<AlbumLike> getLikeListByAlbumId(int albumId);
 

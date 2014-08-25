@@ -68,8 +68,9 @@ public class WeiboLoginCommand extends AbstractApiCommand implements Initializin
 			if(hostUser!=null){
 				paramMap.put("hostUser", hostUser);
 			}
-    	}else{//之前未绑定过，需要进行登录绑定操作
-    		
+    	}else{//之前未绑定过，需要进行登录或注册绑定操作
+    		paramMap.put("needBind", true);
+    		paramMap.put("thirdpartyUname", accessToken.getThirdpartyUname());
     	}
         return ResponseBuilderUtil.buildSuccessResult(paramMap);
     }

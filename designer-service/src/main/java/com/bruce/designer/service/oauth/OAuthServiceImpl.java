@@ -145,6 +145,7 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
         dbTokenInfo.setAccessToken(lastestToken.getAccessToken());
         dbTokenInfo.setRefreshToken(lastestToken.getRefreshToken());
         dbTokenInfo.setExpireIn(lastestToken.getExpireIn());
+        dbTokenInfo.setUpateTime(new Date());
         try{
             //容错处理，即使数据库更新失败，token依然可以使用
             accessTokenService.updateById(dbTokenInfo);

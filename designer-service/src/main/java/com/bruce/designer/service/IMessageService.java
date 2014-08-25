@@ -6,9 +6,9 @@ import java.util.Set;
 import com.bruce.designer.data.PagingData;
 import com.bruce.designer.model.Message;
 import com.bruce.designer.model.MessageCriteria;
-import com.bruce.foundation.service.IFoundationService;
+import com.bruce.foundation.service.IFoundationDao;
 
-public interface IMessageService extends IFoundationService<Message, Long, MessageCriteria>{
+public interface IMessageService extends IFoundationDao<Message, Long, MessageCriteria>{
     
 	/**
 	 * 查询用户的未读消息数

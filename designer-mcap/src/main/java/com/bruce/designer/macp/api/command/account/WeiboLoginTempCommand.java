@@ -71,8 +71,8 @@ public class WeiboLoginTempCommand extends AbstractApiCommand implements Initial
 	    		User user = new User();
 	    		//获取昵称
 	    		String nickname = accessToken.getThirdpartyUname();
-	    		user.setNickname(nickname);
 	    		user.setUsername(nickname);
+	    		user.setNickname(nickname);
 	    		user.setPassword("f7c78e6132affce11e1e80d73fc16e01");
 	    		Date currentTime = new Date();
 	    		user.setCreateTime(currentTime);

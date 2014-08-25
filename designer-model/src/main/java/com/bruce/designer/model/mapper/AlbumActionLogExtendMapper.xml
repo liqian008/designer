@@ -21,33 +21,43 @@
 	
 	<!-- 查询截至现在每日热门专辑 -->
 	<select id="realtimeDailyTopAlbums" resultMap="CountCacheMap" parameterType="com.bruce.designer.model.AlbumActionLogCriteria" >
-		 <include refid="CountTopAlbumRule" /> where status=1 and album_id>0 and create_time>=DATE_SUB(now(), Interval 1 day) group by album_id order by total_num desc limit ${limit};
+		 <include refid="CountTopAlbumRule" /> where status=1 and album_id>0 and create_time>=DATE_SUB(now(), Interval 1 day) group by album_id order by total_num desc limit ${limitRows};
 	</select>
 	
 	<!-- 查询截至现在每周热门专辑 -->
 	<select id="realtimeWeeklyTopAlbums" resultMap="CountCacheMap" parameterType="com.bruce.designer.model.AlbumActionLogCriteria" >
-		 <include refid="CountTopAlbumRule" /> where status=1 and album_id>0 and create_time>=DATE_SUB(now(), Interval 1 week) group by album_id order by total_num desc limit ${limit};
+		 <include refid="CountTopAlbumRule" /> where status=1 and album_id>0 and create_time>=DATE_SUB(now(), Interval 1 week) group by album_id order by total_num desc limit ${limitRows};
 	</select>
 	
 	<!-- 查询截至现在每月热门专辑 -->
 	<select id="realtimeMonthlyTopAlbums" resultMap="CountCacheMap" parameterType="com.bruce.designer.model.AlbumActionLogCriteria" >
-		 <include refid="CountTopAlbumRule" /> where status=1 and album_id>0 and create_time>=DATE_SUB(now(), Interval 1 month) group by album_id order by total_num desc limit ${limit};
+		 <include refid="CountTopAlbumRule" /> where status=1 and album_id>0 and create_time>=DATE_SUB(now(), Interval 1 month) group by album_id order by total_num desc limit ${limitRows};
+	</select>
+	
+	<!-- 查询截至现在每年热门专辑 -->
+	<select id="realtimeYearlyTopAlbums" resultMap="CountCacheMap" parameterType="com.bruce.designer.model.AlbumActionLogCriteria" >
+		 <include refid="CountTopAlbumRule" /> where status=1 and album_id>0 and create_time>=DATE_SUB(now(), Interval 1 year) group by album_id order by total_num desc limit ${limitRows};
 	</select>
 	
 	
 	<!-- 查询截至现在每日热门设计师 -->
 	<select id="realtimeDailyTopDesigners" resultMap="CountCacheMap" parameterType="com.bruce.designer.model.AlbumActionLogCriteria" >
-		 <include refid="CountTopDesignerRule"/> where status=1 and designer_id>0 and create_time>=DATE_SUB(now(), Interval 1 day) group by designer_id order by total_num desc limit ${limit};
+		 <include refid="CountTopDesignerRule"/> where status=1 and designer_id>0 and create_time>=DATE_SUB(now(), Interval 1 day) group by designer_id order by total_num desc limit ${limitRows}; 
 	</select>
 	
 	<!-- 查询截至现在每周热门设计师 -->
 	<select id="realtimeWeeklyTopDesigners" resultMap="CountCacheMap" parameterType="com.bruce.designer.model.AlbumActionLogCriteria" >
-		 <include refid="CountTopDesignerRule"/> where status=1 and designer_id>0 and create_time>=DATE_SUB(now(), Interval 1 week) group by designer_id order by total_num desc limit ${limit};
+		 <include refid="CountTopDesignerRule"/> where status=1 and designer_id>0 and create_time>=DATE_SUB(now(), Interval 1 week) group by designer_id order by total_num desc limit ${limitRows};
 	</select>
 	
 	<!-- 查询截至现在每月热门设计师 -->
 	<select id="realtimeMonthlyTopDesigners" resultMap="CountCacheMap" parameterType="com.bruce.designer.model.AlbumActionLogCriteria" >
-		 <include refid="CountTopDesignerRule"/> where status=1 and designer_id>0 and create_time>=DATE_SUB(now(), Interval 1 month) group by designer_id order by total_num desc limit ${limit};
+		 <include refid="CountTopDesignerRule"/> where status=1 and designer_id>0 and create_time>=DATE_SUB(now(), Interval 1 month) group by designer_id order by total_num desc limit ${limitRows};
+	</select>
+	
+	<!-- 查询截至现在每月热门设计师 -->
+	<select id="realtimeYearlyTopDesigners" resultMap="CountCacheMap" parameterType="com.bruce.designer.model.AlbumActionLogCriteria" >
+		 <include refid="CountTopDesignerRule"/> where status=1 and designer_id>0 and create_time>=DATE_SUB(now(), Interval 1 year) group by designer_id order by total_num desc limit ${limitRows};
 	</select>
 	
 	

@@ -13,6 +13,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.bruce.designer.macp.api.Config;
+import com.bruce.designer.service.IUserService;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
 import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
@@ -25,11 +27,13 @@ import com.bruce.foundation.model.result.ApiResult;
  * 
  */
 @Component
-public class TestLoginCommand extends AbstractApiCommand implements InitializingBean {
+public class GuestLoginCommand extends AbstractApiCommand implements InitializingBean {
 
-    private static final Log logger = LogFactory.getLog(TestLoginCommand.class);
+    private static final Log logger = LogFactory.getLog(GuestLoginCommand.class);
     @Autowired
     private PassportService passportService;
+    @Autowired
+    private IUserService userService;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -37,15 +41,17 @@ public class TestLoginCommand extends AbstractApiCommand implements Initializing
 
     @Override
     public ApiResult onExecute(ApiCommandContext context) {
+    	int userId = Config.GUEST_ID;
+    	
     	Map<String, Object> paramMap = new HashMap<String, Object>();
 		UserPassport userPassport = new UserPassport();
-        userPassport.setUserId(100009);
+        userPassport.setUserId(userId);
         userPassport.setIdentity(String.valueOf(System.currentTimeMillis()));
         String ticket = passportService.createTicket(userPassport);
         userPassport.setTicket(ticket);
-//        userPassport.setUserSecretKey(String.valueOf(System.currentTimeMillis()));
         
         paramMap.put("userPassport", userPassport);
+        
         return ResponseBuilderUtil.buildSuccessResult(paramMap);
     }
 

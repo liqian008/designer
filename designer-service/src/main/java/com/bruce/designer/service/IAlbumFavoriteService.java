@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.bruce.designer.model.AlbumFavorite;
 import com.bruce.designer.model.AlbumFavoriteCriteria;
-import com.bruce.foundation.service.IFoundationService;
+import com.bruce.foundation.service.IFoundationDao;
 
-public interface IAlbumFavoriteService extends IFoundationService<AlbumFavorite, Integer, AlbumFavoriteCriteria>{ 
+public interface IAlbumFavoriteService extends IFoundationDao<AlbumFavorite, Integer, AlbumFavoriteCriteria>{ 
     
     public List<AlbumFavorite> getFavoriteListByAlbumId(int userId);
     /*返回favorite的简单对象*/

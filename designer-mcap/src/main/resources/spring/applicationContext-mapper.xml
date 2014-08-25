@@ -119,10 +119,6 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 	
-	<bean id="albumCounterMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.AlbumCounterMapper" />
-		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</bean>
 	
 	<bean id="albumRecommendMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.AlbumRecommendMapper" />
@@ -143,7 +139,16 @@
 		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.AlbumActionLogMapper" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
-	<!-- 
+	
+	
+	
+	<!--
+	
+	<bean id="albumCounterMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.AlbumCounterMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	 
 	<bean id="userMessageMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.bruce.designer.dao.UserMessageMapper" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
