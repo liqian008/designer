@@ -2,12 +2,13 @@ package com.bruce.designer.service;
 
 import java.util.List;
 
+import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.data.PagingData;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumCriteria;
-import com.bruce.foundation.service.IFoundationDao;
+import com.bruce.foundation.service.IFoundationService;
 
-public interface IAlbumService extends IFoundationDao<Album, Integer, AlbumCriteria> {
+public interface IAlbumService extends IFoundationService<Album, Integer, AlbumCriteria> {
 	
 	/*根据albumId获取album的Map，通常用于从cache中获取album*/
 //	public Map<Integer, Album> getAlbumMap(List<Integer> albumIds);
@@ -41,5 +42,11 @@ public interface IAlbumService extends IFoundationDao<Album, Integer, AlbumCrite
 	public void initAlbumsWithTags(List<Album> albumList);
 
 	public void initAlbumWithTags(Album album);
+	
+	/**
+	 * 加载用户的专辑数
+	 * @return
+	 */
+	public List<CountCacheBean> queryUserAlbumCount();
 
 }

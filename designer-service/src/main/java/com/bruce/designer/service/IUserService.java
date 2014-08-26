@@ -5,9 +5,9 @@ import java.util.Map;
 
 import com.bruce.designer.model.User;
 import com.bruce.designer.model.UserCriteria;
-import com.bruce.foundation.service.IFoundationDao;
+import com.bruce.foundation.service.IFoundationService;
 
-public interface IUserService extends IFoundationDao<User, Integer, UserCriteria>{
+public interface IUserService extends IFoundationService<User, Integer, UserCriteria>{
 
 	
 	 public List<User> queryUsersByStatus(short status);

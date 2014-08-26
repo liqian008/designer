@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.bruce.designer.model.Tag;
 import com.bruce.designer.model.TagCriteria;
-import com.bruce.foundation.service.IFoundationDao;
+import com.bruce.foundation.service.IFoundationService;
 
-public interface ITagService extends IFoundationDao<Tag, Integer, TagCriteria> {
+public interface ITagService extends IFoundationService<Tag, Integer, TagCriteria> {
 
 	public List<String> getTagNamesByAlbumId(int albumId);
 	

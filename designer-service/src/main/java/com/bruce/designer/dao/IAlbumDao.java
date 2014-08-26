@@ -2,6 +2,7 @@ package com.bruce.designer.dao;
 
 import java.util.List;
 
+import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.data.PagingData;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumCriteria;
@@ -27,6 +28,12 @@ public interface IAlbumDao extends IFoundationDao<Album, Integer, AlbumCriteria>
 	public List<Album> fallLoadDesignerAlbums(List<Integer> designerIdList, int albumsTailId, int limit);
 
 	PagingData<Album> pagingQuery(int userId, short albumStatus, int pageNo, int pageSize);
+
+	/**
+	 * 查询用户专辑数量
+	 * @return 
+	 */
+	public List<CountCacheBean> queryUserAlbumCount(); 
 
 	
 //	public PagingData<Album> pagingQuery(short status, int pageNo, int pageSize);

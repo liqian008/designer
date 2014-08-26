@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IAlbumDao;
+import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.data.PagingData;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
-import com.bruce.designer.model.Album;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumCriteria;
 import com.bruce.designer.model.UserFollow;
@@ -348,6 +348,11 @@ public class AlbumServiceImpl implements IAlbumService {
 	@Override
 	public List<Album> queryByCriteria(AlbumCriteria criteria) {
 		return albumDao.queryByCriteria(criteria);
+	}
+
+	@Override
+	public List<CountCacheBean> queryUserAlbumCount() {
+		return albumDao.queryUserAlbumCount(); 
 	}
 	
 	

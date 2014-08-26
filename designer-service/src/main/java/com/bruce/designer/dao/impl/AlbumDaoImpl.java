@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IAlbumDao;
 import com.bruce.designer.dao.mapper.AlbumMapper;
+import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.data.PagingData;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumCriteria;
@@ -139,5 +140,11 @@ public class AlbumDaoImpl implements IAlbumDao{
 	public List<Album> queryByCriteria(AlbumCriteria criteria) {
 		return albumMapper.selectByExample(criteria);
 	}
+	
+	@Override
+	public List<CountCacheBean> queryUserAlbumCount() {
+		return albumMapper.queryUserAlbumCount(); 
+	}
+	
 
 }

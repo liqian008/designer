@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bruce.designer.cache.counter.AlbumCounterCache;
+import com.bruce.designer.cache.counter.UserAlbumCounterCache;
 import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.exception.RedisKeyNotExistException;
 import com.bruce.designer.service.IAlbumActionLogService;
@@ -20,6 +21,7 @@ import com.bruce.designer.service.IAlbumCommentService;
 import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.IAlbumFavoriteService;
 import com.bruce.designer.service.IAlbumLikeService;
+import com.bruce.designer.service.IAlbumService;
 
 /**
  * Comments for CounterServiceImpl.java
@@ -36,6 +38,8 @@ public class AlbumCounterServiceImpl implements IAlbumCounterService, Initializi
     private static final Logger logger = LoggerFactory.getLogger(AlbumCounterServiceImpl.class);
 
     @Autowired 
+    private UserAlbumCounterCache userAlbumCounterCache;
+    @Autowired 
     private AlbumCounterCache albumCounterCache;
     @Autowired
     private IAlbumActionLogService albumActionLogService;
@@ -45,6 +49,77 @@ public class AlbumCounterServiceImpl implements IAlbumCounterService, Initializi
     private IAlbumFavoriteService albumFavoriteService;
     @Autowired
     private IAlbumCommentService commentService;
+    @Autowired
+    private IAlbumService albumService;
+    
+    
+    /**
+     * 获取用户的专辑数
+     */
+    @Override
+    public long getUserAlbumCount(int userId) {
+    	try {
+    		return userAlbumCounterCache.getAlbumCount(userId);
+    	} catch (RedisKeyNotExistException e) {
+    		if(logger.isErrorEnabled()){
+    			logger.error("getBrowseCount: "+userId, e);
+    		}
+			List<CountCacheBean> userAlbumsList = albumService.queryUserAlbumCount();//获取该album的like列表
+            //重建缓存
+            if(userAlbumsList!=null&&userAlbumsList.size()>0){
+            	userAlbumCounterCache.setUserAlbumDataList(userAlbumsList);
+            }
+		}
+    	return 0;
+    }
+    
+    /**
+     * 用户专辑数+1
+     */
+    @Override
+    public long incrUserAlbum(int userId, int albumId) {
+        long result = 0;
+        try {
+        	userAlbumCounterCache.incrAlbum(userId);
+        } catch (RedisKeyNotExistException e) {
+        	if(logger.isErrorEnabled()){
+    			logger.error("incrUserAlbum: "+userId+", "+albumId, e);
+    		}
+        	
+        	List<CountCacheBean> userAlbumsList = albumService.queryUserAlbumCount();//获取该album的like列表
+            //重建缓存
+            if(userAlbumsList!=null&&userAlbumsList.size()>0){
+            	userAlbumCounterCache.setUserAlbumDataList(userAlbumsList);
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * 用户专辑数-1
+     */
+    /*设计师删除专辑*/
+	public long reduceUserAlbum(int userId, int albumId){
+		long result = 0;
+        try {
+        	userAlbumCounterCache.reduceAlbum(userId);
+        } catch (RedisKeyNotExistException e) {
+        	if(logger.isErrorEnabled()){
+    			logger.error("incrUserAlbum: "+userId+", "+albumId, e);
+    		}
+        	List<CountCacheBean> userAlbumsList = albumService.queryUserAlbumCount();//获取该album的like列表
+            //重建缓存
+            if(userAlbumsList!=null&&userAlbumsList.size()>0){
+            	userAlbumCounterCache.setUserAlbumDataList(userAlbumsList);
+            }
+        }
+        return result;
+	}
+    
+    
+    
+    
+    
     
     @Override
     public long getBrowseCount(int albumId) {

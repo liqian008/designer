@@ -10,7 +10,15 @@ package com.bruce.designer.service;
  * @author <a href="mailto:jun.liu@opi-corp.com">刘军</a>
  * @createTime 2013-8-11 下午12:07:34
  */
-public interface IAlbumCounterService { 
+public interface IAlbumCounterService {
+	
+	/*设计师新增专辑*/
+	public long incrUserAlbum(int designerId, int albumId);
+	/*设计师删除专辑*/
+	public long reduceUserAlbum(int designerId, int albumId);
+	/*获取设计师专辑数*/
+	public long getUserAlbumCount(int designerId);
+	
 
     public long incrBrowser(int designerId, int albumId, int userId);
     

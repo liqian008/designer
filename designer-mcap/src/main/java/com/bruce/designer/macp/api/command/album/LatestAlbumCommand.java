@@ -75,7 +75,7 @@ public class LatestAlbumCommand extends AbstractApiCommand implements Initializi
 	    if(logger.isDebugEnabled()){
             logger.debug("MCS查询专辑列表");
         }
-		int limit = 1;
+		int limit = 5;
 		if(designerId>0){//加载指定设计师的专辑内容
 			albumList = albumService.fallLoadDesignerAlbums(designerId, fromTailId, limit + 1,  true, false);
 		}else{//加载所有的专辑内容
@@ -122,7 +122,7 @@ public class LatestAlbumCommand extends AbstractApiCommand implements Initializi
 				album.setAuthorInfo(authorInfo);
 			}
 		}
-		rt.put("albumList", albumList);
+		rt.put("albumList", albumList); 
 		rt.put("fromTailId", String.valueOf(fromTailId));
 		rt.put("newTailId", String.valueOf(newTailId));
         return ResponseBuilderUtil.buildSuccessResult(rt);

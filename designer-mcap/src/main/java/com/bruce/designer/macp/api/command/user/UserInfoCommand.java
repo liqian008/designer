@@ -17,6 +17,7 @@ import org.springframework.util.Assert;
 
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.model.User;
+import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.IUserGraphService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.UploadUtil;
@@ -39,6 +40,8 @@ public class UserInfoCommand extends AbstractApiCommand implements InitializingB
     private IUserService userService;
     @Autowired
     private IUserGraphService userGraphService;
+    @Autowired
+    private IAlbumCounterService albumCounterService;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -62,14 +65,21 @@ public class UserInfoCommand extends AbstractApiCommand implements InitializingB
         if(queryUser!=null){
         	
         	//补全头像信息
-        	String designerAvatarUrl = UploadUtil.getAvatarUrl(queryUserId, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
-        	queryUser.setHeadImg(designerAvatarUrl);
+        	String userAvatarUrl = UploadUtil.getAvatarUrl(queryUserId, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+        	queryUser.setHeadImg(userAvatarUrl);
         	
+        	int albumsCount = 0;
+        	int fansCount = 0;
         	//判断是否是设计师
+        	if(queryUser!=null&&Short.valueOf(ConstService.DESIGNER_APPLY_APPROVED).equals(queryUser.getDesignerStatus())){
+        		albumsCount = (int) albumCounterService.getUserAlbumCount(queryUserId);
+        		fansCount = (int) userGraphService.getFanCount(queryUserId);
+        	}
+        	
         	int followsCount = (int) userGraphService.getFollowCount(queryUserId);
-        	int fansCount = (int) userGraphService.getFanCount(queryUserId);
         	
         	rt.put("userinfo", queryUser);
+        	rt.put("albumsCount", albumsCount);
         	rt.put("followsCount", followsCount);
         	rt.put("fansCount", fansCount);
         	

@@ -8,6 +8,7 @@
 		<mapper resource="com/bruce/designer/model/mapper/UserFollowMapper.xml" />
 		<mapper resource="com/bruce/designer/model/mapper/UserFanMapper.xml" />
 		<mapper resource="com/bruce/designer/model/mapper/AlbumMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/AlbumExtendMapper.xml" />
 		<mapper resource="com/bruce/designer/model/mapper/AlbumSlideMapper.xml" />
 		<mapper resource="com/bruce/designer/model/mapper/MessageMapper.xml" />
 		<mapper resource="com/bruce/designer/model/mapper/MessageExtendMapper.xml" />

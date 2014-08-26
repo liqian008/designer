@@ -16,55 +16,54 @@ import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.exception.RedisKeyNotExistException;
 
 /**
- * 专辑统计cache(浏览数，评论数)
+ * 用户的专辑数cache
  * redis数据结构为Sorted set
- * @author <a href="mailto:liujun4@staff.sina.com.cn">刘军</a>
  * @createTime 2013-9-11 下午06:46:02
  */
 @Repository
-public class AlbumCounterCache{
+public class UserAlbumCounterCache{
 	
-    private static final Logger logger = LoggerFactory.getLogger(AlbumCounterCache.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserAlbumCounterCache.class);
     
 	@Autowired
     private DesignerShardedJedisPool cacheShardedJedisPool;
 	
-	/* 整个作品辑浏览数的key */
-	public static final String COUNTER_KEY_ALBUM_BROWSE = "albumBrowse";
-	/* 整个作品辑评论数的key */
-	public static final String COUNTER_KEY_ALBUM_COMMENT = "albumComment";
+	/* 用户专辑数的key */
+	public static final String COUNTER_KEY_USER_ALBUM_AMOUNT = "userAlbum";
 	
-	
-	public long getBrowseCount(int albumId) throws RedisKeyNotExistException {
-	    return getCount(getBrowseKey(), albumId);
+	public long getAlbumCount(int userId) throws RedisKeyNotExistException {
+	    return getCount(getUserAlbumKey(), userId);
     }
-	
-	public long getCommentCount(int albumId) throws RedisKeyNotExistException {
-	    return getCount(getCommentKey(), albumId);
-    }
-	
 	
 	/**
-	 * 增加浏览
+	 * 增加专辑
 	 * @param albumId
 	 * @return
 	 * @throws RedisKeyNotExistException
 	 */
-	public long incrBrowse(int albumId) throws RedisKeyNotExistException {
-	    return incrByKey(getBrowseKey(), albumId);
+	public long incrAlbum(int userId) throws RedisKeyNotExistException {
+	    return incrByKey(getUserAlbumKey(), userId);
     }
-	
+
 	/**
-	 * 增加评论
+	 * 减少专辑数
 	 * @param albumId
 	 * @return
 	 * @throws RedisKeyNotExistException
 	 */
-	public long incrComment(int albumId) throws RedisKeyNotExistException {
-        return incrByKey(getCommentKey(), albumId);
+	public long reduceAlbum(int userId) throws RedisKeyNotExistException {
+	    return incrByKey(getUserAlbumKey(), userId, -1);
     }
+
+	
+	
 	
 	private long incrByKey(String key, int id) throws RedisKeyNotExistException {
+		return incrByKey(key, id, 1);
+    }
+	
+	
+	private long incrByKey(String key, int id, int score) throws RedisKeyNotExistException {
         long result = 0;
 	    DesignerShardedJedis shardedJedis = null;
         try {
@@ -74,7 +73,7 @@ public class AlbumCounterCache{
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 throw new RedisKeyNotExistException();
             } else {
-                result = new Double(shardedJedis.zincrby(key, 1, String.valueOf(id))).longValue();
+                result = new Double(shardedJedis.zincrby(key, score, String.valueOf(id))).longValue();
                 cacheShardedJedisPool.returnResource(shardedJedis);
             }
             return result;
@@ -114,22 +113,14 @@ public class AlbumCounterCache{
     }
 	
 	/**
-	 * 重建浏览缓存
+	 * 重建用户的专辑数量缓存
 	 * @param dataList
 	 * @return
 	 */
-	public boolean setBrowseDataList(List<CountCacheBean> dataList) {
-	    return setDataList(getBrowseKey(), dataList);
+	public boolean setUserAlbumDataList(List<CountCacheBean> dataList) {
+	    return setDataList(getUserAlbumKey(), dataList);
 	}
 	
-	/**
-     * 重建评论缓存
-     * @param dataList
-     * @return
-     */
-	public boolean setCommentDataList(List<CountCacheBean> dataList) {
-        return setDataList(getCommentKey(), dataList);
-    }
 
 	private boolean setDataList(String key, List<CountCacheBean> dataList) {
         boolean result = false;
@@ -147,7 +138,7 @@ public class AlbumCounterCache{
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 return result;
             } catch (JedisException t) {
-                logger.error("setLikeList", t);
+                logger.error("setUserAlbumList", t);
                 if (shardedJedis != null) {
                     cacheShardedJedisPool.returnBrokenResource(shardedJedis);
                 }
@@ -156,11 +147,8 @@ public class AlbumCounterCache{
         return result;
     }
     
-	private String getBrowseKey() {
-        return ConstRedis.REDIS_NAMESPACE + "_" + ConstRedis.REDIS_KEY_TYPE_COUNT + "_" + COUNTER_KEY_ALBUM_BROWSE;
+	private String getUserAlbumKey() {
+        return ConstRedis.REDIS_NAMESPACE + "_" + ConstRedis.REDIS_KEY_TYPE_COUNT + "_" + COUNTER_KEY_USER_ALBUM_AMOUNT;
     }
 
-    private String getCommentKey() {
-        return ConstRedis.REDIS_NAMESPACE + "_" + ConstRedis.REDIS_KEY_TYPE_COUNT + "_" + COUNTER_KEY_ALBUM_COMMENT;
-    }
 }

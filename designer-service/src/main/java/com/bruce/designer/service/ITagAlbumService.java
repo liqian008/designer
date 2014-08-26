@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.bruce.designer.model.TagAlbum;
 import com.bruce.designer.model.TagAlbumCriteria;
-import com.bruce.foundation.service.IFoundationDao;
+import com.bruce.foundation.service.IFoundationService;
 
-public interface ITagAlbumService extends IFoundationDao<TagAlbum, Long, TagAlbumCriteria>{ 
+public interface ITagAlbumService extends IFoundationService<TagAlbum, Long, TagAlbumCriteria>{ 
 	
 	/**
 	 * 

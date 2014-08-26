@@ -1,5 +1,6 @@
 package com.bruce.designer.dao.mapper;
 
+import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumCriteria;
 import java.util.List;
@@ -72,4 +73,10 @@ public interface AlbumMapper {
 	 * @mbggenerated  Sun Aug 24 23:49:24 CST 2014
 	 */
 	int updateByPrimaryKey(Album record);
+
+	/** 
+	 * query user's albums count
+	 * @return
+	 */
+	List<CountCacheBean> queryUserAlbumCount(); 
 }
