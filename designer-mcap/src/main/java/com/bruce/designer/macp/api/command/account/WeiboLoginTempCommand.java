@@ -61,6 +61,7 @@ public class WeiboLoginTempCommand extends AbstractApiCommand implements Initial
     	
     	//根据第oauth方的用户id加载accessToken
     	AccessTokenInfo accessToken = oauthService.loadTokenByClient(weiboUid, weiboAccessToken, weiboRefreshToken, weiboExpireIn, IOAuthService.OAUTH_WEIBO_TYPE);
+    	logger.debug("用户加载查询accessToken["+weiboUid+", "+weiboUid+""+","+weiboAccessToken+ "]");
     	if(accessToken!=null){
     		int result = 0;
     		int userId = 0;
@@ -76,12 +77,12 @@ public class WeiboLoginTempCommand extends AbstractApiCommand implements Initial
 	    		user.setPassword("f7c78e6132affce11e1e80d73fc16e01");
 	    		Date currentTime = new Date();
 	    		user.setCreateTime(currentTime);
-	    		user.setUpdateTime(currentTime);
 	    		user.setDesignerStatus((short) 0);
 	    		result = userService.save(user);
 	    		userId = user.getId();
 	    		//保存token
 	    		accessToken.setUserId(userId);
+	    		accessToken.setCreaeTime(currentTime);
 	    		accessTokenService.save(accessToken);
 	    	}
     		if(result>0&&userId>0){
@@ -91,6 +92,8 @@ public class WeiboLoginTempCommand extends AbstractApiCommand implements Initial
 				String ticket = passportService.createTicket(userPassport);
 				userPassport.setTicket(ticket);
 				paramMap.put("userPassport", userPassport);
+				User loginUser = userService.loadById(userId);
+				paramMap.put("hostUser", loginUser);
     		}
     		return ResponseBuilderUtil.buildSuccessResult(paramMap);
     	}

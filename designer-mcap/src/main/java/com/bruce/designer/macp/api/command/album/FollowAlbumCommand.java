@@ -19,8 +19,10 @@ import org.springframework.util.Assert;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumAuthorInfo;
+import com.bruce.designer.model.AlbumSlide;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IAlbumService;
+import com.bruce.designer.service.IAlbumSlideService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.UploadUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
@@ -39,9 +41,11 @@ public class FollowAlbumCommand extends AbstractApiCommand implements Initializi
     private static final Log logger = LogFactory.getLog(FollowAlbumCommand.class);
     
     @Autowired
+    private IUserService userService;
+    @Autowired
     private IAlbumService albumService;
     @Autowired
-    private IUserService userService;
+    private IAlbumSlideService albumSlideService;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -83,6 +87,15 @@ public class FollowAlbumCommand extends AbstractApiCommand implements Initializi
 			//构造albumList中的设计师资料
 			Map<Integer, AlbumAuthorInfo> albumAuthorMap = new HashMap<Integer, AlbumAuthorInfo>();
 			for(Album album: albumList){
+				
+				//构造专辑的slide列表
+				int albumId = album.getId();
+				List<AlbumSlide> slideList = albumSlideService.querySlidesByAlbumId(albumId);
+				if(slideList!=null){
+					album.setSlideList(slideList);
+				}
+				
+				
 				int designerId = album.getUserId();
 				AlbumAuthorInfo authorInfo = null;
 				if(!albumAuthorMap.containsKey(designerId)){//考虑到多个作品的设计师可能是同一个人，因此使用map缓存
