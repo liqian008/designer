@@ -13,11 +13,11 @@ package com.bruce.designer.service;
 public interface IAlbumCounterService {
 	
 	/*设计师新增专辑*/
-	public long incrUserAlbum(int designerId, int albumId);
+	public int incrUserAlbum(int designerId, int albumId);
 	/*设计师删除专辑*/
-	public long reduceUserAlbum(int designerId, int albumId);
+	public int reduceUserAlbum(int designerId, int albumId);
 	/*获取设计师专辑数*/
-	public long getUserAlbumCount(int designerId);
+	public int getUserAlbumCount(int designerId);
 	
 
     public long incrBrowser(int designerId, int albumId, int userId);

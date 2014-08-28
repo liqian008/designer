@@ -15,6 +15,10 @@ public class AlbumBase {
 	private boolean isLike;
 	
 	private boolean isFavorite;
+	/*专辑在web端的url*/
+	private String itemWebUrl;
+	/*专辑在mobile端的url*/
+	private String itemMobileUrl;
 
 	private List<String> tagList;
 
@@ -92,6 +96,22 @@ public class AlbumBase {
 
 	public void setAuthorInfo(AlbumAuthorInfo authorInfo) {
 		this.authorInfo = authorInfo;
+	}
+
+	public String getItemWebUrl() {
+		return itemWebUrl;
+	}
+
+	public void setItemWebUrl(String itemWebUrl) {
+		this.itemWebUrl = itemWebUrl;
+	}
+
+	public String getItemMobileUrl() {
+		return itemMobileUrl;
+	}
+
+	public void setItemMobileUrl(String itemMobileUrl) {
+		this.itemMobileUrl = itemMobileUrl;
 	}
 
 }

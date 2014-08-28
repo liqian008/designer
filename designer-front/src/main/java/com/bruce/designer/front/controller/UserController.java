@@ -28,6 +28,7 @@ import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.model.User;
 import com.bruce.designer.model.UserFan;
 import com.bruce.designer.model.UserFollow;
+import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IUserGraphService;
 import com.bruce.designer.service.IUserService;
@@ -55,6 +56,8 @@ public class UserController {
     private IUserGraphService userGraphService;
     @Autowired
     private IAlbumService albumService;
+    @Autowired
+	private IAlbumCounterService albumCounterService;
     
 
     /**
@@ -103,6 +106,14 @@ public class UserController {
         User queryUser = userService.loadById(queryUserId);
         if(queryUser!=null){
         	model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
+        	//设计师身份则需要查询专辑数
+        	if(queryUser!=null&&queryUser.getDesignerStatus()!=null&&queryUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED){
+	        	int userAlbumsCount = albumCounterService.getUserAlbumCount(queryUserId);
+	        	//用户专辑数量
+	        	model.addAttribute("userAlbumsCount", userAlbumsCount);
+        	}
+        	
+        	
             // TODO 重构redis的key
 //        	long hisFansCount = counterService.getCount(ConstRedis.COUNTER_KEY_FOLLOW + queryUser.getId());
 //            long hisFollowesCount = counterService.getCount(ConstRedis.COUNTER_KEY_FAN + queryUser.getId());
@@ -185,15 +196,17 @@ public class UserController {
         if(logger.isDebugEnabled()){
             logger.debug("Slidebar ajax查询用户["+queryUserId+"]个人信息");
         }
-        //TODO 用户发表的专辑数
+        //用户发表的专辑数
+        int albumsCount = (int) albumCounterService.getUserAlbumCount(queryUserId);
     	int followsCount = (int) userGraphService.getFollowCount(queryUserId);
     	int fansCount = (int) userGraphService.getFanCount(queryUserId);
+    	
     	User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
     	boolean hasFollowed = false;
     	if(user!=null&&userGraphService.isFollow(user.getId(), queryUserId)){//已关注
         	hasFollowed = true;
         }
-    	UserboxInfoBean userboxInfo = new UserboxInfoBean(hasFollowed, 0, fansCount, followsCount);
+    	UserboxInfoBean userboxInfo = new UserboxInfoBean(hasFollowed, albumsCount, fansCount, followsCount);
     	return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(userboxInfo));
    	}
     

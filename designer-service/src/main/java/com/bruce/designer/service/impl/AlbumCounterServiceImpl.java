@@ -57,7 +57,7 @@ public class AlbumCounterServiceImpl implements IAlbumCounterService, Initializi
      * 获取用户的专辑数
      */
     @Override
-    public long getUserAlbumCount(int userId) {
+    public int getUserAlbumCount(int userId) {
     	try {
     		return userAlbumCounterCache.getAlbumCount(userId);
     	} catch (RedisKeyNotExistException e) {
@@ -77,8 +77,8 @@ public class AlbumCounterServiceImpl implements IAlbumCounterService, Initializi
      * 用户专辑数+1
      */
     @Override
-    public long incrUserAlbum(int userId, int albumId) {
-        long result = 0;
+    public int incrUserAlbum(int userId, int albumId) {
+        int result = 0;
         try {
         	userAlbumCounterCache.incrAlbum(userId);
         } catch (RedisKeyNotExistException e) {
@@ -99,8 +99,8 @@ public class AlbumCounterServiceImpl implements IAlbumCounterService, Initializi
      * 用户专辑数-1
      */
     /*设计师删除专辑*/
-	public long reduceUserAlbum(int userId, int albumId){
-		long result = 0;
+	public int reduceUserAlbum(int userId, int albumId){
+		int result = 0;
         try {
         	userAlbumCounterCache.reduceAlbum(userId);
         } catch (RedisKeyNotExistException e) {
@@ -115,7 +115,6 @@ public class AlbumCounterServiceImpl implements IAlbumCounterService, Initializi
         }
         return result;
 	}
-    
     
     
     

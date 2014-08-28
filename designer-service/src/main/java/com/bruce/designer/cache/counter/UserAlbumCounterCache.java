@@ -31,7 +31,7 @@ public class UserAlbumCounterCache{
 	/* 用户专辑数的key */
 	public static final String COUNTER_KEY_USER_ALBUM_AMOUNT = "userAlbum";
 	
-	public long getAlbumCount(int userId) throws RedisKeyNotExistException {
+	public int getAlbumCount(int userId) throws RedisKeyNotExistException {
 	    return getCount(getUserAlbumKey(), userId);
     }
 	
@@ -41,7 +41,7 @@ public class UserAlbumCounterCache{
 	 * @return
 	 * @throws RedisKeyNotExistException
 	 */
-	public long incrAlbum(int userId) throws RedisKeyNotExistException {
+	public int incrAlbum(int userId) throws RedisKeyNotExistException {
 	    return incrByKey(getUserAlbumKey(), userId);
     }
 
@@ -51,20 +51,20 @@ public class UserAlbumCounterCache{
 	 * @return
 	 * @throws RedisKeyNotExistException
 	 */
-	public long reduceAlbum(int userId) throws RedisKeyNotExistException {
+	public int reduceAlbum(int userId) throws RedisKeyNotExistException {
 	    return incrByKey(getUserAlbumKey(), userId, -1);
     }
 
 	
 	
 	
-	private long incrByKey(String key, int id) throws RedisKeyNotExistException {
+	private int incrByKey(String key, int id) throws RedisKeyNotExistException {
 		return incrByKey(key, id, 1);
     }
 	
 	
-	private long incrByKey(String key, int id, int score) throws RedisKeyNotExistException {
-        long result = 0;
+	private int incrByKey(String key, int id, int score) throws RedisKeyNotExistException {
+        int result = 0;
 	    DesignerShardedJedis shardedJedis = null;
         try {
             shardedJedis = cacheShardedJedisPool.getResource();
@@ -73,7 +73,7 @@ public class UserAlbumCounterCache{
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 throw new RedisKeyNotExistException();
             } else {
-                result = new Double(shardedJedis.zincrby(key, score, String.valueOf(id))).longValue();
+                result = new Double(shardedJedis.zincrby(key, score, String.valueOf(id))).intValue();
                 cacheShardedJedisPool.returnResource(shardedJedis);
             }
             return result;
@@ -86,8 +86,8 @@ public class UserAlbumCounterCache{
         return 0;
     }
 	
-    private long getCount(String key, int id) throws RedisKeyNotExistException {
-		long result = 0;
+    private int getCount(String key, int id) throws RedisKeyNotExistException {
+    	int result = 0;
 	    DesignerShardedJedis shardedJedis = null;
         try {
             shardedJedis = cacheShardedJedisPool.getResource();
@@ -99,7 +99,7 @@ public class UserAlbumCounterCache{
                 Double countNum = shardedJedis.zscore(key, String.valueOf(id));
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 if(countNum!=null){
-	            	result = countNum.longValue();
+	            	result = countNum.intValue();
 	            }
             }
             return result;

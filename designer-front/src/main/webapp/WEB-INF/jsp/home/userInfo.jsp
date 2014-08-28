@@ -119,10 +119,12 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 											<div class="row-right"><%=queryUser.getNickname()%></div>
 										</div>
 										
+										<!-- 
 										<div class="row-container clearfix">
 											<div class="row-left">性别: </div>
 											<div class="row-right">男</div>
 										</div>
+										 -->
 										
 										<div class="row-container clearfix">
 											<div class="row-left">关注数:</div>
@@ -141,12 +143,19 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 			                                </div>
 			                            </div>
 			                            
+			                            <%
+			                            Integer albumCount = (Integer)request.getAttribute("");
+			                            if(albumCount!=null){
+			                            	if(albumCount<0) albumCount = 0;
+			                            %>
 			                            <div class="row-container clearfix">
 											<div class="row-left">专辑数: </div>
 											<div class="row-right">
 												<a href='<%=contextPath%>/<%=queryUser.getId()%>/home'><span class="albumsCount">x</span>个</a>
 											</div>
 										</div>
+										<%}%>
+										
 										
 										<div class="row-container clearfix">
 											<div class="row-left">粉丝数: </div>
