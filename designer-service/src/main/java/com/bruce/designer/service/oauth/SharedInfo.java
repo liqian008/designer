@@ -17,7 +17,7 @@ public class SharedInfo {
 	/* 第三方类型 */
 	private short thirdpartyType;
 	/*图片对象*/
-	private byte[] imgBytes;
+//	private byte[] imgBytes;
 	
 	public SharedInfo(){
 		super();
@@ -81,14 +81,14 @@ public class SharedInfo {
 	}
 
 
-	public byte[] getImgBytes() {
-		return imgBytes;
-	}
-
-
-	public void setImgBytes(byte[] imgBytes) {
-		this.imgBytes = imgBytes;
-	}
+//	public byte[] getImgBytes() {
+//		return imgBytes;
+//	}
+//
+//
+//	public void setImgBytes(byte[] imgBytes) {
+//		this.imgBytes = imgBytes;
+//	}
 	
 	
 }

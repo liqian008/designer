@@ -8,7 +8,9 @@ import com.bruce.designer.model.UserCriteria;
 import com.bruce.foundation.service.IFoundationService;
 
 public interface IUserService extends IFoundationService<User, Integer, UserCriteria>{
-
+	
+	/*使用oauth方式注册用户*/
+	public int registerByOauth(User user, String thirdpartyAvatar);
 	
 	 public List<User> queryUsersByStatus(short status);
 	 public List<User> queryAllDesigners();

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
+<!-- 百度异步统计代码 -->
 <script>
 var _hmt = _hmt || [];
 (function() {

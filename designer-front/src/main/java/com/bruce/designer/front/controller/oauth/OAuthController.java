@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -17,18 +16,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.bruce.designer.mail.MailService;
-import com.bruce.designer.model.AccessTokenInfo;
-import com.bruce.designer.model.User;
 import com.bruce.designer.annotation.NeedAuthorize;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.ResponseUtil;
+import com.bruce.designer.mail.MailService;
+import com.bruce.designer.model.AccessTokenInfo;
+import com.bruce.designer.model.User;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;
 import com.bruce.designer.service.oauth.IOAuthService;
-import com.bruce.designer.service.oauth.SharedInfo;
 import com.bruce.designer.util.OAuthUtil;
 import com.bruce.designer.util.VerifyUtils;
 import com.google.code.kaptcha.Constants;
@@ -50,7 +48,7 @@ public class OAuthController {
 	@RequestMapping(value = "/connectWeibo")
 	public String connectWeibo(HttpServletRequest request, @RequestParam(required=false) String redirectUrl) throws Exception {
 	    if(logger.isDebugEnabled()){
-            logger.debug("请求微薄登录"+redirectUrl);  
+            logger.debug("请求微博登录"+redirectUrl);  
         }
 	    String weiboOAuthUrl = new weibo4j.Oauth().authorize("code", redirectUrl);
 		return ResponseUtil.getRedirectString(weiboOAuthUrl);
@@ -224,6 +222,7 @@ public class OAuthController {
 		
 		AccessTokenInfo sessionToken = checkOAuthTokenStatus(request);
 		String thirdpartyName = getThirdpartyName(sessionToken.getThirdpartyType());
+		String thirdpartyAvatar = sessionToken.getThirdpartyAvatar();
 		
 		// 前端检查检查用户是否存在，在此不需要再次检查
 		
@@ -239,7 +238,7 @@ public class OAuthController {
 		user.setCreateTime(currentTime);
 		user.setUpdateTime(currentTime);
 		try {
-			int result = userService.save(user);
+			int result = userService.registerByOauth(user, thirdpartyAvatar);
 			if (result == 1) {
 				sessionToken.setUserId(user.getId());
 				accessTokenService.save(sessionToken);

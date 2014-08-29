@@ -1,7 +1,6 @@
 package com.bruce.designer.front.controller;
 
 import java.awt.image.BufferedImage;
-import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -21,18 +20,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bruce.designer.annotation.NeedAuthorize;
-import com.bruce.designer.constants.ConstService;
-import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.front.util.ResponseUtil;
-import com.bruce.designer.front.util.VerifyUtils;
 import com.bruce.designer.mail.MailService;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
-import com.bruce.designer.util.ConfigUtil;
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 
@@ -59,45 +54,45 @@ public class SystemController {
 		return "login/loginAndReg";
 	}
 
-//	@RequestMapping(value = "/login", method = RequestMethod.POST)
-//	public String doLogin(Model model, HttpServletRequest request, String username, String password, @RequestParam(defaultValue = "") String verifyCode,
-//			@RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
-//		
-//		String sessionVerifyCode = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-//		
-//		if (StringUtils.isNotEmpty(redirectUrl)) {
-//			// 跳转地址
-//			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
-//		}
-//		
-//		if(logger.isDebugEnabled()){
-//			logger.debug("提交登录后的redirectUrl地址: "+ redirectUrl);
-//			logger.debug("提交登录前的session验证码: "+sessionVerifyCode +", 用户输入的验证码: "+verifyCode);
-//		}
-//		
-//		if(!verifyCode.equals(sessionVerifyCode)){
-//			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.SYSTEM_VERIFYCODE_ERROR));
-//			return "login/loginAndReg";
-//		}
-//		//校验后删除session中的随机码
-//		request.getSession().removeAttribute(Constants.KAPTCHA_SESSION_KEY);
-//		
-//		User user = userService.authUser(username.trim(), password);
-//		if (user != null) {
-//			request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
-//			model.addAttribute(ConstFront.REDIRECT_PROMPT, "您好，" + user.getNickname() + "，您已成功登录，现在将转后续页面，请稍候…");
-//			if(logger.isDebugEnabled()){
-//				logger.debug("用户["+username+"]登录成功");
-//			}
-//			return ResponseUtil.getForwardReirect();
-//		} else {// 用户身份验证失败
-//			if(logger.isErrorEnabled()){
-//				logger.error("用户["+username+"]登录认证失败：账户密码不匹配");
-//			}
-//			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.USER_PASSWORD_NOT_MATCH));
-//			return "login/loginAndReg";
-//		}
-//	}
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String doLogin(Model model, HttpServletRequest request, String username, String password, @RequestParam(defaultValue = "") String verifyCode,
+			@RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
+		
+		String sessionVerifyCode = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+		
+		if (StringUtils.isNotEmpty(redirectUrl)) {
+			// 跳转地址
+			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl);
+		}
+		
+		if(logger.isDebugEnabled()){
+			logger.debug("提交登录后的redirectUrl地址: "+ redirectUrl);
+			logger.debug("提交登录前的session验证码: "+sessionVerifyCode +", 用户输入的验证码: "+verifyCode);
+		}
+		
+		if(!verifyCode.equals(sessionVerifyCode)){
+			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.SYSTEM_VERIFYCODE_ERROR));
+			return "login/loginAndReg";
+		}
+		//校验后删除session中的随机码
+		request.getSession().removeAttribute(Constants.KAPTCHA_SESSION_KEY);
+		
+		User user = userService.authUser(username.trim(), password);
+		if (user != null) {
+			request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
+			model.addAttribute(ConstFront.REDIRECT_PROMPT, "您好，" + user.getNickname() + "，您已成功登录，现在将转后续页面，请稍候…");
+			if(logger.isDebugEnabled()){
+				logger.debug("用户["+username+"]登录成功");
+			}
+			return ResponseUtil.getForwardReirect();
+		} else {// 用户身份验证失败
+			if(logger.isErrorEnabled()){
+				logger.error("用户["+username+"]登录认证失败：账户密码不匹配");
+			}
+			model.addAttribute(ConstFront.LOGIN_ERROR_MESSAGE, ErrorCode.getMessage(ErrorCode.USER_PASSWORD_NOT_MATCH));
+			return "login/loginAndReg";
+		}
+	}
 //
 //	@RequestMapping(value = "/register", method = RequestMethod.GET)
 //	public String register(Model model, HttpServletRequest request, @RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {

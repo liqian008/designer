@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import weibo4j.Account;
 import weibo4j.Timeline;
+import weibo4j.TimelineAdvanced;
 import weibo4j.http.ImageItem;
 import weibo4j.model.Status;
 import weibo4j.model.WeiboException;
@@ -49,8 +50,7 @@ public class OAuthWeiboProcessor implements IOAuthProcessor {
 	 */
 	public String loadThirdpartyUid(AccessTokenInfo tokenInfo) {
 		// 根据token获取第三方用户资料
-		Account am = new Account();
-		am.client.setToken(tokenInfo.getAccessToken());
+		Account am = new Account(tokenInfo.getAccessToken());
 		JSONObject uidJson;
 		try {
 			uidJson = am.getUid();
@@ -71,15 +71,15 @@ public class OAuthWeiboProcessor implements IOAuthProcessor {
 	 * @throws DesignerException
 	 */
 	public AccessTokenInfo loadThirdpartyProfile(AccessTokenInfo tokenInfo) {
-		weibo4j.Users users = new weibo4j.Users();
-		users.setToken(tokenInfo.getAccessToken());
+		weibo4j.Users users = new weibo4j.Users(tokenInfo.getAccessToken());
 		weibo4j.model.User weiboUser;
 		try {
 			weiboUser = users.showUserById(tokenInfo.getThirdpartyUid());
 			// 完善第三方的昵称
-			StringBuilder sb = new StringBuilder();
-			sb.append(weiboUser.getScreenName());
-			tokenInfo.setThirdpartyUname(sb.toString());
+			String thirdpartyUname = weiboUser.getScreenName();
+			String thirdpartyAvatar = weiboUser.getAvatarLarge();
+			tokenInfo.setThirdpartyUname(thirdpartyUname);
+			tokenInfo.setThirdpartyAvatar(thirdpartyAvatar);
 			return tokenInfo;
 		} catch (WeiboException e) {
 			throw new DesignerException(ErrorCode.OAUTH_ERROR);
@@ -95,17 +95,17 @@ public class OAuthWeiboProcessor implements IOAuthProcessor {
 	public void shareout(SharedInfo sharedInfo) {
 		//System.out.println("发布weibo");
 		try {
-			// String content =
-			// java.net.URLEncoder.encode(sharedInfo.getContent(), "utf-8");
-			Timeline tl = new Timeline();
-			tl.client.setToken(sharedInfo.getAccessToken());// access_token
-			/*构造图片对象*/
-			ImageItem imageItem = new ImageItem(sharedInfo.getImgBytes());
-			Status status = tl.UploadStatus(sharedInfo.getContent(), imageItem);
-//			Status status = tl.UpdateStatus(sharedInfo.getContent());
-//			System.out.println("Successfully upload the status to [" + status.getText() + "].");
+			 String content = java.net.URLEncoder.encode(sharedInfo.getContent(), "utf-8");
+			
+//			Timeline tl = new Timeline(sharedInfo.getAccessToken());
+			/*基础接口需要构造图片对象*/
+//			ImageItem imageItem = new ImageItem(sharedInfo.getImgBytes());
+//			Status status = tl.uploadStatus(sharedInfo.getContent(), imageItem);
+			/*高级接口只需要图片url即可*/
+			TimelineAdvanced tla = new TimelineAdvanced(sharedInfo.getAccessToken());
+			tla.updateUrlText(content, sharedInfo.getImgUrl());
 		} catch (Exception e) {
-			throw new DesignerException(ErrorCode.OAUTH_ERROR);
+			throw new DesignerException(ErrorCode.OAUTH_SHAREOUT_ERROR);
 		}
 	}
 

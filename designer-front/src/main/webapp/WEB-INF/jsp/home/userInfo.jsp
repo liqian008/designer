@@ -186,7 +186,7 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 										<div class="row-container clearfix">
 											<div class="row-left">淘宝店铺主页: </div>
 											<div class="row-right">
-												<%=queryUser.getDesignerTaobaoHomepage()%>
+												<%=queryUser.getDesignerTaobaoHomepage()%>&nbsp;&nbsp;<a href='<%=queryUser.getDesignerTaobaoHomepage()%>'>去看看</a>
 											</div>
 										</div>
 										

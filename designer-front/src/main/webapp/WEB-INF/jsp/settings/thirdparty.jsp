@@ -11,9 +11,9 @@ String contextPath = ConstFront.CONTEXT_PATH;
 %>
 <%
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
-boolean isDesigner = currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED;
+boolean isDesigner = currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED; 
 
-%>
+%> 
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -109,7 +109,7 @@ boolean isDesigner = currentUser.getDesignerStatus()==ConstService.DESIGNER_APPL
 					                                    <%if(isDesigner){%>
 					                                    绑定微博或QQ账户，有助于发布的作品在相应平台的自动传播，强烈建议设计师均进行绑定！
 					                                    <%}else{ %>
-					                                    绑定微博或QQ后，即可以使用相应账户登录本站。
+					                                    绑定微博或QQ后，即可以使用相应账户登录【金玩儿网】网站或客户端。
 					                                    <%} %>
 					                                    </p>
 					                                </div>
@@ -120,13 +120,13 @@ boolean isDesigner = currentUser.getDesignerStatus()==ConstService.DESIGNER_APPL
 													<div class="row-right">
 														<%
 														AccessTokenInfo wbToken = currentUser.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE);
-														boolean wbBound = wbToken!=null;
+														boolean wbBound = wbToken!=null; 
 														%>
 														<%=wbBound?"已绑定":"未绑定"%><%=wbToken!=null?"【"+wbToken.getThirdpartyUname()+"】":""%>
 														<%if(wbBound){%>
 														<!-- <a href="<%=contextPath%>/unbindOauth?thirdpartyType=1" class="button button-small button-white">解绑Sina微博账户</a> -->
 														<input type="button" class="button button-white" value="解 绑" onclick="location.href='<%=contextPath%>/unbindOauth?thirdpartyType=1'"/>
-														<input type="checkbox" name="sync2Weibo" value="1" <%=wbToken.getSyncAlbum()==1?"checked='checked'":""%>/>发布作品时同步到Sina微博
+														<input type="checkbox" name="sync2Weibo" value="1" <%=wbToken.getSyncAlbum()!=null&&wbToken.getSyncAlbum()==1?"checked='checked'":""%>/>发布作品时同步到Sina微博
 														<%}else{%>
 														<input type="button" class="button button-green" value="现在就去绑定" onclick="location.href='<%=contextPath%>/connectWeibo'"/>
 														<!-- 
@@ -146,7 +146,7 @@ boolean isDesigner = currentUser.getDesignerStatus()==ConstService.DESIGNER_APPL
 														<%if(tencentBound){%>
 														<!-- <a href="<%=contextPath%>/unbindOauth?thirdpartyType=2" class="button button-small button-white">解绑QQ账户</a> -->
 														<input type="button" class="button button-white" value="解 绑" onclick="location.href='<%=contextPath%>/unbindOauth?thirdpartyType=2'"/>
-														<input type="checkbox" name="sync2Tencent" value="1" <%=wbToken.getSyncAlbum()==1?"checked='checked'":""%>/>发布作品时同步到QQ空间
+														<input type="checkbox" name="sync2Tencent" value="1" <%=wbToken.getSyncAlbum()!=null&&wbToken.getSyncAlbum()==1?"checked='checked'":""%>/>发布作品时同步到QQ空间
 														<%}else{%>
 														<input type="button" class="button button-green" value="现在就去绑定" onclick="location.href='<%=contextPath%>/connectTencent'"/>
 														<!--<a href="<%=contextPath%>/connectTencent" class="button button-small button-green">现在就去绑定</a> -->

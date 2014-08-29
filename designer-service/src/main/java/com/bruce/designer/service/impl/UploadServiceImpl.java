@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -19,6 +20,7 @@ import com.bruce.designer.model.upload.UploadImageInfo;
 import com.bruce.designer.model.upload.UploadImageResult;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.service.IUploadService;
+import com.bruce.designer.util.HttpClientUtil;
 import com.bruce.designer.util.UploadUtil;
 import com.bruce.designer.util.ImageUtil;
 
@@ -136,6 +138,20 @@ public class UploadServiceImpl implements IUploadService {
 			}
 		}
 		return uploadResult;
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public UploadImageResult uploadAvatarByUrl(String avatarUrl, int userId) throws IOException {
+		if(!StringUtils.isBlank(avatarUrl)&&userId>0){
+			byte[] bytes = HttpClientUtil.getBytesFromRemoteResource(avatarUrl);
+			if(bytes!=null&&bytes.length>0){
+				return uploadAvatar(bytes, userId);
+			}
+		}
+		return new UploadImageResult();
 	}
 
 }

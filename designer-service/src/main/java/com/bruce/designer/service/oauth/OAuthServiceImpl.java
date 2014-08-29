@@ -4,22 +4,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-
-import com.bruce.designer.model.AccessTokenInfo;
-import com.bruce.designer.model.Album;
-import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.exception.DesignerException;
+import com.bruce.designer.exception.ErrorCode;
+import com.bruce.designer.model.AccessTokenInfo;
 import com.bruce.designer.service.ITaskService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.processor.IOAuthProcessor;
@@ -175,7 +170,6 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
         	IOAuthProcessor oauthProcessor = processorMap.get(sharedInfo.getThirdpartyType());
         	//发布至第三方
         	try {
-        		
         		oauthProcessor.shareout(sharedInfo);
             } catch (DesignerException e) {
                 e.printStackTrace();

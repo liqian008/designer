@@ -1,9 +1,11 @@
 package com.bruce.designer.service.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import com.bruce.designer.model.AccessTokenInfo;
 import com.bruce.designer.model.User;
 import com.bruce.designer.model.UserCriteria;
 import com.bruce.designer.service.IMessageService;
+import com.bruce.designer.service.IUploadService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;
 import com.bruce.designer.util.ConfigUtil;
@@ -34,6 +37,8 @@ public class UserServiceImpl implements IUserService {
 //	private ICounterService counterService;
 	@Autowired
 	private IMessageService messageService;
+	@Autowired
+    private IUploadService uploadService;
 	
 	public int save(User t) {
 		if(t!=null){
@@ -289,6 +294,24 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public List<User> queryByCriteria(UserCriteria criteria) {
 		return userDao.queryByCriteria(criteria);
+	}
+
+	/**
+	 * oauth方式的用户注册（需要将oauth中的头像作为用户 头像保存）
+	 */
+	@Override
+	public int registerByOauth(User user, String thirdpartyAvatar) {
+		//先保存用户，以获取userId
+		int result =  save(user);
+		if(!StringUtils.isBlank(thirdpartyAvatar)&&user.getId()!=null&&user.getId()>0){
+			//保存用户头像
+			try {
+				uploadService.uploadAvatarByUrl(thirdpartyAvatar, user.getId());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
 	}
 	
 	

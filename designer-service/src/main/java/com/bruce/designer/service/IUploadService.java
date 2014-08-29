@@ -22,12 +22,21 @@ public interface IUploadService{
 	public UploadImageResult uploadImage(byte[] bytes, int userId, String filename) throws IOException;
 	
 	/**
-	 * 保存原始头像文件
+	 * 上传&保存原始头像文件
 	 * @param bytes
 	 * @return
 	 * @throws IOException 
 	 */
 	public UploadImageResult uploadAvatar(byte[] bytes, int userId) throws IOException;
+	
+	
+	/**
+	 * 使用网络图片来更新头像（保存原始头像文件）
+	 * @param bytes
+	 * @return
+	 * @throws IOException 
+	 */
+	public UploadImageResult uploadAvatarByUrl(String avatarUrl, int userId) throws IOException;
 
 //	public UploadImageResult updateAvatar(int userId, int x, int y, int w, int h) throws IOException;
 	

@@ -202,7 +202,8 @@ public class DesignerHtmlUtils {
 					return message.getMessage();
 				}
 				case ConstService.MESSAGE_TYPE_FOLLOW: {
-					return "";
+					return "<a href='"+ConstFront.CONTEXT_PATH+"/"+message.getFromId()+"/home' target='_blank'>"+message.getFromUser().getNickname() + "</a>: " + 
+							"关注了您";
 				}
 				case ConstService.MESSAGE_TYPE_COMMENT: {
 					return "<a href='"+ConstFront.CONTEXT_PATH+"/"+message.getFromId()+"/home' target='_blank'>"+message.getFromUser().getNickname() + "</a>: " + 

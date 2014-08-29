@@ -64,6 +64,8 @@ public class ErrorCode {
 	public static final int OAUTH_SESSIONTOKEN_NOT_EXISTS = 231;
 	/* 已经绑定同类型token，无法再次绑定 */
 	public static final int OAUTH_ALREADY_BIND = 232;
+	/* OAuth分享内容错误 */
+	public static final int OAUTH_SHAREOUT_ERROR = 233;
 	
 	
 	/* 关系图谱分配300-400的错误码 */

@@ -41,7 +41,7 @@ if (queryUser != null) {
 							昵 称:&nbsp;<%=queryUser.getNickname()%>
 						</p>
 						<%if(isDesigner){ %>
-						<p>专辑数:&nbsp;x个</p>
+						<p>专辑数:&nbsp;<span class="albumsCount">0</span>个</p>
 						<p>粉丝数:&nbsp;<span class="fansCount">0</span>个</p>
 						<%}%>
 						<p>关注数:&nbsp;<span class="followsCount">0</span>个</p>
@@ -66,6 +66,9 @@ if (queryUser != null) {
 			var queryJsonData = {"queryUserId": <%=queryUser.getId()%>};
 			$.post("<%=contextPath%>/userboxInfo.json", queryJsonData, function(responseData) {
 				if(responseData.result==1){
+					$('.albumsCount').each(function(){
+						$(this).text(responseData.data.albumCount);
+					});
 					$('.fansCount').each(function(){
 						$(this).text(responseData.data.fansCount);
 					});

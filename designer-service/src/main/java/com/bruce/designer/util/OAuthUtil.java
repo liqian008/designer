@@ -96,14 +96,17 @@ public class OAuthUtil {
 			//发布文案
 			String contentTemplate = ConfigUtil.getString("album_shareout_content");
 			//格式化发布模板
-			String content = String.format(contentTemplate, album.getTitle(), album.getId());  
+			String content = String.format(contentTemplate, album.getTitle(), album.getId());
 			sharedInfo.setContent(content);
 			sharedInfo.setAlbumId(album.getId());
-			try {
-				sharedInfo.setImgBytes(UploadUtil.file2bytes(coverFile));
-			} catch (Exception e){
-				return null;
-			}
+//			try {
+//				sharedInfo.setImgBytes(UploadUtil.file2bytes(coverFile));
+//			} catch (Exception e){
+//				return null;
+//			}
+			
+			sharedInfo.setImgUrl(album.getCoverMediumImg());
+			
 			sharedInfo.setThirdpartyType(thirdpartyType);
 			sharedInfo.setAccessToken(accessToken);
 			return sharedInfo;
