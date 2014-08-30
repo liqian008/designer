@@ -241,6 +241,7 @@ public class OAuthController {
 			int result = userService.registerByOauth(user, thirdpartyAvatar);
 			if (result == 1) {
 				sessionToken.setUserId(user.getId());
+				sessionToken.setSyncAlbum((short) 1);//默认为同步策略
 				accessTokenService.save(sessionToken);
 				// 清空sessionToken
 				request.getSession().removeAttribute(ConstFront.TEMPLATE_ACCESS_TOKEN);

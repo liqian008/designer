@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.bruce.designer.model.AccessTokenInfo;
-import com.bruce.designer.model.Album;
 
 public interface IOAuthService {
 

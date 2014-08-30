@@ -29,6 +29,7 @@ import com.bruce.designer.model.AlbumSlide;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IAlbumCommentService;
 import com.bruce.designer.service.IAlbumCounterService;
+import com.bruce.designer.service.IAlbumRecommendService;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
 import com.bruce.designer.service.IHotService;
@@ -45,6 +46,8 @@ public class AlbumController {
 	private IUserService userService;
 	@Autowired
 	private IAlbumService albumService;
+	@Autowired
+	private IAlbumRecommendService albumRecommendService;
 
 	@Autowired
 	private IAlbumCommentService commentService;
@@ -211,7 +214,34 @@ public class AlbumController {
 			throw new DesignerException(ErrorCode.ALBUM_NOT_EXIST);
 		}
 	}
+	
+	
+	@RequestMapping(value = "recommendAlbums.json")
+	public ModelAndView recommendAlbums(HttpServletRequest request) {
+		int numberPerLine = 4;
+	    if(logger.isDebugEnabled()){
+            logger.debug("ajax精选专辑, 每页展示条目："+numberPerLine);
+        }
+	    int limit = FULL_LIMIT;
+		List<Album> recommendAlbumList = null;
+		//首页全屏类型
+	    if(logger.isDebugEnabled()){
+            logger.debug("查询首页专辑列表");
+        }
+		recommendAlbumList = albumRecommendService.queryRecommendAlbums(limit);
 
+		if (recommendAlbumList == null || recommendAlbumList.size() == 0) {
+		    if(logger.isDebugEnabled()){
+                logger.debug("无更多精选专辑");
+            }
+			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
+		} else {
+			String responseHtml = DesignerHtmlUtils.buildFallLoadHtml(recommendAlbumList, numberPerLine);
+			Map<String, String> dataMap = new HashMap<String, String>();
+			dataMap.put("html", responseHtml);
+			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap));
+		}
+	}
 
 	@RequestMapping(value = "moreAlbums.json")
 	public ModelAndView moreAlbums(HttpServletRequest request, @RequestParam(required=false, defaultValue="0") int designerId, @RequestParam("albumsTailId") int tailId, int numberPerLine) {

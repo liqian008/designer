@@ -469,8 +469,6 @@ public class UserSettingsController {
 				int albumId = album.getId();
 				//保存albumSlide
 				for (int tempSlideId : albumSlideNums) {
-//					String remark = request.getParameter("remark" + tempSlideId);
-
 					AlbumSlide slide = new AlbumSlide();
 					slide.setAlbumId(albumId);
 					slide.setSlideSmallImg(request.getParameter("smallImage" + tempSlideId));
@@ -492,15 +490,18 @@ public class UserSettingsController {
 				List<String> tagNameList = parseTagNameList(tags);
 				tagService.tagAlbum(albumId, tagNameList);
 				
-				//TODO 提交发布第三方
-	            boolean isShareOut = ALBUM_SHAREOUT_FLAG;
-	            if(album!=null && album.getId()> 0&& isShareOut){
-	                List<SharedInfo> sharedInfoList = OAuthUtil.buildSharedInfoList(album, user.getAccessTokenMap());
-	                oauthService.shareout(sharedInfoList);
-	            }
-	            
-	            request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的作品已成功发布，现在将转入首页，请稍候…");
-	            return ResponseUtil.getForwardReirect();
+				//是否使用第三方分享
+				boolean isShareOut = ALBUM_SHAREOUT_FLAG;
+				if (logger.isDebugEnabled()) {
+					logger.debug("全局设置作品集" + albumId + "分享到第三方账户状态:" + isShareOut);
+				}
+				if (album != null && album.getId() > 0 && isShareOut) {
+					List<SharedInfo> sharedInfoList = OAuthUtil.buildSharedInfoList(album, user.getAccessTokenMap());
+					oauthService.shareout(sharedInfoList);
+				}
+
+				request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的作品已成功发布，现在将转入首页，请稍候…");
+				return ResponseUtil.getForwardReirect();
 			}else{
 			    if(logger.isErrorEnabled()){
 	                logger.error("用户["+user.getId()+"]发布作品出错");
@@ -569,16 +570,8 @@ public class UserSettingsController {
 					tagService.tagAlbum(albumId, tagNameList);
 				}
 				
-				//TODO 提交发布第三方
-//				boolean isShareOut = ALBUM_SHAREOUT_FLAG;
-//				if(album!=null && album.getId()> 0&& isShareOut){
-//					List<SharedInfo> sharedInfoList = OAuthUtil.buildSharedInfoList(album, user.getAccessTokenMap());
-//					oauthService.shareout(sharedInfoList);
-//				}
-
 				model.addAttribute(ConstFront.REDIRECT_URL, ConstFront.CONTEXT_PATH +"/settings/albums");
 				request.setAttribute(ConstFront.REDIRECT_PROMPT, "您的作品辑已成功修改，现在将转入作品辑管理页，请稍候…");
-				
 				return ResponseUtil.getForwardReirect();
 			}else{
 			    if(logger.isErrorEnabled()){

@@ -230,9 +230,9 @@ public class McsAlbumController {
     }
     
     private ModelAndView hotAlbums(int mode, int limit) {
-        List<Album> hotAlbumList = hotService.fallLoadHotAlbums(mode, limit);
+//        List<Album> hotAlbumList = hotService.fallLoadHotAlbums(mode, limit);
     	Map<String, Object> dataMap = new HashMap<String, Object>();
-		dataMap.put("hotAlbumList", hotAlbumList);
+//		dataMap.put("hotAlbumList", hotAlbumList);
 		return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(dataMap));
     }
 	

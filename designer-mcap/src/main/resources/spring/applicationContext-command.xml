@@ -19,6 +19,7 @@
 		
 		
 		<!-- 业务command -->
+		<entry key="recommendAlbum.cmd" value-ref="recommendAlbumCommand" />
 		<entry key="latestAlbum.cmd" value-ref="latestAlbumCommand" />
 		<entry key="followAlbum.cmd" value-ref="followAlbumCommand" />
 		<entry key="albumInfo.cmd" value-ref="albumInfoCommand" />

@@ -100,6 +100,7 @@ public class OAuthRegisteCommand extends AbstractApiCommand implements Initializ
 				thirdpartyBindInfo.setRefreshToken(thirdpartyRefreshToken);
 				thirdpartyBindInfo.setExpireIn(thirdpartyExpireIn);
 				thirdpartyBindInfo.setCreaeTime(new Date());
+				thirdpartyBindInfo.setSyncAlbum((short) 1);//默认为同步策略
 				
 				accessTokenService.save(thirdpartyBindInfo);
 				// 重新加载用户

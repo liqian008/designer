@@ -1,6 +1,7 @@
 package com.bruce.designer.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -88,6 +89,10 @@ public class HotServiceImpl implements IHotService, InitializingBean {
 	
     @Override
     public List<Album> fallLoadHotAlbums(int mode, int limit) {
+    	
+    	//使用cache进行优化
+    	HashMap<String, Long> hotCache = new HashMap<String, Long>();
+    	
         List<CountCacheBean> countList = null;
         //先获取相应idList
         switch (mode) {

@@ -95,7 +95,7 @@ public class OAuthWeiboProcessor implements IOAuthProcessor {
 	public void shareout(SharedInfo sharedInfo) {
 		//System.out.println("发布weibo");
 		try {
-			 String content = java.net.URLEncoder.encode(sharedInfo.getContent(), "utf-8");
+			String content = sharedInfo.getContent();
 			
 //			Timeline tl = new Timeline(sharedInfo.getAccessToken());
 			/*基础接口需要构造图片对象*/
@@ -105,6 +105,7 @@ public class OAuthWeiboProcessor implements IOAuthProcessor {
 			TimelineAdvanced tla = new TimelineAdvanced(sharedInfo.getAccessToken());
 			tla.updateUrlText(content, sharedInfo.getImgUrl());
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new DesignerException(ErrorCode.OAUTH_SHAREOUT_ERROR);
 		}
 	}

@@ -10,7 +10,6 @@ import com.bruce.designer.dao.IAlbumRecommendDao;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumRecommend;
 import com.bruce.designer.model.AlbumRecommendCriteria;
-import com.bruce.designer.model.AlbumRecommend;
 import com.bruce.designer.service.IAlbumRecommendService;
 import com.bruce.designer.service.IAlbumService;
 
@@ -60,12 +59,12 @@ public class AlbumRecommendServiceImpl implements IAlbumRecommendService{
 			}
 		}
 		if(albumIdList!=null){
-			return albumService.queryAlbumByIds(albumIdList);
+			List<Album> albumList = albumService.queryAlbumByIds(albumIdList);
+			albumService.initAlbumsWithCount(albumList);
+			return albumList;
 		}
 		return null;
 	}
-	
-	
 	
 	
 	@Override

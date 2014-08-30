@@ -121,9 +121,7 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
     		for(SharedInfo sharedInfo: sharedInfoList){
 	    		SharedThread sharedThread = new SharedThread(sharedInfo);
 	            //添加至线程中执行
-//	            executorService.execute(sharedThread);
 	    		taskService.executeTask(sharedThread);
-	    		
     		}
     	}
     	return;

@@ -1,28 +1,22 @@
 package com.bruce.designer.service.impl;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
-
-import javax.imageio.ImageIO;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
 
-import com.bruce.designer.model.upload.UploadFileInfo;
+import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.model.upload.UploadImageInfo;
 import com.bruce.designer.model.upload.UploadImageResult;
-import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.service.IUploadService;
 import com.bruce.designer.util.HttpClientUtil;
-import com.bruce.designer.util.UploadUtil;
 import com.bruce.designer.util.ImageUtil;
+import com.bruce.designer.util.UploadUtil;
 
 @Service
 public class UploadServiceImpl implements IUploadService {
