@@ -270,11 +270,6 @@ public class UserServiceImpl implements IUserService {
 	
 	
 	
-	
-	
-	
-	
-	
 
 	@Override
 	public int updateByCriteria(User t, UserCriteria criteria) {

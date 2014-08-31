@@ -90,4 +90,14 @@ public class AccessTokenDaoImpl implements IAccessTokenDao {
 		return accessTokenInfoMapper.deleteByExample(criteria);
 	}
 
+	@Override
+	public int updateSyncStatus(short syncStatus, String thirdpartyUid, Short thirdpartyType) {
+		AccessTokenInfo updatedInfo = new AccessTokenInfo();
+		updatedInfo.setSyncAlbum(syncStatus);
+		
+		AccessTokenInfoCriteria criteria = new AccessTokenInfoCriteria();
+		criteria.createCriteria().andThirdpartyUidEqualTo(thirdpartyUid).andThirdpartyTypeEqualTo(thirdpartyType);
+		return accessTokenInfoMapper.updateByExampleSelective(updatedInfo, criteria);
+	}
+
 }

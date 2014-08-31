@@ -16,5 +16,7 @@ public interface IAccessTokenDao extends IFoundationDao<AccessTokenInfo, Integer
     public AccessTokenInfo load(String thirdpartyUid, Short thirdpartyType);
     
     public int delete(Integer userId, Short thirdpartyType);
+
+	public int updateSyncStatus(short syncStatus, String thirdpartyUid, Short thirdpartyType); 
     
 }

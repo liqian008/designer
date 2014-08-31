@@ -29,7 +29,7 @@ fallLoad();
 
 function fallLoad(){
 	var jsonData = {'designerId':'<%=queryUser.getId()%>'};
-	$.get('<%=contextPath%>/sideLatestAlbums.json', function(data) {
+	$.get('<%=contextPath%>/sideLatestAlbums.json', jsonData, function(data) {
 		var result = data.result;
 		if(result==1){
 			$("#slideLatestDesignerAlbumsContainer").append(data.data.html);

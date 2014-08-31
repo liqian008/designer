@@ -35,6 +35,7 @@ import com.bruce.designer.front.util.DesignerHtmlUtils;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.front.util.ResponseUtil;
 import com.bruce.designer.mail.MailService;
+import com.bruce.designer.model.AccessTokenInfo;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumFavorite;
 import com.bruce.designer.model.AlbumSlide;
@@ -47,6 +48,8 @@ import com.bruce.designer.service.ITagAlbumService;
 import com.bruce.designer.service.ITagService;
 import com.bruce.designer.service.IUploadService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.service.oauth.AccessTokenServiceImpl;
+import com.bruce.designer.service.oauth.IAccessTokenService;
 import com.bruce.designer.service.oauth.IOAuthService;
 import com.bruce.designer.service.oauth.SharedInfo;
 import com.bruce.designer.util.ConfigUtil;
@@ -64,7 +67,9 @@ public class UserSettingsController {
 	@Autowired
 	private IUserService userService;
 	@Autowired
-	private IOAuthService oauthService;
+	private IOAuthService oauthService; 
+	@Autowired
+	private IAccessTokenService accessTokenService;
 	@Autowired
 	private IUploadService uploadService;
 	@Autowired
@@ -84,9 +89,9 @@ public class UserSettingsController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserSettingsController.class);
 
-	public static final int MY_ALBUMS_LIMIT = NumberUtils.toInt(ConfigUtil.getString("my_album_limit"), 10);
+	public static final int MY_ALBUMS_LIMIT = NumberUtils.toInt(ConfigUtil.getString("my_album_limit"), 6);
 	/*我的收藏item的数量*/
-	public static final int MY_FAVORITE_LIMIT = NumberUtils.toInt(ConfigUtil.getString("myfavorite_album_limit"), 2);
+	public static final int MY_FAVORITE_LIMIT = NumberUtils.toInt(ConfigUtil.getString("myfavorite_album_limit"), 6);
 	/*发布第三方的状态*/
 	public static final boolean ALBUM_SHAREOUT_FLAG = BooleanUtils.toBoolean(ConfigUtil.getString("album_shareout_flag"), "true", "false");
 
@@ -686,6 +691,22 @@ public class UserSettingsController {
 //		return "settings/myFlowerings";
 //	}
 
+	@NeedAuthorize
+	@RequestMapping(value = "/syncSetting.json", method = RequestMethod.GET)
+	public ModelAndView thirdparty(short thirdpartyType, short  syncStatus,HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+		if(user!=null&&user.getAccessTokenMap()!=null){
+			AccessTokenInfo accessToken = user.getAccessTokenMap().get(thirdpartyType);
+			if(accessToken!=null){
+				int result = accessTokenService.updateSyncStatus(syncStatus, accessToken.getThirdpartyUid(), thirdpartyType);
+				if(result>0){
+					return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
+				}
+			}
+		}
+		return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
+	}
+	
 	
 	/**
 	 * 将用空格分割的tagsName转为tagNameList

@@ -4,12 +4,16 @@
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.*" %>
 
+
+<!-- 正式版本不支持绑定登录，暂时将此文件作为备份 -->
+
 <%
 String contextPath = ConstFront.CONTEXT_PATH;
 %>
 
 <%
 String redirectUrl = (String)request.getAttribute(ConstFront.REDIRECT_URL);
+String loginErrorMessage = (String)request.getAttribute(ConstFront.LOGIN_ERROR_MESSAGE);
 String regErrorMessage = (String)request.getAttribute(ConstFront.REG_ERROR_MESSAGE);
 boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront.REGISTER_ACTIVE));
 %>
@@ -87,10 +91,11 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 							<div class="shortcode-tabs">
 							    <ul class="tabs-nav tabs clearfix">
 							        <li <%=registerActive?"class='active'":""%>><a class="button button-white" href="#register" data-toggle="tab">完善帐号信息</a></li>
+							        <li <%=!registerActive?"class='active'":""%>><a class="button button-white" href="#login" data-toggle="tab">绑定已有账户</a></li>
 							    </ul>
 							     
 							    <div class="tab-content">
-							        <div class="tab-pane widgets-light active" id="register">
+							        <div class="tab-pane widgets-light <%=registerActive?"active":""%>" id="register">
 							        	<div class="widget-box widget-wrapper-form">
 											<div class="content-title">
 												<h4>完善帐号信息可体验本站更多功能</h4>
@@ -166,6 +171,63 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 											</form>
 										</div>
 							        </div>
+							        <div class="tab-pane widgets-light <%=!registerActive?"active":""%>" id="login">
+							        	<div class="widget-box widget-wrapper-form">
+								            <div class="content-title">
+												<h4>绑定已有账户进行登录</h4>
+											</div>
+											
+											<%if(loginErrorMessage!=null){%>
+											<div id="login-failed" class="infobox info-error info-error-alt clearfix">
+				                                <span></span>
+				                                <div class="infobox-wrap">
+				                                    <h4 id="loginErrorTitle">提示</h4>
+				                                    <p id="loginErrorMessage"><%=loginErrorMessage%></p>
+				                                </div>
+				                            </div>
+											<%}%>
+				                            
+											<form id="login-widget-form" method="post" class="clearfix"
+												action="<%=contextPath%>/oauthBind">
+												
+												<%if(redirectUrl!=null){%>
+													<input type="hidden" name="<%=ConstFront.REDIRECT_URL%>" value="<%=redirectUrl%>"/>
+												<%}%>
+												
+												<div class="row-container clearfix">
+													<div class="row-left">邮 箱:：</div>
+													<div class="row-right">
+														<input type="text" id="login-username" name="username" class="span5" value="liqian">
+														<span id="login-username-required" class="required">*</span>
+														<span id="login-username-prompt" class="text-prompt"></span>
+													</div>
+												</div>
+												
+												<div class="row-container clearfix">
+													<div class="row-left">密 码：</div>
+													<div class="row-right">
+														<input type="password" id="login-password" name="password"  class="span5" value="liqian">
+														<span id="login-password-required" class="required">*</span>
+														<span id="login-password-prompt" class="text-prompt"></span>
+													</div>
+												</div>
+												
+												<div class="row-container clearfix">
+													<div class="row-left">验证码：</div>
+													<div class="row-right">
+														<input type="text" id="login-verifyCode" name="verifyCode" class="span2" value="">
+														<a href="javascript:void(0)"><img src='<%=contextPath%>/verifyCode' id="login-verifyCode-img" width="75px" height="30px"/></a>
+														<span id="login-verifyCode-required" class="required">*</span>
+														<span id="login-verifyCode-prompt" class="text-prompt"></span>
+													</div>
+												</div>
+												
+												<input id="oauth-bind" class="common-submit button" type="submit" value="绑 定">
+												<input id="oauth-bind-reset" class="common-submit button" type="reset" value="取 消">
+				
+											</form>
+										</div>
+							        </div>
 							    </div>
 							</div>
                         </section>
@@ -195,7 +257,84 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
     	$(document).ready(function(){
     		<%if(registerActive){%>
 				$('#reg-username').focus();
+			<%}else{%>
+				$('#login-username').focus();
 			<%}%>
+    	});
+    	
+    	/*登录部分JS*/
+    	var loginUsernameAvailable = false;
+    	var loginPasswordAvailable = false;
+    	var loginVerifyCodeAvailable = false;
+    	
+    	$('#login-username').blur(function(){
+    		checkLoginUsername();
+    	});
+    	$('#login-password').blur(function(){
+    		checkLoginPassword();
+    	});
+    	$('#login-verifyCode').blur(function(){
+    		checkLoginVerifyCode();
+    	});
+    	
+    	//检查邮箱是否合法
+    	function checkLoginUsername(){
+    		var usernameVal = $('#login-username').val();
+    		//邮箱地址
+    		var usernameRegex =  /^([a-z0-9A-Z]+[-|_|\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\.)+[a-zA-Z]{2,}$/;
+    		if(usernameVal==''){
+    			$('#login-username-prompt').text('邮箱不能为空').show(); 
+        		return false;
+    		}else if(!usernameRegex.test(usernameVal)){//检查正则匹配
+    			$('#login-username-prompt').text('邮箱不符合规范').show();
+        		return false;
+    		}else{//输入正确
+				//设置username available的标识
+				$('#login-username-prompt').text('').hide();
+				loginUsernameAvailable = true;
+    		}
+    	}
+
+    	//检查密码是否合法
+    	function checkLoginPassword(){
+    		var passwordVal = $('#login-password').val();
+    		if(passwordVal==''){
+    			$('#login-password-prompt').text('密码不能为空').show();
+    		}else{
+    			$('#login-password-prompt').text('').hide();
+    			loginPasswordAvailable = true;
+    		}
+    	}
+    	
+    	//检查验证码是否合法
+    	function checkLoginVerifyCode(){
+    		var verifyCodeVal = $('#login-verifyCode').val();
+    		if(verifyCodeVal==''){
+    			$('#login-verifyCode-prompt').text('验证码不能为空').show();
+    		}else{
+    			var jsonData = {'verifyCode':verifyCodeVal};
+    			$.post('<%=contextPath%>/checkVerifyCode.json', jsonData, function(responseData) {
+       				var result = responseData.result;
+       				if(result==1){
+       					//设置verifyCode的标识
+       					loginVerifyCodeAvailable = true;
+       					$('#login-verifyCode-prompt').text('').hide();
+       				}else{
+       	    			//设置verifyCode unavailable的标识
+       	    			loginVerifyCodeAvailable = false;
+       	    			$('#login-verifyCode-prompt').text(responseData.message).show();
+       				}
+       			});
+    		}
+    	}
+    	
+    	$('#login-widget-form').submit(function(){
+    		if(loginUsernameAvailable && loginPasswordAvailable&&loginVerifyCodeAvailable){ 
+    			//所有数据项均可用
+	    		$('#login-widget-form').submit();
+    		}else{
+    			return false;
+    		}
     	});
     	
     	

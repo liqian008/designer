@@ -75,5 +75,10 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
 	public List<AccessTokenInfo> queryByCriteria(AccessTokenInfoCriteria criteria) {
 		return accessTokenDao.queryByCriteria(criteria);
 	}
+
+	@Override
+	public int updateSyncStatus(short syncStatus, String thirdpartyUid, Short thirdpartyType) {
+		return accessTokenDao.updateSyncStatus(syncStatus, thirdpartyUid, thirdpartyType);
+	}
     
 }

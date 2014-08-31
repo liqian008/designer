@@ -128,7 +128,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 														if(tagNameList!=null&&tagNameList.size()>0){
 															for(String tagName: tagNameList){
 																sb.append(tagName);
-																sb.append(",");
+																sb.append(" ");
 															}
 															sb.setLength(sb.length()-1);
 														}
