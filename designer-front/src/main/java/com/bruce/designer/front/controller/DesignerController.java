@@ -70,7 +70,7 @@ public class DesignerController {
 	 * @param request
 	 * @return
 	 */
-	private String hotDesigners(Model model, HttpServletRequest request, int mode, int limit) {
+	private String hotDesigners(Model model, HttpServletRequest request, short mode, int limit) {
 	    if(logger.isDebugEnabled()){
             logger.debug("获取热门设计师，mode:"+mode+", limit: "+limit);
         }
@@ -130,6 +130,12 @@ public class DesignerController {
         return hotDesigners(model, request, IHotService.MONTHLY_FLAG, ConstFront.HOT_DESIGNER_MONTHLY_LIMIT);
     }
     
+    //年热门
+    @RequestMapping(value = "/hot/yearlyDesigners", method = RequestMethod.GET)
+    public String hotYearlyDesigners(Model model, HttpServletRequest request) {
+        return hotDesigners(model, request, IHotService.YEARLY_FLAG, ConstFront.HOT_DESIGNER_YEARLY_LIMIT);
+    }
+    
 	
 	/**
 	 * 新晋设计师
@@ -167,7 +173,7 @@ public class DesignerController {
 	@RequestMapping(value = "/hot/designers.json")
 	public ModelAndView hotDesigners4Json(Model model, HttpServletRequest request) {
 		int limit = 5;
-		List<User> designerList = hotService.fallLoadHotDesigners(0, limit);
+		List<User> designerList = hotService.fallLoadHotDesigners((short)0, limit);
 		if (designerList == null || designerList.size() == 0) {
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {

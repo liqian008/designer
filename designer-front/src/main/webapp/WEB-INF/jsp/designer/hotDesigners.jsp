@@ -7,7 +7,7 @@
 <%@ page import="java.text.*"%>
 
 <%!String getActive(HttpServletRequest request, int mode){
-	if(mode == ((Integer)request.getAttribute("mode")).intValue()){
+	if(mode == ((Short)request.getAttribute("mode")).intValue()){
 		return "class='active'";
 	}else{
 		return "";
@@ -97,10 +97,11 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 						<section class="content span9">
 							<div class="shortcode-tabs">
 	                            <ul class="tabs-nav tabs clearfix">
-	                                <li <%=getActive(request, 1)%>><a class="button button-white" href="<%=contextPath%>/hot/dailyDesigners">本日热门设计师</a></li>
+	                                <li <%=getActive(request, 1)%>><a class="button button-white" href="<%=contextPath%>/hot/dailyDesigners">今日热门设计师</a></li>
 	                                <li <%=getActive(request, 2)%>><a class="button button-white" href="<%=contextPath%>/hot/weeklyDesigners">本周热门设计师</a></li>
 	                                <li <%=getActive(request, 3)%>><a class="button button-white" href="<%=contextPath%>/hot/monthlyDesigners">本月热门设计师</a></li>
-	                            </ul>
+	                                <li <%=getActive(request, 4)%>><a class="button button-white" href="<%=contextPath%>/hot/yearlyDesigners">年度热门设计师</a></li>
+	                            </ul> 
                             </div>
 						
 							
@@ -178,7 +179,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 	<script src="<%=contextPath%>/js/superfish.js"></script>
 	<!-- <script src="<%=contextPath%>/js/supersubs.js"></script> -->
 	<!--  <script src="<%=contextPath%>/js/jquery.tweet.js"></script>  -->
-	<script src="<%=contextPath%>/js/retina.js"></script>
+	<!-- <script src="<%=contextPath%>/js/retina.js"></script> --><!--<script src="<%=contextPath%>/js/retina.js"></script>-->
 	<script src="<%=contextPath%>/js/custom.js"></script>
 	<script>
 	$("body").delegate('a.listFollowBtn', 'click', function(){

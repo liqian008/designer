@@ -175,7 +175,7 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
     <!-- <script src="<%=contextPath%>/js/supersubs.js"></script> -->
    <!--  <script src="<%=contextPath%>/js/jquery.tweet.js"></script>  -->
     <script src="<%=contextPath%>/js/jquery.flexslider.js"></script> 
-    <script src="<%=contextPath%>/js/retina.js"></script>
+    <!--<script src="<%=contextPath%>/js/retina.js"></script>-->
 
     <script src="<%=contextPath%>/js/custom.js"></script>
     <script>

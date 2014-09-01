@@ -147,11 +147,11 @@ String contextPath = ConstFront.CONTEXT_PATH;
 
 
 	<!-- Load all Javascript Files -->
-	<script src="./js/vendor/bootstrap.min.js"></script>
-	<script src="./js/superfish.js"></script>
+	<script src="<%=contextPath%>/js/vendor/bootstrap.min.js"></script>
+	<script src="<%=contextPath%>/js/superfish.js"></script>
 	<!-- <script src="./js/supersubs.js"></script> -->
-	<script src="./js/retina.js"></script>
-	<script src="./js/custom.js"></script>
+	<!-- <script src="<%=contextPath%>/js/retina.js"></script>-->
+	<script src="<%=contextPath%>/js/custom.js"></script>
 	<script>
 		fallLoad();
 	

@@ -192,7 +192,7 @@ boolean isDesigner = currentUser.getDesignerStatus()==ConstService.DESIGNER_APPL
     <!-- <script src="<%=contextPath%>/js/supersubs.js"></script> -->
    <!--  <script src="<%=contextPath%>/js/jquery.tweet.js"></script>  -->
     <script src="<%=contextPath%>/js/jquery.flexslider.js"></script> 
-    <script src="<%=contextPath%>/js/retina.js"></script>
+    <!--<script src="<%=contextPath%>/js/retina.js"></script>-->
 
     <script src="<%=contextPath%>/js/custom.js"></script>
 

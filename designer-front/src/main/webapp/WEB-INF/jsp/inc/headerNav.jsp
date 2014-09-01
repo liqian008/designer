@@ -56,6 +56,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 	                            <li><a href="<%=contextPath%>/hot/dailyAlbums">本日热门</a></li>
 	                            <li><a href="<%=contextPath%>/hot/weeklyAlbums">本周热门</a></li>
 	                            <li><a href="<%=contextPath%>/hot/monthlyAlbums">本月热门</a></li>
+	                            <li><a href="<%=contextPath%>/hot/yearlyAlbums">年度热门</a></li>
 	                        </ul>
 						</li>
 					</ul></li>
@@ -67,6 +68,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 		                            <li><a href="<%=contextPath%>/hot/dailyDesigners">本日热门</a></li>
 		                            <li><a href="<%=contextPath%>/hot/weeklyDesigners">本周热门</a></li>
 		                            <li><a href="<%=contextPath%>/hot/monthlyDesigners">本月热门</a></li>
+		                            <li><a href="<%=contextPath%>/hot/yearlyDesigners">年度热门</a></li>
 		                        </ul>
 							</li>
 						</ul></li> 

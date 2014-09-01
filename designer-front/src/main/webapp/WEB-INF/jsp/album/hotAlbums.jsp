@@ -11,7 +11,7 @@ String contextPath = ConstFront.CONTEXT_PATH;
 %>
 
 <%!String getActive(HttpServletRequest request, int mode){
-	if(mode == ((Integer)request.getAttribute("mode")).intValue()){
+	if(mode == ((Short)request.getAttribute("mode")).intValue()){
 		return "class='active'";
 	}else{
 		return "";
@@ -95,6 +95,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 	                                <li <%=getActive(request, 1)%>><a class="button button-white" href="<%=contextPath%>/hot/dailyAlbums">本日热门作品</a></li>
 	                                <li <%=getActive(request, 2)%>><a class="button button-white" href="<%=contextPath%>/hot/weeklyAlbums">本周热门作品</a></li>
 	                                <li <%=getActive(request, 3)%>><a class="button button-white" href="<%=contextPath%>/hot/monthlyAlbums">本月热门作品</a></li>
+	                                <li <%=getActive(request, 4)%>><a class="button button-white" href="<%=contextPath%>/hot/yearlyAlbums">年度热门作品</a></li>
 	                            </ul>
                             </div>
                         	<%
@@ -137,7 +138,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
     <!-- <script src="<%=contextPath%>/js/supersubs.js"></script> -->
    <!--  <script src="<%=contextPath%>/js/jquery.tweet.js"></script>  -->
     <script src="<%=contextPath%>/js/jquery.flexslider.js"></script> 
-    <script src="<%=contextPath%>/js/retina.js"></script>
+    <!--<script src="<%=contextPath%>/js/retina.js"></script>-->
 
     <script src="<%=contextPath%>/js/custom.js"></script>
 	

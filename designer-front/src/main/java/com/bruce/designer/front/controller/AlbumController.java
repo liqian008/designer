@@ -378,7 +378,13 @@ public class AlbumController {
         return hotAlbums(model, IHotService.MONTHLY_FLAG, ConstFront.HOT_ALBUM_MONTHLY_LIMIT);
     }
     
-    private String hotAlbums(Model model, int mode, int limit) {
+    //年热门
+    @RequestMapping(value = "/hot/yearlyAlbums", method = RequestMethod.GET)
+    public String hotYearlyAlbums(Model model) {
+        return hotAlbums(model, IHotService.YEARLY_FLAG, ConstFront.HOT_ALBUM_YEARLY_LIMIT);
+    }
+    
+    private String hotAlbums(Model model, short mode, int limit) {
         List<Album> hotAlbumList = hotService.fallLoadHotAlbums(mode, limit);
         model.addAttribute("hotAlbumList", hotAlbumList);
         model.addAttribute("mode", mode);

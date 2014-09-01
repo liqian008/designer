@@ -111,7 +111,7 @@ String contextPath = ConstFront.CONTEXT_PATH;
     <script src="<%=contextPath%>/js/vendor/bootstrap.min.js"></script>
     <script src="<%=contextPath%>/js/jquery.onebyone.min.js"></script>
     <script src="<%=contextPath%>/js/superfish.js"></script>
-    <script src="<%=contextPath%>/js/retina.js"></script>
+    <!--<script src="<%=contextPath%>/js/retina.js"></script>-->
     <!-- <script src="<%=contextPath%>/js/layerslider.kreaturamedia.jquery.js"></script> -->
     <!-- <script src="<%=contextPath%>/js/supersubs.js"></script> -->
    <!--  <script src="<%=contextPath%>/js/jquery.tweet.js"></script>  -->

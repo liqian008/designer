@@ -225,15 +225,15 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
    </div> <!-- Close wrapper -->
 
     <!-- Load all Javascript Files -->
-    <script src="../js/vendor/bootstrap.min.js"></script>
-    <script src="../js/jquery.hoverdir.js"></script>
-    <script src="../js/superfish.js"></script>
-    <!-- <script src="../js/supersubs.js"></script> -->
-   <!--  <script src="../js/jquery.tweet.js"></script>  -->
-    <script src="../js/jquery.flexslider.js"></script> 
-    <script src="../js/retina.js"></script>
+    <script src="<%=contextPath%>/js/vendor/bootstrap.min.js"></script>
+    <script src="<%=contextPath%>/js/jquery.hoverdir.js"></script>
+    <script src="<%=contextPath%>/js/superfish.js"></script>
+    <!-- <script src="<%=contextPath%>/js/supersubs.js"></script> -->
+   <!--  <script src="<%=contextPath%>/js/jquery.tweet.js"></script>  -->
+    <script src="<%=contextPath%>/js/jquery.flexslider.js"></script> 
+    <!-- <script src="<%=contextPath%>/js/retina.js"></script> -->
 
-    <script src="../js/custom.js"></script>
+    <script src="<%=contextPath%>/js/custom.js"></script>
 	
 	<script>
 	

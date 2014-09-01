@@ -53,7 +53,7 @@ public class HotDesignersCommand extends AbstractApiCommand implements Initializ
     	int hostId = context.getUserId();
     	
     	String modeStr = context.getStringParams().get("mode");
-    	int mode = NumberUtils.toInt(modeStr, 0);
+    	short mode = NumberUtils.toShort(modeStr, (short)0);
     	
 		if(logger.isDebugEnabled()){
             logger.debug("MCS查询热门设计师，hostId: "+hostId + ", mode: "+mode);
