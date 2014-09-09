@@ -8,10 +8,9 @@
 
 <%
 String contextPath = ConstFront.CONTEXT_PATH;
-%>
 
-<%
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
+boolean isDesigner = currentUser.getDesignerStatus() == ConstService.DESIGNER_APPLY_APPROVED;
 %>
 
 <!DOCTYPE html>
@@ -99,7 +98,9 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												
 												<div class="row-container clearfix">
 													<div class="row-left">用户身份：</div>
-													<div class="row-right">设计师</div>
+													<div class="row-right">
+													<%=isDesigner?"设计师":"普通用户"%>
+													</div>
 												</div>
 												<div class="row-container clearfix">
 													<div class="row-left">登录名：</div>

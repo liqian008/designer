@@ -262,8 +262,9 @@ Album album = (Album)request.getAttribute("albumInfo");
 														value="注册新用户" /> -->
 													
 													<input class="wb-login common-submit button" id="weiboLoginBtn" type="button" onclick="location.href='<%=contextPath%>/connectWeibo'"/>
+													<!-- 
 													<input class="qq-login common-submit button" id="tencentLoginBtn" type="button" onclick="location.href='<%=contextPath%>/connectTencent'"/>
-												
+												 	-->
 												</div>
 											</form>
 											<%}else{%>

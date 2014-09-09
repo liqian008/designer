@@ -87,7 +87,7 @@ String contextPath = ConstFront.CONTEXT_PATH;
 				</div>
 				<div class="copyright span5">
 					<p>
-						<a href="http://www.jinwanr.com.cn">金玩儿网</a>&nbsp;&nbsp;<a href="http://www.miitbeian.gov.cn" target="_blank">(京ICP备13008813号)</a>
+						<a href="http://www.jinwanr.com">金玩儿网</a>&nbsp;&nbsp;<a href="http://www.miitbeian.gov.cn" target="_blank">(京ICP备13008813号)</a>
 						<!-- 
 						&nbsp;|&nbsp;
 						<a href="#" target="_blank">站长统计</a>

@@ -8,4 +8,4 @@ Disallow: /js/
 Disallow: /faustCplus/
 Disallow: /fonts/
 Disallow: /uploadify/
-Sitemap: http://www.jinwanr.com.cn/sitemap.xml
+Sitemap: http://www.jinwanr.com/sitemap.xml

@@ -8,9 +8,7 @@
 
 <%
 String contextPath = ConstFront.CONTEXT_PATH;
-%>
 
-<%
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 %>
 

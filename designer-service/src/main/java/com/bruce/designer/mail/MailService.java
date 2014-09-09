@@ -31,7 +31,7 @@ public class MailService {
 	private static final String MAIL_ADMIN_PASSWORD = ConfigUtil.getString("mail_admin_password");
 	/*欢迎邮件标题——【金玩儿网】欢迎新用户注册*/
 	private static final String MAIL_WELCOME_TITLE = ConfigUtil.getString("mail_welcome_title");
-	/*欢迎邮件内容——尊敬的用户您好，欢迎您注册 <a href='http://www.jinwanr.com.cn' target='_blank'>【金玩儿网】</a> */
+	/*欢迎邮件内容——尊敬的用户您好，欢迎您注册 <a href='http://www.jinwanr.com' target='_blank'>【金玩儿网】</a> */
 	private static final String MAIL_WELCOME_CONTENT = ConfigUtil.getString("mail_welcome_content");
 	/*申请设计师邮件标题——【金玩儿网】设计师申请已提交*/
 	private static final String MAIL_DESIGNER_APPLY_TITLE = ConfigUtil.getString("mail_designer_apply_title");
