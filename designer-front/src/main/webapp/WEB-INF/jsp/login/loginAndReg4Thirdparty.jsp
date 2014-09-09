@@ -22,7 +22,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
     <head>
         <meta charset="utf-8">
         <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-        <title>第三方登录 | 注册 - 【金玩儿网】</title>
+        <title>Sina微博登录 | 注册 - 【金玩儿网】</title>
 
         <meta name="description" content="金玩儿网-最专业的原创首饰设计网，现代首饰设计师的聚集地，珠宝、翡翠、玉石、金饰、银饰、玛瑙等原创作品的鉴赏、交流平台。">
         <meta name="keywords" content="首饰,珠宝,翡翠,玉石,金饰,银饰,玛瑙,原创,设计,鉴赏,交流,分享,定制">
@@ -114,7 +114,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 												<%}%>
 												
 												<div class="row-container clearfix">
-													<div class="row-left">邮 箱:: </div>
+													<div class="row-left">邮 箱:  </div>
 													<div class="row-right">
 														<input type="text" class="span5" id="reg-username" name="username"/>
 														<span id="reg-username-required" class="required">*</span>
@@ -125,7 +125,11 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 												<div class="row-container clearfix">
 													<div class="row-left">昵 称: </div>
 													<div class="row-right">
-														<input type="text" class="span5" id="reg-nickname" name="nickname" value=""/>
+														<%
+														String nickname = (String)request.getAttribute(ConstFront.THIRDPARTY_USERNAME);
+														nickname = nickname==null?"":nickname;
+														%>
+														<input type="text" class="span5" id="reg-nickname" name="nickname" value="<%=nickname%>"/>
 														<span id="reg-nickname-required" class="required">*</span>
 														<span id="reg-nickname-prompt" class="text-prompt">字符、数字及下划线，2-20位</span>
 													</div>
@@ -335,12 +339,6 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
        			});
     		}
     	}
-    	
-    	$('#login-verifyCode-img').click(function(){
-    		var newUrl = "<%=contextPath%>/verifyCode?" + Math.floor(Math.random()*100);
-    		$('#login-verifyCode-img').attr("src", newUrl).fadeIn();
-    		$('#reg-verifyCode-img').attr("src", newUrl).fadeIn();
-        })
     	
     	$('#reg-verifyCode-img').click(function(){
     		var newUrl = "<%=contextPath%>/verifyCode?" + Math.floor(Math.random()*100);

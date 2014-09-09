@@ -14,6 +14,7 @@ import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IUserDao;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
+import com.bruce.designer.mail.MailService;
 import com.bruce.designer.model.AccessTokenInfo;
 import com.bruce.designer.model.User;
 import com.bruce.designer.model.UserCriteria;
@@ -33,12 +34,12 @@ public class UserServiceImpl implements IUserService {
 	private IAccessTokenService accessTokenService;
 	@Autowired
     private UserCache userCache;
-//	@Autowired
-//	private ICounterService counterService;
 	@Autowired
 	private IMessageService messageService;
 	@Autowired
     private IUploadService uploadService;
+	@Autowired
+	private MailService mailService;
 	
 	public int save(User t) {
 		if(t!=null){
@@ -306,6 +307,14 @@ public class UserServiceImpl implements IUserService {
 				e.printStackTrace();
 			}
 		}
+		if(result>0){
+			String welcomeMessage = ConfigUtil.getString("welcome_message");
+			//TODO发送系统欢迎消息
+			messageService.sendSystemMessage(user.getId(), welcomeMessage);
+			//系统异步发送欢迎邮件
+            mailService.sendWelcomeMail(user.getUsername());
+		}
+		
 		return result;
 	}
 	

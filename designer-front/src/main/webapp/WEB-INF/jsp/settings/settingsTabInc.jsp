@@ -5,6 +5,7 @@
 
 <%
 String contextPath = ConstFront.CONTEXT_PATH;
+boolean isDesigner = user.getDesignerStatus()!=null&&user.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED;
 %>
 
 <%
@@ -30,12 +31,12 @@ if("avatar".equals(tempFlag)){
 }
 
 %>
-<%if(user.getDesignerStatus()!=null&&user.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED){%>
+<%if(isDesigner){%>
 <li <%=settingsMenuIndex==6?"class=active":""%>><a class="button button-white" href="<%=contextPath%>/settings/albums">作品辑管理</a></li>
 <%}%>
 <li <%=settingsMenuIndex==5?"class=active":""%>><a class="button button-white" href="<%=contextPath%>/settings/thirdparty">第三方账户绑定</a></li>
 <li <%=settingsMenuIndex==0?"class=active":""%>><a class="button button-white" href="<%=contextPath%>/settings">个人资料</a></li>
-<li <%=settingsMenuIndex==7?"class=active":""%>><a class="button button-white" href="<%=contextPath%>/settings/designerInfo">设计师资料</a></li>
+<li <%=settingsMenuIndex==7?"class=active":""%>><a class="button button-white" href="<%=contextPath%>/settings/designerInfo"><%=isDesigner?"设计师资料":"申请设计师"%></a></li>
 <li <%=settingsMenuIndex==1?"class=active":""%>><a class="button button-white" href="<%=contextPath%>/settings/avatar">修改头像</a></li>
 <li <%=settingsMenuIndex==2?"class=active":""%>><a class="button button-white" href="<%=contextPath%>/settings/changePasswd">修改密码</a></li>
 <li <%=settingsMenuIndex==3?"class=active":""%>><a class="button button-white" href="<%=contextPath%>/settings/msgbox">我的消息</a></li>

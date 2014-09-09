@@ -60,14 +60,14 @@ public class AlbumController {
 	@Autowired
 	private IHotService hotService;
 
-	/*非全屏情况下item的数量*/
-	public static final int HOME_LIMIT = NumberUtils.toInt(ConfigUtil.getString("main_home_album_limit"), 2);
 	/*全屏情况下item的数量*/
-	public static final int FULL_LIMIT = NumberUtils.toInt(ConfigUtil.getString("main_latest_album_limit"), 4);
+	public static final int FULL_LIMIT = NumberUtils.toInt(ConfigUtil.getString("main_latest_album_limit"), 8);
+	/*非全屏情况下item的数量*/
+	public static final int HOME_LIMIT = NumberUtils.toInt(ConfigUtil.getString("main_home_album_limit"), 6);
 	/*侧栏item的数量*/
 	public static final int SIDE_LIMIT = NumberUtils.toInt(ConfigUtil.getString("slide_latest_album_limit"), 3*2);
 	/*首页专辑推荐的排序数量*/
-	public static final int INDEX_SLIDE_LIMIT = NumberUtils.toInt(ConfigUtil.getString("index_slide_limit"), 4);
+	public static final int INDEX_RECOMMEND_LIMIT = NumberUtils.toInt(ConfigUtil.getString("index_slide_limit"), 8);
 	
 	
 
@@ -298,7 +298,7 @@ public class AlbumController {
             logger.debug("ajax加载我的关注专辑，userId："+userId+"，albumsTailId: "+albumsTailId +", 每页展示条目："+numberPerLine);
         }
 
-		int limit = FULL_LIMIT;
+		int limit = HOME_LIMIT;
 		//获取关注列表
 		List<Album> albumList = albumService.fallLoadUserFollowAlbums(userId, albumsTailId, limit + 1);
 		int nextTailId = 0;
@@ -332,7 +332,7 @@ public class AlbumController {
             logger.debug("ajax加载Tag专辑，tagName："+tagName+"，tailId: "+tailId +", 每页展示条目："+numberPerLine);
         }
 	    
-	    int limit = 1;
+	    int limit = HOME_LIMIT;
 		List<Album> albumList = null;
 		albumList = albumService.fallLoadAlbumsByTagName(tagName, tailId, limit + 1);
 

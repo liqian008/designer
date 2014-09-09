@@ -111,8 +111,10 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 														class="message-container" id="message-1">
 													<div class="message-avatar">
 														<div class="message-author vcard">
-															<img
-																src="<%=contextPath%>/staticFile/avatar/<%=message.getFromId()%>_medium.jpg">
+															<%
+															String avatarUrl = UploadUtil.getAvatarUrl(message.getFromId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+															%>
+															<img src="<%=avatarUrl%>"/>
 														</div>
 													</div>
 													<div class="message-body">

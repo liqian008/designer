@@ -48,102 +48,107 @@ public class UserController {
 	public static final int FOLLOW_PAGE_SIZE = NumberUtils.toInt(ConfigUtil.getString("follow_page_size"), DEFAULT_PAGING_SIZE);
 	public static final int FAN_PAGE_SIZE = NumberUtils.toInt(ConfigUtil.getString("fan_page_size"), DEFAULT_PAGING_SIZE);
     
-//    @Autowired
-//    private ICounterService counterService;
-    @Autowired
-    private IUserService userService;
-    @Autowired
-    private IUserGraphService userGraphService;
-    @Autowired
-    private IAlbumService albumService;
-    @Autowired
+	@Autowired
+	private IUserService userService;
+	@Autowired
+	private IUserGraphService userGraphService;
+	@Autowired
+	private IAlbumService albumService;
+	@Autowired
 	private IAlbumCounterService albumCounterService;
     
 
-    /**
-     * 个人主页【作品集】
-     * @param model
-     * @param userId
-     * @return
-     */
-    @RequestMapping(value = "/{userId}/home")
-    public String userHome(Model model,  HttpServletRequest request, @PathVariable("userId") int queryUserId) {
-        User queryUser = userService.loadById(queryUserId);
-        if(logger.isDebugEnabled()){
-            logger.debug("加载用户["+queryUserId+"]的个人主页");
-        }
-        if(queryUser!=null){
-            model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
-            User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
-            if(logger.isDebugEnabled()){
-                logger.debug("用户当前session: " +  user);
-            }
-            if(user!=null&&user.getId()>0){
-                int userId = user.getId();
-                boolean hasFollowed = userGraphService.isFollow(userId, queryUserId);
-                model.addAttribute("hasFollowed", hasFollowed);
-            }
-        }else{
-            if(logger.isErrorEnabled()){
-                logger.error("加载用户["+queryUserId+"]个人主页信息失败");
-            }
-        	throw new DesignerException(ErrorCode.USER_NOT_EXIST);
-        }
-        return "home/userHome";
-    }
-    
-    /**
-     * 个人主页【个人资料】
-     * @param model
-     * @param userId
-     * @return
-     */
-    @RequestMapping(value = "/{userId}/info")
-    public String userInfo(Model model,  HttpServletRequest request, @PathVariable("userId") int queryUserId) {
-        if(logger.isDebugEnabled()){
-            logger.debug("加载用户["+queryUserId+"]的个人资料");
-        }
-        User queryUser = userService.loadById(queryUserId);
-        if(queryUser!=null){
-        	model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
-        	//设计师身份则需要查询专辑数
-        	if(queryUser!=null&&queryUser.getDesignerStatus()!=null&&queryUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED){
-	        	int userAlbumsCount = albumCounterService.getUserAlbumCount(queryUserId);
-	        	//用户专辑数量
-	        	model.addAttribute("userAlbumsCount", userAlbumsCount);
-        	}
-        	
-        	
-            // TODO 重构redis的key
-//        	long hisFansCount = counterService.getCount(ConstRedis.COUNTER_KEY_FOLLOW + queryUser.getId());
-//            long hisFollowesCount = counterService.getCount(ConstRedis.COUNTER_KEY_FAN + queryUser.getId());
-        	//关注数
-//        	long hisFollowsCount = userGraphService.getFollowCount(queryUserId);
-//            model.addAttribute("followsCount", hisFollowsCount);
-//            
-//            //粉丝数
-//            long hisFansCount = 0;
-//            if(queryUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED){
-//            	//设计师身份才查询粉丝数量
-//            	hisFansCount = userGraphService.getFanCount(queryUserId);
-//            }
-//            model.addAttribute("fansCount", hisFansCount);
-            
-//            boolean hasFollowed = false;
-//            User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
-//            if(user!=null&&user.getId()>0){
-//                int userId = user.getId();
-//                hasFollowed = userGraphService.isFollow(userId, queryUserId);
-//                model.addAttribute("hasFollowed", hasFollowed);
-//            }
-            return "home/userInfo";
-        }else{
-            if(logger.isErrorEnabled()){
-                logger.error("加载用户["+queryUserId+"]个人资料信息失败");
-            }
-        	throw new DesignerException(ErrorCode.USER_NOT_EXIST);
-        }
-    }
+	/**
+	 * 个人主页【作品集】
+	 * 
+	 * @param model
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value = "/{userId}/home")
+	public String userHome(Model model, HttpServletRequest request, @PathVariable("userId") int queryUserId) {
+		User queryUser = userService.loadById(queryUserId);
+		if (logger.isDebugEnabled()) {
+			logger.debug("加载用户[" + queryUserId + "]的个人主页");
+		}
+		if (queryUser != null) {
+			model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
+			User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+			if (logger.isDebugEnabled()) {
+				logger.debug("用户当前session: " + user);
+			}
+			if (user != null && user.getId() > 0) {
+				int userId = user.getId();
+				boolean hasFollowed = userGraphService.isFollow(userId, queryUserId);
+				model.addAttribute("hasFollowed", hasFollowed);
+			}
+		} else {
+			if (logger.isErrorEnabled()) {
+				logger.error("加载用户[" + queryUserId + "]个人主页信息失败");
+			}
+			throw new DesignerException(ErrorCode.USER_NOT_EXIST);
+		}
+		return "home/userHome";
+	}
+
+	/**
+	 * 个人主页【个人资料】
+	 * 
+	 * @param model
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value = "/{userId}/info")
+	public String userInfo(Model model, HttpServletRequest request, @PathVariable("userId") int queryUserId) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("加载用户[" + queryUserId + "]的个人资料");
+		}
+		User queryUser = userService.loadById(queryUserId);
+		if (queryUser != null) {
+			model.addAttribute(ConstFront.REQUEST_USER_ATTRIBUTE, queryUser);
+			// 设计师身份则需要查询专辑数
+			if (queryUser != null && queryUser.getDesignerStatus() != null && queryUser.getDesignerStatus() == ConstService.DESIGNER_APPLY_APPROVED) {
+				int userAlbumsCount = albumCounterService.getUserAlbumCount(queryUserId);
+				// 用户专辑数量
+				model.addAttribute("userAlbumsCount", userAlbumsCount);
+			}
+
+			// TODO 重构redis的key
+			// long hisFansCount =
+			// counterService.getCount(ConstRedis.COUNTER_KEY_FOLLOW +
+			// queryUser.getId());
+			// long hisFollowesCount =
+			// counterService.getCount(ConstRedis.COUNTER_KEY_FAN +
+			// queryUser.getId());
+			// 关注数
+			// long hisFollowsCount =
+			// userGraphService.getFollowCount(queryUserId);
+			// model.addAttribute("followsCount", hisFollowsCount);
+			//
+			// //粉丝数
+			// long hisFansCount = 0;
+			// if(queryUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED){
+			// //设计师身份才查询粉丝数量
+			// hisFansCount = userGraphService.getFanCount(queryUserId);
+			// }
+			// model.addAttribute("fansCount", hisFansCount);
+
+			// boolean hasFollowed = false;
+			// User user = (User)
+			// request.getSession().getAttribute(ConstFront.CURRENT_USER);
+			// if(user!=null&&user.getId()>0){
+			// int userId = user.getId();
+			// hasFollowed = userGraphService.isFollow(userId, queryUserId);
+			// model.addAttribute("hasFollowed", hasFollowed);
+			// }
+			return "home/userInfo";
+		} else {
+			if (logger.isErrorEnabled()) {
+				logger.error("加载用户[" + queryUserId + "]个人资料信息失败");
+			}
+			throw new DesignerException(ErrorCode.USER_NOT_EXIST);
+		}
+	}
     
     @RequestMapping(value = "usernameExists.json")
 	public ModelAndView usernameExists(String username) {
@@ -305,7 +310,7 @@ public class UserController {
             Map<Integer, Boolean> fanMap = new HashMap<Integer, Boolean>();
             fanMap.put(queryUserId, false);
 
-            // TODO 获取粉丝列表
+            //获取粉丝列表
             int pageNo = NumberUtils.toInt(request.getParameter("pageNo"), 1);
     		int pageSize = NumberUtils.toInt(request.getParameter("pageSize"), FAN_PAGE_SIZE);
     		

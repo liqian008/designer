@@ -19,10 +19,11 @@ public class OAuthUtil {
 	
 
 	private static final Logger logger = LoggerFactory.getLogger(OAuthUtil.class);
-    
-    public static String getOAuthDisplayName(short thirdpartyType, String thirdpartyUname){
-        return getSourceNameByType(thirdpartyType) +"_"+ thirdpartyUname;
-    }
+
+	public static String getOAuthDisplayName(short thirdpartyType, String thirdpartyUname) {
+		// return getSourceNameByType(thirdpartyType) +"_"+ thirdpartyUname;
+		return StringUtils.isBlank(thirdpartyUname)?"":thirdpartyUname;
+	}
 
 	public static String getSourceNameByType(short thirdpartyType) {
 		String thirdpartyName;

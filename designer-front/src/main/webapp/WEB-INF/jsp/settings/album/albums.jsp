@@ -124,8 +124,15 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 														<ul>
 															<li>
 																<span>标 签:&nbsp;</span>
-																<a href="<%=contextPath%>/tag/素组">素组</a>,&nbsp;
-																<a href="<%=contextPath%>/tag/moto">moto</a>
+																<%
+																List<String> tagNameList = album.getTagList();
+																if (tagNameList != null && tagNameList.size() > 0) {
+																	int m=0;
+																	for (String tagName : tagNameList) {
+																		%>
+																		<a href="<%=contextPath%>/tag/<%=tagName%>"><%=tagName%></a>,&nbsp;
+																<%}
+																}%>
 															</li>
 															<li><span>价 格:</span><%=album.getPrice()%>&nbsp;元</li>
 															<li>

@@ -4,6 +4,7 @@
 <%@ page import="com.bruce.designer.front.constants.*" %>
 <%@ page import="com.bruce.designer.constants.*" %>
 <%@ page import="com.bruce.designer.front.util.*" %>
+<%@ page import="com.bruce.designer.util.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.*" %>
 
@@ -128,8 +129,10 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 														<div class="message-author vcard">
 															<!-- <img src="<%=contextPath%>/img/icon/icon_1.png"> -->
 															<a href="<%=contextPath%>/<%=follow.getFollowId()%>/home">
-																<img
-																	src="<%=contextPath%>/staticFile/avatar/<%=follow.getFollowId()%>_medium.jpg"/>
+																<%
+																String avatarUrl = UploadUtil.getAvatarUrl(follow.getFollowId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+																%>
+																<img src="<%=avatarUrl%>"/>
 															</a>
 														</div>
 													</div>

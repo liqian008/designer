@@ -119,12 +119,6 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 											<div class="row-right"><%=queryUser.getNickname()%></div>
 										</div>
 										
-										<!-- 
-										<div class="row-container clearfix">
-											<div class="row-left">性别: </div>
-											<div class="row-right">男</div>
-										</div>
-										 -->
 										
 										<div class="row-container clearfix">
 											<div class="row-left">关注数:</div>
@@ -138,13 +132,13 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 										<div class="infobox info-info info-info-alt clearfix">
 			                                <span>i</span>
 			                                <div class="infobox-wrap">
-			                                    <h4>设计师资料</h4>
-			                                    <p>以下为设计师资料</p>
+			                                    <h4>用户身份：设计师</h4>
+			                                    <p>详细信息如下</p>
 			                                </div>
 			                            </div>
-			                            
+			                             
 			                            <%
-			                            Integer albumCount = (Integer)request.getAttribute("");
+			                            Integer albumCount = (Integer)request.getAttribute("userAlbumsCount");
 			                            if(albumCount!=null){
 			                            	if(albumCount<0) albumCount = 0;
 			                            %>
@@ -186,7 +180,8 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 										<div class="row-container clearfix">
 											<div class="row-left">淘宝店铺主页: </div>
 											<div class="row-right">
-												<%=queryUser.getDesignerTaobaoHomepage()%>&nbsp;&nbsp;<a href='<%=queryUser.getDesignerTaobaoHomepage()%>'>去看看</a>
+												<%=queryUser.getDesignerTaobaoHomepage()%>&nbsp;&nbsp;
+												&nbsp;&nbsp;<input type="button" class="button button-small button-blue" value="去看看">
 											</div>
 										</div>
 										

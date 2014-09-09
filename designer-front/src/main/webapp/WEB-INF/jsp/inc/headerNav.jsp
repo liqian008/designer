@@ -35,8 +35,8 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 					menuIndex = 3;
 				}else if("myHome".equals(tempFlag)){
 					menuIndex = 4;
-				}else if("settings".equals(tempFlag)){
-					menuIndex = 5;
+				//}else if("settings".equals(tempFlag)){
+				//	menuIndex = 5;
 				}else if("aboutUs".equals(tempFlag)){
 					menuIndex = 6;
 				}else{
@@ -88,29 +88,10 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 								<li><a href="<%=contextPath%>/<%=currentUser.getId()%>/fans">我的粉丝</a></li>
 							<%}%>
 						</ul>
-					</li> 
-					<li <%=menuIndex==5?"class='active current-menu-item'":"" %>><a href="<%=contextPath%>/settings">我的设置</a>
-						<ul class="sub-menu">
-							<%if(currentUser.getDesignerStatus()!=null&&currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED){%>
-                            <li><a href="<%=contextPath%>/settings/newAlbum">发布新作品</a></li>
-                            <%}%>
-                            <li><a href="<%=contextPath%>/settings/changePasswd">修改密码</a></li>
-                            <li><a href="<%=contextPath%>/settings/avatar">修改头像</a></li>
-                            <li><a href="<%=contextPath%>/settings/msgbox">我的消息</a></li>
-                            <li><a href="<%=contextPath%>/settings/favorites">我的收藏</a></li>
-                        </ul>
-					</li> 
+					</li>
 					
 					<%}%>
-					<!-- <li><a href="<%=contextPath%>/pro">精品推荐</a></li> -->
-					<!-- <li><a href="<%=contextPath%>/index">新晋推荐</a>
-						<ul class="sub-menu">
-							<li><a href="<%=contextPath%>/index">新作推荐</a></li>
-							<li><a href="<%=contextPath%>/index">新人推荐</a></li>
-						</ul></li> -->
-					<!-- <li><a
-						href="javascript:void(0)">搜索</a>
-					</li> -->
+
 					<li><a href="<%=contextPath%>/downloads/">下载客户端</a>
 					</li>
 					<li <%=menuIndex==6?"class='active current-menu-item'":"" %>><a

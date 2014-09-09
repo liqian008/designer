@@ -135,8 +135,10 @@ String locationHref= contextPath + "/settings/msgbox/chat/"+toUser.getId();
 														<div class="message-avatar<%=selfMessage?"-right":""%>">
 															<div class="message-author vcard">
 																<a href='<%=contextPath%>/<%=message.getFromId()%>/home' target="_blank">
-																	<img
-																	src="<%=contextPath%>/staticFile/avatar/100/<%=message.getFromId()%>.jpg">
+																	<%
+																	String avatarUrl = UploadUtil.getAvatarUrl(message.getFromId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+																	%>
+																	<img src="<%=avatarUrl%>"/>
 																</a>
 															</div>
 														</div>

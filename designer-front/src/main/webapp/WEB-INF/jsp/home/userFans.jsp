@@ -4,6 +4,7 @@
 <%@ page import="com.bruce.designer.front.constants.*" %>
 <%@ page import="com.bruce.designer.constants.*" %>
 <%@ page import="com.bruce.designer.front.util.*" %>
+<%@ page import="com.bruce.designer.util.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.*" %>
 
@@ -125,24 +126,18 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 														<div class="message-author vcard">
 															<!-- <img src="<%=contextPath%>/img/icon/icon_1.png"> -->
 															<a href="<%=contextPath%>/<%=fan.getUserId()%>/home">
-																<img
-																	src="<%=contextPath%>/staticFile/avatar/<%=fan.getUserId()%>_medium.jpg"/>
+																<%
+																String avatarUrl = UploadUtil.getAvatarUrl(fan.getFanId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+																%>
+																<img src="<%=avatarUrl%>"/>
 															</a>
 														</div>
 													</div>
 													<div class="message-body">
 														<div class="message-meta messagemetadata">
-																<a href="<%=contextPath%>/<%=fan.getUserId()%>/home"><h5 class="message-author"><%=fan.getFanUser().getNickname()%></h5></a>
+																<a href="<%=contextPath%>/<%=fan.getFanId()%>/home"><h5 class="message-author"><%=fan.getFanUser().getNickname()%></h5></a>
 														</div>
 														<div class="message-content">
-															<%-- <%
-			                                            	boolean hasFollowed = followMap.get(fan.getFanId())!=null&& followMap.get(fan.getFanId());
-			            									if(hasFollowed){
-			            									%>
-			                                            	<a href="<%=contextPath%>/unfollow?uid=<%=fan.getFanId()%>" class="button button-small button-white">取消关注</a>
-			                                            	<%}else{ %>
-			                                            	<a href="<%=contextPath%>/follow?uid=<%=fan.getFanId()%>" class="button button-small button-green">关注</a>
-			                                            	<%}%> --%>
 			                                            	<a href="<%=contextPath%>/<%=fan.getFanId()%>/info" class="button button-small button-white">个人资料</a>
 														</div>
 													</div>

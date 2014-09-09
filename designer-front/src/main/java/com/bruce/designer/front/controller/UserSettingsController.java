@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map; 
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +48,6 @@ import com.bruce.designer.service.ITagAlbumService;
 import com.bruce.designer.service.ITagService;
 import com.bruce.designer.service.IUploadService;
 import com.bruce.designer.service.IUserService;
-import com.bruce.designer.service.oauth.AccessTokenServiceImpl;
 import com.bruce.designer.service.oauth.IAccessTokenService;
 import com.bruce.designer.service.oauth.IOAuthService;
 import com.bruce.designer.service.oauth.SharedInfo;
@@ -344,9 +343,9 @@ public class UserSettingsController {
 		int nextTailId = 0;
 
 		if (favoriteList == null || favoriteList.size() == 0) {
-		    if(logger.isDebugEnabled()){
-                logger.debug("无更多专辑");
-            }
+			if (logger.isDebugEnabled()) {
+				logger.debug("无更多专辑");
+			}
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));
 		} else {
 			if (favoriteList.size() > limit) {// 查询数据超过limit，含分页内容
@@ -357,7 +356,7 @@ public class UserSettingsController {
                     logger.debug("还有更多专辑，tailId： "+nextTailId);
                 }
 			}
-			String responseHtml = DesignerHtmlUtils.buildFallLoadFavoriteFHtml(favoriteList, numberPerLine);
+			String responseHtml = DesignerHtmlUtils.buildFallLoadFavoriteHtml(favoriteList, numberPerLine);
 			Map<String, String> dataMap = new HashMap<String, String>();
 			dataMap.put("html", responseHtml);
 			dataMap.put("tailId", String.valueOf(nextTailId));

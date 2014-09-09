@@ -109,6 +109,9 @@ Album album = (Album)request.getAttribute("albumInfo");
 								<%
 								if(slideIndex!=null){
 								%>
+
+								<img src="<%=albumSlide.getSlideLargeImg()%>" width="100%">
+
 								<div class="single-navigation navigation clearfix">
 									<%if(slideIndex>0){%>
 									<a href="<%=contextPath%>/album/<%=album.getId() %>/<%=slideList.get(slideIndex-1).getId()%>" class="nav-left"><span></span>上一张</a>
@@ -122,15 +125,10 @@ Album album = (Album)request.getAttribute("albumInfo");
 								<blockquote class="normal blockquote-left blockquote-bg">
                                     <p>
                                     <span class="blockquote-author"><a href='javascript:void(0)'>作品描述</a>:&nbsp;&nbsp;<%=album.getRemark()%></span>
-                                    <span class="blockquote-author"><a href='javascript:void(0)'>价格</a>:&nbsp;&nbsp;<%=album.getPrice()%>&nbsp;元</span>
-                                    <%if(album.getLink()!=null){%>
-                                    <span class="blockquote-author"><a href='javascript:void(0)'>购买链接</a>:&nbsp;&nbsp;<%=album.getLink()%>&nbsp;&nbsp;<a href="<%=album.getLink()%>" target="_blank">查看</a></span>
-                                    <%} %>
+                                    <span class="blockquote-author"><a href='javascript:void(0)'>价格</a>:&nbsp;&nbsp;<%=album.getPrice()%>&nbsp;元&nbsp;&nbsp;
+                                    <%if(album.getLink()!=null){%><a href="<%=album.getLink()%>" class="button button-small button-blue" target="_blank">查看淘宝链接</a><%}%></span>
                                     </p>
-                                </blockquote>
-								
-                                <img src="<%=albumSlide.getSlideLargeImg()%>" width="100%">
-								
+                                </blockquote> 
 								<div class="row-fluid clearfix">
 
 									<div class="meta-container-single clearfix">
@@ -161,18 +159,18 @@ Album album = (Album)request.getAttribute("albumInfo");
 											</ul>
 											<ul>
 												<li id="unlikeId"><a href="javascript:void(0)" id="unlikeLink">已赞(<span class="album-like-counter"><%=album.getLikeCount()%></span>)</a></li>
-												<li id="likeId"><a href="javascript:void(0)" id="likeLink">赞(<span class="album-like-counter"><%=album.getLikeCount()%></span>)</a></li>
+												<li id="likeId"><a href="javascript:void(0)" id="likeLink">赞(<span><%=album.getLikeCount()%></span>)</a></li>
 											</ul>
 											<ul>
 												<li id="unfavoriteId"><a href="javascript:void(0)" id="unfavoriteLink">已收藏(<span class="album-favorite-counter"><%=album.getFavoriteCount()%></span>)</a></li>
-												<li id="favoriteId"><a href="javascript:void(0)" id="favoriteLink">收藏(<span class="album-favorite-counter"><%=album.getFavoriteCount()%></span>)</a></li>
+												<li id="favoriteId"><a href="javascript:void(0)" id="favoriteLink">收藏(<span><%=album.getFavoriteCount()%></span>)</a></li>
 											</ul>
 											<ul>
 												<li><a href="javascript:void(0)" id="commentLink">评论(<span id="album-comment-counter"><%=album.getCommentCount()%></span>)</a>
 												</li>
 											</ul>
 										</div>
-									</div>
+									</div> 
 									
 									<!-- 百度分享控件 -->
 									<div class="share-out clearfix">
@@ -385,10 +383,9 @@ Album album = (Album)request.getAttribute("albumInfo");
 	    	$.post("<%=contextPath%>/like.json", likeJsonData, function(responseData) {
 	    		var result = responseData.result;
    				if(result==1){
-   					var likeCount = parseInt($('.album-like-counter').text());
-   					$('.album-like-counter').text(likeCount+1);
    					$("#likeId").hide();
    					$("#unlikeId").show();
+   					$('.album-like-counter').text(parseInt($('.album-like-counter').text())+1);
    				}else{
    					alert(responseData.message);
    				}
@@ -400,10 +397,9 @@ Album album = (Album)request.getAttribute("albumInfo");
 	    	$.post("<%=contextPath%>/favorite.json", favoriteJsonData, function(responseData) {
 	    		var result = responseData.result;
    				if(result==1){
-   					var favoriteCount = parseInt($('.album-favorite-counter').text());
-   					$('.album-favorite-counter').text(favoriteCount+1);
    					$("#favoriteId").hide();
    					$("#unfavoriteId").show();
+   					$('.album-favorite-counter').text(parseInt($('.album-favorite-counter').text())+1);
    				}else{
    					alert(responseData.message);
    				}
@@ -420,8 +416,7 @@ Album album = (Album)request.getAttribute("albumInfo");
    					$("#comment").val("");
 	    			$("#commentBtn").removeAttr("disabled");
 	    			$("#commentListContainer").prepend(data.data);
-	    			var commentCount = $('#album-comment-counter').text()+1
-	    			$('#album-comment-counter').text(commentCount);
+	    			$('#album-comment-counter').text(parseInt($('#album-comment-counter').text())+1);
    				}
     			//enable submitBtn
     		 }, "json"); 

@@ -69,7 +69,7 @@ public class TestController {
         }
         // 系统轮播
         List<IndexSlide> indexSlideList = indexSlideService
-                .queryIndexSlideList(0, AlbumController.INDEX_SLIDE_LIMIT);
+                .queryIndexSlideList(0, AlbumController.INDEX_RECOMMEND_LIMIT);
         model.addAttribute("indexSlideList", indexSlideList);
         return "testTemplate/indexSlideTest";
     }
@@ -87,7 +87,7 @@ public class TestController {
         }
         // 编辑推荐
         List<Album> recommendAlbumList = albumRecommendService
-                .queryRecommendAlbums(AlbumController.INDEX_SLIDE_LIMIT);
+                .queryRecommendAlbums(AlbumController.INDEX_RECOMMEND_LIMIT);
         model.addAttribute("recommendAlbumList", recommendAlbumList);
         return "testTemplate/indexRecommendTest";
     }

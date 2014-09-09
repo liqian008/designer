@@ -39,8 +39,7 @@ public class OAuthController {
 	private IOAuthService oAuthService;
 	@Autowired
 	private IAccessTokenService accessTokenService;
-	@Autowired
-	private MailService mailService;
+	
 	
 
 	private static final Logger logger = LoggerFactory.getLogger(OAuthController.class);
@@ -254,9 +253,6 @@ public class OAuthController {
                     logger.debug("用户["+username+"]使用第三方账户["+thirdpartyName+"]注册绑定成功");
                 }
 				
-                //系统异步发送欢迎邮件
-                mailService.sendWelcomeMail(username);
-                
                 request.setAttribute(ConstFront.REDIRECT_URL, redirectUrl);
                 request.setAttribute(ConstFront.REDIRECT_PROMPT, promptMessage);
                 return ResponseUtil.getForwardReirect();

@@ -55,7 +55,7 @@ public class DesignerHtmlUtils {
 	 * @param numberPerLine
 	 * @return
 	 */
-	public static String buildFallLoadFavoriteFHtml(List<AlbumFavorite> favoriteList, int numberPerLine) {
+	public static String buildFallLoadFavoriteHtml(List<AlbumFavorite> favoriteList, int numberPerLine) {
 		int span = 3;
 		if (numberPerLine <= 0) {
 			numberPerLine = 4;
@@ -67,9 +67,12 @@ public class DesignerHtmlUtils {
 			StringBuilder sb = new StringBuilder();
 			int i = 0;
 			for (AlbumFavorite albumFavorite : favoriteList) {
-				i++;
-				int mod = i % numberPerLine;//取模
-				sb.append(buildAlbumItemHtml(albumFavorite.getAlbum(), mod, span));
+				Album album = albumFavorite.getAlbum();
+				if(album!=null){//判断收藏的album实体是否存在
+					i++;
+					int mod = i % numberPerLine;//取模
+					sb.append(buildAlbumItemHtml(albumFavorite.getAlbum(), mod, span));
+				}
 			}
 			return sb.toString();
 		}
@@ -242,9 +245,9 @@ public class DesignerHtmlUtils {
 			StringBuilder sb = new StringBuilder();
 			for (Comment comment : commentList) {
 				sb.append("<li class='comment depth-1' id='li-comment-1'>" + "<div class='comment-container' id='comment-1'><div class='comment-avatar'>"
-						+ "<div class='comment-author vcard'>" + "<img src='"+UploadUtil.getAvatarUrl(comment.getFromId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"'/>" + "</div></div>"
+						+ "<div class='comment-author vcard'>" + "<a href='"+ConstFront.CONTEXT_PATH+"/"+comment.getFromId()+"/home'><img src='"+UploadUtil.getAvatarUrl(comment.getFromId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"'/></a>" + "</div></div>"
 						+ "<div class='comment-body'><div class='comment-meta commentmetadata'>" + "<h6 class='comment-author'>"
-						+ "<a href='#' rel='external nofollow' class='url'>" + comment.getNickname() + "</a> 发表于 "
+						+ "<a href='"+ConstFront.CONTEXT_PATH+"/"+comment.getFromId()+"/home' rel='external nofollow' class='url'>" + comment.getNickname() + "</a> 发表于 "
 						+ DateFormatUtils.format(comment.getCreateTime(), ConstDateFormat.YYYYMMDD_HHMM_FORMAT) + "</h6></div>"
 						+ "<div class='comment-content'>");
 				sb.append(comment.getComment());

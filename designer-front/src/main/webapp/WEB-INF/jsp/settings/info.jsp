@@ -49,11 +49,11 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
         <!--[if lt IE 8]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
         <![endif]-->
-        
-        <jsp:include page="../inc/topBar.jsp"></jsp:include>
-           
 
-        <div id="wrapper" class="boxed"> <!-- Page Wrapper: Boxed class for boxed layout - Fullwidth class for fullwidth page --> 
+	<jsp:include page="../inc/topBar.jsp"></jsp:include>
+
+
+	<div id="wrapper" class="boxed"> <!-- Page Wrapper: Boxed class for boxed layout - Fullwidth class for fullwidth page --> 
             
             <div class="header-background"> <!-- Header Background -->
                 <jsp:include page="../inc/headerBanner.jsp"></jsp:include>
@@ -98,7 +98,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												action="<%=contextPath%>/settings/info">
 												
 												<div class="row-container clearfix">
-													<div class="row-left">用户类型：</div>
+													<div class="row-left">用户身份：</div>
 													<div class="row-right">设计师</div>
 												</div>
 												<div class="row-container clearfix">
