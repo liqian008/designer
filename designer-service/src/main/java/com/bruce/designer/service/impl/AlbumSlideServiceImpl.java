@@ -36,17 +36,11 @@ public class AlbumSlideServiceImpl implements IAlbumSlideService {
 		return albumSlideDao.loadById(id);
 	}
 
-	// public AlbumSlide queryCoverSlide(int albumId){
-	// return albumSlideDao.queryCoverSlide(albumId);
-	// }
 
 	public List<AlbumSlide> querySlidesByAlbumId(int albumId) {
 		return albumSlideDao.querySlidesByAlbumId(albumId);
 	}
 
-//	public int clearCover(int userId, int albumId) {
-//		return albumSlideDao.clearCover(userId, albumId);
-//	}
 
 	public int setCover(int userId, int albumId, int albumSlideId) {
 		//清除cover标志
@@ -54,7 +48,6 @@ public class AlbumSlideServiceImpl implements IAlbumSlideService {
 		//重新设置cover
 		return albumSlideDao.setCover(userId, albumId, albumSlideId);
 	}
-
 	
 
 	@Override
@@ -75,6 +68,11 @@ public class AlbumSlideServiceImpl implements IAlbumSlideService {
 	@Override
 	public List<AlbumSlide> queryByCriteria(AlbumSlideCriteria criteria) {
 		return albumSlideDao.queryByCriteria(criteria);
+	}
+
+	@Override
+	public int deleteByAlbumId(int albumId) {
+		return albumSlideDao.deleteByAlbumId(albumId);
 	}
 	
 	

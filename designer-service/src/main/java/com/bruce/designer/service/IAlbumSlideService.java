@@ -8,9 +8,11 @@ import com.bruce.foundation.service.IFoundationService;
 
 public interface IAlbumSlideService extends IFoundationService<AlbumSlide, Integer, AlbumSlideCriteria> {
 
+	public int deleteByAlbumId(int albumId);
 	
 	public int setCover(int userId, int albumId, int albumSlideId);
 	 
 	public List<AlbumSlide> querySlidesByAlbumId(int albumId);
+	
 
 }

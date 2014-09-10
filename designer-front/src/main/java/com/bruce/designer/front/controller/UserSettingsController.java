@@ -40,6 +40,7 @@ import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumFavorite;
 import com.bruce.designer.model.AlbumSlide;
 import com.bruce.designer.model.User;
+import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.IAlbumFavoriteService;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
@@ -85,6 +86,8 @@ public class UserSettingsController {
 	private ITagAlbumService tagAlbumService;
 	@Autowired
 	private MailService mailService;
+	@Autowired
+	private IAlbumCounterService albumCounterService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserSettingsController.class);
 
@@ -146,7 +149,6 @@ public class UserSettingsController {
         	if(logger.isErrorEnabled()){
                 logger.error("用户["+user.getId()+"]上传头像失败", e);
             }
-//            logger.error("uploadAvatar(MultipartFile)", e);
         }
         if (success) {
             return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
@@ -467,7 +469,7 @@ public class UserSettingsController {
 			album.setCreateTime(currentTime);
 			album.setUpdateTime(currentTime);
 			
-			// 提交作品专辑，建议使用外部主键生成器
+			// 提交作品专辑，使用外部主键生成器
 			int result = albumService.save(album);
 			if (result > 0) {
 				int albumId = album.getId();
@@ -493,6 +495,9 @@ public class UserSettingsController {
 				//关联作品与tag
 				List<String> tagNameList = parseTagNameList(tags);
 				tagService.tagAlbum(albumId, tagNameList);
+				
+				//增加专辑数量
+				albumCounterService.incrUserAlbum(userId, albumId);
 				
 				//是否使用第三方分享
 				boolean isShareOut = ALBUM_SHAREOUT_FLAG;
@@ -665,31 +670,6 @@ public class UserSettingsController {
 		return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.USER_CHANGE_PASSWORD_FAILED));
 	}
 
-//	/**
-//	 * 我的粉丝
-//	 * 
-//	 * @param model
-//	 * @param user
-//	 * @return
-//	 */
-//	@NeedAuthorize(authorizeType = AuthorizeType.DESIGNER)
-//	@RequestMapping(value= "/flowers")
-//	public String flowers(Model model, User user) {
-//		return "settings/myFlowers";
-//	}
-//
-//	/**
-//	 * 我的关注
-//	 * 
-//	 * @param model
-//	 * @param user
-//	 * @return
-//	 */
-//	@RequestMapping(value= "/flowerings")
-//	public String flowerings(Model model, User user) {
-//		return "settings/myFlowerings";
-//	}
-
 	@NeedAuthorize
 	@RequestMapping(value = "/syncSetting.json", method = RequestMethod.GET)
 	public ModelAndView thirdparty(short thirdpartyType, short  syncStatus,HttpServletRequest request) {
@@ -714,15 +694,6 @@ public class UserSettingsController {
 	 */
 	private List<String> parseTagNameList(String tagsName){
 		List<String> tagNameList = new ArrayList<String>();
-//		String[] tagNames = null;
-//		if(tagsName!=null){
-//			tagNames = tagsName.split(" ");
-//			if(tagNames!=null&&tagNames.length>0){
-//				for(String tagName: tagNames){
-//					tagNameList.add(tagName.trim());
-//				}
-//			}
-//		}
 		StringTokenizer st = new StringTokenizer(tagsName, " ");
 		while(st.hasMoreElements()){
 			String tagName = st.nextToken();

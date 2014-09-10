@@ -19,6 +19,7 @@ import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.IAlbumFavoriteService;
 import com.bruce.designer.service.IAlbumLikeService;
 import com.bruce.designer.service.IAlbumService;
+import com.bruce.designer.service.IAlbumSlideService;
 import com.bruce.designer.service.ITagAlbumService;
 import com.bruce.designer.service.ITagService;
 import com.bruce.designer.service.IUserGraphService;
@@ -28,6 +29,8 @@ public class AlbumServiceImpl implements IAlbumService {
 
 	@Autowired
 	private IAlbumDao albumDao;
+	@Autowired
+	private IAlbumSlideService albumSlideService;
 	@Autowired
 	private IAlbumLikeService albumLikeService;
 	@Autowired
@@ -104,12 +107,13 @@ public class AlbumServiceImpl implements IAlbumService {
 	public int deleteUserAlbum(int userId, int albumId) {
 		int result = albumDao.deleteUserAlbum(userId, albumId);
 		if(result>0){
+			//删除slide关联
+			albumSlideService.deleteByAlbumId(albumId);
 			//删除tag关联
 			tagAlbumService.deleteByAlbumId(albumId);
-			// TODO 删除相关计数(作品计数)，可能影响热门排行
-//			counterService.removeAlbum(userId, albumId);
+			//删除相关计数(作品计数)，可能影响热门排行
 			albumCounterService.removeAlbum(userId, albumId);
-			
+			//TODO 删除其他计数，浏览，赞，收藏，评论
 			return result;
 		}
 		return 0;

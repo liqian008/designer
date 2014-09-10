@@ -34,7 +34,7 @@ function fallLoad(){
 		if(result==1){
 			$("#slideLatestDesignerAlbumsContainer").append(data.data.html);
 		}else{
-			alert("error");
+			//alert("error");
 		}
 	});
 }

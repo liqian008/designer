@@ -4,9 +4,8 @@
 var _hmt = _hmt || [];
 (function() {
   var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?ff5062bdc0a76fe8e6904a21026ab385";
+  hm.src = "//hm.baidu.com/hm.js?6c091c97351d3eae9df6f977be4ca036";
   var s = document.getElementsByTagName("script")[0]; 
   s.parentNode.insertBefore(hm, s);
 })();
 </script>
-

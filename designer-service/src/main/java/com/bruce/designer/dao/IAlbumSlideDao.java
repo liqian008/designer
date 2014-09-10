@@ -14,7 +14,7 @@ public interface IAlbumSlideDao extends IFoundationDao<AlbumSlide, Integer, Albu
 	 * 清除封面
 	 * @param userId
 	 * @param albumId
-	 * @return
+	 * @return 
 	 */
 	public int clearCover(int userId, int albumId);
 
@@ -25,4 +25,6 @@ public interface IAlbumSlideDao extends IFoundationDao<AlbumSlide, Integer, Albu
 	 * @return
 	 */
 	public int setCover(int userId, int albumId, int albumSlideId);
+
+	public int deleteByAlbumId(int albumId);
 }
