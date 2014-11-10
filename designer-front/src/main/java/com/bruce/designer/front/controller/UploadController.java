@@ -1,7 +1,5 @@
 package com.bruce.designer.front.controller;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -20,8 +18,9 @@ import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
 import com.bruce.designer.model.User;
 import com.bruce.designer.model.upload.UploadImageResult;
-import com.bruce.designer.service.IUploadService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.service.upload.IUploadService;
+import com.bruce.designer.service.upload.impl.UploadQiniuServiceImpl;
 
 /**
  * Handles requests for the application home page.
@@ -34,7 +33,7 @@ public class UploadController {
 	@Autowired
 	private IUserService userService;
 	@Autowired
-	private IUploadService uploadService;
+	private UploadQiniuServiceImpl uploadQiniuService;
 
 	@NeedAuthorize
 	@RequestMapping(value = "uploadImage.json", method = RequestMethod.POST)
@@ -45,11 +44,15 @@ public class UploadController {
 		User user = getSessionUser(request);
 		int userId = user.getId();
 		try {
-			UploadImageResult imageResult = uploadService.uploadImage(image.getBytes(), userId, "upload.jpg");
+			UploadImageResult imageResult = uploadQiniuService.uploadImage(
+					image.getBytes(), String.valueOf(userId), "upload.jpg",
+					IUploadService.IMAGE_SPEC_LARGE,
+					IUploadService.IMAGE_SPEC_MEDIUM,
+					IUploadService.IMAGE_SPEC_SMALL);
 			if (imageResult != null) {
 				return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(imageResult));
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error("upload(MultipartFile)", e);
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.UPLOAD_ERROR));
 			

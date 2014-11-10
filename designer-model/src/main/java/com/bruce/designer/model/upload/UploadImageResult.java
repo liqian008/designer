@@ -1,5 +1,6 @@
 package com.bruce.designer.model.upload;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -7,74 +8,84 @@ import java.util.Map;
  * @author liqian
  * 
  */
-public class UploadImageResult{
-	
-//	private Map<String, UploadFileInfo> uploadFileMap;
-//	
-//	public UploadImageResult(){
-//	}
-//	
-//	public UploadImageResult(Map<String, UploadFileInfo> uploadFileMap){
-//		this.uploadFileMap = uploadFileMap;
-//	}
-//
-//	public Map<String, UploadFileInfo> getUploadFileMap() {
-//		return uploadFileMap;
-//	}
-//
-//	public void setUploadFileMap(Map<String, UploadFileInfo> uploadFileMap) {
-//		this.uploadFileMap = uploadFileMap;
-//	}
-	
-	private UploadImageInfo originalImage;;
-	
-	private UploadImageInfo largeImage;
-	
-	private UploadImageInfo mediumImage;
-	
-	private UploadImageInfo smallImage;
-	
-//	private UploadImageInfo tinyImage;
-	
-	public UploadImageInfo getLargeImage() {
-		return largeImage;
+public class UploadImageResult {
+
+	// private List<UploadImageInfo> uploadImageList = new
+	// ArrayList<UploadImageInfo>();
+	private Map<String, UploadImageInfo> uploadImageMap = new HashMap<String, UploadImageInfo>();
+
+	public void put(UploadImageInfo imageInfo) {
+		if (imageInfo != null && imageInfo.getImageSpec() != null) {
+			uploadImageMap.put(imageInfo.getImageSpec(), imageInfo);
+		}
 	}
 
-	public void setLargeImage(UploadImageInfo largeImage) {
-		this.largeImage = largeImage;
+	// public List<UploadImageInfo> getUploadImageList() {
+	// return uploadImageList;
+	// }
+	//
+	// public void setUploadImageList(List<UploadImageInfo> uploadImageList) {
+	// this.uploadImageList = uploadImageList;
+	// }
+
+	public Map<String, UploadImageInfo> getUploadImageMap() {
+		return uploadImageMap;
 	}
 
-	public UploadImageInfo getMediumImage() {
-		return mediumImage;
+	public void setUploadImageMap(Map<String, UploadImageInfo> uploadImageMap) {
+		this.uploadImageMap = uploadImageMap;
 	}
 
-	public void setMediumImage(UploadImageInfo mediumImage) {
-		this.mediumImage = mediumImage;
-	}
-//
-//	public UploadImageInfo getTinyImage() {
-//		return tinyImage;
-//	}
-//
-//	public void setTinyImage(UploadImageInfo tinyImage) {
-//		this.tinyImage = tinyImage;
-//	}
 
-	public UploadImageInfo getSmallImage() {
-		return smallImage;
-	}
+	// private UploadImageInfo originalImage;;
+	//
+	// private UploadImageInfo largeImage;
+	//
+	// private UploadImageInfo mediumImage;
+	//
+	// private UploadImageInfo smallImage;
+	//
 
-	public void setSmallImage(UploadImageInfo smallImage) {
-		this.smallImage = smallImage;
-	}
+	//
+	//
+	// public UploadImageInfo getLargeImage() {
+	// return largeImage;
+	// }
+	//
+	// public void setLargeImage(UploadImageInfo largeImage) {
+	// this.largeImage = largeImage;
+	// }
+	//
+	// public UploadImageInfo getMediumImage() {
+	// return mediumImage;
+	// }
+	//
+	// public void setMediumImage(UploadImageInfo mediumImage) {
+	// this.mediumImage = mediumImage;
+	// }
+	//
+	// public UploadImageInfo getSmallImage() {
+	// return smallImage;
+	// }
+	//
+	// public void setSmallImage(UploadImageInfo smallImage) {
+	// this.smallImage = smallImage;
+	// }
+	//
+	// public UploadImageInfo getOriginalImage() {
+	// return originalImage;
+	// }
+	//
+	// public void setOriginalImage(UploadImageInfo originalImage) {
+	// this.originalImage = originalImage;
+	// }
+	//
+	// public WxMediaUploadResult getWxMediaResult() {
+	// return wxMediaResult;
+	// }
+	//
+	// public void setWxMediaResult(WxMediaUploadResult wxMediaResult) {
+	// this.wxMediaResult = wxMediaResult;
+	// }
 
-	public UploadImageInfo getOriginalImage() {
-		return originalImage;
-	}
-
-	public void setOriginalImage(UploadImageInfo originalImage) {
-		this.originalImage = originalImage;
-	}
-	
-	
 }

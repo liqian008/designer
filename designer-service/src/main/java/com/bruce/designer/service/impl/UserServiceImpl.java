@@ -19,9 +19,9 @@ import com.bruce.designer.model.AccessTokenInfo;
 import com.bruce.designer.model.User;
 import com.bruce.designer.model.UserCriteria;
 import com.bruce.designer.service.IMessageService;
-import com.bruce.designer.service.IUploadService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;
+import com.bruce.designer.service.upload.impl.UploadQiniuServiceImpl;
 import com.bruce.designer.util.ConfigUtil;
 import com.bruce.designer.util.Md5Utils;
 
@@ -37,7 +37,7 @@ public class UserServiceImpl implements IUserService {
 	@Autowired
 	private IMessageService messageService;
 	@Autowired
-    private IUploadService uploadService;
+    private UploadQiniuServiceImpl uploadQiniuService;
 	@Autowired
 	private MailService mailService;
 	
@@ -302,8 +302,8 @@ public class UserServiceImpl implements IUserService {
 		if(!StringUtils.isBlank(thirdpartyAvatar)&&user.getId()!=null&&user.getId()>0){
 			//保存用户头像
 			try {
-				uploadService.uploadAvatarByUrl(thirdpartyAvatar, user.getId());
-			} catch (IOException e) {
+				uploadQiniuService.uploadAvatarByUrl(thirdpartyAvatar, String.valueOf(user.getId()));
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

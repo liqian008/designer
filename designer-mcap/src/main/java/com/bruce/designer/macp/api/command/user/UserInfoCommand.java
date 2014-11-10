@@ -7,7 +7,7 @@ package com.bruce.designer.macp.api.command.user;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;

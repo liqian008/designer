@@ -1,6 +1,5 @@
 package com.bruce.designer.front.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -47,11 +46,12 @@ import com.bruce.designer.service.IAlbumSlideService;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.ITagAlbumService;
 import com.bruce.designer.service.ITagService;
-import com.bruce.designer.service.IUploadService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;
 import com.bruce.designer.service.oauth.IOAuthService;
 import com.bruce.designer.service.oauth.SharedInfo;
+import com.bruce.designer.service.upload.IUploadService;
+import com.bruce.designer.service.upload.impl.UploadQiniuServiceImpl;
 import com.bruce.designer.util.ConfigUtil;
 import com.bruce.designer.util.OAuthUtil;
 import com.google.code.kaptcha.Constants;
@@ -71,7 +71,7 @@ public class UserSettingsController {
 	@Autowired
 	private IAccessTokenService accessTokenService;
 	@Autowired
-	private IUploadService uploadService;
+	private UploadQiniuServiceImpl uploadQiniuService;
 	@Autowired
 	private IAlbumService albumService;
 	@Autowired
@@ -143,8 +143,12 @@ public class UserSettingsController {
         }
 		boolean success = true; 
         try {
-        	uploadService.uploadAvatar(file.getBytes(), user.getId());
-        } catch (IOException e) {
+			uploadQiniuService.uploadAvatar(file.getBytes(),
+					String.valueOf(user.getId()),
+					IUploadService.AVATAR_SPEC_LARGE,
+					IUploadService.AVATAR_SPEC_MEDIUM,
+					IUploadService.AVATAR_SPEC_SMALL);
+        } catch (Exception e) {
         	success = false;
         	if(logger.isErrorEnabled()){
                 logger.error("用户["+user.getId()+"]上传头像失败", e);

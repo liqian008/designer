@@ -19,6 +19,17 @@ public class UploadImageInfo extends UploadFileInfo{
 		super();
 	}
 	
+	/**
+	 * 构造图片规格对象，供图片处理使用（缩放、剪裁）
+	 * @param imageSpec
+	 * @param width
+	 * @param height
+	 */
+	public UploadImageInfo(String imageSpec, int width){
+		this.imageSpec = imageSpec;
+		this.width = width;
+	}
+	
 	public UploadImageInfo(String fileName, short fileType, String imageSpec, String url, long length){
 		super(fileName, fileType, url, length);
 		this.imageSpec = imageSpec;

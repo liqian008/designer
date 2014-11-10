@@ -219,17 +219,17 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 															'fileSizeLimit' : 2048,
 															'onUploadSuccess' : function(file, data, response) {
 													            //alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
-													            //alert(data);
+													            alert(data);
 													            counter = counter + 1;
 													            var response = jQuery.parseJSON(data);
 													            
-													        	$("<div  style='margin:10px 0; outline:1px solid #ECECEC'><img id='img1' src='"+response.data.mediumImage.url+"' width='100%'/><br/><input type='radio' id='coverId' name='coverId' value='"+counter+"'/>设置为封面<br/></div>").appendTo($("#previewContainer"));
+													        	$("<div  style='margin:10px 0; outline:1px solid #ECECEC'><img id='img1' src='"+response.data.uploadImageMap.medium.url+"' width='100%'/><br/><input type='radio' id='coverId' name='coverId' value='"+counter+"'/>设置为封面<br/></div>").appendTo($("#previewContainer"));
 													        	$("<input type='hidden' name='albumSlideNums' value='"+counter+"'/>").appendTo($("#previewContainer"));
-													        	$("<input type='hidden' name='largeImage"+counter+"' value='"+response.data.largeImage.url+"'/>").appendTo($("#previewContainer"));
-													        	$("<input type='hidden' name='mediumImage"+counter+"' value='"+response.data.mediumImage.url+"'/>").appendTo($("#previewContainer"));
-													        	$("<input type='hidden' name='smallImage"+counter+"' value='"+response.data.smallImage.url+"'/>").appendTo($("#previewContainer"));
+													        	$("<input type='hidden' name='largeImage"+counter+"' value='"+response.data.uploadImageMap.large.url+"'/>").appendTo($("#previewContainer"));
+													        	$("<input type='hidden' name='mediumImage"+counter+"' value='"+response.data.uploadImageMap.medium.url+"'/>").appendTo($("#previewContainer"));
+													        	$("<input type='hidden' name='smallImage"+counter+"' value='"+response.data.uploadImageMap.small.url+"'/>").appendTo($("#previewContainer"));
 															},
-														});
+														}); 
 													});
 												</script>
 												

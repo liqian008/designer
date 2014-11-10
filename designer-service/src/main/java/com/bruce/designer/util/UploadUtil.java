@@ -15,6 +15,7 @@ import java.util.Date;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.FileCopyUtils;
 
+import com.bruce.designer.constants.ConstConfig;
 import com.bruce.designer.constants.ConstService;
 
 /**
@@ -36,7 +37,7 @@ public class UploadUtil {
      * @param time
      * @return
      */
-    public static String getFileNameWithPlaceHolder(int userId, String fileName, String placeHolder, long time) {
+    public static String getFileNameWithPlaceHolder(String userId, String fileName, String placeHolder, long time) {
         String extName = fileName.substring(fileName.lastIndexOf(".") + 1);
 
         StringBuffer sb = new StringBuffer();
@@ -53,7 +54,7 @@ public class UploadUtil {
         return sb.toString();
     }
 
-    public static String getFileName(int userId, String fileName) {
+    public static String getFileName(String userId, String fileName) {
         return getFileNameWithPlaceHolder(userId, fileName, null, System.currentTimeMillis());
     }
     
@@ -107,6 +108,28 @@ public class UploadUtil {
 		return avatarPath;
 	}
 	
+	
+	/**
+	 * 获取文件保存的相对路径(1、用于文件寻址，2、用于拼url)
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public static String getFilePath(long time) {
+		String filePath = ConfigUtil.getString("upload_path_file") + UploadUtil.FILE_SEPARTOR + getDictionary(time);
+		return filePath;
+	}
+
+	/**
+	 * 获取文件保存的相对路径(1、用于文件寻址，2、用于拼url)
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public static String getFilePath() {
+		return getFilePath(System.currentTimeMillis());
+	}
+	
 	/**
 	 * 获取用户图片保存的相对路径
 	 * @param userId
@@ -126,6 +149,26 @@ public class UploadUtil {
         return getImagePath(System.currentTimeMillis());
     }
     
+	
+    /**
+	 * 保存文件，返回文件
+	 * 
+	 * @param data
+	 * @param basePath
+	 * @param dictionary
+	 * @param filename
+	 * @return
+	 * @throws IOException
+	 */
+	public static File saveFile(byte[] data, String dirPath, String filename) throws IOException {
+		File dir = new File(dirPath);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+		File file = new File(dir, filename);
+		FileCopyUtils.copy(data, file);
+		return file;
+	}
 	
 	/**
 	 * 保存文件，返回url
@@ -159,7 +202,9 @@ public class UploadUtil {
     	}else if(ConstService.UPLOAD_IMAGE_SPEC_SMALL.equals(avatarType)){//小头像
     		width = 50;
     	}
-    	return getBaseUrl()  + getAvatarPath() + UploadUtil.FILE_SEPARTOR + width + UploadUtil.FILE_SEPARTOR + userId +".jpg";
+    	String avatarDirPath = UploadUtil.getAvatarPath();
+    	String originUrl = ConstConfig.UPLOAD_QINIU_BIND_DOMAIN + "/" + avatarDirPath + "/" + userId +".jpg";
+    	return QiniuUtil.getScaleImage(originUrl, width);
     }
     
     

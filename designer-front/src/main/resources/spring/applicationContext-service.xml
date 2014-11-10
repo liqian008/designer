@@ -12,6 +12,11 @@
 
 	default-lazy-init="false">
 
-	
+	<!-- 本地上传service -->	
+	<bean id="uploadLocalService" class="com.bruce.designer.service.upload.impl.UploadLocalServiceImpl">
+	</bean>
+	<!-- 七牛上传service -->	
+	<bean id="uploadQiniuService" class="com.bruce.designer.service.upload.impl.UploadQiniuServiceImpl">
+	</bean>
 
 </beans>

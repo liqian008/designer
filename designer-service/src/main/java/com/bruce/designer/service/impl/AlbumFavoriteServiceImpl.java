@@ -14,7 +14,6 @@ import com.bruce.designer.dao.IAlbumFavoriteDao;
 import com.bruce.designer.exception.RedisKeyNotExistException;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumFavorite;
-import com.bruce.designer.model.AlbumFavorite;
 import com.bruce.designer.model.AlbumFavoriteCriteria;
 import com.bruce.designer.service.IAlbumFavoriteService;
 import com.bruce.designer.service.IAlbumService;

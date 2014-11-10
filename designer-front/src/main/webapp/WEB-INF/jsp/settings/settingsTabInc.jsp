@@ -5,11 +5,11 @@
 
 <%
 String contextPath = ConstFront.CONTEXT_PATH;
-boolean isDesigner = user.getDesignerStatus()!=null&&user.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED;
 %>
 
 <%
 User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
+boolean isDesigner = user.getDesignerStatus()!=null&&user.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED;
 int settingsMenuIndex = 0;
 String tempFlag = request.getParameter("settingsMenuFlag");
 if("avatar".equals(tempFlag)){
