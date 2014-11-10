@@ -50,6 +50,9 @@
 		<entry key="hotDesigners.cmd" value-ref="hotDesignersCommand" />
 		<entry key="hotAlbums.cmd" value-ref="hotAlbumsCommand" />
 		
+		<entry key="bindPushToken.cmd" value-ref="bindPushTokenCommand" />
+		<entry key="pushSettings.cmd" value-ref="PushSettingsCommand" />
+		
 	</util:map>
 
 	<!-- ticket is un necessary -->

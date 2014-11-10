@@ -24,6 +24,7 @@
 		<mapper resource="com/bruce/designer/model/mapper/AlbumFavoriteMapper.xml" />
 		<mapper resource="com/bruce/designer/model/mapper/AlbumActionLogMapper.xml" />
 		<mapper resource="com/bruce/designer/model/mapper/AlbumActionLogExtendMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/UserPushTokenMapper.xml" />
 
 		<!-- 
 		<mapper resource="com/bruce/designer/model/mapper/AlbumCounterMapper.xml" />
