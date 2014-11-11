@@ -15,6 +15,7 @@ import com.bruce.designer.model.Message;
 import com.bruce.designer.model.MessageCriteria;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IMessageService;
+import com.bruce.designer.service.IPushService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.MessageUtil;
 
@@ -25,6 +26,8 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	private IMessageDao messageDao;
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private IPushService pushService;
 
 	public int save(Message t) {
 		return messageDao.save(t);
@@ -73,7 +76,11 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	@Override
 	public int sendMessage(long sourceId, int fromId, int toId, String content, int messageType) {
 		if (!MessageUtil.isChatMessage(messageType) && fromId != toId) {// 除chat消息外，不可以给自己发消息
-			return messageDao.sendMessage(sourceId, fromId, toId, content, messageType);
+			int result = messageDao.sendMessage(sourceId, fromId, toId, content, messageType);
+			if(result>0){
+				//同时push消息，给客户端
+				pushService.pushMessage(messageType, content, sourceId, toId);
+			}
 		}
 		return 0;
 	}

@@ -65,7 +65,7 @@ public class UserPushTokenDaoImpl implements IUserPushTokenDao {
 	@Override
 	public List<UserPushToken> queryByUserId(Integer userId) {
 		UserPushTokenCriteria criteria = new UserPushTokenCriteria();
-		criteria.createCriteria().andUserIdEqualTo(userId);
+		criteria.createCriteria().andUserIdEqualTo(userId).andStatusEqualTo((short)1);
 		return userPushTokenMapper.selectByExample(criteria);
 	}
 
