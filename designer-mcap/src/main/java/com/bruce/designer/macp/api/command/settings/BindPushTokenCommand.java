@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import com.bruce.designer.service.IUserPushTokenService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
@@ -30,6 +31,8 @@ public class BindPushTokenCommand extends AbstractApiCommand implements Initiali
 
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private IUserPushTokenService userPushTokenService;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -41,11 +44,14 @@ public class BindPushTokenCommand extends AbstractApiCommand implements Initiali
 		int hostId = context.getUserId();
 
 		String pushToken = context.getStringParams().get("pushToken");
-    	
 		if (logger.isDebugEnabled()) {
 			logger.debug("用户[" + hostId + "]绑定pushToken[" + pushToken + "]");
 		}
 		//bind操作
+		int result = userPushTokenService.enablePushToken(hostId, pushToken);
+		if(result>0){
+			return ResponseBuilderUtil.buildSuccessResult(result);
+		}
 		return ResponseBuilderUtil.buildErrorResult();
 	}
 }

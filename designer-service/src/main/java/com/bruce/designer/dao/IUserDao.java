@@ -19,7 +19,12 @@ public interface IUserDao extends IFoundationDao<User, Integer, UserCriteria> {
 	public List<User> queryUsersByIds(List<Integer> idList);
 
 	public List<User> queryUsersByStatus(short status);
-
+	
+	/*获取用户的push选项*/
+    public long getUserPushMask(int userId);
+    /*设置用户的push选项*/
+    public int setUserPushMask(int userId, long pushMask);
+    
 	/**
 	 * 查询所有设计师
 	 * @return

@@ -50,8 +50,9 @@
 		<entry key="hotDesigners.cmd" value-ref="hotDesignersCommand" />
 		<entry key="hotAlbums.cmd" value-ref="hotAlbumsCommand" />
 		
+		<!-- push设置 -->
 		<entry key="bindPushToken.cmd" value-ref="bindPushTokenCommand" />
-		<entry key="pushSettings.cmd" value-ref="PushSettingsCommand" />
+		<entry key="pushSettings.cmd" value-ref="pushSettingsCommand" />
 		
 	</util:map>
 

@@ -1,5 +1,6 @@
 package com.bruce.designer.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -59,20 +60,6 @@ public class UserPushTokenDaoImpl implements IUserPushTokenDao {
 	}
 
 	/**
-	 * 加载用户已绑定的pushToken
-	 */
-	@Override
-	public UserPushToken load(Integer userId, Short channelType) {
-		UserPushTokenCriteria criteria = new UserPushTokenCriteria();
-		criteria.createCriteria().andUserIdEqualTo(userId).andChannelTypeEqualTo(channelType);
-		List<UserPushToken> tokenList = userPushTokenMapper.selectByExample(criteria);
-		if (tokenList != null && tokenList.size() == 1) {
-			return tokenList.get(0);
-		}
-		return null;
-	}
-
-	/**
 	 * 查询用户已绑定的pushToken
 	 */
 	@Override
@@ -82,15 +69,36 @@ public class UserPushTokenDaoImpl implements IUserPushTokenDao {
 		return userPushTokenMapper.selectByExample(criteria);
 	}
 
-	/**
-	 * 解绑定第三方账户
-	 */
 	@Override
-	public int delete(Integer userId, Short channelType) {
+	public int enablePushToken(Integer userId, String pushToken) {
+		//查询是否有该pushToken，有则更新，没有则创建
 		UserPushTokenCriteria criteria = new UserPushTokenCriteria();
-		criteria.createCriteria().andUserIdEqualTo(userId).andChannelTypeEqualTo(channelType);
-		return userPushTokenMapper.deleteByExample(criteria);
+		criteria.createCriteria().andUserIdEqualTo(userId).andPushTokenEqualTo(pushToken);
+		List<UserPushToken> pushTokenList = userPushTokenMapper.selectByExample(criteria);
+		Date currentTime = new Date();
+		if(pushTokenList==null||pushTokenList.size()>0){
+			//更新
+			UserPushToken userPushToken = new UserPushToken();
+			userPushToken.setStatus((short)1);
+			userPushToken.setUpdateTime(currentTime);
+			return userPushTokenMapper.updateByExampleSelective(userPushToken, criteria);
+		}else{
+			//创建token
+			UserPushToken userPushToken = new UserPushToken();
+			userPushToken.setUserId(userId);
+			userPushToken.setPushToken(pushToken);
+			userPushToken.setCreateTime(currentTime);
+			return save(userPushToken);
+		}
 	}
 
-
+	@Override
+	public int disablePushToken(Integer userId, String pushToken) {
+		UserPushToken userPushToken = new UserPushToken();
+		userPushToken.setStatus((short)0);
+		UserPushTokenCriteria criteria = new UserPushTokenCriteria();
+		criteria.createCriteria().andUserIdEqualTo(userId).andPushTokenEqualTo(pushToken);
+		return userPushTokenMapper.updateByExampleSelective(userPushToken, criteria);
+	}
+	
 }

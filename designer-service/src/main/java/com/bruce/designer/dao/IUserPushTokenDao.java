@@ -10,8 +10,12 @@ public interface IUserPushTokenDao extends IFoundationDao<UserPushToken, Integer
 
 	public List<UserPushToken> queryByUserId(Integer userId);
 
-	public UserPushToken load(Integer userId, Short channelType);
-
-	public int delete(Integer userId, Short channelType);
+	public int enablePushToken(Integer userId, String pushToken);
+	
+	public int disablePushToken(Integer userId, String pushToken);
+	
+//	public UserPushToken load(Integer userId, Short channelType);
+//
+//	public int delete(Integer userId, Short channelType);
 
 }

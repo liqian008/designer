@@ -64,13 +64,13 @@ public class UserPushTokenServiceImpl implements IUserPushTokenService {
 	}
 
 	@Override
-	public UserPushToken load(Integer userId, Short channelType) {
-		return userPushTokenDao.load(userId, channelType);
+	public int enablePushToken(Integer userId, String pushToken) {
+		return userPushTokenDao.enablePushToken(userId, pushToken);
 	}
 
 	@Override
-	public int delete(Integer userId, Short channelType) {
-		return userPushTokenDao.delete(userId, channelType);
+	public int disablePushToken(Integer userId, String pushToken) {
+		return userPushTokenDao.disablePushToken(userId, pushToken);
 	}
 
 	

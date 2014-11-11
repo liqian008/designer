@@ -212,6 +212,23 @@ public class UserDaoImpl implements IUserDao , InitializingBean {
 	public List<User> queryByCriteria(UserCriteria criteria) {
 		return userMapper.selectByExample(criteria);
 	}
+
+	@Override
+	public long getUserPushMask(int userId) {
+		User user = loadById(userId);
+		if(user!=null){
+			return user.getPushMask();
+		}
+		return 0l;
+	}
+
+	@Override
+	public int setUserPushMask(int userId, long pushMask) {
+		User user = new User();
+		user.setId(userId);
+		user.setPushMask(pushMask);
+		return userMapper.updateByPrimaryKey(user);
+	}
     
     
 }

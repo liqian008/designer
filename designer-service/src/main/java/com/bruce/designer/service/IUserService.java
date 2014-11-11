@@ -34,6 +34,11 @@ public interface IUserService extends IFoundationService<User, Integer, UserCrit
     
     public int changePassword(int userId, String password);
     
+    /*获取用户的push选项*/
+    public long getUserPushMask(int userId);
+    /*设置用户的push选项*/
+    public int setUserPushMask(int userId, long pushMask);
+    
     /**
      * 申请设计师
      * @param userId
