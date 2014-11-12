@@ -70,10 +70,10 @@ public class UserPushTokenDaoImpl implements IUserPushTokenDao {
 	}
 
 	@Override
-	public int enablePushToken(Integer userId, String pushToken) {
+	public int enablePushToken(Integer userId, short osType, long pushChannelId, String pushUserId) {
 		//查询是否有该pushToken，有则更新，没有则创建
 		UserPushTokenCriteria criteria = new UserPushTokenCriteria();
-		criteria.createCriteria().andUserIdEqualTo(userId).andPushTokenEqualTo(pushToken);
+		criteria.createCriteria().andUserIdEqualTo(userId).andOsTypeEqualTo(osType).andPushChannelIdEqualTo(pushChannelId).andPushUserIdEqualTo(pushUserId);
 		List<UserPushToken> pushTokenList = userPushTokenMapper.selectByExample(criteria);
 		Date currentTime = new Date();
 		if(pushTokenList==null||pushTokenList.size()>0){
@@ -85,19 +85,21 @@ public class UserPushTokenDaoImpl implements IUserPushTokenDao {
 		}else{
 			//创建token
 			UserPushToken userPushToken = new UserPushToken();
+			userPushToken.setOsType((short)1);
 			userPushToken.setUserId(userId);
-			userPushToken.setPushToken(pushToken);
+			userPushToken.setPushChannelId(pushChannelId);
+			userPushToken.setPushUserId(pushUserId);
 			userPushToken.setCreateTime(currentTime);
 			return save(userPushToken);
 		}
 	}
 
 	@Override
-	public int disablePushToken(Integer userId, String pushToken) {
+	public int disablePushToken(Integer userId, short osType, long pushChannelId, String pushUserId) {
 		UserPushToken userPushToken = new UserPushToken();
 		userPushToken.setStatus((short)0);
 		UserPushTokenCriteria criteria = new UserPushTokenCriteria();
-		criteria.createCriteria().andUserIdEqualTo(userId).andPushTokenEqualTo(pushToken);
+		criteria.createCriteria().andUserIdEqualTo(userId).andOsTypeEqualTo(osType).andPushChannelIdEqualTo(pushChannelId).andPushUserIdEqualTo(pushUserId);;
 		return userPushTokenMapper.updateByExampleSelective(userPushToken, criteria);
 	}
 	

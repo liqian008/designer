@@ -28,6 +28,11 @@
 			<artifactId>foundation-service</artifactId>
 			<version>1.0.0-BUILD-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>com.bruce</groupId>
+			<artifactId>foundation-util</artifactId>
+			<version>1.0.0-BUILD-SNAPSHOT</version>
+		</dependency>
 		
 		<dependency>
 			<groupId>commons-dbcp</groupId>

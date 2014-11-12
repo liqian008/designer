@@ -4,6 +4,7 @@
  */
 package com.bruce.designer.macp.api.command.settings;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -43,14 +44,24 @@ public class BindPushTokenCommand extends AbstractApiCommand implements Initiali
 	public ApiResult onExecute(ApiCommandContext context) {
 		int hostId = context.getUserId();
 
-		String pushToken = context.getStringParams().get("pushToken");
+		String osTypeStr = context.getStringParams().get("osType");
+		short osType = NumberUtils.toShort(osTypeStr, (short)0);
+		
+		String pushChannelIdStr = context.getStringParams().get("pushChannelId");
+		String pushUserIdStr = context.getStringParams().get("pushUserId");
 		if (logger.isDebugEnabled()) {
-			logger.debug("用户[" + hostId + "]绑定pushToken[" + pushToken + "]");
+			logger.debug("用户[" + hostId + "]绑定pushChannelId[" + pushChannelIdStr + "], pushUserIdStr["+pushUserIdStr+"]");
 		}
-		//bind操作
-		int result = userPushTokenService.enablePushToken(hostId, pushToken);
-		if(result>0){
-			return ResponseBuilderUtil.buildSuccessResult(result);
+		
+		long pushChannelId = NumberUtils.toLong(pushChannelIdStr, 0l);
+		if(pushChannelId>0){
+			
+			
+			//bind操作
+			int result = userPushTokenService.enablePushToken(hostId, osType, pushChannelId, pushUserIdStr);
+			if(result>0){
+				return ResponseBuilderUtil.buildSuccessResult(result);
+			}
 		}
 		return ResponseBuilderUtil.buildErrorResult();
 	}
