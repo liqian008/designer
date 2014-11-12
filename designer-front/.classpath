@@ -28,7 +28,9 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/liqian/Desktop/bruceLee/mail/javamail-1.4.2/mail.jar"/>
-	<classpathentry kind="lib" path="/home/liqian/Desktop/bruceLee/mail/jaf-1.1.1/activation.jar"/>
+	<classpathentry kind="lib" path="/Users/liqian/Desktop/Tools/Develop/opensource/javamail/jaf-1.1.1/activation.jar"/>
+	<classpathentry kind="lib" path="/Users/liqian/Desktop/Tools/Develop/opensource/javamail/javamail-1.4.2/mail.jar"/>
+	<classpathentry kind="lib" path="/Users/liqian/Desktop/Tools/Develop/opensource/kaptcha/kaptcha-2.3.2.jar"/>
+	<classpathentry kind="lib" path="/Users/liqian/Desktop/Tools/Develop/opensource/sitemapgen4j/sitemapgen4j-1.0.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
