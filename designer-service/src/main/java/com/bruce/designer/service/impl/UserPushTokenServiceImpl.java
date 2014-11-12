@@ -64,14 +64,13 @@ public class UserPushTokenServiceImpl implements IUserPushTokenService {
 	}
 
 	@Override
-	public int enablePushToken(Integer userId, String pushToken) {
-		return userPushTokenDao.enablePushToken(userId, pushToken);
+	public int enablePushToken(Integer userId, short osType, long pushChannelId, String pushUserId){
+		return userPushTokenDao.enablePushToken(userId, osType, pushChannelId, pushUserId);
 	}
 
 	@Override
-	public int disablePushToken(Integer userId, String pushToken) {
-		return userPushTokenDao.disablePushToken(userId, pushToken);
+	public int disablePushToken(Integer userId, short osType, long pushChannelId, String pushUserId){
+		return userPushTokenDao.disablePushToken(userId, osType, pushChannelId, pushUserId);
 	}
-
 	
 }

@@ -26,6 +26,11 @@ public interface ConstConfig {
 	public static final String UPLOAD_URL_BASE = ConfigUtil.getString("upload_url_base");
 	/* 完整的url前缀*/
 	public static final String UPLOAD_URL_FULL = RESOURCE_DOMAIN + CONTEXT_PATH + UPLOAD_URL_BASE;
+
+	
+	/*百度push的appkey和secretkey*/
+	public static final String BAIDU_PUSH_APP_KEY= ConfigUtil.getString("baidu_push_api_key");
+	public static final String BAIDU_PUSH_SECRET_KEY = ConfigUtil.getString("baidu_push_secret_key");
 	
 	/*七牛开发者的appkey和secretkey*/
 	public static final String UPLOAD_QINIU_APP_KEY= ConfigUtil.getString("upload_qiniu_appkey");

@@ -79,7 +79,7 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 			int result = messageDao.sendMessage(sourceId, fromId, toId, content, messageType);
 			if(result>0){
 				//同时push消息，给客户端
-				pushService.pushMessage(messageType, content, sourceId, toId);
+				pushService.pushMessage(messageType, content, sourceId, fromId, toId);
 			}
 		}
 		return 0;

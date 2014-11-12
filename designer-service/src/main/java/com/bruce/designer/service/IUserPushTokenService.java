@@ -10,9 +10,9 @@ public interface IUserPushTokenService extends IFoundationService<UserPushToken,
 
 	public List<UserPushToken> queryByUserId(Integer userId);
 	
-	public int enablePushToken(Integer userId, String pushToken);
+	public int enablePushToken(Integer userId, short osType, long pushChannelId, String pushUserId);
 	
-	public int disablePushToken(Integer userId, String pushToken);
+	public int disablePushToken(Integer userId, short osType, long pushChannelId, String pushUserId);
 	
 //	public List<UserPushToken> newUserPushToken(Integer userId, short channelType, String pushToken);
 

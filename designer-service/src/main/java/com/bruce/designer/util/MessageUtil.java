@@ -95,7 +95,7 @@ public class MessageUtil {
 	
 	
 	public static boolean isChatMessage(int messageType){
-		return messageType>=10000; 
+		return messageType>100000;
 	}
 	
 	/**
