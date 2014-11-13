@@ -52,6 +52,7 @@ public class PushServiceImpl implements IPushService, InitializingBean {
 	@Override
 	public int pushMessage(int messageType, String content, long sourceId, int fromId, int toId) {
 		//
+		System.out.println("进入 pushMessage 方法");
 		User toUser = userService.loadById(toId);
 		if(toUser!=null&&toUser.getPushMask()!=null&&toUser.getPushMask()>0){
 			//检查用户的push设置
@@ -98,6 +99,9 @@ public class PushServiceImpl implements IPushService, InitializingBean {
             if(channelClient==null){
             	throw new Exception("push初始化失败");
             }
+            
+            System.out.println("调用百度进行push, pushUserId: "+pushUserId+", pushChannelId: "+pushChannelId);
+            
             // 5. 调用pushMessage接口
             PushUnicastMessageResponse response = channelClient.pushUnicastMessage(request);
             // 6. 认证推送成功

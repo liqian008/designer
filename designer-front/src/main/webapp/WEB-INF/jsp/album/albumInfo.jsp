@@ -432,6 +432,7 @@ Album album = (Album)request.getAttribute("albumInfo");
     	
     	function reply(fromId, fromName){
     		$("#toId").val(fromId);
+    		$("#comment").focus();
     		$("#comment").val("回复"+fromName+": ");
     	}
     	

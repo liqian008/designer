@@ -76,7 +76,7 @@ public class UserPushTokenDaoImpl implements IUserPushTokenDao {
 		criteria.createCriteria().andUserIdEqualTo(userId).andOsTypeEqualTo(osType).andPushChannelIdEqualTo(pushChannelId).andPushUserIdEqualTo(pushUserId);
 		List<UserPushToken> pushTokenList = userPushTokenMapper.selectByExample(criteria);
 		Date currentTime = new Date();
-		if(pushTokenList==null||pushTokenList.size()>0){
+		if(pushTokenList!=null&&pushTokenList.size()>0){
 			//更新
 			UserPushToken userPushToken = new UserPushToken();
 			userPushToken.setStatus((short)1);

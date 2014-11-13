@@ -14,6 +14,7 @@ import com.qiniu.api.io.IoApi;
 import com.qiniu.api.io.PutExtra;
 import com.qiniu.api.io.PutRet;
 import com.qiniu.api.rs.PutPolicy;
+import com.qiniu.api.rs.RSClient;
 
 /**
  * 七牛上传的处理实现
@@ -40,7 +41,9 @@ public class UploadQiniuServiceImpl extends AbstractUploadService{
 		if(imageDir.startsWith("/")){
 			imageDir = imageDir.substring(1);
 		}
-		String resultKey =  basicUpload(originalImageFile,  imageDir + "/" + originalImageFile.getName());
+		
+		String qiniuUploadKey = imageDir + "/" + originalImageFile.getName();
+		String resultKey =  basicUpload(originalImageFile, qiniuUploadKey);
 		if(resultKey!=null){
 			UploadImageResult uploadImageResult = new UploadImageResult();
 			String originUrl = ConstConfig.UPLOAD_QINIU_BIND_DOMAIN + "/" + resultKey;
@@ -77,18 +80,24 @@ public class UploadQiniuServiceImpl extends AbstractUploadService{
 		logger.info("七牛上传文件, fileKey: "+fileKey);
 		PutPolicy putPolicy = new PutPolicy(ConstConfig.UPLOAD_QINIU_BUCKET);
 		String uptoken = putPolicy.token(mac);
-
-		// key是上传内容对应的标识，可设置为习惯的目录形式
-		PutRet ret = null;
-		String localRealPath = uploadFile.getAbsolutePath();
-		try {
-			ret = IoApi.putFile(uptoken, fileKey, localRealPath, new PutExtra());
-			if (ret.ok()){
-				String resultKey = ret.getKey();
-				System.out.println(resultKey);
-				return resultKey;
-			}
-		} catch (Throwable e) {
+		
+		try{
+			// 先检查文件是否存在，存在则删除（TODO 存在则替换）
+			RSClient client = new RSClient(mac);
+			client.delete(ConstConfig.UPLOAD_QINIU_BUCKET, fileKey);
+			
+			// key是上传内容对应的标识，可设置为习惯的目录形式
+			PutRet ret = null;
+			String localRealPath = uploadFile.getAbsolutePath();
+				ret = IoApi.putFile(uptoken, fileKey, localRealPath, new PutExtra());
+				if (ret.ok()){
+					String resultKey = ret.getKey();
+					System.out.println(resultKey);
+					return resultKey;
+				}
+		}catch(Exception e){
+			e.printStackTrace();
+//			logger.error("删除七牛图片失败", e);
 			logger.error("上传七牛失败！", e);
 		}
 		return null;

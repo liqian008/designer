@@ -219,7 +219,6 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 															'fileSizeLimit' : 2048,
 															'onUploadSuccess' : function(file, data, response) {
 													            //alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
-													            alert(data);
 													            counter = counter + 1;
 													            var response = jQuery.parseJSON(data);
 													            
