@@ -26,6 +26,8 @@
 		<entry key="albumComments.cmd" value-ref="albumCommentsCommand" />
 		
 		<entry key="userInfo.cmd" value-ref="userInfoCommand" />
+		<entry key="uploadAvatar.cmd" value-ref="uploadAvatarCommand" />
+		
 		<entry key="userFans.cmd" value-ref="userFansCommand" />
 		<entry key="userFollows.cmd" value-ref="userFollowsCommand" />
 		<!-- 我的收藏列表api -->
