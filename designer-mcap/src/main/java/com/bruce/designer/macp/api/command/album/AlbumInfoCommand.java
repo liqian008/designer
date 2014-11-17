@@ -16,13 +16,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import com.bruce.designer.data.GenericSharedInfo;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
+import com.bruce.designer.macp.api.Config;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumSlide;
 import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
+import com.bruce.designer.util.SharedInfoBuilder;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
 import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
@@ -53,7 +56,7 @@ public class AlbumInfoCommand extends AbstractApiCommand implements Initializing
     @Override
     public ApiResult onExecute(ApiCommandContext context) {
     	
-    	int userId = context.getUserId();
+    	int hostId = context.getUserId();
     	
     	Map<String, Object> rt = new HashMap<String, Object>();
     	
@@ -70,15 +73,17 @@ public class AlbumInfoCommand extends AbstractApiCommand implements Initializing
 			albumInfo.setSlideList(slideList);
 			
 			if(logger.isDebugEnabled()){
-                logger.debug("MCS加载["+albumId+"]的交互数据");
-                albumService.initAlbumInteractionStatus(albumInfo, userId);
+				logger.debug("MCS加载["+albumId+"]的与用户["+hostId+"]交互数据");
+                if(hostId>Config.GUEST_ID){//游客无需加载交互数据
+                	albumService.initAlbumInteractionStatus(albumInfo, hostId);
+                }
 			}
 			
 			// 增加浏览计数
 			if(logger.isDebugEnabled()){
-                logger.debug("MCS增加专辑["+albumId+"]浏览计数, 浏览人: " + userId);
+                logger.debug("MCS增加专辑["+albumId+"]浏览计数, 浏览人: " + hostId);
             }
-			albumCounterService.incrBrowser(albumInfo.getUserId(), albumId, userId);
+			albumCounterService.incrBrowser(albumInfo.getUserId(), albumId, hostId);
 			
 			//加载专辑的计数信息
 			if(logger.isDebugEnabled()){
@@ -91,6 +96,10 @@ public class AlbumInfoCommand extends AbstractApiCommand implements Initializing
 //                logger.debug("加载专辑["+albumId+"]的标签");
 //            }
 //			albumService.initAlbumWithTags(albumInfo);
+			
+			//构造微信分享的对象
+			GenericSharedInfo genericSharedInfo = SharedInfoBuilder.buildGenericSharedInfo(albumInfo);
+			albumInfo.setGenericSharedInfo(genericSharedInfo);
 			
 			rt.put("albumInfo", albumInfo);
 	        return ResponseBuilderUtil.buildSuccessResult(rt);

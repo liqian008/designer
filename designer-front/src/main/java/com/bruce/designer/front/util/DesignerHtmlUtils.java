@@ -13,6 +13,7 @@ import com.bruce.designer.model.Comment;
 import com.bruce.designer.model.Message;
 import com.bruce.designer.model.Tag;
 import com.bruce.designer.model.User;
+import com.bruce.designer.util.DesignerLinkUtil;
 import com.bruce.designer.util.UploadUtil;
 
 /**
@@ -96,12 +97,13 @@ public class DesignerHtmlUtils {
 		}
 		sb.append("<article class='blog-item span" + span + "'>");
 		sb.append("<div class='blog-post-image-wrap'>");
-		sb.append("<a class='blog-single-link' href='"+ConstFront.CONTEXT_PATH+"/album/" + album.getId() + "'>");
+		String albumLink = DesignerLinkUtil.getAlbumLink4Web(album.getId());
+		sb.append("<a class='blog-single-link' href='"+ albumLink + "'>");
 		sb.append("<img src='" + album.getCoverMediumImg() + "'>");
 		sb.append("</a>");
 		sb.append("</div>");
 		sb.append("<div class='content-wrap span9'>");
-		sb.append("<a class='blog-single-link' href='"+ConstFront.CONTEXT_PATH+"/album/" + album.getId() + "'>" +
+		sb.append("<a class='blog-single-link' href='"+ albumLink + "'>" +
 				"<h5>" + album.getTitle() + "</h5></a>");
 		sb.append("<ul>");
 		sb.append("<li><span>标 签:&nbsp;</span>");
@@ -131,7 +133,8 @@ public class DesignerHtmlUtils {
 		sb.append("</ul>");
 		sb.append("</div>");
 		sb.append("<div class='content-avatar'>");
-		sb.append("<a href='"+ConstFront.CONTEXT_PATH+"/" + album.getUserId() + "/home'>"); 
+		String userLink = DesignerLinkUtil.getUserLink4Web(album.getUserId());
+		sb.append("<a href='"+ userLink + "'>"); 
 		sb.append("<img src='"+UploadUtil.getAvatarUrl(album.getUserId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"' width='100%'/>");
 		sb.append("</a>");
 		sb.append("</div>");
@@ -154,7 +157,8 @@ public class DesignerHtmlUtils {
 		if (albumList != null && albumList.size() > 0) {
 			StringBuilder sb = new StringBuilder();
 			for (Album album : albumList) {
-				sb.append("<div class='flickr_badge_image' id='flickr_badge_image" + album.getId() + "'><a href='"+ConstFront.CONTEXT_PATH+"/album/" + album.getId()
+				
+				sb.append("<div class='flickr_badge_image' id='flickr_badge_image" + album.getId() + "'><a href='"+ DesignerLinkUtil.getAlbumLink4Web(album.getId())
 						+ "'><img src='" + album.getCoverSmallImg() + "' title='" + album.getTitle() + "'" + album.getTitle()
 						+ "'height='75' width='75'></a></div>");
 			}
@@ -172,7 +176,8 @@ public class DesignerHtmlUtils {
         if (designerList != null && designerList.size() > 0) {
             StringBuilder sb = new StringBuilder();
             for (User designer : designerList) {
-                sb.append("<li class='social-icons-facebook-icon'><a href='"+ConstFront.CONTEXT_PATH+"/"+designer.getId()+"/home'><img src='"+UploadUtil.getAvatarUrl(designer.getId(), ConstService.UPLOAD_IMAGE_SPEC_LARGE)+"' alt='"+designer.getNickname()+"' /></a></li>");
+            	String userLink = DesignerLinkUtil.getUserLink4Web(designer.getId());
+                sb.append("<li class='social-icons-facebook-icon'><a href='"+userLink+"'><img src='"+UploadUtil.getAvatarUrl(designer.getId(), ConstService.UPLOAD_IMAGE_SPEC_LARGE)+"' alt='"+designer.getNickname()+"' /></a></li>");
             }
             return sb.toString();
         }
@@ -200,31 +205,32 @@ public class DesignerHtmlUtils {
 	 */
 	public static String getMessageDisplay(Message message) {
 		if(message!=null&&message.getMessageType()!=null){
+			String userLink = DesignerLinkUtil.getUserLink4Web(message.getFromId());
 			switch (message.getMessageType()) {
 				case ConstService.MESSAGE_TYPE_SYSTEM: {
 					return message.getMessage();
 				}
 				case ConstService.MESSAGE_TYPE_FOLLOW: {
-					return "<a href='"+ConstFront.CONTEXT_PATH+"/"+message.getFromId()+"/home' target='_blank'>"+message.getFromUser().getNickname() + "</a>: " + 
+					return "<a href='"+userLink+"' target='_blank'>"+message.getFromUser().getNickname() + "</a>: " + 
 							"关注了您";
 				}
 				case ConstService.MESSAGE_TYPE_COMMENT: {
-					return "<a href='"+ConstFront.CONTEXT_PATH+"/"+message.getFromId()+"/home' target='_blank'>"+message.getFromUser().getNickname() + "</a>: " + 
+					return "<a href='"+userLink+"' target='_blank'>"+message.getFromUser().getNickname() + "</a>: " + 
 						message.getMessage();
 				}
 				case ConstService.MESSAGE_TYPE_LIKE: {
-					return "<a href='"+ConstFront.CONTEXT_PATH+"/"+message.getFromId()+"/home' target='_blank'>"+message.getFromUser().getNickname() + "</a> " +
+					return "<a href='"+userLink+"' target='_blank'>"+message.getFromUser().getNickname() + "</a> " +
 						"赞了您的专辑作品";
 				}
 				case ConstService.MESSAGE_TYPE_FAVORITIES: {
-					return "<a href='"+ConstFront.CONTEXT_PATH+"/"+message.getFromId()+"/home' target='_blank'>"+message.getFromUser().getNickname() + "</a> " +
+					return "<a href='"+ userLink+"' target='_blank'>"+message.getFromUser().getNickname() + "</a> " +
 						"收藏了您的专辑作品";
 				}
 				case ConstService.MESSAGE_TYPE_AT: {
 					return "";
 				}
 				default: {
-					return "<a href='"+ConstFront.CONTEXT_PATH+"/"+message.getFromId()+"/home' target='_blank'>"+message.getFromUser().getNickname() + "</a>: " +
+					return "<a href='"+userLink+"' target='_blank'>"+message.getFromUser().getNickname() + "</a>: " +
 						message.getMessage();
 				}
 			}
@@ -244,10 +250,13 @@ public class DesignerHtmlUtils {
 		if (commentList != null && commentList.size() > 0) {
 			StringBuilder sb = new StringBuilder();
 			for (Comment comment : commentList) {
-				sb.append("<li class='comment depth-1' id='li-comment-1'>" + "<div class='comment-container' id='comment-1'><div class='comment-avatar'>"
-						+ "<div class='comment-author vcard'>" + "<a href='"+ConstFront.CONTEXT_PATH+"/"+comment.getFromId()+"/home'><img src='"+UploadUtil.getAvatarUrl(comment.getFromId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"'/></a>" + "</div></div>"
+				String userLink = DesignerLinkUtil.getUserLink4Web(comment.getFromId());
+				sb.append("<li class='comment depth-1' id='li-comment-1'>" + 
+						"<div class='comment-container' id='comment-1'><div class='comment-avatar'>"
+						+ "<div class='comment-author vcard'>" + "<a href='"+userLink+"'>" +
+								"<img src='"+UploadUtil.getAvatarUrl(comment.getFromId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"'/></a>" + "</div></div>"
 						+ "<div class='comment-body'><div class='comment-meta commentmetadata'>" + "<h6 class='comment-author'>"
-						+ "<a href='"+ConstFront.CONTEXT_PATH+"/"+comment.getFromId()+"/home' rel='external nofollow' class='url'>" + comment.getNickname() + "</a> 发表于 "
+						+ "<a href='"+userLink+"' rel='external nofollow' class='url'>" + comment.getNickname() + "</a> 发表于 "
 						+ DateFormatUtils.format(comment.getCreateTime(), ConstDateFormat.YYYYMMDD_HHMM_FORMAT) + "</h6></div>"
 						+ "<div class='comment-content'>");
 				sb.append(comment.getComment());

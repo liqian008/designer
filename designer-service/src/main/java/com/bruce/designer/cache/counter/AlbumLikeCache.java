@@ -118,7 +118,7 @@ public class AlbumLikeCache {
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 return false;
             } else {
-                boolean result = shardedJedis.zrem(key, String.valueOf(albumId)) > 0;
+                boolean result = shardedJedis.zrem(key, String.valueOf(userId)) > 0;
                 cacheShardedJedisPool.returnResource(shardedJedis);
                 return result;
             }

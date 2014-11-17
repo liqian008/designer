@@ -26,6 +26,11 @@ public interface ConstConfig {
 	public static final String UPLOAD_URL_BASE = ConfigUtil.getString("upload_url_base");
 	/* 完整的url前缀*/
 	public static final String UPLOAD_URL_FULL = RESOURCE_DOMAIN + CONTEXT_PATH + UPLOAD_URL_BASE;
+	
+	/* pc上展示的专辑url前缀 */
+	public static final String ALBUM_URL_WEB_PREFIX = ConfigUtil.getString("contextPath");
+	/* mobile上展示的专辑url前缀 */
+	public static final String ALBUM_URL_MOBILE_PREFIX = ConfigUtil.getString("contextPath");
 
 	
 	/*百度push的appkey和secretkey*/
