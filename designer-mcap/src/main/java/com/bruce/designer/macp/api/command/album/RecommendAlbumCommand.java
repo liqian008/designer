@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.bruce.designer.constants.ConstService;
+import com.bruce.designer.data.GenericSharedInfo;
+import com.bruce.designer.macp.api.Config;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumAuthorInfo;
 import com.bruce.designer.model.AlbumSlide;
@@ -24,6 +26,7 @@ import com.bruce.designer.service.IAlbumRecommendService;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.util.SharedInfoBuilder;
 import com.bruce.designer.util.UploadUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
@@ -31,7 +34,7 @@ import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
 import com.bruce.foundation.model.result.ApiResult;
 
 /**
- * 最新专辑
+ * 精选专辑
  * 
  * @author liqian
  * 
@@ -61,8 +64,10 @@ public class RecommendAlbumCommand extends AbstractApiCommand implements Initial
 
 	@Override
 	public ApiResult onExecute(ApiCommandContext context) {
+		int hostId = context.getUserId();
+		
 		Map<String, Object> rt = new HashMap<String, Object>();
-
+		
 		int limit = 20;
 
 		List<Album> albumList = albumRecommendService.queryRecommendAlbums(limit);
@@ -75,6 +80,13 @@ public class RecommendAlbumCommand extends AbstractApiCommand implements Initial
 			List<AlbumSlide> slideList = albumSlideService.querySlidesByAlbumId(albumId);
 			if (slideList != null) {
 				album.setSlideList(slideList);
+			}
+			
+			if(logger.isDebugEnabled()){
+                logger.debug("MCS加载["+albumId+"]的与用户["+hostId+"]交互数据");
+                if(hostId>Config.GUEST_ID){//游客无需加载交互数据
+                	albumService.initAlbumInteractionStatus(album, hostId);
+                }
 			}
 
 			// 构造设计师信息
@@ -90,6 +102,10 @@ public class RecommendAlbumCommand extends AbstractApiCommand implements Initial
 				authorInfo = albumAuthorMap.get(albumAuthorId);
 			}
 			album.setAuthorInfo(authorInfo);
+			
+			//构造微信分享的对象
+			GenericSharedInfo genericSharedInfo = SharedInfoBuilder.buildGenericSharedInfo(album);
+			album.setGenericSharedInfo(genericSharedInfo);
 		}
 
 		rt.put("albumList", albumList);

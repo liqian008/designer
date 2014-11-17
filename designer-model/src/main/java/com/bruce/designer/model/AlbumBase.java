@@ -2,6 +2,8 @@ package com.bruce.designer.model;
 
 import java.util.List;
 
+import com.bruce.designer.data.GenericSharedInfo;
+
 public class AlbumBase {
 
 	private long browseCount;
@@ -11,20 +13,22 @@ public class AlbumBase {
 	private long likeCount;
 
 	private long favoriteCount;
-	
+
 	private boolean isLike;
-	
+
 	private boolean isFavorite;
-	/*专辑在web端的url*/
+	/* 专辑在web端的url */
 	private String itemWebUrl;
-	/*专辑在mobile端的url*/
+	/* 专辑在mobile端的url */
 	private String itemMobileUrl;
 
 	private List<String> tagList;
 
 	private List<AlbumSlide> slideList;
-	
+
 	private AlbumAuthorInfo authorInfo;
+	
+	private GenericSharedInfo genericSharedInfo;
 
 	public long getBrowseCount() {
 		return browseCount;
@@ -57,7 +61,7 @@ public class AlbumBase {
 	public void setFavoriteCount(long favoriteCount) {
 		this.favoriteCount = favoriteCount;
 	}
-	
+
 	public boolean isLike() {
 		return isLike;
 	}
@@ -112,6 +116,14 @@ public class AlbumBase {
 
 	public void setItemMobileUrl(String itemMobileUrl) {
 		this.itemMobileUrl = itemMobileUrl;
+	}
+
+	public GenericSharedInfo getGenericSharedInfo() {
+		return genericSharedInfo;
+	}
+
+	public void setGenericSharedInfo(GenericSharedInfo genericSharedInfo) {
+		this.genericSharedInfo = genericSharedInfo;
 	}
 
 }

@@ -58,6 +58,7 @@ public class UploadAvatarCommand extends AbstractApiCommand implements Initializ
 
 		Map<String, Object> rt = new HashMap<String, Object>();
 
+		System.out.println("用户[" + hostId + "]上传头像");
 		if (logger.isDebugEnabled()) {
 			logger.debug("用户[" + hostId + "]上传头像");
 		}
@@ -67,6 +68,11 @@ public class UploadAvatarCommand extends AbstractApiCommand implements Initializ
 			MultipartFile avatarFile = multipartMap.get("image");
 			if (avatarFile != null) {
 				try {
+					System.out.println("上传字节数: "+avatarFile.getBytes()+"字节");
+					if (logger.isDebugEnabled()) {
+						logger.debug("上传字节数: "+avatarFile.getBytes()+"字节");
+					}
+					
 					UploadImageResult imageResult = uploadQiniuService.uploadAvatar(avatarFile.getBytes(), String.valueOf(hostId), IUploadService.IMAGE_SPEC_LARGE,
 							IUploadService.IMAGE_SPEC_MEDIUM, IUploadService.IMAGE_SPEC_SMALL);
 					if (imageResult != null) {
