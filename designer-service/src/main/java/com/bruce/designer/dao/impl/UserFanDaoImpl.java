@@ -65,7 +65,7 @@ public class UserFanDaoImpl implements IUserFanDao, InitializingBean {
 
 	@Override
 	public int updateByCriteria(UserFan t, UserFanCriteria criteria) {
-		return userFanMapper.updateByExample(t, criteria);
+		return userFanMapper.updateByExampleSelective(t, criteria);
 	}
 
 	@Override

@@ -106,7 +106,7 @@ public class CommentDaoImpl implements ICommentDao , InitializingBean {
     
     @Override
 	public int updateByCriteria(Comment t, CommentCriteria criteria) {
-		return commentMapper.updateByExample(t, criteria);
+		return commentMapper.updateByExampleSelective(t, criteria);
 	}
 
 	@Override

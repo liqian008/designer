@@ -30,7 +30,7 @@ public class AccessTokenDaoImpl implements IAccessTokenDao {
 
 	@Override
 	public int updateByCriteria(AccessTokenInfo t, AccessTokenInfoCriteria criteria) {
-		return accessTokenInfoMapper.updateByExample(t, criteria);
+		return accessTokenInfoMapper.updateByExampleSelective(t, criteria);
 	}
 
 	@Override

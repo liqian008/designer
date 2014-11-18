@@ -4,6 +4,9 @@
  */
 package com.bruce.designer.macp.api.command.settings;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -40,6 +43,8 @@ public class PushSettingsCommand extends AbstractApiCommand implements Initializ
 
 	@Override
 	public ApiResult onExecute(ApiCommandContext context) {
+		Map<String, Object> rt = new HashMap<String, Object>();
+		
 		int hostId = context.getUserId();
 		String mode = context.getStringParams().get("mode");//1为写操作，0为读操作
 		if("1".equalsIgnoreCase(mode)){//写操作
@@ -48,7 +53,7 @@ public class PushSettingsCommand extends AbstractApiCommand implements Initializ
 			if (logger.isDebugEnabled()) {
 				logger.debug("用户[" + hostId + "]设置pushSettings[" + pushMaskStr + "]");
 			}
-			int pushMask = NumberUtils.toInt(pushMaskStr, 31);
+			long pushMask = NumberUtils.toLong(pushMaskStr, Long.MAX_VALUE);
 			int result = userService.setUserPushMask(hostId, pushMask);
 			if(result>0){
 				return ResponseBuilderUtil.buildSuccessResult();
@@ -57,8 +62,9 @@ public class PushSettingsCommand extends AbstractApiCommand implements Initializ
 			if (logger.isDebugEnabled()) {
 				logger.debug("用户[" + hostId + "]查询pushSettings");
 			}
-			long result = userService.getUserPushMask(hostId);
-			return ResponseBuilderUtil.buildSuccessResult(result);
+			long pushMask = userService.getUserPushMask(hostId);
+			rt.put("pushMask", pushMask);
+			return ResponseBuilderUtil.buildSuccessResult(rt);
 		}
 		return ResponseBuilderUtil.buildErrorResult();
 	}

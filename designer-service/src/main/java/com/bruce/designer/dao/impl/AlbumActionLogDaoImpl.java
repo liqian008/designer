@@ -67,7 +67,7 @@ public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBe
 
 	@Override
 	public int updateByCriteria(AlbumActionLog t, AlbumActionLogCriteria criteria) {
-		return albumActionLogMapper.updateByExample(t, criteria);
+		return albumActionLogMapper.updateByExampleSelective(t, criteria);
 	}
 
 	public int deleteById(Long id) {

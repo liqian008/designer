@@ -22,13 +22,20 @@ import com.bruce.designer.model.UserPushToken;
 import com.bruce.designer.service.IPushService;
 import com.bruce.designer.service.IUserPushTokenService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.util.MessageUtil;
 import com.bruce.foundation.util.JsonUtil;
 
 @Service
 public class PushServiceImpl implements IPushService, InitializingBean {
 
+	private static final int followedSettings = 1;// 被关注时的推送flag
+	private static final int commentedSettings = 2;// 被评论时的推送flag
+	private static final int likedSettings = 4;// 被赞时的推送flag
+	private static final int favoritedSettings = 8;// 被收藏时的推送flag
+	private static final int chatedSettings = 16;// 私信消息的推送flag
+
 	private BaiduChannelClient channelClient = null;
-	
+
 	@Autowired
 	private IUserService userService;
 	@Autowired
@@ -37,36 +44,37 @@ public class PushServiceImpl implements IPushService, InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 	}
-	
-	@Override
-	@PostConstruct
-	public void init(){
-//		//1.设置developer平台的ApiKey/SecretKey
-        ChannelKeyPair pair = new ChannelKeyPair(ConstConfig.BAIDU_PUSH_APP_KEY, ConstConfig.BAIDU_PUSH_SECRET_KEY);
-        // 2. 创建BaiduChannelClient对象实例
-        channelClient = new BaiduChannelClient(pair);
-	}
-	
-	
 
 	@Override
-	public int pushMessage(int messageType, String content, long sourceId, int fromId, int toId) {
+	@PostConstruct
+	public void init() {
+		// //1.设置developer平台的ApiKey/SecretKey
+		ChannelKeyPair pair = new ChannelKeyPair(
+				ConstConfig.BAIDU_PUSH_APP_KEY,
+				ConstConfig.BAIDU_PUSH_SECRET_KEY);
+		// 2. 创建BaiduChannelClient对象实例
+		channelClient = new BaiduChannelClient(pair);
+	}
+
+	@Override
+	public int pushMessage(int messageType, String content, long sourceId,
+			int fromId, int toId) {
 		//
-		System.out.println("进入 pushMessage 方法");
-		User toUser = userService.loadById(toId);
-		if(toUser!=null&&toUser.getPushMask()!=null&&toUser.getPushMask()>0){
-			//检查用户的push设置
-			boolean pushAllowed = isPushAllow(messageType, toUser.getPushMask());
-			if(pushAllowed){
-				//查询用户token
-				List<UserPushToken> userPushTokenList = userPushTokenService.queryByUserId(toId);
-				if(userPushTokenList!=null&&userPushTokenList.size()>0){
-					for(UserPushToken userPushToken : userPushTokenList){
-						long pushChannelId = userPushToken.getPushChannelId();
-						String pushUserId = userPushToken.getPushUserId();
-						//调用百度进行push
-						baiduPush(messageType, userPushToken.getOsType(), content, pushChannelId, pushUserId);
-					}
+		long pushMask = userService.getUserPushMask(toId);
+		System.out.println("进入 pushMessage 方法, pushMask: "+pushMask+", content: "+content);
+		
+		// 检查用户的push设置
+		boolean pushAllowed = isPushAllow(messageType, pushMask);
+		System.out.println("messageType: "+messageType+", pushAllowed: "+pushAllowed);
+		if (pushAllowed) {
+			// 查询用户token
+			List<UserPushToken> userPushTokenList = userPushTokenService.queryByUserId(toId);
+			if (userPushTokenList != null && userPushTokenList.size() > 0) {
+				for (UserPushToken userPushToken : userPushTokenList) {
+					long pushChannelId = userPushToken.getPushChannelId();
+					String pushUserId = userPushToken.getPushUserId();
+					// 调用百度进行push
+					baiduPush(messageType, userPushToken.getOsType(), content,pushChannelId, pushUserId);
 				}
 			}
 		}
@@ -75,92 +83,112 @@ public class PushServiceImpl implements IPushService, InitializingBean {
 
 	/**
 	 * 调用baiduPush进行推送
+	 * 
 	 * @param osType
 	 * @param pushChannelId
 	 * @param content
-	 * @param pushUserId 
+	 * @param pushUserId
 	 * @return
 	 */
-	private int baiduPush(int messageType, int osType, String content, long pushChannelId, String pushUserId) {
+	private int baiduPush(int messageType, int osType, String content,
+			long pushChannelId, String pushUserId) {
 		try {
-            //创建请求类对象
+			// 创建请求类对象
 			PushUnicastMessageRequest request = new PushUnicastMessageRequest();
-            request.setChannelId(pushChannelId);
-            request.setUserId(pushUserId);
-            request.setMessageType(1);//1为广播，0为静默消息，默认为0
-            
-            //构造push消息
-            String pushMessage = buildPushMessage(messageType);
-            
-			PushAndroidMessage androidMessage = new PushAndroidMessage("金玩儿网", pushMessage, 2, 0, 4, "");
-            String baiduPushMessage = JsonUtil.gson.toJson(androidMessage);
-            request.setMessage(baiduPushMessage);
-            
-            if(channelClient==null){
-            	throw new Exception("push初始化失败");
-            }
-            
-            System.out.println("调用百度进行push, pushUserId: "+pushUserId+", pushChannelId: "+pushChannelId);
-            
-            // 5. 调用pushMessage接口
-            PushUnicastMessageResponse response = channelClient.pushUnicastMessage(request);
-            // 6. 认证推送成功
-            System.out.println("push amount : " + response.getSuccessAmount());
-            return response.getSuccessAmount();
-        } catch (ChannelClientException e) {
-            // 处理客户端错误异常
-            e.printStackTrace();
-        } catch (ChannelServerException e) {
-            // 处理服务端错误异常
-            System.out.println(String.format(
-                    "request_id: %d, error_code: %d, error_message: %s",
-                    e.getRequestId(), e.getErrorCode(), e.getErrorMsg()));
-        } catch (Exception e) {
+			request.setChannelId(pushChannelId);
+			request.setUserId(pushUserId);
+			request.setMessageType(1);// 1为广播，0为静默消息，默认为0
+
+			// 构造push消息
+			String pushMessage = buildPushMessage(messageType, content);
+
+			PushAndroidMessage androidMessage = new PushAndroidMessage("金玩儿网",
+					pushMessage, 2, 0, 4, "");
+			String baiduPushMessage = JsonUtil.gson.toJson(androidMessage);
+			request.setMessage(baiduPushMessage);
+
+			if (channelClient == null) {
+				throw new Exception("push初始化失败");
+			}
+
+			System.out.println("调用百度进行push, pushUserId: " + pushUserId
+					+ ", pushChannelId: " + pushChannelId);
+
+			// 5. 调用pushMessage接口
+			PushUnicastMessageResponse response = channelClient
+					.pushUnicastMessage(request);
+			// 6. 认证推送成功
+			System.out.println("push amount : " + response.getSuccessAmount());
+			return response.getSuccessAmount();
+		} catch (ChannelClientException e) {
+			// 处理客户端错误异常
+			e.printStackTrace();
+		} catch (ChannelServerException e) {
+			// 处理服务端错误异常
+			System.out.println(String.format(
+					"request_id: %d, error_code: %d, error_message: %s",
+					e.getRequestId(), e.getErrorCode(), e.getErrorMsg()));
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return 0;
-		
+
 	}
-	
-	
+
 	/**
 	 * 检查用户是否允许push
+	 * 
 	 * @param messageType
 	 * @param toId
 	 * @return
 	 */
 	private static boolean isPushAllow(int messageType, long pushMask) {
-		if(pushMask>0){
+		switch (messageType) {
+		case ConstService.MESSAGE_TYPE_FOLLOW: {
+			return (pushMask & followedSettings) == followedSettings;
+		}
+		case ConstService.MESSAGE_TYPE_COMMENT: {
+			return (pushMask & commentedSettings) == commentedSettings;
+		}
+		case ConstService.MESSAGE_TYPE_LIKE: {
+			return (pushMask & likedSettings) == likedSettings;
+		}
+		case ConstService.MESSAGE_TYPE_FAVORITIES: {
+			return (pushMask & favoritedSettings) == favoritedSettings;
+		}
+		default: {
+			if (MessageUtil.isChatMessage(messageType)) {
+				return (pushMask & chatedSettings) == chatedSettings;
+			}
+		}
 			return true;
-		}else{
-			return false;
 		}
 	}
-	
-	
-	public static String buildPushMessage(int messageType) {
+
+	public static String buildPushMessage(int messageType, String content) {
 		switch (messageType) {
-			case ConstService.MESSAGE_TYPE_SYSTEM: {
-				return "收到一条系统广播";
-			}
-			case ConstService.MESSAGE_TYPE_FOLLOW: {
-				return "有人关注了你，快去看看他是谁";
-			}
-			case ConstService.MESSAGE_TYPE_COMMENT: {
-				return "收到一条评论";
-			}
-			case ConstService.MESSAGE_TYPE_LIKE: {
-				return "有人赞了你的专辑";
-			}
-			case ConstService.MESSAGE_TYPE_FAVORITIES: {
-				return "有人收藏了你的专辑";
-			}
-			case ConstService.MESSAGE_TYPE_AT: {
-				return "有人@了你，快去看看他是谁";
-			}
-			default: {
-				return "有人给你发了条私信消息，快去看看吧";
-			}
+		case ConstService.MESSAGE_TYPE_SYSTEM: {
+			return "收到一条系统广播";
+		}
+		case ConstService.MESSAGE_TYPE_FOLLOW: {
+			return "有人关注了你，快去看看他是谁";
+		}
+		case ConstService.MESSAGE_TYPE_COMMENT: {
+			return "收到一条评论";
+		}
+		case ConstService.MESSAGE_TYPE_LIKE: {
+			return "有人赞了你的专辑";
+		}
+		case ConstService.MESSAGE_TYPE_FAVORITIES: {
+			return "有人收藏了你的专辑";
+		}
+		case ConstService.MESSAGE_TYPE_AT: {
+			return "有人@了你，快去看看他是谁";
+		}
+		default: {
+			//return "有人给你发了条私信消息，快去看看吧";
+			return "私信消息："+content;
+		}
 		}
 	}
 }

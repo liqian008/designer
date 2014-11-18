@@ -81,7 +81,7 @@ public class AlbumLikeDaoImpl implements IAlbumLikeDao, InitializingBean {
 
     @Override
 	public int updateByCriteria(AlbumLike t, AlbumLikeCriteria criteria) {
-		return albumLikeMapper.updateByExample(t, criteria);
+		return albumLikeMapper.updateByExampleSelective(t, criteria);
 	}
 
 	@Override

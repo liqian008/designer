@@ -87,7 +87,7 @@ public class AlbumFavoriteDaoImpl implements IAlbumFavoriteDao, InitializingBean
 
 	@Override
 	public int updateByCriteria(AlbumFavorite t, AlbumFavoriteCriteria criteria) {
-		return albumFavoriteMapper.updateByExample(t, criteria);
+		return albumFavoriteMapper.updateByExampleSelective(t, criteria);
 	}
 
 	@Override

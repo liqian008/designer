@@ -104,7 +104,12 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 	 */
 	@Override
 	public int sendChatMessage(int fromId, int toId, String content) {
-		return messageDao.sendChatMessage(fromId, toId, content);
+		int result = messageDao.sendChatMessage(fromId, toId, content);
+		if(result>0){
+			//同时push消息，给客户端
+			pushService.pushMessage(fromId, content, 0, fromId, toId);
+		}
+		return result;
 	}
 
 	@Override

@@ -228,7 +228,7 @@ public class MessageDaoImpl implements IMessageDao, InitializingBean {
 	
 	@Override
 	public int updateByCriteria(Message t, MessageCriteria criteria) {
-		return messageMapper.updateByExample(t, criteria);
+		return messageMapper.updateByExampleSelective(t, criteria);
 	}
 
 	@Override

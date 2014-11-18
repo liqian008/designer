@@ -121,7 +121,7 @@ public class AlbumDaoImpl implements IAlbumDao{
 
 	@Override
 	public int updateByCriteria(Album t, AlbumCriteria criteria) {
-		return albumMapper.updateByExample(t, criteria);
+		return albumMapper.updateByExampleSelective(t, criteria);
 	}
 
 	@Override

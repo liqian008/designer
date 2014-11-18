@@ -62,7 +62,7 @@ public class UserFollowDaoImpl implements IUserFollowDao, InitializingBean {
 
 	@Override
 	public int updateByCriteria(UserFollow t, UserFollowCriteria criteria) {
-		return userFollowMapper.updateByExample(t, criteria);
+		return userFollowMapper.updateByExampleSelective(t, criteria);
 	}
 
 	@Override

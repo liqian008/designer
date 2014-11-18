@@ -30,7 +30,7 @@ public class AlbumRecommendDaoImpl implements IAlbumRecommendDao {
 
 	@Override
 	public int updateByCriteria(AlbumRecommend t, AlbumRecommendCriteria criteria) {
-		return albumRecommendMapper.updateByExample(t, criteria);
+		return albumRecommendMapper.updateByExampleSelective(t, criteria);
 	}
 
 	@Override

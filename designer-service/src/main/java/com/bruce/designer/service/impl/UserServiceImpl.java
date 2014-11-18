@@ -325,9 +325,9 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public int setUserPushMask(int userId, long pushMask) {
-		return userDao.setUserPushMask(userId, pushMask);
+		int result =  userDao.setUserPushMask(userId, pushMask);
+		return result;
 	}
-	
 	
 	
 }

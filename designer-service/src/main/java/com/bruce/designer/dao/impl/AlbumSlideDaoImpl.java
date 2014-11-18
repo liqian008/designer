@@ -73,7 +73,7 @@ public class AlbumSlideDaoImpl implements IAlbumSlideDao , InitializingBean {
 
 	@Override
 	public int updateByCriteria(AlbumSlide t, AlbumSlideCriteria criteria) {
-		return albumSlideMapper.updateByExample(t, criteria);
+		return albumSlideMapper.updateByExampleSelective(t, criteria);
 	}
 
 	@Override

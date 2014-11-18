@@ -31,7 +31,7 @@ public class UserPushTokenDaoImpl implements IUserPushTokenDao {
 
 	@Override
 	public int updateByCriteria(UserPushToken t, UserPushTokenCriteria criteria) {
-		return userPushTokenMapper.updateByExample(t, criteria);
+		return userPushTokenMapper.updateByExampleSelective(t, criteria);
 	}
 
 	@Override

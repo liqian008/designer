@@ -227,7 +227,7 @@ public class UserDaoImpl implements IUserDao , InitializingBean {
 		User user = new User();
 		user.setId(userId);
 		user.setPushMask(pushMask);
-		return userMapper.updateByPrimaryKey(user);
+		return userMapper.updateByPrimaryKeySelective(user);
 	}
     
     

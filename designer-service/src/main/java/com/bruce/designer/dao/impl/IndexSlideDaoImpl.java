@@ -30,7 +30,7 @@ public class IndexSlideDaoImpl implements IIndexSlideDao {
 
 	@Override
 	public int updateByCriteria(IndexSlide t, IndexSlideCriteria criteria) {
-		return indexSlideMapper.updateByExample(t, criteria);
+		return indexSlideMapper.updateByExampleSelective(t, criteria);
 	}
 
 	@Override
