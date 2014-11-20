@@ -85,7 +85,8 @@ public class UserPushTokenDaoImpl implements IUserPushTokenDao {
 		}else{
 			//创建token
 			UserPushToken userPushToken = new UserPushToken();
-			userPushToken.setOsType((short)1);
+			userPushToken.setOsType(osType);
+			userPushToken.setStatus((short)1);
 			userPushToken.setUserId(userId);
 			userPushToken.setPushChannelId(pushChannelId);
 			userPushToken.setPushUserId(pushUserId);
