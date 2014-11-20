@@ -71,43 +71,43 @@ public class RecommendAlbumCommand extends AbstractApiCommand implements Initial
 		int limit = 20;
 
 		List<Album> albumList = albumRecommendService.queryRecommendAlbums(limit);
+		if(albumList!=null){
+			// 构造album中的设计师资料 & slide列表
+			Map<Integer, AlbumAuthorInfo> albumAuthorMap = new HashMap<Integer, AlbumAuthorInfo>();
+			for (Album album : albumList) {
+				// 构造专辑的slide列表
+				int albumId = album.getId();
+				List<AlbumSlide> slideList = albumSlideService.querySlidesByAlbumId(albumId);
+				if (slideList != null) {
+					album.setSlideList(slideList);
+				}
+				
+				if(logger.isDebugEnabled()){
+	                logger.debug("MCS加载["+albumId+"]的与用户["+hostId+"]交互数据");
+	                if(hostId>Config.GUEST_ID){//游客无需加载交互数据
+	                	albumService.initAlbumInteractionStatus(album, hostId);
+	                }
+				}
 
-		// 构造album中的设计师资料 & slide列表
-		Map<Integer, AlbumAuthorInfo> albumAuthorMap = new HashMap<Integer, AlbumAuthorInfo>();
-		for (Album album : albumList) {
-			// 构造专辑的slide列表
-			int albumId = album.getId();
-			List<AlbumSlide> slideList = albumSlideService.querySlidesByAlbumId(albumId);
-			if (slideList != null) {
-				album.setSlideList(slideList);
+				// 构造设计师信息
+				int albumAuthorId = album.getUserId();
+				AlbumAuthorInfo authorInfo = null;
+				if (!albumAuthorMap.containsKey(albumAuthorId)) {// 考虑到多个作品的设计师可能是同一个人，因此使用map缓存
+					User designer = userService.loadById(albumAuthorId);
+					String designerAvatar = UploadUtil.getAvatarUrl(albumAuthorId, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+					String designerNickname = designer.getNickname();
+					boolean followed = false;// userGraphService.isFollow(hostId, albumAuthorId);
+					authorInfo = new AlbumAuthorInfo(designerAvatar, designerNickname, followed);
+				} else {
+					authorInfo = albumAuthorMap.get(albumAuthorId);
+				}
+				album.setAuthorInfo(authorInfo);
+				
+				//构造微信分享的对象
+				GenericSharedInfo genericSharedInfo = SharedInfoBuilder.buildGenericSharedInfo(album);
+				album.setGenericSharedInfo(genericSharedInfo);
 			}
-			
-			if(logger.isDebugEnabled()){
-                logger.debug("MCS加载["+albumId+"]的与用户["+hostId+"]交互数据");
-                if(hostId>Config.GUEST_ID){//游客无需加载交互数据
-                	albumService.initAlbumInteractionStatus(album, hostId);
-                }
-			}
-
-			// 构造设计师信息
-			int albumAuthorId = album.getUserId();
-			AlbumAuthorInfo authorInfo = null;
-			if (!albumAuthorMap.containsKey(albumAuthorId)) {// 考虑到多个作品的设计师可能是同一个人，因此使用map缓存
-				User designer = userService.loadById(albumAuthorId);
-				String designerAvatar = UploadUtil.getAvatarUrl(albumAuthorId, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
-				String designerNickname = designer.getNickname();
-				boolean followed = false;// userGraphService.isFollow(hostId, albumAuthorId);
-				authorInfo = new AlbumAuthorInfo(designerAvatar, designerNickname, followed);
-			} else {
-				authorInfo = albumAuthorMap.get(albumAuthorId);
-			}
-			album.setAuthorInfo(authorInfo);
-			
-			//构造微信分享的对象
-			GenericSharedInfo genericSharedInfo = SharedInfoBuilder.buildGenericSharedInfo(album);
-			album.setGenericSharedInfo(genericSharedInfo);
 		}
-
 		rt.put("albumList", albumList);
 		return ResponseBuilderUtil.buildSuccessResult(rt);
 	}

@@ -46,21 +46,30 @@ public class BindPushTokenCommand extends AbstractApiCommand implements Initiali
 
 		String osTypeStr = context.getStringParams().get("osType");
 		short osType = NumberUtils.toShort(osTypeStr, (short)0);
+		String modeStr = context.getStringParams().get("mode");
+		int mode = NumberUtils.toInt(modeStr, 0);
+		
 		
 		String pushChannelIdStr = context.getStringParams().get("pushChannelId");
 		String pushUserIdStr = context.getStringParams().get("pushUserId");
 		if (logger.isDebugEnabled()) {
-			logger.debug("用户[" + hostId + "]绑定pushChannelId[" + pushChannelIdStr + "], pushUserIdStr["+pushUserIdStr+"]");
+			logger.debug("用户[" + hostId + "]绑定mode[" +mode +"], pushChannelId[" + pushChannelIdStr + "], pushUserIdStr["+pushUserIdStr+"]");
 		}
 		
 		long pushChannelId = NumberUtils.toLong(pushChannelIdStr, 0l);
 		if(pushChannelId>0){
-			
-			
-			//bind操作
-			int result = userPushTokenService.enablePushToken(hostId, osType, pushChannelId, pushUserIdStr);
-			if(result>0){
-				return ResponseBuilderUtil.buildSuccessResult(result);
+			if(mode==0){//解绑
+				//unbind操作
+				int result = userPushTokenService.disablePushToken(hostId, osType, pushChannelId, pushUserIdStr);
+				if(result>0){
+					return ResponseBuilderUtil.buildSuccessResult(result);
+				}
+			}else{//绑定
+				//bind操作
+				int result = userPushTokenService.enablePushToken(hostId, osType, pushChannelId, pushUserIdStr);
+				if(result>0){
+					return ResponseBuilderUtil.buildSuccessResult(result);
+				}
 			}
 		}
 		return ResponseBuilderUtil.buildErrorResult();
