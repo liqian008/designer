@@ -131,9 +131,6 @@ public class LatestAlbumCommand extends AbstractApiCommand implements Initializi
 				}
 				album.setAuthorInfo(authorInfo);
 				
-				
-				
-				
 				//构造微信分享的对象
 				GenericSharedInfo genericSharedInfo = SharedInfoBuilder.buildGenericSharedInfo(album);
 				album.setGenericSharedInfo(genericSharedInfo);

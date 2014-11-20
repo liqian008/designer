@@ -143,6 +143,9 @@ public class HotServiceImpl implements IHotService, InitializingBean {
                 return albumList;
             }
     	}
+    	//加载数据项
+        albumService.initAlbumsWithCount(hotAlbumList);
+        albumService.initAlbumsWithTags(hotAlbumList);
     	return hotAlbumList;
     }
     
