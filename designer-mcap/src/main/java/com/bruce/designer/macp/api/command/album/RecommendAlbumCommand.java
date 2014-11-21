@@ -17,7 +17,6 @@ import org.springframework.util.Assert;
 
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.data.GenericSharedInfo;
-import com.bruce.designer.macp.api.Config;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumAuthorInfo;
 import com.bruce.designer.model.AlbumSlide;
@@ -28,6 +27,7 @@ import com.bruce.designer.service.IAlbumSlideService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.SharedInfoBuilder;
 import com.bruce.designer.util.UploadUtil;
+import com.bruce.designer.util.UserUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
 import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
@@ -84,7 +84,7 @@ public class RecommendAlbumCommand extends AbstractApiCommand implements Initial
 				
 				if(logger.isDebugEnabled()){
 	                logger.debug("MCS加载["+albumId+"]的与用户["+hostId+"]交互数据");
-	                if(hostId>Config.GUEST_ID){//游客无需加载交互数据
+	                if(!UserUtil.isGuest(hostId)){//游客无需加载交互数据
 	                	albumService.initAlbumInteractionStatus(album, hostId);
 	                }
 				}

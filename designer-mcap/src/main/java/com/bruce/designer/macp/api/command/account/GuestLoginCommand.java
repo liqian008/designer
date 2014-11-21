@@ -13,8 +13,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.bruce.designer.macp.api.Config;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.util.UserUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
 import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
@@ -41,7 +41,7 @@ public class GuestLoginCommand extends AbstractApiCommand implements Initializin
 
     @Override
     public ApiResult onExecute(ApiCommandContext context) {
-    	int userId = Config.GUEST_ID;
+    	int userId = UserUtil.GUEST_ID;
     	
     	Map<String, Object> paramMap = new HashMap<String, Object>();
 		UserPassport userPassport = new UserPassport();

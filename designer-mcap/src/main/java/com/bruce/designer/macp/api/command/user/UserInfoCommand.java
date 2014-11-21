@@ -70,7 +70,7 @@ public class UserInfoCommand extends AbstractApiCommand implements InitializingB
         	
         	int albumsCount = 0;
         	int fansCount = 0;
-        	//判断是否是设计师
+        	//判断是否是设计师（设计师才有粉丝&专辑数量）
         	if(queryUser!=null&&Short.valueOf(ConstService.DESIGNER_APPLY_APPROVED).equals(queryUser.getDesignerStatus())){
         		albumsCount = (int) albumCounterService.getUserAlbumCount(queryUserId);
         		fansCount = (int) userGraphService.getFanCount(queryUserId);

@@ -5,6 +5,7 @@
 package com.bruce.designer.macp.api.command.message;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.MessageUtil;
 import com.bruce.designer.util.UploadUtil;
+import com.bruce.designer.util.UserUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
 import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
@@ -63,13 +65,17 @@ public class MessageBoxCommand extends AbstractApiCommand implements Initializin
 		if(messageBoxList!=null&&messageBoxList.size()>0){
 			List<Integer> fromIdList = new ArrayList<Integer>();
 			for(Message message: messageBoxList){
-				//非系统广播，先构造fromId列表
-				if(!MessageUtil.isBroadcastMessage(message.getMessageType())){
-					int fromId = message.getFromId();
-					fromIdList.add(fromId);
-					if(MessageUtil.isChatMessage(message.getMessageType())){
-						int chatId = message.getMessageType();
-						fromIdList.add(chatId);
+				if(UserUtil.isGuest(hostId)){//登录者为游客身份
+					message.setCreateTime(new Date());
+				}else{//登录用户身份
+					//非系统广播，先构造fromId列表
+					if(!MessageUtil.isBroadcastMessage(message.getMessageType())){
+						int fromId = message.getFromId();
+						fromIdList.add(fromId);
+						if(MessageUtil.isChatMessage(message.getMessageType())){
+							int chatId = message.getMessageType();
+							fromIdList.add(chatId);
+						}
 					}
 				}
 			}

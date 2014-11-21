@@ -5,11 +5,11 @@
 package com.bruce.designer.macp.api.command.message;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,6 +24,7 @@ import com.bruce.designer.model.User;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.MessageUtil;
+import com.bruce.designer.util.UserUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
 import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
@@ -87,10 +88,14 @@ public class MessageListCommand extends AbstractApiCommand implements Initializi
 
 			List<Integer> fromIdList = new ArrayList<Integer>();
 			for (Message message : messageList) {
-				//非系统广播，先构造fromId列表
-				if (!MessageUtil.isBroadcastMessage(message.getMessageType())) {
-					int fromId = message.getFromId();
-					fromIdList.add(fromId);
+				if(UserUtil.isGuest(hostId)){//登录者为游客身份
+					message.setCreateTime(new Date());
+				}else{//登录用户身份
+					//非系统广播，先构造fromId列表
+					if (!MessageUtil.isBroadcastMessage(message.getMessageType())) {
+						int fromId = message.getFromId();
+						fromIdList.add(fromId);
+					}
 				}
 			}
 			// 获取用户map

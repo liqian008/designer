@@ -15,9 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import com.bruce.designer.macp.api.Config;
 import com.bruce.designer.model.VersionUpdate;
 import com.bruce.designer.service.IVersionUpdateService;
+import com.bruce.designer.util.UserUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
 import com.bruce.foundation.macp.api.entity.VersionCheckResult;
@@ -46,6 +46,8 @@ public class SystemCheckCommand extends AbstractApiCommand implements Initializi
 
     @Override
     public ApiResult onExecute(ApiCommandContext context) {
+    	int hostId = context.getUserId();
+    	
     	Map<String, Object> rt = new HashMap<String, Object>();
     	
     	String channel = context.getStringParams().get("channel");
@@ -71,8 +73,8 @@ public class SystemCheckCommand extends AbstractApiCommand implements Initializi
     	rt.put("versionCheckResult", versionCheckResult);
 
     	boolean needLogin = true;
-    	int userId = context.getUserId();
-    	if(userId>0 && userId!=Config.GUEST_ID){//游客身份
+    	
+    	if(!UserUtil.isGuest(hostId)){//游客身份
     		needLogin = false;
     	}
     	rt.put("needLogin", needLogin);
