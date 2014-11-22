@@ -43,6 +43,17 @@ public interface ConstConfig {
 	
 	/*七牛的bucket*/
 	public static final String UPLOAD_QINIU_BUCKET = ConfigUtil.getString("upload_qiniu_bucket");
-	/*七牛的bucket*/
+	/*七牛的绑定的cname域名*/
 	public static final String UPLOAD_QINIU_BIND_DOMAIN = ConfigUtil.getString("upload_qiniu_bind_domain");
+	
+
+	/*阿里oss开发者的appkey和secretkey*/
+	public static final String UPLOAD_ALI_OSS_APP_KEY= ConfigUtil.getString("upload_ali_oss_appkey");
+	public static final String UPLOAD_ALI_OSS_SECRET_KEY = ConfigUtil.getString("upload_ali_oss_secretkey");
+	
+	/*阿里oss开发者的的bucket*/
+	public static final String UPLOAD_ALI_OSS_BUCKET = ConfigUtil.getString("upload_ali_oss_bucket");
+	/*阿里oss绑定的cname域名*/
+	public static final String UPLOAD_ALI_OSS_BIND_DOMAIN = ConfigUtil.getString("upload_ali_oss_bind_domain");
+	
 }

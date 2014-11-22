@@ -70,7 +70,7 @@ public class RecommendAlbumCommand extends AbstractApiCommand implements Initial
 		
 		int limit = 20;
 
-		List<Album> albumList = albumRecommendService.queryRecommendAlbums(limit);
+		List<Album> albumList = albumRecommendService.queryRecommendAlbums(limit, true, false);
 		if(albumList!=null){
 			// 构造album中的设计师资料 & slide列表
 			Map<Integer, AlbumAuthorInfo> albumAuthorMap = new HashMap<Integer, AlbumAuthorInfo>();

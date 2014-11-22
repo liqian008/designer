@@ -228,7 +228,7 @@ public class AlbumController {
 	    if(logger.isDebugEnabled()){
             logger.debug("查询首页专辑列表");
         }
-		recommendAlbumList = albumRecommendService.queryRecommendAlbums(limit);
+		recommendAlbumList = albumRecommendService.queryRecommendAlbums(limit, true, true);
 
 		if (recommendAlbumList == null || recommendAlbumList.size() == 0) {
 		    if(logger.isDebugEnabled()){

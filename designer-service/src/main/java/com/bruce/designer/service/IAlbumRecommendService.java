@@ -11,6 +11,6 @@ import com.bruce.foundation.service.IFoundationService;
 public interface IAlbumRecommendService extends IFoundationService<AlbumRecommend, Integer, AlbumRecommendCriteria> {
 
 	
-	public List<Album> queryRecommendAlbums(int limit);
+	public List<Album> queryRecommendAlbums(int limit, boolean isLoadCount, boolean isLoadTags);
 	
 }
