@@ -2,19 +2,16 @@ package com.bruce.designer.service.upload.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bruce.designer.constants.ConstConfig;
-import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.model.upload.UploadImageInfo;
 import com.bruce.designer.model.upload.UploadImageResult;
 import com.bruce.designer.service.upload.IUploadService;
 import com.bruce.designer.util.HttpClientUtil;
-import com.bruce.designer.util.ImageUtil;
 import com.bruce.designer.util.UploadUtil;
 
 
@@ -74,12 +71,15 @@ public abstract class AbstractUploadService implements IUploadService {
 	 */
 	public UploadImageResult uploadAvatar(byte[] data, String userId, UploadImageInfo... imageSpecs) throws Exception {
 		// 获取头像存储的绝对、相对路径及文件名
-		String avatarImageName = userId +".jpg";
+//		String avatarImageName = userId +".jpg";
+//		String imageDirPath = UploadUtil.getImagePath(time);//相对路径
+		String newAvatarImageName = UploadUtil.getFileNameWithPlaceHolder(userId, "avatar.jpg", null, System.currentTimeMillis());
+		
 		String avatarDirPath = UploadUtil.getAvatarPath();
 		
 		String absoultImageDirPath = ConstConfig.UPLOAD_PATH_BASE + avatarDirPath;//完整路径
 		String originalImageSpec = "original";
-		File originalImageFile = UploadUtil.saveFile(data, absoultImageDirPath + UploadUtil.FILE_SEPARTOR + originalImageSpec,  avatarImageName);
+		File originalImageFile = UploadUtil.saveFile(data, absoultImageDirPath + UploadUtil.FILE_SEPARTOR + originalImageSpec,  newAvatarImageName);
 		return saveAvatarImage(originalImageFile, avatarDirPath, imageSpecs);
 	}
 	
@@ -91,6 +91,7 @@ public abstract class AbstractUploadService implements IUploadService {
 	 * @return
 	 * @throws IOException
 	 */
+	@Deprecated
 	@Override
 	public UploadImageResult uploadAvatarByUrl(String avatarUrl, String userId, UploadImageInfo... imageSpecs) throws Exception {
 		if(!StringUtils.isBlank(avatarUrl)&&!StringUtils.isBlank(userId)){

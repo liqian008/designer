@@ -20,6 +20,7 @@ import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.model.UserFollow;
 import com.bruce.designer.service.IUserGraphService;
 import com.bruce.designer.util.UploadUtil;
+import com.bruce.designer.util.UserUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
 import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
@@ -74,7 +75,7 @@ public class UserFollowsCommand extends AbstractApiCommand implements Initializi
         			int followId = userFollow.getFollowId();
         			
         			//补全头像信息
-                	String followAvatarUrl = UploadUtil.getAvatarUrl(followId, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+                	String followAvatarUrl = UserUtil.getAvatarUrl(userFollow.getFollowUser(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
                 	userFollow.getFollowUser().setHeadImg(followAvatarUrl);
         			
         			//根据关注人员的名单，抽取关注人员Id以查询关注状态

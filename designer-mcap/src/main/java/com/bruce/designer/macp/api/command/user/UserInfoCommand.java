@@ -20,7 +20,7 @@ import com.bruce.designer.model.User;
 import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.IUserGraphService;
 import com.bruce.designer.service.IUserService;
-import com.bruce.designer.util.UploadUtil;
+import com.bruce.designer.util.UserUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
 import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
@@ -65,7 +65,7 @@ public class UserInfoCommand extends AbstractApiCommand implements InitializingB
         if(queryUser!=null){
         	
         	//补全头像信息
-        	String userAvatarUrl = UploadUtil.getAvatarUrl(queryUserId, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+        	String userAvatarUrl = UserUtil.getAvatarUrl(queryUser, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
         	queryUser.setHeadImg(userAvatarUrl);
         	
         	int albumsCount = 0;

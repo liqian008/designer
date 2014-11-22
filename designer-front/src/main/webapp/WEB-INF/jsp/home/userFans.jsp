@@ -127,7 +127,7 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 															<!-- <img src="<%=contextPath%>/img/icon/icon_1.png"> -->
 															<a href="<%=contextPath%>/<%=fan.getUserId()%>/home">
 																<%
-																String avatarUrl = UploadUtil.getAvatarUrl(fan.getFanId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+																String avatarUrl = UserUtil.getAvatarUrl(fan.getFanUser(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
 																%>
 																<img src="<%=avatarUrl%>"/>
 															</a>

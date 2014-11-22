@@ -39,6 +39,8 @@ import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumFavorite;
 import com.bruce.designer.model.AlbumSlide;
 import com.bruce.designer.model.User;
+import com.bruce.designer.model.upload.UploadImageInfo;
+import com.bruce.designer.model.upload.UploadImageResult;
 import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.IAlbumFavoriteService;
 import com.bruce.designer.service.IAlbumService;
@@ -141,20 +143,26 @@ public class UserSettingsController {
 		if(logger.isDebugEnabled()){
             logger.debug("用户["+user.getId()+"]上传头像");
         }
-		boolean success = true; 
+		int result = 0;
         try {
-			uploadQiniuService.uploadAvatar(file.getBytes(),
+        	UploadImageResult avatarUploadResult = uploadQiniuService.uploadAvatar(file.getBytes(),
 					String.valueOf(user.getId()),
 					IUploadService.AVATAR_SPEC_LARGE,
 					IUploadService.AVATAR_SPEC_MEDIUM,
 					IUploadService.AVATAR_SPEC_SMALL);
+			if(avatarUploadResult!=null){
+				UploadImageInfo uploadImageInfo = avatarUploadResult.getUploadImageMap().get("original");
+				if(uploadImageInfo!=null&&StringUtils.isBlank(uploadImageInfo.getUrl())){
+					//更新用户头像
+					result = userService.updateAvatar(user.getId(), uploadImageInfo.getUrl());
+				}
+			}
         } catch (Exception e) {
-        	success = false;
         	if(logger.isErrorEnabled()){
                 logger.error("用户["+user.getId()+"]上传头像失败", e);
             }
         }
-        if (success) {
+        if (result>0) {
             return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
         } else {
             return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;

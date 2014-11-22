@@ -17,9 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.bruce.designer.model.Album;
-import com.bruce.designer.model.Comment;
-import com.bruce.designer.model.User;
 import com.bruce.designer.annotation.NeedAuthorize;
 import com.bruce.designer.constants.ConstDateFormat;
 import com.bruce.designer.constants.ConstService;
@@ -27,9 +24,17 @@ import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.DesignerHtmlUtils;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
-import com.bruce.designer.service.*;
+import com.bruce.designer.model.Album;
+import com.bruce.designer.model.Comment;
+import com.bruce.designer.model.User;
+import com.bruce.designer.service.IAlbumCommentService;
+import com.bruce.designer.service.IAlbumCounterService;
+import com.bruce.designer.service.IAlbumFavoriteService;
+import com.bruce.designer.service.IAlbumLikeService;
+import com.bruce.designer.service.IAlbumService;
+import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.ConfigUtil;
-import com.bruce.designer.util.UploadUtil;
+import com.bruce.designer.util.UserUtil;
 
 /**
  * 专辑交互Controller
@@ -265,7 +270,7 @@ public class AlbumInteractiveController {
 		StringBuilder sb = new StringBuilder("<li class='comment depth-1' id='li-comment-1'>" +
 				"<div class='comment-container' id='comment-1'><div class='comment-avatar'>" +
 				"<div class='comment-author vcard'>" +
-				"<img src='"+UploadUtil.getAvatarUrl(commentResult.getFromId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"'/>" +
+				"<img src='"+UserUtil.getAvatarUrl(commentResult.getUserHeadImg(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"'/>" +
 				"</div></div>" + 
 				"<div class='comment-body'><div class='comment-meta commentmetadata'>" +
 				"<h6 class='comment-author'>" +

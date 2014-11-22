@@ -6,6 +6,8 @@
 <%@ page import="java.util.*"%>
 <%@ page import="java.text.*"%>
 
+
+<!-- 右侧的用户中心 -->
 <%
 String contextPath = ConstFront.CONTEXT_PATH;
 
@@ -32,7 +34,7 @@ if (queryUser != null) {
 			<li class="clearfix">
 				<div class="widget-blogpost-avatar">
 					<a href="<%=contextPath%>/<%=queryUser.getId()%>/home"><img
-						src="<%=UploadUtil.getAvatarUrl(queryUser.getId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)%>">
+						src="<%=UserUtil.getAvatarUrl(queryUser.getHeadImg(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)%>">
 					</a>
 				</div>
 				<div class="widget-blogpost-content">
@@ -42,9 +44,9 @@ if (queryUser != null) {
 						</p>
 						<%if(isDesigner){ %>
 						<p>专辑数:&nbsp;<span class="albumsCount">0</span>个</p>
-						<p>粉丝数:&nbsp;<span class="fansCount">0</span>个</p>
+						<p>粉丝数:&nbsp;<span class="fansCount">0</span>人</p>
 						<%}%>
-						<p>关注数:&nbsp;<span class="followsCount">0</span>个</p>
+						<p>关注数:&nbsp;<span class="followsCount">0</span>人</p>
 					</div>
 				</div>
 			</li>

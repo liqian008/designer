@@ -7,7 +7,6 @@ package com.bruce.designer.macp.api.command.user;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.logging.Log;
@@ -15,16 +14,11 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 import com.bruce.designer.constants.ConstService;
-import com.bruce.designer.exception.DesignerException;
-import com.bruce.designer.exception.ErrorCode;
-import com.bruce.designer.model.User;
-import com.bruce.designer.model.UserFan;
 import com.bruce.designer.model.UserFan;
 import com.bruce.designer.service.IUserGraphService;
-import com.bruce.designer.util.UploadUtil;
+import com.bruce.designer.util.UserUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
 import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
@@ -74,10 +68,10 @@ public class UserFansCommand extends AbstractApiCommand implements InitializingB
         		UserFan userFan = fanList.get(i);
         		//只取有效用户
         		if(userFan!=null&&userFan.getFanUser()!=null){
-    				int fanId = userFan.getFanId();
+//    				int fanId = userFan.getFanId();
     				
         			//补全头像信息
-                	String fanAvatarUrl = UploadUtil.getAvatarUrl(fanId, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+                	String fanAvatarUrl = UserUtil.getAvatarUrl(userFan.getFanUser(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
                 	userFan.getFanUser().setHeadImg(fanAvatarUrl);
         			
 //        			根据粉丝人员的名单，抽取关注人员Id以查询关注状态

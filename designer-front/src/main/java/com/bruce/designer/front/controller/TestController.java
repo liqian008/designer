@@ -87,7 +87,7 @@ public class TestController {
         }
         // 编辑推荐
         List<Album> recommendAlbumList = albumRecommendService
-                .queryRecommendAlbums(AlbumController.INDEX_RECOMMEND_LIMIT, true, true);
+                .queryRecommendAlbums(AlbumController.INDEX_RECOMMEND_LIMIT, true, true, true);
         model.addAttribute("recommendAlbumList", recommendAlbumList);
         return "testTemplate/indexRecommendTest";
     }

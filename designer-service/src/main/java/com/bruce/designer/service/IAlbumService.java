@@ -24,20 +24,22 @@ public interface IAlbumService extends IFoundationService<Album, Integer, AlbumC
 	public PagingData<Album> pagingQuery(int userId, short albumStatus, int pageNo, int pageSize);
 
 	
-	public List<Album> fallLoadAlbums(int albumsTailId, int limit, boolean isLoadCount, boolean isLoadTags);
+	public List<Album> fallLoadAlbums(int albumsTailId, int limit, boolean isLoadCount, boolean isLoadTags,  boolean isLoadAuthorInfo);
 
-	public List<Album> fallLoadDesignerAlbums(int designerId, int albumsTailId, int limit, boolean isLoadCount, boolean isLoadTags);
+	public List<Album> fallLoadDesignerAlbums(int designerId, int albumsTailId, int limit, boolean isLoadCount, boolean isLoadTags, boolean isLoadAuthorInfo);
 
-	public List<Album> fallLoadUserFollowAlbums(int userId, int albumsTailId, int limit);
+	public List<Album> fallLoadUserFollowAlbums(int userId, int albumsTailId, int limit, boolean isLoadCount, boolean isLoadTags, boolean isLoadAuthorInfo);
 	
 	//根据tagName查询引用的album列表，瀑布流
-	public List<Album> fallLoadAlbumsByTagName(String tagName, int albumsTailId, int limit);
+	public List<Album> fallLoadAlbumsByTagName(String tagName, int albumsTailId, int limit, boolean isLoadCount, boolean isLoadAuthorInfo);
 
 	public void initAlbumsWithCount(List<Album> albumList);
 
 	public void initAlbumWithCount(Album album);
 	
 	public void initAlbumInteractionStatus(Album album, int userId);
+
+	public void initAlbumsWithAuthorInfo(List<Album> albumList);
 
 	public void initAlbumsWithTags(List<Album> albumList);
 
@@ -48,5 +50,6 @@ public interface IAlbumService extends IFoundationService<Album, Integer, AlbumC
 	 * @return
 	 */
 	public List<CountCacheBean> queryUserAlbumCount();
+
 
 }

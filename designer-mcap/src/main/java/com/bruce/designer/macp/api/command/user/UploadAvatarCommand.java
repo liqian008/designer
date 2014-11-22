@@ -7,6 +7,7 @@ package com.bruce.designer.macp.api.command.user;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bruce.designer.model.upload.UploadImageInfo;
 import com.bruce.designer.model.upload.UploadImageResult;
 import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.IUserGraphService;
@@ -72,11 +74,20 @@ public class UploadAvatarCommand extends AbstractApiCommand implements Initializ
 					if (logger.isDebugEnabled()) {
 						logger.debug("上传字节数: "+avatarFile.getBytes()+"字节");
 					}
-					
-					UploadImageResult imageResult = uploadQiniuService.uploadAvatar(avatarFile.getBytes(), String.valueOf(hostId), IUploadService.IMAGE_SPEC_LARGE,
+					int result = 0;
+					UploadImageResult avatarUploadResult = uploadQiniuService.uploadAvatar(avatarFile.getBytes(), String.valueOf(hostId), IUploadService.IMAGE_SPEC_LARGE,
 							IUploadService.IMAGE_SPEC_MEDIUM, IUploadService.IMAGE_SPEC_SMALL);
-					if (imageResult != null) {
-						rt.put("avatar", imageResult.getUploadImageMap());
+					if(avatarUploadResult!=null){
+						UploadImageInfo uploadImageInfo = avatarUploadResult.getUploadImageMap().get("original");
+						if(uploadImageInfo!=null&&!StringUtils.isBlank(uploadImageInfo.getUrl())){
+							//更新用户头像
+							result = userService.updateAvatar(hostId, uploadImageInfo.getUrl());
+						}
+					}
+					System.out.println("上传头像result: "+ result);
+					
+					if (result>0) {
+						rt.put("avatar", avatarUploadResult.getUploadImageMap());
 						return ResponseBuilderUtil.buildSuccessResult(rt);
 					}
 				} catch (Exception e) {

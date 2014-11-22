@@ -20,6 +20,9 @@ public interface IUserDao extends IFoundationDao<User, Integer, UserCriteria> {
 
 	public List<User> queryUsersByStatus(short status);
 	
+	public int updateAvatar(int userId, String avatarUrl);
+
+	
 	/*获取用户的push选项*/
     public long getUserPushMask(int userId);
     /*设置用户的push选项*/
@@ -42,4 +45,5 @@ public interface IUserDao extends IFoundationDao<User, Integer, UserCriteria> {
 
 	public List<User> fallLoadDesignerList(long approvelTailTime, int limit);
 
+	
 }

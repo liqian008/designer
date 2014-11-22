@@ -82,9 +82,9 @@ public class UploadQiniuServiceImpl extends AbstractUploadService{
 		String uptoken = putPolicy.token(mac);
 		
 		try{
-			// 先检查文件是否存在，存在则删除（TODO 存在则替换）
-			RSClient client = new RSClient(mac);
-			client.delete(ConstConfig.UPLOAD_QINIU_BUCKET, fileKey);
+//			头像文件名不重复，因此无需删除文件了
+//			RSClient client = new RSClient(mac);
+//			client.delete(ConstConfig.UPLOAD_QINIU_BUCKET, fileKey);
 			
 			// key是上传内容对应的标识，可设置为习惯的目录形式
 			PutRet ret = null;
@@ -92,11 +92,11 @@ public class UploadQiniuServiceImpl extends AbstractUploadService{
 				ret = IoApi.putFile(uptoken, fileKey, localRealPath, new PutExtra());
 				if (ret.ok()){
 					String resultKey = ret.getKey();
-					System.out.println(resultKey);
+					//System.out.println(resultKey);
 					return resultKey;
 				}
 		}catch(Exception e){
-			e.printStackTrace();
+//			e.printStackTrace();
 //			logger.error("删除七牛图片失败", e);
 			logger.error("上传七牛失败！", e);
 		}

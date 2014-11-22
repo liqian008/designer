@@ -15,9 +15,6 @@ import java.util.Date;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.FileCopyUtils;
 
-import com.bruce.designer.constants.ConstConfig;
-import com.bruce.designer.constants.ConstService;
-
 /**
  * 
  * @author liqian
@@ -189,23 +186,24 @@ public class UploadUtil {
 		return getBaseUrl()  + UploadUtil.FILE_SEPARTOR + dictionary + UploadUtil.FILE_SEPARTOR + filename;
     }
     
-    /**
-     * 获取头像链接
-     * @param userId
-     * @param avatarType
-     * @return
-     */
-    public static String getAvatarUrl(int userId, String avatarType){
-    	int width = 200;
-    	if(ConstService.UPLOAD_IMAGE_SPEC_MEDIUM.equals(avatarType)){//中头像
-    		width = 100;
-    	}else if(ConstService.UPLOAD_IMAGE_SPEC_SMALL.equals(avatarType)){//小头像
-    		width = 50;
-    	}
-    	String avatarDirPath = UploadUtil.getAvatarPath();
-    	String originUrl = ConstConfig.UPLOAD_QINIU_BIND_DOMAIN + "/" + avatarDirPath + "/" + userId +".jpg";
-    	return QiniuUtil.getScaleImage(originUrl, width);
-    }
+    
+//    /**
+//     * 获取头像链接
+//     * @param userId
+//     * @param avatarType
+//     * @return
+//     */
+//    public static String getAvatarUrl(int userId, String avatarType){
+//    	int width = 200;
+//    	if(ConstService.UPLOAD_IMAGE_SPEC_MEDIUM.equals(avatarType)){//中头像
+//    		width = 100;
+//    	}else if(ConstService.UPLOAD_IMAGE_SPEC_SMALL.equals(avatarType)){//小头像
+//    		width = 50;
+//    	}
+//    	String avatarDirPath = UploadUtil.getAvatarPath();
+//    	String originUrl = ConstConfig.UPLOAD_QINIU_BIND_DOMAIN + "/" + avatarDirPath + "/" + userId +".jpg";
+//    	return QiniuUtil.getScaleImage(originUrl, width);
+//    }
     
     
     

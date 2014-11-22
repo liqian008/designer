@@ -20,7 +20,7 @@ import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IHotService;
 import com.bruce.designer.service.IUserService;
-import com.bruce.designer.util.UploadUtil;
+import com.bruce.designer.util.UserUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
 import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
@@ -67,7 +67,7 @@ public class HotDesignersCommand extends AbstractApiCommand implements Initializ
 		}else{
 			//构造album中的设计师资料 & slide列表
 			for(User designer: hotDesignerList){
-				String designerAvatar = UploadUtil.getAvatarUrl(designer.getId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+				String designerAvatar = UserUtil.getAvatarUrl(designer, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
 				designer.setHeadImg(designerAvatar);
 			}
 		}

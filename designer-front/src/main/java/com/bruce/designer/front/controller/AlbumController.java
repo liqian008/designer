@@ -228,7 +228,7 @@ public class AlbumController {
 	    if(logger.isDebugEnabled()){
             logger.debug("查询首页专辑列表");
         }
-		recommendAlbumList = albumRecommendService.queryRecommendAlbums(limit, true, true);
+		recommendAlbumList = albumRecommendService.queryRecommendAlbums(limit, true, true, true);
 
 		if (recommendAlbumList == null || recommendAlbumList.size() == 0) {
 		    if(logger.isDebugEnabled()){
@@ -256,13 +256,13 @@ public class AlbumController {
 	            logger.debug("查询设计师专辑列表");
 	        }
 			limit = HOME_LIMIT;
-			albumList = albumService.fallLoadDesignerAlbums(designerId, tailId, limit + 1, true, true);
+			albumList = albumService.fallLoadDesignerAlbums(designerId, tailId, limit + 1, true, true, true);
 		} else {//首页全屏类型
 		    if(logger.isDebugEnabled()){
                 logger.debug("查询首页专辑列表");
             }
 			limit = FULL_LIMIT;
-			albumList = albumService.fallLoadAlbums(tailId, limit + 1,  true,  true);
+			albumList = albumService.fallLoadAlbums(tailId, limit + 1,  true,  true, true);
 		}
 
 		int nextTailId = 0;
@@ -300,7 +300,7 @@ public class AlbumController {
 
 		int limit = HOME_LIMIT;
 		//获取关注列表
-		List<Album> albumList = albumService.fallLoadUserFollowAlbums(userId, albumsTailId, limit + 1);
+		List<Album> albumList = albumService.fallLoadUserFollowAlbums(userId, albumsTailId, limit + 1, true, true, true);
 		int nextTailId = 0;
 
 		if (albumList == null || albumList.size() == 0) {
@@ -334,7 +334,7 @@ public class AlbumController {
 	    
 	    int limit = HOME_LIMIT;
 		List<Album> albumList = null;
-		albumList = albumService.fallLoadAlbumsByTagName(tagName, tailId, limit + 1);
+		albumList = albumService.fallLoadAlbumsByTagName(tagName, tailId, limit + 1, true, true);
 
 		int nextTailId = 0;
 		if (albumList == null || albumList.size() == 0) {
@@ -423,9 +423,9 @@ public class AlbumController {
 //		int designerId = NumberUtils.toInt(request.getParameter("designerId"));
 		List<Album> albumList = null;
 		if (designerId > 0) {
-			albumList = albumService.fallLoadDesignerAlbums(designerId, tailId, limit, false, false);
+			albumList = albumService.fallLoadDesignerAlbums(designerId, tailId, limit, false, false, true);
 		} else {
-			albumList = albumService.fallLoadAlbums(tailId, limit,  false, false);
+			albumList = albumService.fallLoadAlbums(tailId, limit,  false, false, true);
 		}
 		if (albumList == null || albumList.size() == 0) {
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_NO_MORE_DATA));

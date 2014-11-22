@@ -137,7 +137,7 @@ public class WeixinService {
 
 		List<Album> albumList = null;
 		if (albumType == 1) {
-			albumList = albumService.fallLoadAlbums(0, 3, false, false);
+			albumList = albumService.fallLoadAlbums(0, 3, false, false, false);
 		} else {
 			albumList = hotService.fallLoadHotAlbums(IHotService.DAILY_FLAG, ConstFront.HOT_ALBUM_WEIXIN_LIMIT);
 		}

@@ -1,7 +1,9 @@
 package com.bruce.designer.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,9 @@ import com.bruce.designer.data.PagingData;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.model.Album;
+import com.bruce.designer.model.AlbumAuthorInfo;
 import com.bruce.designer.model.AlbumCriteria;
+import com.bruce.designer.model.User;
 import com.bruce.designer.model.UserFollow;
 import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.IAlbumFavoriteService;
@@ -23,12 +27,16 @@ import com.bruce.designer.service.IAlbumSlideService;
 import com.bruce.designer.service.ITagAlbumService;
 import com.bruce.designer.service.ITagService;
 import com.bruce.designer.service.IUserGraphService;
+import com.bruce.designer.service.IUserService;
+import com.bruce.designer.util.UserUtil;
 
 @Service
 public class AlbumServiceImpl implements IAlbumService {
 
 	@Autowired
 	private IAlbumDao albumDao;
+	@Autowired
+	private IUserService userService;
 	@Autowired
 	private IAlbumSlideService albumSlideService;
 	@Autowired
@@ -134,12 +142,13 @@ public class AlbumServiceImpl implements IAlbumService {
 			List<Album> albumList = pagingData.getPagingData();
 			initAlbumsWithCount(albumList);
 			initAlbumsWithTags(albumList);
+			initAlbumsWithAuthorInfo(albumList);
 		}
 		return pagingData;
 	}
 	
 	@Override
-	public List<Album> fallLoadAlbums(int albumsTailId, int limit, boolean isLoadCount, boolean isLoadTags) {
+	public List<Album> fallLoadAlbums(int albumsTailId, int limit, boolean isLoadCount, boolean isLoadTags, boolean isLoadAuthorInfo) {
 		List<Album> albumList = albumDao.fallLoadList(albumsTailId, limit);
 		//加载访问计数
 		if(isLoadCount){
@@ -149,14 +158,19 @@ public class AlbumServiceImpl implements IAlbumService {
 		if (isLoadTags) {
 			initAlbumsWithTags(albumList);
 		}
+		//加载作者信息
+		if (isLoadAuthorInfo) {
+			initAlbumsWithAuthorInfo(albumList);
+		}
 		return albumList;
 	}
 
 	@Override
-	public List<Album> fallLoadDesignerAlbums(int designerId, int albumsTailId, int limit, boolean isLoadCount, boolean isLoadTags) {
+	public List<Album> fallLoadDesignerAlbums(int designerId, int albumsTailId, int limit, boolean isLoadCount, boolean isLoadTags, boolean isLoadAuthorInfo) {
 		List<Integer> designerIdList = new ArrayList<Integer>();
 		designerIdList.add(designerId);
 		List<Album> albumList = albumDao.fallLoadDesignerAlbums(designerIdList, albumsTailId, limit);
+		
 		//加载访问计数
 		if(isLoadCount){
 			initAlbumsWithCount(albumList);
@@ -165,6 +179,12 @@ public class AlbumServiceImpl implements IAlbumService {
 		if (isLoadTags) {
 			initAlbumsWithTags(albumList);
 		}
+		
+		//加载专辑作者信息
+		if(isLoadAuthorInfo){
+			initAlbumsWithAuthorInfo(albumList);
+		}
+		
 		return albumList;
 	}
 
@@ -177,7 +197,8 @@ public class AlbumServiceImpl implements IAlbumService {
 	 * @return
 	 */
 	@Override
-	public List<Album> fallLoadUserFollowAlbums(int userId, int albumsTailId, int limit) {
+	public List<Album> fallLoadUserFollowAlbums(int userId, int albumsTailId, int limit, boolean isLoadCount, boolean isLoadTags, boolean isLoadAuthorInfo) {
+		
 		//获取关注id列表
 		List<UserFollow> followList = userGraphService.getFollowList(userId);
 		if (followList != null && followList.size() > 0) {
@@ -187,8 +208,19 @@ public class AlbumServiceImpl implements IAlbumService {
 			}
 			//根据关注id列表瀑布流加载专辑
 			List<Album> albumList = albumDao.fallLoadDesignerAlbums(designerIdList, albumsTailId, limit);
-			initAlbumsWithCount(albumList);
-			initAlbumsWithTags(albumList);
+			//加载访问计数
+			if(isLoadCount){
+				initAlbumsWithCount(albumList);
+			}
+			//加载作品tags
+			if (isLoadTags) {
+				initAlbumsWithTags(albumList);
+			}
+			
+			//加载专辑作者信息
+			if(isLoadAuthorInfo){
+				initAlbumsWithAuthorInfo(albumList);
+			}
 			return albumList;
 		}
 		return null;
@@ -208,7 +240,7 @@ public class AlbumServiceImpl implements IAlbumService {
 	 */
 	@Override
 	// TODO 修改接口，去掉tagName，改为tagId
-	public List<Album> fallLoadAlbumsByTagName(String tagName, int albumsTailId, int limit) {
+	public List<Album> fallLoadAlbumsByTagName(String tagName, int albumsTailId, int limit, boolean isLoadCount, boolean isLoadAuthorInfo) {
 		int tagId = tagService.getTagIdByName(tagName, false);
 		if(tagId>0){
 			List<Album> albumList = null;
@@ -217,6 +249,14 @@ public class AlbumServiceImpl implements IAlbumService {
 			if (albumIdList != null && albumIdList.size() > 0) {
 				albumList = queryAlbumByIds(albumIdList);
 				initAlbumsWithTags(albumList);
+				//加载访问计数
+				if(isLoadCount){
+					initAlbumsWithCount(albumList);
+				}
+				//加载作者信息
+				if (isLoadAuthorInfo) {
+					initAlbumsWithAuthorInfo(albumList);
+				}
 			}
 			return albumList;
 		}
@@ -231,6 +271,37 @@ public class AlbumServiceImpl implements IAlbumService {
 		return albumDao.queryAlbumByUserId(userId);
 	}
 
+	
+	/**
+	 * 初始化专辑作者信息
+	 * 
+	 * @param albumList
+	 */
+	@Override
+	public void initAlbumsWithAuthorInfo(List<Album> albumList) {
+		if (albumList != null && albumList.size() > 0) {
+			//构造album中的设计师资料 & slide列表
+			Map<Integer, AlbumAuthorInfo> albumAuthorMap = new HashMap<Integer, AlbumAuthorInfo>();
+			for (Album album : albumList) {
+				//构造设计师信息
+				int albumAuthorId = album.getUserId();
+				AlbumAuthorInfo authorInfo = null;
+				if(!albumAuthorMap.containsKey(albumAuthorId)){//考虑到多个作品的设计师可能是同一个人，因此使用map缓存
+					User designer = userService.loadById(albumAuthorId);
+					String designerAvatar = UserUtil.getAvatarUrl(designer, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+					String designerNickname = designer.getNickname();
+					boolean followed = false;//userGraphService.isFollow(hostId, albumAuthorId);
+					authorInfo = new AlbumAuthorInfo(designerAvatar, designerNickname, followed);
+					albumAuthorMap.put(albumAuthorId, authorInfo);
+				}else{
+					authorInfo = albumAuthorMap.get(albumAuthorId);
+				}
+				album.setAuthorInfo(authorInfo);
+			}
+		}
+	}
+
+	
 	/**
 	 * 加载专辑的tag标签
 	 * 

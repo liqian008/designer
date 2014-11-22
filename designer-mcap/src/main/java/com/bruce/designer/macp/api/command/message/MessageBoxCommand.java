@@ -23,7 +23,7 @@ import com.bruce.designer.model.User;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.MessageUtil;
-import com.bruce.designer.util.UploadUtil;
+import com.bruce.designer.util.UserUtil;
 import com.bruce.designer.util.UserUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
@@ -91,7 +91,7 @@ public class MessageBoxCommand extends AbstractApiCommand implements Initializin
 					User fromUser = fromUserMap.get(fromId);
 					if(fromUser!=null){
 						message.setFromUser(fromUser);
-						String fromAvatarUrl = UploadUtil.getAvatarUrl(fromId, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+						String fromAvatarUrl = UserUtil.getAvatarUrl(fromUser, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
 						fromUser.setHeadImg(fromAvatarUrl);
 					}
 					if(MessageUtil.isChatMessage(message.getMessageType())){
@@ -99,7 +99,7 @@ public class MessageBoxCommand extends AbstractApiCommand implements Initializin
 						User chatUser = fromUserMap.get(chatId);
 						if(chatUser!=null){
 							message.setChatUser(chatUser);
-							String chatAvatarUrl = UploadUtil.getAvatarUrl(chatId, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+							String chatAvatarUrl = UserUtil.getAvatarUrl(chatUser, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
 							chatUser.setHeadImg(chatAvatarUrl);
 						}
 					}

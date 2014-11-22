@@ -1,11 +1,9 @@
 package com.bruce.designer.service.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -128,6 +126,17 @@ public class UserServiceImpl implements IUserService {
         return userMap;
     }
 	
+    @Override
+	public int updateAvatar(int userId, String avatarUrl) {
+		int result = userDao.updateAvatar(userId, avatarUrl);
+		if(result>0){
+			//清空用户cache
+			userCache.deleteUser(userId);
+		}
+		return result;
+	}
+	
+    
 	/**
 	 * 检查用户exists
 	 * @param username
@@ -299,14 +308,16 @@ public class UserServiceImpl implements IUserService {
 	public int registerByOauth(User user, String thirdpartyAvatar) {
 		//先保存用户，以获取userId
 		int result =  save(user);
-		if(!StringUtils.isBlank(thirdpartyAvatar)&&user.getId()!=null&&user.getId()>0){
-			//保存用户头像
-			try {
-				uploadQiniuService.uploadAvatarByUrl(thirdpartyAvatar, String.valueOf(user.getId()));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		
+		//修改头像策略，直接使用第三方账户系统的头像链接
+//		if(!StringUtils.isBlank(thirdpartyAvatar)&&user.getId()!=null&&user.getId()>0){
+//			//保存用户头像
+//			try {
+//				uploadQiniuService.uploadAvatarByUrl(thirdpartyAvatar, String.valueOf(user.getId()));
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
 		if(result>0){
 			String welcomeMessage = ConfigUtil.getString("welcome_message");
 			//TODO发送系统欢迎消息
@@ -328,6 +339,7 @@ public class UserServiceImpl implements IUserService {
 		int result =  userDao.setUserPushMask(userId, pushMask);
 		return result;
 	}
+
 	
 	
 }

@@ -130,7 +130,7 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 															<!-- <img src="<%=contextPath%>/img/icon/icon_1.png"> -->
 															<a href="<%=contextPath%>/<%=follow.getFollowId()%>/home">
 																<%
-																String avatarUrl = UploadUtil.getAvatarUrl(follow.getFollowId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+																String avatarUrl = UserUtil.getAvatarUrl(follow.getFollowUser(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
 																%>
 																<img src="<%=avatarUrl%>"/>
 															</a>

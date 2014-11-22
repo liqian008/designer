@@ -27,7 +27,6 @@ import com.bruce.designer.service.IAlbumSlideService;
 import com.bruce.designer.service.IHotService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.SharedInfoBuilder;
-import com.bruce.designer.util.UploadUtil;
 import com.bruce.designer.util.UserUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
@@ -102,7 +101,7 @@ public class HotAlbumsCommand extends AbstractApiCommand implements Initializing
 				AlbumAuthorInfo authorInfo = null;
 				if(!albumAuthorMap.containsKey(albumAuthorId)){//考虑到多个作品的设计师可能是同一个人，因此使用map缓存
 					User designer = userService.loadById(albumAuthorId);
-					String designerAvatar = UploadUtil.getAvatarUrl(albumAuthorId, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+					String designerAvatar = UserUtil.getAvatarUrl(designer, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
 					String designerNickname = designer.getNickname();
 					boolean followed = false;//userGraphService.isFollow(hostId, albumAuthorId);
 					authorInfo = new AlbumAuthorInfo(designerAvatar, designerNickname, followed);

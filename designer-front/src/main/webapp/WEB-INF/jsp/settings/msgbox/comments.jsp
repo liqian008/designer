@@ -112,7 +112,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 													<div class="message-avatar">
 														<div class="message-author vcard">
 															<%
-															String avatarUrl = UploadUtil.getAvatarUrl(message.getFromId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+															String avatarUrl = UserUtil.getAvatarUrl(message.getFromUser(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
 															%>
 															<img src="<%=avatarUrl%>"/>
 														</div>

@@ -49,7 +49,7 @@ public class AlbumRecommendServiceImpl implements IAlbumRecommendService{
 
 
 	@Override
-	public List<Album> queryRecommendAlbums(int limit, boolean isLoadCount, boolean isLoadTags){
+	public List<Album> queryRecommendAlbums(int limit, boolean isLoadCount, boolean isLoadTags, boolean isLoadAuthorInfo){
 		List<Integer> albumIdList = null;
 		List<AlbumRecommend> dataList = albumRecommendDao.queryAll(limit);
 		if(dataList!=null&&dataList.size()>0){
@@ -68,6 +68,10 @@ public class AlbumRecommendServiceImpl implements IAlbumRecommendService{
 			//加载作品tags
 			if (isLoadTags) {
 				albumService.initAlbumsWithTags(albumList);
+			}
+			//加载作品tags
+			if (isLoadAuthorInfo) {
+				albumService.initAlbumsWithAuthorInfo(albumList);
 			}
 			return albumList;
 		}

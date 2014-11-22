@@ -12,10 +12,14 @@ public interface IUserService extends IFoundationService<User, Integer, UserCrit
 	/*使用oauth方式注册用户*/
 	public int registerByOauth(User user, String thirdpartyAvatar);
 	
-	 public List<User> queryUsersByStatus(short status);
-	 public List<User> queryAllDesigners();
-	 public List<User> queryDesignersByStatus(short status);
+	public List<User> queryUsersByStatus(short status);
 
+	public List<User> queryAllDesigners();
+
+	public List<User> queryDesignersByStatus(short status);
+	
+	/*更新用户头像*/
+	public int updateAvatar(int userId, String avatarUrl);
 	
 	/**
 	 * 根据idList加载用户

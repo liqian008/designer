@@ -2,6 +2,7 @@ package com.bruce.designer.front.util;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import com.bruce.designer.constants.ConstDateFormat;
@@ -14,7 +15,7 @@ import com.bruce.designer.model.Message;
 import com.bruce.designer.model.Tag;
 import com.bruce.designer.model.User;
 import com.bruce.designer.util.DesignerLinkUtil;
-import com.bruce.designer.util.UploadUtil;
+import com.bruce.designer.util.UserUtil;
 
 /**
  * html工具，用于ajax
@@ -125,17 +126,21 @@ public class DesignerHtmlUtils {
 		sb.append("</li>");
 
 		sb.append("<li><span>价 格:</span>" + album.getPrice() + " 元</li>");
-		sb.append("<li><a href='"+ConstFront.CONTEXT_PATH+"/album/" + album.getId() + "'>" + album.getBrowseCount() + "&nbsp;浏览&nbsp;</a>/&nbsp;");
-		sb.append("<a href='"+ConstFront.CONTEXT_PATH+"/album/" + album.getId() + "'>" + album.getCommentCount() + "&nbsp;评论&nbsp;</a>/&nbsp;");
-		sb.append("<a href='"+ConstFront.CONTEXT_PATH+"/album/" + album.getId() + "'>" + album.getLikeCount() + "&nbsp;赞&nbsp;</a>/&nbsp;");
-		sb.append("<a href='"+ConstFront.CONTEXT_PATH+"/album/" + album.getId() + "'>" + album.getFavoriteCount() + "&nbsp;收藏&nbsp;</a>");
+		sb.append("<li><a href='"+DesignerLinkUtil.getAlbumLink4Web(album.getId()) + "'>" + album.getBrowseCount() + "&nbsp;浏览&nbsp;</a>/&nbsp;");
+		sb.append("<a href='"+DesignerLinkUtil.getAlbumLink4Web(album.getId()) + "'>" + album.getCommentCount() + "&nbsp;评论&nbsp;</a>/&nbsp;");
+		sb.append("<a href='"+DesignerLinkUtil.getAlbumLink4Web(album.getId()) + "'>" + album.getLikeCount() + "&nbsp;赞&nbsp;</a>/&nbsp;");
+		sb.append("<a href='"+DesignerLinkUtil.getAlbumLink4Web(album.getId()) + "'>" + album.getFavoriteCount() + "&nbsp;收藏&nbsp;</a>");
 		sb.append("</li> ");
 		sb.append("</ul>");
 		sb.append("</div>");
 		sb.append("<div class='content-avatar'>");
 		String userLink = DesignerLinkUtil.getUserLink4Web(album.getUserId());
 		sb.append("<a href='"+ userLink + "'>"); 
-		sb.append("<img src='"+UploadUtil.getAvatarUrl(album.getUserId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"' width='100%'/>");
+		String designerAvatarUrl = "";
+		if(album.getAuthorInfo()!=null&&!StringUtils.isBlank(album.getAuthorInfo().getDesignerAvatar())){
+			designerAvatarUrl = album.getAuthorInfo().getDesignerAvatar();
+		}
+		sb.append("<img src='"+UserUtil.getAvatarUrl(designerAvatarUrl, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"' width='100%'/>");
 		sb.append("</a>");
 		sb.append("</div>");
 		sb.append("</article>");
@@ -144,8 +149,6 @@ public class DesignerHtmlUtils {
 		}
 		return sb.toString();
 	}
-	
-	
 	
 	/**
 	 * 生成边栏的专辑html
@@ -177,7 +180,7 @@ public class DesignerHtmlUtils {
             StringBuilder sb = new StringBuilder();
             for (User designer : designerList) {
             	String userLink = DesignerLinkUtil.getUserLink4Web(designer.getId());
-                sb.append("<li class='social-icons-facebook-icon'><a href='"+userLink+"'><img src='"+UploadUtil.getAvatarUrl(designer.getId(), ConstService.UPLOAD_IMAGE_SPEC_LARGE)+"' alt='"+designer.getNickname()+"' /></a></li>");
+                sb.append("<li class='social-icons-facebook-icon'><a href='"+userLink+"'><img src='"+UserUtil.getAvatarUrl(designer, ConstService.UPLOAD_IMAGE_SPEC_LARGE)+"' alt='"+designer.getNickname()+"' /></a></li>");
             }
             return sb.toString();
         }
@@ -254,7 +257,7 @@ public class DesignerHtmlUtils {
 				sb.append("<li class='comment depth-1' id='li-comment-1'>" + 
 						"<div class='comment-container' id='comment-1'><div class='comment-avatar'>"
 						+ "<div class='comment-author vcard'>" + "<a href='"+userLink+"'>" +
-								"<img src='"+UploadUtil.getAvatarUrl(comment.getFromId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"'/></a>" + "</div></div>"
+								"<img src='"+UserUtil.getAvatarUrl(comment.getUserHeadImg(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"'/></a>" + "</div></div>"
 						+ "<div class='comment-body'><div class='comment-meta commentmetadata'>" + "<h6 class='comment-author'>"
 						+ "<a href='"+userLink+"' rel='external nofollow' class='url'>" + comment.getNickname() + "</a> 发表于 "
 						+ DateFormatUtils.format(comment.getCreateTime(), ConstDateFormat.YYYYMMDD_HHMM_FORMAT) + "</h6></div>"

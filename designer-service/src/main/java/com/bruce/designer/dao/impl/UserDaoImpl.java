@@ -54,6 +54,14 @@ public class UserDaoImpl implements IUserDao , InitializingBean {
         return null;
     } 
 	
+	@Override
+	public int updateAvatar(int userId, String avatarUrl) {
+		User user = new User();
+		user.setId(userId);
+		user.setHeadImg(avatarUrl);
+		return userMapper.updateByPrimaryKeySelective(user);
+	}
+	
 	/**
 	 * 检查username是否存在
 	 * @param username
@@ -216,7 +224,7 @@ public class UserDaoImpl implements IUserDao , InitializingBean {
 	@Override
 	public long getUserPushMask(int userId) {
 		User user = loadById(userId);
-		if(user!=null){
+		if(user!=null&&user.getPushMask()!=null){
 			return user.getPushMask();
 		}
 		return 0l;

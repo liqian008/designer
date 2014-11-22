@@ -26,7 +26,6 @@ import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.SharedInfoBuilder;
-import com.bruce.designer.util.UploadUtil;
 import com.bruce.designer.util.UserUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
@@ -69,7 +68,7 @@ public class FollowAlbumCommand extends AbstractApiCommand implements Initializi
 
 		int limit = 20;
 		//获取关注列表
-		List<Album> albumList = albumService.fallLoadUserFollowAlbums(hostId, fromTailId, limit + 1);
+		List<Album> albumList = albumService.fallLoadUserFollowAlbums(hostId, fromTailId, limit + 1, true, true, true);
 		int newTailId = 0;
 
 		if (albumList == null || albumList.size() == 0) {
@@ -109,7 +108,7 @@ public class FollowAlbumCommand extends AbstractApiCommand implements Initializi
 				AlbumAuthorInfo authorInfo = null;
 				if(!albumAuthorMap.containsKey(designerId)){//考虑到多个作品的设计师可能是同一个人，因此使用map缓存
 					User designer = userService.loadById(designerId);
-					String designerAvatar = UploadUtil.getAvatarUrl(designerId, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+					String designerAvatar = UserUtil.getAvatarUrl(designer, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
 					String designerNickname = designer.getNickname();
 					boolean followed = true;
 					authorInfo = new AlbumAuthorInfo(designerAvatar, designerNickname, followed);

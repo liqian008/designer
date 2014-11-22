@@ -25,7 +25,7 @@ if (currentUser != null) {
 			<li class="clearfix">
 				<div class="widget-blogpost-avatar">
 					<a href="<%=contextPath%>/settings/avatar" title="点击修改头像">
-						<img src="<%=UploadUtil.getAvatarUrl(currentUser.getId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)%>" alt="点击修改头像">
+						<img src="<%=UserUtil.getAvatarUrl(currentUser.getHeadImg(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)%>" alt="点击修改头像">
 					</a> 
 				</div>
 				<div class="widget-blogpost-content">
@@ -35,7 +35,7 @@ if (currentUser != null) {
 						</p>
 						<%if(isDesigner){ %>
 						<p>专辑数:&nbsp;<span class="albumsCount">0</span>个</p>
-						<p>粉丝数:&nbsp;<span class="fansCount">0</span>个</p>
+						<p>粉丝数:&nbsp;<span class="fansCount">0</span>人</p>
 						
 						<script>
 						//初始化加载用户资料&状态

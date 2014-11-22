@@ -233,6 +233,7 @@ public class OAuthController {
 		user.setUsername(username.trim());
 		user.setNickname(nickname.trim());
 		user.setPassword(password.trim());
+		user.setHeadImg(thirdpartyAvatar);//取第三方头像
 		Date currentTime = new Date();
 		user.setCreateTime(currentTime);
 		user.setUpdateTime(currentTime);

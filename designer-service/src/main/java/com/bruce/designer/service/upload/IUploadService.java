@@ -42,11 +42,12 @@ public interface IUploadService{
 	
 	
 	/**
-	 * 使用网络图片来更新头像（保存原始头像文件）
+	 * 下载并保存网络图片作为头像（已废弃，直接使用外部url，不再单存储图片了）
 	 * @param bytes
 	 * @return
 	 * @throws IOException 
 	 */
+	@Deprecated
 	public UploadImageResult uploadAvatarByUrl(String avatarUrl, String userId, UploadImageInfo... imageSpecs) throws Exception;
 	
 	

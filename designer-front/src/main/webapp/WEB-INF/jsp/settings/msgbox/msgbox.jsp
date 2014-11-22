@@ -124,9 +124,10 @@ User user = (User) session.getAttribute(ConstFront.CURRENT_USER);
 															<div class="message-author vcard">
 																<%if(MessageUtil.isChatMessage(message.getMessageType())){ %>
 																<a href="<%=contextPath%>/<%=message.getFromId()%>/home" target="_blank">
-																<img
-																	src="<%=contextPath%>/staticFile/avatar/50/<%=message.getMessageType()%>.jpg"/>
-																</a>
+																<%
+																String avatarUrl = UserUtil.getAvatarUrl(message.getFromUser(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+																%>
+																<img src="<%=avatarUrl%>"/>
 																<%}else{ %>
 																<img
 																	src="<%=contextPath%>/img/icon/icon_<%=message.getMessageType()%>.png"/>

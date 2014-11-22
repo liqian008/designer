@@ -26,7 +26,6 @@ import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.util.SharedInfoBuilder;
-import com.bruce.designer.util.UploadUtil;
 import com.bruce.designer.util.UserUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
@@ -80,9 +79,9 @@ public class LatestAlbumCommand extends AbstractApiCommand implements Initializi
         }
 		int limit = 5;
 		if(designerId>0){//加载指定设计师的专辑内容
-			albumList = albumService.fallLoadDesignerAlbums(designerId, fromTailId, limit + 1,  true, false);
+			albumList = albumService.fallLoadDesignerAlbums(designerId, fromTailId, limit + 1,  true, false, true);
 		}else{//加载所有的专辑内容
-			albumList = albumService.fallLoadAlbums(fromTailId, limit + 1,  true, false);
+			albumList = albumService.fallLoadAlbums(fromTailId, limit + 1,  true, false, true);
 		}
 
 		int newTailId = 0;
@@ -101,7 +100,6 @@ public class LatestAlbumCommand extends AbstractApiCommand implements Initializi
 			}
 			
 			//构造album中的设计师资料 & slide列表
-			Map<Integer, AlbumAuthorInfo> albumAuthorMap = new HashMap<Integer, AlbumAuthorInfo>();
 			for(Album album: albumList){
 				//构造专辑的slide列表
 				int albumId = album.getId();
@@ -116,20 +114,6 @@ public class LatestAlbumCommand extends AbstractApiCommand implements Initializi
 	                	albumService.initAlbumInteractionStatus(album, hostId);
 	                }
 				}
-				
-				//构造设计师信息
-				int albumAuthorId = album.getUserId();
-				AlbumAuthorInfo authorInfo = null;
-				if(!albumAuthorMap.containsKey(albumAuthorId)){//考虑到多个作品的设计师可能是同一个人，因此使用map缓存
-					User designer = userService.loadById(albumAuthorId);
-					String designerAvatar = UploadUtil.getAvatarUrl(albumAuthorId, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
-					String designerNickname = designer.getNickname();
-					boolean followed = false;//userGraphService.isFollow(hostId, albumAuthorId);
-					authorInfo = new AlbumAuthorInfo(designerAvatar, designerNickname, followed);
-				}else{
-					authorInfo = albumAuthorMap.get(albumAuthorId);
-				}
-				album.setAuthorInfo(authorInfo);
 				
 				//构造微信分享的对象
 				GenericSharedInfo genericSharedInfo = SharedInfoBuilder.buildGenericSharedInfo(album);

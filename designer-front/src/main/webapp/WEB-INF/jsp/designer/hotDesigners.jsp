@@ -118,7 +118,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 										%>
 										<div class="designer_badge_image" id="designer_badge_image<%=designer.getId()%>">
 											<a href="<%=contextPath%>/<%=designer.getId()%>/home">
-												<img src="<%=UploadUtil.getAvatarUrl(designer.getId(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)%>" width="100%" title="<%=designer.getNickname()%>">
+												<img src="<%=UserUtil.getAvatarUrl(designer, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)%>" width="100%" title="<%=designer.getNickname()%>">
 											</a>
 											<%
 											if(currentUser!=null&&designer.getId().equals(currentUser.getId())){
