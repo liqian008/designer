@@ -18,6 +18,7 @@ import org.springframework.util.Assert;
 
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.data.GenericSharedInfo;
+import com.bruce.designer.macp.constants.ConstPaging;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumAuthorInfo;
 import com.bruce.designer.model.AlbumFavorite;
@@ -71,7 +72,7 @@ public class FavoriteAlbumsCommand extends AbstractApiCommand implements Initial
             logger.debug("加载我的收藏专辑，hostId："+hostId+"，fromTailId: "+fromTailId);
         }
 
-		int limit = 1;
+		int limit =  ConstPaging.ALBUM_FAVORITE_LIMIT;;
 		//获取关注列表
 		List<AlbumFavorite> favoriteList = albumFavoriteService.fallLoadUserFavoriteAlbums(hostId, fromTailId, limit+1);
 		int newTailId = 0;

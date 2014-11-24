@@ -17,9 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bruce.designer.constants.ConstService;
+import com.bruce.designer.macp.constants.ConstPaging;
 import com.bruce.designer.model.UserFollow;
 import com.bruce.designer.service.IUserGraphService;
-import com.bruce.designer.util.UploadUtil;
 import com.bruce.designer.util.UserUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
@@ -56,7 +56,7 @@ public class UserFollowsCommand extends AbstractApiCommand implements Initializi
     	
     	String pageNoStr = context.getStringParams().get("pageNo");
     	int pageNo = NumberUtils.toInt(pageNoStr, 1);
-    	int pageSize = 20;
+    	int pageSize = ConstPaging.FOLLOWS_LIMIT;
     	
     	if(logger.isDebugEnabled()){
             logger.debug("查询用户["+queryUserId+"]的关注列表");

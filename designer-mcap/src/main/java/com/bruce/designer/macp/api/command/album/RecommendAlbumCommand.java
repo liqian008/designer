@@ -15,12 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.data.GenericSharedInfo;
+import com.bruce.designer.macp.constants.ConstPaging;
 import com.bruce.designer.model.Album;
-import com.bruce.designer.model.AlbumAuthorInfo;
 import com.bruce.designer.model.AlbumSlide;
-import com.bruce.designer.model.User;
 import com.bruce.designer.service.IAlbumRecommendService;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
@@ -67,7 +65,7 @@ public class RecommendAlbumCommand extends AbstractApiCommand implements Initial
 		
 		Map<String, Object> rt = new HashMap<String, Object>();
 		
-		int limit = 20;
+		int limit = ConstPaging.ALBUM_RECOMMEND_LIMIT;
 
 		List<Album> albumList = albumRecommendService.queryRecommendAlbums(limit, true, false, true);
 		if(albumList!=null){

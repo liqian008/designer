@@ -489,6 +489,9 @@ public class UserSettingsController {
 				for (int tempSlideId : albumSlideNums) {
 					AlbumSlide slide = new AlbumSlide();
 					slide.setAlbumId(albumId);
+					
+					slide.setTitle(title);//标题
+					
 					slide.setSlideSmallImg(request.getParameter("smallImage" + tempSlideId));
 					slide.setSlideMediumImg(request.getParameter("mediumImage" + tempSlideId));
 					slide.setSlideLargeImg(request.getParameter("largeImage" + tempSlideId));

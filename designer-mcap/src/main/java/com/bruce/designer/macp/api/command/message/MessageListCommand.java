@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.bruce.designer.constants.ConstService;
+import com.bruce.designer.macp.constants.ConstPaging;
 import com.bruce.designer.model.Message;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IMessageService;
@@ -46,8 +47,6 @@ public class MessageListCommand extends AbstractApiCommand implements Initializi
 	@Autowired
 	private IMessageService messageService;
 
-	private static final int MESSAGE_PAGE_SIZE = 5;
-
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(userService, "userService is required!");
@@ -69,7 +68,7 @@ public class MessageListCommand extends AbstractApiCommand implements Initializi
 		String messageTailIdStr = context.getStringParams().get("messageTailId");
 		int fromTailId = NumberUtils.toInt(messageTailIdStr, 0);
 
-		int limit = MESSAGE_PAGE_SIZE;
+		int limit = ConstPaging.MESSAGE_LIMIT;
 		List<Message> messageList = messageService.fallLoadMessagesByType(hostId, messageType, fromTailId, limit + 1);
 		long newTailId = 0;
 		if (messageList == null || messageList.size() == 0) {

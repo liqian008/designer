@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.bruce.designer.constants.ConstService;
+import com.bruce.designer.macp.constants.ConstPaging;
 import com.bruce.designer.model.Comment;
 import com.bruce.designer.service.IAlbumCommentService;
 import com.bruce.designer.util.UserUtil;
@@ -54,7 +55,7 @@ public class AlbumCommentsCommand extends AbstractApiCommand implements Initiali
     	
     	String commentTailIdStr = context.getStringParams().get("commentsTailId");
     	long fromTailId = NumberUtils.toLong(commentTailIdStr, 0);
-    	int limit = 5;
+    	int limit = ConstPaging.COMMENT_LIMIT;
     	if(logger.isDebugEnabled()){
             logger.debug("MCS获取专辑["+albumId+"]评论列表, tailId： "+fromTailId+", limit："+limit);
         }

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bruce.designer.constants.ConstService;
+import com.bruce.designer.macp.constants.ConstPaging;
 import com.bruce.designer.model.UserFan;
 import com.bruce.designer.service.IUserGraphService;
 import com.bruce.designer.util.UserUtil;
@@ -57,7 +58,7 @@ public class UserFansCommand extends AbstractApiCommand implements InitializingB
     	
         // TODO 获取关注列表
         int pageNo = 1;
-		int pageSize = 20;
+        int pageSize = ConstPaging.FOLLOWS_LIMIT;
 		
         List<UserFan> fanList = userGraphService.getFanListWithUser(queryUserId, pageNo, pageSize);
 //        Map<Integer, Boolean> fanMap = new HashMap<Integer, Boolean>();

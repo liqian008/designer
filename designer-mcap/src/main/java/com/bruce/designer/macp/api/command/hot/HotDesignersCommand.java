@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.bruce.designer.constants.ConstService;
+import com.bruce.designer.macp.constants.ConstPaging;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IHotService;
 import com.bruce.designer.service.IUserService;
@@ -58,7 +59,7 @@ public class HotDesignersCommand extends AbstractApiCommand implements Initializ
 		if(logger.isDebugEnabled()){
             logger.debug("MCS查询热门设计师，hostId: "+hostId + ", mode: "+mode);
         }
-		int limit = 15;
+		int limit = ConstPaging.ALBUM_HOT_WEEKLY_LIMIT;
 		List<User> hotDesignerList = hotService.fallLoadHotDesigners(mode, limit);
 		if (hotDesignerList == null || hotDesignerList.size() == 0) {
 		    if(logger.isDebugEnabled()){

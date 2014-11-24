@@ -18,6 +18,7 @@ import org.springframework.util.Assert;
 
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.data.GenericSharedInfo;
+import com.bruce.designer.macp.constants.ConstPaging;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumAuthorInfo;
 import com.bruce.designer.model.AlbumSlide;
@@ -72,7 +73,7 @@ public class HotAlbumsCommand extends AbstractApiCommand implements Initializing
 	    if(logger.isDebugEnabled()){
             logger.debug("MCS查询热门专辑列表");
         }
-		int limit = 5;
+		int limit = ConstPaging.ALBUM_HOT_WEEKLY_LIMIT;
 		
 		List<Album> hotAlbumList = hotService.fallLoadHotAlbums(mode, limit);
 		if (hotAlbumList == null || hotAlbumList.size() == 0) {

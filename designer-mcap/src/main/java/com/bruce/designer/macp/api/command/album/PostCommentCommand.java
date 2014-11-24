@@ -49,6 +49,7 @@ public class PostCommentCommand extends AbstractApiCommand implements Initializi
     	
     	String toIdStr = context.getStringParams().get("toId");
     	int toId = NumberUtils.toInt(toIdStr, 0);
+    	if(toId<=0) toId=designerId;
 		
     	String comment =  context.getStringParams().get("comment");
 

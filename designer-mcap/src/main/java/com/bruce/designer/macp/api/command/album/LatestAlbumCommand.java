@@ -16,12 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.data.GenericSharedInfo;
+import com.bruce.designer.macp.constants.ConstPaging;
 import com.bruce.designer.model.Album;
-import com.bruce.designer.model.AlbumAuthorInfo;
 import com.bruce.designer.model.AlbumSlide;
-import com.bruce.designer.model.User;
 import com.bruce.designer.service.IAlbumService;
 import com.bruce.designer.service.IAlbumSlideService;
 import com.bruce.designer.service.IUserService;
@@ -77,7 +75,7 @@ public class LatestAlbumCommand extends AbstractApiCommand implements Initializi
 	    if(logger.isDebugEnabled()){
             logger.debug("MCS查询专辑列表");
         }
-		int limit = 5;
+		int limit = ConstPaging.ALBUM_LATEST_LIMIT;
 		if(designerId>0){//加载指定设计师的专辑内容
 			albumList = albumService.fallLoadDesignerAlbums(designerId, fromTailId, limit + 1,  true, false, true);
 		}else{//加载所有的专辑内容

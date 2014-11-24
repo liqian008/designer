@@ -18,6 +18,7 @@ import org.springframework.util.Assert;
 
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.data.GenericSharedInfo;
+import com.bruce.designer.macp.constants.ConstPaging;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumAuthorInfo;
 import com.bruce.designer.model.AlbumSlide;
@@ -66,7 +67,7 @@ public class FollowAlbumCommand extends AbstractApiCommand implements Initializi
             logger.debug("ajax加载我的关注专辑，hostId："+hostId+"，fromTailId: "+fromTailId);
         }
 
-		int limit = 20;
+		int limit = ConstPaging.ALBUM_MYVIEW_LIMIT;
 		//获取关注列表
 		List<Album> albumList = albumService.fallLoadUserFollowAlbums(hostId, fromTailId, limit + 1, true, true, true);
 		int newTailId = 0;
