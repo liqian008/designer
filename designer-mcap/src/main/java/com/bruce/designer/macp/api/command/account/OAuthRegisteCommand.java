@@ -20,6 +20,7 @@ import com.bruce.designer.service.oauth.IOAuthService;
 import com.bruce.designer.util.VerifyUtils;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
+import com.bruce.foundation.macp.api.service.impl.MobileClientAppServiceImpl;
 import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
 import com.bruce.foundation.macp.passport.entity.UserPassport;
 import com.bruce.foundation.macp.passport.service.PassportService;
@@ -119,6 +120,8 @@ public class OAuthRegisteCommand extends AbstractApiCommand implements Initializ
                 userPassport.setIdentity(String.valueOf(System.currentTimeMillis()));
                 String ticket = passportService.createTicket(userPassport);
                 userPassport.setTicket(ticket);
+                //设置用户的secretkey
+        		userPassport.setUserSecretKey(MobileClientAppServiceImpl.SECRET_KEY_DEFAULT);
                 
                 paramMap.put("userPassport", userPassport);
                 paramMap.put("hostUser", user);
