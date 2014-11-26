@@ -170,8 +170,8 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 											<div class="row-container clearfix">
 												<div class="row-left">微博账户: </div>
 												<div class="row-right">
-													<%=queryUser.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE).getThirdpartyUname()%>
-													&nbsp;&nbsp;<input type="button" class="button button-small button-blue" value="查看微博">
+													<%=queryUser.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE).getThirdpartyUname()%>&nbsp;&nbsp;
+													<input type="button" class="button button-small button-blue" value="查看微博" onclick="window.open('http://weibo.com/u/<%=queryUser.getAccessTokenMap().get(IOAuthService.OAUTH_WEIBO_TYPE).getThirdpartyUid()%>','_blank')">
 												</div>
 											</div>
 											<%}%>
@@ -181,7 +181,7 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 											<div class="row-left">淘宝店铺主页: </div>
 											<div class="row-right">
 												<%=queryUser.getDesignerTaobaoHomepage()%>&nbsp;&nbsp;
-												&nbsp;&nbsp;<input type="button" class="button button-small button-blue" value="去看看">
+												<input type="button" class="button button-small button-blue" value="去逛逛" onclick="window.open('<%=queryUser.getDesignerTaobaoHomepage()%>','_blank')">
 											</div>
 										</div>
 										

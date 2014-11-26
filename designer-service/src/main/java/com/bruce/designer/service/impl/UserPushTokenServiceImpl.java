@@ -1,5 +1,6 @@
 package com.bruce.designer.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,29 @@ public class UserPushTokenServiceImpl implements IUserPushTokenService {
 
 	@Override
 	public int enablePushToken(Integer userId, short osType, long pushChannelId, String pushUserId){
-		return userPushTokenDao.enablePushToken(userId, osType, pushChannelId, pushUserId);
+		//查询该设备已绑定的其他账户
+		UserPushTokenCriteria criteria = new UserPushTokenCriteria();
+		UserPushTokenCriteria.Criteria subCriteria = criteria.createCriteria();
+		subCriteria.andUserIdNotEqualTo(userId).andOsTypeEqualTo(osType).andPushChannelIdEqualTo(pushChannelId).andPushUserIdEqualTo(pushUserId);
+		//同一设备下的用户pushToken列表
+		List<UserPushToken> conflictUserPushTokenList = userPushTokenDao.queryByCriteria(criteria);
+		Date currentTime = new Date();
+		if(conflictUserPushTokenList!=null&&conflictUserPushTokenList.size()>0){
+			//禁用（删除）这些pushTokenList
+			deleteByCriteria(criteria);
+		}
+		
+		//TODO 如果个人pushToken存在，则更新，不存在则创建
+		
+		//创建token
+		UserPushToken userPushToken = new UserPushToken();
+		userPushToken.setOsType(osType);
+		userPushToken.setStatus((short)1);
+		userPushToken.setUserId(userId);
+		userPushToken.setPushChannelId(pushChannelId);
+		userPushToken.setPushUserId(pushUserId);
+		userPushToken.setCreateTime(currentTime);
+		return save(userPushToken);
 	}
 
 	@Override
