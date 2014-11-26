@@ -197,4 +197,9 @@ public class TagServiceImpl implements ITagService, InitializingBean {
 		return tagDao.queryByCriteria(criteria);
 	}
 	
+	@Override
+	public int countByCriteria(TagCriteria criteria) {
+		return tagDao.countByCriteria(criteria);
+	}
+	
 }

@@ -66,5 +66,11 @@ public class AlbumRecommendDaoImpl implements IAlbumRecommendDao {
 	public List<AlbumRecommend> queryByCriteria(AlbumRecommendCriteria criteria) {
 		return albumRecommendMapper.selectByExample(criteria);
 	}
+	
+	@Override
+	public int countByCriteria(AlbumRecommendCriteria criteria) {
+		return albumRecommendMapper.countByExample(criteria);
+	}
+
 
 }

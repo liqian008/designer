@@ -106,6 +106,11 @@ public class AlbumFavoriteDaoImpl implements IAlbumFavoriteDao, InitializingBean
 	public List<AlbumFavorite> queryByCriteria(AlbumFavoriteCriteria criteria) {
 		return albumFavoriteMapper.selectByExample(criteria);
 	}
+	
+	@Override
+	public int countByCriteria(AlbumFavoriteCriteria criteria) {
+		return albumFavoriteMapper.countByExample(criteria);
+	}
 
 	@Override
 	public List<AlbumFavorite> getFavoriteListByAlbumId(int albumId, int maxCount) {

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.bruce.designer.dao.IIndexSlideDao;
 import com.bruce.designer.model.IndexSlide;
-import com.bruce.designer.model.IndexSlide;
 import com.bruce.designer.model.IndexSlideCriteria;
 import com.bruce.designer.service.IIndexSlideService;
 
@@ -71,6 +70,9 @@ public class IndexSlideServiceImpl implements IIndexSlideService{
 		return indexSlideDao.queryByCriteria(criteria);
 	}
 	
-	
+	@Override
+	public int countByCriteria(IndexSlideCriteria criteria) {
+		return indexSlideDao.countByCriteria(criteria);
+	}
 
 }

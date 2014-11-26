@@ -99,5 +99,10 @@ public class TagAlbumDaoImpl implements ITagAlbumDao, InitializingBean {
 	public List<TagAlbum> queryByCriteria(TagAlbumCriteria criteria) {
 		return tagAlbumMapper.selectByExample(criteria);
 	}
+	
+	@Override
+	public int countByCriteria(TagAlbumCriteria criteria) {
+		return tagAlbumMapper.countByExample(criteria);
+	}
 
 } 

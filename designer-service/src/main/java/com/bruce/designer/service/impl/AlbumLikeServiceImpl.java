@@ -176,4 +176,8 @@ public class AlbumLikeServiceImpl implements IAlbumLikeService {
 		return albumLikeDao.queryByCriteria(criteria);
 	}
 	
+	@Override
+	public int countByCriteria(AlbumLikeCriteria criteria) {
+		return albumLikeDao.countByCriteria(criteria);
+	}
 }

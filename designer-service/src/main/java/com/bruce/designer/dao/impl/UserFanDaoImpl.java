@@ -84,5 +84,10 @@ public class UserFanDaoImpl implements IUserFanDao, InitializingBean {
 	public List<UserFan> queryByCriteria(UserFanCriteria criteria) {
 		return userFanMapper.selectByExample(criteria);
 	}
+	
+	@Override
+	public int countByCriteria(UserFanCriteria criteria) {
+		return userFanMapper.countByExample(criteria);
+	}
 
 }

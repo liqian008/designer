@@ -63,6 +63,11 @@ public class VersionUpdateDaoImpl implements IVersionUpdateDao, InitializingBean
 	public List<VersionUpdate> queryByCriteria(VersionUpdateCriteria criteria) {
 		return versionUpdateMapper.selectByExample(criteria);
 	}
+	
+	@Override
+	public int countByCriteria(VersionUpdateCriteria criteria) {
+		return versionUpdateMapper.countByExample(criteria);
+	}
 
 	@Override
 	public VersionUpdate loadByClientInfo(short clientType, int versionCode, String channel) {

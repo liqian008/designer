@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IMessageDao;
 import com.bruce.designer.data.PagingData;
+import com.bruce.designer.model.IndexSlideCriteria;
 import com.bruce.designer.model.Message;
 import com.bruce.designer.model.MessageCriteria;
 import com.bruce.designer.model.User;
@@ -259,6 +260,9 @@ public class MessageServiceImpl implements IMessageService, InitializingBean {
 		return messageDao.queryByCriteria(criteria);
 	}
 	
-	
+	@Override
+	public int countByCriteria(MessageCriteria criteria) {
+		return messageDao.countByCriteria(criteria);
+	}
 	
 }

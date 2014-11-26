@@ -247,5 +247,10 @@ public class MessageDaoImpl implements IMessageDao, InitializingBean {
 	public List<Message> queryByCriteria(MessageCriteria criteria) {
 		return messageMapper.selectByExample(criteria);
 	}
+	
+	@Override
+	public int countByCriteria(MessageCriteria criteria) {
+		return messageMapper.countByExample(criteria);
+	}
 
 }

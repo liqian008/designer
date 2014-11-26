@@ -14,6 +14,7 @@ import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.mail.MailService;
 import com.bruce.designer.model.AccessTokenInfo;
+import com.bruce.designer.model.TagCriteria;
 import com.bruce.designer.model.User;
 import com.bruce.designer.model.UserCriteria;
 import com.bruce.designer.service.IMessageService;
@@ -299,6 +300,11 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public List<User> queryByCriteria(UserCriteria criteria) {
 		return userDao.queryByCriteria(criteria);
+	}
+	
+	@Override
+	public int countByCriteria(UserCriteria criteria) {
+		return userDao.countByCriteria(criteria);
 	}
 
 	/**

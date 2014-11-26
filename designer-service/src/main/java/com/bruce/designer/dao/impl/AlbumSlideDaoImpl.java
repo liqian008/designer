@@ -92,6 +92,11 @@ public class AlbumSlideDaoImpl implements IAlbumSlideDao , InitializingBean {
 	public List<AlbumSlide> queryByCriteria(AlbumSlideCriteria criteria) {
 		return albumSlideMapper.selectByExample(criteria);
 	}
+	
+	@Override
+	public int countByCriteria(AlbumSlideCriteria criteria) {
+		return albumSlideMapper.countByExample(criteria);
+	}
 
 	@Override
 	public int deleteByAlbumId(int albumId) {

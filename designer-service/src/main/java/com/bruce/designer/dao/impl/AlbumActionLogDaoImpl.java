@@ -82,6 +82,11 @@ public class AlbumActionLogDaoImpl implements IAlbumActionLogDao, InitializingBe
 	public AlbumActionLog loadById(Long id) {
 		return albumActionLogMapper.selectByPrimaryKey(id);
 	}
+	
+	@Override
+	public int countByCriteria(AlbumActionLogCriteria criteria) {
+		return albumActionLogMapper.countByExample(criteria);
+	}
 
 	@Override
 	public boolean existLikeLog(int albumId, int userId) {

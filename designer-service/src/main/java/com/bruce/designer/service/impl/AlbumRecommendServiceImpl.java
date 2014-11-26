@@ -99,4 +99,8 @@ public class AlbumRecommendServiceImpl implements IAlbumRecommendService{
 		return albumRecommendDao.queryByCriteria(criteria);
 	}
 	
+	@Override
+	public int countByCriteria(AlbumRecommendCriteria criteria) {
+		return albumRecommendDao.countByCriteria(criteria);
+	}
 }

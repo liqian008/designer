@@ -158,6 +158,17 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												</div>
 												
 												<div class="row-container clearfix">
+													<div class="row-left">微信号: </div>
+													<div class="row-right">
+													<%if(currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_NONE){%>
+														<input type="text" class="span4" id="weixinNumber" name="weixinNumber" value=""/>
+													<%}else{%>
+														<%=currentUser.getWeixinNumber()%>
+													<%} %>
+													</div>
+												</div>
+												
+												<div class="row-container clearfix">
 													<div class="row-left">公 司: </div>
 													<div class="row-right">
 													<%if(currentUser.getDesignerStatus()==ConstService.DESIGNER_APPLY_NONE){%>

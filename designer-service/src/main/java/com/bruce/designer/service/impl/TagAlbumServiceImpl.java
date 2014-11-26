@@ -132,4 +132,9 @@ public class TagAlbumServiceImpl implements ITagAlbumService, InitializingBean {
 	public List<TagAlbum> queryByCriteria(TagAlbumCriteria criteria) {
 		return tagAlbumDao.queryByCriteria(criteria);
 	}
+	
+	@Override
+	public int countByCriteria(TagAlbumCriteria criteria) {
+		return tagAlbumDao.countByCriteria(criteria);
+	}
 }

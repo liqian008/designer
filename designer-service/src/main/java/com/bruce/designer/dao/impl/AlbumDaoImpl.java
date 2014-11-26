@@ -40,6 +40,9 @@ public class AlbumDaoImpl implements IAlbumDao{
 		return albumMapper.selectByExample(null);
 	}
 	
+	
+	
+	
 	public int deleteUserAlbum(int userId, int albumId) {
 	    AlbumCriteria criteria = new AlbumCriteria();
         criteria.createCriteria().andUserIdEqualTo(userId).andIdEqualTo(albumId);
@@ -139,6 +142,11 @@ public class AlbumDaoImpl implements IAlbumDao{
 	@Override
 	public List<Album> queryByCriteria(AlbumCriteria criteria) {
 		return albumMapper.selectByExample(criteria);
+	}
+	
+	@Override
+	public int countByCriteria(AlbumCriteria criteria) {
+		return albumMapper.countByExample(criteria);
 	}
 	
 	@Override

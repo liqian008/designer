@@ -57,6 +57,12 @@ public class AlbumActionLogServiceImpl implements IAlbumActionLogService {
 	public List<AlbumActionLog> queryByCriteria(AlbumActionLogCriteria criteria) {
 		return albumActionLogDao.queryByCriteria(criteria);
 	}
+	
+	@Override
+	public int countByCriteria(AlbumActionLogCriteria criteria) {
+		return albumActionLogDao.countByCriteria(criteria);
+	}
+
 
 	/**
 	 * 浏览记录

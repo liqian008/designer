@@ -258,6 +258,10 @@ public class AlbumFavoriteServiceImpl implements IAlbumFavoriteService {
 	public List<AlbumFavorite> queryByCriteria(AlbumFavoriteCriteria criteria) {
 		return albumFavoriteDao.queryByCriteria(criteria);
 	}
-	
+
+	@Override
+	public int countByCriteria(AlbumFavoriteCriteria criteria) {
+		return albumFavoriteDao.countByCriteria(criteria);
+	}
 	
 }

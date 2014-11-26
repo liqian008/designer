@@ -430,6 +430,9 @@ public class AlbumServiceImpl implements IAlbumService {
 		return albumDao.queryUserAlbumCount(); 
 	}
 	
-	
+	@Override
+	public int countByCriteria(AlbumCriteria criteria) {
+		return albumDao.countByCriteria(criteria);
+	}
 
 }

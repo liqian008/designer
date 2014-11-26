@@ -2,8 +2,8 @@ package com.bruce.designer.service.oauth;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.bruce.designer.dao.IAccessTokenDao;
 import com.bruce.designer.model.AccessTokenInfo;
@@ -74,6 +74,11 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
 	@Override
 	public List<AccessTokenInfo> queryByCriteria(AccessTokenInfoCriteria criteria) {
 		return accessTokenDao.queryByCriteria(criteria);
+	}
+	
+	@Override
+	public int countByCriteria(AccessTokenInfoCriteria criteria) {
+		return accessTokenDao.countByCriteria(criteria);
 	}
 
 	@Override

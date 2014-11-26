@@ -220,6 +220,11 @@ public class UserDaoImpl implements IUserDao , InitializingBean {
 	public List<User> queryByCriteria(UserCriteria criteria) {
 		return userMapper.selectByExample(criteria);
 	}
+	
+	@Override
+	public int countByCriteria(UserCriteria criteria) {
+		return userMapper.countByExample(criteria);
+	}
 
 	@Override
 	public long getUserPushMask(int userId) {

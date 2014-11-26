@@ -1,5 +1,6 @@
 package com.bruce.designer.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,11 @@ public class UserPushTokenServiceImpl implements IUserPushTokenService {
 		return userPushTokenDao.queryByCriteria(criteria);
 	}
 
+	@Override
+	public int countByCriteria(UserPushTokenCriteria criteria) {
+		return userPushTokenDao.countByCriteria(criteria);
+	}
+	
 
 	@Override
 	public List<UserPushToken> queryByUserId(Integer userId) {
@@ -65,12 +71,46 @@ public class UserPushTokenServiceImpl implements IUserPushTokenService {
 
 	@Override
 	public int enablePushToken(Integer userId, short osType, long pushChannelId, String pushUserId){
-		return userPushTokenDao.enablePushToken(userId, osType, pushChannelId, pushUserId);
+		//查询该设备已绑定的其他账户
+		UserPushTokenCriteria criteria = new UserPushTokenCriteria();
+		UserPushTokenCriteria.Criteria subCriteria = criteria.createCriteria();
+		subCriteria.andUserIdNotEqualTo(userId).andOsTypeEqualTo(osType).andPushChannelIdEqualTo(pushChannelId).andPushUserIdEqualTo(pushUserId);
+		//检查同一设备下的用户pushToken数量, 并禁用（删除）
+		deleteByCriteria(criteria);
+		
+		Date currentTime = new Date();
+		
+		//TODO 如果个人pushToken存在，则更新，不存在则创建
+		//查询该设备已绑定的其他账户
+		criteria = new UserPushTokenCriteria();
+		criteria.createCriteria().andUserIdEqualTo(userId).andOsTypeEqualTo(osType).andPushChannelIdEqualTo(pushChannelId).andPushUserIdEqualTo(pushUserId);
+		int myPushTokenCount= userPushTokenDao.countByCriteria(criteria);
+		if(myPushTokenCount>0){
+			//更新状态为启用
+			UserPushToken userPushToken = new UserPushToken();
+			userPushToken.setStatus((short)1);
+			userPushToken.setUpdateTime(currentTime);
+			return userPushTokenDao.updateByCriteria(userPushToken, criteria);
+		}else{
+			//创建token
+			UserPushToken userPushToken = new UserPushToken();
+			userPushToken.setOsType(osType);
+			userPushToken.setStatus((short)1);
+			userPushToken.setUserId(userId);
+			userPushToken.setPushChannelId(pushChannelId);
+			userPushToken.setPushUserId(pushUserId);
+			userPushToken.setCreateTime(currentTime);
+			return save(userPushToken);
+		}
 	}
 
 	@Override
 	public int disablePushToken(Integer userId, short osType, long pushChannelId, String pushUserId){
-		return userPushTokenDao.disablePushToken(userId, osType, pushChannelId, pushUserId);
+		UserPushToken userPushToken = new UserPushToken();
+		userPushToken.setStatus((short)0);
+		UserPushTokenCriteria criteria = new UserPushTokenCriteria();
+		criteria.createCriteria().andUserIdEqualTo(userId).andOsTypeEqualTo(osType).andPushChannelIdEqualTo(pushChannelId).andPushUserIdEqualTo(pushUserId);;
+		return userPushTokenDao.updateByCriteria(userPushToken, criteria);
 	}
 	
 }

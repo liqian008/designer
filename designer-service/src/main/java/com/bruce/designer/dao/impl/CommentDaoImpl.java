@@ -125,4 +125,9 @@ public class CommentDaoImpl implements ICommentDao , InitializingBean {
 	public List<Comment> queryByCriteria(CommentCriteria criteria) {
 		return commentMapper.selectByExample(criteria);
 	}
+	
+	@Override
+	public int countByCriteria(CommentCriteria criteria) {
+		return commentMapper.countByExample(criteria);
+	}
 }

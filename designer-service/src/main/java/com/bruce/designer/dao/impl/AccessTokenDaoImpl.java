@@ -57,6 +57,11 @@ public class AccessTokenDaoImpl implements IAccessTokenDao {
 	public List<AccessTokenInfo> queryByCriteria(AccessTokenInfoCriteria criteria) {
 		return accessTokenInfoMapper.selectByExample(criteria);
 	}
+	
+	@Override
+	public int countByCriteria(AccessTokenInfoCriteria criteria) {
+		return accessTokenInfoMapper.countByExample(criteria);
+	}
 
 	@Override
 	public AccessTokenInfo load(String thirdpartyUid, Short thirdpartyType) {

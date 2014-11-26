@@ -70,10 +70,16 @@ public class AlbumSlideServiceImpl implements IAlbumSlideService {
 		return albumSlideDao.queryByCriteria(criteria);
 	}
 
+	
+	@Override
+	public int countByCriteria(AlbumSlideCriteria criteria) {
+		return albumSlideDao.countByCriteria(criteria);
+	}
+	
 	@Override
 	public int deleteByAlbumId(int albumId) {
 		return albumSlideDao.deleteByAlbumId(albumId);
 	}
 	
-	
+
 }

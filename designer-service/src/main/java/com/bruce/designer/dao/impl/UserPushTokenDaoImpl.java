@@ -1,15 +1,14 @@
 package com.bruce.designer.dao.impl;
 
-import java.util.Date;
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import com.bruce.designer.model.UserPushToken;
-import com.bruce.designer.model.UserPushTokenCriteria;
 import com.bruce.designer.dao.IUserPushTokenDao;
 import com.bruce.designer.dao.mapper.UserPushTokenMapper;
+import com.bruce.designer.model.UserPushToken;
+import com.bruce.designer.model.UserPushTokenCriteria;
 
 @Repository
 public class UserPushTokenDaoImpl implements IUserPushTokenDao {
@@ -58,6 +57,11 @@ public class UserPushTokenDaoImpl implements IUserPushTokenDao {
 	public List<UserPushToken> queryByCriteria(UserPushTokenCriteria criteria) {
 		return userPushTokenMapper.selectByExample(criteria);
 	}
+	
+	@Override
+	public int countByCriteria(UserPushTokenCriteria criteria) {
+		return userPushTokenMapper.countByExample(criteria);
+	}
 
 	/**
 	 * 查询用户已绑定的pushToken
@@ -69,39 +73,39 @@ public class UserPushTokenDaoImpl implements IUserPushTokenDao {
 		return userPushTokenMapper.selectByExample(criteria);
 	}
 
-	@Override
-	public int enablePushToken(Integer userId, short osType, long pushChannelId, String pushUserId) {
-		//查询是否有该pushToken，有则更新，没有则创建
-		UserPushTokenCriteria criteria = new UserPushTokenCriteria();
-		criteria.createCriteria().andUserIdEqualTo(userId).andOsTypeEqualTo(osType).andPushChannelIdEqualTo(pushChannelId).andPushUserIdEqualTo(pushUserId);
-		List<UserPushToken> pushTokenList = userPushTokenMapper.selectByExample(criteria);
-		Date currentTime = new Date();
-		if(pushTokenList!=null&&pushTokenList.size()>0){
-			//更新
-			UserPushToken userPushToken = new UserPushToken();
-			userPushToken.setStatus((short)1);
-			userPushToken.setUpdateTime(currentTime);
-			return userPushTokenMapper.updateByExampleSelective(userPushToken, criteria);
-		}else{
-			//创建token
-			UserPushToken userPushToken = new UserPushToken();
-			userPushToken.setOsType(osType);
-			userPushToken.setStatus((short)1);
-			userPushToken.setUserId(userId);
-			userPushToken.setPushChannelId(pushChannelId);
-			userPushToken.setPushUserId(pushUserId);
-			userPushToken.setCreateTime(currentTime);
-			return save(userPushToken);
-		}
-	}
+//	@Override
+//	public int enablePushToken(Integer userId, short osType, long pushChannelId, String pushUserId) {
+//		//查询是否有该pushToken，有则更新，没有则创建
+//		UserPushTokenCriteria criteria = new UserPushTokenCriteria();
+//		criteria.createCriteria().andUserIdEqualTo(userId).andOsTypeEqualTo(osType).andPushChannelIdEqualTo(pushChannelId).andPushUserIdEqualTo(pushUserId);
+//		List<UserPushToken> pushTokenList = userPushTokenMapper.selectByExample(criteria);
+//		Date currentTime = new Date();
+//		if(pushTokenList!=null&&pushTokenList.size()>0){
+//			//更新
+//			UserPushToken userPushToken = new UserPushToken();
+//			userPushToken.setStatus((short)1);
+//			userPushToken.setUpdateTime(currentTime);
+//			return userPushTokenMapper.updateByExampleSelective(userPushToken, criteria);
+//		}else{
+//			//创建token
+//			UserPushToken userPushToken = new UserPushToken();
+//			userPushToken.setOsType(osType);
+//			userPushToken.setStatus((short)1);
+//			userPushToken.setUserId(userId);
+//			userPushToken.setPushChannelId(pushChannelId);
+//			userPushToken.setPushUserId(pushUserId);
+//			userPushToken.setCreateTime(currentTime);
+//			return save(userPushToken);
+//		}
+//	}
 
-	@Override
-	public int disablePushToken(Integer userId, short osType, long pushChannelId, String pushUserId) {
-		UserPushToken userPushToken = new UserPushToken();
-		userPushToken.setStatus((short)0);
-		UserPushTokenCriteria criteria = new UserPushTokenCriteria();
-		criteria.createCriteria().andUserIdEqualTo(userId).andOsTypeEqualTo(osType).andPushChannelIdEqualTo(pushChannelId).andPushUserIdEqualTo(pushUserId);;
-		return userPushTokenMapper.updateByExampleSelective(userPushToken, criteria);
-	}
+//	@Override
+//	public int disablePushToken(Integer userId, short osType, long pushChannelId, String pushUserId) {
+//		UserPushToken userPushToken = new UserPushToken();
+//		userPushToken.setStatus((short)0);
+//		UserPushTokenCriteria criteria = new UserPushTokenCriteria();
+//		criteria.createCriteria().andUserIdEqualTo(userId).andOsTypeEqualTo(osType).andPushChannelIdEqualTo(pushChannelId).andPushUserIdEqualTo(pushUserId);;
+//		return userPushTokenMapper.updateByExampleSelective(userPushToken, criteria);
+//	}
 	
 }

@@ -1,6 +1,5 @@
 package com.bruce.designer.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -53,6 +52,12 @@ public class AlbumCommentServiceImpl implements IAlbumCommentService {
 
 	public Comment loadById(Long id) {
 		return commentDao.loadById(id);
+	}
+	
+
+	@Override
+	public int countByCriteria(CommentCriteria criteria) {
+		return commentDao.countByCriteria(criteria);
 	}
 
 //	public List<Comment> queryCommentsByAlbumSlideId(int albumSlideId) {

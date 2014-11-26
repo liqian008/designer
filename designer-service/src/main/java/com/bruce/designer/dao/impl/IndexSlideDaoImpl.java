@@ -57,6 +57,11 @@ public class IndexSlideDaoImpl implements IIndexSlideDao {
 	public List<IndexSlide> queryByCriteria(IndexSlideCriteria criteria) {
 		return indexSlideMapper.selectByExample(criteria);
 	}
+	
+	@Override
+	public int countByCriteria(IndexSlideCriteria criteria) {
+		return indexSlideMapper.countByExample(criteria);
+	}
 
 	@Override
 	public List<IndexSlide> queryIndexSlideList(int start, int limit) {

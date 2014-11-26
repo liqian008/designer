@@ -62,6 +62,11 @@ public class VersionUpdateServiceImpl implements IVersionUpdateService, Initiali
 	public List<VersionUpdate> queryByCriteria(VersionUpdateCriteria criteria) {
 		return versionUpdateDao.queryByCriteria(criteria);
 	}
+	
+	@Override
+	public int countByCriteria(VersionUpdateCriteria criteria) {
+		return versionUpdateDao.countByCriteria(criteria);
+	}
 
 	@Override
 	public VersionUpdate loadByClientInfo(short clientType, int versionCode,

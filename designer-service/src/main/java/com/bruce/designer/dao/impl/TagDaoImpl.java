@@ -98,4 +98,9 @@ public class TagDaoImpl implements ITagDao, InitializingBean {
 	public List<Tag> queryByCriteria(TagCriteria criteria) {
 		return tagMapper.selectByExample(criteria);
 	}
+	
+	@Override
+	public int countByCriteria(TagCriteria criteria) {
+		return tagMapper.countByExample(criteria);
+	}
 }

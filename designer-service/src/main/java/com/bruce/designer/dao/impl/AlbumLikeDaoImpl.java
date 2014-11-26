@@ -100,4 +100,9 @@ public class AlbumLikeDaoImpl implements IAlbumLikeDao, InitializingBean {
 	public List<AlbumLike> queryByCriteria(AlbumLikeCriteria criteria) {
 		return albumLikeMapper.selectByExample(criteria);
 	}
+	
+	@Override
+	public int countByCriteria(AlbumLikeCriteria criteria) {
+		return albumLikeMapper.countByExample(criteria);
+	}
 } 
