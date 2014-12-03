@@ -15,13 +15,18 @@ import com.bruce.designer.model.AccessTokenInfo;
 import com.bruce.designer.service.oauth.IOAuthService;
 import com.bruce.designer.service.oauth.SharedInfo;
 
+/**
+ * 处理微信登录的processor
+ * @author liqian
+ *
+ */
 @Component
-public class OAuthWeiboProcessor implements IOAuthProcessor {
+public class OAuthWeixinProcessor implements IOAuthProcessor {
 	
 	private weibo4j.Oauth weiboOauth = new weibo4j.Oauth();
 
 	/**
-	 * 用code换取weibo的accessToken
+	 * 用code换取weixin的accessToken
 	 * 
 	 * @param code
 	 * @return

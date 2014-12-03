@@ -20,6 +20,7 @@ import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.processor.IOAuthProcessor;
 import com.bruce.designer.service.oauth.processor.OAuthTencentWbProcessor;
 import com.bruce.designer.service.oauth.processor.OAuthWeiboProcessor;
+import com.bruce.designer.service.oauth.processor.OAuthWeixinProcessor;
 
 @Service
 public class OAuthServiceImpl implements IOAuthService, InitializingBean {
@@ -38,12 +39,13 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
     public OAuthServiceImpl(){
         init();
     }
-    
-    private void init() {
-        processorMap = new HashMap<Short, IOAuthProcessor>();
-        processorMap.put(IOAuthService.OAUTH_WEIBO_TYPE, new OAuthWeiboProcessor());
-        processorMap.put(IOAuthService.OAUTH_TENCENT_TYPE, new OAuthTencentWbProcessor());
-    }
+
+	private void init() {
+		processorMap = new HashMap<Short, IOAuthProcessor>();
+		processorMap.put(IOAuthService.OAUTH_WEIBO_TYPE, new OAuthWeiboProcessor());
+		processorMap.put(IOAuthService.OAUTH_TENCENT_TYPE, new OAuthTencentWbProcessor());
+		processorMap.put(IOAuthService.OAUTH_WEIXIN_TYPE, new OAuthWeixinProcessor()); 
+	}
 
 
     /*线程池*/

@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import com.bruce.designer.data.GenericSharedInfo;
 import com.bruce.designer.macp.constants.ConstPaging;
 import com.bruce.designer.model.Album;
 import com.bruce.designer.model.AlbumSlide;
@@ -29,6 +28,7 @@ import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
 import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
 import com.bruce.foundation.model.result.ApiResult;
+import com.bruce.foundation.model.share.GenericSharedInfo;
 
 /**
  * 精选专辑

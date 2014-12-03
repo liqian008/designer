@@ -312,7 +312,8 @@ public class UserServiceImpl implements IUserService {
 	 */
 	@Override
 	public int registerByOauth(User user, String thirdpartyAvatar) {
-		//先保存用户，以获取userId
+		//使用第三方头像
+		user.setHeadImg(thirdpartyAvatar);
 		int result =  save(user);
 		
 		//修改头像策略，直接使用第三方账户系统的头像链接

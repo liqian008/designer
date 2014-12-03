@@ -3,8 +3,8 @@ package com.bruce.designer.util;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.bruce.designer.data.GenericSharedInfo;
 import com.bruce.designer.model.Album;
+import com.bruce.foundation.model.share.GenericSharedInfo;
 
 public class SharedInfoBuilder {
 	

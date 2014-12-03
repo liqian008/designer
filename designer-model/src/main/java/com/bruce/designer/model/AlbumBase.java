@@ -2,7 +2,7 @@ package com.bruce.designer.model;
 
 import java.util.List;
 
-import com.bruce.designer.data.GenericSharedInfo;
+import com.bruce.foundation.model.share.GenericSharedInfo;
 
 public class AlbumBase {
 

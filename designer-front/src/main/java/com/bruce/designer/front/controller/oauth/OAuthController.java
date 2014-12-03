@@ -1,5 +1,6 @@
 package com.bruce.designer.front.controller.oauth;
 
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,6 @@ import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.ResponseUtil;
-import com.bruce.designer.mail.MailService;
 import com.bruce.designer.model.AccessTokenInfo;
 import com.bruce.designer.model.User;
 import com.bruce.designer.service.IUserService;
@@ -30,6 +30,7 @@ import com.bruce.designer.service.oauth.IOAuthService;
 import com.bruce.designer.util.OAuthUtil;
 import com.bruce.designer.util.VerifyUtils;
 import com.google.code.kaptcha.Constants;
+
 @Controller
 public class OAuthController {
 
@@ -40,16 +41,15 @@ public class OAuthController {
 	@Autowired
 	private IAccessTokenService accessTokenService;
 	
-	
 
 	private static final Logger logger = LoggerFactory.getLogger(OAuthController.class);
 
 	@RequestMapping(value = "/connectWeibo")
-	public String connectWeibo(HttpServletRequest request, @RequestParam(required=false) String redirectUrl) throws Exception {
-	    if(logger.isDebugEnabled()){
-            logger.debug("请求微博登录"+redirectUrl);  
-        }
-	    String weiboOAuthUrl = new weibo4j.Oauth().authorize("code", redirectUrl);
+	public String connectWeibo(@RequestParam(required = false) String redirectUrl, HttpServletRequest request) throws Exception {
+		if (logger.isDebugEnabled()) {
+			logger.debug("请求微博登录" + redirectUrl);
+		}
+		String weiboOAuthUrl = new weibo4j.Oauth().authorize("code", redirectUrl);
 		return ResponseUtil.getRedirectString(weiboOAuthUrl);
 	}
 
@@ -60,6 +60,24 @@ public class OAuthController {
         }
 		return ResponseUtil.getRedirectString(new com.qq.connect.oauth.Oauth().getAuthorizeURL(request));
 	}
+	
+	/**
+	 * 微信登录
+	 * @param redirectUrl
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/connectWeixin")
+	public String connectWeixin( @RequestParam(required = false) String redirectUrl, HttpServletRequest request) throws Exception {
+	    if(logger.isDebugEnabled()){
+            logger.debug("请求微信登录");
+        }
+	    String wxRedirectUrl = URLEncoder.encode("http://www.jinwanr.com/weixinCallback");
+	    String weixinAuthorizeUrl = "https://open.weixin.qq.com/connect/qrconnect?appid=wx4fcf0241863c41d4&redirect_uri="+wxRedirectUrl+"&response_type=code&scope=snsapi_login&state="+redirectUrl+"#wechat_redirect";
+		return ResponseUtil.getRedirectString(weixinAuthorizeUrl);
+	}
+	
 
 	/**
 	 * weibo OAauth callback
@@ -68,10 +86,9 @@ public class OAuthController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/wbCallback")
-	public String wbCallback(Model model, HttpServletRequest request, @RequestParam(required=false) String code, 
-			@RequestParam(required=false) String state) { 
-//		String code = request.getParameter("code");
+	@RequestMapping(value = "/weiboCallback")
+	public String weiboCallback(Model model, HttpServletRequest request, @RequestParam(required=false) String code, 
+			@RequestParam(required=false) String state) {
 		if(logger.isDebugEnabled()){
             logger.debug("微博登录回调"+state);
         }
@@ -80,6 +97,26 @@ public class OAuthController {
 		}
 		return unifiedCallback(request, IOAuthService.OAUTH_WEIBO_TYPE, state);
 	}
+	
+	/**
+	 * weixin OAauth callback
+	 * @param model
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/weixinCallback")
+	public String weixinCallback(Model model, HttpServletRequest request, @RequestParam(required=false) String code, 
+			@RequestParam(required=false) String state) {
+		if(logger.isDebugEnabled()){
+            logger.debug("微信web登录回调"+state);
+        }
+		if (StringUtils.isBlank(code)) {// 用户取消授权，直接返回
+			return ResponseUtil.getRedirectHomeString();
+		}
+		return unifiedCallback(request, IOAuthService.OAUTH_WEIXIN_TYPE, state);
+	}
+
 
 	/**
 	 * tencent OAauth callback

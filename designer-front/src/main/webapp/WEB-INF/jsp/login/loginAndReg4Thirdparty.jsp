@@ -116,9 +116,9 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 												<div class="row-container clearfix">
 													<div class="row-left">邮 箱:  </div>
 													<div class="row-right">
-														<input type="text" class="span5" id="reg-username" name="username"/>
+														<input type="text" class="span5" id="reg-username" name="username" placeholder="您的常用邮箱"/>
 														<span id="reg-username-required" class="required">*</span>
-														<span id="reg-username-prompt" class="text-prompt">Email格式</span>
+														<span id="reg-username-prompt" class="text-prompt">多账户登录时会使用此邮箱，请牢记</span>
 													</div>
 												</div>
 												
@@ -129,7 +129,7 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
 														String nickname = (String)request.getAttribute(ConstFront.THIRDPARTY_USERNAME);
 														nickname = nickname==null?"":nickname;
 														%>
-														<input type="text" class="span5" id="reg-nickname" name="nickname" value="<%=nickname%>"/>
+														<input type="text" class="span5" id="reg-nickname" name="nickname" value="<%=nickname%>" placeholder="您在本站的昵称"/>
 														<span id="reg-nickname-required" class="required">*</span>
 														<span id="reg-nickname-prompt" class="text-prompt">字符、数字及下划线，2-20位</span>
 													</div>

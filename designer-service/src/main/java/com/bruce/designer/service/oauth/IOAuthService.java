@@ -12,7 +12,7 @@ public interface IOAuthService {
 
 	public static final Short OAUTH_TENCENT_TYPE = 2; // "TENCENT";
 
-	public static final Short OAUTH_RENREN_TYPE = 3; // "RENREN";
+	public static final Short OAUTH_WEIXIN_TYPE = 3; // "WEIXIN";
 
 	public AccessTokenInfo loadTokenByCallback(HttpServletRequest request, short thirdpartyType);
 	

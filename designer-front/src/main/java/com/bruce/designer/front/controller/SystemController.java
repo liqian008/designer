@@ -54,6 +54,21 @@ public class SystemController {
 		return "login/loginAndReg";
 	}
 
+
+//	@RequestMapping(value = "/loginWx", method = RequestMethod.GET)
+//	public String loginWx(Model model, @RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
+//		if(logger.isDebugEnabled()){
+//			logger.debug("登录前的redirectUrl参数: "+redirectUrl);
+//		}
+//		if (StringUtils.isNotEmpty(redirectUrl)) {
+//			model.addAttribute(ConstFront.REDIRECT_URL, redirectUrl); 
+//		}
+//		return "login/loginWx";
+//	}
+	
+	
+	
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String doLogin(Model model, HttpServletRequest request, String username, String password, @RequestParam(defaultValue = "") String verifyCode,
 			@RequestParam(value = ConstFront.REDIRECT_URL, required = false) String redirectUrl) {
