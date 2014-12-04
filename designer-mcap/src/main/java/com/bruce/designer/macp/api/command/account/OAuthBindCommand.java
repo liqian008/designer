@@ -26,7 +26,7 @@ import com.bruce.foundation.macp.passport.service.PassportService;
 import com.bruce.foundation.model.result.ApiResult;
 
 /**
- * 微博登录后绑定老账户
+ * 登录后绑定老账户
  * @author liqian
  *
  */
@@ -63,6 +63,7 @@ public class OAuthBindCommand extends AbstractApiCommand implements Initializing
     	
     	String thirdpartyUid = context.getStringParams().get("thirdpartyUid");
     	String thirdpartyUname = context.getStringParams().get("thirdpartyUname");
+    	String thirdpartyAvatar = context.getStringParams().get("thirdpartyAvatar");
     	String thirdpartyAccessToken = context.getStringParams().get("thirdpartyAccessToken");
     	String thirdpartyRefreshToken = context.getStringParams().get("thirdpartyRefreshToken");
     	String thirdpartyExpireInStr = context.getStringParams().get("thirdpartyExpireIn");
@@ -71,7 +72,7 @@ public class OAuthBindCommand extends AbstractApiCommand implements Initializing
     	// 加载用户
 		User user = userService.authUser(username, password);
 		
-		if (user != null) { // 登录检查通过
+		if (user != null) {// 登录检查通过
 			Map<Short, AccessTokenInfo> accessTokenMap = user.getAccessTokenMap();
 			// 判断该用户是否被绑定过同类型账户
 			boolean alreadyBind = accessTokenMap.get(thirdpartyType) != null;
@@ -82,6 +83,7 @@ public class OAuthBindCommand extends AbstractApiCommand implements Initializing
 				thirdpartyBindInfo.setThirdpartyType(thirdpartyType);
 				thirdpartyBindInfo.setThirdpartyUid(thirdpartyUid);
 				thirdpartyBindInfo.setThirdpartyUname(thirdpartyUname);
+				thirdpartyBindInfo.setThirdpartyAvatar(thirdpartyAvatar);
 				
 				thirdpartyBindInfo.setAccessToken(thirdpartyAccessToken);
 				thirdpartyBindInfo.setRefreshToken(thirdpartyRefreshToken);
@@ -91,7 +93,7 @@ public class OAuthBindCommand extends AbstractApiCommand implements Initializing
 				int result = accessTokenService.save(thirdpartyBindInfo);
 				
 				if(logger.isDebugEnabled()){
-		            logger.debug("用户["+username+"]使用第三方账户["+thirdpartyUname+"]登录绑定成功");
+		            logger.debug("用户["+username+"]使用第三方账户"+thirdpartyType+"["+thirdpartyUname+"]登录绑定成功");
 		        }
 				if(result==1){
 					

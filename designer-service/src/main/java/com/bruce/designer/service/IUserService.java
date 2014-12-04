@@ -9,6 +9,8 @@ import com.bruce.foundation.service.IFoundationService;
 
 public interface IUserService extends IFoundationService<User, Integer, UserCriteria>{
 	
+	public User loadById(Integer id, boolean loadAccessTokenMap); 
+
 	/*使用oauth方式注册用户*/
 	public int registerByOauth(User user, String thirdpartyAvatar);
 	
@@ -73,5 +75,6 @@ public interface IUserService extends IFoundationService<User, Integer, UserCrit
      */
 	public List<User> fallLoadDesignerList(long approvelTailTime, int limit);
 
+	
 
 }

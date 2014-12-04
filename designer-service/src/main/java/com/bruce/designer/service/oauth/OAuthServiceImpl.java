@@ -99,12 +99,15 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
         	
             //查询本地token表，看第三方用户是否曾在本站绑定过
             AccessTokenInfo dbTokenInfo = accessTokenService.load(thirdpartyUid, thirdpartyType);
-            if(dbTokenInfo==null){//如果未绑定过（可进行绑定），直接返回 
+            if(dbTokenInfo==null){//如果未绑定过（可进行绑定或直接注册），直接返回 
                 //加载返回第三方账户基础信息
                 return oauthProcessor.loadThirdpartyProfile(clientAccessToken);
             }else{//如果绑定过(不可再进行绑定)
                 //将第三方的最新token内容更新到db中
-                return refreshToken(dbTokenInfo, clientAccessToken);
+            	AccessTokenInfo updatedAccessTokenInfo =  refreshToken(dbTokenInfo, clientAccessToken);
+            	return updatedAccessTokenInfo;
+            	
+            	//TODO 根据deviceId提示用户的email，节省输入
             }
         }
     }

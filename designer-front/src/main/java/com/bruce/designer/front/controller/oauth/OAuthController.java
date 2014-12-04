@@ -189,10 +189,8 @@ public class OAuthController {
 				    if(logger.isDebugEnabled()){
 	                    logger.debug("系统中存在用户["+tokenInfo.getUserId()+"]的第三方账户["+thirdpartyName+"]记录，可直接登录");
 	                }
-					user = userService.loadById(tokenInfo.getUserId());
-					// 加载并设置用户的所有token
-					List<AccessTokenInfo> accessTokenList = accessTokenService.queryByUserId(tokenInfo.getUserId());
-					user.refreshTokenMap(accessTokenList);
+					user = userService.loadById(tokenInfo.getUserId(), true);//加载用户&tokenMap
+					
 					request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
 					// oauth验证成功，返回之前页面
 					request.setAttribute(ConstFront.REDIRECT_PROMPT, "欢迎您回来，" + user.getNickname() + "，即将转入先前页面，请稍候…");
@@ -279,7 +277,7 @@ public class OAuthController {
 			if (result == 1) {
 				sessionToken.setUserId(user.getId());
 				sessionToken.setSyncAlbum((short) 1);//默认为同步策略
-				accessTokenService.save(sessionToken);
+				accessTokenService.save(sessionToken);//保存token
 				// 清空sessionToken
 				request.getSession().removeAttribute(ConstFront.TEMPLATE_ACCESS_TOKEN);
 				// 重新加载用户

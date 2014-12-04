@@ -73,47 +73,22 @@ public class OAuthWeixinProcessor implements IOAuthProcessor {
 	 * @throws DesignerException
 	 */
 	public AccessTokenInfo loadThirdpartyProfile(AccessTokenInfo tokenInfo) {
-		weibo4j.Users users = new weibo4j.Users(tokenInfo.getAccessToken());
-		weibo4j.model.User weiboUser;
-		try {
-			weiboUser = users.showUserById(tokenInfo.getThirdpartyUid());
-			// 完善第三方的昵称
-			String thirdpartyUname = weiboUser.getScreenName();
-			String thirdpartyAvatar = weiboUser.getAvatarLarge();
-			tokenInfo.setThirdpartyUname(thirdpartyUname);
-			tokenInfo.setThirdpartyAvatar(thirdpartyAvatar);
-			return tokenInfo;
-		} catch (WeiboException e) {
-			throw new DesignerException(ErrorCode.OAUTH_ERROR);
-		}
+		//因为微信登录操作时，已经取到了个人资料等，因此在此步省略，无需再次获取了
+		return null;
 	}
 
 	/**
-	 * 发布带图片的微博
+	 * 发布时的分享（微信无此功能）
 	 * 
 	 * @param sharedInfo
 	 * @throws DesignerException
 	 */
 	public void shareout(SharedInfo sharedInfo) {
-		//System.out.println("发布weibo");
-		try {
-			String content = sharedInfo.getContent();
-			
-//			Timeline tl = new Timeline(sharedInfo.getAccessToken());
-			/*基础接口需要构造图片对象*/
-//			ImageItem imageItem = new ImageItem(sharedInfo.getImgBytes());
-//			Status status = tl.uploadStatus(sharedInfo.getContent(), imageItem);
-			/*高级接口只需要图片url即可*/
-			TimelineAdvanced tla = new TimelineAdvanced(sharedInfo.getAccessToken());
-			tla.updateUrlText(content, sharedInfo.getImgUrl());
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new DesignerException(ErrorCode.OAUTH_SHAREOUT_ERROR);
-		}
+		//do nothing
 	}
 
 	/**
-	 * 将wb的accessToken转换为通用accessToken
+	 * 将weixin的accessToken转换为通用accessToken
 	 * 
 	 * @param at
 	 * @return

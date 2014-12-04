@@ -12,6 +12,7 @@
 	<artifactId>designer-service</artifactId>
 	<name>designer-service</name>
 	<url>http://maven.apache.org</url>
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -45,6 +46,7 @@
 			<groupId>com.bruce</groupId>
 			<artifactId>designer-model</artifactId>
 			<version>1.0.0-BUILD-SNAPSHOT</version>
+			<type>jar</type>
 		</dependency>
 
 

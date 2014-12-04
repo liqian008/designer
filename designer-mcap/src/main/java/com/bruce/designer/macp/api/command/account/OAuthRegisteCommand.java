@@ -73,7 +73,6 @@ public class OAuthRegisteCommand extends AbstractApiCommand implements Initializ
     	String thirdpartyExpireInStr = context.getStringParams().get("thirdpartyExpireIn");
     	long thirdpartyExpireIn = NumberUtils.toLong(thirdpartyExpireInStr, 0);
     	
-    	
     	//验证用户名格式
 		VerifyUtils.verifyUsername(username);
 

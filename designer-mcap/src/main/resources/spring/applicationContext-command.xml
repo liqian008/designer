@@ -12,8 +12,11 @@
 		<!-- 登录部分 -->
 		<entry key="systemCheck.cmd" value-ref="systemCheckCommand" />
 		<entry key="guestLogin.cmd" value-ref="guestLoginCommand" />
+		<!-- 微博登录 -->
 		<entry key="weiboLogin.cmd" value-ref="weiboLoginCommand" />
 		<entry key="weibo2Login.cmd" value-ref="weiboLoginTempCommand" />
+		<!-- 微信登录 -->
+		<entry key="weixinLogin.cmd" value-ref="weixinLoginCommand" />
 		<entry key="oauthRegiste.cmd" value-ref="OAuthRegisteCommand" />
 		<entry key="oauthBind.cmd" value-ref="OAuthBindCommand" />
 		
@@ -64,6 +67,8 @@
 		<value>guestLogin.cmd</value>
 		<value>weiboLogin.cmd</value>
 		<value>weibo2Login.cmd</value>
+		
+		<value>weixinLogin.cmd</value>
 		
 		
 		<value>oauthRegiste.cmd</value>

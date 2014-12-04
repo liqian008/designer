@@ -14,7 +14,6 @@ import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.mail.MailService;
 import com.bruce.designer.model.AccessTokenInfo;
-import com.bruce.designer.model.TagCriteria;
 import com.bruce.designer.model.User;
 import com.bruce.designer.model.UserCriteria;
 import com.bruce.designer.service.IMessageService;
@@ -67,7 +66,7 @@ public class UserServiceImpl implements IUserService {
             if (user != null) {
 //            	checkUserStatus(user);
                 user.setPassword(null);
-                completeUser(user);
+                //completeUser(user);
                 userCache.setUser(user);
             }
 //          else{
@@ -78,13 +77,28 @@ public class UserServiceImpl implements IUserService {
 	}
 	
 	/**
+	 * 加载个人资料&accessToken信息
+	 * @param id
+	 * @return
+	 */
+	@Override
+	public User loadById(Integer id, boolean loadAccessTokenMap) {
+	    User user = loadById(id);
+	    if(loadAccessTokenMap && user!=null){
+	    	completeUser(user);
+	    }
+	    return user;
+	}
+	
+	
+	/**
 	 * 用户认证
 	 */
 	public User authUser(String username, String password) {
 		User user = userDao.loadByNamePassword(username, Md5Utils.md5Encode(password.trim()));
 		if(user!=null){
 			checkUserStatus(user);
-			completeUser(user);
+			completeUser(user);//加载accessToken的信息
 		    return user;
 		}
 		return null;
@@ -276,6 +290,13 @@ public class UserServiceImpl implements IUserService {
 	 */
 	private void completeUser(User user) {
 	    List<AccessTokenInfo> accessTokenList = accessTokenService.queryByUserId(user.getId());
+//	    //清空accessToken，避免泄漏
+//	    if(accessTokenList!=null&&accessTokenList.size()>0){
+//	    	for(AccessTokenInfo accessTokenInfo: accessTokenList){
+//	    		accessTokenInfo.setAccessToken(null);
+//	    		accessTokenInfo.setRefreshToken(null);
+//	    	}
+//	    }
 	    user.refreshTokenMap(accessTokenList);
     }
 	

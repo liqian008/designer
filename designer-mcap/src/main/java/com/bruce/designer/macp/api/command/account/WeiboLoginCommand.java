@@ -68,12 +68,13 @@ public class WeiboLoginCommand extends AbstractApiCommand implements Initializin
 			paramMap.put("userPassport", userPassport);
 			
 			
-			User hostUser = userService.loadById(accessToken.getUserId());
+			User hostUser = userService.loadById(accessToken.getUserId(), true);
 			if(hostUser!=null){
 				paramMap.put("hostUser", hostUser);
 			}
     	}else{//之前未绑定过，需要进行登录或注册绑定操作
     		paramMap.put("needBind", true);
+    		paramMap.put("thirdpartyType",  String.valueOf(IOAuthService.OAUTH_WEIBO_TYPE));
     		paramMap.put("thirdpartyUname", accessToken.getThirdpartyUname());
     		paramMap.put("thirdpartyAvatar", accessToken.getThirdpartyAvatar());
     	}

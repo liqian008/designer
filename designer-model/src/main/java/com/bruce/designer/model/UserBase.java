@@ -29,7 +29,6 @@ public class UserBase{
 //	}
 	
 	
-	
 	private int fansCount;
 	
 	private int followsCount;

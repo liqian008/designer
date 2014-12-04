@@ -17,7 +17,7 @@ import com.bruce.designer.util.UploadUtil;
 
 public abstract class AbstractUploadService implements IUploadService {
 	
-	private static final Logger logger = LoggerFactory.getLogger(UploadImageInfo.class);
+	private static final Logger logger = LoggerFactory.getLogger(AbstractUploadService.class);
 	
 //	/* 普通文件类型 */
 //	public static final short UPLOAD_FILE_TYPE_NORMAL = 0;
