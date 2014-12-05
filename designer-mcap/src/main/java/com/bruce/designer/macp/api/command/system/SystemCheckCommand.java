@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import com.bruce.designer.model.User;
 import com.bruce.designer.model.VersionUpdate;
+import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.IVersionUpdateService;
 import com.bruce.designer.util.UserUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
@@ -26,15 +28,19 @@ import com.bruce.foundation.macp.passport.service.PassportService;
 import com.bruce.foundation.model.result.ApiResult;
 
 /**
+ * 检查版本更新&用户登录
  * @author liqian
- * 
+ *
  */
 @Component
 public class SystemCheckCommand extends AbstractApiCommand implements InitializingBean {
 
     private static final Log logger = LogFactory.getLog(SystemCheckCommand.class);
     
+    @Autowired
     private PassportService passportService;
+    @Autowired
+    private IUserService userService;
     @Autowired
     private IVersionUpdateService versionUpdateService;
 
@@ -48,7 +54,7 @@ public class SystemCheckCommand extends AbstractApiCommand implements Initializi
     public ApiResult onExecute(ApiCommandContext context) {
     	int hostId = context.getUserId();
     	
-    	Map<String, Object> rt = new HashMap<String, Object>();
+    	Map<String, Object> dataMap = new HashMap<String, Object>();
     	
     	String channel = context.getStringParams().get("channel");
     	String clientTypeStr = context.getStringParams().get("clientType");
@@ -70,15 +76,17 @@ public class SystemCheckCommand extends AbstractApiCommand implements Initializi
     	}else{
     		versionCheckResult = new VersionCheckResult(0, null, null, null, null,null);
     	}
-    	rt.put("versionCheckResult", versionCheckResult);
+    	dataMap.put("versionCheckResult", versionCheckResult);
 
     	boolean needLogin = true;
     	
-    	if(!UserUtil.isGuest(hostId)){//游客身份
+    	if(!UserUtil.isGuest(hostId)){//正常登录用户
     		needLogin = false;
+    		User hostUser = userService.loadById(hostId, true);
+    		dataMap.put("hostUser", hostUser);
     	}
-    	rt.put("needLogin", needLogin);
-        return ResponseBuilderUtil.buildSuccessResult(rt);
+    	dataMap.put("needLogin", needLogin);
+        return ResponseBuilderUtil.buildSuccessResult(dataMap);
     }
 
 	public PassportService getPassportService() {

@@ -53,7 +53,7 @@ public class UploadQiniuServiceImpl extends AbstractUploadService{
 			if(imageSpecs!=null&&imageSpecs.length>0){
 				for (UploadImageInfo imageSpec : imageSpecs) {
 					int width = imageSpec.getWidth();
-					String itemUrl = QiniuUtil.getScaleImage(originUrl, width, 0);
+					String itemUrl = QiniuUtil.getMode2ScaleImage(originUrl, width, 0);
 					uploadImageResult.put(buildImageResult(itemUrl, imageSpec.getImageSpec(), width));
 				}
 			}

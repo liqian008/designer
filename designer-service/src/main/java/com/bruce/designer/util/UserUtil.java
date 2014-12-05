@@ -50,7 +50,7 @@ public class UserUtil {
     		width = 50;
     	}
     	if(!StringUtils.isBlank(avatarUrl)){
-    		return QiniuUtil.getScaleImage(avatarUrl, width);
+    		return QiniuUtil.getAvatarScaleImage(avatarUrl, width);
     	}
     	return "";
     }

@@ -2,7 +2,6 @@ package com.bruce.designer.front.controller.oauth;
 
 import java.net.URLEncoder;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,9 +42,16 @@ public class OAuthController {
 	
 
 	private static final Logger logger = LoggerFactory.getLogger(OAuthController.class);
-
+	
+	/**
+	 * 
+	 * @param redirectUrl 作为state传入，便于登录后跳转回原页面
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/connectWeibo")
-	public String connectWeibo(@RequestParam(required = false) String redirectUrl, HttpServletRequest request) throws Exception {
+	public String connectWeibo(@RequestParam(value=ConstFront.REDIRECT_URL, required = false) String redirectUrl, HttpServletRequest request) throws Exception {
 		if (logger.isDebugEnabled()) {
 			logger.debug("请求微博登录" + redirectUrl);
 		}
