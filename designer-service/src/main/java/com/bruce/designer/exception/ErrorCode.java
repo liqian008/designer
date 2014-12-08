@@ -25,6 +25,10 @@ public class ErrorCode {
 	
 	/* 没有更多数据 */
 	public final static int SYSTEM_NO_MORE_DATA = 4;
+	
+	/* 没有相关内容 */
+	public final static int SYSTEM_NO_DATA = 5;
+
 
 	/* 权限相关分配100-200的错误码 */
 	
@@ -130,6 +134,22 @@ public class ErrorCode {
 	/* 选择的tag不存在 */
 	public static final int TAG_NOT_EXISTS = 702;
 	
+	/* 投票相关分配750-760的错误码 */
+	/* 未知错误 */
+	public static final int VOTE_ERROR = 750;
+	/* 投票活动不存在 */
+	public static final int VOTE_NOT_EXISTS = 751;
+	/* 投票活动已关闭 */
+	public static final int VOTE_CLOSED = 752;
+	/* 投票活动未开始 */
+	public static final int VOTE_NOT_START = 753;
+	/* 投票活动已结束 */
+	public static final int VOTE_ALREADY_FINISHED = 754;
+	
+	/* 投票次数超限 */
+	public static final int VOTE_OVER_LIMIT = 755;
+	/* 重复投票 */
+	public static final int VOTE_REPEAT = 756;
 
 	/* WEB AJAX请求分配10000-19999的错误码 */
 

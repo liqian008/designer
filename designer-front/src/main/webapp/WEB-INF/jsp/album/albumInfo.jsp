@@ -124,8 +124,8 @@ Album album = (Album)request.getAttribute("albumInfo");
 								
 								<blockquote class="normal blockquote-left blockquote-bg">
                                     <p>
-                                    <span class="blockquote-author"><a href='javascript:void(0)'>作品描述</a>:&nbsp;&nbsp;<%=album.getRemark()%></span>
-                                    <span class="blockquote-author"><a href='javascript:void(0)'>价格</a>:&nbsp;&nbsp;<%=album.getPrice()%>&nbsp;元&nbsp;&nbsp;
+                                    <span class="blockquote-author"><a href='javascript:void(0)'>作品描述&nbsp;</a>:&nbsp;&nbsp;<%=album.getRemark()%></span>
+                                    <span class="blockquote-author"><a href='javascript:void(0)'>价格&nbsp;</a>:&nbsp;&nbsp;<%=album.getPrice()%>&nbsp;元&nbsp;&nbsp;
                                     <%if(album.getLink()!=null){%><a href="<%=album.getLink()%>" class="button button-small button-blue" target="_blank">查看淘宝链接</a><%}%></span>
                                     </p>
                                 </blockquote> 
