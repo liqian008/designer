@@ -134,13 +134,15 @@ Vote vote = (Vote)request.getAttribute("vote");
 								<%
 								for(VoteOption option: voteOptionList){
 								%>
-								<img src="<%=option.getPicUrl()%>" width="100%"> 
-
-								<div class="single-navigation navigation clearfix">
-									<%if(voteOnline && !voteExpire){%>
-										<a href="javascript:void(0)" class="nav-left <%=option.isVoted()?"":"voteBtn"%> " dataItem=<%=option.getId()%>><%=option.isVoted()?"您已投票":"我要投票"%></a>
-									<%}%>
-									<a href="javascript:void(0)" class="nav-right">已有XXX人投票</a>
+								<div class="row-fluid clearfix">
+									<img src="<%=option.getPicUrl()%>" width="100%"> 
+	
+									<div class="single-navigation navigation clearfix">
+										<%if(voteOnline && !voteExpire){%>
+											<a href="javascript:void(0)" class="nav-left <%=option.isVoted()?"":"voteBtn"%> " dataItem=<%=option.getId()%>><%=option.isVoted()?"您已投票":"我要投票"%></a>
+										<%}%>
+										<a href="javascript:void(0)" class="nav-right">已有&nbsp;<%=option.getVoteNum()%>&nbsp;人投票</a>
+									</div>
 								</div>
 								<%}%>
 								

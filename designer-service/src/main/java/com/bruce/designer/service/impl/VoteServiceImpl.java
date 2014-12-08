@@ -1,5 +1,6 @@
 package com.bruce.designer.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
@@ -9,9 +10,12 @@ import org.springframework.util.Assert;
 
 import com.bruce.designer.dao.IVoteDao;
 import com.bruce.designer.dao.IVoteOptionDao;
+import com.bruce.designer.dao.IVoteResultDao;
+import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.model.Vote;
 import com.bruce.designer.model.VoteCriteria;
 import com.bruce.designer.model.VoteOption;
+import com.bruce.designer.model.VoteResult;
 import com.bruce.designer.service.IVoteService;
 
 @Service
@@ -21,6 +25,8 @@ public class VoteServiceImpl implements IVoteService, InitializingBean {
 	private IVoteDao voteDao;
 	@Autowired
 	private IVoteOptionDao voteOptionDao;
+	@Autowired
+	private IVoteResultDao voteResultDao;
 	
 
 	public int save(Vote t) {
@@ -28,7 +34,7 @@ public class VoteServiceImpl implements IVoteService, InitializingBean {
 	}
 
 	public List<Vote> queryAll() {
-		return voteDao.queryAll();
+		return voteDao.queryAll(); 
 	}
 
 	public int updateById(Vote t) {
@@ -89,8 +95,18 @@ public class VoteServiceImpl implements IVoteService, InitializingBean {
 	}
 
 	@Override
-	public int vote(int voteOptionId) {
-		return 1;
+	public int vote(int voteId, int voteOptionId) {
+		VoteResult voteResult = new VoteResult();
+		voteResult.setVoteId(voteId);
+		voteResult.setVoteOptionId(voteOptionId);
+		voteResult.setCreateTime(new Date());
+		return voteResultDao.save(voteResult);
+	}
+	
+	
+	/*投票数据统计*/
+	public List<CountCacheBean> queryVoteResultStat(int voteId){
+		return voteResultDao.queryVoteResultStat(voteId);
 	}
 	
 }

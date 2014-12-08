@@ -30,6 +30,8 @@
 		<mapper resource="com/bruce/designer/model/mapper/VoteMapper.xml" />
 		<mapper resource="com/bruce/designer/model/mapper/VoteExtendMapper.xml" />
 		<mapper resource="com/bruce/designer/model/mapper/VoteOptionMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/VoteResultMapper.xml" />
+		<mapper resource="com/bruce/designer/model/mapper/VoteResultExtendMapper.xml" />
 		
 		
 		<!-- 

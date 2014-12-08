@@ -1,7 +1,9 @@
 package com.bruce.designer.front.controller;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.Cookie;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
@@ -57,20 +60,23 @@ public class VoteController {
 		if(vote==null){
 			throw new DesignerException(ErrorCode.VOTE_NOT_EXISTS);
 		}
-//		if(!Short.valueOf((short)1).equals(vote.getStatus())){
-//			throw new DesignerException(ErrorCode.VOTE_CLOSED);
-//		}
-//		if(!Short.valueOf((short)1).equals(vote.getStatus())){
-//			throw new DesignerException(ErrorCode.VOTE_CLOSED);
-//		}
-			
 		//选项列表
 		List<VoteOption> voteOptionList = voteService.queryOptionsByVoteId(voteId);
 		//遍历，以判断是否投票过
 		if(voteOptionList!=null&&voteOptionList.size()>0){
 			Set<Integer> votedOptionSet = getVoteOptionSetFromCookie(request, voteId);
+			//获取投票项的统计
+			List<CountCacheBean> voteResultList = voteService.queryVoteResultStat(voteId);
+			//将统计转为map
+			Map<Integer, Integer> voteResultMap = convertToMap(voteResultList);
+			
 			for(VoteOption option: voteOptionList){//选项列表
 				Integer optionId = option.getId();
+				//各选项的投票数量
+				int voteNum = voteResultMap.get(optionId)==null?0:voteResultMap.get(optionId);
+				option.setVoteNum(voteNum);
+				
+				//计算用户是否投票过
 				if(votedOptionSet.contains(optionId)){
 					option.setVoted(true);
 				}
@@ -80,6 +86,16 @@ public class VoteController {
 		
 		model.addAttribute("vote", vote);
 		return "vote/voteInfo";
+	}
+
+	private Map<Integer, Integer> convertToMap(List<CountCacheBean> voteResultList) {
+		Map<Integer, Integer> voteResultMap = new HashMap<Integer, Integer>();
+		if(voteResultList!=null&&voteResultList.size()>0){
+			for(CountCacheBean countBean: voteResultList){
+				voteResultMap.put(countBean.getMember(), (int)countBean.getScore());
+			}
+		}
+		return voteResultMap;
 	}
 
 	/**
@@ -112,19 +128,17 @@ public class VoteController {
 		
 		if(votedOptionSet!=null&&votedOptionSet.size()>0){//之前vote过
 			if(vote.getMaxCheckLimit()<=votedOptionSet.size()){
-				//vote超限，不能再投票了
-				throw new DesignerException(ErrorCode.VOTE_OVER_LIMIT);
+				throw new DesignerException(ErrorCode.VOTE_OVER_LIMIT);//vote超限，不能再投票了
 			}
 			if(votedOptionSet.contains(voteOptionId)){
-				//已经投过票，不能重复投票
-				throw new DesignerException(ErrorCode.VOTE_REPEAT);
+				throw new DesignerException(ErrorCode.VOTE_REPEAT);//已经投过票，不能重复投票
 			}
 		}
 		if(votedOptionSet==null) votedOptionSet = new HashSet<Integer>();
 		votedOptionSet.add(voteOptionId);
 		
 		//增加vote记录
-		int result =  voteService.vote(voteOptionId);
+		int result =  voteService.vote(vote.getId(), voteOptionId);
 		if(result>0){
 			//重新写入cookie
 			String newCookieValue = JsonUtil.gson.toJson(votedOptionSet);

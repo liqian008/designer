@@ -164,6 +164,10 @@
 		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.VoteOptionMapper" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
+	<bean id="voteResultMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.bruce.designer.dao.mapper.VoteResultMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
 	
 	<!-- 
 	<bean id="userMessageMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">

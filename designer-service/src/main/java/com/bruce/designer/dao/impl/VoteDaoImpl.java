@@ -10,8 +10,6 @@ import com.bruce.designer.dao.IVoteDao;
 import com.bruce.designer.dao.mapper.VoteMapper;
 import com.bruce.designer.model.Vote;
 import com.bruce.designer.model.VoteCriteria;
-import com.bruce.designer.model.VoteOption;
-import com.bruce.designer.model.VoteOptionCriteria;
 
 @Repository
 public class VoteDaoImpl implements IVoteDao, InitializingBean {

@@ -12,5 +12,5 @@
     from tb_vote tv, tb_vote_option tvo 
     where tvo.id = #{id,jdbcType=INTEGER} and tv.id = tvo.vote_id
   </select>
- 	
+  
 </mapper>
