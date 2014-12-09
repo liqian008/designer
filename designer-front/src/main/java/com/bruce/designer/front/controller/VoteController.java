@@ -67,14 +67,24 @@ public class VoteController {
 			Set<Integer> votedOptionSet = getVoteOptionSetFromCookie(request, voteId);
 			//获取投票项的统计
 			List<CountCacheBean> voteResultList = voteService.queryVoteResultStat(voteId);
-			//将统计转为map
-			Map<Integer, Integer> voteResultMap = convertToMap(voteResultList);
+			//将统计转为map，并计算总投票数
+			int totalVoteCount = 0;
+			Map<Integer, Integer> voteResultMap = new HashMap<Integer, Integer>();
+			if(voteResultList!=null&&voteResultList.size()>0){
+				for(CountCacheBean countBean: voteResultList){
+					int itemVoteCount = (int)countBean.getScore();
+					totalVoteCount += itemVoteCount;
+					voteResultMap.put(countBean.getMember(), itemVoteCount);
+				}
+			}
 			
 			for(VoteOption option: voteOptionList){//选项列表
 				Integer optionId = option.getId();
 				//各选项的投票数量
 				int voteNum = voteResultMap.get(optionId)==null?0:voteResultMap.get(optionId);
 				option.setVoteNum(voteNum);
+				float itemPercent = totalVoteCount<=0f?0f:(((float)100*voteNum)/(float)totalVoteCount);
+				option.setPercent(itemPercent);
 				
 				//计算用户是否投票过
 				if(votedOptionSet.contains(optionId)){
@@ -88,15 +98,10 @@ public class VoteController {
 		return "vote/voteInfo";
 	}
 
-	private Map<Integer, Integer> convertToMap(List<CountCacheBean> voteResultList) {
-		Map<Integer, Integer> voteResultMap = new HashMap<Integer, Integer>();
-		if(voteResultList!=null&&voteResultList.size()>0){
-			for(CountCacheBean countBean: voteResultList){
-				voteResultMap.put(countBean.getMember(), (int)countBean.getScore());
-			}
-		}
-		return voteResultMap;
-	}
+//	private Map<Integer, Integer> convertToMap(List<CountCacheBean> voteResultList) {
+//		
+//		return voteResultMap;
+//	}
 
 	/**
 	 * 投票操作

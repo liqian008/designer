@@ -438,5 +438,46 @@ Album album = (Album)request.getAttribute("albumInfo");
     	
     </script>
 
+
+
+<script>
+var imgUrl = "<%=albumSlide.getWxShareIconUrl()%>";
+var lineLink = "http://www.jinwanr.com/album/<%=album.getId()%>";
+var shareTitle = '【金玩儿网】 - <%=albumSlide.getWxShareTitle()%>';
+var shareDesc = '【金玩儿网】 - <%=albumSlide.getWxShareContent()%>';
+
+function shareFriend() {
+    WeixinJSBridge.invoke('sendAppMessage',{
+        "img_url": imgUrl,
+        "link": lineLink,
+        "desc": shareDesc,
+        "title": shareTitle
+    }, function(res) {
+        //_report('send_msg', res.err_msg);
+    })
+}
+function shareTimeline() {
+    WeixinJSBridge.invoke('shareTimeline',{
+    	"img_url": imgUrl,
+        "link": lineLink,
+        "desc": shareDesc,
+        "title": shareTitle
+    }, function(res) {
+           //_report('timeline', res.err_msg);
+    });
+}
+// 当微信内置浏览器完成内部初始化后会触发WeixinJSBridgeReady事件。
+document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+    // 发送给好友
+    WeixinJSBridge.on('menu:share:appmessage', function(argv){
+        shareFriend();
+    });
+    // 分享到朋友圈
+    WeixinJSBridge.on('menu:share:timeline', function(argv){
+        shareTimeline();
+    });
+}, false);
+</script>
+
 </body>
 </html>

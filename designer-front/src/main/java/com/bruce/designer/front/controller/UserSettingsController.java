@@ -477,6 +477,11 @@ public class UserSettingsController {
 			album.setPrice(price);
 			album.setLink(link);
 			album.setRemark(remark);
+			//分享内容
+			album.setWxShareTitle(title);
+			album.setWxShareContent(remark);
+			album.setWxShareIconUrl(request.getParameter("smallImage" + coverId));
+			
 			Date currentTime = new Date();
 			album.setCreateTime(currentTime);
 			album.setUpdateTime(currentTime);
@@ -505,6 +510,12 @@ public class UserSettingsController {
 						slide.setIsCover(ConstService.ALBUM_SLIDE_ISNOT_COVER);
 					}
 					slide.setStatus(ConstService.ALBUM_OPEN_STATUS);
+					
+					//单品的分享内容
+					slide.setWxShareTitle(title);
+					slide.setWxShareContent(remark);
+					slide.setWxShareIconUrl(request.getParameter("smallImage" + tempSlideId));
+					
 					albumSlideService.save(slide);
 				}
 				//关联作品与tag
@@ -586,6 +597,10 @@ public class UserSettingsController {
 				album.setCoverLargeImg(request.getParameter("largeImage" + coverId));
 				albumSlideService.setCover(userId, albumId, coverId);
 			}
+			
+			//分享内容
+			album.setWxShareTitle(title);
+			album.setWxShareIconUrl(request.getParameter("smallImage" + coverId));
 			
 			int result = albumService.updateById(album);
 			if(result>0){

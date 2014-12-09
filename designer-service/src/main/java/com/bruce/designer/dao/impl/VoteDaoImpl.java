@@ -71,7 +71,7 @@ public class VoteDaoImpl implements IVoteDao, InitializingBean {
 	
 	@Override
 	public Vote loadByOptionId(int voteOptionId) {
-		return voteMapper.loadByOptionId(voteOptionId);
+		return voteMapper.loadByOptionId(voteOptionId); 
 	}
 	
 }

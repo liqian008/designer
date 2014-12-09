@@ -257,8 +257,10 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
     	$(document).ready(function(){
     		<%if(registerActive){%>
 				$('#reg-username').focus();
+				checkRegUsername();
 			<%}else{%>
 				$('#login-username').focus();
+				checkLoginUsername();
 			<%}%>
     	});
     	

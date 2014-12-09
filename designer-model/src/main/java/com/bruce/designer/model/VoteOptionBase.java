@@ -4,6 +4,8 @@ public class VoteOptionBase {
 
 	/* 用户是否已投票 */
 	private boolean voted;
+	/*投票所占比例，*/
+	private float percent;
 
 	private int voteNum;
 
@@ -21,6 +23,14 @@ public class VoteOptionBase {
 
 	public void setVoteNum(int voteNum) {
 		this.voteNum = voteNum;
+	}
+
+	public float getPercent() {
+		return percent;
+	}
+
+	public void setPercent(float percent) {
+		this.percent = percent;
 	}
 
 }

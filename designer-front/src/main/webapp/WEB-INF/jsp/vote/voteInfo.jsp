@@ -9,6 +9,8 @@
 
 
 <%
+DecimalFormat df =new DecimalFormat("0.00");
+
 String contextPath = ConstFront.CONTEXT_PATH;
 Vote vote = (Vote)request.getAttribute("vote");
 %>
@@ -139,9 +141,16 @@ Vote vote = (Vote)request.getAttribute("vote");
 	
 									<div class="single-navigation navigation clearfix">
 										<%if(voteOnline && !voteExpire){%>
-											<a href="javascript:void(0)" class="nav-left <%=option.isVoted()?"":"voteBtn"%> " dataItem=<%=option.getId()%>><%=option.isVoted()?"您已投票":"我要投票"%></a>
+											<a href="javascript:void(0)" class="nav-left <%=option.isVoted()?"":"voteBtn"%> " dataItem=<%=option.getId()%>><%=option.isVoted()?"您已投票":"点击投票"%></a>
 										<%}%>
 										<a href="javascript:void(0)" class="nav-right">已有&nbsp;<%=option.getVoteNum()%>&nbsp;人投票</a>
+									</div>
+									
+									<div class="single-navigation navigation clearfix">
+										<link rel="stylesheet" href="<%=contextPath%>/css/progress.css"> 
+										<div class="progress"> 
+										<span class="green" style="width: <%=df.format(option.getPercent())%>%"><span><%=df.format(option.getPercent())%>%</span></span>
+										</div> 
 									</div>
 								</div>
 								<%}%>
@@ -195,4 +204,45 @@ $("body").delegate('a.voteBtn', 'click', function(){
 });
 
 </script>
+
+
+<script>
+var imgUrl = "<%=vote.getWxShareIconUrl()%>";
+var lineLink = "http://www.jinwanr.com/vote/<%=vote.getId()%>";
+var shareTitle = '【金玩儿网】 - <%=vote.getWxShareTitle()%>';
+var shareDesc = '【金玩儿网】 - <%=vote.getWxShareContent()%>';
+
+function shareFriend() {
+    WeixinJSBridge.invoke('sendAppMessage',{
+        "img_url": imgUrl,
+        "link": lineLink,
+        "desc": shareDesc,
+        "title": shareTitle
+    }, function(res) {
+        //_report('send_msg', res.err_msg);
+    })
+}
+function shareTimeline() {
+    WeixinJSBridge.invoke('shareTimeline',{
+    	"img_url": imgUrl,
+        "link": lineLink,
+        "desc": shareDesc,
+        "title": shareTitle
+    }, function(res) {
+           //_report('timeline', res.err_msg);
+    });
+}
+// 当微信内置浏览器完成内部初始化后会触发WeixinJSBridgeReady事件。
+document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+    // 发送给好友
+    WeixinJSBridge.on('menu:share:appmessage', function(argv){
+        shareFriend();
+    });
+    // 分享到朋友圈
+    WeixinJSBridge.on('menu:share:timeline', function(argv){
+        shareTimeline();
+    });
+}, false);
+</script>
+
 </html>
