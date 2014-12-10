@@ -228,4 +228,6 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
     </script>
 
     </body>
+    
+<jsp:include page="../inc/weixinShare_site.jsp"></jsp:include>
 </html>

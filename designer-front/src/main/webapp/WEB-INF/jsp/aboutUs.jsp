@@ -147,5 +147,8 @@ String contextPath = ConstFront.CONTEXT_PATH;
 
     <script src="<%=contextPath%>/js/custom.js"></script>
     </body>
+    
+    
+<jsp:include page="./inc/weixinShare_site.jsp"></jsp:include>
 </html>
 

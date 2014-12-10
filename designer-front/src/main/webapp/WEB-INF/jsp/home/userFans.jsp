@@ -182,4 +182,6 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
     <script src="<%=contextPath%>/js/custom.js"></script>
 
     </body>
+    
+    <jsp:include page="../inc/weixinShare_site.jsp"></jsp:include>
 </html>

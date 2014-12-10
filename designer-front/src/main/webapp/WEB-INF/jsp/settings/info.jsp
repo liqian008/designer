@@ -165,4 +165,6 @@ boolean isDesigner = currentUser.getDesignerStatus() == ConstService.DESIGNER_AP
     <script src="<%=contextPath%>/js/custom.js"></script>
 
     </body>
+
+<jsp:include page="../inc/weixinShare_site.jsp"></jsp:include>
 </html>

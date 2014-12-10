@@ -124,4 +124,7 @@ if(redirectUrl==null||"".equals(redirectUrl)){
 	</script>
 	
     </body>
+    
+    
+<jsp:include page="./inc/weixinShare_site.jsp"></jsp:include>
 </html>

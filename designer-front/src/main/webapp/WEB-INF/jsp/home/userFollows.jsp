@@ -230,4 +230,6 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 	});
 	</script>
     </body>
+    
+    <jsp:include page="../inc/weixinShare_site.jsp"></jsp:include>
 </html>

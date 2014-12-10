@@ -56,7 +56,9 @@ public interface ConstConfig {
 	/*阿里oss绑定的cname域名*/
 	public static final String UPLOAD_ALI_OSS_BIND_DOMAIN = ConfigUtil.getString("upload_ali_oss_bind_domain");
 	
-	/*微信分享的前缀*/
-	public static final String SHARE_PREFIX = ConfigUtil.getString("share_prefix");
+	/*微信分享的标题模板*/
+	public static final String SHARE_TITLE_TEMPLATE = ConfigUtil.getString("share_title_template");
+	/*微信分享的内容模板*/
+	public static final String SHARE_CONTENT_TEMPLATE = ConfigUtil.getString("share_content_template");
 	
 }

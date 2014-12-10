@@ -151,4 +151,8 @@ String contextPath = ConstFront.CONTEXT_PATH;
     	}
     </script>
     </body>
+    
+    
+<jsp:include page="./inc/weixinShare_site.jsp"></jsp:include>
+
 </html>

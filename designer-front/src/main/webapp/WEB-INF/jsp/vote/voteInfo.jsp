@@ -93,7 +93,7 @@ Vote vote = (Vote)request.getAttribute("vote");
 				<div class="container">
 					<div class="row-fluid">
 
-						<section class="content span12">
+						<section class="content span9">
 							<%
 							if(vote!=null){
 								short voteStatus = vote.getStatus()==null?0:vote.getStatus();//投票状态
@@ -159,7 +159,11 @@ Vote vote = (Vote)request.getAttribute("vote");
 							<%}
 							}%>
 						</section>
-
+					
+						<!-- right slidebar -->
+						<aside class="sidebar widgets-light span3">
+                       		<jsp:include page="../inc/right/sidebar.jsp"></jsp:include> 
+                    	</aside>
 					</div>
 				</div>
 				<!-- Close Main -->

@@ -347,4 +347,6 @@ boolean registerActive = true;//(null != (String)request.getAttribute(ConstFront
         })
     </script>
     </body>
+    
+<jsp:include page="../inc/weixinShare_site.jsp"></jsp:include>
 </html>

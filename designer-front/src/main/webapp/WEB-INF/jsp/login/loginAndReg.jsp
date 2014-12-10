@@ -148,4 +148,6 @@ boolean registerActive = (null != (String)request.getAttribute(ConstFront.REGIST
 
     <script src="<%=contextPath%>/js/custom.js"></script>
     </body>
+    
+<jsp:include page="../inc/weixinShare_site.jsp"></jsp:include>
 </html>

@@ -9,6 +9,8 @@
 <%
 String contextPath = ConstFront.CONTEXT_PATH;
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
+
+User queryUser =  (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE);
 Album album = (Album)request.getAttribute("albumInfo");
 %>
 
@@ -443,8 +445,8 @@ Album album = (Album)request.getAttribute("albumInfo");
 <script>
 var imgUrl = "<%=albumSlide.getWxShareIconUrl()%>";
 var lineLink = "http://www.jinwanr.com/album/<%=album.getId()%>";
-var shareTitle = '【金玩儿网】 - <%=albumSlide.getWxShareTitle()%>';
-var shareDesc = '【金玩儿网】 - <%=albumSlide.getWxShareContent()%>';
+var shareTitle = '[<%=queryUser.getNickname()%>作品] - <%=album.getWxShareTitle()%> - 【金玩儿网】';
+var shareDesc = '[<%=queryUser.getNickname()%>作品] - <%=album.getWxShareContent()%> - 【金玩儿网】';
 
 function shareFriend() {
     WeixinJSBridge.invoke('sendAppMessage',{
