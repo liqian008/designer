@@ -254,16 +254,18 @@ public class DesignerHtmlUtils {
 			StringBuilder sb = new StringBuilder();
 			for (Comment comment : commentList) {
 				String userLink = DesignerLinkUtil.getUserLink4Web(comment.getFromId());
+				boolean itemIsGuest = UserUtil.isGuest(comment.getFromId());
 				sb.append("<li class='comment depth-1' id='li-comment-1'>" + 
 						"<div class='comment-container' id='comment-1'><div class='comment-avatar'>"
-						+ "<div class='comment-author vcard'>" + "<a href='"+userLink+"'>" +
+						+ "<div class='comment-author vcard'>" + "<a href='"+(itemIsGuest?"javascript:void(0)":userLink)+"'>" +
 								"<img src='"+UserUtil.getAvatarUrl(comment.getUserHeadImg(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)+"'/></a>" + "</div></div>"
 						+ "<div class='comment-body'><div class='comment-meta commentmetadata'>" + "<h6 class='comment-author'>"
-						+ "<a href='"+userLink+"' rel='external nofollow' class='url'>" + comment.getNickname() + "</a> 发表于 "
+						//匿名用户不展示链接
+						+ "<a href='"+(itemIsGuest?"javascript:void(0)":userLink)+"' rel='external nofollow' class='url'>" + comment.getNickname() + "</a> 发表于 "
 						+ DateFormatUtils.format(comment.getCreateTime(), ConstDateFormat.YYYYMMDD_HHMM_FORMAT) + "</h6></div>"
 						+ "<div class='comment-content'>");
 				sb.append(comment.getComment());
-				boolean displayReplyBtn = userId!=null&&!userId.equals(comment.getFromId());
+				boolean displayReplyBtn = !itemIsGuest && comment.getFromId()!=null&&!comment.getFromId().equals(userId);
 				if(displayReplyBtn){
 					sb.append("&nbsp;&nbsp;<a href=\"javascript:reply("+comment.getFromId()+",'"+comment.getNickname()+"')\">回复</a>");
 				}

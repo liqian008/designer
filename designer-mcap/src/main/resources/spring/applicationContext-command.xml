@@ -28,6 +28,7 @@
 		<entry key="albumInfo.cmd" value-ref="albumInfoCommand" />
 		<entry key="albumComments.cmd" value-ref="albumCommentsCommand" />
 		
+		<entry key="myInfo.cmd" value-ref="myInfoCommand" />
 		<entry key="userInfo.cmd" value-ref="userInfoCommand" />
 		<entry key="uploadAvatar.cmd" value-ref="uploadAvatarCommand" />
 		
@@ -69,6 +70,7 @@
 		<value>weibo2Login.cmd</value>
 		
 		<value>weixinLogin.cmd</value>
+		<value>postComment.cmd</value>
 		
 		
 		<value>oauthRegiste.cmd</value>

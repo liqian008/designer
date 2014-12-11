@@ -138,6 +138,39 @@ public class AlbumInteractiveController {
 	}
 	
 	/**
+	 * 游客评论
+	 * @param request
+	 * @param comment
+	 * @param albumId
+	 * @param toId
+	 * @param designerId
+	 * @return
+	 */
+	@RequestMapping(value = "guestComment.json", method = RequestMethod.POST)
+	public ModelAndView guestComment(HttpServletRequest request, String comment, int albumId, int toId, int designerId) {
+		int fromId = UserUtil.GUEST_ID; 
+		User user = getSessionUser(request);
+		if(user!=null){
+			fromId = user.getId();//登录状态下，使用当前登录人的 
+		}
+				
+		if(logger.isDebugEnabled()){
+            logger.debug("游客方式评论设计师["+designerId+"]的专辑["+albumId+"], from 用户["+fromId+"] to 用户["+toId+"]");
+        }
+		
+		Comment commentResult = albumCommentService.comment(null, comment, albumId, fromId, toId, designerId);
+		
+		if (commentResult != null) {// 成功响应
+			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(buildCommentHtml(commentResult)));
+		} else {
+		    if(logger.isErrorEnabled()){
+	            logger.error("游客方式评论设计师["+designerId+"]的专辑["+albumId+"], from 用户["+fromId+"] to 用户["+toId+"]，操作失败");
+	        }
+			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildErrorJson(ErrorCode.SYSTEM_ERROR));
+		}
+	}
+	
+	/**
 	 * 赞
 	 * @param request
 	 * @param fromId

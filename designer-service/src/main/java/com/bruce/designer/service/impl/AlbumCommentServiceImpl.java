@@ -18,6 +18,7 @@ import com.bruce.designer.service.IAlbumCommentService;
 import com.bruce.designer.service.IAlbumCounterService;
 import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserService;
+import com.bruce.designer.util.UserUtil;
 
 @Service
 public class AlbumCommentServiceImpl implements IAlbumCommentService {
@@ -122,6 +123,7 @@ public class AlbumCommentServiceImpl implements IAlbumCommentService {
 
 			// 同时发送消息
 			if(toIdSet!=null&&toIdSet.size()>0){
+				toIdSet.remove(UserUtil.GUEST_ID);//游客不应该收到评论的消息通知
 				content = content.replace(prefix, "").trim();
 //				String messageContent = fromNickname+": " + content;
 				messageService.sendMessage(albumId, fromId, toIdSet, content, ConstService.MESSAGE_TYPE_COMMENT);
