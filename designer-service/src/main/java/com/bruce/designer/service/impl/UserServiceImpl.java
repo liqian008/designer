@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bruce.designer.cache.user.UserCache;
+import com.bruce.designer.constants.ConstConfig;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IUserDao;
 import com.bruce.designer.exception.DesignerException;
@@ -17,8 +18,11 @@ import com.bruce.designer.model.AccessTokenInfo;
 import com.bruce.designer.model.User;
 import com.bruce.designer.model.UserCriteria;
 import com.bruce.designer.service.IMessageService;
+import com.bruce.designer.service.ITaskService;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.oauth.IAccessTokenService;
+import com.bruce.designer.service.oauth.IOAuthService;
+import com.bruce.designer.service.oauth.SharedInfo;
 import com.bruce.designer.service.upload.impl.UploadQiniuServiceImpl;
 import com.bruce.designer.util.ConfigUtil;
 import com.bruce.designer.util.Md5Utils;
@@ -38,6 +42,10 @@ public class UserServiceImpl implements IUserService {
     private UploadQiniuServiceImpl uploadQiniuService;
 	@Autowired
 	private MailService mailService;
+	@Autowired
+	private ITaskService taskService;
+	@Autowired
+	private IOAuthService oauthService; 
 	
 	public int save(User t) {
 		if(t!=null){
@@ -332,7 +340,7 @@ public class UserServiceImpl implements IUserService {
 	 * oauth方式的用户注册（需要将oauth中的头像作为用户 头像保存）
 	 */
 	@Override
-	public int registerByOauth(User user, String thirdpartyAvatar) {
+	public int registerByOauth(User user, Short thirdpartyType, String accessToken, String thirdpartyAvatar) {
 		//使用第三方头像
 		user.setHeadImg(thirdpartyAvatar);
 		int result =  save(user);
@@ -351,7 +359,13 @@ public class UserServiceImpl implements IUserService {
 			//TODO发送系统欢迎消息
 			messageService.sendSystemMessage(user.getId(), welcomeMessage);
 			//系统异步发送欢迎邮件
-            mailService.sendWelcomeMail(user.getUsername());
+			mailService.sendWelcomeMail(user.getUsername());
+
+			if (thirdpartyType != null && thirdpartyType == IOAuthService.OAUTH_WEIBO_TYPE) {
+				// 发布一条微博，添加至线程池运行
+				SharedInfo sharedInfo = new SharedInfo(thirdpartyType, accessToken, ConstConfig.WEIBO_REGISTER_POST_CONTENT, ConstConfig.WEIBO_REGISTER_POST_IMG);
+				oauthService.shareout(sharedInfo);
+			}
 		}
 		
 		return result;

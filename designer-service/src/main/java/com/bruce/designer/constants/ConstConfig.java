@@ -61,4 +61,9 @@ public interface ConstConfig {
 	/*微信分享的内容模板*/
 	public static final String SHARE_CONTENT_TEMPLATE = ConfigUtil.getString("share_content_template");
 	
+	/*微博注册情况下发布的文案*/
+	public static final String WEIBO_REGISTER_POST_CONTENT = ConfigUtil.getString("weibo_register_post_content");
+	/*微博注册情况下发布的图片*/
+	public static final String WEIBO_REGISTER_POST_IMG = ConfigUtil.getString("weibo_register_post_img");
+	
 }

@@ -12,7 +12,7 @@ public interface IUserService extends IFoundationService<User, Integer, UserCrit
 	public User loadById(Integer id, boolean loadAccessTokenMap); 
 
 	/*使用oauth方式注册用户*/
-	public int registerByOauth(User user, String thirdpartyAvatar);
+	public int registerByOauth(User user, Short thirdpartyType, String accessToken, String thirdpartyAvatar);
 	
 	public List<User> queryUsersByStatus(short status);
 

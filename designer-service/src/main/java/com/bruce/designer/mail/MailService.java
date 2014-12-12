@@ -55,7 +55,7 @@ public class MailService {
 		taskService.executeTask(new Runnable(){
 			@Override
 			public void run() {
-				System.out.println("发送欢迎邮件");
+				//System.out.println("发送欢迎邮件");
 				String welcomeTitle = MAIL_WELCOME_TITLE;
 			    String welcomeContent = MAIL_WELCOME_CONTENT;
 			    sendSSLMail(MAIL_ADMIN_USERNAME, MailEncrypt.decrypt(MAIL_ADMIN_PASSWORD), userMail, welcomeTitle, welcomeContent);

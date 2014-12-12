@@ -23,6 +23,14 @@ public class SharedInfo {
 		super();
 	}
 	
+	public SharedInfo(short thirdpartyType, String accessToken, String content, String imgUrl){
+		super();
+		this.thirdpartyType = thirdpartyType;
+		this.accessToken = accessToken;
+		this.content = content;
+		this.imgUrl = imgUrl;
+	}
+	
 
 	public String getTitle() {
 		return title;

@@ -18,6 +18,7 @@ public interface IOAuthService {
 	
 	public AccessTokenInfo loadTokenByClient(String thirdpartyUid, String accessToken, String refreshToken, long expireIn,  short thirdpartyType);
 	    
+	public void shareout(SharedInfo sharedInfo);
 
 	public void shareout(List<SharedInfo> sharedInfoList);
 

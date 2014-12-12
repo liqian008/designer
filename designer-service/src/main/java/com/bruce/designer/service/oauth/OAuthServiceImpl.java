@@ -113,20 +113,18 @@ public class OAuthServiceImpl implements IOAuthService, InitializingBean {
     }
     
     
-//    public void shareout(SharedInfo sharedInfo){
-//        SharedThread sharedThread = new SharedThread(sharedInfo);
-//        //添加至线程中执行
-//        executorService.execute(sharedThread);
-//        return;
-//    }
+    public void shareout(SharedInfo sharedInfo){
+        SharedThread sharedThread = new SharedThread(sharedInfo);
+        //添加至线程中执行
+        taskService.executeTask(sharedThread);
+        return;
+    }
     
     @Override
     public void shareout(List<SharedInfo> sharedInfoList){
     	if(sharedInfoList!=null && sharedInfoList.size()>0){
     		for(SharedInfo sharedInfo: sharedInfoList){
-	    		SharedThread sharedThread = new SharedThread(sharedInfo);
-	            //添加至线程中执行
-	    		taskService.executeTask(sharedThread);
+    			shareout(sharedInfo);
     		}
     	}
     	return;

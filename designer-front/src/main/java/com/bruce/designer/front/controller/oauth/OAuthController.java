@@ -259,10 +259,11 @@ public class OAuthController {
 			return "login/loginAndReg4Thirdparty";
 		}
 		
-		
 		AccessTokenInfo sessionToken = checkOAuthTokenStatus(request);
 		String thirdpartyName = getThirdpartyName(sessionToken.getThirdpartyType());
 		String thirdpartyAvatar = sessionToken.getThirdpartyAvatar();
+		Short thirdpartyType = sessionToken.getThirdpartyType();
+		String thirdpartyAccessToken = sessionToken.getAccessToken();
 		
 		// 前端检查检查用户是否存在，在此不需要再次检查
 		
@@ -279,7 +280,7 @@ public class OAuthController {
 		user.setCreateTime(currentTime);
 		user.setUpdateTime(currentTime);
 		try {
-			int result = userService.registerByOauth(user, thirdpartyAvatar);
+			int result = userService.registerByOauth(user, thirdpartyType, thirdpartyAccessToken, thirdpartyAvatar);
 			if (result == 1) {
 				sessionToken.setUserId(user.getId());
 				sessionToken.setSyncAlbum((short) 1);//默认为同步策略
@@ -289,7 +290,7 @@ public class OAuthController {
 				// 重新加载用户
 				user = userService.authUser(username, password);
 				request.getSession().setAttribute(ConstFront.CURRENT_USER, user);
-				promptMessage = "注册成功, " + user.getNickname() + "，即将转入先前页面，请稍候…";
+				promptMessage = "注册成功, " + user.getNickname() + "，即将转入之前页面，请稍候…";
 				
 				if(logger.isDebugEnabled()){
                     logger.debug("用户["+username+"]使用第三方账户["+thirdpartyName+"]注册绑定成功");

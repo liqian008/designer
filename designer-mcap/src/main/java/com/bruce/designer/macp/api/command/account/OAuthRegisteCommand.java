@@ -85,7 +85,7 @@ public class OAuthRegisteCommand extends AbstractApiCommand implements Initializ
 		user.setCreateTime(currentTime);
 		try {
 			//oauth方式的用户注册
-			int result = userService.registerByOauth(user, thirdpartyAvatar);
+			int result = userService.registerByOauth(user, thirdpartyType, thirdpartyAccessToken, thirdpartyAvatar);
 			if (result == 1) {
 				
 				//accessToken
@@ -106,25 +106,22 @@ public class OAuthRegisteCommand extends AbstractApiCommand implements Initializ
 				// 重新加载用户
 				user = userService.authUser(username, password);
 				
-				if(logger.isDebugEnabled()){
-                    logger.debug("用户["+username+"]使用第三方账户["+thirdpartyUname+"]注册绑定成功");
-                }
-				
-                //系统异步发送欢迎邮件
-                mailService.sendWelcomeMail(username);
-                
-                //加载新注册的用户数据
-                UserPassport userPassport = new UserPassport();
-                userPassport.setUserId(user.getId());
-                userPassport.setIdentity(String.valueOf(System.currentTimeMillis()));
-                String ticket = passportService.createTicket(userPassport);
-                userPassport.setTicket(ticket);
-                //设置用户的secretkey
-        		userPassport.setUserSecretKey(MobileClientAppServiceImpl.SECRET_KEY_DEFAULT);
-                
-                paramMap.put("userPassport", userPassport);
-                paramMap.put("hostUser", user);
-                return ResponseBuilderUtil.buildSuccessResult(paramMap);
+				if (logger.isDebugEnabled()) {
+					logger.debug("用户[" + username + "]使用第三方账户[" + thirdpartyUname + "]注册绑定成功");
+				}
+
+				// 加载新注册的用户数据
+				UserPassport userPassport = new UserPassport();
+				userPassport.setUserId(user.getId());
+				userPassport.setIdentity(String.valueOf(System.currentTimeMillis()));
+				String ticket = passportService.createTicket(userPassport);
+				userPassport.setTicket(ticket);
+				// 设置用户的secretkey
+				userPassport.setUserSecretKey(MobileClientAppServiceImpl.SECRET_KEY_DEFAULT);
+
+				paramMap.put("userPassport", userPassport);
+				paramMap.put("hostUser", user);
+				return ResponseBuilderUtil.buildSuccessResult(paramMap);
 			}
 		} catch (Exception e) {
 			logger.error("oauthRegister()", e);
