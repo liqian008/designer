@@ -112,7 +112,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<div class="row-container clearfix">
 													<div class="row-left">专辑作品主题: </div>
 													<div class="row-right">
-														<input type="text" class="span6" id="title"  name="title" value=""/>
+														<input type="text" class="span6" id="title"  name="title" value="" placeholder="专辑的名称" maxlength="25"/>
 														<span id="album-title-required" class="required">*</span>
 														<span id="album-title-prompt" class="text-prompt"></span>
 													</div>
@@ -139,7 +139,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<div class="row-container clearfix">
 													<div class="row-left">购买链接: </div>
 													<div class="row-right">
-														<input type="text" class="span8" id="link" name="link" value=""/>
+														<input type="text" class="span8" id="link" name="link" value="" placeholder="可填写商品地址或淘宝店铺地址"/>
 														<span id="album-link-required" class="required">*</span>
 														<span id="album-link-prompt" class="text-prompt"></span>
 													</div>
@@ -157,7 +157,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<div class="row-container clearfix">
 													<div class="row-left">作品描述: </div>
 													<div class="row-right">
-														<textarea class='album-slide-remark' name='remark' rows='2'></textarea>
+														<textarea class='album-slide-remark' name='remark' rows='2' placeholder="当用户使用【微信】分享、传播您的作品时，此处的作品描述将作为分享文案呈现给用户，因此请您认真填写"></textarea>
 													</div>
 												</div>
 												

@@ -6,6 +6,8 @@
 <%@ page import="java.util.*"%>
 <%@ page import="java.text.*"%>
 
+<!--修改匿名评论前的备份-->
+
 <%
 String contextPath = ConstFront.CONTEXT_PATH;
 User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
@@ -251,6 +253,25 @@ Album album = (Album)request.getAttribute("albumInfo");
 											<div class="content-title">
 												<h4>发表新评论</h4>
 											</div>
+											<%if(currentUser==null){%>
+											<form action="<%=contextPath%>/loginBack" method="post"
+												id="loginBackForm" class="form">
+												<div class="span12">
+													发表评论需要您先登录！ 
+													<!-- <input
+														class="button button-small button-orange" type="button"
+														name="loginBtn" id="loginBtn" tabindex="5" value="登 录" />
+													<input class="button button-small button-green"
+														type="button" name="regBtn" id="regBtn" tabindex="5"
+														value="注册新用户" /> -->
+													
+													<input class="wb-login common-submit button" id="weiboLoginBtn" type="button" onclick="location.href='<%=contextPath%>/connectWeibo?<%=ConstFront.REDIRECT_URL%>=<%=contextPath%>/album/<%=album.getId()%>'"/>
+													<!-- 
+													<input class="qq-login common-submit button" id="tencentLoginBtn" type="button" onclick="location.href='<%=contextPath%>/connectTencent'"/>
+												 	-->
+												</div>
+											</form>
+											<%}else{%>
 											<form action="#" method="post" id="commentform" class="form">
 												<div class="span9">
 													<p>
@@ -264,14 +285,6 @@ Album album = (Album)request.getAttribute("albumInfo");
 														tabindex="5" value="发表评论" />
 												</div>
 												
-											</form>
-											<%if(currentUser==null){ %> 
-											<form action="<%=contextPath%>/loginBack" method="post"
-												id="loginBackForm" class="form">
-												<div class="span12">
-													<a href="<%=contextPath%>/connectWeibo?<%=ConstFront.REDIRECT_URL%>=<%=contextPath%>/album/<%=album.getId()%>">登录</a>后评论，让别人更容易回复你. &nbsp;&nbsp;
-													<input class="wb-login common-submit button" id="weiboLoginBtn" type="button" onclick="location.href='<%=contextPath%>/connectWeibo?<%=ConstFront.REDIRECT_URL%>=<%=contextPath%>/album/<%=album.getId()%>'"/>
-												</div>
 											</form>
 											<%}%>
 										</div>
@@ -402,14 +415,7 @@ Album album = (Album)request.getAttribute("albumInfo");
     		//disable submitBtn
     		$("#commentBtn").attr("disabled", "disabled");
     		var commentJsonData = {"comment": $("#comment").val(),'albumId': $("#albumId").val(), 'toId':$("#toId").val(), 'designerId':$("#designerId").val()};
-    		
-    		<%
-    		String commentApi = contextPath + "/comment.json";//登录用户的评论api
-    		if(currentUser==null){
-    			commentApi =  contextPath + "/guestComment.json";//匿名用户的评论api
-    		}
-    		%>
-    		$.post("<%=commentApi%>", commentJsonData, function(data) {
+    		$.post("<%=contextPath%>/comment.json", commentJsonData, function(data) {
     			var result = data.result;
    				if(result==1){
    					$("#comment").val("");
