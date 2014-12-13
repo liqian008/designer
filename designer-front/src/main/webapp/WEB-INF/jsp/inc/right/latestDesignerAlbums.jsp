@@ -25,9 +25,9 @@ User queryUser = (User)request.getAttribute(ConstFront.REQUEST_USER_ATTRIBUTE);
 
 
 <script>
-fallLoad();
+fallLoadDesignerAlbums();
 
-function fallLoad(){
+function fallLoadDesignerAlbums(){
 	var jsonData = {'designerId':'<%=queryUser.getId()%>'};
 	$.get('<%=contextPath%>/sideLatestAlbums.json', jsonData, function(data) {
 		var result = data.result;

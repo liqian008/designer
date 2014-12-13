@@ -112,7 +112,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 												<div class="row-container clearfix">
 													<div class="row-left">专辑作品主题: </div>
 													<div class="row-right">
-														<input type="text" class="span6" id="title"  name="title" value="" placeholder="专辑的名称" maxlength="25"/>
+														<input type="text" class="span6" id="title"  name="title" value="" maxlength="25"/>
 														<span id="album-title-required" class="required">*</span>
 														<span id="album-title-prompt" class="text-prompt"></span>
 													</div>

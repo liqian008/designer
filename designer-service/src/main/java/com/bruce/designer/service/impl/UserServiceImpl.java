@@ -361,7 +361,7 @@ public class UserServiceImpl implements IUserService {
 			//系统异步发送欢迎邮件
 			mailService.sendWelcomeMail(user.getUsername());
 
-			if (thirdpartyType != null && thirdpartyType == IOAuthService.OAUTH_WEIBO_TYPE) {
+			if (ConstConfig.THIRDPARTY_SHAREOUT_ON && thirdpartyType != null && thirdpartyType == IOAuthService.OAUTH_WEIBO_TYPE) {
 				// 发布一条微博，添加至线程池运行
 				SharedInfo sharedInfo = new SharedInfo(thirdpartyType, accessToken, ConstConfig.WEIBO_REGISTER_POST_CONTENT, ConstConfig.WEIBO_REGISTER_POST_IMG);
 				oauthService.shareout(sharedInfo);

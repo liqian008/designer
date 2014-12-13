@@ -14,7 +14,6 @@ import com.qiniu.api.io.IoApi;
 import com.qiniu.api.io.PutExtra;
 import com.qiniu.api.io.PutRet;
 import com.qiniu.api.rs.PutPolicy;
-import com.qiniu.api.rs.RSClient;
 
 /**
  * 七牛上传的处理实现

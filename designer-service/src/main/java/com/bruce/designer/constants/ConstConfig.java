@@ -1,5 +1,6 @@
 package com.bruce.designer.constants;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import com.bruce.designer.util.ConfigUtil;
@@ -60,6 +61,11 @@ public interface ConstConfig {
 	public static final String SHARE_TITLE_TEMPLATE = ConfigUtil.getString("share_title_template");
 	/*微信分享的内容模板*/
 	public static final String SHARE_CONTENT_TEMPLATE = ConfigUtil.getString("share_content_template");
+	
+	
+	/*发布至第三方的总开关（通常切换测试、线上环境）*/
+	public static final boolean THIRDPARTY_SHAREOUT_ON = BooleanUtils.toBoolean(ConfigUtil.getString("thirdparty_shareout_on"), "true", "false");
+
 	
 	/*微博注册情况下发布的文案*/
 	public static final String WEIBO_REGISTER_POST_CONTENT = ConfigUtil.getString("weibo_register_post_content");

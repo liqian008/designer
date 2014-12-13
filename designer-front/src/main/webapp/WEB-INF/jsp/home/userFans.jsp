@@ -84,7 +84,7 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
                 <div class="container">
                      <ul class="clearfix">
                         <li><a href="<%=contextPath%>/">首页</a>/</li>
-                        <li><a href="<%=contextPath%>/home"><%=queryUser.getNickname()%></a>/</li>
+                        <li><a href="<%=contextPath%>/<%=queryUser.getId()%>/home"><%=queryUser.getNickname()%></a>/</li>
                         <%if(isDesigner){%>
                         <li><a href="javascript:void(0)">粉丝列表</a></li>
                         <%}%>
@@ -125,11 +125,11 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
 													<div class="message-avatar-medium">
 														<div class="message-author vcard">
 															<!-- <img src="<%=contextPath%>/img/icon/icon_1.png"> -->
-															<a href="<%=contextPath%>/<%=fan.getUserId()%>/home">
+															<a href="<%=contextPath%>/<%=fan.getFanId()%>/home">
 																<%
 																String avatarUrl = UserUtil.getAvatarUrl(fan.getFanUser(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
 																%>
-																<img src="<%=avatarUrl%>"/>
+																<img src="<%=avatarUrl%>"/> 
 															</a>
 														</div>
 													</div>

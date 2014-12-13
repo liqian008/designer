@@ -85,7 +85,7 @@ Album album = (Album)request.getAttribute("albumInfo");
 				<div class="container">
 					<ul class="clearfix">
 						<li><a href="<%=contextPath%>/">首页</a>/</li>
-						<li><a href="javascript:void(0)">专辑展示</a>/</li>
+						<li><a href="<%=contextPath%>/albums">专辑展示</a>/</li>
 						<li><a href="javascript:void(0)"><%=album.getTitle()%></a></li>
 					
 					</ul>
@@ -255,8 +255,8 @@ Album album = (Album)request.getAttribute("albumInfo");
 												<div class="span9">
 													<p>
 														<textarea class="comment_textarea" name="comment"
-															id="comment" cols="50" rows="2" tabindex="4"></textarea>
-													</p>
+															id="comment" cols="50" rows="2" tabindex="4" placeholder="我要评论..."></textarea>
+													</p> 
 												</div>
 												<div class="span3">
 													<input class="button button-small button-orange"
@@ -323,10 +323,7 @@ Album album = (Album)request.getAttribute("albumInfo");
 			$('#unfavoriteId').hide();
 		<%}%>
 	
-		var emptyCommentVal = "我要评论...";
-		
 		$(document).ready(function(){
-			$('#comment').val(emptyCommentVal);
 			fallLoad();
 		});
 		
@@ -353,22 +350,8 @@ Album album = (Album)request.getAttribute("albumInfo");
 		}
 		
     	$("#commentLink").click(function(){
-    		 $("#comment").focus();
+    		 $("#comment").focus(); 
     	});
-    	
-    	$("#comment").focus(function(){
-    		var commentVal = $("#comment").val();
-    		if(commentVal==emptyCommentVal){
-	   			$("#comment").val("");
-    		}
-   		});
-
-    	$("#comment").blur(function(){
-    		var commentVal = $("#comment").val();
-    		if(commentVal==""){
-   				$("#comment").val(emptyCommentVal);
-    		}
-   		});
     	
     	$("#likeLink").click(function(){
     		var likeJsonData = {'albumId': $("#albumId").val()};
@@ -399,26 +382,31 @@ Album album = (Album)request.getAttribute("albumInfo");
 	   	});
     	
     	$("#commentBtn").click(function(){
-    		//disable submitBtn
-    		$("#commentBtn").attr("disabled", "disabled");
-    		var commentJsonData = {"comment": $("#comment").val(),'albumId': $("#albumId").val(), 'toId':$("#toId").val(), 'designerId':$("#designerId").val()};
     		
-    		<%
-    		String commentApi = contextPath + "/comment.json";//登录用户的评论api
-    		if(currentUser==null){
-    			commentApi =  contextPath + "/guestComment.json";//匿名用户的评论api
+    		if($("#comment").val()!=''){//检查评论内容
+	    		//disable submitBtn
+	    		$("#commentBtn").attr("disabled", "disabled");
+	    		var commentJsonData = {"comment": $("#comment").val(),'albumId': $("#albumId").val(), 'toId':$("#toId").val(), 'designerId':$("#designerId").val()};
+	    		
+	    		<%
+	    		String commentApi = contextPath + "/comment.json";//登录用户的评论api
+	    		if(currentUser==null){
+	    			commentApi =  contextPath + "/guestComment.json";//匿名用户的评论api
+	    		}
+	    		%>
+	    		$.post("<%=commentApi%>", commentJsonData, function(data) {
+	    			var result = data.result;
+	   				if(result==1){
+	   					$("#comment").val("");
+		    			$("#commentBtn").removeAttr("disabled");
+		    			$("#commentListContainer").prepend(data.data);
+		    			$('#album-comment-counter').text(parseInt($('#album-comment-counter').text())+1);
+	   				}
+	    			//enable submitBtn
+	    		 }, "json"); 
+    		}else{
+    			alert("评论内容不能为空");
     		}
-    		%>
-    		$.post("<%=commentApi%>", commentJsonData, function(data) {
-    			var result = data.result;
-   				if(result==1){
-   					$("#comment").val("");
-	    			$("#commentBtn").removeAttr("disabled");
-	    			$("#commentListContainer").prepend(data.data);
-	    			$('#album-comment-counter').text(parseInt($('#album-comment-counter').text())+1);
-   				}
-    			//enable submitBtn
-    		 }, "json"); 
     	});
     	
     	$("#loginBtn").click(function(){

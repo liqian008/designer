@@ -9,7 +9,6 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -25,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bruce.designer.annotation.NeedAuthorize;
 import com.bruce.designer.annotation.NeedAuthorize.AuthorizeType;
+import com.bruce.designer.constants.ConstConfig;
 import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.data.PagingData;
 import com.bruce.designer.exception.DesignerException;
@@ -96,9 +96,7 @@ public class UserSettingsController {
 	public static final int MY_ALBUMS_LIMIT = NumberUtils.toInt(ConfigUtil.getString("my_album_limit"), 6);
 	/*我的收藏item的数量*/
 	public static final int MY_FAVORITE_LIMIT = NumberUtils.toInt(ConfigUtil.getString("myfavorite_album_limit"), 6);
-	/*发布第三方的状态*/
-	public static final boolean ALBUM_SHAREOUT_FLAG = BooleanUtils.toBoolean(ConfigUtil.getString("album_shareout_flag"), "true", "false");
-
+	
 	@RequestMapping(method = RequestMethod.GET) 
 	public String settings(Model model) {
 		return info(model);
@@ -526,9 +524,9 @@ public class UserSettingsController {
 				albumCounterService.incrUserAlbum(userId, albumId);
 				
 				//是否使用第三方分享
-				boolean isShareOut = ALBUM_SHAREOUT_FLAG;
+				boolean isShareOut = ConstConfig.THIRDPARTY_SHAREOUT_ON;
 				if (logger.isDebugEnabled()) {
-					logger.debug("全局设置作品集" + albumId + "分享到第三方账户状态:" + isShareOut);
+					logger.debug("全局设置" + albumId + "分享到第三方账户状态:" + isShareOut);
 				}
 				if (album != null && album.getId() > 0 && isShareOut) {
 					List<SharedInfo> sharedInfoList = OAuthUtil.buildSharedInfoList(album, user.getAccessTokenMap());
@@ -563,7 +561,7 @@ public class UserSettingsController {
 	@NeedAuthorize(authorizeType = AuthorizeType.DESIGNER)
 	@RequestMapping(value = "/updateAlbum")
 	public String updateAlbum(Model model, HttpServletRequest request, int albumId, String title, long price, boolean coverChange, int coverId, boolean tagsChange, String tags,
-			@RequestParam(required = false, defaultValue = "") String link, @RequestParam(defaultValue = "") String verifyCode) {
+			@RequestParam(required = false, defaultValue = "") String link, String remark , @RequestParam(defaultValue = "") String verifyCode) {
 		// 检查用户登录
 		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		int userId = user.getId();
@@ -589,6 +587,7 @@ public class UserSettingsController {
 			album.setTitle(title);
 			album.setPrice(price);
 			album.setLink(link);
+			album.setRemark(remark);
 			Date currentTime = new Date();
 			album.setUpdateTime(currentTime);
 			if(coverChange){//coverId发生变化，封面需重新设置

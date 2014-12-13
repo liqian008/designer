@@ -28,9 +28,9 @@ String contextPath = ConstFront.CONTEXT_PATH;
 	</div>
 </div>
 <script>
-fallLoad();
+fallLoadLatestAlbums();
 
-function fallLoad(){
+function fallLoadLatestAlbums(){
 	$.get('<%=contextPath%>/sideLatestAlbums.json', function(data) {
 		var result = data.result;
 		if(result==1){

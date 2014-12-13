@@ -24,9 +24,9 @@ if (currentUser != null) {
 		<ul>
 			<li class="clearfix">
 				<div class="widget-blogpost-avatar">
-					<a href="<%=contextPath%>/settings/avatar" title="点击修改头像">
-						<img src="<%=UserUtil.getAvatarUrl(currentUser.getHeadImg(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)%>" alt="点击修改头像">
-					</a> 
+					<%-- <a href="<%=contextPath%>/settings/avatar" title="点击修改头像">
+					</a> --%> 
+					<img src="<%=UserUtil.getAvatarUrl(currentUser.getHeadImg(), ConstService.UPLOAD_IMAGE_SPEC_MEDIUM)%>" alt="点击修改头像">
 				</div>
 				<div class="widget-blogpost-content">
 					<div class="widget-blogpost-date">

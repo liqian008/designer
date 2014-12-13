@@ -86,7 +86,7 @@ if(currentUser!=null&&currentUser.getId().equals(queryUser.getId())){
                 <div class="container">
                     <ul class="clearfix">
                         <li><a href="<%=contextPath%>/">首页</a>/</li>
-                        <li><a href="<%=contextPath%>/home"><%=queryUser.getNickname()%></a>/</li>
+                        <li><a href="<%=contextPath%>/<%=queryUser.getId()%>/home"><%=queryUser.getNickname()%></a>/</li>
                         <li><a href="javascript:void(0)">个人资料</a></li>
                     </ul>
                 </div>

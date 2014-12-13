@@ -21,9 +21,9 @@ String contextPath = ConstFront.CONTEXT_PATH;
 	</ul>
 </div>
 <script>
-fallLoad();
+fallLoadLatestDesigner();
 
-function fallLoad(){
+function fallLoadLatestDesigner(){
 	$.get('<%=contextPath%>/sideLatestDesigners.json', function(data) {
 		var result = data.result;
 		if(result==1){
