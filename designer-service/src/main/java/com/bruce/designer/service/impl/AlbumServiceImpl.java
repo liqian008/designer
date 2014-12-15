@@ -65,10 +65,10 @@ public class AlbumServiceImpl implements IAlbumService {
 	}
 
 	public Album loadById(Integer id) {
-		return loadById(id, false, false);
+		return loadById(id, false, false, false);
 	}
 	
-	public Album loadById(Integer id, boolean loadCount, boolean loadTags) {
+	public Album loadById(Integer id, boolean loadCount, boolean loadTags, boolean isLoadAuthorInfo) {
 		Album album = albumDao.loadById(id);
 		if(album!=null){
 			checkAlbumStatus(album);//检查封禁状态
@@ -79,6 +79,9 @@ public class AlbumServiceImpl implements IAlbumService {
 			if(loadTags){
 				//加载tag标签
 				initAlbumWithTags(album);
+			}
+			if(isLoadAuthorInfo){
+				initAlbumWithAuthorInfo(album);
 			}
 		}
 		return album;
@@ -298,6 +301,24 @@ public class AlbumServiceImpl implements IAlbumService {
 				}
 				album.setAuthorInfo(authorInfo);
 			}
+		}
+	}
+	
+	/**
+	 * 初始化专辑作者信息
+	 * 
+	 * @param albumList
+	 */
+	public void initAlbumWithAuthorInfo(Album album) {
+		if(album!=null&&album.getId()!=null){
+			//构造设计师信息
+			int albumAuthorId = album.getUserId();
+			User designer = userService.loadById(albumAuthorId);
+			String designerAvatar = UserUtil.getAvatarUrl(designer, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
+			String designerNickname = designer.getNickname();
+			boolean followed = false;//userGraphService.isFollow(hostId, albumAuthorId);
+			AlbumAuthorInfo authorInfo = new AlbumAuthorInfo(designerAvatar, designerNickname, followed);
+			album.setAuthorInfo(authorInfo);
 		}
 	}
 

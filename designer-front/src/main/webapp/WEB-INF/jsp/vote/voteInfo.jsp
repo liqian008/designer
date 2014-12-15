@@ -109,6 +109,10 @@ Vote vote = (Vote)request.getAttribute("vote");
 									<span><%=vote.getTitle()%></span>
 								</div>
 								
+								<div style="margin:10px 0px">
+									<a href="<%=vote.getAdLink1()%>" target="_blank"><img src="<%=vote.getAdPic1Url()%>" width="100%"></a>
+								</div>
+								
 								<blockquote class="normal blockquote-left blockquote-bg">
                                     <p>
                                     	<%//投票活动已关闭
@@ -138,7 +142,11 @@ Vote vote = (Vote)request.getAttribute("vote");
 								%>
 								<div class="row-fluid clearfix">
 									<img src="<%=option.getPicUrl()%>" width="100%"> 
-	
+									<blockquote class="normal blockquote-left blockquote-bg">
+	                                    <p><%=option.getDescription()%></p>
+	                                </blockquote>
+	                                
+									
 									<div class="single-navigation navigation clearfix">
 										<%if(voteOnline && !voteExpire){%>
 											<a href="javascript:void(0)" class="nav-left <%=option.isVoted()?"":"voteBtn"%> " dataItem=<%=option.getId()%>><%=option.isVoted()?"您已投票":"点击投票"%></a>

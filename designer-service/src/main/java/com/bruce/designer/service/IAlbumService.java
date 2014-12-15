@@ -13,7 +13,7 @@ public interface IAlbumService extends IFoundationService<Album, Integer, AlbumC
 	/*根据albumId获取album的Map，通常用于从cache中获取album*/
 //	public Map<Integer, Album> getAlbumMap(List<Integer> albumIds);
 	
-	public Album loadById(Integer id, boolean loadCount, boolean loadTags);
+	public Album loadById(Integer id, boolean loadCount, boolean loadTags, boolean isLoadAuthorInfo);
 
 	public List<Album> queryAlbumByIds(List<Integer> idList);
 
@@ -40,6 +40,8 @@ public interface IAlbumService extends IFoundationService<Album, Integer, AlbumC
 	public void initAlbumInteractionStatus(Album album, int userId);
 
 	public void initAlbumsWithAuthorInfo(List<Album> albumList);
+	
+	public void initAlbumWithAuthorInfo(Album album);
 
 	public void initAlbumsWithTags(List<Album> albumList);
 
