@@ -340,9 +340,13 @@ public class UserServiceImpl implements IUserService {
 	 * oauth方式的用户注册（需要将oauth中的头像作为用户 头像保存）
 	 */
 	@Override
-	public int registerByOauth(User user, Short thirdpartyType, String accessToken, String thirdpartyAvatar) {
+	public int registerByOauth(User user, Short thirdpartyType, String accessToken, String thirdpartyAvatar, Short clientType, String channel) {
 		//使用第三方头像
 		user.setHeadImg(thirdpartyAvatar);
+		//注册用户的来源标志
+		user.setClientType(clientType);
+		user.setClientChannel(channel);
+		//保存
 		int result =  save(user);
 		
 		//修改头像策略，直接使用第三方账户系统的头像链接

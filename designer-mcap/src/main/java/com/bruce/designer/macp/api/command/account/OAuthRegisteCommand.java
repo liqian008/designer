@@ -71,6 +71,12 @@ public class OAuthRegisteCommand extends AbstractApiCommand implements Initializ
     	String thirdpartyAccessToken = context.getStringParams().get("thirdpartyAccessToken");
     	String thirdpartyRefreshToken = context.getStringParams().get("thirdpartyRefreshToken");
     	String thirdpartyExpireInStr = context.getStringParams().get("thirdpartyExpireIn");
+    	
+    	//来自客户度的标志
+    	String clientTypeStr = context.getStringParams().get("client_type");
+    	short clientType = NumberUtils.toShort(clientTypeStr, (short)0);
+    	String clientChannel = context.getStringParams().get("client_channel");
+    	
     	long thirdpartyExpireIn = NumberUtils.toLong(thirdpartyExpireInStr, 0);
     	
     	//验证用户名格式
@@ -85,7 +91,7 @@ public class OAuthRegisteCommand extends AbstractApiCommand implements Initializ
 		user.setCreateTime(currentTime);
 		try {
 			//oauth方式的用户注册
-			int result = userService.registerByOauth(user, thirdpartyType, thirdpartyAccessToken, thirdpartyAvatar);
+			int result = userService.registerByOauth(user, thirdpartyType, thirdpartyAccessToken, thirdpartyAvatar, clientType, clientChannel);
 			if (result == 1) {
 				
 				//accessToken

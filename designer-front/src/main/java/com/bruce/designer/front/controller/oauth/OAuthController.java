@@ -280,7 +280,7 @@ public class OAuthController {
 		user.setCreateTime(currentTime);
 		user.setUpdateTime(currentTime);
 		try {
-			int result = userService.registerByOauth(user, thirdpartyType, thirdpartyAccessToken, thirdpartyAvatar);
+			int result = userService.registerByOauth(user, thirdpartyType, thirdpartyAccessToken, thirdpartyAvatar, (short)0, "");
 			if (result == 1) {
 				sessionToken.setUserId(user.getId());
 				sessionToken.setSyncAlbum((short) 1);//默认为同步策略

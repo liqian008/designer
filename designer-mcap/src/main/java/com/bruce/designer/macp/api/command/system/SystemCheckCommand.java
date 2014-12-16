@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import com.bruce.designer.constants.ConstWeixin;
 import com.bruce.designer.model.User;
 import com.bruce.designer.model.VersionUpdate;
 import com.bruce.designer.service.IUserService;
@@ -55,10 +56,10 @@ public class SystemCheckCommand extends AbstractApiCommand implements Initializi
     	int hostId = context.getUserId();
     	
     	Map<String, Object> dataMap = new HashMap<String, Object>();
-    	
-    	String channel = context.getStringParams().get("channel");
-    	String clientTypeStr = context.getStringParams().get("clientType");
-    	String versionCodeStr = context.getStringParams().get("versionCode");
+    	//客户端的基本参数
+    	String clientTypeStr = context.getStringParams().get("client_type");
+    	String channel = context.getStringParams().get("client_channel");
+    	String versionCodeStr = context.getStringParams().get("v_code");
     	
     	short clientType = NumberUtils.toShort(clientTypeStr, (short)0);
     	int versionCode = NumberUtils.toInt(versionCodeStr, 0);
@@ -86,6 +87,7 @@ public class SystemCheckCommand extends AbstractApiCommand implements Initializi
     		dataMap.put("hostUser", hostUser);
     	}
     	dataMap.put("needLogin", needLogin);
+    	dataMap.put("wxmpQrcodeUrl", ConstWeixin.WEIXINMP_QRCODE_URL);//微信公众帐号的url
         return ResponseBuilderUtil.buildSuccessResult(dataMap);
     }
 
