@@ -723,25 +723,28 @@ blockquote p {
 
 			#menu-mobile-trigger {
 				display: block;
-				padding: 9px 7px 2px 7px;
+				padding: 7px 7px 4px 7px;
 				background: #333;
+				color:#fff;
 				-webkit-box-shadow: 0 0 1px 0 rgba(255, 255, 255, 0.15);
 				-moz-box-shadow: 0 0 1px 0 rgba(255, 255, 255, 0.15);
 				box-shadow: 0 0 1px 0 rgba(255, 255, 255, 0.15);
 				border: solid 1px #282828;
-				width: 22px;
+				width: 24px;
 				height: 20px;
 			}
 				#menu-mobile-trigger:hover {
 					text-decoration: none;
 				}
-
+				
+				/*
 				#menu-mobile-trigger:before {
 					font-family: 'FontAwesome';
 					content: "\f0c9";
 					font-size: 24px;
 					color: #292424;
 				}
+				*/
 
 			/* Sub menu incdicator */
 			.li-sub-indicator {

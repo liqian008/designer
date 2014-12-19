@@ -13,6 +13,8 @@ String contextPath = ConstFront.CONTEXT_PATH;
 User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 %>
 
+<script>console.log("=======GeekwayS1=======");</script>
+
 <div id="header-container" class="clearfix">  <!-- Header Container, contains logo and contact button -->
     <header class="clearfix">
         <div class="container"> 
@@ -26,7 +28,9 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
 				<div class="header-contact">
 					<%if(user==null){%>
 					<input class="wb-login-small common-submit button" id="weiboLoginSmallBtn" type="button" onclick="location.href='<%=contextPath%>/connectWeibo'">
+					<!-- 
 					<input class="qq-login-small common-submit button" id="qqLoginSmallBtn" type="button" onclick="location.href='<%=contextPath%>/connectTencent'">
+					 -->
 					 
                     <%}else{ %>
                     欢迎您，<a href="<%=contextPath%>/<%=user.getId()%>/info"><%=user.getNickname() %></a>&nbsp;|&nbsp;

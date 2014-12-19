@@ -18,7 +18,7 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 
 				<div class="menu-mobile-wrapper">
 					<!-- Menu Mobile Wrapper -->
-					<a id="menu-mobile-trigger"></a>
+					<a id="menu-mobile-trigger">菜单</a>
 				</div>
 
 				<span class="menu-slider hidden-phone"></span>

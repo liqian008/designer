@@ -27,17 +27,17 @@ String contextPath = ConstFront.CONTEXT_PATH;
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" href="<%=contextPath%>/img/favicon.ico">
-    <link rel="stylesheet" href="<%=contextPath%>/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<%=contextPath%>/css/font-awesome.css">
-    <link rel="stylesheet" href="<%=contextPath%>/css/animate.css">
-    <link rel="stylesheet" href="<%=contextPath%>/css/flexslider.css">
-    <link rel="stylesheet" href="<%=contextPath%>/css/style.css">
+    <link rel="stylesheet" href="<%=contextPath%>/css/bootstrap.min.css?v=${version}">
+    <link rel="stylesheet" href="<%=contextPath%>/css/font-awesome.css?v=${version}">
+    <link rel="stylesheet" href="<%=contextPath%>/css/animate.css?v=${version}">
+    <link rel="stylesheet" href="<%=contextPath%>/css/flexslider.css?v=${version}">
+    <link rel="stylesheet" href="<%=contextPath%>/css/style.css?v=${version}">
 	<!--[if IE 8]>
-      <link rel="stylesheet" type="text/css" media="all" href="<%=contextPath%>/css/ie8.css" />    
+      <link rel="stylesheet" type="text/css" media="all" href="<%=contextPath%>/css/ie8.css?v=${version}" />    
     <![endif]-->
 
-    <script src="<%=contextPath%>/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-    <script src="<%=contextPath%>/js/vendor/jquery-1.8.3.min.js"></script>
+    <script src="<%=contextPath%>/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js?v=${version}"></script>
+    <script src="<%=contextPath%>/js/vendor/jquery-1.8.3.min.js?v=${version}"></script>
 
     
     
@@ -147,11 +147,11 @@ String contextPath = ConstFront.CONTEXT_PATH;
 
 
 	<!-- Load all Javascript Files -->
-	<script src="<%=contextPath%>/js/vendor/bootstrap.min.js"></script>
-	<script src="<%=contextPath%>/js/superfish.js"></script>
-	<!-- <script src="./js/supersubs.js"></script> -->
-	<!-- <script src="<%=contextPath%>/js/retina.js"></script>-->
-	<script src="<%=contextPath%>/js/custom.js"></script>
+	<script src="<%=contextPath%>/js/vendor/bootstrap.min.js?v=${version}"></script>
+	<script src="<%=contextPath%>/js/superfish.js?v=${version}"></script>
+	<!-- <script src="./js/supersubs.js?v=${version}"></script> -->
+	<!-- <script src="<%=contextPath%>/js/retina.js?v=${version}"></script>-->
+	<script src="<%=contextPath%>/js/custom.js?v=${version}"></script>
 	<script>
 		fallLoad();
 	

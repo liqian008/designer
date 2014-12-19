@@ -42,6 +42,12 @@ public interface ConstFront {
 	
 	public static final String YYYY_MM_DD_HH_MM_FORMAT = "yyyy-MM-dd HH:mm";
 	
+	/*版本号的key*/
+    public static final String KEY_WEBSITE_VERSION = "version";
+	/*版本号（用于css或js版本号）*/
+    public static final String WEBSITE_VERSION = ConfigUtil.getString("version");
+
+	
 	/*访问域名*/
 	public static final String DOMAIN = ConfigUtil.getString("domain");
 	/*contextPath*/

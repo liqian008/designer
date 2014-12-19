@@ -83,7 +83,8 @@
 	</bean>
 	
 	<mvc:interceptors>
-		<bean class="com.bruce.designer.front.interceptor.AuthorizeInterceptor"/>  
+		<bean class="com.bruce.designer.front.interceptor.AuthorizeInterceptor"/>
+		<bean class="com.bruce.designer.front.interceptor.WebsiteInterceptor"/>  
 	</mvc:interceptors>
 	
 	

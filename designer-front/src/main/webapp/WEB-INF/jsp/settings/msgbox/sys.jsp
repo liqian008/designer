@@ -22,7 +22,7 @@ User toUser = (User)request.getAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUT
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-.js?v=${version}"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
         <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
@@ -33,18 +33,18 @@ User toUser = (User)request.getAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUT
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="icon" href="<%=contextPath%>/img/favicon.ico">
-        <link rel="stylesheet" href="<%=contextPath%>/css/bootstrap.min.css">
-        <link rel="stylesheet" href="<%=contextPath%>/css/font-awesome.css">
-        <link rel="stylesheet" href="<%=contextPath%>/css/animate.css">
-        <link rel="stylesheet" href="<%=contextPath%>/css/flexslider.css">
-        <link rel="stylesheet" href="<%=contextPath%>/css/style.css">
+        <link rel="stylesheet" href="<%=contextPath%>/css/bootstrap.min.css?v=${version}">
+        <link rel="stylesheet" href="<%=contextPath%>/css/font-awesome.css?v=${version}">
+        <link rel="stylesheet" href="<%=contextPath%>/css/animate.css?v=${version}">
+        <link rel="stylesheet" href="<%=contextPath%>/css/flexslider.css?v=${version}">
+        <link rel="stylesheet" href="<%=contextPath%>/css/style.css?v=${version}">
                                 <!--[if IE 8]>
-        <link rel="stylesheet" type="text/css" media="all" href="<%=contextPath%>/css/ie8.css" />    
+        <link rel="stylesheet" type="text/css" media="all" href="<%=contextPath%>/css/ie8.css?v=${version}" />    
         <![endif]-->
                 
 
-        <script src="<%=contextPath%>/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-        <script src="<%=contextPath%>/js/vendor/jquery-1.8.3.min.js"></script>
+        <script src="<%=contextPath%>/js/vendor/modernizr-2.6.1-respond-1.1.0.min..js?v=${version}"></script>
+        <script src="<%=contextPath%>/js/vendor/jquery-1.8.3.min..js?v=${version}"></script>
 
         <jsp:include page="../../inc/baiduAsyncStat.jsp"></jsp:include>
     </head>
@@ -160,15 +160,15 @@ User toUser = (User)request.getAttribute(ConstFront.MESSAGE_TARGET_USER_ATTRIBUT
 
         
     <!-- Load all Javascript Files -->
-    <script src="<%=contextPath%>/js/vendor/bootstrap.min.js"></script>
-    <script src="<%=contextPath%>/js/jquery.hoverdir.js"></script>
-    <script src="<%=contextPath%>/js/superfish.js"></script>
-    <!-- <script src="<%=contextPath%>/js/supersubs.js"></script> -->
-   <!--  <script src="<%=contextPath%>/js/jquery.tweet.js"></script>  -->
-    <script src="<%=contextPath%>/js/jquery.flexslider.js"></script> 
-    <!--<script src="<%=contextPath%>/js/retina.js"></script>-->
+    <script src="<%=contextPath%>/js/vendor/bootstrap.min..js?v=${version}"></script>
+    <script src="<%=contextPath%>/js/jquery.hoverdir..js?v=${version}"></script>
+    <script src="<%=contextPath%>/js/superfish..js?v=${version}"></script>
+    <!-- <script src="<%=contextPath%>/js/supersubs..js?v=${version}"></script> -->
+   <!--  <script src="<%=contextPath%>/js/jquery.tweet..js?v=${version}"></script>  -->
+    <script src="<%=contextPath%>/js/jquery.flexslider..js?v=${version}"></script> 
+    <!--<script src="<%=contextPath%>/js/retina..js?v=${version}"></script>-->
 
-    <script src="<%=contextPath%>/js/custom.js"></script>
+    <script src="<%=contextPath%>/js/custom..js?v=${version}"></script>
 	<script>
 	$("#sendMessageBtn").click(function(){
 		//disable submitBtn
