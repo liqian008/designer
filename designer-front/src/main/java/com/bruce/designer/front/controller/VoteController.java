@@ -60,11 +60,15 @@ public class VoteController {
 		if(vote==null){
 			throw new DesignerException(ErrorCode.VOTE_NOT_EXISTS);
 		}
+		
+		Set<Integer> votedOptionSet = getVoteOptionSetFromCookie(request, voteId);
+		if(logger.isDebugEnabled()){
+			logger.debug("voteInfo中查询vote的cookie数据： "+votedOptionSet);
+		}
 		//选项列表
 		List<VoteOption> voteOptionList = voteService.queryOptionsByVoteId(voteId);
 		//遍历，以判断是否投票过
 		if(voteOptionList!=null&&voteOptionList.size()>0){
-			Set<Integer> votedOptionSet = getVoteOptionSetFromCookie(request, voteId);
 			//获取投票项的统计
 			List<CountCacheBean> voteResultList = voteService.queryVoteResultStat(voteId);
 			//将统计转为map，并计算总投票数
@@ -120,9 +124,13 @@ public class VoteController {
 		}
 		//判断vote状态&时间限制
 		if(!Short.valueOf((short)1).equals(vote.getStatus())){
+			if(logger.isErrorEnabled()){
+				logger.error("vote status 错误" + vote.getStatus());
+			}
 			throw new DesignerException(ErrorCode.VOTE_CLOSED);
 		}
 		if(vote.getVoteStartTime()!=null&&vote.getVoteStartTime().getTime()>System.currentTimeMillis()){
+			
 			throw new DesignerException(ErrorCode.VOTE_NOT_START);
 		}
 		if(vote.getVoteStartTime()!=null&&vote.getVoteEndTime().getTime()<System.currentTimeMillis()){
@@ -130,12 +138,20 @@ public class VoteController {
 		}
 		
 		Set<Integer> votedOptionSet = getVoteOptionSetFromCookie(request, vote.getId());
-		
+		if(logger.isDebugEnabled()){
+			logger.debug("vote ajax时的cookie数据： "+votedOptionSet);
+		}
 		if(votedOptionSet!=null&&votedOptionSet.size()>0){//之前vote过
 			if(vote.getMaxCheckLimit()<=votedOptionSet.size()){
+				if(logger.isErrorEnabled()){
+					logger.error("vote 提出超限 错误" + vote.getMaxCheckLimit()+","+votedOptionSet);
+				}
 				throw new DesignerException(ErrorCode.VOTE_OVER_LIMIT);//vote超限，不能再投票了
 			}
 			if(votedOptionSet.contains(voteOptionId)){
+				if(logger.isErrorEnabled()){
+					logger.error("vote 重复投票" + voteOptionId);
+				}
 				throw new DesignerException(ErrorCode.VOTE_REPEAT);//已经投过票，不能重复投票
 			}
 		}
@@ -150,7 +166,9 @@ public class VoteController {
 			Cookie cookie = new Cookie(getVoteCookieKey(vote.getId()), newCookieValue);
 			cookie.setMaxAge(999999999);
 			response.addCookie(cookie);
-			return ResponseBuilderUtil.SUBMIT_SUCCESS_VIEW;
+			int leftVoteTimes = vote.getMaxCheckLimit() - votedOptionSet.size() ;//剩余的投票机会
+			leftVoteTimes = leftVoteTimes<0?0:leftVoteTimes;
+			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(leftVoteTimes));
 		}
 		return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
 	}

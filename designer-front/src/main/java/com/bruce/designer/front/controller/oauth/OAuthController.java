@@ -59,13 +59,13 @@ public class OAuthController {
 		return ResponseUtil.getRedirectString(weiboOAuthUrl);
 	}
 
-	@RequestMapping(value = "/connectTencent")
-	public String connectTencent(HttpServletRequest request) throws Exception {
-	    if(logger.isDebugEnabled()){
-            logger.debug("请求QQ登录");
-        }
-		return ResponseUtil.getRedirectString(new com.qq.connect.oauth.Oauth().getAuthorizeURL(request));
-	}
+//	@RequestMapping(value = "/connectTencent")
+//	public String connectTencent(HttpServletRequest request) throws Exception {
+//	    if(logger.isDebugEnabled()){
+//            logger.debug("请求QQ登录");
+//        }
+//		return ResponseUtil.getRedirectString(new com.qq.connect.oauth.Oauth().getAuthorizeURL(request));
+//	}
 	
 	/**
 	 * 微信登录

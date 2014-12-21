@@ -8,13 +8,19 @@ String contextPath = ConstFront.CONTEXT_PATH;
 <div class="page-title">
     <div class="span6">
         <div class="page-title-avatar">
-             <a href="/img/icon/scanCode.jpeg" target="_blank">
+             <a href='http://mp.weixin.qq.com/s?__biz=MzAxNTE1NjAzNg==&mid=202021319&idx=1&sn=b5a4929ecd8538c6cff8d7fc6220c150&key=1507480b90e51e63322c02edf
+d5db55077ac6b16f1e46fa5d7ecfe7c499e823000342a3bd678155a06076658bd1d00a8&ascene=1&uin=MTgyMDAzOTU%3D&devicetype=webwx&version=70000001&pass_ticket=0RUywMKHu6
+OSFH1wpV3Oyu7Zqhrrqf4iNMhvO%2BaoedM%3D' target="_blank">
              	<img src="http://imgqn.jinwanr.com/images/icon/mp_qrcode.jpg" width="80" height="80">
              </a>
         </div>
         <div class="page-title-content">
-            <h1>金玩儿网-微信公众账户</h1>
-            <h4>【码】上关注，每日为您提供精选的原创首饰作品</h4>
+             <h1><a href="http://mp.weixin.qq.com/s?__biz=MzAxNTE1NjAzNg==&mid=202021319&idx=1&sn=b5a4929ecd8538c6cff8d7fc6220c150&key=1507480b90e51e63322c02
+edfd5db55077ac6b16f1e46fa5d7ecfe7c499e823000342a3bd678155a06076658bd1d00a8&ascene=1&uin=MTgyMDAzOTU%3D&devicetype=webwx&version=70000001&pass_ticket=0RUywMK
+Hu6OSFH1wpV3Oyu7Zqhrrqf4iNMhvO%2BaoedM%3D">金玩儿网-微信公众账户</a></h1>
+            <h4><a href="http://mp.weixin.qq.com/s?__biz=MzAxNTE1NjAzNg==&mid=202021319&idx=1&sn=b5a4929ecd8538c6cff8d7fc6220c150&key=1507480b90e51e63322c02
+edfd5db55077ac6b16f1e46fa5d7ecfe7c499e823000342a3bd678155a06076658bd1d00a8&ascene=1&uin=MTgyMDAzOTU%3D&devicetype=webwx&version=70000001&pass_ticket=0RUywMK
+Hu6OSFH1wpV3Oyu7Zqhrrqf4iNMhvO%2BaoedM%3D">【码】上关注，为您提供精彩原创作品</a></h4>
         </div>
     </div>
     

@@ -70,9 +70,10 @@ public class VoteOptionDaoImpl implements IVoteOptionDao, InitializingBean {
 	}
 
 	@Override
-	public List<VoteOption> loadOptionsByVoteId(Integer id) {
+	public List<VoteOption> loadOptionsByVoteId(Integer voteId) {
 		VoteOptionCriteria criteria = new VoteOptionCriteria();
-		criteria.createCriteria().andVoteIdEqualTo(id);
+		criteria.createCriteria().andVoteIdEqualTo(voteId).andStatusEqualTo((short)1);
+		criteria.setOrderByClause(" sort asc");
 		return queryByCriteria(criteria);
 	}
 	

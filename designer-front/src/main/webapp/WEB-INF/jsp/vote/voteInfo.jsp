@@ -142,19 +142,17 @@ Vote vote = (Vote)request.getAttribute("vote");
 								for(VoteOption option: voteOptionList){
 									i++;
 								%>
-								<div class="row-fluid clearfix">
-									<img id="opt<%=i%>" src="<%=option.getPicUrl()%>" width="100%"> 
+								<div class="row-fluid clearfix" style="border-bottom: 1px solid #ececec;margin-bottom: 15px;">
+									<img id="opt<%=i%>" src="<%=option.getThumbPicUrl()%>" width="100%"> 
 									<blockquote class="normal blockquote-left blockquote-bg">
 	                                    <p><%=option.getSort()%>、<%=option.getTitle()%> - <%=option.getDescription()%></p>
 	                                </blockquote>
 	                                
-									
 									<div class="single-navigation navigation clearfix">
 										<%if(voteOnline && !voteExpire){%>
-											<a href="javascript:void(0)" class="nav-left <%=option.isVoted()?"":"voteBtn"%> " dataItem=<%=option.getId()%>><%=option.isVoted()?"您已投票":"点击投票"%></a>
-											<a href="javascript:void(0)">(已有&nbsp;<%=option.getVoteNum()%>&nbsp;人投票)</a>
+											<a href="javascript:void(0)" class="nav-left <%=option.isVoted()?"":"voteBtn"%> " dataItem=<%=option.getId()%>><%=option.isVoted()?"您已投票":"给Ta投票"%>(已有&nbsp;<%=option.getVoteNum()%>&nbsp;人投票)</a>
 										<%}%>
-										<a href="javascript:void(0)" class="nav-right">找好友拉票</a>
+										<a href="javascript:void(0)" class="nav-right wxShareBtn">找好友拉票</a>
 									</div>
 									
 									<div class="single-navigation navigation clearfix">
@@ -186,7 +184,42 @@ Vote vote = (Vote)request.getAttribute("vote");
 		<!-- Close Page -->
 	</div>
 	<!-- Close wrapper -->
-
+	
+	
+	<!-- 微信分享 -->
+    <div id="shareModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="cautionModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <h4>拉票方法</h4>
+        </div>
+      <div class="modal-body">
+        <p>点击屏幕右上角的【分享到朋友圈】或【发送给好友】，可让好友帮你投票哦！</p>
+      </div>
+      <div class="modal-footer">
+        <button class="button" data-dismiss="modal" aria-hidden="true">我知道了</button>
+      </div>
+    </div>
+    
+    <!-- 投票提示 -->
+    <div id="voteModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="cautionModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <h4>投票提示</h4>
+        </div>
+      <div class="modal-body">
+        <p id="voteAvailableContainer">您已成功投票，还有<span id="leftVoteTimes">0</span>次投票机会，请认真把握哦！<br/>
+        	接下来，您可以：
+        </p>
+       	<p id="voteUnavailableContainer">您已成功完成<%=vote.getMaxCheckLimit()%>次投票。<br/>
+       	接下来，您可以：
+       	</p>
+       	<p id="voteErrorContainer"><span id="voteErrorText">投票失败</span>！您可以：
+       	</p>
+      </div>
+      <div class="modal-footer">
+        <button class="button" id="stayVoteBtn"  data-dismiss="modal" aria-hidden="true">继续浏览</button>
+        <button id="voteAbortBtn" class="button button-white">逛逛金玩儿网</button>
+      </div>
+    </div>
+    
 
 	<!-- Load all Javascript Files -->
 	<script src="<%=contextPath%>/js/vendor/bootstrap.min.js?v=${version}"></script>
@@ -202,6 +235,14 @@ Vote vote = (Vote)request.getAttribute("vote");
 </body>
 
 <script>
+$(".wxShareBtn").click(function(){
+	$('#shareModal').modal();
+})
+
+$("#voteAbortBtn").click(function(){
+	location.href="http://www.jinwanr.com";
+})
+
 $("body").delegate('a.voteBtn', 'click', function(){
 	var voteBtn = $(this);
 	var voteOptionId = voteBtn.attr('dataItem');
@@ -209,12 +250,27 @@ $("body").delegate('a.voteBtn', 'click', function(){
 	$.post("<%=contextPath%>/vote/vote.json", voteJsonData, function(data) {
 		if(data.result==1){
 			//投票成功
-			alert("您已成功投票");
-			voteBtn.removeClass("voteBtn");
 			voteBtn.text("您已投票");
+			voteBtn.removeClass("voteBtn");
+			var leftVoteTimes = data.data;
+			if(leftVoteTimes>0){
+				//alert("您已成功投票，还有"+leftVoteTimes+"次投票机会，请认真把握哦");
+				$("#leftVoteTimes").text(leftVoteTimes);
+				$("#voteAvailableContainer").show();
+				$("#voteUnavailableContainer").hide();
+				$("#voteErrorContainer").hide();
+			}else{
+				$("#voteAvailableContainer").hide();
+				$("#voteUnavailableContainer").show();
+				$("#voteErrorContainer").hide();
+			}
 		}else{
-			alert(data.message);
+			$("#voteAvailableContainer").hide();
+			$("#voteUnavailableContainer").hide();
+			$("#voteErrorText").text(data.message);
+			$("#voteErrorContainer").show();
 		}
+		$("#voteModal").modal();
 	 }, "json");
 });
 
@@ -259,5 +315,13 @@ document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
     });
 }, false);
 </script>
+
+<jsp:include page="../inc/ua.jsp"></jsp:include>
+<script>
+if(!isWeixin()){
+	$(".wxShareBtn").hide();
+}
+</script>
+
 
 </html>
