@@ -91,6 +91,9 @@ public class AlbumInfoCommand extends AbstractApiCommand implements Initializing
             }
 			albumService.initAlbumWithCount(albumInfo);//TODO 可以考虑与loadInfo重构在一起
 			
+			albumService.initAlbumWithAuthorInfo(albumInfo);
+			
+			
 //			//加载专辑的标签，暂时删除
 //			if(logger.isDebugEnabled()){
 //                logger.debug("加载专辑["+albumId+"]的标签");

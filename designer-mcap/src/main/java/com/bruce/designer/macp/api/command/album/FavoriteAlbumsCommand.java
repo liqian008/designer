@@ -111,16 +111,16 @@ public class FavoriteAlbumsCommand extends AbstractApiCommand implements Initial
 					}
 					
 					//构造设计师信息
-					int albumAuthorId = album.getUserId();
+					int designerId = album.getUserId();
 					AlbumAuthorInfo authorInfo = null;
-					if(!albumAuthorMap.containsKey(albumAuthorId)){//考虑到多个作品的设计师可能是同一个人，因此使用map缓存
-						User designer = userService.loadById(albumAuthorId);
+					if(!albumAuthorMap.containsKey(designerId)){//考虑到多个作品的设计师可能是同一个人，因此使用map缓存
+						User designer = userService.loadById(designerId);
 						String designerAvatar = UserUtil.getAvatarUrl(designer, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
 						String designerNickname = designer.getNickname();
 						boolean followed = false;//userGraphService.isFollow(hostId, albumAuthorId);
 						authorInfo = new AlbumAuthorInfo(designerAvatar, designerNickname, followed);
 					}else{
-						authorInfo = albumAuthorMap.get(albumAuthorId);
+						authorInfo = albumAuthorMap.get(designerId);
 					}
 					album.setAuthorInfo(authorInfo);
 					

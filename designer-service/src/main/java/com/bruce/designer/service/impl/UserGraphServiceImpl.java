@@ -17,12 +17,14 @@ import org.springframework.util.Assert;
 
 import com.bruce.designer.cache.user.FanCache;
 import com.bruce.designer.cache.user.FollowCache;
+import com.bruce.designer.constants.ConstService;
 import com.bruce.designer.dao.IUserFanDao;
 import com.bruce.designer.dao.IUserFollowDao;
 import com.bruce.designer.exception.RedisKeyNotExistException;
 import com.bruce.designer.model.User;
 import com.bruce.designer.model.UserFan;
 import com.bruce.designer.model.UserFollow;
+import com.bruce.designer.service.IMessageService;
 import com.bruce.designer.service.IUserGraphService;
 import com.bruce.designer.service.IUserService;
 //import com.bruce.designer.constants.ConstRedis;
@@ -51,6 +53,8 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
 //    private ICounterService counterService;
     @Autowired
     private IUserService userService;
+    @Autowired
+	private IMessageService messageService;
 
     /**
      * 获取指定uid的关注列表，分页查询
@@ -204,6 +208,8 @@ public class UserGraphServiceImpl implements IUserGraphService, InitializingBean
             } else {
                 // TODO 添加失败队列修复
             }
+            //发送关注消息
+			messageService.sendMessage(uid, uid, followId, "", ConstService.MESSAGE_TYPE_FOLLOW);
             return true;
         }
     }

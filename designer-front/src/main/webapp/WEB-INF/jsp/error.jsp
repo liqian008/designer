@@ -8,7 +8,7 @@
 String contextPath = ConstFront.CONTEXT_PATH;
 String errorMessage = (String)request.getAttribute(ResponseBuilderUtil.ERROR_MSG);
 if(errorMessage==null){
-	errorMessage = "服务器开小差，请稍后再试！";
+	errorMessage = "服务器正在开小差，请稍后再试！";
 }
 %>
 

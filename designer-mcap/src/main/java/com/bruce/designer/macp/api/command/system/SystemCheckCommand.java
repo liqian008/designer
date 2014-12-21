@@ -20,6 +20,7 @@ import com.bruce.designer.model.User;
 import com.bruce.designer.model.VersionUpdate;
 import com.bruce.designer.service.IUserService;
 import com.bruce.designer.service.IVersionUpdateService;
+import com.bruce.designer.util.ConfigUtil;
 import com.bruce.designer.util.UserUtil;
 import com.bruce.foundation.macp.api.command.AbstractApiCommand;
 import com.bruce.foundation.macp.api.entity.ApiCommandContext;
@@ -27,6 +28,9 @@ import com.bruce.foundation.macp.api.entity.VersionCheckResult;
 import com.bruce.foundation.macp.api.utils.ResponseBuilderUtil;
 import com.bruce.foundation.macp.passport.service.PassportService;
 import com.bruce.foundation.model.result.ApiResult;
+import com.bruce.foundation.model.share.GenericSharedInfo;
+import com.bruce.foundation.model.share.GenericSharedInfo.WxSharedInfo;
+import com.bruce.foundation.util.JsonUtil;
 
 /**
  * 检查版本更新&用户登录
@@ -35,7 +39,13 @@ import com.bruce.foundation.model.result.ApiResult;
  */
 @Component
 public class SystemCheckCommand extends AbstractApiCommand implements InitializingBean {
-
+	
+	
+	private static final String APP_WX_SHARE_TITLE = ConfigUtil.getString("app_wxshare_title");
+	private static final String APP_WX_SHARE_CONTENT = ConfigUtil.getString("app_wxshare_content");
+	private static final String APP_WX_SHARE_ICON_URL = ConfigUtil.getString("app_wxshare_icon_url");
+	private static final String APP_WX_SHARE_LINK =ConfigUtil.getString("app_wxshare_link");
+	
     private static final Log logger = LogFactory.getLog(SystemCheckCommand.class);
     
     @Autowired
@@ -78,7 +88,14 @@ public class SystemCheckCommand extends AbstractApiCommand implements Initializi
     		versionCheckResult = new VersionCheckResult(0, null, null, null, null,null);
     	}
     	dataMap.put("versionCheckResult", versionCheckResult);
-
+    	
+    	GenericSharedInfo appSharedInfo = new GenericSharedInfo();
+    	appSharedInfo.setWxSharedInfo(new WxSharedInfo(APP_WX_SHARE_TITLE, APP_WX_SHARE_CONTENT, APP_WX_SHARE_ICON_URL, APP_WX_SHARE_LINK));
+    	dataMap.put("appSharedInfo", appSharedInfo);
+    	if(logger.isDebugEnabled()){
+    		logger.debug("应用分享文案："+JsonUtil.gson.toJson(appSharedInfo));
+    	}
+    	
     	boolean needLogin = true;
     	
     	if(!UserUtil.isGuest(hostId)){//正常登录用户

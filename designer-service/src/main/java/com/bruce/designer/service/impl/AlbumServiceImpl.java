@@ -287,17 +287,17 @@ public class AlbumServiceImpl implements IAlbumService {
 			Map<Integer, AlbumAuthorInfo> albumAuthorMap = new HashMap<Integer, AlbumAuthorInfo>();
 			for (Album album : albumList) {
 				//构造设计师信息
-				int albumAuthorId = album.getUserId();
+				int designerId = album.getUserId();
 				AlbumAuthorInfo authorInfo = null;
-				if(!albumAuthorMap.containsKey(albumAuthorId)){//考虑到多个作品的设计师可能是同一个人，因此使用map缓存
-					User designer = userService.loadById(albumAuthorId);
+				if(!albumAuthorMap.containsKey(designerId)){//考虑到多个作品的设计师可能是同一个人，因此使用map缓存
+					User designer = userService.loadById(designerId);
 					String designerAvatar = UserUtil.getAvatarUrl(designer, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
 					String designerNickname = designer.getNickname();
-					boolean followed = false;//userGraphService.isFollow(hostId, albumAuthorId);
+					boolean followed = false;//userGraphService.isFollow(hostId, designerId);
 					authorInfo = new AlbumAuthorInfo(designerAvatar, designerNickname, followed);
-					albumAuthorMap.put(albumAuthorId, authorInfo);
+					albumAuthorMap.put(designerId, authorInfo);
 				}else{
-					authorInfo = albumAuthorMap.get(albumAuthorId);
+					authorInfo = albumAuthorMap.get(designerId);
 				}
 				album.setAuthorInfo(authorInfo);
 			}
@@ -312,11 +312,11 @@ public class AlbumServiceImpl implements IAlbumService {
 	public void initAlbumWithAuthorInfo(Album album) {
 		if(album!=null&&album.getId()!=null){
 			//构造设计师信息
-			int albumAuthorId = album.getUserId();
-			User designer = userService.loadById(albumAuthorId);
+			int designerId = album.getUserId();
+			User designer = userService.loadById(designerId);
 			String designerAvatar = UserUtil.getAvatarUrl(designer, ConstService.UPLOAD_IMAGE_SPEC_MEDIUM);
 			String designerNickname = designer.getNickname();
-			boolean followed = false;//userGraphService.isFollow(hostId, albumAuthorId);
+			boolean followed = false;//userGraphService.isFollow(hostId, designerId);
 			AlbumAuthorInfo authorInfo = new AlbumAuthorInfo(designerAvatar, designerNickname, followed);
 			album.setAuthorInfo(authorInfo);
 		}

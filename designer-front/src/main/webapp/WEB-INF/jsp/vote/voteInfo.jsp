@@ -192,7 +192,7 @@ Vote vote = (Vote)request.getAttribute("vote");
             <h4>拉票方法</h4>
         </div>
       <div class="modal-body">
-        <p>点击屏幕右上角的【分享到朋友圈】或【发送给好友】，可让好友帮你投票哦！</p>
+        <p>点击屏幕右上角的【分享到朋友圈】或【发送给好友】，让好友给你投票哦！</p>
       </div>
       <div class="modal-footer">
         <button class="button" data-dismiss="modal" aria-hidden="true">我知道了</button>
@@ -215,7 +215,7 @@ Vote vote = (Vote)request.getAttribute("vote");
        	</p>
       </div>
       <div class="modal-footer">
-        <button class="button" id="stayVoteBtn"  data-dismiss="modal" aria-hidden="true">继续浏览</button>
+        <button id="continueBtn" class="button" id="stayVoteBtn"  data-dismiss="modal" aria-hidden="true">继续浏览</button>
         <button id="voteAbortBtn" class="button button-white">逛逛金玩儿网</button>
       </div>
     </div>
@@ -238,6 +238,11 @@ Vote vote = (Vote)request.getAttribute("vote");
 $(".wxShareBtn").click(function(){
 	$('#shareModal').modal();
 })
+
+$("#continueBtn").click(function(){
+	location.reload();
+})
+
 
 $("#voteAbortBtn").click(function(){
 	location.href="http://www.jinwanr.com";
