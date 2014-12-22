@@ -246,9 +246,9 @@ Vote vote = (Vote)request.getAttribute("vote");
        	</p>
       </div>
       <div class="modal-footer">
-        <button id="continueBtn" class="button" id="stayVoteBtn"  data-dismiss="modal" aria-hidden="true">继续浏览</button>
-        <button id="voteAbortBtn" class="button button-blue">逛逛金玩儿网</button>
-        <button id="followJinwanrBtn" class="button button-green">关注公众帐号</button>
+        <button id="continueBtn" class="button" id="stayVoteBtn"  data-dismiss="modal" aria-hidden="true">【继续浏览】</button>
+        <button id="voteAbortBtn" class="button button-blue">【鉴赏精选原创作品】</button>
+        <button id="followJinwanrBtn" class="button button-green">【鉴赏精选原创作品】</button>
       </div>
     </div>
     
@@ -281,7 +281,7 @@ $("#followJinwanrBtn").click(function(){
 })
 
 $("#voteAbortBtn").click(function(){
-	location.href="http://www.jinwanr.com";
+	location.href="http://www.jinwanr.com/albums";
 })
 
 $("body").delegate('a.voteBtn', 'click', function(){

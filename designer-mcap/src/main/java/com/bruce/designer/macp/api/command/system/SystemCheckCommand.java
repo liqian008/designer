@@ -7,6 +7,7 @@ package com.bruce.designer.macp.api.command.system;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,7 +45,9 @@ public class SystemCheckCommand extends AbstractApiCommand implements Initializi
 	private static final String APP_WX_SHARE_TITLE = ConfigUtil.getString("app_wxshare_title");
 	private static final String APP_WX_SHARE_CONTENT = ConfigUtil.getString("app_wxshare_content");
 	private static final String APP_WX_SHARE_ICON_URL = ConfigUtil.getString("app_wxshare_icon_url");
-	private static final String APP_WX_SHARE_LINK =ConfigUtil.getString("app_wxshare_link");
+	private static final String APP_WX_SHARE_LINK = ConfigUtil.getString("app_wxshare_link");
+	/*是否显示价格*/
+	private static final boolean ALBUM_SHOW_PRICE = BooleanUtils.toBoolean(ConfigUtil.getString("album_show_price"));
 	
     private static final Log logger = LogFactory.getLog(SystemCheckCommand.class);
     
@@ -88,6 +91,7 @@ public class SystemCheckCommand extends AbstractApiCommand implements Initializi
     		versionCheckResult = new VersionCheckResult(0, null, null, null, null,null);
     	}
     	dataMap.put("versionCheckResult", versionCheckResult);
+    	dataMap.put("showPrice", ALBUM_SHOW_PRICE);
     	
     	GenericSharedInfo appSharedInfo = new GenericSharedInfo();
     	appSharedInfo.setWxSharedInfo(new WxSharedInfo(APP_WX_SHARE_TITLE, APP_WX_SHARE_CONTENT, APP_WX_SHARE_ICON_URL, APP_WX_SHARE_LINK));
