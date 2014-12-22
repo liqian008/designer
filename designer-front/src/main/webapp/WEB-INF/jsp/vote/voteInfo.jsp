@@ -56,8 +56,8 @@ Vote vote = (Vote)request.getAttribute("vote");
 	text-align: center; 
 	font-size:14px;
 }
-.btn-green{ background-color: #08ba05;color: #fff;border-radius: 5px;}
-.btn-orange{ background-color: orange;color: #fff;border-radius: 5px;} 
+.btn-green{ background-color: #27ae60;color: #fff;border-radius: 5px;}
+.btn-orange{ background-color: #e67e22;color: #fff;border-radius: 5px;} 
                         </style>
 <!--[if IE 8]>
         <link rel="stylesheet" type="text/css" media="all" href="<%=contextPath%>/css/ie8.css?v=${version}" />    
