@@ -96,6 +96,14 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
                                 <div class="tab-content span9">
                                     <div class="tab-pane widgets-light active" id="apply4Designer">
                                         <div class="widget-box widget-wrapper-form">
+                                        	<div id="unsupportedContainer" class="infobox info-warning info-warning-alt clearfix" style="display:none">
+				                                <span>i</span> 
+				                                <div class="infobox-wrap"> 
+				                                    <h4>浏览器不支持：</h4> 
+				                                    <p>【金玩儿网】暂不支持在您当前的设备下发布作品，请在电脑上访问【金玩儿网】并提交设计师申请</p>
+				                                </div>
+				                            </div>
+                                        	
                                         	<form id='album-widget-form' class="widget-form clearfix" method="post" 
 												action="<%=contextPath%>/settings/designerApply">
 												<div class="content-title">
@@ -522,8 +530,16 @@ User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
    		//location.href='<%=contextPath%>/settings';
    	});
    	</script>
-	<%}%>
 	
+	<jsp:include page="../inc/ua.jsp"></jsp:include>
+	<script>
+	if(isWeixin()||isIpad()){
+		//屏蔽发布表单
+		$("#album-widget-form").hide();
+		$("#unsupportedContainer").show();
+	}
+	</script>
+	<%}%>
     </body>
     
 <jsp:include page="../inc/weixinShare_site.jsp"></jsp:include>

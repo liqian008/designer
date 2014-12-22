@@ -39,6 +39,26 @@ Vote vote = (Vote)request.getAttribute("vote");
 <link rel="stylesheet" href="<%=contextPath%>/css/animate.css?v=${version}">
 <link rel="stylesheet" href="<%=contextPath%>/css/flexslider.css?v=${version}">
 <link rel="stylesheet" href="<%=contextPath%>/css/style.css?v=${version}">
+<style>
+.btn{
+	margin: 0px 6px 6px 0px;
+	padding: 8px 16px; 
+	text-decoration: none;
+	text-align: center;
+	display:inline-block;
+}
+.btn-block{
+	color: #fff !important;
+	padding: 12px 20px;
+	margin:0px 5px 10px; 
+	text-decoration: none;
+	display:block;
+	text-align: center; 
+	font-size:14px;
+}
+.btn-green{ background-color: #08ba05;color: #fff;border-radius: 5px;}
+.btn-orange{ background-color: orange;color: #fff;border-radius: 5px;} 
+                        </style>
 <!--[if IE 8]>
         <link rel="stylesheet" type="text/css" media="all" href="<%=contextPath%>/css/ie8.css?v=${version}" />    
         <![endif]-->
@@ -64,7 +84,7 @@ Vote vote = (Vote)request.getAttribute("vote");
 		<div class="header-background">
 			<!-- Header Background -->
 
-			<jsp:include page="../inc/headerBanner.jsp"></jsp:include>
+			<jsp:include page="../inc/headerBanner.jsp?displayLogin=0"></jsp:include>
 
 			<div class="header-wrap">
 				<!-- Header Wrapper, contains Mene and Slider -->
@@ -148,19 +168,30 @@ Vote vote = (Vote)request.getAttribute("vote");
 	                                    <p><%=option.getSort()%>、<%=option.getTitle()%> - <%=option.getDescription()%></p>
 	                                </blockquote>
 	                                
+	                                <div class="single-navigation navigation clearfix">
+										<link rel="stylesheet" href="<%=contextPath%>/css/progress.css?v=${version}"> 
+										<div class="progress"> 
+										<span class="green" style="width: <%=df.format(option.getPercent())%>%"><span><%=df.format(option.getPercent())%>%</span></span>
+										</div> 
+									</div>
+									
+	                                <div>
+	                                	<%if(voteOnline && !voteExpire){%>
+		                                <a href="javascript:void(0)" class="btn-block btn-green <%=option.isVoted()?"":"voteBtn"%>" dataItem=<%=option.getId()%>><%=option.isVoted()?"您已投票":"给Ta投票"%>(已有&nbsp;<%=option.getVoteNum()%>&nbsp;人投票)</a>
+										<%}%>
+										<a href="javascript:void(0)" class="btn-block btn-orange wxShareBtn">找好友拉票</a> 
+	                                </div>
+	                                
+	                                <!-- 
 									<div class="single-navigation navigation clearfix">
 										<%if(voteOnline && !voteExpire){%>
 											<a href="javascript:void(0)" class="nav-left <%=option.isVoted()?"":"voteBtn"%> " dataItem=<%=option.getId()%>><%=option.isVoted()?"您已投票":"给Ta投票"%>(已有&nbsp;<%=option.getVoteNum()%>&nbsp;人投票)</a>
 										<%}%>
 										<a href="javascript:void(0)" class="nav-right wxShareBtn">找好友拉票</a>
 									</div>
+									-->
 									
-									<div class="single-navigation navigation clearfix">
-										<link rel="stylesheet" href="<%=contextPath%>/css/progress.css?v=${version}"> 
-										<div class="progress"> 
-										<span class="green" style="width: <%=df.format(option.getPercent())%>%"><span><%=df.format(option.getPercent())%>%</span></span>
-										</div> 
-									</div>
+									 
 								</div>
 								<%}%>
 								
@@ -216,7 +247,8 @@ Vote vote = (Vote)request.getAttribute("vote");
       </div>
       <div class="modal-footer">
         <button id="continueBtn" class="button" id="stayVoteBtn"  data-dismiss="modal" aria-hidden="true">继续浏览</button>
-        <button id="voteAbortBtn" class="button button-white">逛逛金玩儿网</button>
+        <button id="voteAbortBtn" class="button button-blue">逛逛金玩儿网</button>
+        <button id="followJinwanrBtn" class="button button-green">关注公众帐号</button>
       </div>
     </div>
     
@@ -243,6 +275,10 @@ $("#continueBtn").click(function(){
 	location.reload();
 })
 
+
+$("#followJinwanrBtn").click(function(){
+	location.href="http://mp.weixin.qq.com/s?__biz=MzAxNTE1NjAzNg==&mid=202021319&idx=1&sn=b5a4929ecd8538c6cff8d7fc6220c150&key=1507480b90e51e63322c02edfd5db55077ac6b16f1e46fa5d7ecfe7c499e823000342a3bd678155a06076658bd1d00a8&ascene=1&uin=MTgyMDAzOTU%3D&devicetype=webwx&version=70000001&pass_ticket=0RUywMKHu6OSFH1wpV3Oyu7Zqhrrqf4iNMhvO%2BaoedM%3D";
+})
 
 $("#voteAbortBtn").click(function(){
 	location.href="http://www.jinwanr.com";

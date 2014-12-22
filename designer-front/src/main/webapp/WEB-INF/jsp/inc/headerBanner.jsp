@@ -7,10 +7,10 @@
 
 <%
 String contextPath = ConstFront.CONTEXT_PATH;
-%>
 
-<%
 User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
+
+String displayLogin = request.getParameter("displayLogin");
 %>
 
 <script>console.log("=======GeekwayS1=======");</script>
@@ -26,13 +26,15 @@ User user = (User)session.getAttribute(ConstFront.CURRENT_USER);
                 </div>
 				
 				<div class="header-contact">
-					<%if(user==null){%>
+					<%if(user==null){ 
+						if(!"0".equals(displayLogin)){
+					%>
 					<input class="wb-login-small common-submit button" id="weiboLoginSmallBtn" type="button" onclick="location.href='<%=contextPath%>/connectWeibo'">
 					<!-- 
 					<input class="qq-login-small common-submit button" id="qqLoginSmallBtn" type="button" onclick="location.href='<%=contextPath%>/connectTencent'">
 					 -->
-					 
-                    <%}else{ %>
+                    <%}
+                    }else{ %>
                     欢迎您，<a href="<%=contextPath%>/<%=user.getId()%>/info"><%=user.getNickname() %></a>&nbsp;|&nbsp;
                     <a href="<%=contextPath%>/settings/msgbox"><span id="messageCount">消息中心</span></a>&nbsp;|&nbsp;
                     <%if(user.getDesignerStatus()!=null&&user.getDesignerStatus()==ConstService.DESIGNER_APPLY_APPROVED){%>
