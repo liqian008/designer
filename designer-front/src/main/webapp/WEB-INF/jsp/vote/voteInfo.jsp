@@ -226,7 +226,7 @@ Vote vote = (Vote)request.getAttribute("vote");
         <p>点击屏幕右上角的【分享到朋友圈】或【发送给好友】，让好友给你投票哦！</p>
       </div>
       <div class="modal-footer">
-        <button class="button" data-dismiss="modal" aria-hidden="true">我知道了</button>
+        <button class="button button-green" data-dismiss="modal" aria-hidden="true">我知道了</button>
       </div>
     </div>
     
@@ -248,7 +248,7 @@ Vote vote = (Vote)request.getAttribute("vote");
       <div class="modal-footer">
         <button id="continueBtn" class="button" id="stayVoteBtn"  data-dismiss="modal" aria-hidden="true">【继续浏览】</button>
         <button id="voteAbortBtn" class="button button-blue">【鉴赏精选原创作品】</button>
-        <button id="followJinwanrBtn" class="button button-green">【鉴赏精选原创作品】</button>
+        <button id="followJinwanrBtn" class="button button-green">【关注公众帐号】</button>
       </div>
     </div>
     
