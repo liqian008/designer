@@ -20,10 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bruce.designer.annotation.NeedAuthorize;
 import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.exception.DesignerException;
 import com.bruce.designer.exception.ErrorCode;
+import com.bruce.designer.front.constants.ConstFront;
 import com.bruce.designer.front.util.ResponseBuilderUtil;
+import com.bruce.designer.model.User;
 import com.bruce.designer.model.Vote;
 import com.bruce.designer.model.VoteOption;
 import com.bruce.designer.service.IVoteService;
@@ -60,10 +63,15 @@ public class VoteController {
 		if(vote==null){
 			throw new DesignerException(ErrorCode.VOTE_NOT_EXISTS);
 		}
+		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
 		
-		Set<Integer> votedOptionSet = getVoteOptionSetFromCookie(request, voteId);
+		Set<Integer> votedOptionSet = null;
+		if(user!=null){
+			votedOptionSet = getVotedOptionSetFromDB(user.getId(), voteId);// getVoteOptionSetFromCookie(request, voteId);
+		}
 		if(logger.isDebugEnabled()){
-			logger.debug("voteInfo中查询vote的cookie数据： "+votedOptionSet);
+			logger.debug("voteInfo中查询vote的db数据： "+votedOptionSet);
+//			logger.debug("voteInfo中查询vote的cookie数据： "+votedOptionSet);
 		}
 		//选项列表
 		List<VoteOption> voteOptionList = voteService.queryOptionsByVoteId(voteId);
@@ -91,7 +99,7 @@ public class VoteController {
 				option.setPercent(itemPercent);
 				
 				//计算用户是否投票过
-				if(votedOptionSet.contains(optionId)){
+				if(votedOptionSet!=null&&votedOptionSet.contains(optionId)){
 					option.setVoted(true);
 				}
 			}
@@ -115,8 +123,11 @@ public class VoteController {
 	 * @param response
 	 * @return
 	 */
+	@NeedAuthorize
 	@RequestMapping(value = "/vote/vote.json", method = RequestMethod.POST)
 	public ModelAndView vote(Model model, int voteOptionId, HttpServletRequest request, HttpServletResponse response) {
+		User user = (User) request.getSession().getAttribute(ConstFront.CURRENT_USER);
+		
 		//加载vote对象
 		Vote vote = voteService.loadByOptionId(voteOptionId);
 		if(vote==null){
@@ -130,16 +141,16 @@ public class VoteController {
 			throw new DesignerException(ErrorCode.VOTE_CLOSED);
 		}
 		if(vote.getVoteStartTime()!=null&&vote.getVoteStartTime().getTime()>System.currentTimeMillis()){
-			
 			throw new DesignerException(ErrorCode.VOTE_NOT_START);
 		}
 		if(vote.getVoteStartTime()!=null&&vote.getVoteEndTime().getTime()<System.currentTimeMillis()){
 			throw new DesignerException(ErrorCode.VOTE_ALREADY_FINISHED);
 		}
 		
-		Set<Integer> votedOptionSet = getVoteOptionSetFromCookie(request, vote.getId());
+		Set<Integer> votedOptionSet = getVotedOptionSetFromDB(user.getId(), vote.getId());// getVoteOptionSetFromCookie(request, vote.getId());
 		if(logger.isDebugEnabled()){
-			logger.debug("vote ajax时的cookie数据： "+votedOptionSet);
+			logger.debug("vote ajax时的db数据： "+votedOptionSet);
+//			logger.debug("vote ajax时的cookie数据： "+votedOptionSet);
 		}
 		if(votedOptionSet!=null&&votedOptionSet.size()>0){//之前vote过
 			if(vote.getMaxCheckLimit()<=votedOptionSet.size()){
@@ -159,15 +170,15 @@ public class VoteController {
 		votedOptionSet.add(voteOptionId);
 		
 		//增加vote记录
-		int result =  voteService.vote(vote.getId(), voteOptionId);
+		int result =  voteService.vote(user.getId(), vote.getId(), voteOptionId);
 		if(result>0){
-			//重新写入cookie
-			String newCookieValue = JsonUtil.gson.toJson(votedOptionSet);
-			Cookie cookie = new Cookie(getVoteCookieKey(vote.getId()), newCookieValue);
-			cookie.setMaxAge(999999999);
-			response.addCookie(cookie);
 			int leftVoteTimes = vote.getMaxCheckLimit() - votedOptionSet.size() ;//剩余的投票机会
-			leftVoteTimes = leftVoteTimes<0?0:leftVoteTimes;
+			//重新写入cookie
+//			String newCookieValue = JsonUtil.gson.toJson(votedOptionSet);
+//			Cookie cookie = new Cookie(getVoteCookieKey(vote.getId()), newCookieValue);
+//			cookie.setMaxAge(999999999);
+//			response.addCookie(cookie);
+//			leftVoteTimes = leftVoteTimes<0?0:leftVoteTimes;
 			return ResponseBuilderUtil.buildJsonView(ResponseBuilderUtil.buildSuccessJson(leftVoteTimes));
 		}
 		return ResponseBuilderUtil.SUBMIT_FAILED_VIEW;
@@ -175,32 +186,42 @@ public class VoteController {
 	
 	
 	
+//	/**
+//	 * 从cookie中获取已投票的optionSet
+//	 * @param request
+//	 * @param voteId
+//	 * @return
+//	 */
+//	private Set<Integer> getVoteOptionSetFromCookie(HttpServletRequest request, int voteId) {
+//		//cookie中vote的option列表
+//		Set<Integer> votedOptionSet = null;
+//		String voteCookieKey = getVoteCookieKey(voteId);
+//		//检查cookie中的
+//		Cookie[] cookies = request.getCookies();
+//		if(cookies!=null&&cookies.length>0){
+//			for(Cookie cookie: cookies){
+//				if(voteCookieKey.equals(cookie.getName())){
+//					String votedOptionListStr = cookie.getValue();
+//					try{
+//						votedOptionSet = JsonUtil.gson.fromJson(votedOptionListStr, new TypeToken<Set<Integer>>(){}.getType());
+//					}catch(Exception e){
+//					}
+//					break;
+//				}
+//			}
+//		}
+//		if(votedOptionSet==null) votedOptionSet = new HashSet<Integer>(); 
+//		return votedOptionSet;
+//	}
+	
 	/**
 	 * 从cookie中获取已投票的optionSet
 	 * @param request
 	 * @param voteId
 	 * @return
 	 */
-	private Set<Integer> getVoteOptionSetFromCookie(HttpServletRequest request, int voteId) {
-		//cookie中vote的option列表
-		Set<Integer> votedOptionSet = null;
-		String voteCookieKey = getVoteCookieKey(voteId);
-		//检查cookie中的
-		Cookie[] cookies = request.getCookies();
-		if(cookies!=null&&cookies.length>0){
-			for(Cookie cookie: cookies){
-				if(voteCookieKey.equals(cookie.getName())){
-					String votedOptionListStr = cookie.getValue();
-					try{
-						votedOptionSet = JsonUtil.gson.fromJson(votedOptionListStr, new TypeToken<Set<Integer>>(){}.getType());
-					}catch(Exception e){
-					}
-					break;
-				}
-			}
-		}
-		if(votedOptionSet==null) votedOptionSet = new HashSet<Integer>(); 
-		return votedOptionSet;
+	private Set<Integer> getVotedOptionSetFromDB(Integer userId, Integer voteId) {
+		return voteService.getUserVotedOptionSet(userId, voteId);
 	}
 	
 	/**

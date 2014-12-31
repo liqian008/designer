@@ -12,6 +12,7 @@
 DecimalFormat df =new DecimalFormat("0.00");
 
 String contextPath = ConstFront.CONTEXT_PATH;
+User currentUser = (User)session.getAttribute(ConstFront.CURRENT_USER);
 Vote vote = (Vote)request.getAttribute("vote");
 %>
 
@@ -84,7 +85,7 @@ Vote vote = (Vote)request.getAttribute("vote");
 		<div class="header-background">
 			<!-- Header Background -->
 
-			<jsp:include page="../inc/headerBanner.jsp?displayLogin=0"></jsp:include>
+			<jsp:include page="../inc/headerBanner.jsp"></jsp:include>
 
 			<div class="header-wrap">
 				<!-- Header Wrapper, contains Mene and Slider -->
@@ -242,10 +243,11 @@ Vote vote = (Vote)request.getAttribute("vote");
        	<p id="voteUnavailableContainer">您已成功完成<%=vote.getMaxCheckLimit()%>次投票。<br/>
        	接下来，您可以：
        	</p>
-       	<p id="voteErrorContainer"><span id="voteErrorText">投票失败</span>！您可以：
+       	<p id="voteErrorContainer"><span id="voteErrorText">投票失败</span>！您也可以：
        	</p>
       </div>
       <div class="modal-footer">
+       	<button id="voteLoginBtn" class="button button-green" style="display:none">【使用微博登录】</button>
         <button id="continueBtn" class="button" id="stayVoteBtn"  data-dismiss="modal" aria-hidden="true">【继续浏览】</button>
         <button id="voteAbortBtn" class="button button-blue">【鉴赏精选原创作品】</button>
         <button id="followJinwanrBtn" class="button button-green">【关注公众帐号】</button>
@@ -267,12 +269,23 @@ Vote vote = (Vote)request.getAttribute("vote");
 </body>
 
 <script>
+<%if(currentUser==null){%>
+	$('#voteLoginBtn').show();
+<%}else{%>
+	$('#voteLoginBtn').hide();
+<%}%>
+
+
 $(".wxShareBtn").click(function(){
 	$('#shareModal').modal();
 })
 
 $("#continueBtn").click(function(){
 	location.reload();
+})
+
+$("#voteLoginBtn").click(function(){
+	location.href='<%=contextPath%>/connectWeibo?<%=ConstFront.REDIRECT_URL%>=<%=contextPath%>/vote/<%=vote.getId()%>';
 })
 
 

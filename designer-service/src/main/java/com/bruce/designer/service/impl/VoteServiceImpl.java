@@ -1,7 +1,9 @@
 package com.bruce.designer.service.impl;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import com.bruce.designer.model.Vote;
 import com.bruce.designer.model.VoteCriteria;
 import com.bruce.designer.model.VoteOption;
 import com.bruce.designer.model.VoteResult;
+import com.bruce.designer.model.VoteResultCriteria;
 import com.bruce.designer.service.IVoteService;
 
 @Service
@@ -95,8 +98,9 @@ public class VoteServiceImpl implements IVoteService, InitializingBean {
 	}
 
 	@Override
-	public int vote(int voteId, int voteOptionId) {
+	public int vote(Integer userId, int voteId, int voteOptionId) {
 		VoteResult voteResult = new VoteResult();
+		voteResult.setUserId(userId);
 		voteResult.setVoteId(voteId);
 		voteResult.setVoteOptionId(voteOptionId);
 		voteResult.setCreateTime(new Date());
@@ -107,6 +111,22 @@ public class VoteServiceImpl implements IVoteService, InitializingBean {
 	/*投票数据统计*/
 	public List<CountCacheBean> queryVoteResultStat(int voteId){
 		return voteResultDao.queryVoteResultStat(voteId);
+	}
+	
+	
+	@Override
+	public Set<Integer> getUserVotedOptionSet(Integer userId, Integer voteId) {
+		Set<Integer> votedOptionSet = new HashSet<Integer>();  
+		VoteResultCriteria criteria = new VoteResultCriteria();
+		criteria.createCriteria().andUserIdEqualTo(userId).andVoteIdEqualTo(voteId);
+		
+		List<VoteResult> voteResultList = voteResultDao.queryByCriteria(criteria);
+		if(voteResultList!=null&&voteResultList.size()>0){
+			for(VoteResult loop: voteResultList){
+				votedOptionSet.add(loop.getVoteOptionId());
+			}
+		}
+		return votedOptionSet;
 	}
 	
 }

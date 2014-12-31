@@ -1,6 +1,7 @@
 package com.bruce.designer.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.bruce.designer.data.CountCacheBean;
 import com.bruce.designer.model.Vote;
@@ -17,9 +18,12 @@ public interface IVoteService extends IFoundationService<Vote, Integer, VoteCrit
 	public Vote loadByOptionId(int voteOptionId);
 	
 	/*投票操作*/
-	public int vote(int voteId, int voteOptionId);
+	public int vote(Integer userId, int voteId, int voteOptionId);
 	
 	/*投票数据统计*/
 	public List<CountCacheBean> queryVoteResultStat(int voteId);
+	
+	/*获取用户已投票的选项set*/
+	public Set<Integer> getUserVotedOptionSet(Integer userId, Integer voteId);
 	
 }
